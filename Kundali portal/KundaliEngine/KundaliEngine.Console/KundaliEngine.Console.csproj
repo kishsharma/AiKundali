@@ -1,0 +1,634 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ephe\seasm06.se1" />
+    <None Remove="ephe\seasm102.se1" />
+    <None Remove="ephe\seasm108.se1" />
+    <None Remove="ephe\seasm114.se1" />
+    <None Remove="ephe\seasm12.se1" />
+    <None Remove="ephe\seasm120.se1" />
+    <None Remove="ephe\seasm126.se1" />
+    <None Remove="ephe\seasm132.se1" />
+    <None Remove="ephe\seasm18.se1" />
+    <None Remove="ephe\seasm24.se1" />
+    <None Remove="ephe\seasm30.se1" />
+    <None Remove="ephe\seasm36.se1" />
+    <None Remove="ephe\seasm42.se1" />
+    <None Remove="ephe\seasm48.se1" />
+    <None Remove="ephe\seasm54.se1" />
+    <None Remove="ephe\seasm60.se1" />
+    <None Remove="ephe\seasm66.se1" />
+    <None Remove="ephe\seasm72.se1" />
+    <None Remove="ephe\seasm78.se1" />
+    <None Remove="ephe\seasm84.se1" />
+    <None Remove="ephe\seasm90.se1" />
+    <None Remove="ephe\seasm96.se1" />
+    <None Remove="ephe\seasnam.txt" />
+    <None Remove="ephe\seas_00.se1" />
+    <None Remove="ephe\seas_06.se1" />
+    <None Remove="ephe\seas_102.se1" />
+    <None Remove="ephe\seas_108.se1" />
+    <None Remove="ephe\seas_114.se1" />
+    <None Remove="ephe\seas_12.se1" />
+    <None Remove="ephe\seas_120.se1" />
+    <None Remove="ephe\seas_126.se1" />
+    <None Remove="ephe\seas_132.se1" />
+    <None Remove="ephe\seas_138.se1" />
+    <None Remove="ephe\seas_144.se1" />
+    <None Remove="ephe\seas_150.se1" />
+    <None Remove="ephe\seas_156.se1" />
+    <None Remove="ephe\seas_162.se1" />
+    <None Remove="ephe\seas_18.se1" />
+    <None Remove="ephe\seas_24.se1" />
+    <None Remove="ephe\seas_30.se1" />
+    <None Remove="ephe\seas_36.se1" />
+    <None Remove="ephe\seas_42.se1" />
+    <None Remove="ephe\seas_48.se1" />
+    <None Remove="ephe\seas_54.se1" />
+    <None Remove="ephe\seas_60.se1" />
+    <None Remove="ephe\seas_66.se1" />
+    <None Remove="ephe\seas_72.se1" />
+    <None Remove="ephe\seas_78.se1" />
+    <None Remove="ephe\seas_84.se1" />
+    <None Remove="ephe\seas_90.se1" />
+    <None Remove="ephe\seas_96.se1" />
+    <None Remove="ephe\sefstars.txt" />
+    <None Remove="ephe\semom06.se1" />
+    <None Remove="ephe\semom102.se1" />
+    <None Remove="ephe\semom108.se1" />
+    <None Remove="ephe\semom114.se1" />
+    <None Remove="ephe\semom12.se1" />
+    <None Remove="ephe\semom120.se1" />
+    <None Remove="ephe\semom126.se1" />
+    <None Remove="ephe\semom132.se1" />
+    <None Remove="ephe\semom18.se1" />
+    <None Remove="ephe\semom24.se1" />
+    <None Remove="ephe\semom30.se1" />
+    <None Remove="ephe\semom36.se1" />
+    <None Remove="ephe\semom42.se1" />
+    <None Remove="ephe\semom48.se1" />
+    <None Remove="ephe\semom54.se1" />
+    <None Remove="ephe\semom60.se1" />
+    <None Remove="ephe\semom66.se1" />
+    <None Remove="ephe\semom72.se1" />
+    <None Remove="ephe\semom78.se1" />
+    <None Remove="ephe\semom84.se1" />
+    <None Remove="ephe\semom90.se1" />
+    <None Remove="ephe\semom96.se1" />
+    <None Remove="ephe\semo_00.se1" />
+    <None Remove="ephe\semo_06.se1" />
+    <None Remove="ephe\semo_102.se1" />
+    <None Remove="ephe\semo_108.se1" />
+    <None Remove="ephe\semo_114.se1" />
+    <None Remove="ephe\semo_12.se1" />
+    <None Remove="ephe\semo_120.se1" />
+    <None Remove="ephe\semo_126.se1" />
+    <None Remove="ephe\semo_132.se1" />
+    <None Remove="ephe\semo_138.se1" />
+    <None Remove="ephe\semo_144.se1" />
+    <None Remove="ephe\semo_150.se1" />
+    <None Remove="ephe\semo_156.se1" />
+    <None Remove="ephe\semo_162.se1" />
+    <None Remove="ephe\semo_18.se1" />
+    <None Remove="ephe\semo_24.se1" />
+    <None Remove="ephe\semo_30.se1" />
+    <None Remove="ephe\semo_36.se1" />
+    <None Remove="ephe\semo_42.se1" />
+    <None Remove="ephe\semo_48.se1" />
+    <None Remove="ephe\semo_54.se1" />
+    <None Remove="ephe\semo_60.se1" />
+    <None Remove="ephe\semo_66.se1" />
+    <None Remove="ephe\semo_72.se1" />
+    <None Remove="ephe\semo_78.se1" />
+    <None Remove="ephe\semo_84.se1" />
+    <None Remove="ephe\semo_90.se1" />
+    <None Remove="ephe\semo_96.se1" />
+    <None Remove="ephe\seorbel.txt" />
+    <None Remove="ephe\seplm06.se1" />
+    <None Remove="ephe\seplm102.se1" />
+    <None Remove="ephe\seplm108.se1" />
+    <None Remove="ephe\seplm114.se1" />
+    <None Remove="ephe\seplm12.se1" />
+    <None Remove="ephe\seplm120.se1" />
+    <None Remove="ephe\seplm126.se1" />
+    <None Remove="ephe\seplm132.se1" />
+    <None Remove="ephe\seplm18.se1" />
+    <None Remove="ephe\seplm24.se1" />
+    <None Remove="ephe\seplm30.se1" />
+    <None Remove="ephe\seplm36.se1" />
+    <None Remove="ephe\seplm42.se1" />
+    <None Remove="ephe\seplm48.se1" />
+    <None Remove="ephe\seplm54.se1" />
+    <None Remove="ephe\seplm60.se1" />
+    <None Remove="ephe\seplm66.se1" />
+    <None Remove="ephe\seplm72.se1" />
+    <None Remove="ephe\seplm78.se1" />
+    <None Remove="ephe\seplm84.se1" />
+    <None Remove="ephe\seplm90.se1" />
+    <None Remove="ephe\seplm96.se1" />
+    <None Remove="ephe\sepl_00.se1" />
+    <None Remove="ephe\sepl_06.se1" />
+    <None Remove="ephe\sepl_102.se1" />
+    <None Remove="ephe\sepl_108.se1" />
+    <None Remove="ephe\sepl_114.se1" />
+    <None Remove="ephe\sepl_12.se1" />
+    <None Remove="ephe\sepl_120.se1" />
+    <None Remove="ephe\sepl_126.se1" />
+    <None Remove="ephe\sepl_132.se1" />
+    <None Remove="ephe\sepl_138.se1" />
+    <None Remove="ephe\sepl_144.se1" />
+    <None Remove="ephe\sepl_150.se1" />
+    <None Remove="ephe\sepl_156.se1" />
+    <None Remove="ephe\sepl_162.se1" />
+    <None Remove="ephe\sepl_18.se1" />
+    <None Remove="ephe\sepl_24.se1" />
+    <None Remove="ephe\sepl_30.se1" />
+    <None Remove="ephe\sepl_36.se1" />
+    <None Remove="ephe\sepl_42.se1" />
+    <None Remove="ephe\sepl_48.se1" />
+    <None Remove="ephe\sepl_54.se1" />
+    <None Remove="ephe\sepl_60.se1" />
+    <None Remove="ephe\sepl_66.se1" />
+    <None Remove="ephe\sepl_72.se1" />
+    <None Remove="ephe\sepl_78.se1" />
+    <None Remove="ephe\sepl_84.se1" />
+    <None Remove="ephe\sepl_90.se1" />
+    <None Remove="ephe\sepl_96.se1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ephe\seasm06.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm102.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm108.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm114.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm12.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm120.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm126.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm132.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm18.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm24.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm30.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm36.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm42.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm48.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm54.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm60.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm66.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm72.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm78.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm84.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm90.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasm96.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seasnam.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_00.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_06.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_102.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_108.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_114.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_12.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_120.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_126.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_132.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_138.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_144.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_150.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_156.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_162.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_18.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_24.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_30.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_36.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_42.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_48.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_54.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_60.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_66.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_72.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_78.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_84.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_90.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seas_96.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sefstars.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom06.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom102.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom108.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom114.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom12.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom120.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom126.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom132.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom18.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom24.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom30.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom36.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom42.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom48.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom54.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom60.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom66.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom72.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom78.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom84.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom90.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semom96.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_00.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_06.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_102.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_108.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_114.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_12.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_120.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_126.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_132.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_138.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_144.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_150.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_156.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_162.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_18.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_24.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_30.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_36.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_42.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_48.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_54.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_60.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_66.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_72.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_78.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_84.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_90.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\semo_96.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seorbel.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm06.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm102.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm108.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm114.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm12.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm120.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm126.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm132.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm18.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm24.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm30.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm36.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm42.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm48.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm54.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm60.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm66.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm72.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm78.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm84.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm90.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\seplm96.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_00.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_06.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_102.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_108.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_114.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_12.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_120.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_126.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_132.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_138.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_144.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_150.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_156.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_162.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_18.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_24.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_30.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_36.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_42.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_48.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_54.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_60.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_66.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_72.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_78.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_84.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_90.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ephe\sepl_96.se1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KundaliEngine.Astrology\KundaliEngine.Astrology.csproj" />
+    <ProjectReference Include="..\KundaliEngine.Domain\KundaliEngine.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

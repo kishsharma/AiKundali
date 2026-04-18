@@ -1,0 +1,33 @@
+﻿namespace KundaliEngine.Domain.Enums
+{
+    public enum Nakshatra
+    {
+        Ashwini = 0,
+        Bharani = 1,
+        Krittika = 2,
+        Rohini = 3,
+        Mrigashira = 4,
+        Ardra = 5,
+        Punarvasu = 6,
+        Pushya = 7,
+        Ashlesha = 8,
+        Magha = 9,
+        PurvaPhalguni = 10,
+        UttaraPhalguni = 11,
+        Hasta = 12,
+        Chitra = 13,
+        Swati = 14,
+        Vishakha = 15,
+        Anuradha = 16,
+        Jyeshtha = 17,
+        Mula = 18,
+        PurvaAshadha = 19,
+        UttaraAshadha = 20,
+        Shravana = 21,
+        Dhanishta = 22,
+        Shatabhisha = 23,
+        PurvaBhadrapada = 24,
+        UttaraBhadrapada = 25,
+        Revati = 26
+    }
+}

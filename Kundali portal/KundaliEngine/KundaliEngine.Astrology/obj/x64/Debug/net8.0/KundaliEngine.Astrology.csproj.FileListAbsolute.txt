@@ -1,0 +1,17 @@
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\bin\x64\Debug\net8.0\Native\swedll64.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\bin\x64\Debug\net8.0\KundaliEngine.Astrology.deps.json
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\bin\x64\Debug\net8.0\KundaliEngine.Astrology.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\bin\x64\Debug\net8.0\KundaliEngine.Astrology.pdb
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\bin\x64\Debug\net8.0\KundaliEngine.Domain.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\bin\x64\Debug\net8.0\KundaliEngine.Domain.pdb
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.csproj.AssemblyReference.cache
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.AssemblyInfoInputs.cache
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.AssemblyInfo.cs
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.csproj.CoreCompileInputs.cache
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.sourcelink.json
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliE.CF83085D.Up2Date
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\refint\KundaliEngine.Astrology.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\KundaliEngine.Astrology.pdb
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.Astrology\obj\x64\Debug\net8.0\ref\KundaliEngine.Astrology.dll
