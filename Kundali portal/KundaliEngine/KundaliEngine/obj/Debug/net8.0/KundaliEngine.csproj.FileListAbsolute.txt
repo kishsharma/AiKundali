@@ -1,0 +1,12 @@
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\bin\Debug\net8.0\KundaliEngine.deps.json
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\bin\Debug\net8.0\KundaliEngine.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\bin\Debug\net8.0\KundaliEngine.pdb
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.AssemblyInfoInputs.cache
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.AssemblyInfo.cs
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.csproj.CoreCompileInputs.cache
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.sourcelink.json
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\refint\KundaliEngine.dll
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\KundaliEngine.pdb
+D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine\obj\Debug\net8.0\ref\KundaliEngine.dll
