@@ -13,6 +13,7 @@ namespace KundaliEngine.Astrology.Astronomy
         private const int SEFLG_SWIEPH = 2;
         private const int SEFLG_SIDEREAL = 65536;
         private const int SE_SIDM_LAHIRI = 1;
+        private const int DefaultHouseSystem = 'W';
 
         // Ensures the runtime can find the native DLL and verifies it can be loaded.
         public static void Initialize(string ephePath)
@@ -85,6 +86,17 @@ namespace KundaliEngine.Astrology.Astronomy
             }
         }
 
+        public static double CalculateAscendant(double julianDay, double latitude, double longitude)
+        {
+            double[] cusps = new double[13];
+            double[] ascmc = new double[10];
+            int flags = SEFLG_SWIEPH | SEFLG_SIDEREAL;
+
+            swe_houses_ex(julianDay, flags, latitude, longitude, DefaultHouseSystem, cusps, ascmc);
+            Console.WriteLine($"DEBUG ASC RAW: {ascmc[0]}");
+            return ascmc[0];
+        }
+
         [DllImport("Native\\swedll64.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void swe_set_ephe_path(string path);
 
@@ -104,6 +116,17 @@ namespace KundaliEngine.Astrology.Astronomy
     int sid_mode,
     double t0,
     double ayan_t0
+        );
+
+        [DllImport("Native\\swedll64.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int swe_houses_ex(
+            double tjd_ut,
+            int iflag,
+            double geolat,
+            double geolon,
+            int hsys,
+            double[] cusps,
+            double[] ascmc
         );
 
         // kernel32 helpers

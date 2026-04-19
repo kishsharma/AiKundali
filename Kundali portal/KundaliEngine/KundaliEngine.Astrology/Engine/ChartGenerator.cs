@@ -44,7 +44,7 @@ namespace KundaliEngine.Astrology.Engine
             }
 
             int ascendantIndex = _lagnaCalc.CalculateLagna(0.0);
-            chart.AscendantSign = (RashiZodiacSign)ascendantIndex;
+            chart.AscendantSign = (ZodiacSign)(ascendantIndex + 1);
 
             return chart;
         }

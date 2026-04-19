@@ -8,15 +8,19 @@ namespace KundaliEngine.Astrology.Mapping
     {
         public static PlanetPosition Map(Planet planet, double longitude, double latitude)
         {
+
+           
             var (sign, degree, minute) = ZodiacCalculator.Calculate(longitude);
             var (nakshatra, pada) = NakshatraCalculator.Calculate(longitude);
 
+          
             return new PlanetPosition
             {
                 Planet = planet,
                 Longitude = longitude,
                 Latitude = latitude,
                 Sign = sign,
+                DegreeInSign = ZodiacCalculator.GetDegreeInSign(longitude),
                 Degree = degree,
                 Minute = minute,
                 Nakshatra = nakshatra,

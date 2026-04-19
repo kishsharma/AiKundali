@@ -2,11 +2,12 @@ namespace KundaliEngine.Domain.Enums
 {
     public enum AspectType
     {
-        Conjunction = 0,
-        Opposition = 1,
-        Trine = 2,
-        Square = 3,
-        Sextile = 4,
-        Special = 5
+        Third = 3,
+        Fourth = 4,
+        Fifth = 5,
+        Seventh = 7,
+        Eighth = 8,
+        Ninth = 9,
+        Tenth = 10
     }
 }

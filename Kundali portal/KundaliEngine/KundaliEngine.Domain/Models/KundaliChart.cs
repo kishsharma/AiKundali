@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using KundaliEngine.Domain.Enums;
 
@@ -8,7 +8,7 @@ namespace KundaliEngine.Domain.Models
     {
         public BirthDetails BirthDetails { get; set; } = new BirthDetails();
         public DateTime GeneratedAtUtc { get; set; }
-        public RashiZodiacSign AscendantSign { get; set; }
+        public ZodiacSign AscendantSign { get; set; }
         public int AscendantDegree { get; set; }
         public int AscendantMinute { get; set; }
         public List<PlanetPosition> PlanetPositions { get; set; } = new List<PlanetPosition>();

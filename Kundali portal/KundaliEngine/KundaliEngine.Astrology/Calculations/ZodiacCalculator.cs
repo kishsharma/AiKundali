@@ -1,19 +1,35 @@
+using System;
 using KundaliEngine.Domain.Enums;
 
 namespace KundaliEngine.Astrology.Calculations
 {
     public static class ZodiacCalculator
     {
-        public static (RashiZodiacSign Sign, int Degree, int Minute) Calculate(double longitude)
+        public static (ZodiacSign Sign, int Degree, int Minute) Calculate(double longitude)
         {
             double normalizedLongitude = NormalizeLongitude(longitude);
-            int signIndex = (int)(normalizedLongitude / 30.0);
-            double degreeInSign = normalizedLongitude % 30.0;
+            int index = (int)(normalizedLongitude / 30.0);
+            ZodiacSign sign = (ZodiacSign)(index + 1);
+            double degreeInSign = normalizedLongitude - (index * 30.0);
 
-            int degrees = (int)degreeInSign;
-            int minutes = (int)((degreeInSign - degrees) * 60);
+            int degree = (int)degreeInSign;
+            int minute = (int)((degreeInSign - degree) * 60.0);
 
-            return ((RashiZodiacSign)signIndex, degrees, minutes);
+            return (sign, degree, minute);
+        }
+
+        public static ZodiacSign GetSign(double longitude)
+        {
+            double normalizedLongitude = NormalizeLongitude(longitude);
+            int index = (int)(normalizedLongitude / 30.0);
+            return (ZodiacSign)(index + 1);
+        }
+
+        public static double GetDegreeInSign(double longitude)
+        {
+            double normalizedLongitude = NormalizeLongitude(longitude);
+            int index = (int)(normalizedLongitude / 30.0);
+            return normalizedLongitude - (index * 30.0);
         }
 
         private static double NormalizeLongitude(double longitude)
