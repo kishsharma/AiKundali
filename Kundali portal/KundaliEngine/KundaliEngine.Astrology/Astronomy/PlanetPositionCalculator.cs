@@ -12,19 +12,20 @@ namespace KundaliEngine.Astrology.Astronomy
             double jd = JulianDayCalculator.ToJulianDay(utc);
             double longitude;
             double latitude;
-
+            bool isRetrograde;
             if (planet == Planet.Ketu)
             {
                 var rahu = Calculate(Planet.Rahu, utc);
                 longitude = NormalizeLongitude(rahu.Longitude + 180.0);
                 latitude = -rahu.Latitude;
+                isRetrograde = true;
             }
             else
             {
-                (longitude, latitude) = SwissEphWrapper.CalculatePlanet(planet.ToString(), jd);
+                (longitude, latitude, isRetrograde) = SwissEphWrapper.CalculatePlanet(planet.ToString(), jd);
             }
 
-            return PlanetPositionMapper.Map(planet, longitude, latitude);
+            return PlanetPositionMapper.Map(planet, longitude, latitude,isRetrograde);
         }
 
         public PlanetPosition Calculate(string planetName, DateTime utc)

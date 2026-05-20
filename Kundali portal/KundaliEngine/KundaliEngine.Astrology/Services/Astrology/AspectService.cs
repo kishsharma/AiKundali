@@ -3,11 +3,11 @@ using System.Linq;
 using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 
-namespace KundaliEngine.Astrology.Services
+namespace KundaliEngine.Astrology.Services.Astrology
 {
     public class AspectService
     {
-        public AspectCalculationResult CalculateGrahaDrishti(System.Collections.Generic.List<PlanetPosition> planets)
+        public AspectCalculationResult CalculateGrahaDrishti(List<PlanetPosition> planets)
         {
             if (planets is null)
                 throw new ArgumentNullException(nameof(planets));

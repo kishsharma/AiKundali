@@ -6,12 +6,14 @@ namespace KundaliEngine.Astrology.Mapping
 {
     public static class PlanetPositionMapper
     {
-        public static PlanetPosition Map(Planet planet, double longitude, double latitude)
+        public static PlanetPosition Map(Planet planet, double longitude, double latitude,bool isRetrograde)
         {
 
-           
-            var (sign, degree, minute) = ZodiacCalculator.Calculate(longitude);
+                // Call static Calculate directly on the type
             var (nakshatra, pada) = NakshatraCalculator.Calculate(longitude);
+
+            var (sign, degree, minute) = ZodiacCalculator.Calculate(longitude);
+
 
           
             return new PlanetPosition
@@ -24,7 +26,10 @@ namespace KundaliEngine.Astrology.Mapping
                 Degree = degree,
                 Minute = minute,
                 Nakshatra = nakshatra,
-                Pada = pada
+                Pada = pada,
+                IsRetrograde=isRetrograde   
+    
+                
             };
         }
     }

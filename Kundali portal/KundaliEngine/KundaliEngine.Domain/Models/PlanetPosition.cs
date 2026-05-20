@@ -15,7 +15,8 @@ namespace KundaliEngine.Domain.Models
         public int Pada { get; set; }
         public HouseNumber House { get; set; }
         public bool IsRetrograde { get; set; }
-        public string DetailedStrength { get; set; }
+        public string DetailedStrength { get; set; } = string.Empty;
         public bool IsCombust { get; set; }
+        
     }
 }

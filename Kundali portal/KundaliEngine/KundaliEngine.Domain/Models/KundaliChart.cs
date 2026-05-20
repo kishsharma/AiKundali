@@ -15,5 +15,6 @@ namespace KundaliEngine.Domain.Models
         public List<House> Houses { get; set; } = new List<House>();
         public List<Aspect> Aspects { get; set; } = new List<Aspect>();
         public List<DashaPeriod> DashaPeriods { get; set; } = new List<DashaPeriod>();
+        public PanchangDetails Panchang { get; set; } = new PanchangDetails();
     }
 }

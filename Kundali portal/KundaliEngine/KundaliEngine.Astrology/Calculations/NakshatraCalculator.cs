@@ -2,11 +2,12 @@ using KundaliEngine.Domain.Enums;
 
 namespace KundaliEngine.Astrology.Calculations
 {
-    public static class NakshatraCalculator
+    public class NakshatraCalculator
     {
         private const double NakshatraSpanDegrees = 360.0 / 27.0;
         private const double PadaSpanDegrees = NakshatraSpanDegrees / 4.0;
 
+        // make this static if it has no instance state
         public static (Nakshatra Nakshatra, int Pada) Calculate(double longitude)
         {
             double normalizedLongitude = NormalizeLongitude(longitude);

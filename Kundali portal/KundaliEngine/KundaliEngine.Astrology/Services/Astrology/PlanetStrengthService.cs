@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KundaliEngine.Astrology.Services
+namespace KundaliEngine.Astrology.Services.Astrology
 {
     public class PlanetStrengthService
     {
@@ -77,6 +77,29 @@ namespace KundaliEngine.Astrology.Services
                 return false;
 
             return diff <= thresholds[planet];
+        }
+
+        public string GetDigbala(Planet planet, HouseNumber house)
+        {
+            return planet switch
+            {
+                Planet.Sun or Planet.Mars =>
+                    house == HouseNumber.Tenth ? "Strong" : "Weak",
+
+                Planet.Moon or Planet.Venus =>
+                    house == HouseNumber.Fourth ? "Strong" : "Weak",
+
+                Planet.Jupiter or Planet.Mercury =>
+                    house == HouseNumber.First ? "Strong" : "Weak",
+
+                Planet.Saturn =>
+                    house == HouseNumber.Seventh ? "Strong" : "Weak",
+
+                Planet.Rahu or Planet.Ketu =>
+                    "NotApplicable",
+
+                _ => "Neutral"
+            };
         }
     }
 }

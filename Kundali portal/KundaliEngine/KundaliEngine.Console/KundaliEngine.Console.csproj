@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Program1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ephe\seasm06.se1" />
     <None Remove="ephe\seasm102.se1" />
     <None Remove="ephe\seasm108.se1" />
@@ -629,6 +633,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KundaliEngine.Astrology\KundaliEngine.Astrology.csproj" />
     <ProjectReference Include="..\KundaliEngine.Domain\KundaliEngine.Domain.csproj" />
+    <ProjectReference Include="..\KundaliEngine.KnowledgeBase\KundaliEngine.KnowledgeBase.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,14 @@
+﻿# Build outputs
+bin/
+obj/
+
+# Visual Studio / IDE
+.vs/
+*.user
+*.suo
+
+# Temp / local verification output
+_temp_build/
+
+# Accidental nested folder created during earlier edit typo
+GIT/

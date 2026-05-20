@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KundaliEngine.Astrology.Services
+namespace KundaliEngine.Astrology.Services.Astrology
 {
     public class ChartService
     {
@@ -37,7 +37,7 @@ namespace KundaliEngine.Astrology.Services
             Planet.Saturn,
             Planet.Rahu,
             Planet.Ketu
-        };
+           };
 
             var planetPositions = new List<PlanetPosition>();
 

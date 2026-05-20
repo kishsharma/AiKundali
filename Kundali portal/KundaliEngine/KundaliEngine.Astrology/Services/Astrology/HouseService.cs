@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 
-namespace KundaliEngine.Astrology.Services
+namespace KundaliEngine.Astrology.Services.Astrology
 {
     public class HouseService
     {
@@ -16,7 +16,7 @@ namespace KundaliEngine.Astrology.Services
 
             foreach (var planet in planets)
             {
-                int planetSignIndex = ((int)planet.Sign) - 1;
+                int planetSignIndex = (int)planet.Sign - 1;
                 int houseOffset = NormalizeSignIndex(planetSignIndex - ascendantSignIndex);
                 planet.House = (HouseNumber)(houseOffset + 1);
             }

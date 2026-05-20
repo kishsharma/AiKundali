@@ -5,7 +5,7 @@ namespace KundaliEngine.Domain.Models
 {
     public class House
     {
-        public HouseNumber Number { get; set; }
+        public HouseNumber HouseNumber { get; set; }
         public ZodiacSign Sign { get; set; }
         public List<Planet> Occupants { get; set; } = new List<Planet>();
     }

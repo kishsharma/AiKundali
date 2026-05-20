@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KundaliEngine.Domain\KundaliEngine.Domain.csproj" />
+    <ProjectReference Include="..\KundaliEngine.KnowledgeBase\KundaliEngine.KnowledgeBase.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KundaliEngine.Domain.Enums;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -64,7 +65,7 @@ namespace KundaliEngine.Astrology.Astronomy
 
         }
 
-        public static (double Longitude, double Latitude) CalculatePlanet(string planetName, double julianDay)
+        public static (double Longitude, double Latitude, bool IsRetrograde) CalculatePlanet(string planetName, double julianDay)
         {
             try
             {
@@ -73,10 +74,14 @@ namespace KundaliEngine.Astrology.Astronomy
                 double[] xx = new double[6];
                 StringBuilder serr = new StringBuilder(256);
                 int flags = SEFLG_SWIEPH | SEFLG_SIDEREAL;
-                Console.WriteLine($"SwissEph flags: {flags}");
+                //Console.WriteLine($"SwissEph flags: {flags}");
                 swe_calc_ut(julianDay, planetId, flags, xx, serr);
-
-                return (xx[0], xx[1]);
+                bool isRetrograde = xx[3] < 0;
+                if (Planet.Rahu.ToString()== planetName || Planet.Ketu.ToString()==planetName) 
+                {
+                    isRetrograde = true;
+                }
+                return (xx[0], xx[1], isRetrograde);
             }
             catch (DllNotFoundException ex)
             {
