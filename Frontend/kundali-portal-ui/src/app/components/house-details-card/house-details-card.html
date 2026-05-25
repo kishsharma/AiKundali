@@ -1,0 +1,87 @@
+<div
+  class="house-details-card"
+  *ngIf="houseData"
+>
+
+  <div class="card-header">
+
+    <h3>
+      House {{ houseData.houseNumber }}: {{ houseData.houseName }}:
+
+    </h3>
+
+    <span class="sign-badge">
+      {{ houseData.sign }}
+    </span>
+
+  </div>
+
+  <div class="simple-info">
+
+    <div>
+      <span>Owner</span>
+      <strong>{{ houseData.houseOwner }}</strong>
+    </div>
+
+    <div>
+      <span>Score</span>
+      <strong>{{ houseData.score }}</strong>
+    </div>
+
+    <div>
+      <span>Benefic</span>
+      <strong>
+        {{ houseData.hasBeneficAspect ? 'Yes' : 'No' }}
+      </strong>
+    </div>
+
+    <div>
+      <span>Malefic</span>
+      <strong>
+        {{ houseData.hasMaleficAspect ? 'Yes' : 'No' }}
+      </strong>
+    </div>
+
+  </div>
+
+  <div
+    class="tag-section simple-text-section"
+    *ngIf="houseData.dominantThemes?.length"
+  >
+
+    <label>Themes</label>
+    <p class="simple-text">
+      {{ houseData.dominantThemes.join(', ') }}
+    </p>
+
+  </div>
+
+  <div
+    class="tag-section simple-text-section"
+    *ngIf="houseData.lifeAreas?.length"
+  >
+
+    <label>Life Areas</label>
+    <p class="simple-text">
+      {{ houseData.lifeAreas.join(', ') }}
+    </p>
+
+  </div>
+<div
+  class="tag-section factor-tooltip"
+  *ngIf="houseData.factors?.length"
+>
+  <button type="button" class="factor-tooltip-trigger" aria-haspopup="true">
+    View factors
+  </button>
+
+  <div class="tooltip-box" role="tooltip">
+    <span
+      class="tag factor-tag"
+      *ngFor="let factor of houseData.factors"
+    >
+      {{ factor }}
+    </span>
+  </div>
+</div>
+</div>

@@ -1,0 +1,51 @@
+.panchang-card {
+  background: #fffdfa;
+  border: 1px solid #f0dfba;
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  color: #333;
+}
+
+.panchang-card .card-header {
+  margin-bottom: 0.9rem;
+}
+
+.panchang-card h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #5c3b00;
+}
+
+.panchang-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+}
+
+.panchang-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(92, 59, 0, 0.08);
+
+}
+
+.panchang-row:last-child {
+  border-bottom: none;
+}
+
+.panchang-row span {
+  font-size: 11px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.panchang-row strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: #5c3b00;
+}

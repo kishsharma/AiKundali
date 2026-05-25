@@ -3,6 +3,7 @@ using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Dasha;
+using KundaliEngine.Astrology.Services.House;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
 using KundaliEngine.Domain.Enums;
@@ -24,8 +25,9 @@ namespace KundaliEngine.API.Controllers
         private readonly HouseScoreService _houseScoreservice;
         private readonly DashaService _dashaService;
         private readonly OverallKundaliScoreService _overallScoreService;
+        private readonly AspectService _aspectService;
 
-        public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService, HouseScoreService houseScoreService, DashaService dashaService, OverallKundaliScoreService overallScoreService)
+        public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService, HouseScoreService houseScoreService, DashaService dashaService, OverallKundaliScoreService overallScoreService, AspectService aspectService)
         {
             _chartService = chartService;
             _panchangService = panchangService;
@@ -33,6 +35,7 @@ namespace KundaliEngine.API.Controllers
             _houseScoreservice = houseScoreService;
             _dashaService = dashaService;
             _overallScoreService = overallScoreService;
+            _aspectService = aspectService;
         }
 
         [HttpPost("generate")]
@@ -42,8 +45,12 @@ namespace KundaliEngine.API.Controllers
                 return BadRequest("Request is required");
 
             // Generate planet positions (Kundali chart)
-            var planets = _chartService.GenerateChart(request.BirthDateTime, request.Latitude, request.Longitude);
+            TimeZoneInfo indiaZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
 
+            DateTime birthUtc = TimeZoneInfo.ConvertTimeToUtc(request.BirthDateTime, indiaZone);
+
+            request.BirthDateTime= birthUtc;
+            var planets = _chartService.GenerateChart(request.BirthDateTime, request.Latitude, request.Longitude );
             // Panchang
             double sunLongitude = planets.First(p => p.Planet == Planet.Sun).Longitude;
             double moonLongitude = planets.First(p => p.Planet == Planet.Moon).Longitude;
@@ -60,7 +67,8 @@ namespace KundaliEngine.API.Controllers
             ZodiacSign ascendantSign = (ZodiacSign)((ascendantIndex % 12) + 1);
 
             // Houses and house scores
-            var houseScores = _houseScoreservice.CalculateAllHouseScores(ascendantSign, planets, null);
+            var aspectResult = _aspectService.CalculateGrahaDrishti(planets);
+            var houseScores = _houseScoreservice.CalculateAllHouseScores(ascendantSign, planets, aspectResult);
 
             // Compute house signs (house N sign = ascendantSign + (N-1))
             var houseDtos = new List<HouseDto>();
@@ -69,23 +77,34 @@ namespace KundaliEngine.API.Controllers
                 var houseNumber = (HouseNumber)i;
                 var signIndex = (((int)ascendantSign - 1) + (i - 1)) % 12;
                 var houseSign = (ZodiacSign)(signIndex + 1);
+                var houseOwner = GetSignOwner(houseSign);
 
+                var houseAspects = aspectResult.HouseAspects
+                    .Where(a => a.ToHouse == i)
+                    .ToList();
                 var occupants = planets.Where(p => (int)p.House == i).Select(p => p.Planet.ToString()).ToList();
                 var scoreResult = houseScores.First(h => (int)h.HouseNumber == i);
+
 
                 houseDtos.Add(new HouseDto
                 {
                     HouseNumber = i,
                     Sign = houseSign.ToString(),
+                    HouseOwner = houseOwner,
+                    HouseSwamy = houseOwner,
                     Occupants = occupants,
+                    HasBeneficAspect = houseAspects.Any(a => IsNaturalBenefic(a.FromPlanet)),
+                    HasMaleficAspect = houseAspects.Any(a => IsNaturalMaleficOrShadow(a.FromPlanet)),
                     Score = scoreResult.Score,
                     Factors = scoreResult.Factors,
-                    DominantThemes = scoreResult.DominantThemes
+                    DominantThemes = scoreResult.DominantThemes,
+                    HouseName = HouseMetadataService.GetHouseName(i),
+                    LifeAreas = HouseMetadataService.GetLifeAreas(i),
                 });
             }
 
             // Overall score
-            var overall = _overallScoreService.Calculate(ascendantSign, planets, null, null);
+            var overall = _overallScoreService.Calculate(ascendantSign, planets, aspectResult, null);
             var overallDto = new OverallScoreDto
             {
                 Overall = overall.OverallScore,
@@ -96,28 +115,8 @@ namespace KundaliEngine.API.Controllers
                 DominantWeaknesses = overall.DominantWeaknesses
             };
 
-            // Dasha timeline for 120 years (full Vimshottari cycle)
-            var mahadashaTimeline = _dashaService.GenerateMahadashaTimeline(birthDasha.Planet, birthDasha.RemainingYears, request.BirthDateTime);
-            // Ensure timeline covers at least 120 years by extending cycles if needed
-            while ((mahadashaTimeline.Last().EndDate - mahadashaTimeline.First().StartDate).TotalDays < 120 * 365.25)
-            {
-                var lastPlanet = mahadashaTimeline.Last().Planet;
-                var extend = _dashaService.GenerateMahadashaTimeline(lastPlanet, _dashaService.GetBirthMahadasha(moonPos).RemainingYears, mahadashaTimeline.Last().EndDate);
-                mahadashaTimeline.AddRange(extend);
-            }
-
-            // Build mahadasha + antardasha DTOs
-            var mahadashaDtos = mahadashaTimeline.Select(m => new MahadashaPeriodDto
-            {
-                Planet = m.Planet.ToString(),
-                Start = m.StartDate,
-                End = m.EndDate,
-                Antardashas = _dashaService.GenerateAntardasha(m, _dashaService.GetBirthMahadasha(moonPos).RemainingYears)
-                    .Select(a => new AntardashaPeriodDto { SubPlanet = a.SubPlanet.ToString(), StartDate = a.StartDate, EndDate = a.EndDate })
-                    .ToList()
-            }).ToList();
-
             // Current Dasha
+            var mahadashaTimeline = _dashaService.GenerateMahadashaTimeline(birthDasha.Planet, birthDasha.RemainingYears, request.BirthDateTime);
             var currentMaha = mahadashaTimeline.FirstOrDefault(m => DateTime.UtcNow >= m.StartDate && DateTime.UtcNow < m.EndDate) ?? mahadashaTimeline.First();
             var currentAntarList = _dashaService.GenerateAntardasha(currentMaha, _dashaService.GetBirthMahadasha(moonPos).RemainingYears);
             var currentAntar = currentAntarList.FirstOrDefault(a => DateTime.UtcNow >= a.StartDate && DateTime.UtcNow < a.EndDate) ?? currentAntarList.First();
@@ -174,8 +173,7 @@ namespace KundaliEngine.API.Controllers
                 }).ToList(),
                 Houses = houseDtos,
                 Scores = overallDto,
-                CurrentDasha = currentDashaDto,
-                MahadashaPeriods = mahadashaDtos // Expose full mahadasha timeline
+                CurrentDasha = currentDashaDto
             };
 
             return Ok(response);
@@ -250,6 +248,36 @@ namespace KundaliEngine.API.Controllers
             var overall = new OverallScoreDto();
 
             return Ok(overall);
+        }
+
+        private static string GetSignOwner(ZodiacSign sign)
+        {
+            return sign switch
+            {
+                ZodiacSign.Aries => Planet.Mars.ToString(),
+                ZodiacSign.Taurus => Planet.Venus.ToString(),
+                ZodiacSign.Gemini => Planet.Mercury.ToString(),
+                ZodiacSign.Cancer => Planet.Moon.ToString(),
+                ZodiacSign.Leo => Planet.Sun.ToString(),
+                ZodiacSign.Virgo => Planet.Mercury.ToString(),
+                ZodiacSign.Libra => Planet.Venus.ToString(),
+                ZodiacSign.Scorpio => Planet.Mars.ToString(),
+                ZodiacSign.Sagittarius => Planet.Jupiter.ToString(),
+                ZodiacSign.Capricorn => Planet.Saturn.ToString(),
+                ZodiacSign.Aquarius => Planet.Saturn.ToString(),
+                ZodiacSign.Pisces => Planet.Jupiter.ToString(),
+                _ => string.Empty
+            };
+        }
+
+        private static bool IsNaturalBenefic(Planet planet)
+        {
+            return planet is Planet.Moon or Planet.Venus or Planet.Jupiter;
+        }
+
+        private static bool IsNaturalMaleficOrShadow(Planet planet)
+        {
+            return planet is Planet.Sun or Planet.Mars or Planet.Saturn or Planet.Rahu or Planet.Ketu;
         }
     }
 }

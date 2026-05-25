@@ -1,0 +1,64 @@
+<app-page-header
+  title="Dashboard"
+  subtitle="Overview of your Kundali Portal"
+  description="Welcome to your personalized astrology dashboard. View your charts, recent analyses, and upcoming auspicious timings."
+  [breadcrumbs]="[
+    { label: 'Home', routerLink: '/' },
+    { label: 'Dashboard', active: true }
+  ]"
+></app-page-header>
+
+<div class="dashboard-grid">
+  <!-- Quick Stats -->
+  <div class="stats-row">
+    <app-section-card title="Total Kundali Charts" [interactive]="false" [highlight]="false">
+      <div class="stat-content">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Charts Generated</span>
+      </div>
+    </app-section-card>
+
+    <app-section-card title="Compatibility Analysis" [interactive]="false" [highlight]="false">
+      <div class="stat-content">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Analyses Complete</span>
+      </div>
+    </app-section-card>
+
+    <app-section-card title="Dasha Period" [interactive]="false" [highlight]="false">
+      <div class="stat-content">
+        <span class="stat-number">—</span>
+        <span class="stat-label">Current Period</span>
+      </div>
+    </app-section-card>
+  </div>
+
+  <!-- Recent Activity -->
+  <app-section-card title="Recent Activity" [interactive]="false">
+    <div class="empty-state">
+      <p>No recent activity. Start by generating your Kundali chart.</p>
+    </div>
+  </app-section-card>
+
+  <!-- Quick Actions -->
+  <app-section-card title="Quick Actions" [interactive]="false">
+    <div class="actions-grid">
+      <button class="action-card" routerLink="/kundali">
+        <span class="action-icon">♈</span>
+        <span class="action-label">Generate Kundali</span>
+      </button>
+      <button class="action-card" routerLink="/compatibility">
+        <span class="action-icon">💑</span>
+        <span class="action-label">Check Compatibility</span>
+      </button>
+      <button class="action-card" routerLink="/panchang">
+        <span class="action-icon">📅</span>
+        <span class="action-label">View Panchang</span>
+      </button>
+      <button class="action-card" routerLink="/dasha">
+        <span class="action-icon">⏰</span>
+        <span class="action-label">Dasha Analysis</span>
+      </button>
+    </div>
+  </app-section-card>
+</div>

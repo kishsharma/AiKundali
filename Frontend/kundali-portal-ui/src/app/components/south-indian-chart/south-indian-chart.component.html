@@ -1,0 +1,33 @@
+<div class="south-chart-wrapper">
+  <div class="south-chart" aria-label="South Indian kundali chart">
+    <button
+      type="button"
+      class="chart-cell"
+      *ngFor="let cell of cells"
+      [style.grid-row]="cell.row"
+      [style.grid-column]="cell.col"
+      [class.active]="hoveredHouse === getHouseForSign(cell.sign)"
+      [class.selected]="selectedHouse === getHouseForSign(cell.sign)"
+      [attr.aria-label]="'House ' + getHouseForSign(cell.sign) + ' - ' + cell.label"
+      (mouseenter)="hoverHouse(getHouseForSign(cell.sign))"
+      (mouseleave)="leaveHouse()"
+      (click)="selectHouse(getHouseForSign(cell.sign))"
+    >
+      <span class="sign-number">{{ cell.sign }}</span>
+      <span class="house-label">H{{ getHouseForSign(cell.sign) }}</span>
+      <span class="planet-list">{{ getPlanets(cell.sign) }}</span>
+    </button>
+
+    <div class="chart-center">
+      <span>South Indian</span>
+      <strong>Rashi Chart</strong>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="info-panel">
+  <p *ngIf="selectedHouse">
+    Selected House:
+    <strong>{{ selectedHouse }}</strong>
+  </p>
+</div> -->

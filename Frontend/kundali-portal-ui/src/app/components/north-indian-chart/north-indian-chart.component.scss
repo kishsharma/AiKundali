@@ -1,0 +1,78 @@
+/* kundali-chart.component.scss */
+
+.chart-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.kundali-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+.chart-outline {
+  fill: white;
+  stroke: black;
+  stroke-width: 2;
+}
+
+
+.house {
+  fill: #fff3e0;
+  stroke: #d8892b;
+  stroke-width: 2;
+  cursor: pointer;
+  transition: fill 0.3s ease;
+}
+.house:hover {
+  fill: #ffe082;
+}
+
+.house.active {
+  fill: #ffcc80;
+}
+
+.house-label {
+  font-size: 0.85rem;
+}
+
+.planet {
+  font-size: 0.85rem;
+  font-weight: 700;
+  fill: #d32f2f;
+}
+
+.planet-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  fill: #c62828;
+}
+
+.info-panel {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .house-label,
+  .planet,
+  .planet-text {
+    font-size: 0.75rem;
+  }
+}
+
+// .planet-text {
+//   font-size: 18px;
+//   font-weight: bold;
+//   fill: #c62828;
+// }
+
+.planet-text {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #c62828;
+}

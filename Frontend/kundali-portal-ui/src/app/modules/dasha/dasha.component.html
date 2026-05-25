@@ -1,0 +1,35 @@
+<app-page-header
+  title="Dasha Analysis"
+  subtitle="Planetary period predictions"
+  description="Analyze Maha Dasha and Antar Dasha periods. Understand planetary influences on your life during different periods."
+  [breadcrumbs]="[
+    { label: 'Home', routerLink: '/' },
+    { label: 'Dasha', active: true }
+  ]"
+></app-page-header>
+
+<div class="dasha-layout">
+  <!-- Select Kundali -->
+  <app-section-card title="Select Your Chart" [interactive]="false">
+    <div class="coming-soon">
+      <p>📊 Kundali selector coming soon!</p>
+      <p class="subtitle">Choose a chart to view its Dasha periods.</p>
+    </div>
+  </app-section-card>
+
+  <!-- Current & Future Dashas -->
+  <app-section-card title="Dasha Timeline" [interactive]="false">
+    <div class="coming-soon">
+      <p>⏰ Dasha timeline will display here!</p>
+      <p class="subtitle">View current, past, and future planetary periods.</p>
+    </div>
+  </app-section-card>
+
+  <!-- Dasha Predictions -->
+  <app-section-card title="Period Predictions" [interactive]="false">
+    <div class="coming-soon">
+      <p>🔮 Predictions for the current Dasha period coming soon!</p>
+      <p class="subtitle">AI-powered insights based on planetary positions.</p>
+    </div>
+  </app-section-card>
+</div>

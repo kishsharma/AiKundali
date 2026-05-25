@@ -1,0 +1,82 @@
+.western-chart-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.western-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+.outer-ring,
+.inner-ring {
+  fill: #fff;
+  stroke: #111;
+  stroke-width: 2;
+}
+
+.wheel-segment {
+  fill: #eef7ff;
+  stroke: #4f86a8;
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.wheel-segment:hover,
+.wheel-segment.active {
+  fill: #cfeeff;
+}
+
+.wheel-segment.selected {
+  fill: #a7d9f5;
+}
+
+.sign-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  fill: #1f3d4d;
+}
+
+.house-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  fill: #6d4c41;
+}
+
+.planet-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  fill: #c62828;
+}
+
+.center-title {
+  font-size: 1rem;
+  font-weight: 700;
+  fill: #263238;
+}
+
+.center-subtitle {
+  font-size: 0.85rem;
+  fill: #546e7a;
+}
+
+.info-panel {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .sign-label,
+  .planet-text {
+    font-size: 8px;
+  }
+
+  .house-label {
+    font-size: 10px;
+  }
+}

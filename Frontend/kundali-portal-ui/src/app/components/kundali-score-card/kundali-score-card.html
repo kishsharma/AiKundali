@@ -1,0 +1,26 @@
+<div *ngIf="scoreEntries.length" class="score-wrapper">
+  <div class="card-header">
+    <h3>Kundali Scores</h3>
+  </div>
+
+  <div class="score-info">
+    <div class="score-row" *ngFor="let score of scoreEntries">
+      <span>{{ score.name }}</span>
+      <strong>{{ score.value }}</strong>
+    </div>
+  </div>
+
+  <div *ngIf="scores?.dominantStrengths?.length" class="score-details">
+    <h4>Dominant strengths</h4>
+    <ul>
+      <li *ngFor="let item of scores.dominantStrengths">{{ item }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="scores?.dominantWeaknesses?.length" class="score-details">
+    <h4>Dominant weaknesses</h4>
+    <ul>
+      <li *ngFor="let item of scores.dominantWeaknesses">{{ item }}</li>
+    </ul>
+  </div>
+</div>

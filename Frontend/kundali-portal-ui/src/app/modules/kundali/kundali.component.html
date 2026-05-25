@@ -1,0 +1,258 @@
+<app-page-header
+  title="Generate Kundali"
+  subtitle="Create your personalized birth chart"
+  description="Enter your birth details to generate a detailed Kundali (birth chart) with planetary positions and analysis."
+  [breadcrumbs]="[
+    { label: 'Home', routerLink: '/' },
+    { label: 'Kundali', active: true }
+  ]"
+></app-page-header>
+
+<div class="kundali-layout">
+  <div class="primary-sections">
+    <app-section-card title="Birth Details">
+      <form
+        class="kundali-form"
+        [formGroup]="kundaliForm"
+        (ngSubmit)="generateKundali()"
+      >
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input
+              type="text"
+              formControlName="fullName"
+              placeholder="Enter full name"
+              value="kishore"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Gender</label>
+            <select formControlName="gender">
+              <option value="">Select Gender</option>
+              <option value="Male" selected>Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Birth Date</label>
+            <input
+              type="date"
+              formControlName="birthDate"
+              value="1986-10-06"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Birth Time</label>
+            <input
+              type="time"
+              formControlName="birthTime"
+              value="11:45"
+            />
+          </div>
+
+          <div class="form-group full-width">
+            <label>Birth Place</label>
+            <input
+              type="text"
+              formControlName="birthPlace"
+              placeholder="Enter birth place"
+              value="hingoli"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Latitude</label>
+            <input
+              type="text"
+              formControlName="latitude"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Longitude</label>
+            <input
+              type="text"
+              formControlName="longitude"
+              readonly
+            />
+          </div>
+
+          <div class="location-dropdown" *ngIf="locationResults.length">
+            <div
+              class="location-item"
+              *ngFor="let place of locationResults"
+              (click)="selectLocation(place)"
+            >
+              {{ place.display_name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="action-section">
+          <button
+            type="submit"
+            [disabled]="loading"
+          >
+            {{ loading ? 'Generating...' : 'Generate Kundali' }}
+          </button>
+        </div>
+      </form>
+    </app-section-card>
+
+    <app-section-card title="Kundali Chart">
+      <div class="chart-tabs" role="tablist" aria-label="Kundali chart type">
+        <button
+          type="button"
+          role="tab"
+          [class.active]="activeChartType === 'north'"
+          [attr.aria-selected]="activeChartType === 'north'"
+          (click)="activeChartType = 'north'">
+          North Indian
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          [class.active]="activeChartType === 'south'"
+          [attr.aria-selected]="activeChartType === 'south'"
+          (click)="activeChartType = 'south'"
+        >
+          South Indian
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          [class.active]="activeChartType === 'western'"
+          [attr.aria-selected]="activeChartType === 'western'"
+          (click)="activeChartType = 'western'"
+        >
+          Western
+        </button>
+      </div>
+
+      <div class="chart-with-house-details">
+        <div >
+          <app-north-indian-chart
+            *ngIf="activeChartType === 'north'"
+            [planets]="planets"
+            [ascendant]="summary?.ascendant"
+            [housesData]="kundaliResponse?.houses"
+            (houseSelected)="selectedHouseData = $event"
+          ></app-north-indian-chart>
+
+          <app-south-indian-chart
+            *ngIf="activeChartType === 'south'"
+            [planets]="planets"
+            [ascendant]="summary?.ascendant"
+            [housesData]="kundaliResponse?.houses"
+            (houseSelected)="selectedHouseData = $event"
+          ></app-south-indian-chart>
+
+          <app-western-chart
+            *ngIf="activeChartType === 'western'"
+            [planets]="planets"
+            [ascendant]="summary?.ascendant"
+            [housesData]="kundaliResponse?.houses"
+            (houseSelected)="selectedHouseData = $event"
+          ></app-western-chart>
+        </div>
+<div class="no-card-style" >
+ <app-section-card  class="house-details-card-container">
+          <ng-container *ngIf="selectedHouseData; else noHouseSelected">
+            <app-house-details-card
+              [houseData]="selectedHouseData"
+            ></app-house-details-card>
+          </ng-container>
+
+          <ng-template #noHouseSelected>
+            <p class="house-placeholder">
+              Select a house on the chart to view details here.
+            </p>
+          </ng-template>
+        </app-section-card>
+</div>
+       
+      </div>
+    </app-section-card>
+  </div>
+<div class="detail-grid">
+
+ <app-section-card title="Kundali Summary">
+        <app-kundali-summary [summary]="kundaliResponse?.summary">
+        </app-kundali-summary>
+      </app-section-card>
+
+      <app-section-card title="Panchang Details">
+        <app-panchang-card [panchang]="kundaliResponse?.panchang">
+        </app-panchang-card>
+      </app-section-card>
+
+
+</div>
+  <div class="results-sections" *ngIf="planets.length">
+    <app-section-card title="Planet Positions" class="full-row">
+      <div class="planet-table-wrapper">
+        <table class="planet-table">
+          <thead>
+            <tr>
+              <th>Planet</th>
+              <th>Sign</th>
+              <th>House</th>
+              <th>Degree</th>
+              <th>Status</th>
+              <th>Strength</th>
+              <th>Nakshatra</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let planet of planets">
+              <td>{{ planet.planet }}</td>
+              <td>{{ planet.sign }}</td>
+              <td>{{ planet.house }}</td>
+              <td>{{ planet.degree }}° {{ planet.minute }}'</td>
+              <td>
+                <span
+                  class="badge retro"
+                  *ngIf="planet.isRetrograde"
+                >
+                  R
+                </span>
+                <span
+                  class="badge combust"
+                  *ngIf="planet.isCombust"
+                >
+                  C
+                </span>
+              </td>
+              <td>{{ planet.detailedStrength }}</td>
+              <td>
+                {{ planet.nakshatra }}
+                ({{ planet.pada }})
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-section-card>
+
+    <div class="detail-grid">
+     
+      <app-section-card title="Kundali Scores">
+        <app-kundali-score-card [scores]="scores">
+        </app-kundali-score-card>
+      </app-section-card>
+
+      <app-section-card title="Mahadasha & Antardasha" class="full-row">
+        <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods">
+        </app-mahadasha-antardasha>
+      </app-section-card>
+    </div>
+  </div>
+</div>

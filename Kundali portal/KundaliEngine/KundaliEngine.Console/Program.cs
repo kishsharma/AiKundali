@@ -29,9 +29,17 @@ class Program
         SwissEphWrapper.Initialize(ephePath);
         AppServices appServices = new AppServices();
         // Input
-        DateTime birthUtc = new DateTime(1986, 10, 6, 6, 15, 0, DateTimeKind.Utc);
-        double lat = 19.7115;
-        double lon = 77.145;
+
+        DateTime localBirth = new DateTime(1986, 10, 6, 11, 45, 0);
+
+        TimeZoneInfo indiaZone =      TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+
+        DateTime birthUtc =  TimeZoneInfo.ConvertTimeToUtc(localBirth, indiaZone);
+
+        Console.WriteLine(birthUtc);
+        //DateTime birthUtc = new DateTime(1986, 10, 6, 11, 45, 0, DateTimeKind.Utc);
+        double lat = 19.5431164;
+        double lon = 77.1739432;
 
         // Services / calculators
         var planetCalc = new PlanetPositionCalculator();
@@ -335,129 +343,7 @@ class Program
 
         Console.WriteLine("====================================");
 
-        //// ====================================================
-        //// PHASE 1: COMPATIBILITY MATCHMAKING DEMONSTRATION
-        //// ====================================================
-
-        //Console.WriteLine("\n");
-        //Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
-        //Console.WriteLine("║          PHASE 1: COMPATIBILITY MATCHMAKING                 ║");
-        //Console.WriteLine("║        (Foundation Architecture Demonstration)              ║");
-        //Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
-
-        //// Generate a second Kundali (for demonstration: same chart as first person)
-        //var chartService2 = new ChartService();
-        ////var chartService3 = new services.ChartService;
-
-        //var person1 =services.ChartService.GenerateChart(birthUtc, lat, lon);
-        //KundaliChart kundaliChart1 = new KundaliChart
-        //{
-        //    BirthDetails = new BirthDetails
-        //    {
-        //        BirthDateTimeLocal = birthUtc, // Assuming birthUtc is local for simplicity
-        //        Latitude = lat,
-        //        Longitude = lon,
-        //        TimeZoneOffsetHours = 0 // Assuming UTC for simplicity
-        //    },
-        //    AscendantDegree = (int)(ascendantLongitude % 30),
-        //    AscendantMinute = (int)((ascendantLongitude % 1) * 60),
-        //    AscendantSign = ascendantSign,
-        //    Aspects = aspectResult.PlanetAspects,
-        //    Panchang = panchang
-        //};
-
-        //DateTime birthUtcPerson2 = new DateTime(1991, 12, 7, 6, 15, 0, DateTimeKind.Utc);
-        //double latPerson2 = 24.076;
-        //double lonPerson2 = 75.069;
-        //var person2 = chartService2.GenerateChart(birthUtcPerson2, latPerson2, lonPerson2);
-
-
-        //// Ascendant
-        //double ascendantLongitudePerson2 = ascCalc.Calculate(birthUtcPerson2, latPerson2, lonPerson2);
-        //int ascendantIndexPerson2 = (int)(ascendantLongitude / 30.0);
-        //ZodiacSign ascendantSignPerson2 = (ZodiacSign)(ascendantIndex + 1);
-
-        //var planetPositionsperson2 = planets
-        //    .Select(p => planetCalc.Calculate(p, birthUtcPerson2))
-        //    .ToList();
-
-        //// Aspects
-        //var aspectResultperson2 =services.AspectService.CalculateGrahaDrishti(planetPositionsperson2);
-
-        //// Panchang
-        //double sunLongitudeP2 = planetPositionsperson2.First(p => p.Planet == Planet.Sun).Longitude;
-        //double moonLongitudeP2 = planetPositionsperson2.First(p => p.Planet == Planet.Moon).Longitude;
-
-        //var panchangP2 = services.PanchangService.Calculate(birthUtcPerson2, sunLongitudeP2, moonLongitudeP2);
-
-        //KundaliChart kundaliChart2 = new KundaliChart
-        //{
-        //    BirthDetails = new BirthDetails
-        //    {
-        //        BirthDateTimeLocal = birthUtcPerson2, // Assuming birthUtc is local for simplicity
-        //        Latitude = latPerson2,
-        //        Longitude = lonPerson2,
-        //        TimeZoneOffsetHours = 0 // Assuming UTC for simplicity
-        //    },
-        //    AscendantDegree = (int)(ascendantLongitudePerson2 % 30),
-        //    AscendantMinute = (int)((ascendantLongitudePerson2 % 1) * 60),
-        //    AscendantSign = ascendantSignPerson2,
-        //    Aspects = aspectResultperson2.PlanetAspects,
-        //    Panchang = panchangP2
-        //};
-        //// Create compatibility profiles
-        //var profile1 = new CompatibilityProfile("Kishore",kundaliChart1);
-        //var profile2 = new CompatibilityProfile("Pooja", kundaliChart2);
-
-        //// Calculate compatibility
-        //var compatibilityService = new CompatibilityScoreService();
-        //var compatibilityResult = compatibilityService.CalculateCompatibility(profile1, profile2);
-
-        //// Display compatibility result
-        //Console.WriteLine($"\n===== COMPATIBILITY ANALYSIS =====");
-        //Console.WriteLine($"Persons: {compatibilityResult.PersonAName} & {compatibilityResult.PersonBName}");
-        //Console.WriteLine($"Overall Score: {compatibilityResult.OverallCompatibilityScore}/100");
-        //Console.WriteLine($"Confidence: {compatibilityResult.OverallConfidence}%");
-
-        //Console.WriteLine("\n--- Compatibility Dimensions ---");
-        //foreach (var dimension in compatibilityResult.Dimensions)
-        //{
-        //    Console.WriteLine($"\n{dimension.Name}: {dimension.Score}/100 (Confidence: {dimension.Confidence}%)");
-        //    if (dimension.Factors.Count > 0)
-        //    {
-        //        foreach (var factor in dimension.Factors)
-        //        {
-        //            Console.WriteLine($"  {factor}");
-        //        }
-        //    }
-        //    if (!string.IsNullOrEmpty(dimension.Summary))
-        //    {
-        //        Console.WriteLine($"  Summary: {dimension.Summary}");
-        //    }
-        //}
-
-        //Console.WriteLine("\n--- Dominant Strengths ---");
-        //foreach (var strength in compatibilityResult.DominantStrengths)
-        //{
-        //    Console.WriteLine($"  + {strength}");
-        //}
-
-        //Console.WriteLine("\n--- Dominant Challenges ---");
-        //foreach (var challenge in compatibilityResult.DominantChallenges)
-        //{
-        //    Console.WriteLine($"  - {challenge}");
-        //}
-
-        //Console.WriteLine("\n--- Overall Summary ---");
-        //Console.WriteLine(compatibilityResult.Summary);
-
-        //Console.WriteLine($"\nAnalyzed at: {compatibilityResult.AnalyzedAtUtc:yyyy-MM-dd HH:mm:ss} UTC");
-        //Console.WriteLine($"Engine Version: {compatibilityResult.EngineVersion}");
-
-        //Console.WriteLine("\n════════════════════════════════════════════════════════════");
-        //Console.WriteLine("Phase 1 compatibility architecture complete.");
-        //Console.WriteLine("Ready for future compatibility analyzers (Moon, Nakshatra, Venus/Mars, etc.)");
-        //Console.WriteLine("════════════════════════════════════════════════════════════");
+        
         Console.WriteLine();
         Console.WriteLine("====================================");
         Console.WriteLine("PHASE 1: COMPATIBILITY FOUNDATION");

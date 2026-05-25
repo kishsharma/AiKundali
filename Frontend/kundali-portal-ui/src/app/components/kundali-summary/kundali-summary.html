@@ -1,0 +1,35 @@
+<div
+  class="dashboard-card"
+  *ngIf="summary"
+>
+
+  <div class="dashboard-grid">
+
+    <div class="dashboard-item">
+      <span>Name</span>
+      <strong>{{ summary.name }}</strong>
+    </div>
+
+    <div class="dashboard-item">
+      <span>Ascendant</span>
+      <strong>{{ summary.ascendant }}</strong>
+    </div>
+
+    <div class="dashboard-item">
+      <span>Moon Sign</span>
+      <strong>{{ summary.moonSign }}</strong>
+    </div>
+
+    <div class="dashboard-item">
+      <span>Sun Sign</span>
+      <strong>{{ summary.sunSign }}</strong>
+    </div>
+
+    <div class="dashboard-item">
+      <span>Mahadasha</span>
+      <strong>{{ summary.currentMahadasha }}</strong>
+    </div>
+
+  </div>
+
+</div>

@@ -66,47 +66,50 @@ namespace KundaliEngine.Astrology.Services.Scoring
 
             int lagnaScore = ScoreLagna(ascendantSign, planetScores, houseScores, factors);
             int moonScore = ScoreMoon(planetScores, factors);
+            int sunScore = ScoreSun(planetScores, factors);
+            int coreIdentityScore = ScoreCoreIdentity(lagnaScore, moonScore, sunScore, factors);
+            int kendraPowerScore = ScoreHouseSet("Kendra", new[] { HouseNumber.First, HouseNumber.Fourth, HouseNumber.Seventh, HouseNumber.Tenth }, houseScores, factors);
+            int trikonaPowerScore = ScoreHouseSet("Trikona", new[] { HouseNumber.First, HouseNumber.Fifth, HouseNumber.Ninth }, houseScores, factors);
             int dharmaScore = ScoreHouseGroup("Dharma", houseScores, factors);
             int arthaScore = ScoreHouseGroup("Artha", houseScores, factors);
             int kamaScore = ScoreHouseGroup("Kama", houseScores, factors);
             int mokshaScore = ScoreHouseGroup("Moksha", houseScores, factors);
             int planetaryBalanceScore = ScorePlanetaryBalance(planetScores, factors);
-            int dashaScore = ScoreCurrentDasha(activeMahadashaLord, planetScores, factors);
+            ScoreCurrentDasha(activeMahadashaLord, factors);
 
             int overall = WeightedScore(new[]
             {
-                (lagnaScore, 0.20),
-                (moonScore, 0.15),
-                (dharmaScore, 0.15),
-                (arthaScore, 0.15),
-                (kamaScore, 0.10),
-                (mokshaScore, 0.10),
-                (planetaryBalanceScore, 0.10),
-                (dashaScore, 0.05)
+                (coreIdentityScore, 0.20),
+                (kendraPowerScore, 0.18),
+                (trikonaPowerScore, 0.18),
+                (dharmaScore, 0.12),
+                (arthaScore, 0.12),
+                (kamaScore, 0.08),
+                (mokshaScore, 0.07),
+                (planetaryBalanceScore, 0.05)
             });
 
             int stability = WeightedScore(new[]
             {
                 (lagnaScore, 0.35),
                 (moonScore, 0.35),
-                (mokshaScore, 0.15),
-                (planetaryBalanceScore, 0.15)
+                (sunScore, 0.15),
+                (kendraPowerScore, 0.15)
             });
 
             int growth = WeightedScore(new[]
             {
-                (dharmaScore, 0.30),
-                (arthaScore, 0.30),
-                (kamaScore, 0.20),
-                (planetaryBalanceScore, 0.10),
-                (dashaScore, 0.10)
+                (trikonaPowerScore, 0.30),
+                (dharmaScore, 0.25),
+                (arthaScore, 0.20),
+                (kamaScore, 0.15),
+                (planetaryBalanceScore, 0.10)
             });
 
             int challengePressure = ScoreChallengePressure(
                 planetScores,
                 houseScores,
                 mokshaScore,
-                dashaScore,
                 factors);
 
             return new OverallKundaliScoreResult
@@ -118,23 +121,29 @@ namespace KundaliEngine.Astrology.Services.Scoring
                 DominantStrengths = BuildDominantStrengths(
                     lagnaScore,
                     moonScore,
+                    sunScore,
+                    coreIdentityScore,
+                    kendraPowerScore,
+                    trikonaPowerScore,
                     dharmaScore,
                     arthaScore,
                     kamaScore,
                     mokshaScore,
                     planetaryBalanceScore,
-                    dashaScore,
                     houseScores,
                     planetScores),
                 DominantWeaknesses = BuildDominantWeaknesses(
                     lagnaScore,
                     moonScore,
+                    sunScore,
+                    coreIdentityScore,
+                    kendraPowerScore,
+                    trikonaPowerScore,
                     dharmaScore,
                     arthaScore,
                     kamaScore,
                     mokshaScore,
                     planetaryBalanceScore,
-                    dashaScore,
                     houseScores,
                     planetScores),
                 Factors = factors
@@ -179,6 +188,55 @@ namespace KundaliEngine.Astrology.Services.Scoring
             return score;
         }
 
+        private static int ScoreSun(
+            IReadOnlyList<PlanetScoreResult> planetScores,
+            List<string> factors)
+        {
+            int score = GetPlanetScore(planetScores, Planet.Sun);
+
+            factors.Add(FormatFactor(
+                score,
+                $"Sun strength contributes to vitality, authority, confidence, and visible self-expression ({score}/100)"));
+
+            return score;
+        }
+
+        private static int ScoreCoreIdentity(
+            int lagnaScore,
+            int moonScore,
+            int sunScore,
+            List<string> factors)
+        {
+            int score = WeightedScore(new[]
+            {
+                (lagnaScore, 0.45),
+                (moonScore, 0.30),
+                (sunScore, 0.25)
+            });
+
+            factors.Add(FormatFactor(
+                score,
+                $"Core identity combines Lagna ({lagnaScore}/100), Moon ({moonScore}/100), and Sun ({sunScore}/100)"));
+
+            return score;
+        }
+
+        private static int ScoreHouseSet(
+            string setName,
+            HouseNumber[] houses,
+            IReadOnlyList<HouseScoreResult> houseScores,
+            List<string> factors)
+        {
+            var scores = houses.Select(house => GetHouseScore(houseScores, house)).ToList();
+            int score = Clamp((int)Math.Round(scores.Average()));
+
+            factors.Add(FormatFactor(
+                score,
+                $"{setName} power from houses ({string.Join(", ", houses.Select(h => (int)h))}) aggregates to {score}/100"));
+
+            return score;
+        }
+
         private static int ScoreHouseGroup(
             string groupName,
             IReadOnlyList<HouseScoreResult> houseScores,
@@ -217,31 +275,21 @@ namespace KundaliEngine.Astrology.Services.Scoring
             return balance;
         }
 
-        private static int ScoreCurrentDasha(
+        private static void ScoreCurrentDasha(
             Planet? activeMahadashaLord,
-            IReadOnlyList<PlanetScoreResult> planetScores,
             List<string> factors)
         {
-            if (!activeMahadashaLord.HasValue)
-            {
-                factors.Add("+0 Current dasha influence not applied because active Mahadasha lord was not provided");
-                return 50;
-            }
+            string suffix = activeMahadashaLord.HasValue
+                ? $"active Mahadasha lord {activeMahadashaLord.Value} belongs to dasha/transit prediction"
+                : "no active Mahadasha lord was provided";
 
-            int score = GetPlanetScore(planetScores, activeMahadashaLord.Value);
-
-            factors.Add(FormatFactor(
-                score,
-                $"Current Mahadasha lord {activeMahadashaLord.Value} contributes current manifestation support ({score}/100)"));
-
-            return score;
+            factors.Add($"+0 Current dasha influence excluded from static Kundali score because {suffix}");
         }
 
         private static int ScoreChallengePressure(
             IReadOnlyList<PlanetScoreResult> planetScores,
             IReadOnlyList<HouseScoreResult> houseScores,
             int mokshaScore,
-            int dashaScore,
             List<string> factors)
         {
             int weakPlanetCount = planetScores.Count(score => score.Score <= 40);
@@ -253,16 +301,11 @@ namespace KundaliEngine.Astrology.Services.Scoring
                 pressure += 8;
             }
 
-            if (dashaScore < 45)
-            {
-                pressure += 6;
-            }
-
             pressure = Clamp(pressure);
 
             factors.Add(FormatFactor(
                 -pressure,
-                $"Challenge pressure is {pressure}/100 from {weakPlanetCount} weak planets, {weakHouseCount} weak houses, Moksha score {mokshaScore}/100, and dasha support {dashaScore}/100"));
+                $"Challenge pressure is {pressure}/100 from {weakPlanetCount} weak planets, {weakHouseCount} weak houses, and Moksha score {mokshaScore}/100"));
 
             return pressure;
         }
@@ -283,12 +326,15 @@ namespace KundaliEngine.Astrology.Services.Scoring
         private static List<string> BuildDominantStrengths(
             int lagnaScore,
             int moonScore,
+            int sunScore,
+            int coreIdentityScore,
+            int kendraPowerScore,
+            int trikonaPowerScore,
             int dharmaScore,
             int arthaScore,
             int kamaScore,
             int mokshaScore,
             int planetaryBalanceScore,
-            int dashaScore,
             IReadOnlyList<HouseScoreResult> houseScores,
             IReadOnlyList<PlanetScoreResult> planetScores)
         {
@@ -296,12 +342,15 @@ namespace KundaliEngine.Astrology.Services.Scoring
             {
                 ("Strong Lagna supports identity, vitality, and life direction", lagnaScore),
                 ("Strong Moon supports emotional balance and adaptability", moonScore),
+                ("Strong Sun supports vitality, confidence, authority, and visibility", sunScore),
+                ("Strong core identity aligns Lagna, Moon, and Sun", coreIdentityScore),
+                ("Strong Kendra houses support life structure and practical manifestation", kendraPowerScore),
+                ("Strong Trikona houses support dharma, fortune, intelligence, and grace", trikonaPowerScore),
                 ("Strong Dharma houses support purpose, wisdom, and alignment", dharmaScore),
                 ("Strong Artha houses support execution, profession, and resources", arthaScore),
                 ("Strong Kama houses support relationships, ambition, and social fulfillment", kamaScore),
                 ("Strong Moksha houses support inner depth, release, and transformation", mokshaScore),
-                ("Planetary balance supports overall manifestation capacity", planetaryBalanceScore),
-                ("Current dasha lord supports present activation", dashaScore)
+                ("Planetary balance supports overall manifestation capacity", planetaryBalanceScore)
             };
 
             strengths.AddRange(houseScores
@@ -323,12 +372,15 @@ namespace KundaliEngine.Astrology.Services.Scoring
         private static List<string> BuildDominantWeaknesses(
             int lagnaScore,
             int moonScore,
+            int sunScore,
+            int coreIdentityScore,
+            int kendraPowerScore,
+            int trikonaPowerScore,
             int dharmaScore,
             int arthaScore,
             int kamaScore,
             int mokshaScore,
             int planetaryBalanceScore,
-            int dashaScore,
             IReadOnlyList<HouseScoreResult> houseScores,
             IReadOnlyList<PlanetScoreResult> planetScores)
         {
@@ -336,12 +388,15 @@ namespace KundaliEngine.Astrology.Services.Scoring
             {
                 ("Weak Lagna may reduce resilience and clear life direction", lagnaScore),
                 ("Weak Moon may reduce emotional steadiness and inner balance", moonScore),
+                ("Weak Sun may reduce vitality, confidence, authority, and visibility", sunScore),
+                ("Weak core identity may reduce alignment between body, mind, and will", coreIdentityScore),
+                ("Weak Kendra houses may reduce stability, structure, and practical manifestation", kendraPowerScore),
+                ("Weak Trikona houses may reduce dharma, fortune, judgment, and grace", trikonaPowerScore),
                 ("Weak Dharma houses may reduce purpose, guidance, and alignment", dharmaScore),
                 ("Weak Artha houses may reduce execution, profession, and material productivity", arthaScore),
                 ("Weak Kama houses may reduce relationship flow, ambition, and social fulfillment", kamaScore),
                 ("Weak Moksha houses may increase emotional pressure and inner turbulence", mokshaScore),
-                ("Weak planetary balance may reduce overall chart delivery", planetaryBalanceScore),
-                ("Weak current dasha lord may reduce present manifestation support", dashaScore)
+                ("Weak planetary balance may reduce overall chart delivery", planetaryBalanceScore)
             };
 
             weaknesses.AddRange(houseScores

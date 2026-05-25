@@ -1,0 +1,27 @@
+<app-page-header
+  title="Panchang"
+  subtitle="Vedic calendar and timings"
+  description="Check daily Panchang details including Tithi, Nakshatra, Yoga, and Karana. Find auspicious timings for important events."
+  [breadcrumbs]="[
+    { label: 'Home', routerLink: '/' },
+    { label: 'Panchang', active: true }
+  ]"
+></app-page-header>
+
+<div class="panchang-layout">
+  <!-- Date Selector & Today's Panchang -->
+  <app-section-card title="Today's Panchang" [interactive]="false">
+    <div class="coming-soon">
+      <p>📅 Today's Panchang details coming soon!</p>
+      <p class="subtitle">View Tithi, Nakshatra, Yoga, Karana, and more.</p>
+    </div>
+  </app-section-card>
+
+  <!-- Auspicious Timings / Muhurats -->
+  <app-section-card title="Auspicious Timings (Muhurats)" [interactive]="false">
+    <div class="coming-soon">
+      <p>⏰ Muhurat calendar coming soon!</p>
+      <p class="subtitle">Find best timings for marriages, ceremonies, and more.</p>
+    </div>
+  </app-section-card>
+</div>

@@ -1,0 +1,139 @@
+.house-details-card {
+  margin-top: 1rem;
+  padding: 0.95rem;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  font-size: 12px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.sign-badge {
+  background: #ede7f6;
+  color: #5e35b1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.simple-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+}
+
+.simple-info > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.simple-info span {
+  font-size: 11px;
+  color: #777;
+  white-space: nowrap;
+}
+
+.simple-info strong {
+  font-size: 12px;
+  color: #222;
+}
+
+.tag-section {
+  margin-top: 0.85rem;
+}
+
+.tag-section label {
+  display: block;
+  font-size: 10px;
+  color: #777;
+  margin-bottom: 0.2rem;
+}
+
+.simple-text-section .simple-text {
+  margin: 0;
+  color: #333;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  background: #f3f4f6;
+  color: #444;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+}
+
+.factor-tag {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.factor-tooltip {
+  position: relative;
+}
+
+.factor-tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: #5d4037;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tooltip-box {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  min-width: 200px;
+  padding: 0.35rem 0.5rem;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-3px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  z-index: 2;
+}
+
+.factor-tooltip:hover .tooltip-box,
+.factor-tooltip:focus-within .tooltip-box {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.tooltip-box .tag {
+  display: inline-block;
+  margin: 0 0.3rem 0.3rem 0;
+  padding: 2px 6px;
+  font-size: 11px;
+  background: transparent;
+  color: #5d4037;
+  border-radius: 999px;
+}

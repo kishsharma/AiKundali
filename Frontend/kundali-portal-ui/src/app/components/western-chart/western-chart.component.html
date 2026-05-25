@@ -1,0 +1,60 @@
+<div class="western-chart-wrapper">
+  <svg
+    viewBox="0 0 500 500"
+    preserveAspectRatio="xMidYMid meet"
+    class="western-svg"
+    aria-label="Western kundali chart"
+  >
+    <circle cx="250" cy="250" r="210" class="outer-ring" />
+    <circle cx="250" cy="250" r="72" class="inner-ring" />
+
+    <g *ngFor="let segment of segments">
+      <path
+        [attr.d]="segment.path"
+        class="wheel-segment"
+        [class.active]="hoveredHouse === getHouseForSign(segment.sign)"
+        [class.selected]="selectedHouse === getHouseForSign(segment.sign)"
+        (mouseenter)="hoverHouse(getHouseForSign(segment.sign))"
+        (mouseleave)="leaveHouse()"
+        (click)="selectHouse(getHouseForSign(segment.sign))"
+      />
+
+      <text
+        [attr.x]="segment.labelX"
+        [attr.y]="segment.labelY"
+        class="sign-label"
+        text-anchor="middle"
+      >
+        {{ segment.sign }} {{ segment.label }}
+      </text>
+
+      <text
+        [attr.x]="segment.houseX"
+        [attr.y]="segment.houseY"
+        class="house-label"
+        text-anchor="middle"
+      >
+        H{{ getHouseForSign(segment.sign) }}
+      </text>
+
+      <text
+        [attr.x]="segment.planetX"
+        [attr.y]="segment.planetY"
+        class="planet-text"
+        text-anchor="middle"
+      >
+        {{ getPlanets(segment.sign) }}
+      </text>
+    </g>
+
+    <text x="250" y="238" text-anchor="middle" class="center-title">Western</text>
+    <text x="250" y="262" text-anchor="middle" class="center-subtitle">Rashi Wheel</text>
+  </svg>
+</div>
+
+<!-- <div class="info-panel">
+  <p *ngIf="selectedHouse">
+    Selected House:
+    <strong>{{ selectedHouse }}</strong>
+  </p>
+</div> -->

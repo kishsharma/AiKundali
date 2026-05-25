@@ -1,0 +1,207 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+
+type WheelSegment = {
+  sign: number;
+  label: string;
+  startAngle: number;
+  endAngle: number;
+  path: string;
+  labelX: number;
+  labelY: number;
+  houseX: number;
+  houseY: number;
+  planetX: number;
+  planetY: number;
+};
+
+@Component({
+  selector: 'app-western-chart',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './western-chart.component.html',
+  styleUrls: ['./western-chart.component.scss']
+})
+export class WesternChartComponent implements OnChanges {
+  @Input() planets: any[] = [];
+  @Input() ascendant: string = '';
+  @Input() housesData: any[] = [];
+  @Output() houseSelected = new EventEmitter<any>();
+
+  hoveredHouse: number | null = null;
+  selectedHouse: number | null = null;
+  selectedHouseData: any = null;
+  ascendantSign: number | null = null;
+
+  readonly center = 250;
+  readonly outerRadius = 210;
+  readonly innerRadius = 72;
+  readonly signLabels: Record<number, string> = {
+    1: 'Aries',
+    2: 'Taurus',
+    3: 'Gemini',
+    4: 'Cancer',
+    5: 'Leo',
+    6: 'Virgo',
+    7: 'Libra',
+    8: 'Scorpio',
+    9: 'Sagittarius',
+    10: 'Capricorn',
+    11: 'Aquarius',
+    12: 'Pisces'
+  };
+
+  readonly segments: WheelSegment[] = this.buildSegments();
+
+  housePlanets: Record<number, string[]> = {};
+
+  private readonly shortNames: Record<string, string> = {
+    Sun: 'Su',
+    Moon: 'Mo',
+    Mars: 'Ma',
+    Mercury: 'Me',
+    Jupiter: 'Ju',
+    Venus: 'Ve',
+    Saturn: 'Sa',
+    Rahu: 'Ra',
+    Ketu: 'Ke',
+    Uranus: 'Ur',
+    Neptune: 'Ne'
+  };
+
+  private readonly signNames: Record<string, number> = {
+    aries: 1,
+    taurus: 2,
+    gemini: 3,
+    cancer: 4,
+    leo: 5,
+    virgo: 6,
+    libra: 7,
+    scorpio: 8,
+    sagittarius: 9,
+    capricorn: 10,
+    aquarius: 11,
+    pisces: 12
+  };
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['ascendant']) {
+      this.ascendantSign = this.getSignNumber(this.ascendant);
+    }
+
+    if (changes['planets']) {
+      this.mapPlanetsToSigns();
+    }
+  }
+
+  getHouseForSign(sign: number): number {
+    if (!this.ascendantSign) {
+      return sign;
+    }
+
+    return ((sign - this.ascendantSign + 12) % 12) + 1;
+  }
+
+  getPlanets(sign: number): string {
+    return this.housePlanets[sign]?.join(' ') || '';
+  }
+
+  hoverHouse(house: number): void {
+    this.hoveredHouse = house;
+  }
+
+  leaveHouse(): void {
+    this.hoveredHouse = null;
+  }
+
+  selectHouse(house: number): void {
+    this.selectedHouse = house;
+    this.selectedHouseData = this.housesData.find(h => h.houseNumber === house);
+    this.houseSelected.emit(this.selectedHouseData);
+  }
+
+  private buildSegments(): WheelSegment[] {
+    return Array.from({ length: 12 }, (_, index) => {
+      const sign = index + 1;
+      const startAngle = -90 + index * 30;
+      const endAngle = startAngle + 30;
+      const midAngle = startAngle + 15;
+
+      return {
+        sign,
+        label: this.signLabels[sign],
+        startAngle,
+        endAngle,
+        path: this.describeArcSector(startAngle, endAngle),
+        labelX: this.pointOnCircle(midAngle, 185).x,
+        labelY: this.pointOnCircle(midAngle, 185).y,
+        houseX: this.pointOnCircle(midAngle, 145).x,
+        houseY: this.pointOnCircle(midAngle, 145).y,
+        planetX: this.pointOnCircle(midAngle, 110).x,
+        planetY: this.pointOnCircle(midAngle, 110).y
+      };
+    });
+  }
+
+  private mapPlanetsToSigns(): void {
+    this.housePlanets = {};
+
+    for (let sign = 1; sign <= 12; sign++) {
+      this.housePlanets[sign] = [];
+    }
+
+    this.planets?.forEach((planet: any) => {
+      const sign = this.getSignNumber(planet.sign);
+
+      if (!sign) {
+        return;
+      }
+
+      this.housePlanets[sign].push(this.shortNames[planet.planet] || planet.planet);
+    });
+  }
+
+  private describeArcSector(startAngle: number, endAngle: number): string {
+    const outerStart = this.pointOnCircle(startAngle, this.outerRadius);
+    const outerEnd = this.pointOnCircle(endAngle, this.outerRadius);
+    const innerEnd = this.pointOnCircle(endAngle, this.innerRadius);
+    const innerStart = this.pointOnCircle(startAngle, this.innerRadius);
+
+    return [
+      `M ${outerStart.x} ${outerStart.y}`,
+      `A ${this.outerRadius} ${this.outerRadius} 0 0 1 ${outerEnd.x} ${outerEnd.y}`,
+      `L ${innerEnd.x} ${innerEnd.y}`,
+      `A ${this.innerRadius} ${this.innerRadius} 0 0 0 ${innerStart.x} ${innerStart.y}`,
+      'Z'
+    ].join(' ');
+  }
+
+  private pointOnCircle(angle: number, radius: number): { x: number; y: number } {
+    const radians = angle * Math.PI / 180;
+
+    return {
+      x: this.center + radius * Math.cos(radians),
+      y: this.center + radius * Math.sin(radians)
+    };
+  }
+
+  private getSignNumber(value: string | number | null | undefined): number | null {
+    if (value === null || value === undefined) {
+      return null;
+    }
+
+    if (typeof value === 'number') {
+      return value >= 1 && value <= 12 ? value : null;
+    }
+
+    const numericPrefix = value.match(/^\s*(\d{1,2})/);
+
+    if (numericPrefix) {
+      const sign = Number(numericPrefix[1]);
+      return sign >= 1 && sign <= 12 ? sign : null;
+    }
+
+    const normalized = value.trim().toLowerCase();
+    return this.signNames[normalized] || null;
+  }
+}

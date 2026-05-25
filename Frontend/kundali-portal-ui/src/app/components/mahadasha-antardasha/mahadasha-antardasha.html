@@ -1,0 +1,65 @@
+<div class="dasha-container">
+  <div *ngIf="!mahadashas.length" class="empty-state">
+    No Mahadasha data available.
+  </div>
+
+  <div
+    class="mahadasha-card"
+    *ngFor="let maha of mahadashas">
+
+    <!-- HEADER -->
+
+    <div class="mahadasha-header">
+
+      <div class="planet-name">
+        {{ maha.planet }} Mahadasha
+      </div>
+
+      <div class="duration">
+        {{ (maha.start || maha.startDate) | date:'dd MMM yyyy' }}
+        -
+        {{ (maha.end || maha.endDate) | date:'dd MMM yyyy' }}
+      </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <table class="antardasha-table">
+
+      <thead>
+
+        <tr>
+          <th>Antardasha</th>
+          <th>Start</th>
+          <th>End</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="let antar of maha.antardashas">
+
+          <td>
+            {{ antar.subPlanet }}
+          </td>
+
+          <td>
+            {{ (antar.startDate || antar.start) | date:'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            {{ (antar.endDate || antar.end) | date:'dd MMM yyyy' }}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

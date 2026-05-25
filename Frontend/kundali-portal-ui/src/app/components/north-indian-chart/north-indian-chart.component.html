@@ -1,0 +1,323 @@
+<!-- kundali-chart.component.html -->
+<div class="chart-wrapper">
+
+  <svg
+    viewBox="0 0 500 500"
+    preserveAspectRatio="xMidYMid meet"
+    class="kundali-svg"
+  >
+
+    <!-- Chart -->
+
+
+<!-- OUTER SQUARE -->
+<rect
+  x="40"
+  y="40"
+  width="420"
+  height="420"
+  class="chart-outline"
+/>
+
+<!-- MAIN OUTER DIAMOND -->
+<polygon
+  points="250,40 460,250 250,460 40,250"
+  class="chart-outline"
+/>
+
+<!-- CENTER DIAMOND -->
+<polygon
+  points="250,145 355,250 250,355 145,250"
+  class="chart-line"
+/>
+
+<!-- MAIN CROSS -->
+<line
+  x1="250"
+  y1="40"
+  x2="250"
+  y2="460"
+  class="chart-line"
+/>
+
+<line
+  x1="40"
+  y1="250"
+  x2="460"
+  y2="250"
+  class="chart-line"
+/>
+
+<!-- TOP LEFT DIAGONAL -->
+<line
+  x1="145"
+  y1="145"
+  x2="40"
+  y2="40"
+  class="chart-line"
+/>
+
+<!-- TOP RIGHT DIAGONAL -->
+<line
+  x1="355"
+  y1="145"
+  x2="460"
+  y2="40"
+  class="chart-line"
+/>
+
+<!-- BOTTOM RIGHT DIAGONAL -->
+<line
+  x1="355"
+  y1="355"
+  x2="460"
+  y2="460"
+  class="chart-line"
+/>
+
+<!-- BOTTOM LEFT DIAGONAL -->
+<line
+  x1="145"
+  y1="355"
+  x2="40"
+  y2="460"
+  class="chart-line"
+/>
+
+<!-- INNER CONNECTIONS -->
+
+<line
+  x1="145"
+  y1="145"
+  x2="250"
+  y2="40"
+  class="chart-line"
+/>
+
+<line
+  x1="355"
+  y1="145"
+  x2="250"
+  y2="40"
+  class="chart-line"
+/>
+
+<line
+  x1="355"
+  y1="355"
+  x2="460"
+  y2="250"
+  class="chart-line"
+/>
+
+<line
+  x1="355"
+  y1="355"
+  x2="250"
+  y2="460"
+  class="chart-line"
+/>
+
+<line
+  x1="145"
+  y1="355"
+  x2="250"
+  y2="460"
+  class="chart-line"
+/>
+
+<line
+  x1="145"
+  y1="145"
+  x2="40"
+  y2="250"
+  class="chart-line"
+/>
+
+<!-- HOUSE 1 -->
+<polygon
+  points="250,40 355,145 250,250 145,145"
+  class="house"
+  [class.active]="hoveredHouse === 1"
+  (mouseenter)="hoverHouse(1)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(1)"
+/>
+
+<!-- HOUSE 2 -->
+<polygon
+  points="145,145 250,40 40,40"
+  class="house"
+  [class.active]="hoveredHouse === 2"
+  (mouseenter)="hoverHouse(2)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(2)"
+/>
+
+
+<!-- HOUSE 3 -->
+<polygon
+  points="40,40 145,145 40,250"
+  class="house"
+  [class.active]="hoveredHouse === 3"
+  (mouseenter)="hoverHouse(3)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(3)"
+/>
+<!-- HOUSE 4 -->
+ <polygon
+  points="145,145 250,250 145,355 40,250"
+  class="house"
+  [class.active]="hoveredHouse === 4"
+  (mouseenter)="hoverHouse(4)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(4)"
+/>
+
+<!-- HOUSE 5 -->
+ <polygon
+  points="40,250 145,355 40,460"
+  class="house"
+  [class.active]="hoveredHouse === 5"
+  (mouseenter)="hoverHouse(5)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(5)"
+/>
+
+
+<!-- HOUSE 6 -->
+<polygon
+  points="145,355 250,460 40,460"
+  class="house"
+  [class.active]="hoveredHouse === 6"
+  (mouseenter)="hoverHouse(6)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(6)"
+/>
+
+<!-- HOUSE 7 -->
+ <polygon
+  points="250,250 355,355 250,460 145,355"
+  class="house"
+  [class.active]="hoveredHouse === 7"
+  (mouseenter)="hoverHouse(7)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(7)"
+/>
+
+<!-- HOUSE 8 -->
+
+<polygon
+  points="355,355 250,460 460,460"
+  class="house"
+  [class.active]="hoveredHouse === 8"
+  (mouseenter)="hoverHouse(8)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(8)"
+/>
+
+
+
+<!-- HOUSE 9 -->
+<polygon
+  points="460,250 355,355 460,460"
+  class="house"
+  [class.active]="hoveredHouse === 9"
+  (mouseenter)="hoverHouse(9)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(9)"
+/>
+
+
+<!-- HOUSE 10 -->
+ <polygon
+  points="355,145 460,250 355,355 250,250"
+  class="house"
+  [class.active]="hoveredHouse === 10"
+  (mouseenter)="hoverHouse(10)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(10)"
+/>
+
+
+<!-- HOUSE 11 -->
+ <polygon
+  points="355,145 460,40 460,250"
+  class="house"
+  [class.active]="hoveredHouse === 11"
+  (mouseenter)="hoverHouse(11)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(11)"
+/>
+
+
+<!-- HOUSE 12 -->
+ <polygon
+  points="250,40 460,40 355,145"
+  class="house"
+  [class.active]="hoveredHouse === 12"
+  (mouseenter)="hoverHouse(12)"
+  (mouseleave)="leaveHouse()"
+  (click)="selectHouse(12)"
+/>
+
+
+<!-- HOUSE NUMBERS -->
+<g *ngFor="let zodiac of zodiacNumbers; let i = index">
+
+  <text
+    [attr.x]="zodiacLabelPositions[i + 1].x"
+    [attr.y]="zodiacLabelPositions[i + 1].y"
+    class="house-label"
+  >
+    {{ zodiac }}
+  </text>
+
+</g>
+
+<!-- <g *ngFor="let house of houses">
+
+  <text
+    [attr.x]="getPlanetX(house)"
+    [attr.y]="getPlanetY(house)"
+    class="planet-text"
+  >
+    {{ getPlanets(house) }}
+  </text>
+
+</g> -->
+
+<g *ngFor="let house of houses">
+
+  <ng-container
+    *ngFor="let planet of housePlanets[house]; let i = index"
+  >
+
+    <text
+      [attr.x]="getPlanetX(house, i)"
+      [attr.y]="getPlanetY(house, i)"
+      class="planet-text"
+    >
+      {{ planet }}
+    </text>
+
+  </ng-container>
+
+</g>
+
+
+
+  </svg>
+
+</div>
+
+<!-- Selected Info -->
+
+<!-- <div class="info-panel">
+
+  <p *ngIf="selectedHouse">
+    Selected House:
+    <strong>{{ selectedHouse }}</strong>
+  </p>
+
+</div> -->

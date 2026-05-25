@@ -1,0 +1,35 @@
+<div
+  class="panchang-card"
+  *ngIf="panchang"
+>
+  <div class="card-header">
+    <h3>Panchang</h3>
+  </div>
+
+  <div class="panchang-info">
+    <div class="panchang-row">
+      <span>Maas</span>
+      <strong>{{ panchang.maas }}</strong><strong>{{ panchang.paksha }}</strong>
+    </div>
+    <div class="panchang-row">
+      <span>Tithi</span>
+      <strong>{{ panchang.tithi }}</strong>
+    </div>
+    <div class="panchang-row">
+      <span>Nakshatra</span>
+      <strong>{{ panchang.nakshatra }}</strong><strong>Pada {{ panchang.pada }}</strong>
+    </div>
+    <div class="panchang-row">
+      <span>Yoga</span>
+      <strong>{{ panchang.yoga }}</strong>
+    </div>
+    <div class="panchang-row">
+      <span>Karana</span>
+      <strong>{{ panchang.karana }}</strong>
+    </div>
+    <div class="panchang-row">
+      <span>Vara</span>
+      <strong>{{ panchang.vaar }}</strong>
+    </div>
+  </div>
+</div>

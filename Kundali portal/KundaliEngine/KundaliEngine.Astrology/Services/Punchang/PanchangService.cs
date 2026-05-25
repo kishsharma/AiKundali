@@ -104,11 +104,12 @@ namespace KundaliEngine.Astrology.Services.Panchang
 
         private static string GetMaasName(int index)
         {
-            string[] names = {
-                "Mesha","Vrishabha","Mithuna","Karka","Simha","Kanya","Tula","Vrishchika","Dhanu","Makara","Kumbha","Meena"
-            };
-            int idx = Math.Clamp(index, 0, names.Length - 1);
-            return names[idx];
+            string[] maas = {"Chaitra","Vaishakha","Jyeshtha","Ashadha", "Shravana","Bhadrapada",
+                            "Ashwin", "Kartika", "Margashirsha", "Pausha", "Magha", "Phalguna" };
+
+            int idx = Math.Clamp(index, 0, maas.Length - 1);
+
+            return maas[idx];
         }
     }
 }
