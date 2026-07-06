@@ -1,0 +1,45 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ getScoreLabel() | transloco }}</h2>
+      <button class="close-btn" (click)="closeModal()" aria-label="Close">×</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Score Display -->
+      <div class="score-display">
+        <div class="score-circle" [ngStyle]="{'background': 'linear-gradient(135deg, ' + getScoreColor(scoreValue) + ' 0%, rgba(' + hexToRgb(getScoreColor(scoreValue)) + ', 0.1) 100%)', 'color': getScoreColor(scoreValue)}">
+          <span class="score-value" [style.color]="getScoreColor(scoreValue)">{{ scoreValue }}</span>
+          <span class="score-unit">/100</span>
+        </div>
+      </div>
+
+      <!-- Score Breakdown with Weights -->
+      <div class="breakdown-section" *ngIf="scoreBreakdown.length">
+        <h3>{{ 'kundali.scoreBreakdown' | transloco }}</h3>
+        <div class="breakdown-list">
+          <div class="breakdown-item" *ngFor="let item of scoreBreakdown">
+            <span class="breakdown-label">{{ item.label }}</span>
+            <span class="breakdown-score">{{ item.score }}/100</span>
+            <span class="breakdown-weight">{{ getScorePercentage(item) }}% weight</span>
+            <span class="breakdown-contribution">{{ item.contribution.toFixed(2) }} pts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Factors -->
+      <div class="factors-section" *ngIf="factors.length">
+        <h3>{{ 'kundali.factors' | transloco }}</h3>
+        <ul class="factors-list">
+          <li *ngFor="let factor of factors" [class.positive]="factor.startsWith('+')" [class.negative]="factor.startsWith('-')">
+            {{ factor }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-close" (click)="closeModal()">{{ 'common.close' | transloco }}</button>
+    </div>
+  </div>
+</div>

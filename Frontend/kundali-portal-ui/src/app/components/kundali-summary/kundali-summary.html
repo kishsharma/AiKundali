@@ -1,33 +1,114 @@
 <div
-  class="dashboard-card"
+  class="kundali-summary-card" title="Kundali summary"
   *ngIf="summary"
 >
 
-  <div class="dashboard-grid">
+  <div class="kundali-summary-grid">
 
-    <div class="dashboard-item">
-      <span>Name</span>
-      <strong>{{ summary.name }}</strong>
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        👤
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.name' | transloco }}</span>
+        <strong>{{ summary.name }}</strong>
+      </div>
+
     </div>
 
-    <div class="dashboard-item">
-      <span>Ascendant</span>
-      <strong>{{ summary.ascendant }}</strong>
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        📅
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.birthDate' | transloco }}</span>
+        <strong>
+          {{ kundaliFormValue.birthDate | date:'dd-MM-yyyy' }}
+        </strong>
+      </div>
+
     </div>
 
-    <div class="dashboard-item">
-      <span>Moon Sign</span>
-      <strong>{{ summary.moonSign }}</strong>
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        🕒
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.birthTime' | transloco }}</span>
+        <strong>{{ kundaliFormValue.birthTime }}</strong>
+      </div>
+
     </div>
 
-    <div class="dashboard-item">
-      <span>Sun Sign</span>
-      <strong>{{ summary.sunSign }}</strong>
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        ♂
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.gender' | transloco }}</span>
+        <strong>{{ kundaliFormValue.gender }}</strong>
+      </div>
+
     </div>
 
-    <div class="dashboard-item">
-      <span>Mahadasha</span>
-      <strong>{{ summary.currentMahadasha }}</strong>
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        ♎
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.ascendant' | transloco }}</span>
+        <strong>{{ summary.ascendant }}</strong>
+      </div>
+
+    </div>
+
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        ☾
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.moonSign' | transloco }}</span>
+        <strong>{{ summary.moonSign }}</strong>
+      </div>
+
+    </div>
+
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        ☀
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.sunSign' | transloco }}</span>
+        <strong>{{ summary.sunSign }}</strong>
+      </div>
+
+    </div>
+
+    <div class="kundali-summary-item">
+
+      <div class="kundali-summary-icon">
+        ✨
+      </div>
+
+      <div class="kundali-summary-content">
+        <span>{{ 'kundali.mahadasha' | transloco }}</span>
+        <strong>{{ summary.currentMahadasha }}</strong>
+      </div>
+
     </div>
 
   </div>

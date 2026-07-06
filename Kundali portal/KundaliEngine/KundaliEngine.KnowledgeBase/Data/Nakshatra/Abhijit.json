@@ -1,0 +1,288 @@
+{
+  "id": 28,
+  "name": "Abhijit",
+  "sanskritName": "अभिजित्",
+  "englishName": "Abhijit",
+
+  "isBirthNakshatra": false,
+  "isOptionalNakshatra": true,
+
+  "description": "Abhijit is the hidden 28th Nakshatra used primarily for Muhurta (electional astrology). It is not considered a Janma Nakshatra in the standard 27 Nakshatra system and is therefore excluded from Vimshottari Dasha, Gun Milan and birth chart Nakshatra calculations.",
+
+  "startDegree": {
+    "sign": "Capricorn",
+    "longitude": 276.666667,
+    "display": "6°40' Capricorn"
+  },
+
+  "endDegree": {
+    "sign": "Capricorn",
+    "longitude": 280.888889,
+    "display": "10°53'20\" Capricorn"
+  },
+
+  "containedWithin": {
+    "startsInNakshatra": "Uttara Ashadha",
+    "endsInNakshatra": "Shravana"
+  },
+
+  "padas": [],
+
+  "lord": "Brahma",
+
+  "planetaryAssociation": "Sun",
+
+  "rashi": [
+    "Capricorn"
+  ],
+
+  "deity": "Brahma",
+
+  "symbol": "Victorious Banner",
+
+  "animalSymbol": null,
+
+  "gana": "Deva",
+
+  "yoni": null,
+
+  "nadi": null,
+
+  "varna": "Brahmin",
+
+  "vashya": [
+    "Chatushpada"
+  ],
+
+  "guna": "Sattva",
+
+  "tatva": "Earth",
+
+  "gender": "Male",
+
+  "nature": "Kshipra (Swift)",
+
+  "motivation": "Dharma",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "Medium",
+    "kapha": "Medium"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Peepal (Ficus religiosa)",
+
+  "flower": "White Lotus",
+
+  "metal": "Gold",
+
+  "color": [
+    "White",
+    "Golden",
+    "Yellow"
+  ],
+
+  "gemstone": "Ruby",
+
+  "rudraksha": [
+    "12 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Books",
+    "Cow Feeding",
+    "Wheat",
+    "Ghee",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ ब्रह्मणे नमः",
+
+  "planetaryBeejMantra": "ॐ ह्रां ह्रीं ह्रौं सः सूर्याय नमः",
+
+  "fastingDay": "Sunday",
+
+  "positiveTraits": [
+    "Victorious",
+    "Righteous",
+    "Spiritual",
+    "Wise",
+    "Prosperous",
+    "Truthful",
+    "Disciplined",
+    "Blessed",
+    "Successful",
+    "Noble"
+  ],
+
+  "negativeTraits": [
+    "Perfectionism",
+    "High Expectations",
+    "Idealistic",
+    "Can Become Proud"
+  ],
+
+  "strengths": [
+    "Success",
+    "Leadership",
+    "Spiritual Growth",
+    "Wisdom",
+    "Divine Blessings"
+  ],
+
+  "weaknesses": [
+    "Self Pressure",
+    "Overconfidence",
+    "Idealism"
+  ],
+
+  "career": [
+    "Government",
+    "Administration",
+    "Teaching",
+    "Spiritual Leadership",
+    "Research",
+    "Law",
+    "Management",
+    "Public Service"
+  ],
+
+  "education": [
+    "Philosophy",
+    "Law",
+    "Spiritual Studies",
+    "Management"
+  ],
+
+  "finance": [
+    "Excellent Wealth Potential",
+    "Prosperity through Righteous Actions",
+    "Stable Financial Growth"
+  ],
+
+  "health": [
+    "Bones",
+    "Knees",
+    "Joints",
+    "Heart",
+    "Vitality"
+  ],
+
+  "bodyParts": [
+    "Knees",
+    "Bones",
+    "Skeleton"
+  ],
+
+  "relationships": [
+    "Faithful",
+    "Protective",
+    "Supportive",
+    "Respectful"
+  ],
+
+  "loveNature": "Loyal",
+
+  "marriageNature": "Supportive",
+
+  "friendshipNature": "Trustworthy",
+
+  "leadershipStyle": "Visionary",
+
+  "communicationStyle": "Calm",
+
+  "decisionMaking": "Wise",
+
+  "emotionalNature": "Balanced",
+
+  "learningStyle": "Spiritual",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Government",
+    "Administration",
+    "Education",
+    "Religious Institutions",
+    "Consulting",
+    "Leadership"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Buying Property",
+    "Housewarming",
+    "Business Launch",
+    "Travel",
+    "Education",
+    "Signing Agreements",
+    "Starting Construction",
+    "Investment",
+    "Spiritual Initiation"
+  ],
+
+  "avoidFor": [
+    "Funeral Rites",
+    "Destructive Activities",
+    "Illegal Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "isUsedForBirthChart": false,
+
+  "isUsedForDasha": false,
+
+  "isUsedForGunMilan": false,
+
+  "isUsedForNaming": false,
+
+  "isUsedForMuhurta": true,
+
+  "isUsedForPanchang": true,
+
+  "chakra": "Sahasrara",
+
+  "spiritualLesson": "Victory is attained when one's actions align with truth, righteousness and divine purpose.",
+
+  "compatibleNakshatras": [],
+
+  "challengingNakshatras": [],
+
+  "mythologicalStory": "Abhijit literally means 'The Victorious One'. Ancient Vedic scriptures describe it as an extremely auspicious Nakshatra associated with Lord Brahma and divine victory. Although later traditions standardized the 27 Nakshatra system for birth astrology, Abhijit continued to hold great importance in Muhurta Shastra. It symbolizes success, purity, divine blessings and the triumph of dharma over adversity.",
+
+  "interestingFacts": [
+    "Known as the hidden 28th Nakshatra.",
+    "Used primarily for Muhurta rather than birth astrology.",
+    "Represents victory, success and divine blessings.",
+    "Forms the basis of the famous Abhijit Muhurta.",
+    "Mentioned in several ancient Vedic texts.",
+    "Not used for Vimshottari Dasha calculations.",
+    "Not assigned as a Janma Nakshatra in the standard 27 Nakshatra system."
+  ],
+
+  "keywords": [
+    "Victory",
+    "Success",
+    "Muhurta",
+    "Brahma",
+    "Auspicious",
+    "Dharma",
+    "Prosperity"
+  ],
+
+  "icon": "🏆",
+
+  "priorityLifeAreas": [
+    "Success",
+    "Leadership",
+    "Spiritual Growth",
+    "Auspicious Beginnings"
+  ]
+}

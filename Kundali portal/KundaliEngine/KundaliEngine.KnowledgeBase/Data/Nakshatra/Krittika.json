@@ -1,0 +1,297 @@
+{
+  "id": 3,
+  "name": "Krittika",
+  "sanskritName": "कृत्तिका",
+  "englishName": "Krittika",
+
+  "startDegree": {
+    "sign": "Aries",
+    "longitude": 26.666667,
+    "display": "26°40' Aries"
+  },
+
+  "endDegree": {
+    "sign": "Taurus",
+    "longitude": 40.000000,
+    "display": "10°00' Taurus"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 1,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "A",
+      "akshara": "अ"
+    },
+    {
+      "number": 2,
+      "rashiId": 2,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Ee",
+      "akshara": "ई"
+    },
+    {
+      "number": 3,
+      "rashiId": 2,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Aquarius",
+      "syllable": "U",
+      "akshara": "उ"
+    },
+    {
+      "number": 4,
+      "rashiId": 2,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Pisces",
+      "syllable": "Ae",
+      "akshara": "ए"
+    }
+  ],
+
+  "lord": "Sun",
+  "rashi": [
+    "Aries",
+    "Taurus"
+  ],
+  "deity": "Agni",
+  "symbol": "Razor",
+  "animalSymbol": "Sheep",
+
+  "gana": "Rakshasa",
+  "yoni": "Sheep",
+  "nadi": "Antya",
+  "varna": "Brahmin",
+  "vashya": [
+    "Chatushpada",
+    "Manava"
+  ],
+
+  "guna": "Rajas",
+  "tatva": "Fire",
+  "gender": "Female",
+  "nature": "Tikshna (Sharp)",
+  "motivation": "Kama",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "High",
+    "kapha": "Medium"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Udumbara (Cluster Fig)",
+
+  "flower": "Red Hibiscus",
+
+  "metal": "Copper",
+
+  "color": [
+    "Red",
+    "Orange",
+    "Golden"
+  ],
+
+  "gemstone": "Ruby",
+
+  "rudraksha": [
+    "12 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Wheat",
+    "Copper",
+    "Jaggery",
+    "Red Cloth",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ अग्नये नमः",
+
+  "planetaryBeejMantra": "ॐ ह्रां ह्रीं ह्रौं सः सूर्याय नमः",
+
+  "fastingDay": "Sunday",
+
+  "positiveTraits": [
+    "Courageous",
+    "Fearless",
+    "Disciplined",
+    "Protective",
+    "Honest",
+    "Strong Leadership",
+    "Determined",
+    "Independent",
+    "Energetic",
+    "Perfectionist"
+  ],
+
+  "negativeTraits": [
+    "Harsh Speech",
+    "Short Temper",
+    "Impatient",
+    "Critical",
+    "Rigid",
+    "Dominating"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Decision Making",
+    "Discipline",
+    "Justice",
+    "Protection"
+  ],
+
+  "weaknesses": [
+    "Anger",
+    "Aggression",
+    "Perfectionism"
+  ],
+
+  "career": [
+    "Military",
+    "Police",
+    "Administration",
+    "Government",
+    "Engineering",
+    "Surgeon",
+    "Fire Services",
+    "Chef",
+    "Metallurgy",
+    "Politics"
+  ],
+
+  "education": [
+    "Engineering",
+    "Defence",
+    "Medicine",
+    "Administration"
+  ],
+
+  "finance": [
+    "Steady Wealth",
+    "Earns through Hard Work",
+    "Strong Asset Building"
+  ],
+
+  "health": [
+    "Head",
+    "Eyes",
+    "Throat",
+    "Blood Pressure",
+    "Inflammation"
+  ],
+
+  "bodyParts": [
+    "Head",
+    "Face",
+    "Eyes",
+    "Throat"
+  ],
+
+  "relationships": [
+    "Protective",
+    "Honest",
+    "Loyal",
+    "Needs Respect"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Committed but Dominant",
+
+  "friendshipNature": "Trustworthy",
+
+  "leadershipStyle": "Commanding",
+
+  "communicationStyle": "Direct",
+
+  "decisionMaking": "Quick and Firm",
+
+  "emotionalNature": "Intense",
+
+  "learningStyle": "Practical",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Government",
+    "Army",
+    "Police",
+    "Engineering",
+    "Medical",
+    "Fire Services",
+    "Politics"
+  ],
+
+  "goodFor": [
+    "Government Work",
+    "Leadership",
+    "Construction",
+    "Surgery",
+    "Legal Matters",
+    "Competition"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Peace Negotiations",
+    "Emotional Decisions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "Purification through discipline, courage and righteous action.",
+
+  "compatibleNakshatras": [
+    "Uttara Phalguni",
+    "Shravana",
+    "Dhanishta"
+  ],
+
+  "challengingNakshatras": [
+    "Ashlesha",
+    "Jyeshtha"
+  ],
+
+  "mythologicalStory": "Krittika is governed by Agni, the deity of fire. It symbolizes purification, transformation, courage and the power to remove impurities. Lord Kartikeya was nurtured by the six Krittikas, giving this Nakshatra a strong association with bravery and leadership.",
+
+  "interestingFacts": [
+    "Represents divine fire and purification.",
+    "Associated with Lord Kartikeya.",
+    "Excellent for leadership and decisive action.",
+    "One of the most disciplined Nakshatras.",
+    "Strong transformative energy."
+  ],
+
+  "keywords": [
+    "Fire",
+    "Purification",
+    "Leadership",
+    "Discipline",
+    "Courage",
+    "Transformation"
+  ],
+
+  "icon": "🔥",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Leadership",
+    "Authority",
+    "Spiritual Growth"
+  ]
+}

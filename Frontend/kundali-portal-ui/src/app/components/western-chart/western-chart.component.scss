@@ -1,5 +1,5 @@
 .western-chart-wrapper {
-  width: 100%;
+  width: 348px;
   display: flex;
   justify-content: center;
   padding: 1rem;
@@ -19,8 +19,8 @@
 }
 
 .wheel-segment {
-  fill: #eef7ff;
-  stroke: #4f86a8;
+  fill: #f8fbff;
+  stroke: #9db7e8;
   stroke-width: 1.5;
   cursor: pointer;
   transition: fill 0.2s ease;
@@ -28,23 +28,23 @@
 
 .wheel-segment:hover,
 .wheel-segment.active {
-  fill: #cfeeff;
+  fill: #e9f2ff;
 }
 
 .wheel-segment.selected {
-  fill: #a7d9f5;
+  fill: #dbeafe;
 }
 
 .sign-label {
   font-size: 0.75rem;
   font-weight: 700;
-  fill: #1f3d4d;
+  fill: #10143d;
 }
 
 .house-label {
   font-size: 0.75rem;
   font-weight: 700;
-  fill: #6d4c41;
+  fill: #5d6689;
 }
 
 .planet-text {
@@ -56,12 +56,12 @@
 .center-title {
   font-size: 1rem;
   font-weight: 700;
-  fill: #263238;
+  fill: #10143d;
 }
 
 .center-subtitle {
   font-size: 0.85rem;
-  fill: #546e7a;
+  fill: #5d6689;
 }
 
 .info-panel {
@@ -80,3 +80,4 @@
     font-size: 10px;
   }
 }
+

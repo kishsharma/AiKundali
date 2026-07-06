@@ -17,12 +17,19 @@ export interface NavItem {
   imports: [CommonModule, RouterModule],
   template: `
     <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact">
-      <button class="close-btn" (click)="onClose.emit()" *ngIf="mobileView">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
+      <div class="sidebar-header">
+        <button class="collapse-btn" type="button" (click)="toggleCompact()" [attr.aria-label]="compact ? 'Expand sidebar' : 'Collapse sidebar'" [title]="compact ? 'Expand sidebar' : 'Collapse sidebar'">
+          <span *ngIf="!compact">⟨</span>
+          <span *ngIf="compact">⟩</span>
+        </button>
+
+        <button class="close-btn" (click)="onClose.emit()" *ngIf="mobileView">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
 
       <nav class="sidebar-nav">
         <div class="nav-section">
@@ -126,24 +133,43 @@ export interface NavItem {
       }
     }
 
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      padding: 0.85rem 1rem 0.25rem;
+    }
+
+    .collapse-btn,
     .close-btn {
-      display: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: transparent;
       border: none;
       cursor: pointer;
-      padding: 1rem;
+      padding: 0.45rem;
       color: #424242;
-      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      transition: all 200ms ease;
 
       &:hover {
         color: #7E3BA8;
+        background: #F5F0FA;
       }
+    }
+
+    .close-btn {
+      display: none;
+      padding: 0.5rem;
+      margin-bottom: 0;
     }
 
     .sidebar-nav {
       flex: 1;
       overflow-y: auto;
-      padding: 1rem 0;
+      padding: 0.5rem 0 1rem;
     }
 
     .nav-section {
@@ -161,6 +187,10 @@ export interface NavItem {
       text-transform: uppercase;
       color: #BDBDBD;
       letter-spacing: 0.5px;
+    }
+
+    .sidebar.compact .nav-section-title {
+      display: none;
     }
 
     .nav-list {
@@ -207,6 +237,16 @@ export interface NavItem {
       font-size: 1rem;
     }
 
+    .sidebar.compact .nav-item a {
+      justify-content: center;
+      padding: 0.75rem 0;
+      gap: 0;
+    }
+
+    .sidebar.compact .nav-icon {
+      margin-right: 0;
+    }
+
     .nav-label {
       white-space: nowrap;
       overflow: hidden;
@@ -216,6 +256,10 @@ export interface NavItem {
     .sidebar-footer {
       padding: 1rem;
       border-top: 1px solid #E0E0E0;
+    }
+
+    .sidebar.compact .sidebar-footer {
+      padding: 0.75rem 0.5rem;
     }
 
     .logout-btn {
@@ -237,6 +281,15 @@ export interface NavItem {
         background: #E0E0E0;
         color: #F44336;
       }
+    }
+
+    .sidebar.compact .logout-btn {
+      justify-content: center;
+      padding: 0.75rem 0.25rem;
+    }
+
+    .sidebar.compact .logout-btn .nav-label {
+      display: none;
     }
 
     .sidebar-overlay {
@@ -276,6 +329,11 @@ export class SidebarComponent {
   @Input() compact: boolean = false;
   @Input() mobileView: boolean = false;
   @Output() onClose = new EventEmitter<void>();
+  @Output() onToggleCompact = new EventEmitter<void>();
 
   navItems: NavItem[] = [];
+
+  toggleCompact(): void {
+    this.onToggleCompact.emit();
+  }
 }

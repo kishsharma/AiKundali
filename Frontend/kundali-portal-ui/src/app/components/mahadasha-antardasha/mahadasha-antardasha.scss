@@ -1,20 +1,22 @@
 .dasha-container {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 20px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 12px;
+
+  margin-top: 14px;
 }
 
 /* CARD */
 
 .mahadasha-card {
-  border: 1px solid #ead7b0;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fffdfa;
 
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.04);
+  border-radius: 10px;
+
+  font-size: 12px;
 }
 
 /* HEADER */
@@ -25,15 +27,15 @@
   justify-content: space-between;
   align-items: center;
 
-  padding: 10px 14px;
+    padding: 8px 10px;
 
   background: linear-gradient(
     135deg,
-    #fff6df,
-    #fde9c2
+    #f5f7ff,
+    #eef4ff
   );
 
-  border-bottom: 1px solid #f1dfb6;
+  border-bottom: 1px solid #e6e9f4;
 }
 
 /* PLANET NAME */
@@ -43,7 +45,7 @@
   font-size: 15px;
   font-weight: 700;
 
-  color: #7a4d00;
+  color: #10143d;
 
   letter-spacing: 0.3px;
 }
@@ -72,31 +74,32 @@
 
 .antardasha-table th {
 
-  background: #fffaf0;
+  background: #f5f7ff;
 
-  color: #7a4d00;
+  color: #10143d;
 
-  font-size: 12px;
+  
   font-weight: 600;
 
   text-align: left;
+  padding: 5px 7px;
 
-  padding: 8px 10px;
+  font-size: 11px;
 
-  border-bottom: 1px solid #f0e0ba;
+  border-bottom: 1px solid #e6e9f4;
 }
 
 /* ROWS */
 
 .antardasha-table td {
 
-  padding: 8px 10px;
+    padding: 5px 7px;
 
-  font-size: 12px;
+  font-size: 11px;
 
   color: #444;
 
-  border-bottom: 1px solid #f8eed8;
+  border-bottom: 1px solid #edf0f8;
 }
 
 /* LAST ROW */
@@ -125,10 +128,21 @@
 
   border-radius: 10px;
 }
-
+.active-maha {
+  background: #f2fff8;
+  border-left: 4px solid #f59e0b;
+  font-weight: 600;
+}
 /* MOBILE */
+@media (max-width: 900px) {
 
-@media (max-width: 768px) {
+  .dasha-container {
+
+    grid-template-columns: 1fr;
+  }
+
+}
+@media (max-width: 900px) {
 
   .mahadasha-header {
 

@@ -1,0 +1,61 @@
+{
+  "id": 10,
+  "name": "Makara",
+  "englishName": "Capricorn",
+  "symbol": "♑",
+  "element": "Earth",
+  "modality": "Movable",
+  "gender": "Female",
+  "nature": "Saumya",
+  "ruler": "Saturn",
+  "direction": "South",
+  "bodyPart": "Knees",
+  "quality": "Discipline, responsibility, perseverance",
+  "personality": "Practical, disciplined, ambitious, patient, hardworking, and highly responsible. Values structure, long-term success, and steady progress.",
+  "strengths": [
+    "Disciplined",
+    "Responsible",
+    "Patient",
+    "Ambitious",
+    "Persistent"
+  ],
+  "weaknesses": [
+    "Pessimistic",
+    "Rigid",
+    "Reserved",
+    "Workaholic"
+  ],
+  "career": [
+    "Government",
+    "Engineering",
+    "Administration",
+    "Construction",
+    "Management",
+    "Finance",
+    "Law",
+    "Agriculture"
+  ],
+  "relationships": "Loyal, dependable, and committed. Prefers stable, long-term relationships built on trust and mutual respect.",
+  "health": "Knees, bones, joints, arthritis, skin, and dental health.",
+  "color": "#455A64",
+  "gemstone": "Blue Sapphire",
+  "metal": "Iron",
+  "luckyNumbers": [ 8, 10 ],
+  "favorableDirection": "South",
+  "favorableDay": "Saturday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 21,
+      "padas": [ 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 22,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 23,
+      "padas": [ 1, 2 ]
+    }
+  ],
+  "description": "Makara is the tenth sign of the zodiac, representing discipline, perseverance, responsibility, and achievement. Ruled by Saturn, it symbolizes patience, endurance, practical wisdom, and the ability to build lasting success through dedication and hard work."
+}

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 type ChartCell = {
   sign: number;
@@ -11,7 +12,7 @@ type ChartCell = {
 @Component({
   selector: 'app-south-indian-chart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslocoPipe],
   templateUrl: './south-indian-chart.component.html',
   styleUrls: ['./south-indian-chart.component.scss']
 })

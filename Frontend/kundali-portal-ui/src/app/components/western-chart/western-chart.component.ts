@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 type WheelSegment = {
   sign: number;
@@ -18,7 +19,7 @@ type WheelSegment = {
 @Component({
   selector: 'app-western-chart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslocoPipe],
   templateUrl: './western-chart.component.html',
   styleUrls: ['./western-chart.component.scss']
 })

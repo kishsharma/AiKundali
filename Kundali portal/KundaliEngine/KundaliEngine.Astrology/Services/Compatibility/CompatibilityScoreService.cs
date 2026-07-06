@@ -1,6 +1,7 @@
 using KundaliEngine.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 
 namespace KundaliEngine.Astrology.Services.Compatibility
@@ -84,7 +85,8 @@ namespace KundaliEngine.Astrology.Services.Compatibility
 
             // Generate initial summary
             result.Summary = GenerateSummary(result);
-
+            result.PersonAchart = personA.Chart;
+            result.PersonBchart = personB.Chart;
             return result;
         }
 

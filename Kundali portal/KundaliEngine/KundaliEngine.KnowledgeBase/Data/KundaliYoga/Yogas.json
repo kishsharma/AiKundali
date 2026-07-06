@@ -1,0 +1,264 @@
+{
+  "Version": "1.0-draft",
+  "Note": "Conservative draft containing only entries with high confidence. Expand after source verification.",
+  "Items": [
+    {
+      "Key": "gajakesari",
+      "Name": "Gajakesari Yoga",
+      "SanskritName": "गजकेसरी योग",
+      "Category": "Raja Yoga",
+      "Nature": "Benefic",
+      "Description": "Traditionally formed when Jupiter occupies a Kendra (1st, 4th, 7th or 10th house) from the Moon.",
+      "Impact": "Traditionally associated with wisdom, reputation, learning and prosperity. Actual results depend on the complete horoscope, planetary dignity, aspects and dasha.",
+      "References": [
+        "Brihat Parashara Hora Shastra",
+        "Phaladeepika"
+      ]
+    },
+    {
+      "Key": "budha_aditya",
+      "Name": "Budha-Aditya Yoga",
+      "SanskritName": "बुधादित्य योग",
+      "Category": "Raja Yoga",
+      "Nature": "Benefic",
+      "Description": "Traditionally formed by the conjunction of the Sun and Mercury.",
+      "Impact": "Traditionally associated with intellect, communication and administrative ability. Results depend on Mercury's dignity and afflictions.",
+      "References": [
+        "Phaladeepika",
+        "Saravali"
+      ]
+    },
+    {
+      "Key": "chandra_mangala",
+      "Name": "Chandra-Mangala Yoga",
+      "SanskritName": "चन्द्र मङ्गल योग",
+      "Category": "Dhana Yoga",
+      "Nature": "Benefic",
+      "Description": "Traditionally formed when the Moon and Mars are in conjunction or mutually aspect each other.",
+      "Impact": "Traditionally associated with enterprise and financial initiative.",
+      "References": [
+        "Phaladeepika",
+        "Jataka Parijata"
+      ]
+    },
+    {
+      "Key": "kemadruma",
+      "Name": "Kemadruma Yoga",
+      "SanskritName": "केमद्रुम योग",
+      "Category": "Chandra Yoga",
+      "Nature": "Malefic",
+      "Description": "Traditionally formed when no qualifying planets occupy the 2nd and 12th from the Moon, subject to cancellation rules.",
+      "Impact": "Traditionally associated with emotional and material challenges. Cancellation rules must always be checked.",
+      "References": [
+        "Brihat Parashara Hora Shastra",
+        "Saravali"
+      ]
+    },
+    {
+      "Key": "ruchaka",
+      "Name": "Ruchaka Yoga",
+      "SanskritName": "रुचक योग",
+      "Category": "Pancha Mahapurusha",
+      "Nature": "Benefic",
+      "Description": "Mars in own or exaltation sign in a Kendra from the Ascendant.",
+      "Impact": "Traditionally associated with courage, authority and leadership.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "bhadra",
+      "Name": "Bhadra Yoga",
+      "SanskritName": "भद्र योग",
+      "Category": "Pancha Mahapurusha",
+      "Nature": "Benefic",
+      "Description": "Mercury in own or exaltation sign in a Kendra from the Ascendant.",
+      "Impact": "Traditionally associated with intelligence, eloquence and analytical ability.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "hamsa",
+      "Name": "Hamsa Yoga",
+      "SanskritName": "हंस योग",
+      "Category": "Pancha Mahapurusha",
+      "Nature": "Benefic",
+      "Description": "Jupiter in own or exaltation sign in a Kendra from the Ascendant.",
+      "Impact": "Traditionally associated with wisdom, spirituality and respect.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "malavya",
+      "Name": "Malavya Yoga",
+      "SanskritName": "मालव्य योग",
+      "Category": "Pancha Mahapurusha",
+      "Nature": "Benefic",
+      "Description": "Venus in own or exaltation sign in a Kendra from the Ascendant.",
+      "Impact": "Traditionally associated with comforts, beauty and artistic ability.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "sasa",
+      "Name": "Sasa Yoga",
+      "SanskritName": "शश योग",
+      "Category": "Pancha Mahapurusha",
+      "Nature": "Benefic",
+      "Description": "Saturn in own or exaltation sign in a Kendra from the Ascendant.",
+      "Impact": "Traditionally associated with discipline, endurance and authority.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "viparita_raja",
+      "Name": "Viparita Raja Yoga",
+      "SanskritName": "विपरीत राज योग",
+      "Category": "Raja Yoga",
+      "Nature": "Mixed",
+      "Description": "Traditionally formed through specific relationships among the lords of the 6th, 8th and 12th houses.",
+      "Impact": "Traditionally associated with success emerging through adversity when classical conditions are satisfied.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "neecha_bhanga_raja",
+      "Name": "Neechabhanga Raja Yoga",
+      "SanskritName": "नीचभंग राज योग",
+      "Category": "Raja Yoga",
+      "Nature": "Benefic",
+      "Description": "Traditional cancellation of planetary debilitation according to classical rules.",
+      "Impact": "Traditionally associated with recovery from setbacks and eventual rise.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "parivartana",
+      "Name": "Parivartana Yoga",
+      "SanskritName": "परिवर्तन योग",
+      "Category": "Raja Yoga",
+      "Nature": "Mixed",
+      "Description": "Exchange of signs between two planetary lords.",
+      "Impact": "Results depend on the houses, planets and dignity involved.",
+      "References": [
+        "Brihat Parashara Hora Shastra",
+        "Saravali"
+      ]
+    },
+    {
+      "Key": "kendra_trikona_raja",
+      "Name": "Kendra-Trikona Raja Yoga",
+      "SanskritName": "केन्द्र त्रिकोण राज योग",
+      "Category": "Raja Yoga",
+      "Nature": "Benefic",
+      "Description": "Formed when a lord of a Kendra house associates with a lord of a Trikona house through conjunction, mutual aspect or exchange.",
+      "Impact": "Traditionally associated with rise, authority, fortune and capacity for accomplishment. Strength depends on dignity, combustion, house placement and supporting or afflicting influences.",
+      "References": [
+        "Brihat Parashara Hora Shastra",
+        "Phaladeepika"
+      ]
+    },
+    {
+      "Key": "lakshmi",
+      "Name": "Lakshmi Yoga",
+      "SanskritName": "लक्ष्मी योग",
+      "Category": "Dhana Yoga",
+      "Nature": "Benefic",
+      "Description": "Traditional combination involving strong fortune and trinal lords.",
+      "Impact": "Traditionally associated with prosperity and good fortune.",
+      "References": [
+        "Phaladeepika"
+      ]
+    },
+    {
+      "Key": "saraswati",
+      "Name": "Saraswati Yoga",
+      "SanskritName": "सरस्वती योग",
+      "Category": "Auspicious Yoga",
+      "Nature": "Benefic",
+      "Description": "Traditional combination involving Jupiter, Venus and Mercury under favourable conditions.",
+      "Impact": "Traditionally associated with learning, knowledge and eloquence.",
+      "References": [
+        "Phaladeepika"
+      ]
+    },
+    {
+      "Key": "adhi",
+      "Name": "Adhi Yoga",
+      "SanskritName": "अधि योग",
+      "Category": "Raja Yoga",
+      "Nature": "Benefic",
+      "Description": "Benefic planets occupying the 6th, 7th and/or 8th from the Moon under classical rules.",
+      "Impact": "Traditionally associated with status, comfort and respect.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "shubha_kartari",
+      "Name": "Shubha Kartari Yoga",
+      "SanskritName": "शुभ कर्तरी योग",
+      "Category": "Kartari Yoga",
+      "Nature": "Benefic",
+      "Description": "A house or planet hemmed between benefic planets.",
+      "Impact": "Traditionally strengthens the protected house or planet.",
+      "References": [
+        "Saravali"
+      ]
+    },
+    {
+      "Key": "papa_kartari",
+      "Name": "Papa Kartari Yoga",
+      "SanskritName": "पाप कर्तरी योग",
+      "Category": "Kartari Yoga",
+      "Nature": "Malefic",
+      "Description": "A house or planet hemmed between malefic planets.",
+      "Impact": "Traditionally weakens the affected house or planet.",
+      "References": [
+        "Saravali"
+      ]
+    },
+    {
+      "Key": "durdhara",
+      "Name": "Durdhara Yoga",
+      "SanskritName": "दुर्धरा योग",
+      "Category": "Chandra Yoga",
+      "Nature": "Benefic",
+      "Description": "Qualifying planets on both sides of the Moon according to classical rules.",
+      "Impact": "Traditionally associated with stability and support.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    },
+    {
+      "Key": "amala",
+      "Name": "Amala Yoga",
+      "SanskritName": "अमल योग",
+      "Category": "Auspicious Yoga",
+      "Nature": "Benefic",
+      "Description": "A benefic planet in the 10th from the Ascendant or Moon.",
+      "Impact": "Traditionally associated with reputation and righteous conduct.",
+      "References": [
+        "Phaladeepika"
+      ]
+    },
+    {
+      "Key": "shakata",
+      "Name": "Shakata Yoga",
+      "SanskritName": "शकट योग",
+      "Category": "Chandra Yoga",
+      "Nature": "Malefic",
+      "Description": "Traditionally formed when Jupiter is in the 6th or 8th from the Moon.",
+      "Impact": "Traditionally associated with fluctuations in fortune.",
+      "References": [
+        "Brihat Parashara Hora Shastra"
+      ]
+    }
+  ]
+}

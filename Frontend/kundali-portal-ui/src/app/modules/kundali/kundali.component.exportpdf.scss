@@ -1,0 +1,192 @@
+.pdf-mode {
+
+  background: #ffffff !important;
+  color: #000000 !important;
+
+}
+
+/* HIDE FORM */
+
+.pdf-mode .kundali-layout .form-grid,
+.pdf-mode .toolbar,
+.pdf-mode .download-btn,
+.pdf-mode .pdf-btn,
+.pdf-mode .pdf-loader {
+
+  display: none !important;
+
+}
+
+/* REMOVE DARK THEME */
+
+.pdf-mode .dashboard-card,
+.pdf-mode .section-card {
+
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #cccccc !important;
+  box-shadow: none !important;
+
+}
+
+/* COMPACT PDF LAYOUT */
+
+.pdf-mode .section-card,
+.pdf-mode .card,
+.pdf-mode .chart-tabs,
+.pdf-mode .planet-table-wrapper,
+.pdf-mode .yogas-list {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.pdf-mode .section-card {
+  padding: 0.35rem 0.45rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.pdf-mode .card-title {
+  font-size: 12px !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.pdf-mode .detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.28rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.pdf-mode .detail-grid > .section-card {
+  margin-bottom: 0;
+}
+
+.pdf-mode .chart-with-house-details {
+  gap: 0.25rem;
+  margin-top: 0.2rem;
+}
+
+.pdf-mode .card-content,
+.pdf-mode .card-header,
+.pdf-mode .yoga-item,
+.pdf-mode .planet-table td,
+.pdf-mode .planet-table th {
+  padding-top: 0.22rem !important;
+  padding-bottom: 0.22rem !important;
+}
+
+.pdf-mode .yoga-item,
+.pdf-mode .planet-table-wrapper,
+.pdf-mode .house-details-card-container {
+  margin-bottom: 0.2rem;
+}
+
+.pdf-mode .planet-table th,
+.pdf-mode .planet-table td {
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+.pdf-mode .report-author-block {
+  gap: 3px;
+  margin-top: 0.22rem;
+  margin-bottom: 0.22rem;
+  padding: 0.18rem 0;
+}
+
+/* SVG */
+
+.pdf-mode svg {
+
+  background: #ffffff !important;
+
+}
+
+/* TEXT */
+
+.pdf-mode h1,
+.pdf-mode h2,
+.pdf-mode h3,
+.pdf-mode h4,
+.pdf-mode p,
+.pdf-mode span,
+.pdf-mode td {
+
+  color: #000000 !important;
+
+}
+
+.pdf-mode .report-author-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  padding: 0.25rem 0;
+}
+
+.pdf-mode .report-author-name {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.pdf-mode .report-author-role,
+.pdf-mode .report-author-contact,
+.pdf-mode .report-generated-on {
+  display: block;
+  width: 100%;
+  font-size: 10px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.pdf-mode .report-author-contact {
+  margin-top: 0.08rem;
+  border-top: none;
+}
+
+.pdf-mode .brand-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.pdf-mode .brand-left-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pdf-mode .brand-left-details h2 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pdf-mode .brand-left-details > span {
+  font-size: 8.5px;
+}
+
+.pdf-mode .person-details-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.12rem;
+  margin-top: 0.2rem;
+  padding-top: 0.2rem;
+  border-top: 0.5px solid #d9d9d9;
+}
+
+.pdf-mode .person-detail-value {
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.pdf-mode .person-detail-value strong {
+  font-weight: 700;
+}

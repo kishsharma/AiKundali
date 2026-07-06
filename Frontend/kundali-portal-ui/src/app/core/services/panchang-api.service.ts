@@ -10,6 +10,8 @@ export interface Panchang {
   nakshatra: string;
   yoga: string;
   karana: string;
+  shake?: string;
+  samvat?: string;
   dayOfWeek: string;
   sunRiseTime: string;
   sunSetTime: string;

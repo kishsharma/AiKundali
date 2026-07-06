@@ -1,0 +1,61 @@
+{
+  "id": 5,
+  "name": "Simha",
+  "englishName": "Leo",
+  "symbol": "♌",
+  "element": "Fire",
+  "modality": "Fixed",
+  "gender": "Male",
+  "nature": "Cruel",
+  "ruler": "Sun",
+  "direction": "East",
+  "bodyPart": "Heart, Spine",
+  "quality": "Leadership, confidence, creativity",
+  "personality": "Confident, charismatic, courageous, generous, ambitious, and naturally authoritative.",
+  "strengths": [
+    "Leadership",
+    "Confident",
+    "Generous",
+    "Creative",
+    "Determined"
+  ],
+  "weaknesses": [
+    "Egoistic",
+    "Stubborn",
+    "Dominating",
+    "Attention-seeking"
+  ],
+  "career": [
+    "Government",
+    "Politics",
+    "Administration",
+    "Management",
+    "Entertainment",
+    "Leadership Roles",
+    "Entrepreneurship",
+    "Defense Services"
+  ],
+  "relationships": "Warm-hearted, loyal, protective, and romantic. Appreciates admiration, respect, and commitment.",
+  "health": "Heart, spine, blood circulation, upper back.",
+  "color": "#F57C00",
+  "gemstone": "Ruby",
+  "metal": "Gold",
+  "luckyNumbers": [ 1, 5 ],
+  "favorableDirection": "East",
+  "favorableDay": "Sunday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 10,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 11,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 12,
+      "padas": [ 1 ]
+    }
+  ],
+  "description": "Simha is the fifth sign of the zodiac, symbolizing authority, courage, self-expression, honor, and leadership. Ruled by the Sun, it represents vitality, confidence, generosity, and the desire to inspire and lead others."
+}

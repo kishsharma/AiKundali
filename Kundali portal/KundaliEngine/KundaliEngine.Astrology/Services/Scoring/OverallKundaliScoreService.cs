@@ -1,4 +1,4 @@
-using KundaliEngine.Domain.Enums;
+﻿using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 using KundaliEngine.KnowledgeBase.Models;
 using KundaliEngine.KnowledgeBase.Services;
@@ -46,78 +46,150 @@ namespace KundaliEngine.Astrology.Services.Scoring
             _houseScoreService = houseScoreService;
         }
 
+        // inside Calculate(...)
+
         public OverallKundaliScoreResult Calculate(
-            ZodiacSign ascendantSign,
-            IReadOnlyList<PlanetPosition> planetPositions,
-            AspectCalculationResult? aspectResult = null,
-            Planet? activeMahadashaLord = null)
+                   ZodiacSign ascendantSign,
+                   IReadOnlyList<PlanetPosition> planetPositions,
+                   AspectCalculationResult? aspectResult = null,
+                   Planet? activeMahadashaLord = null)
         {
             if (planetPositions is null)
-            {
                 throw new ArgumentNullException(nameof(planetPositions));
-            }
 
-            var factors = new List<string>();
+            // Per-category factor lists
+            var overallFactors = new List<string>();
+            var stabilityFactors = new List<string>();
+            var growthFactors = new List<string>();
+            var challengeFactors = new List<string>();
+
             var planetScores = _planetScoreService.CalculateMany(planetPositions);
             var houseScores = _houseScoreService.CalculateAllHouseScores(
                 ascendantSign,
                 planetPositions,
                 aspectResult);
 
-            int lagnaScore = ScoreLagna(ascendantSign, planetScores, houseScores, factors);
-            int moonScore = ScoreMoon(planetScores, factors);
-            int sunScore = ScoreSun(planetScores, factors);
-            int coreIdentityScore = ScoreCoreIdentity(lagnaScore, moonScore, sunScore, factors);
-            int kendraPowerScore = ScoreHouseSet("Kendra", new[] { HouseNumber.First, HouseNumber.Fourth, HouseNumber.Seventh, HouseNumber.Tenth }, houseScores, factors);
-            int trikonaPowerScore = ScoreHouseSet("Trikona", new[] { HouseNumber.First, HouseNumber.Fifth, HouseNumber.Ninth }, houseScores, factors);
-            int dharmaScore = ScoreHouseGroup("Dharma", houseScores, factors);
-            int arthaScore = ScoreHouseGroup("Artha", houseScores, factors);
-            int kamaScore = ScoreHouseGroup("Kama", houseScores, factors);
-            int mokshaScore = ScoreHouseGroup("Moksha", houseScores, factors);
-            int planetaryBalanceScore = ScorePlanetaryBalance(planetScores, factors);
-            ScoreCurrentDasha(activeMahadashaLord, factors);
+            // Reuse a temporary list for individual helper factor capture
+            var tmp = new List<string>();
 
-            int overall = WeightedScore(new[]
+            // Lagna - contributes to Overall & Stability
+            int lagnaScore = ScoreLagna(ascendantSign, planetScores, houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            stabilityFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Moon - contributes to Overall & Stability
+            int moonScore = ScoreMoon(planetScores, tmp);
+            overallFactors.AddRange(tmp);
+            stabilityFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Sun - contributes to Overall & Stability
+            int sunScore = ScoreSun(planetScores, tmp);
+            overallFactors.AddRange(tmp);
+            stabilityFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Core identity - contributes to Overall
+            int coreIdentityScore = ScoreCoreIdentity(lagnaScore, moonScore, sunScore, tmp);
+            overallFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Kendra power - Overall & Stability
+            int kendraPowerScore = ScoreHouseSet("Kendra", new[] { HouseNumber.First, HouseNumber.Fourth, HouseNumber.Seventh, HouseNumber.Tenth }, houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            stabilityFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Trikona power - Overall & Growth
+            int trikonaPowerScore = ScoreHouseSet("Trikona", new[] { HouseNumber.First, HouseNumber.Fifth, HouseNumber.Ninth }, houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            growthFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Dharma / Artha / Kama / Moksha
+            int dharmaScore = ScoreHouseGroup("Dharma", houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            growthFactors.AddRange(tmp);
+            tmp.Clear();
+
+            int arthaScore = ScoreHouseGroup("Artha", houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            growthFactors.AddRange(tmp);
+            tmp.Clear();
+
+            int kamaScore = ScoreHouseGroup("Kama", houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            growthFactors.AddRange(tmp);
+            tmp.Clear();
+
+            int mokshaScore = ScoreHouseGroup("Moksha", houseScores, tmp);
+            overallFactors.AddRange(tmp);
+            // moksha contributes to challenge explanation primarily
+            challengeFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Planetary balance - Overall & Growth
+            int planetaryBalanceScore = ScorePlanetaryBalance(planetScores, tmp);
+            overallFactors.AddRange(tmp);
+            growthFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Current dasha note (already adds to tmp via method)
+            ScoreCurrentDasha(activeMahadashaLord, tmp);
+            overallFactors.AddRange(tmp);
+            tmp.Clear();
+
+            // Build numeric component lists for structured breakdown
+            var overallComponents = new List<(string Label, int Score, double Weight)>
             {
-                (coreIdentityScore, 0.20),
-                (kendraPowerScore, 0.18),
-                (trikonaPowerScore, 0.18),
-                (dharmaScore, 0.12),
-                (arthaScore, 0.12),
-                (kamaScore, 0.08),
-                (mokshaScore, 0.07),
-                (planetaryBalanceScore, 0.05)
-            });
+                ("Core identity", coreIdentityScore, 0.20),
+                ("Kendra power", kendraPowerScore, 0.18),
+                ("Trikona power", trikonaPowerScore, 0.18),
+                ("Dharma", dharmaScore, 0.12),
+                ("Artha", arthaScore, 0.12),
+                ("Kama", kamaScore, 0.08),
+                ("Moksha", mokshaScore, 0.07),
+                ("Planetary balance", planetaryBalanceScore, 0.05)
+            };
 
-            int stability = WeightedScore(new[]
+            var stabilityComponents = new List<(string Label, int Score, double Weight)>
             {
-                (lagnaScore, 0.35),
-                (moonScore, 0.35),
-                (sunScore, 0.15),
-                (kendraPowerScore, 0.15)
-            });
+                ("Lagna", lagnaScore, 0.35),
+                ("Moon", moonScore, 0.35),
+                ("Sun", sunScore, 0.15),
+                ("Kendra power", kendraPowerScore, 0.15)
+            };
 
-            int growth = WeightedScore(new[]
+            var growthComponents = new List<(string Label, int Score, double Weight)>
             {
-                (trikonaPowerScore, 0.30),
-                (dharmaScore, 0.25),
-                (arthaScore, 0.20),
-                (kamaScore, 0.15),
-                (planetaryBalanceScore, 0.10)
-            });
+                ("Trikona power", trikonaPowerScore, 0.30),
+                ("Dharma", dharmaScore, 0.25),
+                ("Artha", arthaScore, 0.20),
+                ("Kama", kamaScore, 0.15),
+                ("Planetary balance", planetaryBalanceScore, 0.10)
+            };
 
+            // Challenge breakdown uses the challenge pressure calculation
+            tmp = new List<string>();
             int challengePressure = ScoreChallengePressure(
                 planetScores,
                 houseScores,
                 mokshaScore,
-                factors);
+                tmp);
 
-            return new OverallKundaliScoreResult
+            // compute final weighted scores
+            int overall = WeightedScore(overallComponents.Select(c => ((int)c.Score, c.Weight)));
+            int stability = WeightedScore(stabilityComponents.Select(c => ((int)c.Score, c.Weight)));
+            int growth = WeightedScore(growthComponents.Select(c => ((int)c.Score, c.Weight)));
+            int challenge = Clamp(challengePressure);
+
+            var result = new OverallKundaliScoreResult
             {
                 OverallScore = overall,
                 StabilityScore = stability,
                 GrowthScore = growth,
-                ChallengeScore = challengePressure,
+                ChallengeScore = challenge,
                 DominantStrengths = BuildDominantStrengths(
                     lagnaScore,
                     moonScore,
@@ -145,11 +217,75 @@ namespace KundaliEngine.Astrology.Services.Scoring
                     mokshaScore,
                     planetaryBalanceScore,
                     houseScores,
-                    planetScores),
-                Factors = factors
+                    planetScores)
             };
-        }
 
+            // populate aggregated and per-category lists (dedup)
+            result.Factors = overallFactors.Distinct().ToList();
+            result.OverallFactors = overallFactors.Distinct().ToList();
+            result.StabilityFactors = stabilityFactors.Distinct().ToList();
+            result.GrowthFactors = growthFactors.Distinct().ToList();
+            result.ChallengeFactors = challengeFactors.Distinct().ToList();
+
+            // populate structured numeric breakdown
+            result.ScoreBreakdown = new ScoreBreakdown
+            {
+                Overall = overallComponents.Select(c => new ScoreComponent
+                {
+                    Label = c.Label,
+                    Score = c.Score,
+                    Weight = c.Weight,
+                    Contribution = Math.Round(c.Score * c.Weight, 2)
+                }).ToList(),
+                Stability = stabilityComponents.Select(c => new ScoreComponent
+                {
+                    Label = c.Label,
+                    Score = c.Score,
+                    Weight = c.Weight,
+                    Contribution = Math.Round(c.Score * c.Weight, 2)
+                }).ToList(),
+                Growth = growthComponents.Select(c => new ScoreComponent
+                {
+                    Label = c.Label,
+                    Score = c.Score,
+                    Weight = c.Weight,
+                    Contribution = Math.Round(c.Score * c.Weight, 2)
+                }).ToList(),
+                Challenge = new List<ScoreComponent>
+                {
+                    new ScoreComponent
+                    {
+                        Label = "Challenge pressure",
+                        Score = challengePressure,
+                        Weight = 1.0,
+                        Contribution = challengePressure
+                    },
+                    new ScoreComponent
+                    {
+                        Label = "Weak planets count",
+                        Score = planetScores.Count(ps => ps.Score <= 40),
+                        Weight = 0,
+                        Contribution = 0
+                    },
+                    new ScoreComponent
+                    {
+                        Label = "Weak houses count",
+                        Score = houseScores.Count(hs => hs.Score <= 40),
+                        Weight = 0,
+                        Contribution = 0
+                    },
+                    new ScoreComponent
+                    {
+                        Label = "Moksha",
+                        Score = mokshaScore,
+                        Weight = 0,
+                        Contribution = 0
+                    }
+                }
+            };
+
+            return result;
+        }
         private int ScoreLagna(
             ZodiacSign ascendantSign,
             IReadOnlyList<PlanetScoreResult> planetScores,

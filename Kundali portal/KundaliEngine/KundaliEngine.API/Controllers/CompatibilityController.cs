@@ -1,12 +1,17 @@
 ﻿using KundaliEngine.API.DTOs.Requests;
-using KundaliEngine.Domain.Models;
+using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.Astrology.Astronomy;
-using KundaliEngine.Astrology.Services.Astrology;
-using KundaliEngine.Astrology.Services.Panchang;
-using KundaliEngine.Astrology.Services.Compatibility;
 using KundaliEngine.Astrology.Services;
+using KundaliEngine.Astrology.Services.Astrology;
+using KundaliEngine.Astrology.Services.Compatibility;
+using KundaliEngine.Astrology.Services.House;
+using KundaliEngine.Astrology.Services.Panchang;
+using KundaliEngine.Astrology.Services.Scoring;
 using KundaliEngine.Domain.Enums;
+using KundaliEngine.Domain.Models;
+using KundaliEngine.API.Helper_functions;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace KundaliEngine.API.Controllers
 {
@@ -18,17 +23,19 @@ namespace KundaliEngine.API.Controllers
         private readonly PanchangService _panchangService;
         private readonly AspectService _aspectService;
         private readonly CompatibilityScoreService _compatibilityService;
-
+        private readonly HouseScoreService _houseScoreservice;
         public CompatibilityController(
             ChartService chartService,
             PanchangService panchangService,
             AspectService aspectService,
-            CompatibilityScoreService compatibilityService)
+            CompatibilityScoreService compatibilityService,
+            HouseScoreService houseScoreservice)
         {
             _chartService = chartService;
             _panchangService = panchangService;
             _aspectService = aspectService;
             _compatibilityService = compatibilityService;
+            _houseScoreservice = houseScoreservice;
         }
 
         [HttpPost("match")]
@@ -63,7 +70,15 @@ namespace KundaliEngine.API.Controllers
         {
             if (req == null)
                 throw new ArgumentNullException(nameof(req));
+            // Generate planet positions (Kundali chart)
+            TimeZoneInfo indiaZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
 
+            // Assume the input is in IST (India Standard Time)
+            var birthLocal = DateTime.SpecifyKind(req.BirthDateTime, DateTimeKind.Unspecified);
+            req.BirthDateTime = birthLocal;
+            DateTime birthUtc = TimeZoneInfo.ConvertTimeToUtc(req.BirthDateTime, indiaZone);
+
+            req.BirthDateTime = birthUtc;
             // Chart (planet positions)
             var planetPositions = _chartService.GenerateChart(req.BirthDateTime, req.Latitude, req.Longitude);
 
@@ -71,7 +86,45 @@ namespace KundaliEngine.API.Controllers
             var ascCalc = new AscendantCalculator();
             double ascendantLongitude = ascCalc.Calculate(req.BirthDateTime, req.Latitude, req.Longitude);
             int ascendantIndex = (int)(ascendantLongitude / 30.0);
-            ZodiacSign ascendantSign = (ZodiacSign)(ascendantIndex + 1);
+
+            ZodiacSign ascendantSign = (ZodiacSign)((ascendantIndex % 12) + 1);
+
+
+            // Houses and house scores
+            var aspectResult = _aspectService.CalculateGrahaDrishti(planetPositions);
+            var houseScores = _houseScoreservice.CalculateAllHouseScores(ascendantSign, planetPositions, aspectResult);
+            // Compute house signs (house N sign = ascendantSign + (N-1))
+            var houseDtos = new List<DTOs.Responses.HouseDto>();
+            for (int i = 1; i <= 12; i++)
+            {
+                var houseNumber = (HouseNumber)i;
+                var signIndex = (((int)ascendantSign - 1) + (i - 1)) % 12;
+                var houseSign = (ZodiacSign)(signIndex + 1);
+                var houseOwner =HelperData.GetSignOwner(houseSign);
+
+                var houseAspects = aspectResult.HouseAspects
+                    .Where(a => a.ToHouse == i)
+                    .ToList();
+                var occupants = planetPositions.Where(p => (int)p.House == i).Select(p => p.Planet.ToString()).ToList();
+                var scoreResult = houseScores.First(h => (int)h.HouseNumber == i);
+
+
+                houseDtos.Add(new DTOs.Responses.HouseDto
+                {
+                    HouseNumber = i,
+                    Sign = houseSign.ToString(),
+                    HouseOwner = houseOwner,
+                    HouseSwamy = houseOwner,
+                    Occupants = occupants,
+                    HasBeneficAspect = houseAspects.Any(a =>HelperData.IsNaturalBenefic(a.FromPlanet)),
+                    HasMaleficAspect = houseAspects.Any(a =>HelperData.IsNaturalMaleficOrShadow(a.FromPlanet)),
+                    Score = scoreResult.Score,
+                    Factors = scoreResult.Factors,
+                    DominantThemes = scoreResult.DominantThemes,
+                    HouseName = HouseMetadataService.GetHouseName(i),
+                    LifeAreas = HouseMetadataService.GetLifeAreas(i),
+                });
+            }
 
             // Panchang
             double sunLongitude = planetPositions.First(p => p.Planet == Planet.Sun).Longitude;
@@ -79,7 +132,7 @@ namespace KundaliEngine.API.Controllers
             var panchang = _panchangService.Calculate(req.BirthDateTime, sunLongitude, moonLongitude);
 
             // Aspects
-            var aspectResult = _aspectService.CalculateGrahaDrishti(planetPositions);
+            //var aspectResult = _aspectService.CalculateGrahaDrishti(planetPositions);
 
             // Build KundaliChart
             var kundaliChart = new KundaliChart
@@ -95,9 +148,45 @@ namespace KundaliEngine.API.Controllers
                 AscendantDegree = (int)(ascendantLongitude % 30),
                 AscendantMinute = (int)((ascendantLongitude % 1) * 60),
                 AscendantSign = ascendantSign,
-                PlanetPositions = planetPositions,
+                AscendantSignAndNumber = $"{(int)ascendantSign} - {ascendantSign}",
+                PlanetPositions = planetPositions.Select(x => new PlanetPosition
+                {
+                    Degree = x.Degree,
+                    DegreeInSign = x.DegreeInSign,
+                    DetailedStrength = x.DetailedStrength,
+                    House = x.House,
+                    IsCombust = x.IsCombust,
+                    IsRetrograde = x.IsRetrograde,
+                    Latitude = x.Latitude,
+                    Longitude = x.Longitude,
+                    Minute = x.Minute,
+                    Nakshatra = x.Nakshatra,
+                    Pada = x.Pada,
+                    Planet = x.Planet,
+                    PlanetName = x.Planet.ToString(),
+                    Sign = x.Sign
+
+
+
+                }
+                ).ToList(),
                 Aspects = aspectResult.PlanetAspects,
-                Panchang = panchang
+                Panchang = panchang,
+                Houses = houseDtos.Select(h => new Domain.Models.HouseDto
+                {
+                    HouseNumber = (HouseNumber)h.HouseNumber,
+                    Sign = Enum.Parse<ZodiacSign>(h.Sign),
+                    HouseOwner = h.HouseOwner,
+                    HouseSwamy = h.HouseSwamy,
+                    Occupants = h.Occupants.Select(o => Enum.Parse<Planet>(o)).ToList(),
+                    HasBeneficAspect = h.HasBeneficAspect,
+                    HasMaleficAspect = h.HasMaleficAspect,
+                    Score = h.Score,
+                    Factors = h.Factors,
+                    DominantThemes = h.DominantThemes,
+                    HouseName = h.HouseName,
+                    LifeAreas = h.LifeAreas
+                }).ToList()
             };
 
             return new CompatibilityProfile(name, kundaliChart);

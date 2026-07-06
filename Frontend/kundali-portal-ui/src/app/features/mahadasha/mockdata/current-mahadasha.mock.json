@@ -1,0 +1,25 @@
+{
+  "planet": {
+    "name": "Jupiter",
+    "icon": "assets/planets/jupiter.svg",
+    "color": "#F59E0B"
+  },
+  "duration": {
+    "startDate": "2027-05-12",
+    "endDate": "2043-05-12",
+    "totalYears": 16
+  },
+  "currentYear": 3,
+  "completedPercentage": 22,
+  "remaining": "12 Years 4 Months",
+  "nature": "Highly Benefic",
+  "keywords": [
+    "Career",
+    "Wealth",
+    "Wisdom",
+    "Children",
+    "Expansion"
+  ],
+  "summary": "Jupiter Mahadasha promotes career growth, financial expansion, spiritual wisdom, and recognition. Since Jupiter is placed in the 10th house in its own sign, this period is expected to produce strong professional achievements.",
+  "rating": 4.5
+}

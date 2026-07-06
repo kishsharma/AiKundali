@@ -1,0 +1,61 @@
+{
+  "id": 8,
+  "name": "Vrischika",
+  "englishName": "Scorpio",
+  "symbol": "♏",
+  "element": "Water",
+  "modality": "Fixed",
+  "gender": "Female",
+  "nature": "Saumya",
+  "ruler": "Mars",
+  "direction": "North",
+  "bodyPart": "Reproductive Organs, Pelvis",
+  "quality": "Transformation, determination, depth",
+  "personality": "Intense, courageous, determined, passionate, secretive, and highly intuitive. Possesses immense emotional strength and resilience.",
+  "strengths": [
+    "Determined",
+    "Fearless",
+    "Loyal",
+    "Intuitive",
+    "Resourceful"
+  ],
+  "weaknesses": [
+    "Jealous",
+    "Possessive",
+    "Secretive",
+    "Vindictive"
+  ],
+  "career": [
+    "Research",
+    "Medicine",
+    "Psychology",
+    "Detective Services",
+    "Defense",
+    "Forensics",
+    "Investigation",
+    "Finance"
+  ],
+  "relationships": "Deeply loyal, passionate, and emotionally committed. Seeks trust, honesty, and lifelong emotional bonds.",
+  "health": "Reproductive system, urinary tract, colon, hormonal disorders, and hidden illnesses.",
+  "color": "#8E24AA",
+  "gemstone": "Red Coral",
+  "metal": "Iron",
+  "luckyNumbers": [ 9, 3 ],
+  "favorableDirection": "North",
+  "favorableDay": "Tuesday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 16,
+      "padas": [ 4 ]
+    },
+    {
+      "nakshatraId": 17,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 18,
+      "padas": [ 1, 2, 3, 4 ]
+    }
+  ],
+  "description": "Vrischika is the eighth sign of the zodiac, representing transformation, mystery, courage, and inner strength. Ruled by Mars, it signifies determination, emotional depth, resilience, and the power to overcome life's greatest challenges."
+}

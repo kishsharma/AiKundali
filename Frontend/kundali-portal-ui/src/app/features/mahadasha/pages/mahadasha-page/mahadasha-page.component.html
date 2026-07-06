@@ -1,0 +1,204 @@
+<section class="mahadasha-page" *ngIf="analysis$ | async as analysis">
+  <div class="page-toolbar">
+    <app-page-header
+      title="Mahadasha & Antardasha Analysis"
+      description="Detailed predictions and analysis for your dasha periods"
+      [breadcrumbs]="[
+        { label: 'Home', routerLink: '/' },
+        { label: 'Kundali', routerLink: '/kundali' },
+        { label: 'Dasha Analysis' }
+      ]"
+    ></app-page-header>
+
+    <div class="toolbar-actions" aria-label="Report actions">
+      <button type="button" class="action-button">Download PDF</button>
+      <button type="button" class="action-button action-button--accent">Share Report</button>
+    </div>
+  </div>
+
+  <section class="surface hero-grid" aria-label="Current dasha overview">
+    <div class="current-dasha">
+      <h2>Current Dasha</h2>
+
+      <div class="current-row current-row--maha">
+        <div class="planet-orb" [style.--planet-color]="analysis.currentMahadasha.planetColor">
+          {{ getPlanetMark(analysis.currentMahadasha.planet) }}
+        </div>
+        <div>
+          <strong>{{ analysis.summary.currentMahadasha }} Mahadasha</strong>
+        </div>
+      </div>
+
+      <div class="current-row current-row--antar">
+        <div class="planet-orb" [style.--planet-color]="analysis.currentAntardasha.planetColor">
+          {{ getPlanetMark(analysis.currentAntardasha.planet) }}
+        </div>
+        <div>
+          <strong>{{ analysis.summary.currentAntardasha }} Antardasha</strong>
+        </div>
+      </div>
+
+      <div class="remaining-block">
+        <span>Remaining Duration</span>
+        <strong>{{ analysis.summary.remainingDuration }}</strong>
+        <small>(Till {{ formatDate(analysis.currentAntardasha.endDate) }})</small>
+      </div>
+
+      <div class="progress-shell" aria-label="Completed percentage">
+        <span class="progress-fill" [style.width.%]="analysis.summary.completedPercentage"></span>
+      </div>
+      <p class="muted">{{ analysis.summary.completedPercentage }}% Completed</p>
+    </div>
+
+    <div class="timeline-panel">
+      <h2>Mahadasha Timeline</h2>
+      <div class="timeline-track timeline-track--maha">
+        <button type="button" class="nav-dot" aria-label="Previous mahadasha">‹</button>
+        <article
+          class="planet-step"
+          *ngFor="let period of analysis.timeline.mahadasha; trackBy: trackMahadasha"
+          [class.is-current]="period.status === 'current'"
+        >
+          <div class="planet-orb planet-orb--small" [attr.data-planet]="period.planet">
+            {{ getPlanetMark(period.planet) }}
+          </div>
+          <strong>{{ period.planet }}</strong>
+          <span>{{ period.start }} - {{ period.end }}</span>
+        </article>
+        <button type="button" class="nav-dot" aria-label="Next mahadasha">›</button>
+      </div>
+
+      <h2>Antardasha Timeline ({{ analysis.summary.currentMahadasha }} Mahadasha)</h2>
+      <div class="timeline-track timeline-track--antar">
+        <button type="button" class="nav-dot" aria-label="Previous antardasha">‹</button>
+        <article
+          class="antar-step"
+          *ngFor="let period of analysis.timeline.antardasha; trackBy: trackAntardasha"
+          [class.is-current]="period.status === 'current'"
+        >
+          <strong>{{ analysis.summary.currentMahadasha }} / {{ period.planet }}</strong>
+          <span>{{ formatPeriod(period.start, period.end) }}</span>
+        </article>
+        <button type="button" class="nav-dot" aria-label="Next antardasha">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-grid content-grid--main">
+    <article class="surface">
+      <h2>Impact on Key Life Areas (During {{ analysis.summary.currentMahadasha }} / {{ analysis.summary.currentAntardasha }})</h2>
+      <div class="life-grid">
+        <article class="life-card" *ngFor="let area of analysis.lifeAreas; trackBy: trackLifeArea">
+          <div class="life-card__top">
+            <span class="area-mark">{{ getAreaMark(area.name) }}</span>
+            <strong>{{ area.name }}</strong>
+          </div>
+          <div class="stars" [attr.aria-label]="area.rating + ' out of 5 stars'">
+            <span *ngFor="let filled of getStars(area.rating)" [class.is-empty]="!filled">?</span>
+          </div>
+          <p>{{ area.status }}</p>
+        </article>
+      </div>
+    </article>
+
+    <article class="surface strength-card">
+      <h2>Dasha Strength</h2>
+      <div class="gauge" [style.--score]="analysis.strength.overallStrength">
+        <div class="gauge__value">{{ analysis.strength.overallStrength }}%</div>
+      </div>
+      <strong class="result-text">{{ analysis.strength.overallResult }} Period</strong>
+
+      <dl class="strength-list">
+        <div *ngFor="let row of strengthRows">
+          <dt>{{ row.label }}</dt>
+          <dd>{{ getStrengthValue(analysis, row.value) }}</dd>
+        </div>
+      </dl>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--three">
+    <article class="surface list-card list-card--positive">
+      <h2>Positive Influences</h2>
+      <ul>
+        <li *ngFor="let item of analysis.positiveInfluences; trackBy: trackText">{{ item }}</li>
+      </ul>
+    </article>
+
+    <article class="surface list-card list-card--warning">
+      <h2>Potential Challenges</h2>
+      <ul>
+        <li *ngFor="let item of analysis.challenges; trackBy: trackText">{{ item }}</li>
+      </ul>
+    </article>
+
+    <article class="surface list-card list-card--info">
+      <h2>Why This Happens?</h2>
+      <ul>
+        <li>{{ analysis.currentMahadasha.description }}</li>
+        <li>{{ analysis.currentAntardasha.description }}</li>
+        <li>{{ analysis.currentAntardasha.combinedEffect }}</li>
+        <li>{{ analysis.transitImpact.summary }}</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="surface prediction-card">
+    <h2>
+      Detailed Predictions ({{ analysis.summary.currentMahadasha }} / {{ analysis.summary.currentAntardasha }} Antardasha:
+      {{ analysis.prediction.phaseAnalysis.start.period.split(' - ')[0] }} -
+      {{ analysis.prediction.phaseAnalysis.end.period.split(' - ')[1] }})
+    </h2>
+
+    <div class="phase-line" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="phase-grid">
+      <article *ngFor="let key of phaseOrder">
+        <ng-container *ngIf="analysis.prediction.phaseAnalysis[key] as phase">
+          <h3>{{ phase.title }}</h3>
+          <span>{{ phase.period }}</span>
+          <ul>
+            <li *ngFor="let point of phase.points; trackBy: trackText">{{ point }}</li>
+          </ul>
+        </ng-container>
+      </article>
+    </div>
+  </section>
+
+  <section class="content-grid content-grid--split">
+    <article class="surface actions-card">
+      <h2>Recommended Actions</h2>
+      <div class="actions-grid">
+        <div>
+          <h3>Do's</h3>
+          <ul>
+            <li *ngFor="let item of analysis.recommendedActions.dos; trackBy: trackText">{{ item }}</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Don'ts</h3>
+          <ul>
+            <li *ngFor="let item of analysis.recommendedActions.donts; trackBy: trackText">{{ item }}</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="surface important-card">
+      <h2>Important Dates</h2>
+      <div class="date-row" *ngFor="let item of analysis.importantDates; trackBy: trackDate">
+        <span>{{ item.title }}</span>
+        <strong>{{ formatDate(item.date) }}</strong>
+      </div>
+    </article>
+  </section>
+
+  <aside class="note-card">
+    <strong>Note</strong>
+    <p>{{ note }}</p>
+  </aside>
+</section>

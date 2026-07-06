@@ -1,26 +1,61 @@
 <div *ngIf="scoreEntries.length" class="score-wrapper">
-  <div class="card-header">
-    <h3>Kundali Scores</h3>
-  </div>
+  <div class="score-body">
+    <div class="score-list">
+      <div class="score-row" *ngFor="let score of scoreEntries">
+        <div class="score-label-group">
+          <span>{{ score.name }}</span>
+          <button 
+            class="info-icon-btn" 
+            (click)="openScoreDetails(score.type)"
+            aria-haspopup="dialog"
+            title="View score breakdown and factors"
+            aria-label="View details for {{ score.name }}">
+            i
+          </button>
+          <span class="score-tooltip" role="tooltip">
+            View {{ score.name }} breakdown, weighted factors, strengths, and weaknesses.
+          </span>
+        </div>
+        <strong>{{ score.value }}</strong>
+      </div>
+    </div>
 
-  <div class="score-info">
-    <div class="score-row" *ngFor="let score of scoreEntries">
-      <span>{{ score.name }}</span>
-      <strong>{{ score.value }}</strong>
+    <div class="score-summary">
+      <div *ngIf="scores?.dominantStrengths?.length" class="score-details">
+        <h4>{{ 'kundali.dominantStrengths' | transloco }}</h4>
+        <div class="detail-grid">
+          <ul>
+            <li *ngFor="let item of scores.dominantStrengths | slice:0:3">{{ item }}</li>
+          </ul>
+          <ul *ngIf="scores.dominantStrengths.length > 3">
+            <li *ngFor="let item of scores.dominantStrengths | slice:3:6">{{ item }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="scores?.dominantWeaknesses?.length" class="score-details">
+        <h4>{{ 'kundali.dominantWeaknesses' | transloco }}</h4>
+        <div class="detail-grid">
+          <ul>
+            <li *ngFor="let item of scores.dominantWeaknesses | slice:0:3">{{ item }}</li>
+          </ul>
+          <ul *ngIf="scores.dominantWeaknesses.length > 3">
+            <li *ngFor="let item of scores.dominantWeaknesses | slice:3:6">{{ item }}</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div *ngIf="scores?.dominantStrengths?.length" class="score-details">
-    <h4>Dominant strengths</h4>
-    <ul>
-      <li *ngFor="let item of scores.dominantStrengths">{{ item }}</li>
-    </ul>
-  </div>
-
-  <div *ngIf="scores?.dominantWeaknesses?.length" class="score-details">
-    <h4>Dominant weaknesses</h4>
-    <ul>
-      <li *ngFor="let item of scores.dominantWeaknesses">{{ item }}</li>
-    </ul>
-  </div>
 </div>
+
+<!-- Score Details Modal -->
+<ng-container *ngIf="selectedScoreType as activeScoreType">
+  <app-score-details-modal 
+    [isOpen]="isModalOpen"
+    [scoreType]="activeScoreType"
+    [scoreValue]="getScoreValue(activeScoreType)"
+    [scoreBreakdown]="getScoreBreakdown(activeScoreType)"
+    [factors]="getFactors(activeScoreType)"
+    (close)="closeScoreDetails()">
+  </app-score-details-modal>
+</ng-container>

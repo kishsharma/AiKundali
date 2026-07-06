@@ -1,0 +1,296 @@
+{
+  "id": 1,
+  "name": "Ashwini",
+  "sanskritName": "अश्विनी",
+  "englishName": "Ashwini",
+
+  "startDegree": {
+    "sign": "Aries",
+    "longitude": 0.0,
+    "display": "0°00' Aries"
+  },
+
+  "endDegree": {
+    "sign": "Aries",
+    "longitude": 13.333333,
+    "display": "13°20' Aries"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 1,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Aries",
+      "syllable": "Chu",
+      "akshara": "चू"
+    },
+    {
+      "number": 2,
+      "rashiId": 1,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Taurus",
+      "syllable": "Che",
+      "akshara": "चे"
+    },
+    {
+      "number": 3,
+      "rashiId": 1,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Gemini",
+      "syllable": "Cho",
+      "akshara": "चो"
+    },
+    {
+      "number": 4,
+      "rashiId": 1,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Cancer",
+      "syllable": "La",
+      "akshara": "ला"
+    }
+  ],
+
+  "lord": "Ketu",
+  "rashi": "Aries",
+  "deity": "Ashwini Kumaras",
+  "symbol": "Horse Head",
+  "animalSymbol": "Horse",
+
+  "gana": "Deva",
+  "yoni": "Horse",
+  "nadi": "Adi",
+  "varna": "Kshatriya",
+  "vashya": "Chatushpada",
+
+  "guna": "Rajas",
+  "tatva": "Fire",
+  "gender": "Male",
+  "nature": "Laghu (Swift)",
+  "motivation": "Dharma",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "High",
+    "pitta": "Medium",
+    "kapha": "Low"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Kuchla (Strychnos nux-vomica)",
+
+  "flower": "Red Lotus",
+
+  "metal": "Gold",
+
+  "color": [
+    "Red",
+    "Golden",
+    "White"
+  ],
+
+  "gemstone": "Cat's Eye",
+
+  "rudraksha": [
+    "9 Mukhi",
+    "7 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Medicines",
+    "Red Cloth",
+    "Copper",
+    "Horse Feed",
+    "Food for Patients"
+  ],
+
+  "recommendedMantra": "ॐ अश्विनीकुमाराभ्यां नमः",
+
+  "planetaryBeejMantra": "ॐ कें केतवे नमः",
+
+  "fastingDay": "Tuesday",
+
+  "positiveTraits": [
+    "Energetic",
+    "Quick Learner",
+    "Courageous",
+    "Helpful",
+    "Optimistic",
+    "Innovative",
+    "Adventurous",
+    "Healing Nature",
+    "Independent",
+    "Fast Decision Maker"
+  ],
+
+  "negativeTraits": [
+    "Impulsive",
+    "Impatient",
+    "Restless",
+    "Starts More Than Finishes",
+    "Risk Taking",
+    "Emotionally Hasty"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Healing",
+    "Emergency Response",
+    "Entrepreneurship",
+    "Travel",
+    "Innovation"
+  ],
+
+  "weaknesses": [
+    "Lack of Patience",
+    "Short Temper",
+    "Inconsistent Focus"
+  ],
+
+  "career": [
+    "Doctor",
+    "Surgeon",
+    "Physiotherapist",
+    "Athlete",
+    "Pilot",
+    "Engineer",
+    "Entrepreneur",
+    "Emergency Services",
+    "Military",
+    "Veterinary",
+    "Transport",
+    "Sports"
+  ],
+
+  "education": [
+    "Medical Science",
+    "Engineering",
+    "Sports",
+    "Technology"
+  ],
+
+  "finance": [
+    "Earns Quickly",
+    "Good Risk Taking",
+    "Needs Better Savings Discipline"
+  ],
+
+  "health": [
+    "Head",
+    "Brain",
+    "Face",
+    "Migraine",
+    "Blood Pressure"
+  ],
+
+  "bodyParts": [
+    "Head",
+    "Brain",
+    "Face"
+  ],
+
+  "relationships": [
+    "Independent Partner",
+    "Protective",
+    "Needs Personal Space",
+    "Values Honesty"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Supportive but Independent",
+
+  "friendshipNature": "Loyal",
+
+  "leadershipStyle": "Lead from the Front",
+
+  "communicationStyle": "Direct",
+
+  "decisionMaking": "Quick",
+
+  "emotionalNature": "Enthusiastic",
+
+  "learningStyle": "Practical",
+
+  "businessSuitability": [
+    "High"
+  ],
+
+  "recommendedProfessions": [
+    "Healthcare",
+    "Medical",
+    "Technology",
+    "Defence",
+    "Transport",
+    "Startups"
+  ],
+
+  "goodFor": [
+    "Travel",
+    "Medical Treatment",
+    "Vehicle Purchase",
+    "Learning",
+    "Business Start",
+    "Sports",
+    "Adventure"
+  ],
+
+  "avoidFor": [
+    "Long Term Agreements",
+    "Legal Settlements",
+    "Emotional Decisions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Sahasrara",
+
+  "spiritualLesson": "Serve humanity through action and healing.",
+
+  "compatibleNakshatras": [
+    "Magha",
+    "Mula",
+    "Hasta",
+    "Swati"
+  ],
+
+  "challengingNakshatras": [
+    "Jyeshtha",
+    "Ashlesha"
+  ],
+
+  "mythologicalStory": "Ashwini Kumaras are the divine physicians of the gods, symbolizing healing, speed, vitality, youth and new beginnings.",
+
+  "interestingFacts": [
+    "First Nakshatra of the zodiac.",
+    "Represents new beginnings.",
+    "Strong healing abilities.",
+    "Associated with speed and action.",
+    "Excellent for initiating positive activities."
+  ],
+
+  "keywords": [
+    "Healing",
+    "Speed",
+    "New Beginning",
+    "Adventure",
+    "Energy",
+    "Leadership",
+    "Innovation"
+  ],
+
+  "icon": "🐎",
+
+  "priorityLifeAreas": [
+    "Health",
+    "Career",
+    "Travel",
+    "Leadership"
+  ]
+}

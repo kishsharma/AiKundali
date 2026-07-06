@@ -1,17 +1,89 @@
 [
   {
     "chart": "D1",
-    "name": "Rashi Chart",
-    "focus": "Physical life and overall destiny"
+    "name": "Rashi",
+    "sanskritName": "राशि",
+    "division": 1,
+    "partSize": "30°",
+    "primaryPurpose": "Overall Life and Physical Existence",
+    "usedFor": [
+      "Overall Personality",
+      "Physical Body",
+      "Health",
+      "Life Events",
+      "Career",
+      "Marriage",
+      "Wealth",
+      "Education",
+      "Relationships",
+      "General Destiny"
+    ],
+    "importance": "Highest",
+    "commonlyCheckedWith": [
+      "Ascendant",
+      "Moon",
+      "Sun",
+      "Planetary Strength",
+      "Bhavas",
+      "Dashas",
+      "Transits"
+    ],
+    "description": "The Rashi Chart (D1) is the primary birth chart and the foundation of all Vedic astrology analysis. It represents the complete horoscope, showing planetary positions, houses, zodiac signs, and the overall blueprint of an individual's life. Every prediction begins with the D1 chart, while divisional charts are used to examine specific life areas in greater detail."
   },
   {
     "chart": "D9",
     "name": "Navamsa",
-    "focus": "Marriage, dharma, inner strength, soul maturity"
+    "sanskritName": "नवांश",
+    "division": 9,
+    "partSize": "3°20'",
+    "primaryPurpose": "Marriage, Dharma and Planetary Strength",
+    "usedFor": [
+      "Marriage",
+      "Spouse",
+      "Married Life",
+      "Planetary Strength",
+      "Dharma",
+      "Spiritual Growth"
+    ],
+    "importance": "Highest",
+    "commonlyCheckedWith": [
+      "D1",
+      "7th House",
+      "Venus",
+      "Jupiter",
+      "Current Dasha"
+    ],
+    "description": "The Navamsa (D9) is the most important divisional chart after the Rashi chart. It is used to assess marriage, spouse, dharma, spiritual evolution, and the mature strength of planets. A planet that appears weak in D1 may gain strength in D9, while a strong planet in D1 may lose strength if poorly placed in D9."
   },
   {
     "chart": "D10",
     "name": "Dashamsa",
-    "focus": "Career and profession"
+    "sanskritName": "दशांश",
+    "division": 10,
+    "partSize": "3°",
+    "primaryPurpose": "Career, Profession and Public Status",
+    "usedFor": [
+      "Career",
+      "Profession",
+      "Promotion",
+      "Business",
+      "Government Service",
+      "Professional Reputation",
+      "Leadership",
+      "Achievements",
+      "Authority",
+      "Public Recognition"
+    ],
+    "importance": "Very High",
+    "commonlyCheckedWith": [
+      "D1",
+      "10th House",
+      "10th Lord",
+      "Sun",
+      "Saturn",
+      "Mercury",
+      "Current Dasha"
+    ],
+    "description": "The Dashamsa (D10) is the primary divisional chart for evaluating career, profession, authority, public image, and professional success. It reveals an individual's potential for leadership, promotions, recognition, business growth, and achievements. While the D1 chart indicates career possibilities, the D10 chart provides a deeper understanding of professional development and long-term success."
   }
 ]

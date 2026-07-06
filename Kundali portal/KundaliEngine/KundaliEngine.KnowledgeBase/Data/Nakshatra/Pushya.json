@@ -1,0 +1,295 @@
+{
+  "id": 8,
+  "name": "Pushya",
+  "sanskritName": "पुष्य",
+  "englishName": "Pushya",
+
+  "startDegree": {
+    "sign": "Cancer",
+    "longitude": 93.333333,
+    "display": "3°20' Cancer"
+  },
+
+  "endDegree": {
+    "sign": "Cancer",
+    "longitude": 106.666667,
+    "display": "16°40' Cancer"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 4,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Leo",
+      "syllable": "Hu",
+      "akshara": "हु"
+    },
+    {
+      "number": 2,
+      "rashiId": 4,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Virgo",
+      "syllable": "He",
+      "akshara": "हे"
+    },
+    {
+      "number": 3,
+      "rashiId": 4,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Libra",
+      "syllable": "Ho",
+      "akshara": "हो"
+    },
+    {
+      "number": 4,
+      "rashiId": 4,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Da",
+      "akshara": "ड"
+    }
+  ],
+
+  "lord": "Saturn",
+  "rashi": [
+    "Cancer"
+  ],
+  "deity": "Brihaspati (Guru)",
+  "symbol": "Cow's Udder, Lotus Flower, Arrow",
+  "animalSymbol": "Goat",
+
+  "gana": "Deva",
+  "yoni": "Goat",
+  "nadi": "Madhya",
+  "varna": "Kshatriya",
+  "vashya": [
+    "Jalachara"
+  ],
+
+  "guna": "Tamas",
+  "tatva": "Water",
+  "gender": "Male",
+  "nature": "Kshipra (Swift)",
+  "motivation": "Dharma",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "Medium",
+    "kapha": "High"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Peepal (Ficus religiosa)",
+
+  "flower": "White Lotus",
+
+  "metal": "Iron",
+
+  "color": [
+    "Yellow",
+    "White",
+    "Blue"
+  ],
+
+  "gemstone": "Blue Sapphire",
+
+  "rudraksha": [
+    "7 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Black Sesame",
+    "Mustard Oil",
+    "Yellow Gram",
+    "Cow Feed",
+    "Books"
+  ],
+
+  "recommendedMantra": "ॐ बृं बृहस्पतये नमः",
+
+  "planetaryBeejMantra": "ॐ प्रां प्रीं प्रौं सः शनैश्चराय नमः",
+
+  "fastingDay": "Saturday",
+
+  "positiveTraits": [
+    "Wise",
+    "Compassionate",
+    "Disciplined",
+    "Patient",
+    "Spiritual",
+    "Protective",
+    "Responsible",
+    "Generous",
+    "Trustworthy",
+    "Supportive"
+  ],
+
+  "negativeTraits": [
+    "Conservative",
+    "Emotionally Reserved",
+    "Overprotective",
+    "Stubborn",
+    "Slow Decision Making",
+    "Self-Sacrificing"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Teaching",
+    "Spiritual Guidance",
+    "Management",
+    "Service"
+  ],
+
+  "weaknesses": [
+    "Emotional Attachment",
+    "Rigidity",
+    "Overthinking Responsibilities"
+  ],
+
+  "career": [
+    "Teacher",
+    "Priest",
+    "Doctor",
+    "Judge",
+    "Government Officer",
+    "Social Worker",
+    "Administrator",
+    "Consultant",
+    "Farmer",
+    "Counselor"
+  ],
+
+  "education": [
+    "Law",
+    "Philosophy",
+    "Medicine",
+    "Management",
+    "Spiritual Studies"
+  ],
+
+  "finance": [
+    "Steady Wealth",
+    "Long-Term Investments",
+    "Financial Stability through Discipline"
+  ],
+
+  "health": [
+    "Chest",
+    "Lungs",
+    "Stomach",
+    "Digestive System",
+    "Fluid Retention"
+  ],
+
+  "bodyParts": [
+    "Chest",
+    "Breasts",
+    "Lungs"
+  ],
+
+  "relationships": [
+    "Loyal",
+    "Protective",
+    "Family Focused",
+    "Dependable"
+  ],
+
+  "loveNature": "Nurturing",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Reliable",
+
+  "leadershipStyle": "Servant Leader",
+
+  "communicationStyle": "Calm",
+
+  "decisionMaking": "Practical",
+
+  "emotionalNature": "Deep and Caring",
+
+  "learningStyle": "Structured",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Education",
+    "Healthcare",
+    "Government",
+    "Agriculture",
+    "Finance",
+    "Religious Services"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Housewarming",
+    "Business Launch",
+    "Education",
+    "Buying Gold",
+    "Spiritual Initiation",
+    "Travel",
+    "Investment"
+  ],
+
+  "avoidFor": [
+    "Funeral Rites",
+    "Destructive Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Anahata",
+
+  "spiritualLesson": "True growth comes through selfless service, patience and nurturing others without expecting rewards.",
+
+  "compatibleNakshatras": [
+    "Punarvasu",
+    "Anuradha",
+    "Uttara Bhadrapada"
+  ],
+
+  "challengingNakshatras": [
+    "Ardra",
+    "Mula"
+  ],
+
+  "mythologicalStory": "Pushya is ruled by Brihaspati, the Guru of the Devas. It symbolizes nourishment, wisdom, righteousness and the ability to uplift others through knowledge and compassion.",
+
+  "interestingFacts": [
+    "Considered one of the most auspicious Nakshatras in Vedic Astrology.",
+    "Excellent for starting almost every positive activity.",
+    "Associated with nourishment, prosperity and divine blessings.",
+    "Strong spiritual and teaching abilities.",
+    "Pushya Nakshatra is highly favored for Guru Diksha and important purchases."
+  ],
+
+  "keywords": [
+    "Nourishment",
+    "Wisdom",
+    "Prosperity",
+    "Service",
+    "Discipline",
+    "Growth"
+  ],
+
+  "icon": "🌼",
+
+  "priorityLifeAreas": [
+    "Family",
+    "Career",
+    "Spirituality",
+    "Service"
+  ]
+}

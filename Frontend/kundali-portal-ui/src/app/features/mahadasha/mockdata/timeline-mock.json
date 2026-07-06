@@ -1,0 +1,28 @@
+{
+  "mahadasha": [
+    {
+      "planet": "Sun",
+      "start": "1986",
+      "end": "1992",
+      "status": "completed"
+    },
+    {
+      "planet": "Moon",
+      "start": "1992",
+      "end": "2002",
+      "status": "completed"
+    },
+    {
+      "planet": "Jupiter",
+      "start": "2027",
+      "end": "2043",
+      "status": "current"
+    },
+    {
+      "planet": "Saturn",
+      "start": "2043",
+      "end": "2062",
+      "status": "upcoming"
+    }
+  ]
+}

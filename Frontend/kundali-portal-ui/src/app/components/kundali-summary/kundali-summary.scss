@@ -1,0 +1,243 @@
+/* =========================
+   KUNDALI SUMMARY CARD
+========================= */
+
+.kundali-summary-card {
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #ffffff
+    );
+
+  border: 1px solid #e6e9f4;
+
+  border-radius: 8px;
+
+  padding: 1rem 1.2rem;
+
+  box-shadow:
+    0 8px 22px rgba(16,20,61,0.05);
+
+  margin-top: 16px;
+
+  overflow: hidden;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.kundali-summary-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  border: 1px solid #e6e9f4;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  background: #fbfcff;
+}
+
+/* =========================
+   ITEM
+========================= */
+
+.kundali-summary-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.8rem;
+
+  padding: 1rem;
+
+  border-right: 1px solid #edf0f8;
+
+  border-bottom: 1px solid #edf0f8;
+
+  transition: 0.2s ease;
+
+  min-width: 0;
+}
+
+.kundali-summary-item:hover {
+
+  background: #f5f7ff;
+}
+
+/* REMOVE EXTRA BORDER */
+
+.kundali-summary-item:nth-child(4n) {
+
+  border-right: none;
+}
+
+.kundali-summary-item:nth-last-child(-n + 4) {
+
+  border-bottom: none;
+}
+
+/* =========================
+   ICON
+========================= */
+
+.kundali-summary-icon {
+
+  width: 38px;
+  height: 38px;
+
+  min-width: 38px;
+
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef4ff,
+      #eef4ff
+    );
+
+  border: 1px solid #dbe5ff;
+
+  color: #f59e0b;
+
+  font-size: 16px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.kundali-summary-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+/* LABEL */
+
+.kundali-summary-content span {
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+
+  color: #5d6689;
+
+  margin-bottom: 4px;
+}
+
+/* VALUE */
+
+.kundali-summary-content strong {
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: #10143d;
+
+  line-height: 1.4;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+
+  .kundali-summary-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .kundali-summary-item:nth-child(4n) {
+
+    border-right: 1px solid #edf0f8;
+  }
+
+  .kundali-summary-item:nth-child(2n) {
+
+    border-right: none;
+  }
+
+  .kundali-summary-item:nth-last-child(-n + 4) {
+
+    border-bottom: 1px solid #edf0f8;
+  }
+
+  .kundali-summary-item:nth-last-child(-n + 2) {
+
+    border-bottom: none;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+  .kundali-summary-card {
+
+    padding: 0.8rem;
+  }
+
+  .kundali-summary-grid {
+
+    grid-template-columns: 1fr;
+  }
+
+  .kundali-summary-item {
+
+    border-right: none !important;
+
+    padding: 0.9rem;
+  }
+
+  .kundali-summary-item:last-child {
+
+    border-bottom: none;
+  }
+
+  .kundali-summary-icon {
+
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+
+    font-size: 14px;
+  }
+
+  .kundali-summary-content strong {
+
+    font-size: 12px;
+  }
+}

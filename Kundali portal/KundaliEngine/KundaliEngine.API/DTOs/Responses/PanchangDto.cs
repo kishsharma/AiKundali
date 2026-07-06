@@ -23,6 +23,12 @@
         // Lunar Month
         public string Maas { get; set; } = string.Empty;
 
+        // New: Shaka Samvat year
+        public string Shake { get; set; } = string.Empty;
+
+        // New: Vikram Samvat year
+        public string Samvat { get; set; } = string.Empty;
+
         // Optional Future Support
         public bool IsAuspicious { get; set; }
 

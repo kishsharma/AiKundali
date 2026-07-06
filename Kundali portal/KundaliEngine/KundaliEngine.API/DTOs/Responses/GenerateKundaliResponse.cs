@@ -15,5 +15,6 @@
         public CurrentDashaDto CurrentDasha { get; set; }
 
         public List<MahadashaPeriodDto> MahadashaPeriods { get; set; } = new List<MahadashaPeriodDto>();
+        public List<YogaDto> Yogas { get; set; } = new();
     }
 }

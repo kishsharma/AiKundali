@@ -25,11 +25,11 @@ import { CommonModule } from '@angular/common';
   styles: [`
     .card {
       background: #FFFFFF;
-      border-radius: 1rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
+      // border-radius: 1rem;
+      // box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 0.3rem;
       transition: all 300ms ease-in-out;
-      border: 1px solid transparent;
+      // border: 1px solid transparent;
 
       &.interactive {
         cursor: pointer;
@@ -50,8 +50,8 @@ import { CommonModule } from '@angular/common';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.75rem;
       border-bottom: 1px solid #E0E0E0;
     }
 
@@ -64,12 +64,12 @@ import { CommonModule } from '@angular/common';
 
     .card-content {
       color: #424242;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     .card-footer {
-      margin-top: 1.5rem;
-      padding-top: 1rem;
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
       border-top: 1px solid #E0E0E0;
     }
   `],

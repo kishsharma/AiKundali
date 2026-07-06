@@ -1,27 +1,222 @@
 <app-page-header
-  title="Compatibility Analysis"
-  subtitle="Check relationship compatibility"
-  description="Select two Kundali charts to analyze their astrological compatibility based on Gun Milan and other factors."
+
+
+  legacycompatibility="yes"
   [breadcrumbs]="[
     { label: 'Home', routerLink: '/' },
     { label: 'Compatibility', active: true }
   ]"
 ></app-page-header>
 
-<div class="compatibility-layout">
-  <!-- Compatibility Analyzer -->
-  <app-section-card title="Analyze Compatibility" [interactive]="false">
-    <div class="coming-soon">
-      <p>💑 Compatibility analysis form coming soon!</p>
-      <p class="subtitle">Select two charts to view detailed compatibility scores.</p>
+<div class="compatibility-page">
+  <section class="input-panel">
+    <div class="input-heading">
+      <div>
+        <h2>Birth Details</h2>
+        <p>Use exact birth details when available. Some Milan sections use placeholder data until the backend returns full report fields.</p>
+      </div>
+      <button type="button" class="primary-btn" (click)="analyzeCompatibility()" [disabled]="loading">
+        {{ loading ? 'Calculating...' : 'Generate Milan Report' }}
+      </button>
     </div>
-  </app-section-card>
 
-  <!-- Compatibility History -->
-  <app-section-card title="Analysis History" [interactive]="false">
-    <div class="coming-soon">
-      <p>📋 Previous compatibility analyses will appear here.</p>
-      <p class="subtitle">View and track your past compatibility reports.</p>
+    <form [formGroup]="form" class="match-form">
+      <div class="person-form boy-form">
+        <h3>Boy Details</h3>
+        <label>Name <input formControlName="boyName" type="text" /></label>
+        <label>Date <input formControlName="boyBirthDate" type="date" /></label>
+        <label>Time <input formControlName="boyBirthTime" type="time" /></label>
+
+        <div class="coordinate-row">
+                  <label>Birth Place <input formControlName="boyBirthPlace" type="text" /></label>
+          <label>Latitude <input formControlName="boyLatitude" type="number" step="0.000001" /></label>
+          <label>Longitude <input formControlName="boyLongitude" type="number" step="0.000001" /></label>
+        </div>
+      </div>
+
+      <div class="person-form girl-form">
+        <h3>Girl Details</h3>
+        <label>Name <input formControlName="girlName" type="text" /></label>
+        <label>Date <input formControlName="girlBirthDate" type="date" /></label>
+        <label>Time <input formControlName="girlBirthTime" type="time" /></label>
+        <div class="coordinate-row">
+                  <label>Birth Place <input formControlName="girlBirthPlace" type="text" /></label>
+
+          <label>Latitude <input formControlName="girlLatitude" type="number" step="0.000001" /></label>
+          <label>Longitude <input formControlName="girlLongitude" type="number" step="0.000001" /></label>
+        </div>
+      </div>
+    </form>
+
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </section>
+
+  <section class="report-shell"  *ngIf="showReport">
+    <div class="report-toolbar">
+      <button type="button" class="ghost-btn">Back to Dashboard</button>
+      <h1>Compatibility Report</h1>
+      <div class="toolbar-actions">
+        <button type="button" class="outline-btn">Download PDF</button>
+        <button type="button" class="outline-btn">Share</button>
+      </div>
     </div>
-  </app-section-card>
+
+    <div class="hero-report">
+      <article class="profile-card profile-card--boy">
+        <div class="avatar avatar--boy">{{ boy.name.charAt(0) }}</div>
+        <div class="profile-content">
+          <span class="role-badge boy-badge">Boy</span>
+          <h2>{{ boy.name }}</h2>
+          <dl>
+            <div><dt>Moon Sign</dt><dd>{{ boy.moonSign }}</dd></div>
+            <div><dt>Nakshatra</dt><dd>{{ boy.nakshatra }}</dd></div>
+            <div><dt>Ascendant</dt><dd>{{ boy.ascendant }}</dd></div>
+            <div><dt>Date of Birth</dt><dd>{{ boy.birthDate }}, {{ boy.birthTime }}</dd></div>
+            <div><dt>Birth Place</dt><dd>{{ boy.birthPlace }}</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <div class="score-ring" [style.--score]="overallScore">
+        <div class="ring-inner">
+          <strong>{{ overallScore }}%</strong>
+          <span>Compatible</span>
+        </div>
+        <div class="match-ribbon">{{ scoreLabel }}</div>
+      </div>
+
+      <article class="profile-card profile-card--girl">
+        <div class="profile-content">
+          <span class="role-badge girl-badge">Girl</span>
+          <h2>{{ girl.name }}</h2>
+          <dl>
+            <div><dt>Moon Sign</dt><dd>{{ girl.moonSign }}</dd></div>
+            <div><dt>Nakshatra</dt><dd>{{ girl.nakshatra }}</dd></div>
+            <div><dt>Ascendant</dt><dd>{{ girl.ascendant }}</dd></div>
+            <div><dt>Date of Birth</dt><dd>{{ girl.birthDate }}, {{ girl.birthTime }}</dd></div>
+            <div><dt>Birth Place</dt><dd>{{ girl.birthPlace }}</dd></div>
+          </dl>
+        </div>
+        <div class="avatar avatar--girl">{{ girl.name.charAt(0) }}</div>
+      </article>
+    </div>
+
+    <section class="report-section">
+      <h2>1. Ashtakoota (Kuta) Score</h2>
+      <div class="kuta-grid">
+        <article class="kuta-card" *ngFor="let item of kutaScores" [class]="'tone-' + item.tone">
+          <div class="kuta-icon">{{ item.name.charAt(0) }}</div>
+          <h3>{{ item.name }}</h3>
+          <strong>{{ item.score }} <span>/ {{ item.max }}</span></strong>
+          <small>Max {{ item.max }}</small>
+          <em>{{ item.grade }}</em>
+        </article>
+      </div>
+      <div class="total-score-row">
+        <strong>Total Score: {{ totalKutaScore }} / 36</strong>
+        <div class="score-track"><span [style.width.%]="(totalKutaScore / 36) * 100"></span></div>
+        <span class="status-pill">Excellent Compatibility</span>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>2. Compatibility Aspects (Overall Analysis)</h2>
+      <div class="aspect-grid">
+        <article class="aspect-card" *ngFor="let aspect of compatibilityAspects" [class]="'tone-' + aspect.tone">
+          <h3>{{ aspect.name }}</h3>
+          <div class="mini-ring" [style.--score]="aspect.score">
+            <strong>{{ aspect.score }}%</strong>
+          </div>
+          <span>{{ aspect.grade }}</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>3. Dosha Analysis</h2>
+      <div class="dosha-grid">
+        <article class="dosha-card" *ngFor="let dosha of doshas" [class]="'tone-' + dosha.tone">
+          <div class="dosha-mark">{{ dosha.name.charAt(0) }}</div>
+          <div>
+            <h3>{{ dosha.name }}</h3>
+            <p>{{ dosha.detail }}</p>
+            <span>{{ dosha.status }}</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="report-section chart-section">
+      <h2>4. Kundali (Chart) Comparison</h2>
+      <div class="chart-comparison">
+        <h3>Boy's Kundali</h3>
+        <div class="kundali-placeholder boy-chart">
+          <!-- <span>Me</span><span>Ve</span><span>Sa</span><span>Ju</span><span>Mo</span><span>Ra</span> -->
+
+          
+           <div>
+
+              <app-north-indian-chart  [planets]="personAplanetPositions"
+                [ascendant]="personAchart?.ascendantSignAndNumber" [housesData]="personAhouses"
+                ></app-north-indian-chart>
+
+              <!-- <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="planets"
+                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+                (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
+
+              <app-western-chart *ngIf="activeChartType === 'western'" [planets]="planets"
+                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+                (houseSelected)="selectedHouseData = $event"></app-western-chart> -->
+                </div> 
+
+        </div>
+        <strong class="vs-badge">VS</strong>
+        <div class="kundali-placeholder girl-chart">
+
+                        <app-north-indian-chart  [planets]="personBplanetPositions"
+                [ascendant]="personBchart?.ascendantSignAndNumber" [housesData]="personBhouses"
+                ></app-north-indian-chart>
+        </div>
+        <h3>Girl's Kundali</h3>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>5. AI Insights & Interpretation</h2>
+      <div class="insight-grid">
+        <article class="insight-card" *ngFor="let insight of insights" [class]="'tone-' + insight.tone">
+          <h3>{{ insight.title }}</h3>
+          <p>{{ insight.text }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="report-section remedies-section">
+      <h2>6. Remedies (if any)</h2>
+      <div class="remedy-box">
+        <div class="remedy-art">ॐ</div>
+        <div>
+          <h3>Minor doshas detected. Suggested Remedies:</h3>
+          <ul>
+            <li>Worship Lord Shiva on Mondays</li>
+            <li>Recite Mahamrityunjaya Mantra 108 times daily</li>
+            <li>Perform Navagraha Shanti Puja for overall harmony</li>
+          </ul>
+        </div>
+        <button type="button" class="outline-btn">View Detailed Remedies</button>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>7. Auspicious Marriage Periods</h2>
+      <div class="period-grid">
+        <article class="period-card" *ngFor="let period of marriagePeriods" [class]="'tone-' + period.tone">
+          <strong>{{ period.period }}</strong>
+          <span>{{ period.grade }}</span>
+        </article>
+      </div>
+    </section>
+
+    <p class="report-note">Note: This report is based on Vedic Astrology calculations. Final decision should be based on mutual understanding and trust.</p>
+  </section>
 </div>

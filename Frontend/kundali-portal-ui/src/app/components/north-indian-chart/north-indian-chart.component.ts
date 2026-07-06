@@ -17,7 +17,7 @@ export class NorthIndianChartComponent implements OnChanges {
   selectedHouse: number | null = null;
 
 @Input() planets: any[] = [];
-@Input() ascendant: string = '';
+@Input() ascendant: string | undefined = '';
 @Input() housesData: any[] = [];
 @Output() houseSelected = new EventEmitter<any>();
 selectedHouseData: any = null;
@@ -80,11 +80,15 @@ console.log('CHILD INPUT:', this.planets);
 
       const house = planet.house;
 
-      if (this.housePlanets[house]) {
+console.log('Mapping Planet:', planet, 'to House:', house,'planetname:',planet.planetName);
 
-        this.housePlanets[house].push(
-          shortNames[planet.planet]
-        );
+      if (this.housePlanets[house]) {
+console.log('Adding Planet:', planet.planetName, 'to House:', house);
+const planetName = typeof planet.planet === 'number'? planet.planetName: planet.planet;
+
+this.housePlanets[house].push(shortNames[planetName]);
+
+        //this.housePlanets[house].push(shortNames[planet.planet]);
 
       }
 
@@ -152,17 +156,7 @@ planetPositions: any = {
   12: { x: 330, y: 100 }
 
 };
-// getPlanetX(house: number): number {
 
-//   return this.planetPositions[house]?.x || 0;
-
-// }
-
-// getPlanetY(house: number): number {
-
-//   return this.planetPositions[house]?.y || 0;
-
-// }
 
 getPlanetX(house: number, index: number): number {
 
@@ -196,8 +190,13 @@ generateZodiacSequence(): void {
     return;
   }
 
-  const ascendantNumber =
-    Number(this.ascendant.split('-')[0].trim());
+  const ascendantNumber=Number(this.ascendant.split('-')[0].trim());
+
+  // if (!isNaN(Number(this.ascendant))) {
+  //   ascendantNumber = Number(this.ascendant);
+  // } else {
+  //   ascendantNumber = Number(this.ascendant.split('-')[0].trim());
+  // }
 
   this.zodiacNumbers = [];
 

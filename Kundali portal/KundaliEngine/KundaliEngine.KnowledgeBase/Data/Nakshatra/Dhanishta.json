@@ -1,0 +1,307 @@
+{
+  "id": 23,
+  "name": "Dhanishta",
+  "sanskritName": "धनिष्ठा",
+  "englishName": "Dhanishta",
+
+  "startDegree": {
+    "sign": "Capricorn",
+    "longitude": 293.333333,
+    "display": "23°20' Capricorn"
+  },
+
+  "endDegree": {
+    "sign": "Aquarius",
+    "longitude": 306.666667,
+    "display": "6°40' Aquarius"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 10,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Leo",
+      "syllable": "Ga",
+      "akshara": "गा"
+    },
+    {
+      "number": 2,
+      "rashiId": 10,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Virgo",
+      "syllable": "Gi",
+      "akshara": "गी"
+    },
+    {
+      "number": 3,
+      "rashiId": 11,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Libra",
+      "syllable": "Gu",
+      "akshara": "गू"
+    },
+    {
+      "number": 4,
+      "rashiId": 11,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Ge",
+      "akshara": "गे"
+    }
+  ],
+
+  "lord": "Mars",
+
+  "rashi": [
+    "Capricorn",
+    "Aquarius"
+  ],
+
+  "deity": "Ashta Vasus",
+
+  "symbol": "Drum (Damaru), Flute",
+
+  "animalSymbol": "Female Lion",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Lion",
+
+  "nadi": "Madhya",
+
+  "varna": "Vaishya",
+
+  "vashya": [
+    "Chatushpada",
+    "Manava"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Earth/Air",
+
+  "gender": "Female",
+
+  "nature": "Chara (Movable)",
+
+  "motivation": "Dharma",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "West",
+
+  "aradhyaVruksha": "Shami (Prosopis cineraria)",
+
+  "flower": "Red Lotus",
+
+  "metal": "Copper",
+
+  "color": [
+    "Red",
+    "Silver",
+    "White"
+  ],
+
+  "gemstone": "Red Coral",
+
+  "rudraksha": [
+    "3 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Red Lentils",
+    "Copper",
+    "Musical Instruments",
+    "Food Donation",
+    "Clothes"
+  ],
+
+  "recommendedMantra": "ॐ वसुभ्यो नमः",
+
+  "planetaryBeejMantra": "ॐ क्रां क्रीं क्रौं सः भौमाय नमः",
+
+  "fastingDay": "Tuesday",
+
+  "positiveTraits": [
+    "Wealthy",
+    "Generous",
+    "Energetic",
+    "Musical",
+    "Leadership Qualities",
+    "Disciplined",
+    "Hardworking",
+    "Social",
+    "Courageous",
+    "Practical"
+  ],
+
+  "negativeTraits": [
+    "Impatient",
+    "Materialistic",
+    "Competitive",
+    "Domineering",
+    "Restless",
+    "Work Focused"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Music",
+    "Finance",
+    "Management",
+    "Teamwork"
+  ],
+
+  "weaknesses": [
+    "Work-Life Imbalance",
+    "Aggression",
+    "Attachment to Success"
+  ],
+
+  "career": [
+    "Musician",
+    "Engineer",
+    "Business Owner",
+    "Army Officer",
+    "Sports Person",
+    "Financial Advisor",
+    "Architect",
+    "Event Manager",
+    "Corporate Leader",
+    "Performer"
+  ],
+
+  "education": [
+    "Music",
+    "Engineering",
+    "Management",
+    "Commerce",
+    "Architecture"
+  ],
+
+  "finance": [
+    "Excellent Wealth Potential",
+    "Success through Discipline",
+    "Multiple Sources of Income"
+  ],
+
+  "health": [
+    "Bones",
+    "Blood",
+    "Ankles",
+    "Muscles",
+    "Blood Pressure"
+  ],
+
+  "bodyParts": [
+    "Knees",
+    "Ankles",
+    "Muscles"
+  ],
+
+  "relationships": [
+    "Protective",
+    "Supportive",
+    "Family Focused",
+    "Reliable"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Committed",
+
+  "friendshipNature": "Loyal",
+
+  "leadershipStyle": "Dynamic",
+
+  "communicationStyle": "Direct",
+
+  "decisionMaking": "Practical",
+
+  "emotionalNature": "Balanced",
+
+  "learningStyle": "Practical",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Business",
+    "Music",
+    "Engineering",
+    "Sports",
+    "Finance",
+    "Leadership"
+  ],
+
+  "goodFor": [
+    "Business",
+    "Music",
+    "Buying Property",
+    "Construction",
+    "Leadership",
+    "Investments"
+  ],
+
+  "avoidFor": [
+    "Funeral Rites",
+    "Destructive Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "True prosperity is not measured by wealth alone but by how generously one shares talents, resources and blessings with others.",
+
+  "compatibleNakshatras": [
+    "Chitra",
+    "Swati",
+    "Shatabhisha"
+  ],
+
+  "challengingNakshatras": [
+    "Ashlesha",
+    "Rohini"
+  ],
+
+  "mythologicalStory": "Dhanishta is ruled by the Ashta Vasus, the eight deities representing the elemental forces of nature. Symbolized by the sacred drum, it represents rhythm, prosperity, fame and the harmonious use of wealth and talents for the welfare of society.",
+
+  "interestingFacts": [
+    "Represents wealth, rhythm and prosperity.",
+    "Excellent Nakshatra for music, performing arts and leadership.",
+    "Associated with fame, generosity and abundance.",
+    "Produces energetic and achievement-oriented individuals.",
+    "Strong potential for financial success and social recognition."
+  ],
+
+  "keywords": [
+    "Wealth",
+    "Music",
+    "Leadership",
+    "Prosperity",
+    "Fame",
+    "Rhythm"
+  ],
+
+  "icon": "🥁",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Wealth",
+    "Leadership",
+    "Recognition"
+  ]
+}

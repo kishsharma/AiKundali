@@ -1,139 +1,402 @@
 .house-details-card {
-  margin-top: 1rem;
-  padding: 0.95rem;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid #e5e5e5;
+
+  margin-top: 0;
+
+  padding: 1rem;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #ffffff
+    );
+
+  border: 1px solid #e6e9f4;
+
+  box-shadow:
+    0 8px 22px rgba(16,20,61,0.05);
+
   font-size: 12px;
-}
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+  overflow: visible;
 
-.card-header h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.sign-badge {
-  background: #ede7f6;
-  color: #5e35b1;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.simple-info {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem 1rem;
-}
-
-.simple-info > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.simple-info span {
-  font-size: 11px;
-  color: #777;
-  white-space: nowrap;
-}
-
-.simple-info strong {
-  font-size: 12px;
-  color: #222;
-}
-
-.tag-section {
-  margin-top: 0.85rem;
-}
-
-.tag-section label {
-  display: block;
-  font-size: 10px;
-  color: #777;
-  margin-bottom: 0.2rem;
-}
-
-.simple-text-section .simple-text {
-  margin: 0;
-  color: #333;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.tag {
-  background: #f3f4f6;
-  color: #444;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-}
-
-.factor-tag {
-  background: #fff3e0;
-  color: #e65100;
-}
-
-.factor-tooltip {
   position: relative;
 }
 
-.factor-tooltip-trigger {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.35rem 0.5rem;
-  border: none;
-  background: transparent;
-  color: #5d4037;
-  font-size: 12px;
+/* =========================
+   HEADER
+========================= */
+
+.card-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  margin-bottom: 1.2rem;
+}
+
+.card-header h3 {
+
+  margin: 0;
+
+  font-size: 19px;
+
   font-weight: 700;
+
+  line-height: 1.35;
+
+  color: #10143d;
+}
+
+/* =========================
+   SIGN BADGE
+========================= */
+
+.sign-badge {
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #efe3ff,
+      #e2d1ff
+    );
+
+  color: #7c4cc9;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  border: 1px solid #e0d1ff;
+}
+
+/* =========================
+   METRICS
+========================= */
+
+.simple-info {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 0.8rem;
+
+  margin-bottom: 1rem;
+}
+
+.simple-info > div {
+
+  background: #fbfcff;
+
+  border: 1px solid #e6e9f4;
+
+  border-radius: 8px;
+
+  padding: 0.8rem;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 0.5rem;
+}
+
+/* LABEL */
+
+.simple-info span {
+
+  font-size: 10px;
+
+  color: #5d6689;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* VALUE */
+
+.simple-info strong {
+
+  font-size: 14px;
+
+  color: #10143d;
+
+  font-weight: 700;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.tag-section {
+
+  margin-top: 1rem;
+}
+
+.tag-section label {
+
+  display: block;
+
+  margin-bottom: 0.5rem;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  color: #5d6689;
+
+  font-weight: 700;
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.simple-text-section .simple-text {
+
+  margin: 0;
+
+  color: #263150;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+/* =========================
+   FACTORS BUTTON
+========================= */
+
+.factor-tooltip-trigger {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #f59e0b;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.factor-tooltip-trigger:hover {
+
+  text-decoration: underline;
+}
+
+.factor-info-icon {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 17px;
+
+  height: 17px;
+
+  border-radius: 50%;
+
+  border: 1px solid #f0ddb2;
+
+  background: #fff7ed;
+
+  color: #b45309;
+
+  font-family: Georgia, 'Times New Roman', serif;
+
+  font-size: 11px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+/* =========================
+   TOOLTIP
+========================= */
+
+.factor-tooltip {
+
+  position: relative;
 }
 
 .tooltip-box {
+
   position: absolute;
-  top: calc(100% + 0.25rem);
+
+  top: calc(100% + 0.6rem);
+
   left: 0;
-  min-width: 200px;
-  padding: 0.35rem 0.5rem;
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+
+  width: 320px;
+
+  max-width: 90vw;
+
+  padding: 0.9rem 1rem;
+
+  background: #fbfcff;
+
+  border: 1px solid #e6e9f4;
+
   border-radius: 8px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+
   opacity: 0;
+
   visibility: hidden;
-  transform: translateY(-3px);
-  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
-  z-index: 2;
+
+  transform: translateY(-6px);
+
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s ease;
+
+  z-index: 20;
+}
+
+.tooltip-box::before {
+
+  content: '';
+
+  position: absolute;
+
+  left: 1rem;
+
+  top: -7px;
+
+  width: 12px;
+
+  height: 12px;
+
+  background: #fbfcff;
+
+  border-left: 1px solid #e6e9f4;
+
+  border-top: 1px solid #e6e9f4;
+
+  transform: rotate(45deg);
 }
 
 .factor-tooltip:hover .tooltip-box,
 .factor-tooltip:focus-within .tooltip-box {
+
   opacity: 1;
+
   visibility: visible;
+
   transform: translateY(0);
 }
 
-.tooltip-box .tag {
-  display: inline-block;
-  margin: 0 0.3rem 0.3rem 0;
-  padding: 2px 6px;
+/* =========================
+   FACTOR TAGS
+========================= */
+
+.factor-line {
+
+  display: block;
+
+  margin:
+    0 0 0.45rem 0;
+
+  padding: 6px 10px;
+
+  border-radius: 6px;
+
+  background: #fff7ed;
+
+  border: 1px solid #f0ddb2;
+
+  color: #b45309;
+
   font-size: 11px;
-  background: transparent;
-  color: #5d4037;
-  border-radius: 999px;
+
+  line-height: 1.4;
+}
+
+.factor-line:last-child {
+
+  margin-bottom: 0;
+}
+
+.factor-line::before {
+
+  content: '>';
+
+  color: #f59e0b;
+
+  font-weight: 700;
+
+  margin-right: 8px;
+}
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+  .card-header {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .simple-info {
+
+    grid-template-columns: 1fr;
+  }
+
+  .card-header h3 {
+
+    font-size: 17px;
+  }
+
+  .tooltip-box {
+
+    width: 100%;
+  }
 }

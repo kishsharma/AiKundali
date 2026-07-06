@@ -4,7 +4,7 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { KundaliComponent } from './modules/kundali/kundali.component';
 import { CompatibilityComponent } from './modules/compatibility/compatibility.component';
 import { PanchangComponent } from './modules/panchang/panchang.component';
-import { DashaComponent } from './modules/dasha/dasha.component';
+import { MahadashaPageComponent } from './features/mahadasha/pages/mahadasha-page/mahadasha-page.component';
 
 export const routes: Routes = [
   {
@@ -38,8 +38,13 @@ export const routes: Routes = [
       },
       {
         path: 'dasha',
-        component: DashaComponent,
+        component: MahadashaPageComponent,
         data: { title: 'Dasha Analysis' },
+      },
+      {
+        path: 'mahadasha',
+        component: MahadashaPageComponent,
+        data: { title: 'Maha Dasha Analysis' },
       },
     ],
   },

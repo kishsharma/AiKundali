@@ -22,10 +22,11 @@ import { SidebarComponent } from './sidebar.component';
           [compact]="compactSidebar()"
           [mobileView]="isMobileView()"
           (onClose)="toggleSidebar.set(false)"
+          (onToggleCompact)="toggleCompactSidebar()"
         ></app-sidebar>
 
         <!-- Content Area -->
-        <main class="content" [class.sidebar-open]="toggleSidebar() && isMobileView()">
+        <main class="content" [class.sidebar-open]="toggleSidebar() && isMobileView()" [class.sidebar-collapsed]="compactSidebar() && !isMobileView()">
           <div class="content-wrapper">
             <router-outlet></router-outlet>
           </div>
@@ -52,7 +53,12 @@ import { SidebarComponent } from './sidebar.component';
       overflow-y: auto;
       overflow-x: hidden;
       padding: 0;
+      margin-left: 250px;
       transition: all 300ms ease;
+    }
+
+    .content.sidebar-collapsed {
+      margin-left: 80px;
     }
 
     .content-wrapper {
@@ -111,5 +117,9 @@ export class LayoutComponent {
         this.toggleSidebar.set(false);
       }
     });
+  }
+
+  toggleCompactSidebar(): void {
+    this.compactSidebar.set(!this.compactSidebar());
   }
 }

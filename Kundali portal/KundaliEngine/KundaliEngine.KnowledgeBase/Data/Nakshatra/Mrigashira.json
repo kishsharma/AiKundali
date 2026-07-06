@@ -1,0 +1,294 @@
+{
+  "id": 5,
+  "name": "Mrigashira",
+  "sanskritName": "मृगशीर्ष",
+  "englishName": "Mrigashira",
+
+  "startDegree": {
+    "sign": "Taurus",
+    "longitude": 53.333333,
+    "display": "23°20' Taurus"
+  },
+
+  "endDegree": {
+    "sign": "Gemini",
+    "longitude": 66.666667,
+    "display": "6°40' Gemini"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 2,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Leo",
+      "syllable": "Ve",
+      "akshara": "वे"
+    },
+    {
+      "number": 2,
+      "rashiId": 2,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Virgo",
+      "syllable": "Vo",
+      "akshara": "वो"
+    },
+    {
+      "number": 3,
+      "rashiId": 3,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Libra",
+      "syllable": "Ka",
+      "akshara": "का"
+    },
+    {
+      "number": 4,
+      "rashiId": 3,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Ki",
+      "akshara": "की"
+    }
+  ],
+
+  "lord": "Mars",
+  "rashi": [
+    "Taurus",
+    "Gemini"
+  ],
+  "deity": "Soma (Chandra)",
+  "symbol": "Deer's Head",
+  "animalSymbol": "Serpent",
+
+  "gana": "Deva",
+  "yoni": "Serpent",
+  "nadi": "Madhya",
+  "varna": "Farmer",
+  "vashya": [
+    "Chatushpada",
+    "Manava"
+  ],
+
+  "guna": "Tamas",
+  "tatva": "Earth/Air",
+  "gender": "Neutral",
+  "nature": "Mridu (Soft)",
+  "motivation": "Moksha",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "High",
+    "pitta": "Medium",
+    "kapha": "Low"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Khair (Acacia catechu)",
+
+  "flower": "Jasmine",
+
+  "metal": "Copper",
+
+  "color": [
+    "Green",
+    "White",
+    "Silver"
+  ],
+
+  "gemstone": "Red Coral",
+
+  "rudraksha": [
+    "3 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Red Lentils",
+    "Copper",
+    "Books",
+    "Milk",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ सोमाय नमः",
+
+  "planetaryBeejMantra": "ॐ क्रां क्रीं क्रौं सः भौमाय नमः",
+
+  "fastingDay": "Tuesday",
+
+  "positiveTraits": [
+    "Curious",
+    "Intelligent",
+    "Gentle",
+    "Research Oriented",
+    "Flexible",
+    "Creative",
+    "Good Communicator",
+    "Adaptable",
+    "Observant",
+    "Spiritual"
+  ],
+
+  "negativeTraits": [
+    "Restless",
+    "Indecisive",
+    "Overthinking",
+    "Suspicious",
+    "Easily Distracted",
+    "Inconsistent"
+  ],
+
+  "strengths": [
+    "Research",
+    "Communication",
+    "Learning",
+    "Innovation",
+    "Observation"
+  ],
+
+  "weaknesses": [
+    "Lack of Stability",
+    "Mental Stress",
+    "Changing Decisions"
+  ],
+
+  "career": [
+    "Research",
+    "Scientist",
+    "Teacher",
+    "Writer",
+    "Journalist",
+    "Software Engineer",
+    "Doctor",
+    "Consultant",
+    "Travel Industry",
+    "Marketing"
+  ],
+
+  "education": [
+    "Research",
+    "Science",
+    "Technology",
+    "Literature",
+    "Medicine"
+  ],
+
+  "finance": [
+    "Income through Knowledge",
+    "Multiple Income Sources",
+    "Needs Better Financial Planning"
+  ],
+
+  "health": [
+    "Throat",
+    "Shoulders",
+    "Respiratory System",
+    "Sinus",
+    "Mental Stress"
+  ],
+
+  "bodyParts": [
+    "Face",
+    "Neck",
+    "Shoulders"
+  ],
+
+  "relationships": [
+    "Friendly",
+    "Understanding",
+    "Needs Emotional Security",
+    "Values Communication"
+  ],
+
+  "loveNature": "Curious",
+
+  "marriageNature": "Supportive",
+
+  "friendshipNature": "Helpful",
+
+  "leadershipStyle": "Collaborative",
+
+  "communicationStyle": "Expressive",
+
+  "decisionMaking": "Analytical",
+
+  "emotionalNature": "Sensitive",
+
+  "learningStyle": "Research Based",
+
+  "businessSuitability": [
+    "Good"
+  ],
+
+  "recommendedProfessions": [
+    "Research",
+    "Technology",
+    "Education",
+    "Medicine",
+    "Writing",
+    "Consulting"
+  ],
+
+  "goodFor": [
+    "Education",
+    "Research",
+    "Travel",
+    "Business Planning",
+    "Learning New Skills"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Major Financial Commitments"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Vishuddha",
+
+  "spiritualLesson": "True wisdom comes through seeking, learning and understanding rather than rushing to conclusions.",
+
+  "compatibleNakshatras": [
+    "Rohini",
+    "Hasta",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Ashlesha",
+    "Jyeshtha"
+  ],
+
+  "mythologicalStory": "Mrigashira represents the eternal search for truth and knowledge. Soma, the Moon deity, blesses this Nakshatra with curiosity, creativity and a gentle nature.",
+
+  "interestingFacts": [
+    "Represents curiosity and exploration.",
+    "Excellent Nakshatra for research and learning.",
+    "Associated with travel and discovery.",
+    "Strong analytical ability.",
+    "One of the best Nakshatras for education."
+  ],
+
+  "keywords": [
+    "Curiosity",
+    "Research",
+    "Learning",
+    "Exploration",
+    "Knowledge",
+    "Communication"
+  ],
+
+  "icon": "🦌",
+
+  "priorityLifeAreas": [
+    "Education",
+    "Career",
+    "Research",
+    "Travel"
+  ]
+}
