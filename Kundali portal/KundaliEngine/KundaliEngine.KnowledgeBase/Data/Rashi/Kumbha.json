@@ -1,0 +1,61 @@
+{
+  "id": 11,
+  "name": "Kumbha",
+  "englishName": "Aquarius",
+  "symbol": "♒",
+  "element": "Air",
+  "modality": "Fixed",
+  "gender": "Male",
+  "nature": "Cruel",
+  "ruler": "Saturn",
+  "direction": "West",
+  "bodyPart": "Calves, Ankles",
+  "quality": "Innovation, humanitarianism, independence",
+  "personality": "Independent, intelligent, visionary, humanitarian, and progressive. Naturally inclined toward innovation, knowledge, social causes, and unconventional thinking.",
+  "strengths": [
+    "Innovative",
+    "Independent",
+    "Visionary",
+    "Intellectual",
+    "Humanitarian"
+  ],
+  "weaknesses": [
+    "Detached",
+    "Stubborn",
+    "Unpredictable",
+    "Emotionally Reserved"
+  ],
+  "career": [
+    "Information Technology",
+    "Engineering",
+    "Scientific Research",
+    "Social Work",
+    "Astronomy",
+    "Innovation",
+    "Politics",
+    "Non-Profit Organizations"
+  ],
+  "relationships": "Values friendship, intellectual compatibility, mutual respect, and personal freedom. Loyal but emotionally reserved.",
+  "health": "Calves, ankles, blood circulation, nervous disorders, varicose veins, and stress-related conditions.",
+  "color": "#1E88E5",
+  "gemstone": "Blue Sapphire",
+  "metal": "Iron",
+  "luckyNumbers": [ 4, 8 ],
+  "favorableDirection": "West",
+  "favorableDay": "Saturday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 23,
+      "padas": [ 3, 4 ]
+    },
+    {
+      "nakshatraId": 24,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 25,
+      "padas": [ 1, 2, 3 ]
+    }
+  ],
+  "description": "Kumbha is the eleventh sign of the zodiac, symbolizing innovation, knowledge, humanitarian values, and social progress. Ruled by Saturn, it represents originality, intellectual growth, service to society, and the vision to create a better future."
+}

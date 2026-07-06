@@ -5,6 +5,7 @@ namespace KundaliEngine.Domain.Models
     public class PlanetPosition
     {
         public Planet Planet { get; set; }
+        public string PlanetName { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public ZodiacSign Sign { get; set; }

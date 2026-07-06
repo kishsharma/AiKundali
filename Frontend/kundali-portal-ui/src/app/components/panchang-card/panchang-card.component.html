@@ -2,34 +2,171 @@
   class="panchang-card"
   *ngIf="panchang"
 >
-  <div class="card-header">
-    <h3>Panchang</h3>
+
+  <div class="panchang-grid">
+
+    <!-- MAAS -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        🌙
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.maas' | transloco }}</span>
+
+        <strong>
+          {{ panchang.maas }}
+          {{ panchang.paksha }} {{ 'panchang.pakshaLabel' | transloco }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- TITHI -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        📅
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.tithi' | transloco }}</span>
+
+        <strong>
+          {{ panchang.tithi }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- NAKSHATRA -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        ✨
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.nakshatra' | transloco }}</span>
+
+        <strong>
+          {{ panchang.nakshatra }}
+          Pada {{ panchang.pada }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- YOGA -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        🧘
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.yoga' | transloco }}</span>
+
+        <strong>
+          {{ panchang.yoga }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- KARANA -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        ⚖
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.karana' | transloco }}</span>
+
+        <strong>
+          {{ panchang.karana }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- VAAR -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        ☀
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.vara' | transloco }}</span>
+
+        <strong>
+          {{ panchang.vaar }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- SHAKE -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        📖
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.shake' | transloco }}</span>
+
+        <strong>
+          {{ panchang?.shake || '—' }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- SAMVAT -->
+
+    <div class="panchang-item">
+
+      <div class="panchang-icon">
+        🪔
+      </div>
+
+      <div class="panchang-content">
+
+        <span>{{ 'panchang.samvat' | transloco }}</span>
+
+        <strong>
+          {{ panchang?.samvat || '—' }}
+        </strong>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="panchang-info">
-    <div class="panchang-row">
-      <span>Maas</span>
-      <strong>{{ panchang.maas }}</strong><strong>{{ panchang.paksha }}</strong>
-    </div>
-    <div class="panchang-row">
-      <span>Tithi</span>
-      <strong>{{ panchang.tithi }}</strong>
-    </div>
-    <div class="panchang-row">
-      <span>Nakshatra</span>
-      <strong>{{ panchang.nakshatra }}</strong><strong>Pada {{ panchang.pada }}</strong>
-    </div>
-    <div class="panchang-row">
-      <span>Yoga</span>
-      <strong>{{ panchang.yoga }}</strong>
-    </div>
-    <div class="panchang-row">
-      <span>Karana</span>
-      <strong>{{ panchang.karana }}</strong>
-    </div>
-    <div class="panchang-row">
-      <span>Vara</span>
-      <strong>{{ panchang.vaar }}</strong>
-    </div>
-  </div>
 </div>

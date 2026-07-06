@@ -1,0 +1,366 @@
+{
+  "summary": {
+    "overallScore": 78,
+    "overallRating": 4,
+    "overallResult": "Favorable",
+    "currentMahadasha": "Jupiter",
+    "currentAntardasha": "Mercury",
+    "remainingDuration": "3 Years, 4 Months, 17 Days",
+    "completedPercentage": 72,
+    "startDate": "2027-05-12",
+    "endDate": "2043-05-12"
+  },
+
+  "currentMahadasha": {
+    "planet": "Jupiter",
+    "planetIcon": "jupiter",
+    "planetColor": "#F59E0B",
+    "nature": "Benefic",
+    "durationYears": 16,
+    "startDate": "2027-05-12",
+    "endDate": "2043-05-12",
+    "currentYear": 12,
+    "description": "Jupiter Mahadasha generally brings wisdom, career growth, prosperity, spiritual inclination and expansion.",
+    "keywords": [
+      "Career",
+      "Knowledge",
+      "Finance",
+      "Children",
+      "Wisdom",
+      "Spirituality"
+    ]
+  },
+
+  "currentAntardasha": {
+    "planet": "Mercury",
+    "planetIcon": "mercury",
+    "planetColor": "#16A34A",
+    "nature": "Benefic",
+    "startDate": "2029-02-12",
+    "endDate": "2031-07-28",
+    "description": "Mercury enhances communication, education, business, writing and analytical abilities during Jupiter Mahadasha.",
+    "combinedEffect": "Jupiter and Mercury together support education, consulting, management, communication and financial planning."
+  },
+
+  "timeline": {
+    "currentMahadashaIndex": 5,
+    "currentAntardashaIndex": 3,
+
+    "mahadasha": [
+      {
+        "planet": "Sun",
+        "start": "1986",
+        "end": "1992",
+        "status": "completed"
+      },
+      {
+        "planet": "Moon",
+        "start": "1992",
+        "end": "2002",
+        "status": "completed"
+      },
+      {
+        "planet": "Mars",
+        "start": "2002",
+        "end": "2009",
+        "status": "completed"
+      },
+      {
+        "planet": "Rahu",
+        "start": "2009",
+        "end": "2027",
+        "status": "completed"
+      },
+      {
+        "planet": "Jupiter",
+        "start": "2027",
+        "end": "2043",
+        "status": "current"
+      },
+      {
+        "planet": "Saturn",
+        "start": "2043",
+        "end": "2062",
+        "status": "upcoming"
+      },
+      {
+        "planet": "Mercury",
+        "start": "2062",
+        "end": "2079",
+        "status": "upcoming"
+      }
+    ],
+
+    "antardasha": [
+      {
+        "planet": "Jupiter",
+        "start": "2027-05",
+        "end": "2027-10",
+        "status": "completed"
+      },
+      {
+        "planet": "Saturn",
+        "start": "2027-10",
+        "end": "2029-02",
+        "status": "completed"
+      },
+      {
+        "planet": "Mercury",
+        "start": "2029-02",
+        "end": "2031-07",
+        "status": "current"
+      },
+      {
+        "planet": "Ketu",
+        "start": "2031-07",
+        "end": "2032-02",
+        "status": "upcoming"
+      },
+      {
+        "planet": "Venus",
+        "start": "2032-02",
+        "end": "2035-02",
+        "status": "upcoming"
+      }
+    ]
+  },
+
+  "lifeAreas": [
+    {
+      "name": "Career",
+      "score": 92,
+      "rating": 5,
+      "status": "Very Favorable",
+      "icon": "work"
+    },
+    {
+      "name": "Finance",
+      "score": 85,
+      "rating": 4,
+      "status": "Favorable",
+      "icon": "payments"
+    },
+    {
+      "name": "Relationships",
+      "score": 90,
+      "rating": 5,
+      "status": "Excellent",
+      "icon": "favorite"
+    },
+    {
+      "name": "Marriage",
+      "score": 88,
+      "rating": 4,
+      "status": "Very Favorable",
+      "icon": "diversity_3"
+    },
+    {
+      "name": "Health",
+      "score": 65,
+      "rating": 3,
+      "status": "Average",
+      "icon": "health_and_safety"
+    },
+    {
+      "name": "Education",
+      "score": 91,
+      "rating": 5,
+      "status": "Very Favorable",
+      "icon": "school"
+    },
+    {
+      "name": "Spirituality",
+      "score": 78,
+      "rating": 4,
+      "status": "Favorable",
+      "icon": "self_improvement"
+    },
+    {
+      "name": "Travel",
+      "score": 81,
+      "rating": 4,
+      "status": "Favorable",
+      "icon": "flight"
+    }
+  ],
+
+  "strength": {
+    "overallStrength": 78,
+    "planet": "Jupiter",
+    "planetStrength": "Strong",
+    "placement": "10th House",
+    "sign": "Sagittarius",
+    "aspectOnLagna": true,
+    "supportedByBenefics": true,
+    "supportedBy": [
+      "Moon"
+    ],
+    "overallResult": "Favorable"
+  },
+
+  "positiveInfluences": [
+    "Jupiter is placed in the 10th house.",
+    "Jupiter aspects Lagna bringing overall growth.",
+    "Mercury is in own sign and strong.",
+    "Good period for learning and certifications.",
+    "Support from mentors and elders.",
+    "Career recognition is likely."
+  ],
+
+  "challenges": [
+    "Overthinking may create stress.",
+    "Unexpected expenses are possible.",
+    "Family responsibilities may increase.",
+    "Avoid impulsive financial decisions.",
+    "Take care of digestive health."
+  ],
+
+  "prediction": {
+    "selectedCategory": "Career",
+
+    "categories": [
+      {
+        "name": "Career",
+        "score": 92,
+        "prediction": "Excellent opportunities for promotion, recognition and leadership."
+      },
+      {
+        "name": "Finance",
+        "score": 84,
+        "prediction": "Stable income with gradual wealth accumulation."
+      },
+      {
+        "name": "Marriage",
+        "score": 88,
+        "prediction": "Relationships become more mature and supportive."
+      },
+      {
+        "name": "Health",
+        "score": 65,
+        "prediction": "Maintain routine and avoid stress-related problems."
+      },
+      {
+        "name": "Education",
+        "score": 90,
+        "prediction": "Ideal period for higher education and certifications."
+      },
+      {
+        "name": "Business",
+        "score": 82,
+        "prediction": "Expansion through networking and communication."
+      },
+      {
+        "name": "Travel",
+        "score": 80,
+        "prediction": "Professional and spiritual travel opportunities."
+      },
+      {
+        "name": "Spirituality",
+        "score": 86,
+        "prediction": "Interest in scriptures, meditation and higher knowledge."
+      }
+    ],
+
+    "phaseAnalysis": {
+      "start": {
+        "title": "Start Phase",
+        "period": "Feb 2029 - Oct 2029",
+        "points": [
+          "New opportunities will open.",
+          "Career momentum increases.",
+          "Good time for skill development."
+        ]
+      },
+      "middle": {
+        "title": "Middle Phase",
+        "period": "Oct 2029 - Mar 2030",
+        "points": [
+          "Recognition from seniors.",
+          "Income improves.",
+          "Networking expands."
+        ]
+      },
+      "end": {
+        "title": "End Phase",
+        "period": "Mar 2030 - Jul 2031",
+        "points": [
+          "Long-term gains.",
+          "Spiritual maturity.",
+          "Prepare for next Antardasha."
+        ]
+      }
+    }
+  },
+
+  "recommendedActions": {
+    "dos": [
+      "Offer yellow sweets on Thursdays.",
+      "Recite 'Om Brim Brihaspataye Namah'.",
+      "Respect teachers and elders.",
+      "Wear yellow on Thursdays.",
+      "Donate turmeric or yellow clothes."
+    ],
+    "donts": [
+      "Avoid arrogance.",
+      "Avoid unnecessary loans.",
+      "Avoid arguments with family.",
+      "Avoid shortcuts in career.",
+      "Avoid unhealthy food habits."
+    ]
+  },
+
+  "importantDates": [
+    {
+      "title": "Antardasha Start",
+      "date": "2029-02-12"
+    },
+    {
+      "title": "Major Career Growth",
+      "date": "2030-01-15"
+    },
+    {
+      "title": "Transit Support",
+      "date": "2030-06-20"
+    },
+    {
+      "title": "Antardasha End",
+      "date": "2031-07-28"
+    }
+  ],
+
+  "transitImpact": {
+    "summary": "Current Jupiter transit enhances career while Saturn demands discipline.",
+    "majorTransits": [
+      {
+        "planet": "Jupiter",
+        "impact": "Positive"
+      },
+      {
+        "planet": "Saturn",
+        "impact": "Neutral"
+      },
+      {
+        "planet": "Rahu",
+        "impact": "Mixed"
+      }
+    ]
+  },
+
+  "remedies": {
+    "mantra": "Om Brim Brihaspataye Namah",
+    "fast": "Thursday",
+    "gemstone": "Yellow Sapphire",
+    "color": "Yellow",
+    "donation": "Turmeric, Yellow Clothes",
+    "deity": "Lord Vishnu",
+    "charity": "Donate books to students",
+    "lifestyleAdvice": "Practice gratitude, continue learning, respect teachers and avoid ego."
+  },
+
+  "upcomingDasha": {
+    "planet": "Saturn",
+    "startDate": "2043-05-12",
+    "durationYears": 19,
+    "summary": "Saturn Mahadasha will emphasize discipline, responsibility, persistence and long-term achievements."
+  }
+}

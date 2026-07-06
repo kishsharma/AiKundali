@@ -1,0 +1,305 @@
+{
+  "id": 24,
+  "name": "Shatabhisha",
+  "sanskritName": "शतभिषा",
+  "englishName": "Shatabhisha",
+
+  "startDegree": {
+    "sign": "Aquarius",
+    "longitude": 306.666667,
+    "display": "6°40' Aquarius"
+  },
+
+  "endDegree": {
+    "sign": "Aquarius",
+    "longitude": 320.000000,
+    "display": "20°00' Aquarius"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 11,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "Go",
+      "akshara": "गो"
+    },
+    {
+      "number": 2,
+      "rashiId": 11,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Sa",
+      "akshara": "सा"
+    },
+    {
+      "number": 3,
+      "rashiId": 11,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Aquarius",
+      "syllable": "Si",
+      "akshara": "सी"
+    },
+    {
+      "number": 4,
+      "rashiId": 11,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Pisces",
+      "syllable": "Su",
+      "akshara": "सू"
+    }
+  ],
+
+  "lord": "Rahu",
+
+  "rashi": [
+    "Aquarius"
+  ],
+
+  "deity": "Varuna",
+
+  "symbol": "Empty Circle, Thousand Flowers",
+
+  "animalSymbol": "Female Horse",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Horse",
+
+  "nadi": "Adi",
+
+  "varna": "Shudra",
+
+  "vashya": [
+    "Manava"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Air",
+
+  "gender": "Neutral",
+
+  "nature": "Chara (Movable)",
+
+  "motivation": "Dharma",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "High",
+    "pitta": "Medium",
+    "kapha": "Low"
+  },
+
+  "direction": "West",
+
+  "aradhyaVruksha": "Kadamba (Neolamarckia cadamba)",
+
+  "flower": "Blue Lotus",
+
+  "metal": "Lead",
+
+  "color": [
+    "Blue",
+    "Violet",
+    "Black"
+  ],
+
+  "gemstone": "Hessonite (Gomed)",
+
+  "rudraksha": [
+    "8 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Black Sesame",
+    "Medicines",
+    "Blankets",
+    "Water",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ वरुणाय नमः",
+
+  "planetaryBeejMantra": "ॐ भ्रां भ्रीं भ्रौं सः राहवे नमः",
+
+  "fastingDay": "Saturday",
+
+  "positiveTraits": [
+    "Independent",
+    "Scientific",
+    "Analytical",
+    "Innovative",
+    "Intuitive",
+    "Humanitarian",
+    "Research Oriented",
+    "Spiritual",
+    "Honest",
+    "Visionary"
+  ],
+
+  "negativeTraits": [
+    "Detached",
+    "Secretive",
+    "Rebellious",
+    "Emotionally Distant",
+    "Stubborn",
+    "Lonely"
+  ],
+
+  "strengths": [
+    "Research",
+    "Healing",
+    "Innovation",
+    "Technology",
+    "Problem Solving"
+  ],
+
+  "weaknesses": [
+    "Isolation",
+    "Emotional Distance",
+    "Overthinking"
+  ],
+
+  "career": [
+    "Scientist",
+    "Doctor",
+    "Researcher",
+    "Software Engineer",
+    "Astronomer",
+    "Astrologer",
+    "Psychologist",
+    "Data Scientist",
+    "Inventor",
+    "Alternative Medicine Practitioner"
+  ],
+
+  "education": [
+    "Medicine",
+    "Technology",
+    "Research",
+    "Astronomy",
+    "Psychology"
+  ],
+
+  "finance": [
+    "Income through Innovation",
+    "Good Research-Based Careers",
+    "Needs Long-Term Financial Planning"
+  ],
+
+  "health": [
+    "Nervous System",
+    "Circulation",
+    "Ankles",
+    "Blood Disorders",
+    "Mental Stress"
+  ],
+
+  "bodyParts": [
+    "Ankles",
+    "Circulatory System",
+    "Nervous System"
+  ],
+
+  "relationships": [
+    "Independent",
+    "Honest",
+    "Needs Personal Space",
+    "Loyal Once Committed"
+  ],
+
+  "loveNature": "Reserved",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Selective",
+
+  "leadershipStyle": "Visionary",
+
+  "communicationStyle": "Logical",
+
+  "decisionMaking": "Analytical",
+
+  "emotionalNature": "Detached",
+
+  "learningStyle": "Research Based",
+
+  "businessSuitability": [
+    "Very Good"
+  ],
+
+  "recommendedProfessions": [
+    "Technology",
+    "Medicine",
+    "Research",
+    "Science",
+    "Healthcare",
+    "Analytics"
+  ],
+
+  "goodFor": [
+    "Medical Treatment",
+    "Research",
+    "Meditation",
+    "Technology",
+    "Healing Practices",
+    "Scientific Work"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Lavish Celebrations"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Ajna",
+
+  "spiritualLesson": "True healing begins when knowledge, compassion and inner awareness work together for the welfare of all beings.",
+
+  "compatibleNakshatras": [
+    "Swati",
+    "Dhanishta",
+    "Ardra"
+  ],
+
+  "challengingNakshatras": [
+    "Rohini",
+    "Magha"
+  ],
+
+  "mythologicalStory": "Shatabhisha is ruled by Varuna, the deity of cosmic waters, truth and hidden mysteries. The symbol of the empty circle represents wholeness and infinity, while the name 'Shatabhisha' means 'hundred physicians', signifying healing, research and the discovery of hidden truths.",
+
+  "interestingFacts": [
+    "Known as the Nakshatra of healing and medicine.",
+    "Represents scientific thinking and research.",
+    "Excellent for technology, innovation and analytics.",
+    "Associated with secrecy, mysticism and higher knowledge.",
+    "Produces visionary thinkers and unconventional innovators."
+  ],
+
+  "keywords": [
+    "Healing",
+    "Research",
+    "Science",
+    "Innovation",
+    "Mysticism",
+    "Truth"
+  ],
+
+  "icon": "🔵",
+
+  "priorityLifeAreas": [
+    "Research",
+    "Career",
+    "Health",
+    "Spiritual Growth"
+  ]
+}

@@ -20,6 +20,9 @@ namespace KundaliEngine.Domain.Models
         /// </summary>
         public string PersonBName { get; set; }
 
+        public KundaliChart PersonAchart { get; set; }
+        public KundaliChart PersonBchart { get; set; }
+
         /// <summary>
         /// Overall compatibility score (0-100).
         /// Aggregate of all compatibility dimensions.

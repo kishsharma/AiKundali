@@ -1,0 +1,295 @@
+{
+  "id": 7,
+  "name": "Punarvasu",
+  "sanskritName": "पुनर्वसु",
+  "englishName": "Punarvasu",
+
+  "startDegree": {
+    "sign": "Gemini",
+    "longitude": 80.000000,
+    "display": "20°00' Gemini"
+  },
+
+  "endDegree": {
+    "sign": "Cancer",
+    "longitude": 93.333333,
+    "display": "3°20' Cancer"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 3,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Aries",
+      "syllable": "Ke",
+      "akshara": "के"
+    },
+    {
+      "number": 2,
+      "rashiId": 3,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Taurus",
+      "syllable": "Ko",
+      "akshara": "को"
+    },
+    {
+      "number": 3,
+      "rashiId": 3,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Gemini",
+      "syllable": "Ha",
+      "akshara": "हा"
+    },
+    {
+      "number": 4,
+      "rashiId": 4,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Cancer",
+      "syllable": "Hi",
+      "akshara": "ही"
+    }
+  ],
+
+  "lord": "Jupiter",
+  "rashi": [
+    "Gemini",
+    "Cancer"
+  ],
+  "deity": "Aditi",
+  "symbol": "Quiver of Arrows",
+  "animalSymbol": "Cat",
+
+  "gana": "Deva",
+  "yoni": "Cat",
+  "nadi": "Adi",
+  "varna": "Vaishya",
+  "vashya": [
+    "Manava",
+    "Jalachara"
+  ],
+
+  "guna": "Sattva",
+  "tatva": "Air/Water",
+  "gender": "Female",
+  "nature": "Chara (Movable)",
+  "motivation": "Artha",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "Low",
+    "kapha": "High"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Bamboo",
+
+  "flower": "White Lily",
+
+  "metal": "Gold",
+
+  "color": [
+    "Yellow",
+    "White",
+    "Light Green"
+  ],
+
+  "gemstone": "Yellow Sapphire",
+
+  "rudraksha": [
+    "5 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Turmeric",
+    "Yellow Clothes",
+    "Bananas",
+    "Books",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ अदितये नमः",
+
+  "planetaryBeejMantra": "ॐ ग्रां ग्रीं ग्रौं सः गुरवे नमः",
+
+  "fastingDay": "Thursday",
+
+  "positiveTraits": [
+    "Optimistic",
+    "Generous",
+    "Wise",
+    "Compassionate",
+    "Resilient",
+    "Forgiving",
+    "Spiritual",
+    "Helpful",
+    "Patient",
+    "Adaptable"
+  ],
+
+  "negativeTraits": [
+    "Overly Trusting",
+    "Procrastinating",
+    "Idealistic",
+    "Emotionally Sensitive",
+    "Can Lack Focus",
+    "Avoids Conflict"
+  ],
+
+  "strengths": [
+    "Teaching",
+    "Healing",
+    "Counseling",
+    "Recovery",
+    "Planning"
+  ],
+
+  "weaknesses": [
+    "Delayed Decisions",
+    "Emotional Dependence",
+    "Overconfidence"
+  ],
+
+  "career": [
+    "Teacher",
+    "Professor",
+    "Counselor",
+    "Doctor",
+    "Spiritual Guide",
+    "Writer",
+    "Lawyer",
+    "Social Worker",
+    "Consultant",
+    "Human Resources"
+  ],
+
+  "education": [
+    "Philosophy",
+    "Education",
+    "Law",
+    "Medicine",
+    "Psychology"
+  ],
+
+  "finance": [
+    "Steady Financial Growth",
+    "Benefits through Knowledge",
+    "Fortunate Investments"
+  ],
+
+  "health": [
+    "Chest",
+    "Lungs",
+    "Digestive System",
+    "Liver",
+    "Weight Management"
+  ],
+
+  "bodyParts": [
+    "Chest",
+    "Lungs",
+    "Ribs"
+  ],
+
+  "relationships": [
+    "Loyal",
+    "Forgiving",
+    "Family Oriented",
+    "Emotionally Supportive"
+  ],
+
+  "loveNature": "Affectionate",
+
+  "marriageNature": "Stable and Caring",
+
+  "friendshipNature": "Trustworthy",
+
+  "leadershipStyle": "Inspirational",
+
+  "communicationStyle": "Warm and Encouraging",
+
+  "decisionMaking": "Balanced",
+
+  "emotionalNature": "Compassionate",
+
+  "learningStyle": "Conceptual",
+
+  "businessSuitability": [
+    "Very Good"
+  ],
+
+  "recommendedProfessions": [
+    "Education",
+    "Healthcare",
+    "Consulting",
+    "Law",
+    "Publishing",
+    "Spiritual Services"
+  ],
+
+  "goodFor": [
+    "Housewarming",
+    "Education",
+    "Travel",
+    "Starting Business",
+    "Spiritual Practices",
+    "Buying Property"
+  ],
+
+  "avoidFor": [
+    "Aggressive Confrontation",
+    "Revenge Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Anahata",
+
+  "spiritualLesson": "Every setback carries the seed of renewal. True abundance comes through faith, generosity and the ability to begin again.",
+
+  "compatibleNakshatras": [
+    "Pushya",
+    "Hasta",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Mula",
+    "Ashlesha"
+  ],
+
+  "mythologicalStory": "Punarvasu is ruled by Aditi, the universal mother of the Devas. She represents infinite compassion, renewal and the restoration of harmony after adversity.",
+
+  "interestingFacts": [
+    "Represents renewal, restoration and second chances.",
+    "One of the most auspicious Nakshatras for beginning new ventures.",
+    "Blessed by Jupiter with wisdom and optimism.",
+    "Excellent for teaching and spiritual pursuits.",
+    "People often recover quickly from setbacks."
+  ],
+
+  "keywords": [
+    "Renewal",
+    "Hope",
+    "Wisdom",
+    "Prosperity",
+    "Healing",
+    "Compassion"
+  ],
+
+  "icon": "🏹",
+
+  "priorityLifeAreas": [
+    "Family",
+    "Education",
+    "Spiritual Growth",
+    "Prosperity"
+  ]
+}

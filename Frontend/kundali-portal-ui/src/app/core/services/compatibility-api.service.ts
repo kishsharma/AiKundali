@@ -2,61 +2,69 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
+import { catchError, timeout } from 'rxjs/operators';
+import { CompatibilityResponse } from '../../shared/models/compatibility.model';
 
-export interface CompatibilityRequest {
-  kundaliId1: string;
-  kundaliId2: string;
+export interface MatchRequestPerson {
+  name: string;
+  gender: string;
+  birthDateTime: string;
+  birthPlace: string;
+  latitude: number;
+  longitude: number;
+  timeZoneOffset: number;
 }
 
-export interface CompatibilityScore {
-  id: string;
-  kundaliId1: string;
-  kundaliId2: string;
-  overallScore: number;
-  gunMilan: number;
-  ganaKuta: number;
-  vasya: number;
-  yoni: number;
-  rashi: number;
-  rashiAdheepati: number;
-  varna: number;
-  mahendra: number;
-  sthanadeepati: number;
-  vedhaCheck: boolean;
-  recommendations: string[];
-  createdAt: Date;
-  updatedAt: Date;
+export interface CompatibilityRequest {
+  personA: MatchRequestPerson;
+  personB: MatchRequestPerson;
+}
+
+export interface CompatibilityDimension {
+  name: string;
+  score: number;
+  factors: string[];
+  summary: string;
+  confidence: number;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompatibilityApiService extends BaseApiService {
-  private endpoint = 'compatibility';
+  private endpoint = 'Compatibility';
 
   /**
-   * Analyze compatibility between two Kundali charts
+   * Analyze compatibility between two full birth profiles.
    */
-  analyzeCompatibility(
-    request: CompatibilityRequest
-  ): Observable<ApiResponse<CompatibilityScore>> {
-    return this.post<CompatibilityScore>(`${this.endpoint}/analyze`, request);
+  match(request: CompatibilityRequest): Observable<CompatibilityResponse> {
+    return this.http
+      .post<CompatibilityResponse>(`${this.apiUrl}/${this.endpoint}/match`, request)
+      .pipe(
+        timeout(this.apiTimeout),
+        catchError((error) => this.handleError(error))
+      );
+  }
+
+  analyzeCompatibility(request: CompatibilityRequest): Observable<CompatibilityResponse> {
+    return this.match(request);
   }
 
   /**
    * Get compatibility history
    */
-  getCompatibilityHistory(): Observable<ApiResponse<CompatibilityScore[]>> {
-    return this.get<CompatibilityScore[]>(`${this.endpoint}/history`);
+  getCompatibilityHistory(): Observable<ApiResponse<CompatibilityResponse[]>> {
+    return this.get<CompatibilityResponse[]>(`${this.endpoint}/history`);
   }
 
   /**
    * Get specific compatibility analysis
    */
-  getCompatibilityAnalysis(id: string): Observable<ApiResponse<CompatibilityScore>> {
-    return this.get<CompatibilityScore>(`${this.endpoint}/${id}`);
+  getCompatibilityAnalysis(id: string): Observable<ApiResponse<CompatibilityResponse>> {
+    return this.get<CompatibilityResponse>(`${this.endpoint}/${id}`);
   }
 
+  
   /**
    * Delete compatibility analysis
    */

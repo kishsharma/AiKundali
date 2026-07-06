@@ -298,4 +298,27 @@ label {
     background: $color-gray-500;
   }
 }
+body.pdf-mode .form-section,
+body.pdf-mode .generate-btn,
+body.pdf-mode .toolbar {
+
+  display: none !important;
+
+}
+body.pdf-mode .kundali-layout {
+
+  background: white !important;
+
+}
+body.pdf-mode app-root {
+
+  background: white !important;
+  color: black !important;
+
+}
+body.pdf-mode {
+
+  background: white !important;
+
+}
 

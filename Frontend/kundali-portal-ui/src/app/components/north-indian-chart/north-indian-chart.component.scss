@@ -1,10 +1,10 @@
 /* kundali-chart.component.scss */
 
 .chart-wrapper {
-  width: 100%;
+  width: 350px;
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .kundali-svg {
@@ -21,18 +21,18 @@
 
 
 .house {
-  fill: #fff3e0;
-  stroke: #d8892b;
+  fill: #f8fbff;
+  stroke: #2563eb;
   stroke-width: 2;
   cursor: pointer;
   transition: fill 0.3s ease;
 }
 .house:hover {
-  fill: #ffe082;
+  fill: #e9f2ff;
 }
 
 .house.active {
-  fill: #ffcc80;
+  fill: #dbeafe;
 }
 
 .house-label {
@@ -76,3 +76,4 @@
   font-weight: 600;
   fill: #c62828;
 }
+

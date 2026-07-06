@@ -1,0 +1,305 @@
+{
+  "id": 13,
+  "name": "Hasta",
+  "sanskritName": "हस्त",
+  "englishName": "Hasta",
+
+  "startDegree": {
+    "sign": "Virgo",
+    "longitude": 160.000000,
+    "display": "10°00' Virgo"
+  },
+
+  "endDegree": {
+    "sign": "Virgo",
+    "longitude": 173.333333,
+    "display": "23°20' Virgo"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 6,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Aries",
+      "syllable": "Pu",
+      "akshara": "पू"
+    },
+    {
+      "number": 2,
+      "rashiId": 6,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Taurus",
+      "syllable": "Sha",
+      "akshara": "ष"
+    },
+    {
+      "number": 3,
+      "rashiId": 6,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Gemini",
+      "syllable": "Na",
+      "akshara": "ण"
+    },
+    {
+      "number": 4,
+      "rashiId": 6,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Cancer",
+      "syllable": "Tha",
+      "akshara": "ठ"
+    }
+  ],
+
+  "lord": "Moon",
+
+  "rashi": [
+    "Virgo"
+  ],
+
+  "deity": "Savitar (Sun God as the Divine Creator)",
+
+  "symbol": "Hand",
+
+  "animalSymbol": "Female Buffalo",
+
+  "gana": "Deva",
+
+  "yoni": "Buffalo",
+
+  "nadi": "Adi",
+
+  "varna": "Vaishya",
+
+  "vashya": [
+    "Manava"
+  ],
+
+  "guna": "Rajas",
+
+  "tatva": "Earth",
+
+  "gender": "Male",
+
+  "nature": "Laghu (Light)",
+
+  "motivation": "Moksha",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "Low",
+    "kapha": "High"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Jasmine (Chameli)",
+
+  "flower": "Jasmine",
+
+  "metal": "Silver",
+
+  "color": [
+    "White",
+    "Cream",
+    "Light Green"
+  ],
+
+  "gemstone": "Pearl",
+
+  "rudraksha": [
+    "2 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Rice",
+    "Milk",
+    "White Clothes",
+    "Books",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ सवित्रे नमः",
+
+  "planetaryBeejMantra": "ॐ श्रां श्रीं श्रौं सः चन्द्राय नमः",
+
+  "fastingDay": "Monday",
+
+  "positiveTraits": [
+    "Skilled",
+    "Hardworking",
+    "Creative",
+    "Helpful",
+    "Practical",
+    "Adaptable",
+    "Intelligent",
+    "Patient",
+    "Generous",
+    "Reliable"
+  ],
+
+  "negativeTraits": [
+    "Perfectionist",
+    "Overthinking",
+    "Restless",
+    "Critical",
+    "Sensitive",
+    "Can Worry Excessively"
+  ],
+
+  "strengths": [
+    "Craftsmanship",
+    "Communication",
+    "Problem Solving",
+    "Healing",
+    "Manual Skills"
+  ],
+
+  "weaknesses": [
+    "Self-Criticism",
+    "Mental Stress",
+    "Overworking"
+  ],
+
+  "career": [
+    "Doctor",
+    "Surgeon",
+    "Artist",
+    "Craftsman",
+    "Teacher",
+    "Engineer",
+    "Writer",
+    "Designer",
+    "Therapist",
+    "Software Developer"
+  ],
+
+  "education": [
+    "Medicine",
+    "Engineering",
+    "Arts",
+    "Technology",
+    "Design"
+  ],
+
+  "finance": [
+    "Stable Income",
+    "Success through Skills",
+    "Financial Growth through Hard Work"
+  ],
+
+  "health": [
+    "Hands",
+    "Arms",
+    "Digestive System",
+    "Nervous System",
+    "Skin"
+  ],
+
+  "bodyParts": [
+    "Hands",
+    "Fingers",
+    "Arms"
+  ],
+
+  "relationships": [
+    "Helpful",
+    "Supportive",
+    "Faithful",
+    "Practical"
+  ],
+
+  "loveNature": "Caring",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Dependable",
+
+  "leadershipStyle": "Hands-On",
+
+  "communicationStyle": "Clear",
+
+  "decisionMaking": "Logical",
+
+  "emotionalNature": "Balanced",
+
+  "learningStyle": "Practical",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Healthcare",
+    "Technology",
+    "Education",
+    "Design",
+    "Engineering",
+    "Skilled Trades"
+  ],
+
+  "goodFor": [
+    "Education",
+    "Learning Skills",
+    "Business",
+    "Craftsmanship",
+    "Medical Treatments",
+    "Buying Tools"
+  ],
+
+  "avoidFor": [
+    "Aggressive Actions",
+    "Legal Conflicts"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Vishuddha",
+
+  "spiritualLesson": "True success comes when knowledge is transformed into skill and service for the benefit of others.",
+
+  "compatibleNakshatras": [
+    "Rohini",
+    "Uttara Phalguni",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Ashlesha",
+    "Mula"
+  ],
+
+  "mythologicalStory": "Hasta is ruled by Savitar, the creative form of the Sun. The divine hand symbolizes skill, craftsmanship, blessings and the ability to shape destiny through one's own efforts.",
+
+  "interestingFacts": [
+    "Represents skill, craftsmanship and dexterity.",
+    "Excellent Nakshatra for learning practical skills.",
+    "Strong healing and creative abilities.",
+    "Associated with blessings, generosity and productivity.",
+    "People often excel in professions requiring precision."
+  ],
+
+  "keywords": [
+    "Skill",
+    "Hands",
+    "Craftsmanship",
+    "Creativity",
+    "Healing",
+    "Service"
+  ],
+
+  "icon": "✋",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Education",
+    "Skills",
+    "Service"
+  ]
+}

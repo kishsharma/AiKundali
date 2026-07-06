@@ -1,0 +1,305 @@
+{
+  "id": 26,
+  "name": "UttaraBhadrapada",
+  "sanskritName": "उत्तरभाद्रपदा",
+  "englishName": "Uttara Bhadrapada",
+
+  "startDegree": {
+    "sign": "Pisces",
+    "longitude": 333.333333,
+    "display": "3°20' Pisces"
+  },
+
+  "endDegree": {
+    "sign": "Pisces",
+    "longitude": 346.666667,
+    "display": "16°40' Pisces"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 12,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Leo",
+      "syllable": "Du",
+      "akshara": "दू"
+    },
+    {
+      "number": 2,
+      "rashiId": 12,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Virgo",
+      "syllable": "Tha",
+      "akshara": "थ"
+    },
+    {
+      "number": 3,
+      "rashiId": 12,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Libra",
+      "syllable": "Jha",
+      "akshara": "झ"
+    },
+    {
+      "number": 4,
+      "rashiId": 12,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Na",
+      "akshara": "ञ"
+    }
+  ],
+
+  "lord": "Saturn",
+
+  "rashi": [
+    "Pisces"
+  ],
+
+  "deity": "Ahir Budhnya (Serpent of the Deep)",
+
+  "symbol": "Back Legs of a Funeral Cot",
+
+  "animalSymbol": "Cow",
+
+  "gana": "Manushya",
+
+  "yoni": "Cow",
+
+  "nadi": "Madhya",
+
+  "varna": "Kshatriya",
+
+  "vashya": [
+    "Jalachara"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Water",
+
+  "gender": "Male",
+
+  "nature": "Dhruva (Fixed)",
+
+  "motivation": "Moksha",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "Medium",
+    "kapha": "High"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Neem (Azadirachta indica)",
+
+  "flower": "Blue Lotus",
+
+  "metal": "Iron",
+
+  "color": [
+    "Deep Blue",
+    "Black",
+    "White"
+  ],
+
+  "gemstone": "Blue Sapphire",
+
+  "rudraksha": [
+    "7 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Black Sesame",
+    "Blankets",
+    "Iron",
+    "Footwear",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ अहिर्बुध्न्याय नमः",
+
+  "planetaryBeejMantra": "ॐ प्रां प्रीं प्रौं सः शनैश्चराय नमः",
+
+  "fastingDay": "Saturday",
+
+  "positiveTraits": [
+    "Wise",
+    "Patient",
+    "Compassionate",
+    "Spiritual",
+    "Self-Controlled",
+    "Reliable",
+    "Calm",
+    "Generous",
+    "Philosophical",
+    "Emotionally Mature"
+  ],
+
+  "negativeTraits": [
+    "Withdrawn",
+    "Overly Serious",
+    "Emotionally Reserved",
+    "Stubborn",
+    "Slow to Express Feelings",
+    "Pessimistic"
+  ],
+
+  "strengths": [
+    "Meditation",
+    "Teaching",
+    "Counseling",
+    "Research",
+    "Emotional Stability"
+  ],
+
+  "weaknesses": [
+    "Isolation",
+    "Delayed Decision Making",
+    "Suppressed Emotions"
+  ],
+
+  "career": [
+    "Teacher",
+    "Counselor",
+    "Psychologist",
+    "Spiritual Guide",
+    "Researcher",
+    "Judge",
+    "Scientist",
+    "Social Worker",
+    "Healer",
+    "Philosopher"
+  ],
+
+  "education": [
+    "Psychology",
+    "Philosophy",
+    "Research",
+    "Spiritual Studies",
+    "Medicine"
+  ],
+
+  "finance": [
+    "Stable Wealth",
+    "Long-Term Financial Growth",
+    "Conservative Investments"
+  ],
+
+  "health": [
+    "Feet",
+    "Lymphatic System",
+    "Sleep Disorders",
+    "Water Retention",
+    "Circulation"
+  ],
+
+  "bodyParts": [
+    "Feet",
+    "Toes",
+    "Lymphatic System"
+  ],
+
+  "relationships": [
+    "Faithful",
+    "Patient",
+    "Protective",
+    "Emotionally Dependable"
+  ],
+
+  "loveNature": "Deep",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Lifelong",
+
+  "leadershipStyle": "Supportive",
+
+  "communicationStyle": "Thoughtful",
+
+  "decisionMaking": "Patient",
+
+  "emotionalNature": "Deep",
+
+  "learningStyle": "Reflective",
+
+  "businessSuitability": [
+    "Very Good"
+  ],
+
+  "recommendedProfessions": [
+    "Education",
+    "Psychology",
+    "Research",
+    "Healthcare",
+    "Spiritual Services",
+    "Judiciary"
+  ],
+
+  "goodFor": [
+    "Meditation",
+    "Education",
+    "Long-Term Investments",
+    "Research",
+    "Charity",
+    "Spiritual Practices"
+  ],
+
+  "avoidFor": [
+    "Impulsive Decisions",
+    "Aggressive Confrontations"
+  ],
+
+  "isMokshaNakshatra": true,
+
+  "chakra": "Sahasrara",
+
+  "spiritualLesson": "True peace is attained through patience, surrender and the realization that inner stillness is the source of lasting wisdom.",
+
+  "compatibleNakshatras": [
+    "Anuradha",
+    "Pushya",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Ardra",
+    "Magha"
+  ],
+
+  "mythologicalStory": "Uttara Bhadrapada is ruled by Ahir Budhnya, the cosmic serpent dwelling in the depths of the ocean. It symbolizes profound spiritual wisdom, inner stability and the journey toward liberation. This Nakshatra teaches mastery over emotions and the attainment of peace through self-realization.",
+
+  "interestingFacts": [
+    "Represents inner peace, wisdom and spiritual maturity.",
+    "One of the strongest Moksha-oriented Nakshatras.",
+    "Excellent for meditation, research and philosophy.",
+    "Produces calm, dependable and compassionate individuals.",
+    "Encourages detachment from material distractions and pursuit of higher consciousness."
+  ],
+
+  "keywords": [
+    "Peace",
+    "Wisdom",
+    "Meditation",
+    "Liberation",
+    "Compassion",
+    "Spirituality"
+  ],
+
+  "icon": "🪷",
+
+  "priorityLifeAreas": [
+    "Spiritual Growth",
+    "Education",
+    "Service",
+    "Inner Peace"
+  ]
+}

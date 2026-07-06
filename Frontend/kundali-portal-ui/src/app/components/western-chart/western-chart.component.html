@@ -3,7 +3,7 @@
     viewBox="0 0 500 500"
     preserveAspectRatio="xMidYMid meet"
     class="western-svg"
-    aria-label="Western kundali chart"
+    [attr.aria-label]="'chart.westernAriaLabel' | transloco"
   >
     <circle cx="250" cy="250" r="210" class="outer-ring" />
     <circle cx="250" cy="250" r="72" class="inner-ring" />
@@ -47,8 +47,8 @@
       </text>
     </g>
 
-    <text x="250" y="238" text-anchor="middle" class="center-title">Western</text>
-    <text x="250" y="262" text-anchor="middle" class="center-subtitle">Rashi Wheel</text>
+    <text x="250" y="238" text-anchor="middle" class="center-title">{{ 'chartTypes.western' | transloco }}</text>
+    <text x="250" y="262" text-anchor="middle" class="center-subtitle">{{ 'chart.rashiWheel' | transloco }}</text>
   </svg>
 </div>
 

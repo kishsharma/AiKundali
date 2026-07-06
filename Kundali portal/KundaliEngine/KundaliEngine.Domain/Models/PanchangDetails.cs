@@ -16,5 +16,7 @@ namespace KundaliEngine.Domain.Models
         public string Karana { get; set; } = string.Empty;
         public string Vaar { get; set; } = string.Empty;
         public string Maas { get; set; } = string.Empty;
+        public string Shake { get; set; } = string.Empty;   // <-- Added
+        public string Samvat { get; set; } = string.Empty;  // <-- Added
     }
 }

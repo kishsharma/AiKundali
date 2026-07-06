@@ -6,8 +6,10 @@
   <div class="card-header">
 
     <h3>
-      House {{ houseData.houseNumber }}: {{ houseData.houseName }}:
-
+      {{ 'house.detailsHeader' | transloco: {
+        houseNumber: houseData.houseNumber,
+        houseName: houseData.houseName
+      } }}
     </h3>
 
     <span class="sign-badge">
@@ -19,26 +21,26 @@
   <div class="simple-info">
 
     <div>
-      <span>Owner</span>
+      <span>{{ 'house.owner' | transloco }}</span>
       <strong>{{ houseData.houseOwner }}</strong>
     </div>
 
     <div>
-      <span>Score</span>
+      <span>{{ 'house.scoreLabel' | transloco }}</span>
       <strong>{{ houseData.score }}</strong>
     </div>
 
     <div>
-      <span>Benefic</span>
+      <span>{{ 'house.benefic' | transloco }}</span>
       <strong>
-        {{ houseData.hasBeneficAspect ? 'Yes' : 'No' }}
+        {{ houseData.hasBeneficAspect ? ('common.yes' | transloco) : ('common.no' | transloco) }}
       </strong>
     </div>
 
     <div>
-      <span>Malefic</span>
+      <span>{{ 'house.malefic' | transloco }}</span>
       <strong>
-        {{ houseData.hasMaleficAspect ? 'Yes' : 'No' }}
+        {{ houseData.hasMaleficAspect ? ('common.yes' | transloco) : ('common.no' | transloco) }}
       </strong>
     </div>
 
@@ -49,7 +51,7 @@
     *ngIf="houseData.dominantThemes?.length"
   >
 
-    <label>Themes</label>
+    <label>{{ 'house.themes' | transloco }}</label>
     <p class="simple-text">
       {{ houseData.dominantThemes.join(', ') }}
     </p>
@@ -61,27 +63,33 @@
     *ngIf="houseData.lifeAreas?.length"
   >
 
-    <label>Life Areas</label>
+    <label>{{ 'house.lifeAreas' | transloco }}</label>
     <p class="simple-text">
       {{ houseData.lifeAreas.join(', ') }}
     </p>
 
   </div>
-<div
-  class="tag-section factor-tooltip"
-  *ngIf="houseData.factors?.length"
->
-  <button type="button" class="factor-tooltip-trigger" aria-haspopup="true">
-    View factors
-  </button>
+  <div
+    class="tag-section factor-tooltip"
+    *ngIf="houseData.factors?.length"
+  >
+    <button
+      type="button"
+      class="factor-tooltip-trigger"
+      aria-haspopup="true"
+      aria-describedby="house-factor-tooltip"
+    >
+      {{ 'house.viewFactors' | transloco }}
+      <span aria-hidden="true" class="factor-info-icon">i</span>
+    </button>
 
-  <div class="tooltip-box" role="tooltip">
+    <div class="tooltip-box" id="house-factor-tooltip" role="tooltip">
     <span
-      class="tag factor-tag"
+      class="factor-line"
       *ngFor="let factor of houseData.factors"
     >
       {{ factor }}
     </span>
   </div>
-</div>
+  </div>
 </div>

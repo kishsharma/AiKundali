@@ -1,9 +1,7 @@
 ﻿using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
-using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Dasha;
-using KundaliEngine.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,10 +14,12 @@ namespace KundaliEngine.API.Controllers
     public class DashaController : ControllerBase
     {
         private readonly DashaService _dashaService;
+        private readonly ChartService _chartService;
 
-        public DashaController(DashaService dashaService)
+        public DashaController(DashaService dashaService, ChartService chartService)
         {
             _dashaService = dashaService;
+            _chartService = chartService;
         }
 
         [HttpPost("mahadasha-periods")]
@@ -30,20 +30,18 @@ namespace KundaliEngine.API.Controllers
 
             try
             {
-                var planets = new ChartService().GenerateChart(request.BirthDateTime, request.Latitude, request.Longitude);
+                var indiaZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                DateTime birthUtc = TimeZoneInfo.ConvertTimeToUtc(request.BirthDateTime, indiaZone);
+
+                var planets = _chartService.GenerateChart(birthUtc, request.Latitude, request.Longitude);
                 var moonPos = planets.First(p => p.Planet == Domain.Enums.Planet.Moon);
                 var birthDasha = _dashaService.GetBirthMahadasha(moonPos);
 
-                // Dasha timeline for 120 years (full Vimshottari cycle)
-                var mahadashaTimeline = _dashaService.GenerateMahadashaTimeline(birthDasha.Planet, birthDasha.RemainingYears, request.BirthDateTime);
-                
-                // Ensure timeline covers at least 120 years by extending cycles if needed
-                while ((mahadashaTimeline.Last().EndDate - mahadashaTimeline.First().StartDate).TotalDays < 120 * 365.25)
-                {
-                    var lastPlanet = mahadashaTimeline.Last().Planet;
-                    var extend = _dashaService.GenerateMahadashaTimeline(lastPlanet, _dashaService.GetBirthMahadasha(moonPos).RemainingYears, mahadashaTimeline.Last().EndDate);
-                    mahadashaTimeline.AddRange(extend);
-                }
+                var mahadashaTimeline = _dashaService.GenerateMahadashaTimelineForYears(
+                    birthDasha.Planet,
+                    birthDasha.RemainingYears,
+                    birthUtc,
+                    120);
 
                 // Build mahadasha + antardasha DTOs
                 var mahadashaDtos = mahadashaTimeline.Select(m => new MahadashaPeriodDto
@@ -51,7 +49,10 @@ namespace KundaliEngine.API.Controllers
                     Planet = m.Planet.ToString(),
                     Start = m.StartDate,
                     End = m.EndDate,
-                    Antardashas = _dashaService.GenerateAntardasha(m, _dashaService.GetBirthMahadasha(moonPos).RemainingYears)
+                    Antardashas = _dashaService.GenerateAntardashaForTimelinePeriod(
+                            m,
+                            birthDasha.Planet,
+                            birthDasha.RemainingYears)
                         .Select(a => new AntardashaPeriodDto { SubPlanet = a.SubPlanet.ToString(), StartDate = a.StartDate, EndDate = a.EndDate })
                         .ToList()
                 }).ToList();

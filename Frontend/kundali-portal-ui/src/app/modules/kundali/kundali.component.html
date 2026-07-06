@@ -1,258 +1,339 @@
-<app-page-header
-  title="Generate Kundali"
-  subtitle="Create your personalized birth chart"
-  description="Enter your birth details to generate a detailed Kundali (birth chart) with planetary positions and analysis."
-  [breadcrumbs]="[
-    { label: 'Home', routerLink: '/' },
-    { label: 'Kundali', active: true }
-  ]"
-></app-page-header>
+<div class="page-actions-bar">
+  <app-page-header 
+  [kundalistatement]="'yes'"
+   [breadcrumbs]="[
+      { label: 'Home', routerLink: '/' },
+      { label: 'Kundali', active: true }
+    ]"></app-page-header>
+  <button class="pdf-btn" *ngIf="showChart" (click)="downloadPdf()">
+    <span class="pdf-btn-icon">⬇</span>
+    <span>Download PDF</span>
+  </button>
+</div>
+<div class="pdf-loader" *ngIf="exportingPdf">
 
+  Generating PDF...
+
+</div>
 <div class="kundali-layout">
   <div class="primary-sections">
     <app-section-card title="Birth Details">
-      <form
-        class="kundali-form"
-        [formGroup]="kundaliForm"
-        (ngSubmit)="generateKundali()"
-      >
+      <form class="kundali-form" [formGroup]="kundaliForm" (ngSubmit)="generateKundali()">
         <div class="form-grid">
           <div class="form-group">
-            <label>Full Name</label>
-            <input
-              type="text"
-              formControlName="fullName"
-              placeholder="Enter full name"
-              value="kishore"
-            />
+            <label>{{ 'kundali.fullName' | transloco }}</label>
+            <input type="text" formControlName="fullName" placeholder="{{ 'kundali.fullName' | transloco }}" />
           </div>
 
           <div class="form-group">
-            <label>Gender</label>
+            <label>{{ 'kundali.gender' | transloco }}</label>
             <select formControlName="gender">
               <option value="">Select Gender</option>
-              <option value="Male" selected>Male</option>
+              <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Birth Date</label>
-            <input
-              type="date"
-              formControlName="birthDate"
-              value="1986-10-06"
-            />
+            <label>{{ 'kundali.birthDate' | transloco }}</label>
+            <input type="date" formControlName="birthDate" />
           </div>
 
           <div class="form-group">
-            <label>Birth Time</label>
-            <input
-              type="time"
-              formControlName="birthTime"
-              value="11:45"
-            />
+            <label>{{ 'kundali.birthTime' | transloco }}</label>
+            <input type="time" formControlName="birthTime" />
           </div>
 
           <div class="form-group full-width">
-            <label>Birth Place</label>
-            <input
-              type="text"
-              formControlName="birthPlace"
-              placeholder="Enter birth place"
-              value="hingoli"
-            />
+            <label>{{ 'kundali.birthPlace' | transloco }}</label>
+            <input type="text" formControlName="birthPlace" placeholder="{{ 'kundali.birthPlace' | transloco }}" />
           </div>
 
           <div class="form-group">
-            <label>Latitude</label>
-            <input
-              type="text"
-              formControlName="latitude"
-              readonly
-            />
+            <label>{{ 'kundali.latitude' | transloco }}</label>
+            <input type="text" formControlName="latitude" readonly />
           </div>
 
           <div class="form-group">
-            <label>Longitude</label>
-            <input
-              type="text"
-              formControlName="longitude"
-              readonly
-            />
+            <label>{{ 'kundali.longitude' | transloco }}</label>
+            <input type="text" formControlName="longitude" readonly />
           </div>
 
           <div class="location-dropdown" *ngIf="locationResults.length">
-            <div
-              class="location-item"
-              *ngFor="let place of locationResults"
-              (click)="selectLocation(place)"
-            >
+            <div class="location-item" *ngFor="let place of locationResults" (click)="selectLocation(place)">
               {{ place.display_name }}
             </div>
           </div>
         </div>
 
-        <div class="action-section">
+        <!-- <div class="action-section">
           <button
             type="submit"
             [disabled]="loading"
           >
-            {{ loading ? 'Generating...' : 'Generate Kundali' }}
+            {{
+ loading
+ ? ('kundali.generating' | transloco)
+ : ('kundali.generateButton' | transloco)
+}}
           </button>
+        </div> -->
+        <div class="action-section">
+
+          <button type="submit" [disabled]="loading" class="generate-btn">
+
+            <ng-container *ngIf="!loading">
+
+              {{ 'kundali.generateButton' | transloco }}
+
+            </ng-container>
+
+            <ng-container *ngIf="loading">
+
+              <span class="loader-orbit"></span>
+
+              Generating...
+
+            </ng-container>
+
+          </button>
+
         </div>
       </form>
     </app-section-card>
+    <div id="kundali-report" *ngIf="showChart && kundaliResponse">
 
-    <app-section-card title="Kundali Chart">
-      <div class="chart-tabs" role="tablist" aria-label="Kundali chart type">
-        <button
-          type="button"
-          role="tab"
-          [class.active]="activeChartType === 'north'"
-          [attr.aria-selected]="activeChartType === 'north'"
-          (click)="activeChartType = 'north'">
-          North Indian
-        </button>
+      <div class="pdf-only report-header premium-header" id="pdfHeader">
 
-        <button
-          type="button"
-          role="tab"
-          [class.active]="activeChartType === 'south'"
-          [attr.aria-selected]="activeChartType === 'south'"
-          (click)="activeChartType = 'south'"
-        >
-          South Indian
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          [class.active]="activeChartType === 'western'"
-          [attr.aria-selected]="activeChartType === 'western'"
-          (click)="activeChartType = 'western'"
-        >
-          Western
-        </button>
-      </div>
-
-      <div class="chart-with-house-details">
-        <div >
-          <app-north-indian-chart
-            *ngIf="activeChartType === 'north'"
-            [planets]="planets"
-            [ascendant]="summary?.ascendant"
-            [housesData]="kundaliResponse?.houses"
-            (houseSelected)="selectedHouseData = $event"
-          ></app-north-indian-chart>
-
-          <app-south-indian-chart
-            *ngIf="activeChartType === 'south'"
-            [planets]="planets"
-            [ascendant]="summary?.ascendant"
-            [housesData]="kundaliResponse?.houses"
-            (houseSelected)="selectedHouseData = $event"
-          ></app-south-indian-chart>
-
-          <app-western-chart
-            *ngIf="activeChartType === 'western'"
-            [planets]="planets"
-            [ascendant]="summary?.ascendant"
-            [housesData]="kundaliResponse?.houses"
-            (houseSelected)="selectedHouseData = $event"
-          ></app-western-chart>
+        <div class="header-top-section">
+          <div class="brand-section">
+            <img src="assets/logo.png" class="brand-logo">
+            <div class="brand-info">
+              <h1 class="brand-name">{{ 'kundali.brandName' | transloco }}</h1>
+              <p class="brand-tagline">{{ 'kundali.brandTagline' | transloco }}</p>
+            </div>
+          </div>
+          <div class="header-separator"></div>
+          <div class="astrologer-section">
+          
+            <h2 class="astrologer-name">{{ 'kundali.reportAuthorName' | transloco }}</h2>
+            <span class="astrologer-title">{{ 'kundali.reportAuthorRole' | transloco }}</span>
+              
+            <p class="astrologer-contact">{{ 'kundali.reportAuthorContact' | transloco }}</p>
+          </div>
         </div>
-<div class="no-card-style" >
- <app-section-card  class="house-details-card-container">
-          <ng-container *ngIf="selectedHouseData; else noHouseSelected">
-            <app-house-details-card
-              [houseData]="selectedHouseData"
-            ></app-house-details-card>
-          </ng-container>
 
-          <ng-template #noHouseSelected>
-            <p class="house-placeholder">
-              Select a house on the chart to view details here.
+        <div class="header-bottom-section">
+          <div class="person-details-block">
+            <p class="person-detail-value">
+              <span class="intro-muted">This kundali belongs to</span>
+              <strong class="intro-name">{{ kundaliForm.value.fullName || '—' }}</strong>
+              <span class="intro-muted">who was born on</span>
+              <strong class="intro-date">{{ formatBirthDate(kundaliForm.value.birthDate) }}</strong>
+              <span class="intro-muted">at</span>
+              <strong class="intro-time">{{ kundaliForm.value.birthTime || '—' }}</strong>
+              <span class="intro-muted">in</span>
+              <strong class="intro-place">{{ kundaliForm.value.birthPlace || '—' }}</strong>
             </p>
-          </ng-template>
+          </div>
+        </div>
+
+      </div>
+      <app-section-card [title]="'kundali.chart' | transloco">
+        <div id='divtabs' class="chart-tabs" role="tablist" aria-label="Kundali chart type">
+          <button type="button" role="tab" [class.active]="activeChartType === 'north'"
+            [attr.aria-selected]="activeChartType === 'north'" (click)="activeChartType = 'north'">
+            {{ 'chartTypes.northIndian' | transloco }}
+          </button>
+
+          <button type="button" role="tab" [class.active]="activeChartType === 'south'"
+            [attr.aria-selected]="activeChartType === 'south'" (click)="activeChartType = 'south'">
+            {{ 'chartTypes.southIndian' | transloco }}
+          </button>
+
+          <button type="button" role="tab" [class.active]="activeChartType === 'western'"
+            [attr.aria-selected]="activeChartType === 'western'" (click)="activeChartType = 'western'">
+            {{ 'chartTypes.western' | transloco }}
+          </button>
+        </div>
+
+        <div class="chart-with-house-details">
+           <div class="left">
+            
+          <div class="chart-wrapper">
+             
+           <div>
+             <div class="chart-title">Lagna Kundali</div>
+              <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="planets"
+                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+                (houseSelected)="selectedHouseData = $event"></app-north-indian-chart>
+
+              <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="planets"
+                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+                (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
+
+              <app-western-chart *ngIf="activeChartType === 'western'" [planets]="planets"
+                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+                (houseSelected)="selectedHouseData = $event"></app-western-chart>
+                </div>
+            </div>
+            </div>
+            <div class="right">
+              <app-section-card class="house-details-card-container">
+                <ng-container *ngIf="selectedHouseData; else noHouseSelected">
+                  <app-house-details-card [houseData]="selectedHouseData"></app-house-details-card>
+                </ng-container>
+
+                <ng-template #noHouseSelected>
+                  <p class="house-placeholder">
+                    {{ 'kundali.selectHousePrompt' | transloco }}
+                  </p>
+                </ng-template>
+              </app-section-card>
+            </div>
+          
+
+        </div>
+      </app-section-card>
+
+      <div class="detail-grid">
+
+        <app-section-card [title]="'kundali.summary' | transloco"  class="full-row" >
+          <app-kundali-summary [summary]="kundaliResponse?.summary" [kundaliFormValue]="kundaliForm.value">
+          </app-kundali-summary>
+          <app-panchang-card [panchang]="kundaliResponse?.panchang">
+          </app-panchang-card>
         </app-section-card>
-</div>
+
+      
+      </div>
+      <app-section-card [title]="'kundali.yogas' | transloco" class="full-row" *ngIf="kundaliResponse">
+        <div class="yogas-list" *ngIf="yogas.length; else noYogas">
+          <div class="yoga-item" *ngFor="let yoga of yogas">
+            <div class="yoga-header">
+              <h4>{{ yoga.name }}</h4>
+              <span class="yoga-strength" *ngIf="yoga.strength">{{ yoga.strength }}</span>
+            </div>
+
+            <!-- <div class="yoga-meta" *ngIf="yoga.category || yoga.sanskritName">
+              <span *ngIf="yoga.category">{{ yoga.category }}</span>
+              <span *ngIf="yoga.sanskritName">{{ yoga.sanskritName }}</span>
+            </div> -->
+
+            <p class="yoga-description" *ngIf="yoga.reason || yoga.description">
+              {{ yoga.description ||yoga.reason  }}
+            </p>
+            <p  *ngIf="yoga.impact">
+              {{  yoga.impact }}
+            </p>
+          </div>
+        </div>
+
+        <ng-template #noYogas>
+          <p class="yoga-placeholder">{{ 'kundali.noYogas' | transloco }}</p>
+        </ng-template>
+      </app-section-card>
+
+      <div class="results-sections" *ngIf="planets.length">
+        <app-section-card [title]="'kundali.planetPositions' | transloco" class="full-row">
+          <div class="planet-table-wrapper">
+            <table class="planet-table">
+              <thead>
+                <tr>
+                  <th>{{ 'table.planet' | transloco }}</th>
+                  <th>{{ 'table.sign' | transloco }}</th>
+                  <th>{{ 'table.house' | transloco }}</th>
+                  <th>{{ 'table.degree' | transloco }}</th>
+                  <th>{{ 'table.status' | transloco }}</th>
+                  <th>{{ 'table.strength' | transloco }}</th>
+                  <th>{{ 'table.nakshatra' | transloco }}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let planet of planets">
+                  <td class="planet-cell">
+
+                    <span class="planet-icon">
+
+                      {{
+                      planet.planet === 'Sun' ? '☉' :
+                      planet.planet === 'Moon' ? '☾' :
+                      planet.planet === 'Mars' ? '♂' :
+                      planet.planet === 'Mercury' ? '☿' :
+                      planet.planet === 'Jupiter' ? '♃' :
+                      planet.planet === 'Venus' ? '♀' :
+                      planet.planet === 'Saturn' ? '♄' :
+                      planet.planet === 'Rahu' ? '☊' :
+                      planet.planet === 'Ketu' ? '☋' :
+                      '•'
+                      }}
+
+                    </span>
+
+                    <span class="planet-name">
+                      {{ ('planet.' + planet.planet) | transloco }}
+                    </span>
+
+                  </td>
+                  <td>{{ ('sign.' + planet.sign) | transloco }}</td>
+                  <td>{{ planet.house }}</td>
+                  <td>{{ planet.degree }}° {{ planet.minute }}'</td>
+                  <td>
+                    <span class="badge retro" *ngIf="planet.isRetrograde">
+                      R
+                    </span>
+                    <span class="badge combust" *ngIf="planet.isCombust">
+                      C
+                    </span>
+                  </td>
+                  <td>
+
+                    <span class="strength-pill" [ngClass]="getStrengthClass(planet.detailedStrength)">
+                      {{ getStrengthLabel(planet.detailedStrength) }}
+                    </span>
+
+                  </td>
+                  <td>
+                    {{ planet.nakshatra }}
+                    ({{ planet.pada }})
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </app-section-card>
+
        
-      </div>
-    </app-section-card>
-  </div>
-<div class="detail-grid">
+<div class="kundaliscore-grid">
 
- <app-section-card title="Kundali Summary">
-        <app-kundali-summary [summary]="kundaliResponse?.summary">
-        </app-kundali-summary>
-      </app-section-card>
-
-      <app-section-card title="Panchang Details">
-        <app-panchang-card [panchang]="kundaliResponse?.panchang">
-        </app-panchang-card>
-      </app-section-card>
-
-
+          <app-section-card class="full-row" [title]="'kundali.scores' | transloco">
+            <app-kundali-score-card [scores]="scores">
+            </app-kundali-score-card>
+          </app-section-card>
 </div>
-  <div class="results-sections" *ngIf="planets.length">
-    <app-section-card title="Planet Positions" class="full-row">
-      <div class="planet-table-wrapper">
-        <table class="planet-table">
-          <thead>
-            <tr>
-              <th>Planet</th>
-              <th>Sign</th>
-              <th>House</th>
-              <th>Degree</th>
-              <th>Status</th>
-              <th>Strength</th>
-              <th>Nakshatra</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let planet of planets">
-              <td>{{ planet.planet }}</td>
-              <td>{{ planet.sign }}</td>
-              <td>{{ planet.house }}</td>
-              <td>{{ planet.degree }}° {{ planet.minute }}'</td>
-              <td>
-                <span
-                  class="badge retro"
-                  *ngIf="planet.isRetrograde"
-                >
-                  R
-                </span>
-                <span
-                  class="badge combust"
-                  *ngIf="planet.isCombust"
-                >
-                  C
-                </span>
-              </td>
-              <td>{{ planet.detailedStrength }}</td>
-              <td>
-                {{ planet.nakshatra }}
-                ({{ planet.pada }})
-              </td>
-            </tr>
-          </tbody>
-        </table>
+ <div class="detail-grid">
+          <app-section-card class="full-row" [title]="'kundali.bhavascore' | transloco">
+            <app-house-score-overview [houseCards]="houseScores">
+            </app-house-score-overview>
+          </app-section-card>
+          <app-section-card [title]="'kundali.dasha' | transloco" class="full-row">
+            <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods">
+            </app-mahadasha-antardasha>
+          </app-section-card>
+        </div>
       </div>
-    </app-section-card>
+    </div>
 
-    <div class="detail-grid">
-     
-      <app-section-card title="Kundali Scores">
-        <app-kundali-score-card [scores]="scores">
-        </app-kundali-score-card>
-      </app-section-card>
+    <div class="pdf-only report-footer" id="pdfFooter">
 
-      <app-section-card title="Mahadasha & Antardasha" class="full-row">
-        <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods">
-        </app-mahadasha-antardasha>
-      </app-section-card>
+      <span>
+        {{ 'kundali.reportFooterConfidential' | transloco }}
+      </span>
+
+      <span>
+        {{ 'kundali.reportFooterPoweredBy' | transloco }}
+      </span>
+
     </div>
   </div>
-</div>

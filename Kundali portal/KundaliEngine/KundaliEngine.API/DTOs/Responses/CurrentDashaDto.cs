@@ -10,6 +10,10 @@
 
         public DateTime EndDate { get; set; }
 
+        public DateTime AntardashaStartDate { get; set; }
+
+        public DateTime AntardashaEndDate { get; set; }
+
         public string Summary { get; set; }
     }
 }

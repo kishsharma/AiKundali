@@ -1,51 +1,235 @@
+/* =========================
+   PANCHANG CARD
+========================= */
+
 .panchang-card {
-  background: #fffdfa;
-  border: 1px solid #f0dfba;
-  border-radius: 14px;
-  padding: 14px 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  color: #333;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #ffffff
+    );
+
+  border: 1px solid #e6e9f4;
+
+  border-radius: 8px;
+
+  padding: 0.8rem 0.9rem;
+
+  box-shadow:
+    0 8px 22px rgba(16,20,61,0.05);
+
+  overflow: hidden;
 }
 
-.panchang-card .card-header {
-  margin-bottom: 0.9rem;
-}
+/* =========================
+   GRID
+========================= */
 
-.panchang-card h3 {
-  margin: 0;
-  font-size: 16px;
-  color: #5c3b00;
-}
+.panchang-grid {
 
-.panchang-info {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem 1rem;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  border: 1px solid #e6e9f4;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  background: #fbfcff;
 }
 
-.panchang-row {
+/* =========================
+   ITEM
+========================= */
+
+.panchang-item {
+
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0;
-  border-bottom: 1px solid rgba(92, 59, 0, 0.08);
 
+  gap: 0.6rem;
+
+  padding: 0.75rem 0.8rem;
+
+  border-right: 1px solid #edf0f8;
+
+  transition: 0.2s ease;
+
+  min-width: 0;
 }
 
-.panchang-row:last-child {
-  border-bottom: none;
+.panchang-item:last-child {
+
+  border-right: none;
 }
 
-.panchang-row span {
-  font-size: 11px;
-  color: #777;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+.panchang-item:hover {
+
+  background: #f5f7ff;
 }
 
-.panchang-row strong {
-  font-size: 13px;
+/* =========================
+   ICON
+========================= */
+
+.panchang-icon {
+
+  width: 38px;
+  height: 38px;
+
+  min-width: 38px;
+
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef4ff,
+      #eef4ff
+    );
+
+  border: 1px solid #dbe5ff;
+
+  color: #f59e0b;
+
+  font-size: 16px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.panchang-content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+/* LABEL */
+
+.panchang-content span {
+
+  font-size: 10px;
+
   font-weight: 700;
-  color: #5c3b00;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.6px;
+
+  color: #5d6689;
+
+  margin-bottom: 2px;
+}
+
+/* VALUE */
+
+.panchang-content strong {
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: #10143d;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+
+  .panchang-grid {
+
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+  .panchang-item {
+
+    border-bottom:
+      1px solid #edf0f8;
+  }
+
+  .panchang-item:nth-child(3n) {
+
+    border-right: none;
+  }
+
+  .panchang-item:nth-last-child(-n + 3) {
+
+    border-bottom: none;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 576px) {
+
+  .panchang-card {
+
+    padding: 0.7rem;
+  }
+
+  .panchang-grid {
+
+    grid-template-columns: 1fr;
+  }
+
+  .panchang-item {
+
+    border-right: none !important;
+
+    border-bottom:
+      1px solid #edf0f8;
+
+    padding: 0.75rem;
+  }
+
+  .panchang-item:last-child {
+
+    border-bottom: none;
+  }
+
+  .panchang-icon {
+
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+
+    font-size: 14px;
+  }
+
+ .panchang-content strong {
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: #10143d;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+}
 }

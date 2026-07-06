@@ -1,0 +1,305 @@
+{
+  "id": 18,
+  "name": "Jyeshtha",
+  "sanskritName": "ज्येष्ठा",
+  "englishName": "Jyeshtha",
+
+  "startDegree": {
+    "sign": "Scorpio",
+    "longitude": 226.666667,
+    "display": "16°40' Scorpio"
+  },
+
+  "endDegree": {
+    "sign": "Scorpio",
+    "longitude": 240.000000,
+    "display": "30°00' Scorpio"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 8,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "No",
+      "akshara": "नो"
+    },
+    {
+      "number": 2,
+      "rashiId": 8,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Ya",
+      "akshara": "या"
+    },
+    {
+      "number": 3,
+      "rashiId": 8,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Aquarius",
+      "syllable": "Yi",
+      "akshara": "यी"
+    },
+    {
+      "number": 4,
+      "rashiId": 8,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Pisces",
+      "syllable": "Yu",
+      "akshara": "यू"
+    }
+  ],
+
+  "lord": "Mercury",
+
+  "rashi": [
+    "Scorpio"
+  ],
+
+  "deity": "Indra",
+
+  "symbol": "Circular Amulet, Umbrella, Earring",
+
+  "animalSymbol": "Male Deer",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Deer",
+
+  "nadi": "Antya",
+
+  "varna": "Brahmin",
+
+  "vashya": [
+    "Keeta"
+  ],
+
+  "guna": "Sattva",
+
+  "tatva": "Water",
+
+  "gender": "Male",
+
+  "nature": "Tikshna (Sharp)",
+
+  "motivation": "Artha",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Neem (Azadirachta indica)",
+
+  "flower": "Red Hibiscus",
+
+  "metal": "Bronze",
+
+  "color": [
+    "Red",
+    "Dark Green",
+    "Golden"
+  ],
+
+  "gemstone": "Emerald",
+
+  "rudraksha": [
+    "4 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Green Gram",
+    "Books",
+    "Umbrella",
+    "Medicines",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ इन्द्राय नमः",
+
+  "planetaryBeejMantra": "ॐ ब्रां ब्रीं ब्रौं सः बुधाय नमः",
+
+  "fastingDay": "Wednesday",
+
+  "positiveTraits": [
+    "Responsible",
+    "Intelligent",
+    "Protective",
+    "Influential",
+    "Courageous",
+    "Strategic",
+    "Resourceful",
+    "Independent",
+    "Determined",
+    "Resilient"
+  ],
+
+  "negativeTraits": [
+    "Dominating",
+    "Jealous",
+    "Proud",
+    "Secretive",
+    "Suspicious",
+    "Possessive"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Strategy",
+    "Decision Making",
+    "Administration",
+    "Problem Solving"
+  ],
+
+  "weaknesses": [
+    "Trust Issues",
+    "Emotional Intensity",
+    "Difficulty Delegating"
+  ],
+
+  "career": [
+    "Government Officer",
+    "Military Officer",
+    "Police",
+    "Administrator",
+    "Judge",
+    "Surgeon",
+    "Detective",
+    "Researcher",
+    "Business Leader",
+    "Intelligence Services"
+  ],
+
+  "education": [
+    "Law",
+    "Medicine",
+    "Administration",
+    "Psychology",
+    "Defense Studies"
+  ],
+
+  "finance": [
+    "Strong Wealth Potential",
+    "Success through Leadership",
+    "Careful Financial Planning Required"
+  ],
+
+  "health": [
+    "Reproductive System",
+    "Colon",
+    "Urinary Tract",
+    "Mental Stress",
+    "Blood Pressure"
+  ],
+
+  "bodyParts": [
+    "Reproductive Organs",
+    "Colon",
+    "Pelvic Region"
+  ],
+
+  "relationships": [
+    "Protective",
+    "Loyal",
+    "Possessive",
+    "Needs Respect"
+  ],
+
+  "loveNature": "Intense",
+
+  "marriageNature": "Committed",
+
+  "friendshipNature": "Selective",
+
+  "leadershipStyle": "Authoritative",
+
+  "communicationStyle": "Assertive",
+
+  "decisionMaking": "Strategic",
+
+  "emotionalNature": "Deep",
+
+  "learningStyle": "Analytical",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Government",
+    "Defense",
+    "Administration",
+    "Medicine",
+    "Research",
+    "Corporate Leadership"
+  ],
+
+  "goodFor": [
+    "Leadership",
+    "Government Work",
+    "Research",
+    "Strategic Planning",
+    "Competitive Activities"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Peace Negotiations",
+    "Emotionally Sensitive Discussions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "True greatness is measured not by power or status, but by humility, wisdom and the responsible use of authority.",
+
+  "compatibleNakshatras": [
+    "Ashlesha",
+    "Revati",
+    "Anuradha"
+  ],
+
+  "challengingNakshatras": [
+    "Mrigashira",
+    "Purva Phalguni"
+  ],
+
+  "mythologicalStory": "Jyeshtha is ruled by Indra, the king of the Devas. It symbolizes seniority, responsibility, authority and the duty to protect others. The Nakshatra teaches that leadership is earned through courage, sacrifice and wise judgment rather than mere position.",
+
+  "interestingFacts": [
+    "Represents seniority, authority and responsibility.",
+    "Excellent Nakshatra for administration and leadership.",
+    "Strong intuition combined with strategic intelligence.",
+    "Produces courageous individuals capable of handling crises.",
+    "Success comes through discipline, humility and service."
+  ],
+
+  "keywords": [
+    "Leadership",
+    "Authority",
+    "Protection",
+    "Responsibility",
+    "Strategy",
+    "Wisdom"
+  ],
+
+  "icon": "🛡️",
+
+  "priorityLifeAreas": [
+    "Leadership",
+    "Career",
+    "Responsibility",
+    "Personal Growth"
+  ]
+}

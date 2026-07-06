@@ -1,0 +1,61 @@
+{
+  "id": 6,
+  "name": "Kanya",
+  "englishName": "Virgo",
+  "symbol": "♍",
+  "element": "Earth",
+  "modality": "Dual",
+  "gender": "Female",
+  "nature": "Saumya",
+  "ruler": "Mercury",
+  "direction": "South",
+  "bodyPart": "Abdomen, Intestines",
+  "quality": "Analysis, service, perfection",
+  "personality": "Practical, analytical, disciplined, humble, detail-oriented, and dedicated to service.",
+  "strengths": [
+    "Analytical",
+    "Practical",
+    "Organized",
+    "Reliable",
+    "Hardworking"
+  ],
+  "weaknesses": [
+    "Overcritical",
+    "Perfectionist",
+    "Worry-prone",
+    "Reserved"
+  ],
+  "career": [
+    "Medicine",
+    "Healthcare",
+    "Accounting",
+    "Research",
+    "Software Development",
+    "Teaching",
+    "Data Analysis",
+    "Administration"
+  ],
+  "relationships": "Loyal, caring, and dependable. Expresses love through actions and values trust, sincerity, and stability.",
+  "health": "Digestive system, intestines, abdomen, pancreas, and bowel-related issues.",
+  "color": "#7CB342",
+  "gemstone": "Emerald",
+  "metal": "Bronze",
+  "luckyNumbers": [ 3, 5 ],
+  "favorableDirection": "South",
+  "favorableDay": "Wednesday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 12,
+      "padas": [ 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 13,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 14,
+      "padas": [ 1, 2 ]
+    }
+  ],
+  "description": "Kanya is the sixth sign of the zodiac, representing wisdom, precision, discipline, and selfless service. Ruled by Mercury, it symbolizes intelligence, analytical thinking, organization, and the pursuit of perfection in every aspect of life."
+}

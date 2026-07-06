@@ -1,5 +1,5 @@
 // Page Header Component - consistent page title & breadcrumbs
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -45,6 +45,46 @@ export interface Breadcrumb {
         <div *ngIf="description" class="header-description">
           {{ description }}
         </div>
+                <div *ngIf="legacycompatibility" >
+<div class="legacy-statement">
+
+  <div class="legacy-line"></div>
+
+  <p>
+    Rooted in the timeless wisdom of
+    <span>Vedic Astrology</span>.
+    Refined through
+    <span>modern computational intelligence</span>.
+    Crafted to illuminate
+    <span>life's most important decisions</span>.
+  </p>
+
+  <div class="legacy-line"></div>
+
+</div>
+        </div>
+
+<div *ngIf="kundalistatement" >
+  <div class="legacy-statement">
+
+  <div class="legacy-line"></div>
+
+  <p>
+    Every phase of life carries a
+    <span>purpose</span>.
+    Discover how
+    <span>planetary periods</span>
+    shape your
+    <span>opportunities, challenges, and future path</span>
+    through authentic
+    <span>Vedic Dasha analysis</span>.
+  </p>
+
+  <div class="legacy-line"></div>
+
+</div>
+</div>
+
       </div>
     </div>
   `,
@@ -122,7 +162,7 @@ export interface Breadcrumb {
 
     .page-title {
       margin: 0;
-      font-size: 2rem;
+      font-size: 1rem;
       font-weight: 600;
       color: #212121;
     }
@@ -146,7 +186,91 @@ export interface Breadcrumb {
       line-height: 1.5;
       max-width: 600px;
     }
+    .header-statement {
+      font-size: 0.875rem;
+      color: #424242;
+      line-height: 1.5;
 
+    }
+.legacy-statement {
+
+  text-align: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+
+}
+
+/* Decorative Line */
+
+.legacy-line {
+
+  width: 120px;
+
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #d4af37,
+    transparent
+  );
+}
+
+/* Statement */
+
+.legacy-statement p {
+
+  margin: 0;
+
+  padding: 0 1rem;
+
+  font-size: 18px;
+
+  line-height: 1.9;
+
+  font-weight: 400;
+
+  color: #5b4630;
+
+  letter-spacing: 0.4px;
+
+  font-family: "Georgia", "Times New Roman", serif;
+
+  font-style: italic;
+}
+
+/* Highlight */
+
+.legacy-statement span {
+
+  color: #b57d18;
+
+  font-weight: 700;
+
+  font-style: normal;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .legacy-statement p {
+
+    font-size: 15px;
+
+    line-height: 1.8;
+  }
+
+  .legacy-line {
+
+    width: 80px;
+  }
+}
     @media (max-width: 768px) {
       .page-header {
         padding: 1rem;
@@ -168,6 +292,9 @@ export class PageHeaderComponent {
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() description: string = '';
+  @Input() legacycompatibility: string = '';
+  @Input() kundalistatement: string = '';
   @Input() breadcrumbs: Breadcrumb[] = [];
   @Input() showActions: boolean = false;
+  @Input() statement: string = '';
 }

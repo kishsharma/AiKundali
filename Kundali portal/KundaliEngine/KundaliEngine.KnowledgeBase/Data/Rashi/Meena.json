@@ -1,0 +1,61 @@
+{
+  "id": 12,
+  "name": "Meena",
+  "englishName": "Pisces",
+  "symbol": "♓",
+  "element": "Water",
+  "modality": "Dual",
+  "gender": "Female",
+  "nature": "Saumya",
+  "ruler": "Jupiter",
+  "direction": "North",
+  "bodyPart": "Feet",
+  "quality": "Compassion, spirituality, imagination",
+  "personality": "Compassionate, intuitive, spiritual, imaginative, empathetic, and selfless. Naturally drawn toward creativity, healing, and higher consciousness.",
+  "strengths": [
+    "Compassionate",
+    "Intuitive",
+    "Spiritual",
+    "Creative",
+    "Empathetic"
+  ],
+  "weaknesses": [
+    "Overly Emotional",
+    "Escapist",
+    "Indecisive",
+    "Overly Trusting"
+  ],
+  "career": [
+    "Healthcare",
+    "Counseling",
+    "Teaching",
+    "Arts",
+    "Music",
+    "Spiritual Services",
+    "Psychology",
+    "Social Work"
+  ],
+  "relationships": "Deeply loving, understanding, and devoted. Seeks emotional intimacy, compassion, trust, and unconditional support in relationships.",
+  "health": "Feet, lymphatic system, immune system, fluid retention, and emotional health.",
+  "color": "#26A69A",
+  "gemstone": "Yellow Sapphire",
+  "metal": "Gold",
+  "luckyNumbers": [ 3, 7 ],
+  "favorableDirection": "North",
+  "favorableDay": "Thursday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 25,
+      "padas": [ 4 ]
+    },
+    {
+      "nakshatraId": 26,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 27,
+      "padas": [ 1, 2, 3, 4 ]
+    }
+  ],
+  "description": "Meena is the twelfth and final sign of the zodiac, representing compassion, spirituality, intuition, liberation, and universal consciousness. Ruled by Jupiter, it symbolizes wisdom, selfless service, imagination, inner peace, and the culmination of the soul's journey through the zodiac."
+}

@@ -5,14 +5,16 @@
 
   <div
     class="mahadasha-card"
-    *ngFor="let maha of mahadashas">
+    *ngFor="let maha of mahadashas | slice:0:6">
 
     <!-- HEADER -->
 
     <div class="mahadasha-header">
 
       <div class="planet-name">
-        {{ maha.planet }} Mahadasha
+        {{ ('planet.' + maha.planet) | transloco }}
+        {{ ('planet.Mahadasha') | transloco }}
+         
       </div>
 
       <div class="duration">
@@ -30,9 +32,9 @@
       <thead>
 
         <tr>
-          <th>Antardasha</th>
-          <th>Start</th>
-          <th>End</th>
+          <th>{{ 'mahadasha.antardasha' | transloco }}</th>
+          <th>{{ 'mahadasha.start' | transloco }}</th>
+          <th>{{ 'mahadasha.end' | transloco }}</th>
         </tr>
 
       </thead>
@@ -40,10 +42,12 @@
       <tbody>
 
         <tr
-          *ngFor="let antar of maha.antardashas">
+          *ngFor="let antar of maha.antardashas"  [class.active-maha]="isCurrentPeriod(antar.startDate, antar.endDate)">
 
           <td>
-            {{ antar.subPlanet }}
+           
+
+             {{ ('planet.' + antar.subPlanet) | transloco }}
           </td>
 
           <td>

@@ -1,0 +1,30 @@
+[
+  {
+    "area": "Career",
+    "rating": 5,
+    "score": 92,
+    "status": "Excellent",
+    "icon": "briefcase"
+  },
+  {
+    "area": "Finance",
+    "rating": 4,
+    "score": 82,
+    "status": "Very Good",
+    "icon": "currency_rupee"
+  },
+  {
+    "area": "Marriage",
+    "rating": 5,
+    "score": 95,
+    "status": "Excellent",
+    "icon": "favorite"
+  },
+  {
+    "area": "Health",
+    "rating": 3,
+    "score": 68,
+    "status": "Average",
+    "icon": "health_and_safety"
+  }
+]

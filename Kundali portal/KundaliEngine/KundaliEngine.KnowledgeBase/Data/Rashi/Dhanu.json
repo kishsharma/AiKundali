@@ -1,0 +1,61 @@
+{
+  "id": 9,
+  "name": "Dhanu",
+  "englishName": "Sagittarius",
+  "symbol": "♐",
+  "element": "Fire",
+  "modality": "Dual",
+  "gender": "Male",
+  "nature": "Cruel",
+  "ruler": "Jupiter",
+  "direction": "East",
+  "bodyPart": "Thighs, Hips",
+  "quality": "Wisdom, expansion, spirituality",
+  "personality": "Optimistic, philosophical, adventurous, honest, and freedom-loving. Naturally inclined towards higher learning, spirituality, and exploration.",
+  "strengths": [
+    "Optimistic",
+    "Wise",
+    "Honest",
+    "Generous",
+    "Adventurous"
+  ],
+  "weaknesses": [
+    "Blunt",
+    "Restless",
+    "Overconfident",
+    "Impatient"
+  ],
+  "career": [
+    "Teaching",
+    "Professor",
+    "Law",
+    "Religious Leader",
+    "Travel Industry",
+    "Publishing",
+    "Administration",
+    "Consulting"
+  ],
+  "relationships": "Honest, cheerful, and supportive. Values trust, personal freedom, and intellectual compatibility in relationships.",
+  "health": "Hips, thighs, liver, sciatic nerve, and obesity-related issues.",
+  "color": "#F9A825",
+  "gemstone": "Yellow Sapphire",
+  "metal": "Gold",
+  "luckyNumbers": [ 3, 12 ],
+  "favorableDirection": "East",
+  "favorableDay": "Thursday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 19,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 20,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 21,
+      "padas": [ 1 ]
+    }
+  ],
+  "description": "Dhanu is the ninth sign of the zodiac, symbolizing wisdom, righteousness, higher education, philosophy, and spiritual growth. Ruled by Jupiter, it represents optimism, generosity, moral values, and the pursuit of truth and knowledge."
+}
