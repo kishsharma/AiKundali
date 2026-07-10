@@ -1,7 +1,7 @@
 <div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>{{ getScoreLabel() | transloco }}</h2>
+      <h2>{{ isTranslatedScoreLabel() ? (getScoreLabel() | transloco) : getScoreLabel() }}</h2>
       <button class="close-btn" (click)="closeModal()" aria-label="Close">×</button>
     </div>
 

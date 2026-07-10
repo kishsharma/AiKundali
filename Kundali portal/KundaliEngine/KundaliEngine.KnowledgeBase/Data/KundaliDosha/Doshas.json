@@ -1,0 +1,185 @@
+{
+  "Version": "1.0-draft",
+  "Note": "Interpretive dosha metadata for reporting. Detection logic remains in KundaliEngine.Astrology.",
+  "Items": [
+    {
+      "Key": "manglik",
+      "Name": "Manglik Dosha",
+      "Category": "Relationship & Marriage",
+      "Nature": "Challenging",
+      "Description": "Manglik Dosha is considered when Mars influences sensitive houses connected with marriage, domestic harmony, and longevity of partnership.",
+      "ImpactAreas": [
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "Partnerships may need patience, direct communication, and conscious anger management.",
+            "There can be intensity in emotional reactions during conflict.",
+            "Marriage decisions benefit from careful compatibility review and maturity."
+          ]
+        },
+        {
+          "Category": "Family & Domestic Life",
+          "Statements": [
+            "Domestic peace may fluctuate when decisions are rushed or ego-driven.",
+            "Family adjustment can require active listening and steady boundaries.",
+            "A disciplined lifestyle helps reduce friction at home."
+          ]
+        },
+        {
+          "Category": "Career & Drive",
+          "Statements": [
+            "Mars can give strong ambition, courage, and ability to act under pressure.",
+            "Impulsive professional choices may create avoidable stress.",
+            "Leadership improves when energy is directed through planning."
+          ]
+        },
+        {
+          "Category": "Health",
+          "Statements": [
+            "Stress, heat, inflammation, or accident-prone tendencies may need attention.",
+            "Exercise and disciplined routines help channel excess Mars energy.",
+            "Anger and impatience can affect sleep and physical recovery."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Regular prayer and service can soften harsh Mars expression.",
+            "Discipline, humility, and restraint become important spiritual remedies.",
+            "Tuesday-based worship routines may support emotional balance."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Worship Lord Hanuman or Lord Subramanya on Tuesdays.",
+        "Recite Mangal mantra or Hanuman Chalisa with discipline.",
+        "Match with another Manglik chart or review cancellation factors before final judgment."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "kaal_sarpa",
+      "Name": "Kaal Sarpa Dosha",
+      "Category": "Karmic",
+      "Nature": "Challenging",
+      "Description": "Kaal Sarpa Dosha is indicated when all visible planets are enclosed within the Rahu-Ketu axis.",
+      "ImpactAreas": [
+        {
+          "Category": "Mental & Emotional",
+          "Statements": [
+            "The native may feel inner pressure, restlessness, or repeated mental loops.",
+            "Life can feel extreme during Rahu and Ketu periods.",
+            "Emotional stability improves through structure and spiritual grounding."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Progress may come after delays, reversals, or unusual turns.",
+            "Recognition can improve once focus and direction become stable.",
+            "Unconventional fields, research, technology, or hidden domains may attract the native."
+          ]
+        },
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "Trust and expectations may need conscious management.",
+            "Relationships can feel karmic, intense, or transformative.",
+            "Clear communication reduces misunderstandings during stressful periods."
+          ]
+        },
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Financial patterns may show sudden gains and sudden expenses.",
+            "Speculative decisions should be handled carefully.",
+            "Long-term planning helps reduce Rahu-Ketu volatility."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "This dosha can push the native toward deeper self-study and detachment.",
+            "Rahu-Ketu remedies and mantra practice may bring steadiness.",
+            "Service, charity, and disciplined routines reduce karmic pressure."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Perform Rahu-Ketu shanti or Navagraha shanti with a qualified priest.",
+        "Worship Lord Shiva and recite Mahamrityunjaya mantra.",
+        "Strengthen disciplined service, charity, and spiritual practice during Rahu/Ketu periods."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "chandra_grahan",
+      "Name": "Chandra Grahan Dosha",
+      "Category": "Mind",
+      "Nature": "Challenging",
+      "Description": "Chandra Grahan Dosha is considered when Moon is closely associated with Rahu or Ketu, affecting emotional clarity, peace of mind, and mental steadiness.",
+      "ImpactAreas": [
+        {
+          "Category": "Mental & Emotional",
+          "Statements": [
+            "Emotional ups and downs, overthinking, or excessive worry may be more noticeable.",
+            "The native may find it difficult to maintain mental peace during stressful periods.",
+            "Mood swings, sleep disturbance, or vivid dreams can appear when the Moon is activated."
+          ]
+        },
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "The relationship with mother or maternal figures may feel emotionally fluctuating.",
+            "Trust issues, emotional dependency, or emotional detachment may appear in close bonds.",
+            "Expressing feelings clearly may require conscious effort and maturity."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Decision-making may feel confused when emotions and fear dominate judgment.",
+            "Recognition can be delayed despite effort, especially during Rahu or Ketu periods.",
+            "Success often improves after mental maturity and stable direction develop."
+          ]
+        },
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Financial decisions may be influenced by mood, anxiety, or impulse.",
+            "Savings habits can become inconsistent without a clear plan.",
+            "Unexpected gains and losses may appear during Rahu or Ketu periods."
+          ]
+        },
+        {
+          "Category": "Health",
+          "Statements": [
+            "Stress-related issues, headaches, or migraines may need attention.",
+            "Sleep disorders or psychosomatic complaints can arise under emotional pressure.",
+            "Calming routines and emotional regulation support overall health."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "This placement can increase interest in meditation, mantra, and inner healing.",
+            "Moon-strengthening practices help build emotional steadiness.",
+            "Worship of Lord Shiva and disciplined Monday observances may support peace of mind."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Worship Lord Shiva and recite Mahamrityunjaya mantra.",
+        "Donate white items such as rice, milk, or cloth on Mondays.",
+        "Practice moon-strengthening routines such as meditation, water offerings, and disciplined sleep."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    }
+  ]
+}

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KundaliEngine.KnowledgeBase
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KundaliEngine.API", "KundaliEngine.API\KundaliEngine.API.csproj", "{2E1D5EDC-035F-464C-BBAB-FEDE0253A95E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KundaliEngine.Infrastructure", "KundaliEngine.Infrastructure\KundaliEngine.Infrastructure.csproj", "{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{2E1D5EDC-035F-464C-BBAB-FEDE0253A95E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E1D5EDC-035F-464C-BBAB-FEDE0253A95E}.Release|x64.ActiveCfg = Release|Any CPU
 		{2E1D5EDC-035F-464C-BBAB-FEDE0253A95E}.Release|x64.Build.0 = Release|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Debug|x64.Build.0 = Debug|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Release|x64.ActiveCfg = Release|Any CPU
+		{43596F4C-1C0C-4CCE-9BFC-E43AD9B58290}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,29 @@
 <div class="page-actions-bar">
-  <app-page-header 
+  <app-page-header
   [kundalistatement]="'yes'"
    [breadcrumbs]="[
       { label: 'Home', routerLink: '/' },
       { label: 'Kundali', active: true }
     ]"></app-page-header>
-  <button class="pdf-btn" *ngIf="showChart" (click)="downloadPdf()">
-    <span class="pdf-btn-icon">⬇</span>
+  <button class="pdf-btn" *ngIf="showChart" (click)="downloadPdf()" [disabled]="exportingPdf">
+    <span class="pdf-btn-icon" aria-hidden="true"></span>
     <span>Download PDF</span>
   </button>
 </div>
 <div class="pdf-loader" *ngIf="exportingPdf">
-
-  Generating PDF...
-
+  <div class="pdf-loader-card">
+    <div class="cosmic-export-orbit" aria-hidden="true">
+      <span class="orbit-ring ring-one"></span>
+      <span class="orbit-ring ring-two"></span>
+      <span class="orbit-core"></span>
+    </div>
+    <div class="pdf-loader-text">
+      <strong>{{ 'loader.kundaliPdfTitle' | transloco }}</strong>
+      <span>{{ 'loader.kundaliPdfText' | transloco }}</span>
+    </div>
+  </div>
 </div>
+<!-- <app-cosmic-loader  message="diplay this text from parent"></app-cosmic-loader> -->
 <div class="kundali-layout">
   <div class="primary-sections">
     <app-section-card title="Birth Details">
@@ -92,7 +101,7 @@
 
               <span class="loader-orbit"></span>
 
-              Generating...
+              {{ 'kundali.generating' | transloco }}
 
             </ng-container>
 
@@ -102,12 +111,28 @@
       </form>
     </app-section-card>
     <div id="kundali-report" *ngIf="showChart && kundaliResponse">
+      <section class="astrologer-branding-card" *ngIf="showChartBranding && activeBranding as branding">
+        <img *ngIf="branding.logoUrl" [src]="branding.logoUrl" alt="Astrologer logo" class="branding-logo">
+        <div class="branding-logo fallback" *ngIf="!branding.logoUrl">
+          {{ branding.astrologerName.charAt(0).toUpperCase() }}
+        </div>
+        <div class="branding-details">
+          <span class="branding-kicker">Prepared by</span>
+          <h2>{{ branding.astrologerName }}</h2>
+          <p *ngIf="branding.designation">{{ branding.designation }}</p>
+          <p *ngIf="branding.address">{{ branding.address }}</p>
+          <div class="branding-contact" *ngIf="branding.contactNumber || branding.email">
+            <span *ngIf="branding.contactNumber">{{ branding.contactNumber }}</span>
+            <span *ngIf="branding.email">{{ branding.email }}</span>
+          </div>
+        </div>
+      </section>
 
       <div class="pdf-only report-header premium-header" id="pdfHeader">
 
         <div class="header-top-section">
           <div class="brand-section">
-            <img src="assets/logo.png" class="brand-logo">
+            <img [src]="reportLogoUrl" class="brand-logo" alt="Report logo">
             <div class="brand-info">
               <h1 class="brand-name">{{ 'kundali.brandName' | transloco }}</h1>
               <p class="brand-tagline">{{ 'kundali.brandTagline' | transloco }}</p>
@@ -115,11 +140,14 @@
           </div>
           <div class="header-separator"></div>
           <div class="astrologer-section">
-          
-            <h2 class="astrologer-name">{{ 'kundali.reportAuthorName' | transloco }}</h2>
-            <span class="astrologer-title">{{ 'kundali.reportAuthorRole' | transloco }}</span>
-              
-            <p class="astrologer-contact">{{ 'kundali.reportAuthorContact' | transloco }}</p>
+
+            <h2 class="astrologer-name">{{ reportAstrologerName }}</h2>
+            <span class="astrologer-title">{{ reportAstrologerDesignation }}</span>
+
+            <p class="astrologer-contact" *ngIf="reportAstrologerContact">{{ reportAstrologerContact }}</p>
+            <p class="astrologer-contact" *ngIf="showPdfBranding && activeBranding?.address">
+              {{ activeBranding?.address }}
+            </p>
           </div>
         </div>
 
@@ -139,7 +167,20 @@
         </div>
 
       </div>
-      <app-section-card [title]="'kundali.chart' | transloco">
+      <app-section-card [title]="'kundali.chart' | transloco" [headerAction]="true">
+        <div card-action class="division-tabs" role="tablist" aria-label="Kundali divisional chart">
+          <button type="button" role="tab" [class.active]="activeDivisionalChart === 'd1'"
+            [attr.aria-selected]="activeDivisionalChart === 'd1'" (click)="setActiveDivisionalChart('d1')">
+            D1
+          </button>
+
+          <button type="button" role="tab" [class.active]="activeDivisionalChart === 'd9'"
+            [attr.aria-selected]="activeDivisionalChart === 'd9'" [disabled]="!d9Chart"
+            (click)="setActiveDivisionalChart('d9')">
+            D9
+          </button>
+        </div>
+
         <div id='divtabs' class="chart-tabs" role="tablist" aria-label="Kundali chart type">
           <button type="button" role="tab" [class.active]="activeChartType === 'north'"
             [attr.aria-selected]="activeChartType === 'north'" (click)="activeChartType = 'north'">
@@ -159,27 +200,27 @@
 
         <div class="chart-with-house-details">
            <div class="left">
-            
+
           <div class="chart-wrapper">
-             
+
            <div>
-             <div class="chart-title">Lagna Kundali</div>
-              <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="planets"
-                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+             <div class="chart-title">{{ primaryChartTitle }}</div>
+              <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets"
+                [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
                 (houseSelected)="selectedHouseData = $event"></app-north-indian-chart>
 
-              <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="planets"
-                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+              <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets"
+                [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
                 (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
 
-              <app-western-chart *ngIf="activeChartType === 'western'" [planets]="planets"
-                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
+              <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets"
+                [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
                 (houseSelected)="selectedHouseData = $event"></app-western-chart>
                 </div>
             </div>
             </div>
             <div class="right">
-              <app-section-card class="house-details-card-container">
+              <app-section-card class="house-details-card-container screen-house-details">
                 <ng-container *ngIf="selectedHouseData; else noHouseSelected">
                   <app-house-details-card [houseData]="selectedHouseData"></app-house-details-card>
                 </ng-container>
@@ -190,8 +231,21 @@
                   </p>
                 </ng-template>
               </app-section-card>
+
+              <app-section-card class="house-details-card-container pdf-d9-chart-card" *ngIf="d9Chart">
+                <div class="chart-title">Navamsa Kundali (D9)</div>
+
+                <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="d9Chart.planets ?? []"
+                  [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-north-indian-chart>
+
+                <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="d9Chart.planets ?? []"
+                  [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-south-indian-chart>
+
+                <app-western-chart *ngIf="activeChartType === 'western'" [planets]="d9Chart.planets ?? []"
+                  [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-western-chart>
+              </app-section-card>
             </div>
-          
+
 
         </div>
       </app-section-card>
@@ -203,16 +257,39 @@
           </app-kundali-summary>
           <app-panchang-card [panchang]="kundaliResponse?.panchang">
           </app-panchang-card>
+          <app-kundali-metadata-insights
+            [rashiInsight]="kundaliResponse?.rashiInsight"
+            [nakshatraInsight]="kundaliResponse?.nakshatraInsight">
+          </app-kundali-metadata-insights>
         </app-section-card>
 
-      
+
       </div>
-      <app-section-card [title]="'kundali.yogas' | transloco" class="full-row" *ngIf="kundaliResponse">
+      <app-section-card id="yogaSection" [title]="'kundali.yogas' | transloco" class="full-row" *ngIf="kundaliResponse">
         <div class="yogas-list" *ngIf="yogas.length; else noYogas">
-          <div class="yoga-item" *ngFor="let yoga of yogas">
+          <div class="yoga-item" *ngFor="let yoga of yogas; let yogaIndex = index">
             <div class="yoga-header">
-              <h4>{{ yoga.name }}</h4>
-              <span class="yoga-strength" *ngIf="yoga.strength">{{ yoga.strength }}</span>
+              <div class="yoga-title">
+                <h4>{{ yoga.name }}</h4>
+                <span class="meta-chip category-chip" *ngIf="yoga.category">
+                  <span class="chip-label">Category</span>
+                  {{ yoga.category }}
+                </span>
+                <span class="meta-chip" *ngIf="yoga.sanskritName">{{ yoga.sanskritName }}</span>
+              </div>
+              <div class="item-actions">
+                <span class="yoga-strength" *ngIf="yoga.strength">{{ yoga.strength }}</span>
+                <button
+                  type="button"
+                  class="info-toggle"
+                  *ngIf="hasImpactDetails(yoga)"
+                  [class.active]="isYogaDetailsOpen(yogaIndex)"
+                  [attr.aria-expanded]="isYogaDetailsOpen(yogaIndex)"
+                  [attr.aria-label]="'View impact details for ' + yoga.name"
+                  (click)="toggleYogaDetails(yogaIndex)">
+                  i
+                </button>
+              </div>
             </div>
 
             <!-- <div class="yoga-meta" *ngIf="yoga.category || yoga.sanskritName">
@@ -223,14 +300,107 @@
             <p class="yoga-description" *ngIf="yoga.reason || yoga.description">
               {{ yoga.description ||yoga.reason  }}
             </p>
-            <p  *ngIf="yoga.impact">
-              {{  yoga.impact }}
-            </p>
+            <div class="yoga-meta" *ngIf="yoga.involvedPlanets?.length || yoga.involvedHouses?.length">
+              <span *ngIf="yoga.involvedPlanets?.length">
+                Planets: {{ yoga.involvedPlanets.join(', ') }}
+              </span>
+              <span *ngIf="yoga.involvedHouses?.length">
+                Houses: {{ yoga.involvedHouses.join(', ') }}
+              </span>
+            </div>
+            <div class="impact-panel" *ngIf="isYogaDetailsOpen(yogaIndex)">
+              <div class="impact-panel-header">
+                <strong>Impact Areas</strong>
+                <span>{{ yoga.impactAreas?.length || 0 }} categories</span>
+              </div>
+              <div class="impact-grid" *ngIf="yoga.impactAreas?.length">
+                <div class="impact-area" *ngFor="let area of yoga.impactAreas">
+                  <div class="impact-area-title">
+                    <span class="impact-icon" [ngClass]="getImpactTone(area.category)">
+                      {{ getImpactIcon(area.category) }}
+                    </span>
+                    <h5>{{ area.category }}</h5>
+                  </div>
+                  <p *ngFor="let statement of area.statements">{{ statement }}</p>
+                </div>
+              </div>
+              <p class="impact-summary" *ngIf="yoga.impact">{{ yoga.impact }}</p>
+            </div>
           </div>
         </div>
 
         <ng-template #noYogas>
           <p class="yoga-placeholder">{{ 'kundali.noYogas' | transloco }}</p>
+        </ng-template>
+      </app-section-card>
+
+      <app-section-card id="doshaSection" [title]="'kundali.doshas' | transloco" class="full-row" *ngIf="kundaliResponse">
+        <div class="doshas-list" *ngIf="doshas.length; else noDoshas">
+          <div class="dosha-item" *ngFor="let dosha of doshas; let doshaIndex = index">
+            <div class="dosha-header">
+              <div class="dosha-title">
+                <h4>{{ dosha.name }}</h4>
+                <span class="meta-chip category-chip" *ngIf="dosha.category">
+                  <span class="chip-label">Category</span>
+                  {{ dosha.category }}
+                </span>
+              </div>
+              <div class="item-actions">
+                <span class="dosha-severity" *ngIf="dosha.severity" [ngClass]="getDoshaSeverityClass(dosha.severity)">
+                  {{ dosha.severity }}
+                </span>
+                <button
+                  type="button"
+                  class="info-toggle"
+                  *ngIf="hasImpactDetails(dosha)"
+                  [class.active]="isDoshaDetailsOpen(doshaIndex)"
+                  [attr.aria-expanded]="isDoshaDetailsOpen(doshaIndex)"
+                  [attr.aria-label]="'View impact details for ' + dosha.name"
+                  (click)="toggleDoshaDetails(doshaIndex)">
+                  i
+                </button>
+              </div>
+            </div>
+
+            <p class="dosha-description" *ngIf="dosha.reason || dosha.description">
+              {{ dosha.reason || dosha.description }}
+            </p>
+
+            <div class="dosha-meta" *ngIf="dosha.involvedPlanets?.length || dosha.involvedHouses?.length">
+              <span *ngIf="dosha.involvedPlanets?.length">
+                Planets: {{ dosha.involvedPlanets.join(', ') }}
+              </span>
+              <span *ngIf="dosha.involvedHouses?.length">
+                Houses: {{ dosha.involvedHouses.join(', ') }}
+              </span>
+            </div>
+
+            <div class="impact-panel" *ngIf="isDoshaDetailsOpen(doshaIndex)">
+              <div class="impact-panel-header">
+                <strong>Impact Areas</strong>
+                <span>{{ dosha.impactAreas?.length || 0 }} categories</span>
+              </div>
+              <div class="impact-grid" *ngIf="dosha.impactAreas?.length">
+                <div class="impact-area" *ngFor="let area of dosha.impactAreas">
+                  <div class="impact-area-title">
+                    <span class="impact-icon" [ngClass]="getImpactTone(area.category)">
+                      {{ getImpactIcon(area.category) }}
+                    </span>
+                    <h5>{{ area.category }}</h5>
+                  </div>
+                  <p *ngFor="let statement of area.statements">{{ statement }}</p>
+                </div>
+              </div>
+              <div class="dosha-remedies" *ngIf="dosha.remedies?.length">
+                <strong>Remedies</strong>
+                <span *ngFor="let remedy of dosha.remedies">{{ remedy }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noDoshas>
+          <p class="dosha-placeholder">{{ 'kundali.noDoshas' | transloco }}</p>
         </ng-template>
       </app-section-card>
 
@@ -245,6 +415,7 @@
                   <th>{{ 'table.house' | transloco }}</th>
                   <th>{{ 'table.degree' | transloco }}</th>
                   <th>{{ 'table.status' | transloco }}</th>
+                  <th>{{ 'table.aspects' | transloco }}</th>
                   <th>{{ 'table.strength' | transloco }}</th>
                   <th>{{ 'table.nakshatra' | transloco }}</th>
                 </tr>
@@ -253,22 +424,11 @@
               <tbody>
                 <tr *ngFor="let planet of planets">
                   <td class="planet-cell">
-
-                    <span class="planet-icon">
-
-                      {{
-                      planet.planet === 'Sun' ? '☉' :
-                      planet.planet === 'Moon' ? '☾' :
-                      planet.planet === 'Mars' ? '♂' :
-                      planet.planet === 'Mercury' ? '☿' :
-                      planet.planet === 'Jupiter' ? '♃' :
-                      planet.planet === 'Venus' ? '♀' :
-                      planet.planet === 'Saturn' ? '♄' :
-                      planet.planet === 'Rahu' ? '☊' :
-                      planet.planet === 'Ketu' ? '☋' :
-                      '•'
-                      }}
-
+                    <span
+                      class="planet-icon"
+                      [ngClass]="getPlanetSupportClass(planet)"
+                      [attr.data-planet]="planet.planet">
+                      {{ getPlanetGlyph(planet.planet) }}
                     </span>
 
                     <span class="planet-name">
@@ -288,6 +448,14 @@
                     </span>
                   </td>
                   <td>
+                    <span
+                      class="aspect-pill"
+                      [class.empty]="!hasPlanetAspects(planet)"
+                      [attr.title]="getAspectedByText(planet)">
+                      {{ getAspectedByText(planet) }}
+                    </span>
+                  </td>
+                  <td>
 
                     <span class="strength-pill" [ngClass]="getStrengthClass(planet.detailedStrength)">
                       {{ getStrengthLabel(planet.detailedStrength) }}
@@ -304,22 +472,37 @@
           </div>
         </app-section-card>
 
-       
+
 <div class="kundaliscore-grid">
 
           <app-section-card class="full-row" [title]="'kundali.scores' | transloco">
             <app-kundali-score-card [scores]="scores">
             </app-kundali-score-card>
           </app-section-card>
-</div>
- <div class="detail-grid">
-          <app-section-card class="full-row" [title]="'kundali.bhavascore' | transloco">
+           <app-section-card class="full-row" [title]="'kundali.bhavascore' | transloco">
             <app-house-score-overview [houseCards]="houseScores">
             </app-house-score-overview>
           </app-section-card>
+</div>
+ <div class="detail-grid">
+          <app-section-card title="Sudarshan Chakra Kundali" class="full-row sudarshan-pdf-section">
+            <app-sudarshan-chakra-chart [planets]="planets" [ascendant]="summary?.ascendant">
+            </app-sudarshan-chakra-chart>
+          </app-section-card>
+
           <app-section-card [title]="'kundali.dasha' | transloco" class="full-row">
             <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods">
             </app-mahadasha-antardasha>
+          </app-section-card>
+
+          <app-section-card
+            [title]="'transit.sectionTitle' | transloco"
+            class="full-row transit-pdf-section"
+            *ngIf="kundaliResponse?.transitInsight">
+            <app-transit-insight
+              [transitInsight]="kundaliResponse?.transitInsight"
+              [housesData]="d1Houses">
+            </app-transit-insight>
           </app-section-card>
         </div>
       </div>
@@ -337,3 +520,4 @@
 
     </div>
   </div>
+</div>

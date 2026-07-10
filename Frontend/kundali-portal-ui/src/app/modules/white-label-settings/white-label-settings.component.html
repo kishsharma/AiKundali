@@ -1,0 +1,127 @@
+<section class="white-label-page">
+  <app-page-header
+    title="White-label Settings"
+    subtitle="Manage astrologer branding shown on chart pages, compatibility pages, and PDF reports"
+    [breadcrumbs]="[
+      { label: 'Home', routerLink: '/' },
+      { label: 'White-label Settings', active: true }
+    ]">
+  </app-page-header>
+
+  <div class="status-banner loading" *ngIf="loading">Loading branding settings...</div>
+  <div class="status-banner error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="status-banner success" *ngIf="saveMessage">{{ saveMessage }}</div>
+
+  <div class="settings-layout">
+    <form class="settings-panel" [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+      <div class="panel-header">
+        <div>
+          <h2>Astrologer Branding</h2>
+          <p>These details are saved against your account and can be used across reports.</p>
+        </div>
+        <span class="active-badge" [class.inactive]="!settings.isActive">
+          {{ settings.isActive ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+
+      <div class="form-grid">
+        <label class="form-field">
+          <span>Astrologer name</span>
+          <input type="text" formControlName="astrologerName" placeholder="Enter astrologer name" />
+          <small *ngIf="settingsForm.controls.astrologerName.touched && settingsForm.controls.astrologerName.invalid">
+            Astrologer name is required.
+          </small>
+        </label>
+
+        <label class="form-field">
+          <span>Designation</span>
+          <input type="text" formControlName="designation" placeholder="Vedic Astrologer" />
+        </label>
+
+        <label class="form-field">
+          <span>Contact number</span>
+          <input type="text" formControlName="contactNumber" placeholder="+91 98765 43210" />
+        </label>
+
+        <label class="form-field">
+          <span>Email</span>
+          <input type="email" formControlName="email" placeholder="name@example.com" />
+          <small *ngIf="settingsForm.controls.email.touched && settingsForm.controls.email.invalid">
+            Enter a valid email address.
+          </small>
+        </label>
+
+        <label class="form-field full">
+          <span>Address</span>
+          <textarea rows="3" formControlName="address" placeholder="Office or consultation address"></textarea>
+        </label>
+
+        <label class="form-field full">
+          <span>Logo URL</span>
+          <input type="url" formControlName="logoUrl" placeholder="https://example.com/logo.png" />
+        </label>
+      </div>
+
+      <div class="visibility-panel">
+        <h3>Visibility</h3>
+        <label class="toggle-row">
+          <input type="checkbox" formControlName="showOnChartPage" />
+          <span>Show on chart page</span>
+        </label>
+        <label class="toggle-row">
+          <input type="checkbox" formControlName="showOnCompatibilityPage" />
+          <span>Show on compatibility page</span>
+        </label>
+        <label class="toggle-row">
+          <input type="checkbox" formControlName="showOnPdfReport" />
+          <span>Show on PDF report</span>
+        </label>
+        <label class="toggle-row">
+          <input type="checkbox" formControlName="isActive" />
+          <span>Branding is active</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="secondary-btn" (click)="resetForm()">Reset</button>
+        <button type="submit" class="primary-btn" [disabled]="saving || loading">
+          {{ saving ? 'Saving...' : 'Save Settings' }}
+        </button>
+      </div>
+    </form>
+
+    <aside class="preview-panel">
+      <div class="preview-card" [class.muted]="!settings.isActive">
+        <div class="preview-logo" *ngIf="settings.logoUrl; else logoFallback">
+          <img [src]="settings.logoUrl" alt="Brand logo preview" />
+        </div>
+        <ng-template #logoFallback>
+          <div class="preview-logo fallback">{{ (settings.astrologerName || 'A').charAt(0).toUpperCase() }}</div>
+        </ng-template>
+
+        <div class="preview-content">
+          <span class="preview-kicker">Report branding preview</span>
+          <h2>{{ settings.astrologerName || 'Astrologer name' }}</h2>
+          <p class="designation">{{ settings.designation || 'Designation' }}</p>
+          <p class="address">{{ settings.address || 'Address will appear here' }}</p>
+          <dl>
+            <div *ngIf="settings.contactNumber">
+              <dt>Phone</dt>
+              <dd>{{ settings.contactNumber }}</dd>
+            </div>
+            <div *ngIf="settings.email">
+              <dt>Email</dt>
+              <dd>{{ settings.email }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="placement-list">
+        <span [class.enabled]="settings.showOnChartPage">Chart page</span>
+        <span [class.enabled]="settings.showOnCompatibilityPage">Compatibility page</span>
+        <span [class.enabled]="settings.showOnPdfReport">PDF report</span>
+      </div>
+    </aside>
+  </div>
+</section>

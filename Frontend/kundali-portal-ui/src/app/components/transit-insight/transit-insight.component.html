@@ -1,0 +1,75 @@
+<div class="transit-insight" *ngIf="transitInsight">
+  <section class="transit-chart-panel">
+    <div class="transit-panel-header">
+      <div>
+        <span>{{ 'transit.chartLabel' | transloco }}</span>
+        <strong>{{ 'transit.currentGochar' | transloco }}</strong>
+      </div>
+      <small>{{ formatCalculatedAt(transitInsight.calculatedAtUtc) }}</small>
+    </div>
+
+    <app-north-indian-chart
+      [planets]="transitInsight.planets ?? []"
+      [ascendant]="transitInsight.natalAscendant"
+      [housesData]="housesData">
+    </app-north-indian-chart>
+
+    <p class="transit-note">
+      {{ 'transit.locationModeBirthHouses' | transloco }}
+    </p>
+  </section>
+
+  <section class="transit-table-panel">
+    <div class="transit-statement" *ngIf="highlightedActivation as activation; else generalTransit">
+      <span>{{ 'transit.currently' | transloco }}</span>
+      <strong>{{ translatePlanet(activation.planet) }}</strong>
+      <span>{{ 'transit.activatesHousePrefix' | transloco }}</span>
+      <strong>{{ activation.natalHouse }}</strong>
+      <span *ngIf="hasNatalActivation(activation)">{{ 'transit.touchingNatal' | transloco }}</span>
+      <strong *ngIf="hasNatalActivation(activation)">{{ natalActivationText(activation) }}</strong>
+      <span *ngIf="activation.natalHouseLord">{{ 'transit.houseLord' | transloco }}</span>
+      <strong *ngIf="activation.natalHouseLord">{{ translatePlanet(activation.natalHouseLord) }}</strong>
+      <span>{{ 'transit.withFocusOn' | transloco }}</span>
+      <strong>{{ translateHouseFocus(activation.natalHouse, activation.focusArea) }}</strong>
+    </div>
+
+    <ng-template #generalTransit>
+      <div class="transit-statement">
+        <span>{{ 'transit.generalStatement' | transloco }}</span>
+      </div>
+    </ng-template>
+
+    <div class="transit-rows">
+      <div class="transit-row transit-row-head">
+        <span>{{ 'table.planet' | transloco }}</span>
+        <span>{{ 'transit.natalHouse' | transloco }}</span>
+        <span>{{ 'transit.focusArea' | transloco }}</span>
+        <span>{{ 'transit.natalActivation' | transloco }}</span>
+        <span>{{ 'transit.dashaLink' | transloco }}</span>
+      </div>
+
+      <div class="transit-row" *ngFor="let row of rows">
+        <span class="planet-cell">
+          <strong>{{ translatePlanet(row.planet) }}</strong>
+          <i *ngIf="row.isMahadashaPlanet || row.isAntardashaPlanet">
+            {{ 'transit.activeDasha' | transloco }}
+          </i>
+          <i *ngIf="row.isRetrograde">
+            {{ 'transit.retrogradeShort' | transloco }}
+          </i>
+        </span>
+        <span>{{ row.natalHouse }}</span>
+        <span>{{ translateHouseFocus(row.natalHouse, row.focusArea) }}</span>
+        <span class="activation-cell">
+          <strong>{{ natalActivationText(row) }}</strong>
+          <small *ngIf="row.natalHouseLord">
+            {{ 'transit.houseLord' | transloco }} {{ translatePlanet(row.natalHouseLord) }}
+          </small>
+        </span>
+        <span class="dasha-links">
+          <i *ngFor="let label of dashaLinkLabels(row)">{{ label }}</i>
+        </span>
+      </div>
+    </div>
+  </section>
+</div>

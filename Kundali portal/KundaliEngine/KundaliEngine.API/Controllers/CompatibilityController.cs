@@ -5,11 +5,13 @@ using KundaliEngine.Astrology.Services;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Compatibility;
 using KundaliEngine.Astrology.Services.House;
+using KundaliEngine.Astrology.Services.KundaliDosha;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
 using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 using KundaliEngine.API.Helper_functions;
+using KundaliEngine.KnowledgeBase.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 
@@ -23,19 +25,34 @@ namespace KundaliEngine.API.Controllers
         private readonly PanchangService _panchangService;
         private readonly AspectService _aspectService;
         private readonly CompatibilityScoreService _compatibilityService;
+        private readonly CompatibilityDoshaAnalysisService _compatibilityDoshaAnalysisService;
+        private readonly DoshaDetectionService _doshaDetectionService;
+        private readonly DoshaMetadataService _doshaMetadataService;
         private readonly HouseScoreService _houseScoreservice;
+        private readonly NakshatraMetadataService _nakshatraMetadataService;
+        private readonly IEphemerisProvider _ephemerisProvider;
         public CompatibilityController(
             ChartService chartService,
             PanchangService panchangService,
             AspectService aspectService,
             CompatibilityScoreService compatibilityService,
-            HouseScoreService houseScoreservice)
+            CompatibilityDoshaAnalysisService compatibilityDoshaAnalysisService,
+            DoshaDetectionService doshaDetectionService,
+            DoshaMetadataService doshaMetadataService,
+            HouseScoreService houseScoreservice,
+            NakshatraMetadataService nakshatraMetadataService,
+            IEphemerisProvider ephemerisProvider)
         {
             _chartService = chartService;
             _panchangService = panchangService;
             _aspectService = aspectService;
             _compatibilityService = compatibilityService;
+            _compatibilityDoshaAnalysisService = compatibilityDoshaAnalysisService;
+            _doshaDetectionService = doshaDetectionService;
+            _doshaMetadataService = doshaMetadataService;
             _houseScoreservice = houseScoreservice;
+            _nakshatraMetadataService = nakshatraMetadataService;
+            _ephemerisProvider = ephemerisProvider;
         }
 
         [HttpPost("match")]
@@ -53,6 +70,19 @@ namespace KundaliEngine.API.Controllers
                 var profileB = BuildProfile(request.PersonB, request.PersonB.Name ?? "Person B");
 
                 var result = _compatibilityService.CalculateCompatibility(profileA, profileB);
+                var personADoshas = _doshaDetectionService.DetectDoshas(
+                    profileA.Chart.PlanetPositions,
+                    profileA.Chart.Houses);
+                var personBDoshas = _doshaDetectionService.DetectDoshas(
+                    profileB.Chart.PlanetPositions,
+                    profileB.Chart.Houses);
+
+                result.DoshaAnalysis = _compatibilityDoshaAnalysisService.Analyze(
+                    profileA.Name,
+                    profileB.Name,
+                    personADoshas,
+                    personBDoshas,
+                    _doshaMetadataService);
 
                 return Ok(result);
             }
@@ -83,8 +113,8 @@ namespace KundaliEngine.API.Controllers
             var planetPositions = _chartService.GenerateChart(req.BirthDateTime, req.Latitude, req.Longitude);
 
             // Ascendant
-            var ascCalc = new AscendantCalculator();
-            double ascendantLongitude = ascCalc.Calculate(req.BirthDateTime, req.Latitude, req.Longitude);
+            var location = new GeoLocation(req.Latitude, req.Longitude);
+            double ascendantLongitude = _ephemerisProvider.GetAscendant(req.BirthDateTime, location).Longitude;
             int ascendantIndex = (int)(ascendantLongitude / 30.0);
 
             ZodiacSign ascendantSign = (ZodiacSign)((ascendantIndex % 12) + 1);
@@ -130,6 +160,7 @@ namespace KundaliEngine.API.Controllers
             double sunLongitude = planetPositions.First(p => p.Planet == Planet.Sun).Longitude;
             double moonLongitude = planetPositions.First(p => p.Planet == Planet.Moon).Longitude;
             var panchang = _panchangService.Calculate(req.BirthDateTime, sunLongitude, moonLongitude);
+            panchang.Akshara = _nakshatraMetadataService.GetPadaAkshara(panchang.Nakshatra, panchang.Pada);
 
             // Aspects
             //var aspectResult = _aspectService.CalculateGrahaDrishti(planetPositions);

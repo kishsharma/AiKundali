@@ -23,19 +23,19 @@ import { RouterModule } from '@angular/router';
 
         <!-- Nav Links (Center) -->
         <nav class="navbar-nav">
-          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/app/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             Dashboard
           </a>
-          <a routerLink="/kundali" routerLinkActive="active">
+          <a routerLink="/app/kundali" routerLinkActive="active">
             Kundali
           </a>
-          <a routerLink="/compatibility" routerLinkActive="active">
+          <a routerLink="/app/compatibility" routerLinkActive="active">
             Compatibility
           </a>
-          <a routerLink="/panchang" routerLinkActive="active">
+          <a routerLink="/app/panchang" routerLinkActive="active">
             Panchang
           </a>
-          <a routerLink="/dasha" routerLinkActive="active">
+          <a routerLink="/app/dasha" routerLinkActive="active">
             Dasha
           </a>
         </nav>

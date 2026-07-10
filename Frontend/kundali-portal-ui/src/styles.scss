@@ -256,6 +256,51 @@ label {
 }
 
 /* ===========================
+   ICON UTILITIES
+   =========================== */
+
+:root {
+  --icon-gold: #b7791f;
+  --icon-muted: #757575;
+  --icon-danger: #f44336;
+  --icon-success: #4caf50;
+}
+
+.icon-sm {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.icon-md {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+.icon-lg {
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
+}
+
+.icon-gold {
+  color: var(--icon-gold, #b7791f);
+}
+
+.icon-muted {
+  color: var(--icon-muted, #757575);
+}
+
+.icon-danger {
+  color: var(--icon-danger, #f44336);
+}
+
+.icon-success {
+  color: var(--icon-success, #4caf50);
+}
+
+/* ===========================
    RESPONSIVE UTILITIES
    =========================== */
 

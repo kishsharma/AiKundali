@@ -12,6 +12,7 @@ namespace KundaliEngine.Domain.Models
         public string Paksha { get; set; } = string.Empty;
         public string Nakshatra { get; set; } = string.Empty;
         public int Pada { get; set; }
+        public string Akshara { get; set; } = string.Empty;
         public string Yoga { get; set; } = string.Empty;
         public string Karana { get; set; } = string.Empty;
         public string Vaar { get; set; } = string.Empty;

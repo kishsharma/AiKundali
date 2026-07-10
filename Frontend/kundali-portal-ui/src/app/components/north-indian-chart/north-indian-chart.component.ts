@@ -2,6 +2,7 @@
 
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-north-indian-chart',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./north-indian-chart.component.scss']
 })
 export class NorthIndianChartComponent implements OnChanges {
+  constructor(private readonly translocoService: TranslocoService) {}
 
   hoveredHouse: number | null = null;
 
@@ -23,8 +25,21 @@ export class NorthIndianChartComponent implements OnChanges {
 selectedHouseData: any = null;
 zodiacNumbers: number[] = [];
 
-  housePlanets: { [key: number]: string[] } = {};
+  housePlanets: { [key: number]: any[] } = {};
   houses = [1,2,3,4,5,6,7,8,9,10,11,12];
+  private readonly shortNames: Record<string, string> = {
+    Sun: 'Su',
+    Moon: 'Mo',
+    Mars: 'Ma',
+    Mercury: 'Me',
+    Jupiter: 'Ju',
+    Venus: 'Ve',
+    Saturn: 'Sa',
+    Rahu: 'Ra',
+    Ketu: 'Ke',
+    Uranus: 'Ur',
+    Neptune: 'Ne'
+  };
 
   ngOnChanges(changes: SimpleChanges): void {
 console.log('CHILD INPUT:', this.planets);
@@ -43,20 +58,6 @@ console.log('CHILD INPUT:', this.planets);
   }
 
   mapPlanetsToHouses() {
-
-    const shortNames: any = {
-      Sun: 'Su',
-      Moon: 'Mo',
-      Mars: 'Ma',
-      Mercury: 'Me',
-      Jupiter: 'Ju',
-      Venus: 'Ve',
-      Saturn: 'Sa',
-      Rahu: 'Ra',
-      Ketu: 'Ke',
-      Uranus: 'Ur',
-      Neptune: 'Ne'
-    };
 
     // RESET houses
 
@@ -84,9 +85,7 @@ console.log('Mapping Planet:', planet, 'to House:', house,'planetname:',planet.p
 
       if (this.housePlanets[house]) {
 console.log('Adding Planet:', planet.planetName, 'to House:', house);
-const planetName = typeof planet.planet === 'number'? planet.planetName: planet.planet;
-
-this.housePlanets[house].push(shortNames[planetName]);
+this.housePlanets[house].push(planet);
 
         //this.housePlanets[house].push(shortNames[planet.planet]);
 
@@ -100,8 +99,112 @@ this.housePlanets[house].push(shortNames[planetName]);
 
   getPlanets(house: number): string {
 
-    return this.housePlanets[house]?.join(' ') || '';
+    return this.housePlanets[house]?.map(planet => this.getPlanetShortName(planet)).join(' ') || '';
 
+  }
+
+  getPlanetShortName(planet: any): string {
+    const planetName = this.getPlanetName(planet);
+    if (!planetName) {
+      return '';
+    }
+
+    const key = `planetShort.${planetName}`;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : (this.shortNames[planetName] || planetName);
+  }
+
+  getPlanetToneClass(planet: any): string {
+    const tone = (planet?.conditionTone ?? this.inferPlanetTone(planet)).toString().toLowerCase();
+
+    if (tone.includes('challenging')) {
+      return 'tone-challenging';
+    }
+
+    if (tone.includes('supportive')) {
+      return 'tone-supportive';
+    }
+
+    if (tone.includes('special')) {
+      return 'tone-special';
+    }
+
+    if (tone.includes('mixed')) {
+      return 'tone-mixed';
+    }
+
+    return 'tone-neutral';
+  }
+
+  getPlanetTooltip(planet: any): string {
+    const name = this.translatePlanetName(this.getPlanetName(planet));
+    const tone = planet?.conditionTone || this.inferPlanetTone(planet);
+    const parts = [`${name}: ${tone}`];
+
+    if (planet?.detailedStrength) {
+      parts.push(planet.detailedStrength);
+    }
+
+    if (planet?.isCombust) {
+      parts.push('Combust');
+    }
+
+    if (planet?.isRetrograde) {
+      parts.push('Retrograde');
+    }
+
+    if (planet?.aspectedBy?.length) {
+      const aspectingPlanets = planet.aspectedBy
+        .map((item: string) => this.translatePlanetName(item))
+        .join(', ');
+      parts.push(`Aspected by ${aspectingPlanets}`);
+    }
+
+    return parts.filter(Boolean).join(' | ');
+  }
+
+  private getPlanetName(planet: any): string {
+    if (!planet) {
+      return '';
+    }
+
+    if (typeof planet === 'string') {
+      return planet;
+    }
+
+    return typeof planet.planet === 'number'
+      ? planet.planetName
+      : planet.planet;
+  }
+
+  private translatePlanetName(planet: string | null | undefined): string {
+    if (!planet) {
+      return '';
+    }
+
+    const key = `planet.${planet}`;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : planet;
+  }
+
+  private inferPlanetTone(planet: any): string {
+    const strength = (planet?.detailedStrength ?? '').toString();
+    const isWeak = planet?.isCombust || /Weak|Enemy|Debilitated/i.test(strength);
+    const isStrong = /Own|Exalted|Friendly/i.test(strength);
+
+    if (isWeak) {
+      return 'Challenging';
+    }
+
+    if (planet?.isRetrograde) {
+      return 'Special';
+    }
+
+    if (isStrong) {
+      return 'Supportive';
+    }
+
+    return 'Neutral';
   }
 
   hoverHouse(house: number): void {

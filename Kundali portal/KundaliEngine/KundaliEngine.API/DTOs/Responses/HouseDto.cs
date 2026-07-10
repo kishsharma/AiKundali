@@ -14,6 +14,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public List<string> Occupants { get; set; } = new List<string>();
         public bool HasBeneficAspect { get; set; }
         public bool HasMaleficAspect { get; set; }
+        public List<string> AspectedBy { get; set; } = new List<string>();
 
         // Scoring details
         public int Score { get; set; }

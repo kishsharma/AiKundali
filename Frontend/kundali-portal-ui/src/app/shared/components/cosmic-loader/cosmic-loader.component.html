@@ -1,0 +1,44 @@
+<div class="cosmic-loader">
+  <div class="cosmic-card">
+    <div class="brand">✨ KundaliScore</div>
+
+    <h2>{{ 'loader.cosmicTitle' | transloco }}</h2>
+
+    <p class="subtitle">
+      {{ 'loader.cosmicSubtitle' | transloco }}
+    </p>
+
+    <div class="zodiac-wheel">
+      <div class="sun"></div>
+      <span>☉</span>
+      <span>☽</span>
+      <span>♂</span>
+      <span>☿</span>
+      <span>♃</span>
+      <span>♄</span>
+    </div>
+
+    <div class="steps">
+      <div
+        class="step"
+        *ngFor="let step of steps; let i = index"
+        [class.completed]="step.completed"
+        [class.active]="!step.completed && i === activeStepIndex"
+      >
+        <div class="step-icon">
+          <span *ngIf="step.completed">✓</span>
+          <span *ngIf="!step.completed">○</span>
+        </div>
+
+        <div>
+          <h4>{{ step.titleKey | transloco }}</h4>
+          <p>{{ step.descriptionKey | transloco }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-message">
+      {{ 'loader.cosmicFinalMessage' | transloco }}
+    </div>
+  </div>
+</div>

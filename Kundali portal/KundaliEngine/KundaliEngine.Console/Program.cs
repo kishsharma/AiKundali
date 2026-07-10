@@ -26,8 +26,8 @@ class Program
         Console.WriteLine("Initializing Swiss Ephemeris...");
 
         string ephePath = Path.Combine(AppContext.BaseDirectory, "ephe");
-        SwissEphWrapper.Initialize(ephePath);
-        AppServices appServices = new AppServices();
+        IEphemerisProvider ephemerisProvider = new SwissEphemerisProvider(ephePath);
+        AppServices appServices = new AppServices(ephemerisProvider);
         // Input
 
         DateTime localBirth = new DateTime(1986, 10, 6, 11, 45, 0);
@@ -42,21 +42,20 @@ class Program
         double lon = 77.1739432;
 
         // Services / calculators
-        var planetCalc = new PlanetPositionCalculator();
-        var ascCalc = new AscendantCalculator();
+        var planetCalc = new PlanetPositionCalculator(ephemerisProvider);
+        var ascCalc = new AscendantCalculator(ephemerisProvider);
         //var panchangService = new PanchangService();
         //var houseService = new HouseService();
         //var strengthService = new PlanetStrengthService();
         //var predictionService = new PredictionService();
         //var aspectService = new AspectService();
-        //var chartService = new ChartService();
         //var dashaService = new DashaService();
         //var knowledgeService = new AstrologyKnowledgeService();
         //var planetScoreService = new PlanetScoreService();
         //var houseScoreService = new HouseScoreService();
         //var overallKundaliScoreService = new OverallKundaliScoreService();
 
-        var services = new AppServices();
+        var services = new AppServices(ephemerisProvider);
 
         // Ascendant
         double ascendantLongitude = ascCalc.Calculate(birthUtc, lat, lon);
@@ -394,13 +393,13 @@ class Program
         Console.ReadLine();
     }
 
-    static void InitializeSwissEphemeris()
+    static IEphemerisProvider InitializeSwissEphemeris()
     {
         Console.WriteLine("Initializing Swiss Ephemeris...");
 
         string ephePath = Path.Combine(AppContext.BaseDirectory, "ephe");
 
-        SwissEphWrapper.Initialize(ephePath);
+        return new SwissEphemerisProvider(ephePath);
     }
 
     static void DisplayPanchang(PanchangDetails panchang)
@@ -494,7 +493,7 @@ class Program
             lon);
 
         // Ascendant
-        var ascCalc = new AscendantCalculator();
+        var ascCalc = new AscendantCalculator(services.EphemerisProvider);
 
         double ascendantLongitude =
             ascCalc.Calculate(birthUtc, lat, lon);

@@ -2,6 +2,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AstrologyIconComponent } from '../shared/components/astrology-icon.component';
 
 export interface NavItem {
   label: string;
@@ -14,7 +15,7 @@ export interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AstrologyIconComponent],
   template: `
     <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact">
       <div class="sidebar-header">
@@ -37,19 +38,25 @@ export interface NavItem {
           <h3 class="nav-section-title">Main</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a routerLink="/dashboard" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/app/dashboard" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon">📊</span>
                 <span class="nav-label">Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/kundali" routerLinkActive="active" >
-                <span class="nav-icon">♈</span>
+              <a routerLink="/app/kundali" routerLinkActive="active" >
+                <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">Kundali</span>
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/compatibility" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                <app-astrology-icon name="reports" class="nav-icon icon-md"></app-astrology-icon>
+                <span class="nav-label">Website Home</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/app/compatibility" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon">💑</span>
                 <span class="nav-label">Compatibility</span>
               </a>
@@ -61,13 +68,13 @@ export interface NavItem {
           <h3 class="nav-section-title">Astrology</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a routerLink="/panchang" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/app/panchang" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon">📅</span>
                 <span class="nav-label">Panchang</span>
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/dasha" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/app/dasha" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon">⏰</span>
                 <span class="nav-label">Dasha</span>
               </a>
@@ -79,9 +86,9 @@ export interface NavItem {
           <h3 class="nav-section-title">Settings</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#settings">
+              <a routerLink="/app/white-label-settings" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon">⚙️</span>
-                <span class="nav-label">Preferences</span>
+                <span class="nav-label">White-label</span>
               </a>
             </li>
             <li class="nav-item">

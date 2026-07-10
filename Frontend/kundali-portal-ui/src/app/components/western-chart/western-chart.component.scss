@@ -1,14 +1,23 @@
+:host {
+  display: block;
+  width: min(100%, 620px);
+  overflow: visible;
+}
+
 .western-chart-wrapper {
-  width: 348px;
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  padding: 0;
+  overflow: visible;
 }
 
 .western-svg {
   width: 100%;
-  max-width: 600px;
   height: auto;
+  aspect-ratio: 1;
+  display: block;
+  overflow: visible;
 }
 
 .outer-ring,
@@ -50,7 +59,27 @@
 .planet-text {
   font-size: 0.75rem;
   font-weight: 700;
+  fill: #44506f;
+}
+
+.planet-text .tone-supportive {
+  fill: #16803c;
+}
+
+.planet-text .tone-neutral {
+  fill: #44506f;
+}
+
+.planet-text .tone-mixed {
+  fill: #b7791f;
+}
+
+.planet-text .tone-challenging {
   fill: #c62828;
+}
+
+.planet-text .tone-special {
+  fill: #6d28d9;
 }
 
 .center-title {
@@ -80,4 +109,3 @@
     font-size: 10px;
   }
 }
-

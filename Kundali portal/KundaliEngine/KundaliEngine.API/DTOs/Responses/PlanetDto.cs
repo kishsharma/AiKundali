@@ -12,6 +12,10 @@
         public bool IsCombust { get; set; }
         public bool IsRetrograde { get; set; }
         public string DetailedStrength { get; set; } = string.Empty;
+        public List<string> AspectedBy { get; set; } = new();
+        public bool HasBeneficAspect { get; set; }
+        public bool HasMaleficAspect { get; set; }
+        public string ConditionTone { get; set; } = "Neutral";
         public string Nakshatra { get; set; } = string.Empty;
         public int Pada { get; set; }
     }

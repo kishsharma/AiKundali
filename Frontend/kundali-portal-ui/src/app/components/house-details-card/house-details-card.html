@@ -46,6 +46,13 @@
 
   </div>
 
+  <div class="tag-section simple-text-section aspect-section">
+    <label>{{ 'house.aspectedBy' | transloco }}</label>
+    <p class="simple-text" [class.muted]="!hasAspects">
+      {{ aspectedByText }}
+    </p>
+  </div>
+
   <div
     class="tag-section simple-text-section"
     *ngIf="houseData.dominantThemes?.length"

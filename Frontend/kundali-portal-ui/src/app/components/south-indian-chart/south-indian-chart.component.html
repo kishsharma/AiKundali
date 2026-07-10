@@ -18,7 +18,15 @@
     >
       <span class="sign-number">{{ cell.sign }}</span>
       <span class="house-label">H{{ getHouseForSign(cell.sign) }}</span>
-      <span class="planet-list">{{ getPlanets(cell.sign) }}</span>
+      <span class="planet-list">
+        <span
+          class="planet-token"
+          *ngFor="let planet of getPlanets(cell.sign)"
+          [ngClass]="getPlanetToneClass(planet)"
+          [attr.title]="getPlanetTooltip(planet)">
+          {{ getPlanetShortName(planet) }}
+        </span>
+      </span>
     </button>
 
     <div class="chart-center">

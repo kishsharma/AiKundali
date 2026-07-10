@@ -3,6 +3,28 @@
     No Mahadasha data available.
   </div>
 
+  <div class="current-dasha-summary" *ngIf="getCurrentDashaSummary() as currentDasha">
+    <p *ngIf="currentDasha.antardasha; else onlyMahadasha">
+      {{ 'mahadasha.currentlyPrefix' | transloco }}
+      <span class="dasha-highlight">{{ ('planet.' + getPlanetName(currentDasha.mahadasha)) | transloco }}</span>
+      {{ 'mahadasha.mahadashaAnd' | transloco }}
+      <span class="dasha-highlight">{{ ('planet.' + getPlanetName(currentDasha.antardasha)) | transloco }}</span>
+      {{ 'mahadasha.antardashaRunningWith' | transloco }}
+      <span class="dasha-highlight">{{ getRemainingText(currentDasha.remainingEnd) }}</span>
+      {{ 'mahadasha.remainingSuffix' | transloco }}
+    </p>
+
+    <ng-template #onlyMahadasha>
+      <p>
+        {{ 'mahadasha.currentlyPrefix' | transloco }}
+        <span class="dasha-highlight">{{ ('planet.' + getPlanetName(currentDasha.mahadasha)) | transloco }}</span>
+        {{ 'mahadasha.mahadashaRunningWith' | transloco }}
+        <span class="dasha-highlight">{{ getRemainingText(currentDasha.remainingEnd) }}</span>
+        {{ 'mahadasha.remainingSuffix' | transloco }}
+      </p>
+    </ng-template>
+  </div>
+
   <div
     class="mahadasha-card"
     *ngFor="let maha of mahadashas | slice:0:6">
@@ -16,11 +38,16 @@
         {{ ('planet.Mahadasha') | transloco }}
          
       </div>
-
-      <div class="duration">
-        {{ (maha.start || maha.startDate) | date:'dd MMM yyyy' }}
-        -
-        {{ (maha.end || maha.endDate) | date:'dd MMM yyyy' }}
+      <div class="period-summary">
+        <span class="date-range">
+          {{ getPeriodStart(maha) | date:'dd MMM yyyy' }}
+          -
+          {{ getPeriodEnd(maha) | date:'dd MMM yyyy' }}
+        </span>
+        <span class="duration-chip">
+          {{ 'mahadasha.duration' | transloco }}:
+          {{ getDurationText(getPeriodStart(maha), getPeriodEnd(maha)) }}
+        </span>
       </div>
 
     </div>
@@ -35,6 +62,7 @@
           <th>{{ 'mahadasha.antardasha' | transloco }}</th>
           <th>{{ 'mahadasha.start' | transloco }}</th>
           <th>{{ 'mahadasha.end' | transloco }}</th>
+          <th>{{ 'mahadasha.duration' | transloco }}</th>
         </tr>
 
       </thead>
@@ -42,7 +70,7 @@
       <tbody>
 
         <tr
-          *ngFor="let antar of maha.antardashas"  [class.active-maha]="isCurrentPeriod(antar.startDate, antar.endDate)">
+          *ngFor="let antar of maha.antardashas"  [class.active-maha]="isCurrentPeriod(getPeriodStart(antar), getPeriodEnd(antar))">
 
           <td>
            
@@ -51,11 +79,15 @@
           </td>
 
           <td>
-            {{ (antar.startDate || antar.start) | date:'dd MMM yyyy' }}
+            {{ getPeriodStart(antar) | date:'dd MMM yyyy' }}
           </td>
 
           <td>
-            {{ (antar.endDate || antar.end) | date:'dd MMM yyyy' }}
+            {{ getPeriodEnd(antar) | date:'dd MMM yyyy' }}
+          </td>
+
+          <td class="duration-cell">
+            {{ getDurationText(getPeriodStart(antar), getPeriodEnd(antar)) }}
           </td>
 
         </tr>

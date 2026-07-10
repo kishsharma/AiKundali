@@ -22,6 +22,9 @@ namespace KundaliEngine.Domain.Models
 
         public KundaliChart PersonAchart { get; set; }
         public KundaliChart PersonBchart { get; set; }
+        public AshtakootaResult Ashtakoota { get; set; } = new();
+
+        public CompatibilityDoshaAnalysis DoshaAnalysis { get; set; } = new();
 
         /// <summary>
         /// Overall compatibility score (0-100).

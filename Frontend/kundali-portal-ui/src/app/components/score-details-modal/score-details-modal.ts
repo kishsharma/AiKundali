@@ -19,12 +19,17 @@ interface ScoreBreakdownItem {
 export class ScoreDetailsModalComponent {
   @Input() isOpen = false;
   @Input() scoreType: 'overall' | 'stability' | 'growth' | 'challenge' = 'overall';
+  @Input() scoreLabel = '';
   @Input() scoreValue: number = 0;
   @Input() scoreBreakdown: ScoreBreakdownItem[] = [];
   @Input() factors: string[] = [];
   @Output() close = new EventEmitter<void>();
 
   getScoreLabel(): string {
+    if (this.scoreLabel) {
+      return this.scoreLabel;
+    }
+
     const labels: Record<string, string> = {
       'overall': 'kundali.overallScore',
       'stability': 'kundali.stabilityScore',
@@ -32,6 +37,10 @@ export class ScoreDetailsModalComponent {
       'challenge': 'kundali.challengeScore'
     };
     return labels[this.scoreType] || this.scoreType;
+  }
+
+  isTranslatedScoreLabel(): boolean {
+    return !this.scoreLabel;
   }
 
   getScoreColor(score: number): string {

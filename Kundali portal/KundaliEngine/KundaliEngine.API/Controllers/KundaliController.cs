@@ -4,6 +4,7 @@ using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Dasha;
 using KundaliEngine.Astrology.Services.House;
+using KundaliEngine.Astrology.Services.KundaliDosha;
 using KundaliEngine.Astrology.Services.KundaliYoga;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
@@ -16,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KundaliEngine.API.Helper_functions;
+using KundaliEngine.Astrology.Services.DivisionalCharts.Calculators;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KundaliEngine.API.Controllers
 {
@@ -31,13 +34,23 @@ namespace KundaliEngine.API.Controllers
         private readonly OverallKundaliScoreService _overallScoreService;
         private readonly AspectService _aspectService;
         private readonly YogaDetectionService _yogaDetectionService;
+        private readonly DoshaDetectionService _doshaDetectionService;
         private readonly YogaMetadataService _yogaMetadataService;
+        private readonly DoshaMetadataService _doshaMetadataService;
+        private readonly NakshatraMetadataService _nakshatraMetadataService;
+        private readonly RashiMetadataService _rashiMetadataService;
+        private readonly IEphemerisProvider _ephemerisProvider;
         public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService, 
             HouseScoreService houseScoreService, DashaService dashaService,
             OverallKundaliScoreService overallScoreService,
             AspectService aspectService,
             YogaDetectionService yogaDetectionService,
-            YogaMetadataService yogaMetadataService
+            DoshaDetectionService doshaDetectionService,
+            YogaMetadataService yogaMetadataService,
+            DoshaMetadataService doshaMetadataService,
+            NakshatraMetadataService nakshatraMetadataService,
+            RashiMetadataService rashiMetadataService,
+            IEphemerisProvider ephemerisProvider
             
             )
         {
@@ -49,9 +62,14 @@ namespace KundaliEngine.API.Controllers
             _overallScoreService = overallScoreService;
             _aspectService = aspectService;
             _yogaDetectionService = yogaDetectionService;
+            _doshaDetectionService = doshaDetectionService;
             _yogaMetadataService = yogaMetadataService;
+            _doshaMetadataService = doshaMetadataService;
+            _nakshatraMetadataService = nakshatraMetadataService;
+            _rashiMetadataService = rashiMetadataService;
+            _ephemerisProvider = ephemerisProvider;
         }
-
+        [Authorize]
         [HttpPost("generate")]
         public ActionResult<GenerateKundaliResponse> Generate([FromBody] GenerateKundaliRequest request)
         {
@@ -72,16 +90,21 @@ namespace KundaliEngine.API.Controllers
             double sunLongitude = planets.First(p => p.Planet == Planet.Sun).Longitude;
             double moonLongitude = planets.First(p => p.Planet == Planet.Moon).Longitude;
             var panchang = _panchangService.Calculate(request.BirthDateTime, sunLongitude, moonLongitude);
+            panchang.Akshara = _nakshatraMetadataService.GetPadaAkshara(panchang.Nakshatra, panchang.Pada);
 
             // Dasha
             var moonPos = planets.First(p => p.Planet == Planet.Moon);
             var birthDasha = _dashaService.GetBirthMahadasha(moonPos);
+            var rashiInsight = BuildRashiInsight(moonPos.Sign.ToString());
+            var nakshatraInsight = BuildNakshatraInsight(panchang.Nakshatra, panchang.Pada);
 
             // Ascendant
-            var ascCalc = new AscendantCalculator();
-            double ascendantLongitude = ascCalc.Calculate(request.BirthDateTime, request.Latitude, request.Longitude);
+            var location = new GeoLocation(request.Latitude, request.Longitude);
+            double ascendantLongitude = _ephemerisProvider.GetAscendant(request.BirthDateTime, location).Longitude;
             int ascendantIndex = (int)(ascendantLongitude / 30.0);
             ZodiacSign ascendantSign = (ZodiacSign)((ascendantIndex % 12) + 1);
+            double ascendantDegreeInSign = NormalizeDegreeInSign(ascendantLongitude);
+            var d9Chart = BuildD9Chart(planets, ascendantSign, ascendantDegreeInSign);
 
             // Houses and house scores
             var aspectResult = _aspectService.CalculateGrahaDrishti(planets);
@@ -99,6 +122,10 @@ namespace KundaliEngine.API.Controllers
                 var houseAspects = aspectResult.HouseAspects
                     .Where(a => a.ToHouse == i)
                     .ToList();
+                var aspectedBy = houseAspects
+                    .Select(a => a.FromPlanet.ToString())
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
                 var occupants = planets.Where(p => (int)p.House == i).Select(p => p.Planet.ToString()).ToList();
                 var scoreResult = houseScores.First(h => (int)h.HouseNumber == i);
 
@@ -112,6 +139,7 @@ namespace KundaliEngine.API.Controllers
                     Occupants = occupants,
                     HasBeneficAspect = houseAspects.Any(a => HelperData.IsNaturalBenefic(a.FromPlanet)),
                     HasMaleficAspect = houseAspects.Any(a => HelperData.IsNaturalMaleficOrShadow(a.FromPlanet)),
+                    AspectedBy = aspectedBy,
                     Score = scoreResult.Score,
                     Factors = scoreResult.Factors,
                     DominantThemes = scoreResult.DominantThemes,
@@ -144,11 +172,12 @@ namespace KundaliEngine.API.Controllers
                 }
             };
 
+            var currentUtc = DateTime.UtcNow;
             var dashaCalculation = _dashaService.CalculateCurrentDasha(
                 birthDasha.Planet,
                 birthDasha.RemainingYears,
                 request.BirthDateTime,
-                DateTime.UtcNow);
+                currentUtc);
 
             var currentDashaDto = new CurrentDashaDto
             {
@@ -160,13 +189,16 @@ namespace KundaliEngine.API.Controllers
                 AntardashaEndDate = dashaCalculation.CurrentAntardasha.EndDate,
                 Summary = string.Empty
             };
-            // Detect yogas
-            var detectedYogas = _yogaDetectionService.DetectYogas(planets, houseDtos.Select(h => new Domain.Models.HouseDto
+            var transitInsight = BuildTransitInsight(request, ascendantSign, currentDashaDto, currentUtc, planets, houseDtos);
+            var houseDomainDtos = houseDtos.Select(h => new Domain.Models.HouseDto
             {
                 HouseNumber = (HouseNumber)h.HouseNumber,
                 Sign = Enum.Parse<ZodiacSign>(h.Sign),
                 Occupants = h.Occupants.Select(o => Enum.Parse<Planet>(o)).ToList()
-            }).ToList());
+            }).ToList();
+
+            // Detect yogas
+            var detectedYogas = _yogaDetectionService.DetectYogas(planets, houseDomainDtos);
 
             // Map to YogaDto
             var yogas = detectedYogas
@@ -181,6 +213,13 @@ namespace KundaliEngine.API.Controllers
                     Nature = item.Meta.Nature,
                     Description = item.Meta.Description,
                     Impact = item.Meta.Impact,
+                    ImpactAreas = item.Meta.ImpactAreas
+                        .Select(area => new YogaImpactAreaDto
+                        {
+                            Category = area.Category,
+                            Statements = area.Statements
+                        })
+                        .ToList(),
                     References = item.Meta.References,
                     Strength = item.Match.Strength,
                     InvolvedPlanets = item.Match.InvolvedPlanets,
@@ -188,6 +227,32 @@ namespace KundaliEngine.API.Controllers
                     Reason = item.Match.Reason
                 })
                 .ToList();
+
+            var doshas = _doshaDetectionService.DetectDoshas(planets, houseDomainDtos)
+                .Select(match => new { Match = match, Meta = _doshaMetadataService.GetDosha(match.Key) })
+                .Select(item => new DoshaDto
+                {
+                    Key = item.Match.Key,
+                    Name = item.Meta?.Name ?? item.Match.Key,
+                    Category = item.Meta?.Category ?? string.Empty,
+                    Severity = item.Match.Severity,
+                    IsPresent = item.Match.IsPresent,
+                    Description = item.Meta?.Description ?? string.Empty,
+                    Reason = item.Match.Reason,
+                    InvolvedPlanets = item.Match.InvolvedPlanets,
+                    InvolvedHouses = item.Match.InvolvedHouses,
+                    ImpactAreas = item.Meta?.ImpactAreas
+                        .Select(area => new DoshaImpactAreaDto
+                        {
+                            Category = area.Category,
+                            Statements = area.Statements
+                        })
+                        .ToList() ?? new(),
+                    Remedies = item.Meta?.Remedies ?? new(),
+                    References = item.Meta?.References ?? new()
+                })
+                .ToList();
+
             // Build response (mapped)
             var response = new GenerateKundaliResponse
             {
@@ -209,6 +274,7 @@ namespace KundaliEngine.API.Controllers
                     Paksha = panchang.Paksha,
                     Nakshatra = panchang.Nakshatra,
                     Pada = panchang.Pada,
+                    Akshara = panchang.Akshara,
                     Yoga = panchang.Yoga,
                     Karana = panchang.Karana,
                     Vaar = panchang.Vaar,
@@ -217,28 +283,409 @@ namespace KundaliEngine.API.Controllers
                     Samvat=panchang.Samvat
 
                 },
-                Planets = planets.Select(p => new PlanetDto
-                {
-                    Planet = p.Planet.ToString(),
-                    Sign = p.Sign.ToString(),
-                    Degree = p.Degree,
-                    Minute = p.Minute,
-                    House = (int)p.House,
-                    Longitude = p.Longitude,
-                    Latitude = p.Latitude,
-                    IsCombust = p.IsCombust,
-                    IsRetrograde = p.IsRetrograde,
-                    DetailedStrength = p.DetailedStrength,
-                    Nakshatra = p.Nakshatra.ToString(),
-                    Pada = p.Pada
-                }).ToList(),
+                Planets = planets.Select(p => MapPlanetDto(p, aspectResult)).ToList(),
                 Houses = houseDtos,
                 Scores = overallDto,
                 CurrentDasha = currentDashaDto,
-                Yogas = yogas
+                RashiInsight = rashiInsight,
+                NakshatraInsight = nakshatraInsight,
+                TransitInsight = transitInsight,
+                Yogas = yogas,
+                Doshas = doshas,
+                D9Chart = d9Chart
             };
 
             return Ok(response);
+        }
+
+        private RashiInsightDto? BuildRashiInsight(string moonSign)
+        {
+            var rashi = _rashiMetadataService.GetRashiBySign(moonSign);
+            if (rashi == null)
+            {
+                return null;
+            }
+
+            return new RashiInsightDto
+            {
+                Name = rashi.Name,
+                EnglishName = rashi.EnglishName,
+                Symbol = rashi.Symbol,
+                Ruler = rashi.Ruler,
+                Element = rashi.Element,
+                Strength = rashi.Strengths.FirstOrDefault() ?? string.Empty,
+                Weakness = rashi.Weaknesses.FirstOrDefault() ?? string.Empty,
+                Gemstone = rashi.Gemstone,
+                Metal = rashi.Metal,
+                Color = rashi.Color,
+                LuckyNumbers = rashi.LuckyNumbers,
+                FavorableDay = rashi.FavorableDay,
+                FavorableDirection = rashi.FavorableDirection
+            };
+        }
+
+        private NakshatraInsightDto? BuildNakshatraInsight(string nakshatraName, int pada)
+        {
+            var nakshatra = _nakshatraMetadataService.GetNakshatra(nakshatraName);
+            if (nakshatra == null)
+            {
+                return null;
+            }
+
+            return new NakshatraInsightDto
+            {
+                Name = nakshatraName,
+                Pada = pada,
+                Lord = nakshatra.Lord,
+                Symbol = nakshatra.Symbol,
+                Gana = nakshatra.Gana,
+                Yoni = nakshatra.Yoni,
+                Nadi = nakshatra.Nadi,
+                Varna = nakshatra.Varna,
+                Vashya = string.Join(", ", nakshatra.Vashya),
+                Dosha = GetDominantDosha(nakshatra.Dosha),
+                FastingDay = nakshatra.FastingDay,
+                BusinessSuitability = nakshatra.BusinessSuitability.FirstOrDefault() ?? string.Empty
+            };
+        }
+
+        private static string GetDominantDosha(Dictionary<string, string?>? dosha)
+        {
+            if (dosha == null || dosha.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var highDosha = dosha.FirstOrDefault(item =>
+                string.Equals(item.Value, "High", StringComparison.OrdinalIgnoreCase));
+            if (!string.IsNullOrWhiteSpace(highDosha.Key))
+            {
+                return $"{ToTitleCase(highDosha.Key)}: {highDosha.Value}";
+            }
+
+            var rankedDosha = dosha
+                .Where(item => !string.IsNullOrWhiteSpace(item.Value))
+                .OrderByDescending(item => GetDoshaRank(item.Value!))
+                .FirstOrDefault();
+
+            return string.IsNullOrWhiteSpace(rankedDosha.Key)
+                ? string.Empty
+                : $"{ToTitleCase(rankedDosha.Key)}: {rankedDosha.Value}";
+        }
+
+        private static int GetDoshaRank(string value)
+        {
+            return value.Trim().ToLowerInvariant() switch
+            {
+                "high" => 3,
+                "medium" => 2,
+                "low" => 1,
+                _ => 0
+            };
+        }
+
+        private static string ToTitleCase(string value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? string.Empty
+                : char.ToUpperInvariant(value[0]) + value[1..].ToLowerInvariant();
+        }
+
+        private TransitInsightDto BuildTransitInsight(
+            GenerateKundaliRequest request,
+            ZodiacSign natalAscendantSign,
+            CurrentDashaDto currentDasha,
+            DateTime currentUtc,
+            List<PlanetPosition> natalPlanets,
+            List<DTOs.Responses.HouseDto> natalHouses)
+        {
+            var transitPlanets = _chartService.GenerateChart(currentUtc, request.Latitude, request.Longitude);
+
+            foreach (var planet in transitPlanets)
+            {
+                planet.House = CalculateHouseFromAscendant(planet.Sign, natalAscendantSign);
+            }
+
+            var transitAspectResult = _aspectService.CalculateGrahaDrishti(transitPlanets);
+            var activations = transitPlanets
+                .Select(planet => BuildTransitActivation(planet, natalPlanets, natalHouses, currentDasha))
+                .OrderByDescending(GetTransitPriority)
+                .ThenBy(item => item.NatalHouse)
+                .ToList();
+
+            return new TransitInsightDto
+            {
+                CalculatedAtUtc = currentUtc,
+                LocationMode = "BirthLocationNatalHouses",
+                Place = request.BirthPlace ?? string.Empty,
+                NatalAscendant = $"{(int)natalAscendantSign} - {natalAscendantSign}",
+                Planets = transitPlanets.Select(planet => MapPlanetDto(planet, transitAspectResult)).ToList(),
+                Activations = activations
+            };
+        }
+
+        private static TransitActivationDto BuildTransitActivation(
+            PlanetPosition transitPlanet,
+            List<PlanetPosition> natalPlanets,
+            List<DTOs.Responses.HouseDto> natalHouses,
+            CurrentDashaDto currentDasha)
+        {
+            var natalHouse = (int)transitPlanet.House;
+            var natalPlanetsInHouse = natalPlanets
+                .Where(planet => (int)planet.House == natalHouse)
+                .Select(planet => planet.Planet.ToString())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            var houseLord = natalHouses
+                .FirstOrDefault(house => house.HouseNumber == natalHouse)
+                ?.HouseOwner ?? string.Empty;
+
+            var activation = new TransitActivationDto
+            {
+                Planet = transitPlanet.Planet.ToString(),
+                Sign = transitPlanet.Sign.ToString(),
+                NatalHouse = natalHouse,
+                FocusArea = GetTransitFocusArea(natalHouse),
+                NatalPlanetsInHouse = natalPlanetsInHouse,
+                NatalHouseLord = houseLord,
+                IsMahadashaPlanet = IsDashaPlanet(transitPlanet.Planet.ToString(), currentDasha.Mahadasha),
+                IsAntardashaPlanet = IsDashaPlanet(transitPlanet.Planet.ToString(), currentDasha.Antardasha),
+                ActivatesNatalMahadashaPlanet = natalPlanetsInHouse.Any(planet => IsDashaPlanet(planet, currentDasha.Mahadasha)),
+                ActivatesNatalAntardashaPlanet = natalPlanetsInHouse.Any(planet => IsDashaPlanet(planet, currentDasha.Antardasha)),
+                IsHouseLordMahadashaPlanet = IsDashaPlanet(houseLord, currentDasha.Mahadasha),
+                IsHouseLordAntardashaPlanet = IsDashaPlanet(houseLord, currentDasha.Antardasha),
+                IsRetrograde = transitPlanet.IsRetrograde
+            };
+
+            activation.InterpretationHint = BuildTransitInterpretationHint(activation);
+            return activation;
+        }
+
+        private static bool IsDashaPlanet(string? planet, string? dashaPlanet)
+        {
+            return !string.IsNullOrWhiteSpace(planet)
+                && !string.IsNullOrWhiteSpace(dashaPlanet)
+                && string.Equals(planet.Trim(), dashaPlanet.Trim(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static int GetTransitPriority(TransitActivationDto activation)
+        {
+            var score = 0;
+
+            if (activation.IsMahadashaPlanet)
+            {
+                score += 100;
+            }
+
+            if (activation.IsAntardashaPlanet)
+            {
+                score += 90;
+            }
+
+            if (activation.ActivatesNatalMahadashaPlanet || activation.ActivatesNatalAntardashaPlanet)
+            {
+                score += 80;
+            }
+
+            if (activation.IsHouseLordMahadashaPlanet || activation.IsHouseLordAntardashaPlanet)
+            {
+                score += 65;
+            }
+
+            score += activation.Planet switch
+            {
+                "Saturn" => 35,
+                "Jupiter" => 32,
+                "Rahu" => 30,
+                "Ketu" => 30,
+                "Moon" => 18,
+                _ => 0
+            };
+
+            return score;
+        }
+
+        private static string BuildTransitInterpretationHint(TransitActivationDto activation)
+        {
+            var natalActivation = activation.NatalPlanetsInHouse.Count > 0
+                ? $" activating natal {string.Join(", ", activation.NatalPlanetsInHouse)}"
+                : string.Empty;
+            var dashaLink = activation.IsMahadashaPlanet || activation.IsAntardashaPlanet ||
+                            activation.ActivatesNatalMahadashaPlanet || activation.ActivatesNatalAntardashaPlanet ||
+                            activation.IsHouseLordMahadashaPlanet || activation.IsHouseLordAntardashaPlanet
+                ? " with an active Dasha link"
+                : string.Empty;
+
+            return $"{activation.Planet} is transiting your {activation.NatalHouse} house{natalActivation}, bringing focus to {activation.FocusArea}{dashaLink}.";
+        }
+
+        private static string GetTransitFocusArea(int houseNumber)
+        {
+            return houseNumber switch
+            {
+                1 => "Self, vitality and direction",
+                2 => "Money, family and speech",
+                3 => "Communication, courage and effort",
+                4 => "Home, peace and emotional base",
+                5 => "Learning, creativity and children",
+                6 => "Work, health and problem solving",
+                7 => "Partnerships and agreements",
+                8 => "Transformation, research and shared matters",
+                9 => "Fortune, dharma and guidance",
+                10 => "Career, karma and public role",
+                11 => "Gains, networks and ambitions",
+                12 => "Rest, expenses and spiritual release",
+                _ => string.Empty
+            };
+        }
+
+        private static DivisionalChartDto BuildD9Chart(
+            List<PlanetPosition> d1Planets,
+            ZodiacSign d1AscendantSign,
+            double ascendantDegreeInSign)
+        {
+            var navamsaCalculator = new NavamsaCalculator();
+            var d9Planets = navamsaCalculator.Calculate(d1Planets);
+            var d9AscendantSign = NavamsaCalculator.CalculateNavamsaSign(d1AscendantSign, ascendantDegreeInSign);
+
+            foreach (var planet in d9Planets)
+            {
+                planet.House = CalculateHouseFromAscendant(planet.Sign, d9AscendantSign);
+            }
+
+            var houses = BuildDivisionalHouseDtos(d9AscendantSign, d9Planets);
+
+            return new DivisionalChartDto
+            {
+                ChartType = DivisionalChartType.D9.ToString(),
+                Ascendant = $"{(int)d9AscendantSign} - {d9AscendantSign}",
+                Planets = d9Planets.Select(planet => MapPlanetDto(planet)).ToList(),
+                Houses = houses,
+                Description = "Navamsa divisional chart"
+            };
+        }
+
+        private static List<DTOs.Responses.HouseDto> BuildDivisionalHouseDtos(
+            ZodiacSign ascendantSign,
+            List<PlanetPosition> planets)
+        {
+            var houses = new List<DTOs.Responses.HouseDto>();
+
+            for (int i = 1; i <= 12; i++)
+            {
+                var signIndex = (((int)ascendantSign - 1) + (i - 1)) % 12;
+                var houseSign = (ZodiacSign)(signIndex + 1);
+                var houseOwner = HelperData.GetSignOwner(houseSign);
+                var occupants = planets
+                    .Where(p => (int)p.House == i)
+                    .Select(p => p.Planet.ToString())
+                    .ToList();
+
+                houses.Add(new DTOs.Responses.HouseDto
+                {
+                    HouseNumber = i,
+                    Sign = houseSign.ToString(),
+                    HouseOwner = houseOwner,
+                    HouseSwamy = houseOwner,
+                    Occupants = occupants,
+                    HasBeneficAspect = false,
+                    HasMaleficAspect = false,
+                    AspectedBy = new List<string>(),
+                    Score = 0,
+                    Factors = new List<string>(),
+                    DominantThemes = new List<string>(),
+                    HouseName = HouseMetadataService.GetHouseName(i),
+                    LifeAreas = HouseMetadataService.GetLifeAreas(i)
+                });
+            }
+
+            return houses;
+        }
+
+        private static PlanetDto MapPlanetDto(PlanetPosition p, AspectCalculationResult? aspectResult = null)
+        {
+            var aspectedBy = aspectResult?.PlanetAspects
+                .Where(aspect => aspect.ToPlanet == p.Planet)
+                .Select(aspect => aspect.FromPlanet.ToString())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList() ?? new List<string>();
+            var hasBeneficAspect = aspectResult?.PlanetAspects
+                .Any(aspect => aspect.ToPlanet == p.Planet && HelperData.IsNaturalBenefic(aspect.FromPlanet)) ?? false;
+            var hasMaleficAspect = aspectResult?.PlanetAspects
+                .Any(aspect => aspect.ToPlanet == p.Planet && HelperData.IsNaturalMaleficOrShadow(aspect.FromPlanet)) ?? false;
+
+            return new PlanetDto
+            {
+                Planet = p.Planet.ToString(),
+                Sign = p.Sign.ToString(),
+                Degree = p.Degree,
+                Minute = p.Minute,
+                House = (int)p.House,
+                Longitude = p.Longitude,
+                Latitude = p.Latitude,
+                IsCombust = p.IsCombust,
+                IsRetrograde = p.IsRetrograde,
+                DetailedStrength = p.DetailedStrength,
+                AspectedBy = aspectedBy,
+                HasBeneficAspect = hasBeneficAspect,
+                HasMaleficAspect = hasMaleficAspect,
+                ConditionTone = GetPlanetConditionTone(p, hasBeneficAspect, hasMaleficAspect),
+                Nakshatra = p.Nakshatra.ToString(),
+                Pada = p.Pada
+            };
+        }
+
+        private static string GetPlanetConditionTone(
+            PlanetPosition planet,
+            bool hasBeneficAspect,
+            bool hasMaleficAspect)
+        {
+            var strength = planet.DetailedStrength ?? string.Empty;
+            var isWeak = strength.Contains("Weak", StringComparison.OrdinalIgnoreCase)
+                || strength.Contains("Enemy", StringComparison.OrdinalIgnoreCase)
+                || strength.Contains("Debilitated", StringComparison.OrdinalIgnoreCase);
+            var isStrong = strength.Contains("Own", StringComparison.OrdinalIgnoreCase)
+                || strength.Contains("Exalted", StringComparison.OrdinalIgnoreCase)
+                || strength.Contains("Friendly", StringComparison.OrdinalIgnoreCase);
+
+            if (planet.IsCombust || isWeak || (hasMaleficAspect && !hasBeneficAspect))
+            {
+                return "Challenging";
+            }
+
+            if (planet.IsRetrograde)
+            {
+                return "Special";
+            }
+
+            if (isStrong || (hasBeneficAspect && !hasMaleficAspect))
+            {
+                return "Supportive";
+            }
+
+            if (hasBeneficAspect && hasMaleficAspect)
+            {
+                return "Mixed";
+            }
+
+            return "Neutral";
+        }
+
+        private static HouseNumber CalculateHouseFromAscendant(ZodiacSign sign, ZodiacSign ascendantSign)
+        {
+            var house = (((int)sign - (int)ascendantSign + 12) % 12) + 1;
+            return (HouseNumber)house;
+        }
+
+        private static double NormalizeDegreeInSign(double longitude)
+        {
+            longitude %= 360.0;
+            if (longitude < 0)
+            {
+                longitude += 360.0;
+            }
+
+            return longitude % 30.0;
         }
 
         [HttpPost("planet-positions")]

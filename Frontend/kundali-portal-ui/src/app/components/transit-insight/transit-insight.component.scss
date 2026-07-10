@@ -1,0 +1,273 @@
+.transit-insight {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.18fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.transit-chart-panel,
+.transit-table-panel {
+  min-width: 0;
+  border: 1px solid #e6e9f4;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(16, 20, 61, 0.05);
+}
+
+.transit-chart-panel {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.transit-table-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.transit-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.transit-panel-header div {
+  display: grid;
+  gap: 2px;
+}
+
+.transit-panel-header span,
+.transit-note,
+.transit-row-head {
+  color: #5d6689;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.transit-panel-header strong {
+  color: #10143d;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.transit-panel-header small {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.transit-note {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.4;
+  text-transform: none;
+}
+
+.transit-statement {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid #e1e7ff;
+  border-radius: 8px;
+  background: #f8faff;
+  color: #323a55;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.transit-statement strong {
+  color: #10143d;
+  font-weight: 900;
+}
+
+.transit-rows {
+  display: grid;
+  border: 1px solid #edf0f8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.transit-row {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.9fr) minmax(52px, 0.36fr) minmax(140px, 1.15fr) minmax(130px, 1fr) minmax(120px, 0.9fr);
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid #edf0f8;
+  color: #202640;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.transit-row:last-child {
+  border-bottom: none;
+}
+
+.transit-row-head {
+  background: #fbfcff;
+  color: #5d6689;
+  font-size: 10px;
+}
+
+.planet-cell {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.planet-cell strong {
+  color: #10143d;
+  font-weight: 800;
+}
+
+.planet-cell i {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 0 6px;
+  border: 1px solid #dbe5ff;
+  border-radius: 999px;
+  background: #f6f1ff;
+  color: #6d28d9;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.activation-cell {
+  display: grid;
+  gap: 2px;
+}
+
+.activation-cell strong {
+  color: #10143d;
+  font-weight: 700;
+}
+
+.activation-cell small {
+  color: #68708e;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.dasha-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.dasha-links i {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 0 6px;
+  border: 1px solid #dce3f5;
+  border-radius: 999px;
+  background: #fbfcff;
+  color: #44506f;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+:host ::ng-deep app-north-indian-chart {
+  display: block;
+  width: min(100%, 320px);
+  margin: 0 auto;
+}
+
+:host-context(.pdf-mode) .transit-insight,
+:host-context(.pdf-mode) .transit-chart-panel,
+:host-context(.pdf-mode) .transit-table-panel,
+:host-context(.pdf-mode) .transit-row,
+:host-context(.pdf-mode) .transit-row-head,
+:host-context(.pdf-mode) .transit-statement {
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+:host-context(.pdf-mode) .transit-insight {
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+  gap: 8px !important;
+}
+
+:host-context(.pdf-mode) .transit-chart-panel,
+:host-context(.pdf-mode) .transit-table-panel {
+  padding: 7px !important;
+}
+
+:host-context(.pdf-mode) .transit-statement {
+  padding: 5px 7px !important;
+  font-size: 8.5px !important;
+  line-height: 1.25 !important;
+}
+
+:host-context(.pdf-mode) .transit-row {
+  grid-template-columns: minmax(54px, 0.75fr) minmax(28px, 0.32fr) minmax(86px, 1fr) minmax(78px, 0.9fr) minmax(72px, 0.8fr) !important;
+  gap: 5px !important;
+  padding: 4px 6px !important;
+  font-size: 8.5px !important;
+  line-height: 1.2 !important;
+}
+
+:host-context(.pdf-mode) .transit-panel-header span,
+:host-context(.pdf-mode) .transit-note,
+:host-context(.pdf-mode) .transit-row-head {
+  font-size: 8px !important;
+  letter-spacing: 0 !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+}
+
+:host-context(.pdf-mode) .transit-panel-header strong {
+  font-size: 9px !important;
+  font-weight: 600 !important;
+}
+
+:host-context(.pdf-mode) .transit-panel-header small {
+  font-size: 8px !important;
+}
+
+:host-context(.pdf-mode) .planet-cell i {
+  min-height: 14px !important;
+  padding: 0 4px !important;
+  font-size: 7px !important;
+}
+
+:host-context(.pdf-mode) .activation-cell small,
+:host-context(.pdf-mode) .dasha-links i {
+  font-size: 7px !important;
+  line-height: 1.1 !important;
+}
+
+:host-context(.pdf-mode) .dasha-links i {
+  min-height: 13px !important;
+  padding: 0 3px !important;
+}
+
+:host-context(.pdf-mode) ::ng-deep app-north-indian-chart {
+  width: 190px !important;
+  max-width: 190px !important;
+}
+
+@media (max-width: 860px) {
+  .transit-insight {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .transit-row,
+  .transit-row-head {
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -11,7 +11,14 @@ namespace KundaliEngine.Domain.Models
         public string Nature { get; set; } = string.Empty; // "Benefic", "Malefic", "Mixed"
         public string Description { get; set; } = string.Empty; // Short description
         public string Impact { get; set; } = string.Empty; // Impact statement
+        public List<YogaImpactArea> ImpactAreas { get; set; } = new(); // Category-wise impact statements
         public List<string> References { get; set; } = new(); // Classical references
+    }
+
+    public class YogaImpactArea
+    {
+        public string Category { get; set; } = string.Empty;
+        public List<string> Statements { get; set; } = new();
     }
 
     // Optionally, a detection result model

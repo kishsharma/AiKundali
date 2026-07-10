@@ -1,264 +1,810 @@
-{
-  "Version": "1.0-draft",
-  "Note": "Conservative draft containing only entries with high confidence. Expand after source verification.",
-  "Items": [
-    {
-      "Key": "gajakesari",
-      "Name": "Gajakesari Yoga",
-      "SanskritName": "गजकेसरी योग",
-      "Category": "Raja Yoga",
-      "Nature": "Benefic",
-      "Description": "Traditionally formed when Jupiter occupies a Kendra (1st, 4th, 7th or 10th house) from the Moon.",
-      "Impact": "Traditionally associated with wisdom, reputation, learning and prosperity. Actual results depend on the complete horoscope, planetary dignity, aspects and dasha.",
-      "References": [
-        "Brihat Parashara Hora Shastra",
-        "Phaladeepika"
-      ]
-    },
-    {
-      "Key": "budha_aditya",
-      "Name": "Budha-Aditya Yoga",
-      "SanskritName": "बुधादित्य योग",
-      "Category": "Raja Yoga",
-      "Nature": "Benefic",
-      "Description": "Traditionally formed by the conjunction of the Sun and Mercury.",
-      "Impact": "Traditionally associated with intellect, communication and administrative ability. Results depend on Mercury's dignity and afflictions.",
-      "References": [
-        "Phaladeepika",
-        "Saravali"
-      ]
-    },
-    {
-      "Key": "chandra_mangala",
-      "Name": "Chandra-Mangala Yoga",
-      "SanskritName": "चन्द्र मङ्गल योग",
-      "Category": "Dhana Yoga",
-      "Nature": "Benefic",
-      "Description": "Traditionally formed when the Moon and Mars are in conjunction or mutually aspect each other.",
-      "Impact": "Traditionally associated with enterprise and financial initiative.",
-      "References": [
-        "Phaladeepika",
-        "Jataka Parijata"
-      ]
-    },
-    {
-      "Key": "kemadruma",
-      "Name": "Kemadruma Yoga",
-      "SanskritName": "केमद्रुम योग",
-      "Category": "Chandra Yoga",
-      "Nature": "Malefic",
-      "Description": "Traditionally formed when no qualifying planets occupy the 2nd and 12th from the Moon, subject to cancellation rules.",
-      "Impact": "Traditionally associated with emotional and material challenges. Cancellation rules must always be checked.",
-      "References": [
-        "Brihat Parashara Hora Shastra",
-        "Saravali"
-      ]
-    },
-    {
-      "Key": "ruchaka",
-      "Name": "Ruchaka Yoga",
-      "SanskritName": "रुचक योग",
-      "Category": "Pancha Mahapurusha",
-      "Nature": "Benefic",
-      "Description": "Mars in own or exaltation sign in a Kendra from the Ascendant.",
-      "Impact": "Traditionally associated with courage, authority and leadership.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "bhadra",
-      "Name": "Bhadra Yoga",
-      "SanskritName": "भद्र योग",
-      "Category": "Pancha Mahapurusha",
-      "Nature": "Benefic",
-      "Description": "Mercury in own or exaltation sign in a Kendra from the Ascendant.",
-      "Impact": "Traditionally associated with intelligence, eloquence and analytical ability.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "hamsa",
-      "Name": "Hamsa Yoga",
-      "SanskritName": "हंस योग",
-      "Category": "Pancha Mahapurusha",
-      "Nature": "Benefic",
-      "Description": "Jupiter in own or exaltation sign in a Kendra from the Ascendant.",
-      "Impact": "Traditionally associated with wisdom, spirituality and respect.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "malavya",
-      "Name": "Malavya Yoga",
-      "SanskritName": "मालव्य योग",
-      "Category": "Pancha Mahapurusha",
-      "Nature": "Benefic",
-      "Description": "Venus in own or exaltation sign in a Kendra from the Ascendant.",
-      "Impact": "Traditionally associated with comforts, beauty and artistic ability.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "sasa",
-      "Name": "Sasa Yoga",
-      "SanskritName": "शश योग",
-      "Category": "Pancha Mahapurusha",
-      "Nature": "Benefic",
-      "Description": "Saturn in own or exaltation sign in a Kendra from the Ascendant.",
-      "Impact": "Traditionally associated with discipline, endurance and authority.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "viparita_raja",
-      "Name": "Viparita Raja Yoga",
-      "SanskritName": "विपरीत राज योग",
-      "Category": "Raja Yoga",
-      "Nature": "Mixed",
-      "Description": "Traditionally formed through specific relationships among the lords of the 6th, 8th and 12th houses.",
-      "Impact": "Traditionally associated with success emerging through adversity when classical conditions are satisfied.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "neecha_bhanga_raja",
-      "Name": "Neechabhanga Raja Yoga",
-      "SanskritName": "नीचभंग राज योग",
-      "Category": "Raja Yoga",
-      "Nature": "Benefic",
-      "Description": "Traditional cancellation of planetary debilitation according to classical rules.",
-      "Impact": "Traditionally associated with recovery from setbacks and eventual rise.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "parivartana",
-      "Name": "Parivartana Yoga",
-      "SanskritName": "परिवर्तन योग",
-      "Category": "Raja Yoga",
-      "Nature": "Mixed",
-      "Description": "Exchange of signs between two planetary lords.",
-      "Impact": "Results depend on the houses, planets and dignity involved.",
-      "References": [
-        "Brihat Parashara Hora Shastra",
-        "Saravali"
-      ]
-    },
-    {
-      "Key": "kendra_trikona_raja",
-      "Name": "Kendra-Trikona Raja Yoga",
-      "SanskritName": "केन्द्र त्रिकोण राज योग",
-      "Category": "Raja Yoga",
-      "Nature": "Benefic",
-      "Description": "Formed when a lord of a Kendra house associates with a lord of a Trikona house through conjunction, mutual aspect or exchange.",
-      "Impact": "Traditionally associated with rise, authority, fortune and capacity for accomplishment. Strength depends on dignity, combustion, house placement and supporting or afflicting influences.",
-      "References": [
-        "Brihat Parashara Hora Shastra",
-        "Phaladeepika"
-      ]
-    },
-    {
-      "Key": "lakshmi",
-      "Name": "Lakshmi Yoga",
-      "SanskritName": "लक्ष्मी योग",
-      "Category": "Dhana Yoga",
-      "Nature": "Benefic",
-      "Description": "Traditional combination involving strong fortune and trinal lords.",
-      "Impact": "Traditionally associated with prosperity and good fortune.",
-      "References": [
-        "Phaladeepika"
-      ]
-    },
-    {
-      "Key": "saraswati",
-      "Name": "Saraswati Yoga",
-      "SanskritName": "सरस्वती योग",
-      "Category": "Auspicious Yoga",
-      "Nature": "Benefic",
-      "Description": "Traditional combination involving Jupiter, Venus and Mercury under favourable conditions.",
-      "Impact": "Traditionally associated with learning, knowledge and eloquence.",
-      "References": [
-        "Phaladeepika"
-      ]
-    },
-    {
-      "Key": "adhi",
-      "Name": "Adhi Yoga",
-      "SanskritName": "अधि योग",
-      "Category": "Raja Yoga",
-      "Nature": "Benefic",
-      "Description": "Benefic planets occupying the 6th, 7th and/or 8th from the Moon under classical rules.",
-      "Impact": "Traditionally associated with status, comfort and respect.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "shubha_kartari",
-      "Name": "Shubha Kartari Yoga",
-      "SanskritName": "शुभ कर्तरी योग",
-      "Category": "Kartari Yoga",
-      "Nature": "Benefic",
-      "Description": "A house or planet hemmed between benefic planets.",
-      "Impact": "Traditionally strengthens the protected house or planet.",
-      "References": [
-        "Saravali"
-      ]
-    },
-    {
-      "Key": "papa_kartari",
-      "Name": "Papa Kartari Yoga",
-      "SanskritName": "पाप कर्तरी योग",
-      "Category": "Kartari Yoga",
-      "Nature": "Malefic",
-      "Description": "A house or planet hemmed between malefic planets.",
-      "Impact": "Traditionally weakens the affected house or planet.",
-      "References": [
-        "Saravali"
-      ]
-    },
-    {
-      "Key": "durdhara",
-      "Name": "Durdhara Yoga",
-      "SanskritName": "दुर्धरा योग",
-      "Category": "Chandra Yoga",
-      "Nature": "Benefic",
-      "Description": "Qualifying planets on both sides of the Moon according to classical rules.",
-      "Impact": "Traditionally associated with stability and support.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    },
-    {
-      "Key": "amala",
-      "Name": "Amala Yoga",
-      "SanskritName": "अमल योग",
-      "Category": "Auspicious Yoga",
-      "Nature": "Benefic",
-      "Description": "A benefic planet in the 10th from the Ascendant or Moon.",
-      "Impact": "Traditionally associated with reputation and righteous conduct.",
-      "References": [
-        "Phaladeepika"
-      ]
-    },
-    {
-      "Key": "shakata",
-      "Name": "Shakata Yoga",
-      "SanskritName": "शकट योग",
-      "Category": "Chandra Yoga",
-      "Nature": "Malefic",
-      "Description": "Traditionally formed when Jupiter is in the 6th or 8th from the Moon.",
-      "Impact": "Traditionally associated with fluctuations in fortune.",
-      "References": [
-        "Brihat Parashara Hora Shastra"
-      ]
-    }
-  ]
+﻿{
+    "Version":  "1.0-draft",
+    "Note":  "Conservative draft containing only entries with high confidence. Expand after source verification.",
+    "Items":  [
+                  {
+                      "Key":  "gajakesari",
+                      "Name":  "Gajakesari Yoga",
+                      "SanskritName":  "à¤—à¤œà¤•à¥‡à¤¸à¤°à¥€ à¤¯à¥‹à¤—",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Traditionally formed when Jupiter occupies a Kendra (1st, 4th, 7th or 10th house) from the Moon.",
+                      "Impact":  "Traditionally associated with wisdom, reputation, learning and prosperity. Actual results depend on the complete horoscope, planetary dignity, aspects and dasha.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra",
+                                         "Phaladeepika"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Gajakesari Yoga can support rise in status when the involved planets are strong.",
+                                                                 "Leadership, authority, and public respect may improve during supportive dashas.",
+                                                                 "Results become clearer when effort, timing, and planetary dignity align."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "Confidence, judgment, and capacity for responsibility may strengthen.",
+                                                                 "The native may receive support from mentors, seniors, or fortunate circumstances.",
+                                                                 "Maturity helps convert this yoga into stable achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Better opportunities can improve financial stability over time.",
+                                                                 "Social reputation may become a source of support.",
+                                                                 "Benefits are stronger when the related houses are unafflicted."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "budha_aditya",
+                      "Name":  "Budha-Aditya Yoga",
+                      "SanskritName":  "à¤¬à¥à¤§à¤¾à¤¦à¤¿à¤¤à¥à¤¯ à¤¯à¥‹à¤—",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Traditionally formed by the conjunction of the Sun and Mercury.",
+                      "Impact":  "Traditionally associated with intellect, communication and administrative ability. Results depend on Mercury\u0027s dignity and afflictions.",
+                      "References":  [
+                                         "Phaladeepika",
+                                         "Saravali"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Budha-Aditya Yoga can support rise in status when the involved planets are strong.",
+                                                                 "Leadership, authority, and public respect may improve during supportive dashas.",
+                                                                 "Results become clearer when effort, timing, and planetary dignity align."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "Confidence, judgment, and capacity for responsibility may strengthen.",
+                                                                 "The native may receive support from mentors, seniors, or fortunate circumstances.",
+                                                                 "Maturity helps convert this yoga into stable achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Better opportunities can improve financial stability over time.",
+                                                                 "Social reputation may become a source of support.",
+                                                                 "Benefits are stronger when the related houses are unafflicted."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "chandra_mangala",
+                      "Name":  "Chandra-Mangala Yoga",
+                      "SanskritName":  "à¤šà¤¨à¥à¤¦à¥à¤° à¤®à¤™à¥à¤—à¤² à¤¯à¥‹à¤—",
+                      "Category":  "Dhana Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Traditionally formed when the Moon and Mars are in conjunction or mutually aspect each other.",
+                      "Impact":  "Traditionally associated with enterprise and financial initiative.",
+                      "References":  [
+                                         "Phaladeepika",
+                                         "Jataka Parijata"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Financial",
+                                              "Statements":  [
+                                                                 "Chandra-Mangala Yoga can support earning ability, initiative, and prosperity when strong.",
+                                                                 "Money decisions may improve through practical effort and timing.",
+                                                                 "Wealth results depend on the strength of involved houses and planets."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Enterprise",
+                                              "Statements":  [
+                                                                 "Business sense, initiative, or productive action may increase.",
+                                                                 "The native may benefit from using skills actively rather than waiting passively.",
+                                                                 "Results improve when ambition is balanced with planning."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Family and Stability",
+                                              "Statements":  [
+                                                                 "Family resources or support systems may become important.",
+                                                                 "Financial stability improves through consistency and disciplined habits.",
+                                                                 "Prosperity is stronger when emotional decisions are managed well."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "kemadruma",
+                      "Name":  "Kemadruma Yoga",
+                      "SanskritName":  "à¤•à¥‡à¤®à¤¦à¥à¤°à¥à¤® à¤¯à¥‹à¤—",
+                      "Category":  "Chandra Yoga",
+                      "Nature":  "Malefic",
+                      "Description":  "Traditionally formed when no qualifying planets occupy the 2nd and 12th from the Moon, subject to cancellation rules.",
+                      "Impact":  "Traditionally associated with emotional and material challenges. Cancellation rules must always be checked.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra",
+                                         "Saravali"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Mental and Emotional",
+                                              "Statements":  [
+                                                                 "Kemadruma Yoga may create emotional or material fluctuations if not cancelled.",
+                                                                 "The native may feel unsupported during sensitive periods.",
+                                                                 "Mental steadiness improves through routine, grounding, and mature decisions."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Relationships",
+                                              "Statements":  [
+                                                                 "Family or emotional support may feel inconsistent at times.",
+                                                                 "The native may need to communicate needs clearly.",
+                                                                 "Close relationships improve with patience and emotional discipline."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Stability",
+                                              "Statements":  [
+                                                                 "Fortune and resources may fluctuate before becoming stable.",
+                                                                 "Savings and planning are important during uncertain periods.",
+                                                                 "Cancellations and benefic influences can reduce the challenging effects."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "ruchaka",
+                      "Name":  "Ruchaka Yoga",
+                      "SanskritName":  "à¤°à¥à¤šà¤• à¤¯à¥‹à¤—",
+                      "Category":  "Pancha Mahapurusha",
+                      "Nature":  "Benefic",
+                      "Description":  "Mars in own or exaltation sign in a Kendra from the Ascendant.",
+                      "Impact":  "Traditionally associated with courage, authority and leadership.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Personality and Strength",
+                                              "Statements":  [
+                                                                 "Ruchaka Yoga can strengthen the planet natural qualities in the native.",
+                                                                 "Confidence, capability, and self-expression may become more visible.",
+                                                                 "The results depend on dignity, house placement, and affliction."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Professional growth may improve through the planet skills and discipline.",
+                                                                 "Authority or respect can increase during supportive periods.",
+                                                                 "Consistent effort helps convert potential into visible achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Lifestyle and Relationships",
+                                              "Statements":  [
+                                                                 "The yoga can influence habits, preferences, and relationship style.",
+                                                                 "Balance is needed so strong planetary traits do not become excess.",
+                                                                 "Supportive dashas can make the results more noticeable."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "bhadra",
+                      "Name":  "Bhadra Yoga",
+                      "SanskritName":  "à¤­à¤¦à¥à¤° à¤¯à¥‹à¤—",
+                      "Category":  "Pancha Mahapurusha",
+                      "Nature":  "Benefic",
+                      "Description":  "Mercury in own or exaltation sign in a Kendra from the Ascendant.",
+                      "Impact":  "Traditionally associated with intelligence, eloquence and analytical ability.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Personality and Strength",
+                                              "Statements":  [
+                                                                 "Bhadra Yoga can strengthen the planet natural qualities in the native.",
+                                                                 "Confidence, capability, and self-expression may become more visible.",
+                                                                 "The results depend on dignity, house placement, and affliction."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Professional growth may improve through the planet skills and discipline.",
+                                                                 "Authority or respect can increase during supportive periods.",
+                                                                 "Consistent effort helps convert potential into visible achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Lifestyle and Relationships",
+                                              "Statements":  [
+                                                                 "The yoga can influence habits, preferences, and relationship style.",
+                                                                 "Balance is needed so strong planetary traits do not become excess.",
+                                                                 "Supportive dashas can make the results more noticeable."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "hamsa",
+                      "Name":  "Hamsa Yoga",
+                      "SanskritName":  "à¤¹à¤‚à¤¸ à¤¯à¥‹à¤—",
+                      "Category":  "Pancha Mahapurusha",
+                      "Nature":  "Benefic",
+                      "Description":  "Jupiter in own or exaltation sign in a Kendra from the Ascendant.",
+                      "Impact":  "Traditionally associated with wisdom, spirituality and respect.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Personality and Strength",
+                                              "Statements":  [
+                                                                 "Hamsa Yoga can strengthen the planet natural qualities in the native.",
+                                                                 "Confidence, capability, and self-expression may become more visible.",
+                                                                 "The results depend on dignity, house placement, and affliction."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Professional growth may improve through the planet skills and discipline.",
+                                                                 "Authority or respect can increase during supportive periods.",
+                                                                 "Consistent effort helps convert potential into visible achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Lifestyle and Relationships",
+                                              "Statements":  [
+                                                                 "The yoga can influence habits, preferences, and relationship style.",
+                                                                 "Balance is needed so strong planetary traits do not become excess.",
+                                                                 "Supportive dashas can make the results more noticeable."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "malavya",
+                      "Name":  "Malavya Yoga",
+                      "SanskritName":  "à¤®à¤¾à¤²à¤µà¥à¤¯ à¤¯à¥‹à¤—",
+                      "Category":  "Pancha Mahapurusha",
+                      "Nature":  "Benefic",
+                      "Description":  "Venus in own or exaltation sign in a Kendra from the Ascendant.",
+                      "Impact":  "Traditionally associated with comforts, beauty and artistic ability.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Personality and Strength",
+                                              "Statements":  [
+                                                                 "Malavya Yoga can strengthen the planet natural qualities in the native.",
+                                                                 "Confidence, capability, and self-expression may become more visible.",
+                                                                 "The results depend on dignity, house placement, and affliction."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Professional growth may improve through the planet skills and discipline.",
+                                                                 "Authority or respect can increase during supportive periods.",
+                                                                 "Consistent effort helps convert potential into visible achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Lifestyle and Relationships",
+                                              "Statements":  [
+                                                                 "The yoga can influence habits, preferences, and relationship style.",
+                                                                 "Balance is needed so strong planetary traits do not become excess.",
+                                                                 "Supportive dashas can make the results more noticeable."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "sasa",
+                      "Name":  "Sasa Yoga",
+                      "SanskritName":  "à¤¶à¤¶ à¤¯à¥‹à¤—",
+                      "Category":  "Pancha Mahapurusha",
+                      "Nature":  "Benefic",
+                      "Description":  "Saturn in own or exaltation sign in a Kendra from the Ascendant.",
+                      "Impact":  "Traditionally associated with discipline, endurance and authority.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Personality and Strength",
+                                              "Statements":  [
+                                                                 "Sasa Yoga can strengthen the planet natural qualities in the native.",
+                                                                 "Confidence, capability, and self-expression may become more visible.",
+                                                                 "The results depend on dignity, house placement, and affliction."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Professional growth may improve through the planet skills and discipline.",
+                                                                 "Authority or respect can increase during supportive periods.",
+                                                                 "Consistent effort helps convert potential into visible achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Lifestyle and Relationships",
+                                              "Statements":  [
+                                                                 "The yoga can influence habits, preferences, and relationship style.",
+                                                                 "Balance is needed so strong planetary traits do not become excess.",
+                                                                 "Supportive dashas can make the results more noticeable."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "viparita_raja",
+                      "Name":  "Viparita Raja Yoga",
+                      "SanskritName":  "à¤µà¤¿à¤ªà¤°à¥€à¤¤ à¤°à¤¾à¤œ à¤¯à¥‹à¤—",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Mixed",
+                      "Description":  "Traditionally formed through specific relationships among the lords of the 6th, 8th and 12th houses.",
+                      "Impact":  "Traditionally associated with success emerging through adversity when classical conditions are satisfied.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Viparita Raja Yoga may give success after obstacles, reversals, or unusual circumstances.",
+                                                                 "Recognition can come through persistence during difficult periods.",
+                                                                 "Professional growth improves when crisis is handled with discipline."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "The native may learn resilience through pressure and responsibility.",
+                                                                 "Setbacks can become turning points when handled patiently.",
+                                                                 "Inner maturity is important for the yoga to give constructive results."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Financial results may fluctuate before stabilizing.",
+                                                                 "Support may come from unexpected people or situations.",
+                                                                 "Risky shortcuts should be avoided even when opportunities appear suddenly."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "neecha_bhanga_raja",
+                      "Name":  "Neechabhanga Raja Yoga",
+                      "SanskritName":  "à¤¨à¥€à¤šà¤­à¤‚à¤— à¤°à¤¾à¤œ à¤¯à¥‹à¤—",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Traditional cancellation of planetary debilitation according to classical rules.",
+                      "Impact":  "Traditionally associated with recovery from setbacks and eventual rise.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Neechabhanga Raja Yoga can support rise in status when the involved planets are strong.",
+                                                                 "Leadership, authority, and public respect may improve during supportive dashas.",
+                                                                 "Results become clearer when effort, timing, and planetary dignity align."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "Confidence, judgment, and capacity for responsibility may strengthen.",
+                                                                 "The native may receive support from mentors, seniors, or fortunate circumstances.",
+                                                                 "Maturity helps convert this yoga into stable achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Better opportunities can improve financial stability over time.",
+                                                                 "Social reputation may become a source of support.",
+                                                                 "Benefits are stronger when the related houses are unafflicted."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "parivartana",
+                      "Name":  "Parivartana Yoga",
+                      "SanskritName":  "",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Mixed",
+                      "Description":  "Exchange of signs between two planetary lords.",
+                      "Impact":  "Results depend on the houses, planets and dignity involved.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra",
+                                         "Saravali"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Parivartana Yoga may give success after obstacles, reversals, or unusual circumstances.",
+                                                                 "Recognition can come through persistence during difficult periods.",
+                                                                 "Professional growth improves when crisis is handled with discipline."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "The native may learn resilience through pressure and responsibility.",
+                                                                 "Setbacks can become turning points when handled patiently.",
+                                                                 "Inner maturity is important for the yoga to give constructive results."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Financial results may fluctuate before stabilizing.",
+                                                                 "Support may come from unexpected people or situations.",
+                                                                 "Risky shortcuts should be avoided even when opportunities appear suddenly."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "kendra_trikona_raja",
+                      "Name":  "Kendra-Trikona Raja Yoga",
+                      "SanskritName":  "à¤•à¥‡à¤¨à¥à¤¦à¥à¤° à¤¤à¥à¤°à¤¿à¤•à¥‹à¤£ à¤°à¤¾à¤œ à¤¯à¥‹à¤—",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Formed when a lord of a Kendra house associates with a lord of a Trikona house through conjunction, mutual aspect or exchange.",
+                      "Impact":  "Traditionally associated with rise, authority, fortune and capacity for accomplishment. Strength depends on dignity, combustion, house placement and supporting or afflicting influences.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra",
+                                         "Phaladeepika"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Kendra-Trikona Raja Yoga can support rise in status when the involved planets are strong.",
+                                                                 "Leadership, authority, and public respect may improve during supportive dashas.",
+                                                                 "Results become clearer when effort, timing, and planetary dignity align."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "Confidence, judgment, and capacity for responsibility may strengthen.",
+                                                                 "The native may receive support from mentors, seniors, or fortunate circumstances.",
+                                                                 "Maturity helps convert this yoga into stable achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Better opportunities can improve financial stability over time.",
+                                                                 "Social reputation may become a source of support.",
+                                                                 "Benefits are stronger when the related houses are unafflicted."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "lakshmi",
+                      "Name":  "Lakshmi Yoga",
+                      "SanskritName":  "à¤²à¤•à¥à¤·à¥à¤®à¥€ à¤¯à¥‹à¤—",
+                      "Category":  "Dhana Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Traditional combination involving strong fortune and trinal lords.",
+                      "Impact":  "Traditionally associated with prosperity and good fortune.",
+                      "References":  [
+                                         "Phaladeepika"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Financial",
+                                              "Statements":  [
+                                                                 "Lakshmi Yoga can support earning ability, initiative, and prosperity when strong.",
+                                                                 "Money decisions may improve through practical effort and timing.",
+                                                                 "Wealth results depend on the strength of involved houses and planets."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Enterprise",
+                                              "Statements":  [
+                                                                 "Business sense, initiative, or productive action may increase.",
+                                                                 "The native may benefit from using skills actively rather than waiting passively.",
+                                                                 "Results improve when ambition is balanced with planning."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Family and Stability",
+                                              "Statements":  [
+                                                                 "Family resources or support systems may become important.",
+                                                                 "Financial stability improves through consistency and disciplined habits.",
+                                                                 "Prosperity is stronger when emotional decisions are managed well."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "saraswati",
+                      "Name":  "Saraswati Yoga",
+                      "SanskritName":  "à¤¸à¤°à¤¸à¥à¤µà¤¤à¥€ à¤¯à¥‹à¤—",
+                      "Category":  "Auspicious Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Traditional combination involving Jupiter, Venus and Mercury under favourable conditions.",
+                      "Impact":  "Traditionally associated with learning, knowledge and eloquence.",
+                      "References":  [
+                                         "Phaladeepika"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Learning and Character",
+                                              "Statements":  [
+                                                                 "Saraswati Yoga can support knowledge, refinement, and positive conduct.",
+                                                                 "The native may benefit through education, values, or wise guidance.",
+                                                                 "Good judgment improves when benefic planets are strong."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Reputation",
+                                              "Statements":  [
+                                                                 "Reputation may improve through skill, integrity, or service.",
+                                                                 "Professional support can come through clean conduct and competence.",
+                                                                 "Results become stronger during supportive planetary periods."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Social goodwill may create practical opportunities.",
+                                                                 "Stable prosperity improves through ethical action and discipline.",
+                                                                 "Benefits depend on the complete horoscope and dasha timing."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "adhi",
+                      "Name":  "Adhi Yoga",
+                      "SanskritName":  "à¤…à¤§à¤¿ à¤¯à¥‹à¤—",
+                      "Category":  "Raja Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Benefic planets occupying the 6th, 7th and/or 8th from the Moon under classical rules.",
+                      "Impact":  "Traditionally associated with status, comfort and respect.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Career and Recognition",
+                                              "Statements":  [
+                                                                 "Adhi Yoga can support rise in status when the involved planets are strong.",
+                                                                 "Leadership, authority, and public respect may improve during supportive dashas.",
+                                                                 "Results become clearer when effort, timing, and planetary dignity align."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Personal Growth",
+                                              "Statements":  [
+                                                                 "Confidence, judgment, and capacity for responsibility may strengthen.",
+                                                                 "The native may receive support from mentors, seniors, or fortunate circumstances.",
+                                                                 "Maturity helps convert this yoga into stable achievement."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Better opportunities can improve financial stability over time.",
+                                                                 "Social reputation may become a source of support.",
+                                                                 "Benefits are stronger when the related houses are unafflicted."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "shubha_kartari",
+                      "Name":  "Shubha Kartari Yoga",
+                      "SanskritName":  "à¤¶à¥à¤­ à¤•à¤°à¥à¤¤à¤°à¥€ à¤¯à¥‹à¤—",
+                      "Category":  "Kartari Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "A house or planet hemmed between benefic planets.",
+                      "Impact":  "Traditionally strengthens the protected house or planet.",
+                      "References":  [
+                                         "Saravali"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Protected Areas",
+                                              "Statements":  [
+                                                                 "Shubha Kartari Yoga can protect or strengthen the affected house or planet.",
+                                                                 "Supportive influences may reduce pressure around the protected area.",
+                                                                 "Results improve when the surrounding benefics are strong."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Stability",
+                                              "Statements":  [
+                                                                 "The native may receive help at the right time.",
+                                                                 "Progress can become smoother in the matters represented by the protected house.",
+                                                                 "Stable routines help preserve the benefit."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Relationships and Support",
+                                              "Statements":  [
+                                                                 "Helpful people may support the native in key situations.",
+                                                                 "The protected area may feel less isolated or pressured.",
+                                                                 "Good counsel and balanced decisions improve outcomes."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "papa_kartari",
+                      "Name":  "Papa Kartari Yoga",
+                      "SanskritName":  "à¤ªà¤¾à¤ª à¤•à¤°à¥à¤¤à¤°à¥€ à¤¯à¥‹à¤—",
+                      "Category":  "Kartari Yoga",
+                      "Nature":  "Malefic",
+                      "Description":  "A house or planet hemmed between malefic planets.",
+                      "Impact":  "Traditionally weakens the affected house or planet.",
+                      "References":  [
+                                         "Saravali"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Pressure Areas",
+                                              "Statements":  [
+                                                                 "Papa Kartari Yoga may create pressure around the affected house or planet.",
+                                                                 "The native may feel blocked or squeezed in related life matters.",
+                                                                 "Relief improves when benefic aspects or cancellation factors are present."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Stability",
+                                              "Statements":  [
+                                                                 "Progress may require extra effort and patience.",
+                                                                 "External constraints can delay results in the affected area.",
+                                                                 "Careful planning reduces avoidable stress."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Relationships and Support",
+                                              "Statements":  [
+                                                                 "Support may feel limited until the pressure is consciously managed.",
+                                                                 "Communication and patience help reduce conflict.",
+                                                                 "Remedial discipline can soften the challenging expression."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "durdhara",
+                      "Name":  "Durdhara Yoga",
+                      "SanskritName":  "à¤¦à¥à¤°à¥à¤§à¤°à¤¾ à¤¯à¥‹à¤—",
+                      "Category":  "Chandra Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "Qualifying planets on both sides of the Moon according to classical rules.",
+                      "Impact":  "Traditionally associated with stability and support.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Mental and Emotional",
+                                              "Statements":  [
+                                                                 "Durdhara Yoga can support emotional steadiness and inner confidence.",
+                                                                 "The mind may receive support from people, resources, or circumstances.",
+                                                                 "Peace improves when the Moon and related planets are strong."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Relationships",
+                                              "Statements":  [
+                                                                 "Supportive relationships may help the native feel secure.",
+                                                                 "Communication and emotional responsiveness can improve.",
+                                                                 "Family support may become a stabilizing influence."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Domestic",
+                                              "Statements":  [
+                                                                 "Material stability may improve through steady support and planning.",
+                                                                 "The native may manage home and resources with better consistency.",
+                                                                 "Benefits increase when emotional choices remain balanced."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "amala",
+                      "Name":  "Amala Yoga",
+                      "SanskritName":  "à¤…à¤®à¤² à¤¯à¥‹à¤—",
+                      "Category":  "Auspicious Yoga",
+                      "Nature":  "Benefic",
+                      "Description":  "A benefic planet in the 10th from the Ascendant or Moon.",
+                      "Impact":  "Traditionally associated with reputation and righteous conduct.",
+                      "References":  [
+                                         "Phaladeepika"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Learning and Character",
+                                              "Statements":  [
+                                                                 "Amala Yoga can support knowledge, refinement, and positive conduct.",
+                                                                 "The native may benefit through education, values, or wise guidance.",
+                                                                 "Good judgment improves when benefic planets are strong."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Career and Reputation",
+                                              "Statements":  [
+                                                                 "Reputation may improve through skill, integrity, or service.",
+                                                                 "Professional support can come through clean conduct and competence.",
+                                                                 "Results become stronger during supportive planetary periods."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Social",
+                                              "Statements":  [
+                                                                 "Social goodwill may create practical opportunities.",
+                                                                 "Stable prosperity improves through ethical action and discipline.",
+                                                                 "Benefits depend on the complete horoscope and dasha timing."
+                                                             ]
+                                          }
+                                      ]
+                  },
+                  {
+                      "Key":  "shakata",
+                      "Name":  "Shakata Yoga",
+                      "SanskritName":  "à¤¶à¤•à¤Ÿ à¤¯à¥‹à¤—",
+                      "Category":  "Chandra Yoga",
+                      "Nature":  "Malefic",
+                      "Description":  "Traditionally formed when Jupiter is in the 6th or 8th from the Moon.",
+                      "Impact":  "Traditionally associated with fluctuations in fortune.",
+                      "References":  [
+                                         "Brihat Parashara Hora Shastra"
+                                     ],
+                      "ImpactAreas":  [
+                                          {
+                                              "Category":  "Mental and Emotional",
+                                              "Statements":  [
+                                                                 "Shakata Yoga may create emotional or material fluctuations if not cancelled.",
+                                                                 "The native may feel unsupported during sensitive periods.",
+                                                                 "Mental steadiness improves through routine, grounding, and mature decisions."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Relationships",
+                                              "Statements":  [
+                                                                 "Family or emotional support may feel inconsistent at times.",
+                                                                 "The native may need to communicate needs clearly.",
+                                                                 "Close relationships improve with patience and emotional discipline."
+                                                             ]
+                                          },
+                                          {
+                                              "Category":  "Financial and Stability",
+                                              "Statements":  [
+                                                                 "Fortune and resources may fluctuate before becoming stable.",
+                                                                 "Savings and planning are important during uncertain periods.",
+                                                                 "Cancellations and benefic influences can reduce the challenging effects."
+                                                             ]
+                                          }
+                                      ]
+                  }
+              ]
 }

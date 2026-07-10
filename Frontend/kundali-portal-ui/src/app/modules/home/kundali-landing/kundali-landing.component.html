@@ -1,0 +1,111 @@
+<main class="landing-page">
+  <header class="landing-nav" aria-label="KundaliScore navigation">
+    <a class="brand" routerLink="/" aria-label="KundaliScore home">
+      <span class="brand-mark">
+        <app-astrology-icon name="kundali" [decorative]="true"></app-astrology-icon>
+      </span>
+      <span class="brand-copy">
+        <span class="brand-name">HoRa<span>Score</span></span>
+        <small>Decode Your Destiny. Score Your Life.</small>
+      </span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a *ngFor="let item of navLinks" [routerLink]="item.link" [class.active]="item.label === 'Home'">{{ item.label }}</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" class="login-btn" routerLink="/app/dashboard">Login</button>
+      <button type="button" class="signup-btn" routerLink="/auth/register">Sign Up</button>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>
+        Understand Your <span class="purple-text">Kundali.</span>
+        <br />
+        Know Your <span class="orange-text">Life Score.</span>
+      </h1>
+      <p class="hero-copy">AI-powered astrology analysis with explainable scores for every key area of your life.</p>
+
+      <div class="hero-highlights">
+        <div class="highlight-item" *ngFor="let item of heroHighlights">
+          <app-astrology-icon [name]="item.icon" [decorative]="true"></app-astrology-icon>
+          <span>{{ item.label }}</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button type="button" class="primary-action" routerLink="/app/kundali">
+          Generate Your Kundali
+          <span aria-hidden="true">&rsaquo;</span>
+        </button>
+        <button type="button" class="secondary-action" routerLink="/app/kundali">
+          <app-astrology-icon name="reports" [decorative]="true"></app-astrology-icon>
+          Free Demo Report
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="chart-stage">
+        <svg class="kundali-chart" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Decorative North Indian Kundali chart">
+          <rect x="40" y="40" width="420" height="420" class="chart-outline" />
+          <polygon points="250,40 460,250 250,460 40,250" class="chart-outline" />
+          <line x1="40" y1="40" x2="460" y2="460" class="chart-line chart-diagonal-major" />
+          <line x1="460" y1="40" x2="40" y2="460" class="chart-line chart-diagonal-major" />
+          <line x1="145" y1="145" x2="250" y2="40" class="chart-line" />
+          <line x1="355" y1="145" x2="250" y2="40" class="chart-line" />
+          <line x1="355" y1="355" x2="460" y2="250" class="chart-line" />
+          <line x1="355" y1="355" x2="250" y2="460" class="chart-line" />
+          <line x1="145" y1="355" x2="250" y2="460" class="chart-line" />
+          <line x1="145" y1="145" x2="40" y2="250" class="chart-line" />
+        </svg>
+
+        <div class="chart-label label-one number-only"><span class="house-number">1</span></div>
+        <div class="chart-label label-two number-only"><span class="house-number">2</span></div>
+        <div class="chart-label label-top"><span class="house-number">12</span><strong>As</strong></div>
+        <div class="chart-label label-left"><span class="house-number">3</span><strong>Mo</strong></div>
+        <div class="chart-label label-center number-only"><span class="house-number">7</span></div>
+        <div class="chart-label label-right"><span class="house-number">11</span><strong>Ra</strong></div>
+        <div class="chart-label label-mars"><span class="house-number">4</span><strong>Ma</strong></div>
+        <div class="chart-label label-mercury"><span class="house-number">5</span><strong>Me</strong></div>
+        <div class="chart-label label-sun"><span class="house-number">6</span><strong>Su</strong></div>
+        <div class="chart-label label-venus"><span class="house-number">8</span><strong>Ve</strong></div>
+        <div class="chart-label label-saturn"><span class="house-number">9</span><strong>Sa</strong></div>
+        <div class="chart-label label-jupiter"><span class="house-number">10</span><strong>Ju</strong></div>
+      </div>
+
+      <div class="score-card">
+        <span>Your Overall</span>
+        <strong>Kundali Score</strong>
+        <div class="score-value"><b>78</b><span>/100</span></div>
+        <div class="score-bar"><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-grid" aria-label="KundaliScore features">
+    <article class="feature-card" *ngFor="let feature of features" [class.orange-card]="feature.tone === 'orange'">
+      <div class="feature-icon">
+        <app-astrology-icon [name]="feature.icon" [decorative]="true"></app-astrology-icon>
+      </div>
+      <div>
+        <h2>{{ feature.title }}</h2>
+        <p>{{ feature.description }}</p>
+        <a [routerLink]="feature.link">Explore <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </article>
+  </section>
+
+  <section class="trust-strip" aria-label="KundaliScore trust metrics">
+    <div class="metric" *ngFor="let metric of metrics">
+      <app-astrology-icon [name]="metric.icon" [decorative]="true"></app-astrology-icon>
+      <div>
+        <strong>{{ metric.value }}</strong>
+        <span>{{ metric.label }}</span>
+      </div>
+    </div>
+  </section>
+</main>

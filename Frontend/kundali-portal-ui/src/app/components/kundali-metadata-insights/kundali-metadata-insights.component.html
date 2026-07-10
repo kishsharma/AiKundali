@@ -1,0 +1,36 @@
+<div class="metadata-insights" *ngIf="rashiInsight || nakshatraInsight">
+  <section class="metadata-card" *ngIf="rashiInsight">
+    <div class="metadata-card-header">
+      <span>{{ 'metadata.rashiTitle' | transloco }}</span>
+      <strong>{{ rashiTitle || '—' }}</strong>
+    </div>
+
+    <div class="metadata-rows">
+      <div class="metadata-row" *ngFor="let row of rashiRows">
+        <span class="metadata-label">{{ row.labelKey | transloco }}</span>
+        <strong class="metadata-value">
+          <span class="metadata-icon" *ngIf="row.icon">{{ row.icon }}</span>
+          <span class="color-swatch" *ngIf="row.color" [style.background]="row.color"></span>
+          {{ displayValue(row) }}
+        </strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="metadata-card" *ngIf="nakshatraInsight">
+    <div class="metadata-card-header">
+      <span>{{ 'metadata.nakshatraTitle' | transloco }}</span>
+      <strong>{{ nakshatraTitle || '—' }}</strong>
+    </div>
+
+    <div class="metadata-rows">
+      <div class="metadata-row" *ngFor="let row of nakshatraRows">
+        <span class="metadata-label">{{ row.labelKey | transloco }}</span>
+        <strong class="metadata-value">
+          <span class="metadata-icon" *ngIf="row.icon">{{ row.icon }}</span>
+          {{ displayValue(row) }}
+        </strong>
+      </div>
+    </div>
+  </section>
+</div>

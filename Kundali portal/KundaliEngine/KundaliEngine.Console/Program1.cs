@@ -23,7 +23,7 @@ class Program1
         Console.WriteLine("Initializing Swiss Ephemeris...");
 
         string ephePath = Path.Combine(AppContext.BaseDirectory, "ephe");
-        SwissEphWrapper.Initialize(ephePath);
+        IEphemerisProvider ephemerisProvider = new SwissEphemerisProvider(ephePath);
 
         // Input
         DateTime birthUtc = new DateTime(1986, 10, 6, 6, 15, 0, DateTimeKind.Utc);
@@ -31,14 +31,14 @@ class Program1
         double lon = 77.145;
 
         // Services / calculators
-        var planetCalc = new PlanetPositionCalculator();
-        var ascCalc = new AscendantCalculator();
+        var planetCalc = new PlanetPositionCalculator(ephemerisProvider);
+        var ascCalc = new AscendantCalculator(ephemerisProvider);
         var panchangService = new PanchangService();
         var houseService = new HouseService();
         var strengthService = new PlanetStrengthService();
         var predictionService = new PredictionService();
         var aspectService = new AspectService();
-        var chartService = new ChartService();
+        var chartService = new ChartService(ephemerisProvider);
         var dashaService = new DashaService();
         var knowledgeService = new AstrologyKnowledgeService();
         var planetScoreService = new PlanetScoreService();
@@ -343,7 +343,7 @@ class Program1
         Console.WriteLine("╚════════════════════════════════════════════════════════════╝");
 
         // Generate a second Kundali (for demonstration: same chart as first person)
-        var chartService2 = new ChartService();
+        var chartService2 = new ChartService(ephemerisProvider);
 
        
         var person1 = chartService.GenerateChart(birthUtc, lat, lon);

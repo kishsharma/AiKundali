@@ -10,6 +10,30 @@
   margin-top: 14px;
 }
 
+.current-dasha-summary {
+  display: flex;
+  align-items: center;
+  grid-column: 1 / -1;
+  border: 1px solid #e6e9f4;
+  border-radius: 8px;
+  background: #f8faff;
+  padding: 7px 10px;
+}
+
+.current-dasha-summary p {
+  margin: 0;
+  color: #263150;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.dasha-highlight {
+  color: #10143d;
+  font-weight: 800;
+  background: linear-gradient(180deg, transparent 58%, #fff2c7 58%);
+}
+
 /* CARD */
 
 .mahadasha-card {
@@ -52,13 +76,39 @@
 
 /* DATE RANGE */
 
-.duration {
+.period-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  color: #444;
+  font-size: 12px;
+}
+
+.date-range {
 
   font-size: 12px;
 
   color: #666;
 
   white-space: nowrap;
+}
+
+.duration-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #444;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.duration-chip::before {
+  content: "|";
+  color: #a7adbd;
+  font-weight: 400;
 }
 
 /* TABLE */
@@ -100,6 +150,12 @@
   color: #444;
 
   border-bottom: 1px solid #edf0f8;
+}
+
+.duration-cell {
+  color: #263150;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 /* LAST ROW */
@@ -156,7 +212,12 @@
     font-size: 14px;
   }
 
-  .duration {
+  .period-summary {
+    justify-content: flex-start;
+  }
+
+  .date-range,
+  .duration-chip {
     font-size: 11px;
   }
 
