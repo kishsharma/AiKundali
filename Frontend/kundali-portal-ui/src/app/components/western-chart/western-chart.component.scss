@@ -1,6 +1,6 @@
 :host {
   display: block;
-  width: min(100%, 620px);
+  width: min(100%, 720px);
   overflow: visible;
 }
 
@@ -22,14 +22,14 @@
 
 .outer-ring,
 .inner-ring {
-  fill: #fff;
-  stroke: #111;
+  fill: var(--theme-input-bg);
+  stroke: var(--theme-accent);
   stroke-width: 2;
 }
 
 .wheel-segment {
-  fill: #f8fbff;
-  stroke: #9db7e8;
+  fill: color-mix(in srgb, var(--theme-surface) 72%, transparent);
+  stroke: color-mix(in srgb, var(--theme-accent) 42%, transparent);
   stroke-width: 1.5;
   cursor: pointer;
   transition: fill 0.2s ease;
@@ -37,60 +37,64 @@
 
 .wheel-segment:hover,
 .wheel-segment.active {
-  fill: #e9f2ff;
+  fill: color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 
 .wheel-segment.selected {
-  fill: #dbeafe;
+  fill: color-mix(in srgb, var(--theme-accent) 18%, transparent);
 }
 
 .sign-label {
   font-size: 0.75rem;
   font-weight: 700;
-  fill: #10143d;
+  fill: var(--theme-text);
 }
 
 .house-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  fill: #5d6689;
+  font-size: 0.86rem;
+  font-weight: 900;
+  fill: var(--theme-success);
+  paint-order: stroke;
+  stroke: var(--theme-input-bg);
+  stroke-width: 2.2px;
+  stroke-linejoin: round;
 }
 
 .planet-text {
   font-size: 0.75rem;
   font-weight: 700;
-  fill: #44506f;
+  fill: var(--theme-info);
 }
 
 .planet-text .tone-supportive {
-  fill: #16803c;
+  fill: var(--theme-success);
 }
 
 .planet-text .tone-neutral {
-  fill: #44506f;
+  fill: var(--theme-info);
 }
 
 .planet-text .tone-mixed {
-  fill: #b7791f;
+  fill: var(--theme-copper);
 }
 
 .planet-text .tone-challenging {
-  fill: #c62828;
+  fill: var(--theme-danger);
 }
 
 .planet-text .tone-special {
-  fill: #6d28d9;
+  fill: var(--theme-success);
 }
 
 .center-title {
   font-size: 1rem;
   font-weight: 700;
-  fill: #10143d;
+  fill: var(--theme-text);
 }
 
 .center-subtitle {
   font-size: 0.85rem;
-  fill: #5d6689;
+  fill: var(--theme-info);
 }
 
 .info-panel {
@@ -106,6 +110,7 @@
   }
 
   .house-label {
-    font-size: 10px;
+    font-size: 11px;
   }
 }
+

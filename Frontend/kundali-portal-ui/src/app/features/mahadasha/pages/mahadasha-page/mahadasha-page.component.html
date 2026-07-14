@@ -1,4 +1,5 @@
-<section class="mahadasha-page" *ngIf="analysis$ | async as analysis">
+<ng-container *ngIf="state$ | async as state">
+  <section class="mahadasha-page" *ngIf="state.analysis as analysis; else nonAnalysisState">
   <div class="page-toolbar">
     <app-page-header
       title="Mahadasha & Antardasha Analysis"
@@ -10,12 +11,40 @@
       ]"
     ></app-page-header>
 
-    <div class="toolbar-actions" aria-label="Report actions">
-      <button type="button" class="action-button">Download PDF</button>
-      <button type="button" class="action-button action-button--accent">Share Report</button>
+    <div class="toolbar-actions" aria-label="Dasha actions">
+      <button type="button" class="action-button action-button--accent">Show</button>
     </div>
   </div>
 
+  <section class="surface dasha-native-card" *ngIf="analysis.birthChart as chart" aria-label="Dasha native details">
+    <div class="native-intro">
+      <span>Dasha belongs to</span>
+      <h2>{{ getDashaOwnerName(analysis) }}</h2>
+      <p>
+        Born on {{ formatBirthDateTime(chart.birthDateTime) }} at {{ chart.birthPlace || 'birthplace not available' }}.
+        This chart is running {{ analysis.summary.currentMahadasha }} Mahadasha and {{ analysis.summary.currentAntardasha }} Antardasha.
+      </p>
+    </div>
+
+    <dl class="native-facts">
+      <div>
+        <dt>Lagna</dt>
+        <dd>{{ chart.lagna || 'Not available' }}</dd>
+      </div>
+      <div>
+        <dt>Chandra Rashi</dt>
+        <dd>{{ chart.chandraRashi || 'Not available' }}</dd>
+      </div>
+      <div>
+        <dt>Nakshatra</dt>
+        <dd>{{ chart.nakshatra || 'Not available' }}<span *ngIf="chart.pada"> Pada {{ chart.pada }}</span></dd>
+      </div>
+      <div>
+        <dt>Surya Rashi</dt>
+        <dd>{{ chart.suryaRashi || 'Not available' }}</dd>
+      </div>
+    </dl>
+  </section>
   <section class="surface hero-grid" aria-label="Current dasha overview">
     <div class="current-dasha">
       <h2>Current Dasha</h2>
@@ -51,35 +80,67 @@
     </div>
 
     <div class="timeline-panel">
-      <h2>Mahadasha Timeline</h2>
+      <div class="timeline-heading">
+        <div>
+          <h2>Mahadasha Timeline</h2>
+          <p>Viewing {{ selectedMahadasha(analysis).planet }} Mahadasha</p>
+        </div>
+        <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentMahadasha(analysis)">
+          {{ isViewingCurrentMahadasha(analysis) ? 'Current Mahadasha' : 'Timeline Focus' }}
+        </span>
+      </div>
       <div class="timeline-track timeline-track--maha">
-        <button type="button" class="nav-dot" aria-label="Previous mahadasha">‹</button>
+        <button type="button" class="nav-dot nav-dot--prev" aria-label="Previous mahadasha" (click)="previousMahadasha(analysis)" [disabled]="!canPreviousMahadasha()"></button>
         <article
           class="planet-step"
-          *ngFor="let period of analysis.timeline.mahadasha; trackBy: trackMahadasha"
+          *ngFor="let period of visibleMahadashas(analysis); trackBy: trackMahadasha"
           [class.is-current]="period.status === 'current'"
+          [class.is-selected]="isSelectedMahadasha(analysis, period)"
+          [attr.aria-current]="period.status === 'current' ? 'period' : null"
+          [attr.aria-selected]="isSelectedMahadasha(analysis, period)"
+          role="button"
+          tabindex="0"
+          (click)="selectMahadasha(analysis, period)"
+          (keydown.enter)="selectMahadasha(analysis, period)"
+          (keydown.space)="selectMahadasha(analysis, period)"
         >
           <div class="planet-orb planet-orb--small" [attr.data-planet]="period.planet">
             {{ getPlanetMark(period.planet) }}
           </div>
           <strong>{{ period.planet }}</strong>
-          <span>{{ period.start }} - {{ period.end }}</span>
-        </article>
-        <button type="button" class="nav-dot" aria-label="Next mahadasha">›</button>
-      </div>
-
-      <h2>Antardasha Timeline ({{ analysis.summary.currentMahadasha }} Mahadasha)</h2>
-      <div class="timeline-track timeline-track--antar">
-        <button type="button" class="nav-dot" aria-label="Previous antardasha">‹</button>
-        <article
-          class="antar-step"
-          *ngFor="let period of analysis.timeline.antardasha; trackBy: trackAntardasha"
-          [class.is-current]="period.status === 'current'"
-        >
-          <strong>{{ analysis.summary.currentMahadasha }} / {{ period.planet }}</strong>
           <span>{{ formatPeriod(period.start, period.end) }}</span>
         </article>
-        <button type="button" class="nav-dot" aria-label="Next antardasha">›</button>
+        <button type="button" class="nav-dot nav-dot--next" aria-label="Next mahadasha" (click)="nextMahadasha(analysis)" [disabled]="!canNextMahadasha(analysis)"></button>
+      </div>
+
+      <div class="timeline-heading timeline-heading--antar">
+        <div>
+          <h2>Antardasha Timeline</h2>
+          <p>{{ selectedMahadasha(analysis).planet }} Mahadasha sub-periods</p>
+        </div>
+        <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentAntardasha(analysis)">
+          {{ selectedMahadasha(analysis).planet }} / {{ selectedAntardasha(analysis)?.planet || 'Antardasha' }}
+        </span>
+      </div>
+      <div class="timeline-track timeline-track--antar">
+        <button type="button" class="nav-dot nav-dot--prev" aria-label="Previous antardasha" (click)="previousAntardasha(analysis)" [disabled]="!canPreviousAntardasha()"></button>
+        <article
+          class="antar-step"
+          *ngFor="let period of visibleAntardashas(analysis); trackBy: trackAntardasha"
+          [class.is-current]="period.status === 'current'"
+          [class.is-selected]="isSelectedAntardasha(analysis, period)"
+          [attr.aria-current]="period.status === 'current' ? 'period' : null"
+          [attr.aria-selected]="isSelectedAntardasha(analysis, period)"
+          role="button"
+          tabindex="0"
+          (click)="selectAntardasha(analysis, period)"
+          (keydown.enter)="selectAntardasha(analysis, period)"
+          (keydown.space)="selectAntardasha(analysis, period)"
+        >
+          <strong>{{ selectedMahadasha(analysis).planet }} / {{ period.planet }}</strong>
+          <span>{{ formatPeriod(period.start, period.end) }}</span>
+        </article>
+        <button type="button" class="nav-dot nav-dot--next" aria-label="Next antardasha" (click)="nextAntardasha(analysis)" [disabled]="!canNextAntardasha(analysis)"></button>
       </div>
     </div>
   </section>
@@ -94,7 +155,7 @@
             <strong>{{ area.name }}</strong>
           </div>
           <div class="stars" [attr.aria-label]="area.rating + ' out of 5 stars'">
-            <span *ngFor="let filled of getStars(area.rating)" [class.is-empty]="!filled">?</span>
+            <span *ngFor="let filled of getStars(area.rating)" [class.is-empty]="!filled">&#9733;</span>
           </div>
           <p>{{ area.status }}</p>
         </article>
@@ -202,3 +263,45 @@
     <p>{{ note }}</p>
   </aside>
 </section>
+
+  <ng-template #nonAnalysisState>
+    <section class="mahadasha-page">
+      <div class="page-toolbar">
+        <app-page-header
+          title="Mahadasha & Antardasha Analysis"
+          description="Detailed predictions and analysis for your dasha periods"
+          [breadcrumbs]="[
+            { label: 'Home', routerLink: '/' },
+            { label: 'Kundali', routerLink: '/kundali' },
+            { label: 'Dasha Analysis' }
+          ]"
+        ></app-page-header>
+      </div>
+
+      <article class="surface dasha-state-card" *ngIf="state.loading; else loadedState">
+        <h2>Loading Mahadasha Analysis</h2>
+        <p class="muted">Calculating the current Mahadasha, Antardasha, and timeline from your latest chart.</p>
+      </article>
+
+      <ng-template #loadedState>
+        <article class="surface dasha-state-card" *ngIf="state.missingChart; else errorState">
+          <h2>No Kundali Selected</h2>
+          <p class="muted">Generate a Kundali first, then return here to view the enhanced Mahadasha analysis.</p>
+          <a class="action-button action-button--accent" routerLink="/app/kundali">Generate Kundali</a>
+        </article>
+      </ng-template>
+
+      <ng-template #errorState>
+        <article class="surface dasha-state-card">
+          <h2>Unable to Load Mahadasha Analysis</h2>
+          <p class="muted">{{ state.error }}</p>
+          <a class="action-button action-button--accent" routerLink="/app/kundali">Refresh Kundali Details</a>
+        </article>
+      </ng-template>
+    </section>
+  </ng-template>
+</ng-container>
+
+
+
+

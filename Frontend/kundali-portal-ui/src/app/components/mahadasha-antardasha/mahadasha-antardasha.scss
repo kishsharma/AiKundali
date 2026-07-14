@@ -238,3 +238,59 @@
     font-size: 11px;
   }
 }
+
+/* Runtime theme alignment */
+:host {
+  color: var(--theme-text);
+}
+
+.current-dasha-summary,
+.mahadasha-card,
+.empty-state {
+  border: 1px solid var(--theme-line);
+  background: color-mix(in srgb, var(--theme-surface) 92%, transparent);
+  box-shadow: 0 14px 30px var(--theme-shadow);
+}
+
+.current-dasha-summary p,
+.planet-name,
+.duration-cell,
+.antardasha-table th {
+  color: var(--theme-text);
+}
+
+.dasha-highlight {
+  color: var(--theme-accent);
+  background: linear-gradient(180deg, transparent 58%, color-mix(in srgb, var(--theme-accent) 24%, transparent) 58%);
+}
+
+.mahadasha-header,
+.antardasha-table th {
+  border-bottom-color: var(--theme-line);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface)), color-mix(in srgb, var(--theme-surface-2) 84%, transparent));
+}
+
+.period-summary,
+.date-range,
+.duration-chip,
+.antardasha-table td,
+.empty-state {
+  color: var(--theme-text-muted);
+}
+
+.duration-chip::before {
+  color: var(--theme-line);
+}
+
+.antardasha-table td {
+  border-bottom-color: var(--theme-line);
+}
+
+.antardasha-table tbody tr:hover,
+.active-maha {
+  background: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface));
+}
+
+.active-maha {
+  border-left-color: var(--theme-accent);
+}

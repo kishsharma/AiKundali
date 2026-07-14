@@ -72,7 +72,42 @@ import { CommonModule } from '@angular/common';
       padding-top: 0.75rem;
       border-top: 1px solid #E0E0E0;
     }
-  `],
+
+    /* Runtime theme card */
+    :host {
+      color: var(--theme-text);
+    }
+
+    .card {
+      border: 1px solid var(--theme-line);
+      border-radius: var(--theme-radius-card);
+      background: var(--theme-surface-soft, var(--theme-surface));
+      color: var(--theme-text);
+      box-shadow: 0 18px 44px var(--theme-shadow);
+    }
+
+    .card.interactive:hover {
+      border-color: color-mix(in srgb, var(--theme-accent) 42%, transparent);
+      box-shadow: 0 20px 50px var(--theme-shadow);
+    }
+
+    .card.highlight {
+      border-color: var(--theme-accent);
+      background: color-mix(in srgb, var(--theme-accent) 8%, var(--theme-surface));
+    }
+
+    .card-header,
+    .card-footer {
+      border-color: var(--theme-line-soft);
+    }
+
+    .card-title {
+      color: var(--theme-text);
+    }
+
+    .card-content {
+      color: var(--theme-text-muted);
+    }  `],
 })
 export class SectionCardComponent {
   @Input() title: string = '';

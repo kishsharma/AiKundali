@@ -1,4 +1,4 @@
-﻿using KundaliEngine.Domain.Entities;
+using KundaliEngine.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -16,6 +16,10 @@ public class KundaliDbContext : DbContext
 
     public DbSet<AstrologerBrandingSetting> AstrologerBrandingSettings => Set<AstrologerBrandingSetting>();
 
+    public DbSet<Kundali> Kundalis => Set<Kundali>();
+
+    public DbSet<KundaliReport> KundaliReports => Set<KundaliReport>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -23,3 +27,4 @@ public class KundaliDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(KundaliDbContext).Assembly);
     }
 }
+

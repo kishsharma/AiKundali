@@ -1,0 +1,123 @@
+<div class="remedies-recommendation" *ngIf="hasRecommendation; else noRemedies">
+  <div class="remedy-hero" *ngIf="primary as item">
+    <div class="hero-main">
+      <span class="eyebrow">Primary Remedy</span>
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.planet }} based {{ item.remedyType || 'remedy' }}</p>
+    </div>
+
+    <div class="score-box">
+      <span>Remedy Suitability</span>
+      <strong>{{ item.confidence || 0 }}/100</strong>
+      <div class="confidence-track">
+        <span [ngStyle]="getConfidenceStyle(item.confidence)"></span>
+      </div>
+    </div>
+
+    <div class="hero-meta">
+      <span class="suitability" [ngClass]="getSuitabilityClass(item.suitability)">
+        {{ getSuitabilityLabel(item.suitability) }}
+      </span>
+      <span *ngIf="item.sanskritName">{{ item.sanskritName }}</span>
+      <span *ngIf="item.strengthLevel">{{ item.strengthLevel }}</span>
+    </div>
+  </div>
+
+  <div class="alternative-strip" *ngIf="alternative as item">
+    <span>Alternative</span>
+    <strong>{{ item.name }}</strong>
+    <em>{{ item.planet }} &middot; {{ item.confidence || 0 }}/100</em>
+  </div>
+
+  <div class="quick-reason" *ngIf="primary?.reason">
+    {{ primary?.reason }}
+  </div>
+
+  <div class="panel-actions">
+    <button type="button" [class.active]="isPanelOpen('analysis')" (click)="togglePanel('analysis')">
+      Category Analysis
+    </button>
+    <button type="button" [class.active]="isPanelOpen('remedies')" (click)="togglePanel('remedies')">
+      Remedy Details
+    </button>
+    <button type="button" [class.active]="isPanelOpen('avoid')" (click)="togglePanel('avoid')" *ngIf="avoid.length">
+      Cautions
+    </button>
+  </div>
+
+  <section class="compact-panel" *ngIf="isPanelOpen('analysis')">
+    <div class="category-grid" *ngIf="categories.length">
+      <article class="category-card" *ngFor="let category of categories">
+        <div class="category-top">
+          <span>{{ category.category }}</span>
+          <strong>{{ category.score || 0 }}/100</strong>
+        </div>
+        <h4>{{ category.recommendedRemedy || '-' }}</h4>
+        <p>{{ category.planet }} &middot; {{ getSuitabilityLabel(category.suitability) }}</p>
+        <ul *ngIf="category.reasons?.length">
+          <li *ngFor="let reason of category.reasons | slice:0:2">{{ reason }}</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="compact-panel" *ngIf="isPanelOpen('remedies') && getRemedyCatalog(primary) as catalog">
+    <div class="detail-grid">
+      <article class="detail-card gemstone-card" *ngIf="catalog.gemstone">
+        <div class="catalog-title">
+          <span>Gemstone</span>
+          <strong>{{ catalog.gemstone.primary?.name || primary?.name }}</strong>
+        </div>
+
+        <div class="wearing-grid" *ngIf="catalog.gemstone.wearingRules">
+          <span><strong>Finger</strong>{{ catalog.gemstone.wearingRules.finger || '-' }}</span>
+          <span><strong>Day</strong>{{ catalog.gemstone.wearingRules.dayToWear || '-' }}</span>
+          <span><strong>Metal</strong>{{ joinValues(catalog.gemstone.wearingRules.metal) }}</span>
+          <span><strong>Time</strong>{{ catalog.gemstone.wearingRules.time || '-' }}</span>
+        </div>
+
+        <div class="substitute-list" *ngIf="catalog.gemstone.alternatives?.length">
+          <strong>Substitutes</strong>
+          <span *ngFor="let stone of catalog.gemstone.alternatives">{{ stone.name }}</span>
+        </div>
+      </article>
+
+      <article class="detail-card yantra-mini" *ngIf="catalog.yantra?.name">
+        <span>Yantra</span>
+        <strong>{{ catalog.yantra?.name }}</strong>
+      </article>
+
+      <article class="detail-card practice-card" *ngIf="catalog.japa?.mantra || catalog.daan?.length">
+        <div class="catalog-title">
+          <span>Japa & Daan</span>
+          <strong>{{ catalog.japa?.day || 'Practice' }}</strong>
+        </div>
+        <p *ngIf="catalog.japa?.mantra">{{ catalog.japa?.mantra }}</p>
+        <div class="daan-list" *ngIf="catalog.daan?.length">
+          <span *ngFor="let item of catalog.daan">{{ item }}</span>
+        </div>
+      </article>
+    </div>
+
+    <p class="caution" *ngIf="catalog.gemstone?.caution">{{ catalog.gemstone?.caution }}</p>
+  </section>
+
+  <section class="compact-panel" *ngIf="isPanelOpen('avoid') && avoid.length">
+    <div class="avoid-list">
+      <article *ngFor="let item of avoid">
+        <strong>{{ item.remedyName }}</strong>
+        <span>{{ item.planet }}</span>
+        <p>{{ item.reason }}</p>
+      </article>
+    </div>
+  </section>
+
+  <p class="disclaimer" *ngIf="recommendation?.disclaimer">{{ recommendation.disclaimer }}</p>
+</div>
+
+<ng-template #noRemedies>
+  <div class="remedies-empty">
+    <strong>Remedies recommendation is not available in this response yet.</strong>
+    <span>Restart the API after the backend remedies changes, then generate the kundali again.</span>
+  </div>
+</ng-template>

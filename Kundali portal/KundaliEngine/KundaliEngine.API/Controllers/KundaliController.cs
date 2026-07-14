@@ -1,4 +1,4 @@
-﻿using KundaliEngine.API.DTOs.Requests;
+using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
@@ -8,6 +8,7 @@ using KundaliEngine.Astrology.Services.KundaliDosha;
 using KundaliEngine.Astrology.Services.KundaliYoga;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
+using KundaliEngine.Astrology.Services.SudarshanChakra;
 using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 using KundaliEngine.Domain.Rules;
@@ -17,6 +18,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KundaliEngine.API.Helper_functions;
+using KundaliEngine.API.Services.Recommendations;
+using System.Text.Json;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using KundaliEngine.Infrastructure.Data;
+using KundaliEngine.Domain.Entities;
 using KundaliEngine.Astrology.Services.DivisionalCharts.Calculators;
 using Microsoft.AspNetCore.Authorization;
 
@@ -40,6 +47,9 @@ namespace KundaliEngine.API.Controllers
         private readonly NakshatraMetadataService _nakshatraMetadataService;
         private readonly RashiMetadataService _rashiMetadataService;
         private readonly IEphemerisProvider _ephemerisProvider;
+        private readonly RemediesRecommendationService _remediesRecommendationService;
+        private readonly SudarshanChakraService _sudarshanChakraService;
+        private readonly KundaliDbContext _dbContext;
         public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService, 
             HouseScoreService houseScoreService, DashaService dashaService,
             OverallKundaliScoreService overallScoreService,
@@ -50,8 +60,10 @@ namespace KundaliEngine.API.Controllers
             DoshaMetadataService doshaMetadataService,
             NakshatraMetadataService nakshatraMetadataService,
             RashiMetadataService rashiMetadataService,
-            IEphemerisProvider ephemerisProvider
-            
+            IEphemerisProvider ephemerisProvider,
+            RemediesRecommendationService remediesRecommendationService,
+            SudarshanChakraService sudarshanChakraService,
+            KundaliDbContext dbContext
             )
         {
             _chartService = chartService;
@@ -68,6 +80,9 @@ namespace KundaliEngine.API.Controllers
             _nakshatraMetadataService = nakshatraMetadataService;
             _rashiMetadataService = rashiMetadataService;
             _ephemerisProvider = ephemerisProvider;
+            _remediesRecommendationService = remediesRecommendationService;
+            _sudarshanChakraService = sudarshanChakraService;
+            _dbContext = dbContext;
         }
         [Authorize]
         [HttpPost("generate")]
@@ -109,6 +124,7 @@ namespace KundaliEngine.API.Controllers
             // Houses and house scores
             var aspectResult = _aspectService.CalculateGrahaDrishti(planets);
             var houseScores = _houseScoreservice.CalculateAllHouseScores(ascendantSign, planets, aspectResult);
+            var sudarshanChakra = _sudarshanChakraService.Calculate(planets, ascendantSign);
 
             // Compute house signs (house N sign = ascendantSign + (N-1))
             var houseDtos = new List<DTOs.Responses.HouseDto>();
@@ -190,6 +206,11 @@ namespace KundaliEngine.API.Controllers
                 Summary = string.Empty
             };
             var transitInsight = BuildTransitInsight(request, ascendantSign, currentDashaDto, currentUtc, planets, houseDtos);
+            var remediesRecommendation = _remediesRecommendationService.Recommend(
+                ascendantSign,
+                moonPos.Sign,
+                planets,
+                currentDashaDto);
             var houseDomainDtos = houseDtos.Select(h => new Domain.Models.HouseDto
             {
                 HouseNumber = (HouseNumber)h.HouseNumber,
@@ -290,14 +311,157 @@ namespace KundaliEngine.API.Controllers
                 RashiInsight = rashiInsight,
                 NakshatraInsight = nakshatraInsight,
                 TransitInsight = transitInsight,
+                RemediesRecommendation = remediesRecommendation,
                 Yogas = yogas,
                 Doshas = doshas,
-                D9Chart = d9Chart
+                D9Chart = d9Chart,
+                SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra)
             };
 
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPost("save")]
+        public async Task<ActionResult<SavedKundaliDetailDto>> Save([FromBody] SaveKundaliRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Request is required");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.Name))
+            {
+                return BadRequest("Name is required");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.BirthPlace))
+            {
+                return BadRequest("Birth place is required");
+            }
+
+            if (request.ChartData.ValueKind is JsonValueKind.Undefined or JsonValueKind.Null)
+            {
+                return BadRequest("Generated kundali data is required before saving");
+            }
+
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var kundali = new Kundali
+            {
+                UserId = userId.Value,
+                FullName = request.Name.Trim(),
+                Gender = string.IsNullOrWhiteSpace(request.Gender) ? null : request.Gender.Trim(),
+                DateOfBirth = DateOnly.FromDateTime(request.BirthDateTime),
+                TimeOfBirth = TimeOnly.FromDateTime(request.BirthDateTime),
+                BirthPlace = request.BirthPlace.Trim(),
+                Latitude = Convert.ToDecimal(request.Latitude),
+                Longitude = Convert.ToDecimal(request.Longitude),
+                TimeZone = FormatTimeZoneOffset(request.TimeZoneOffset),
+                ChartDataJson = request.ChartData.GetRawText(),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _dbContext.Kundalis.Add(kundali);
+            await _dbContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetById), new { id = kundali.Id }, MapSavedKundaliDetail(kundali));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<List<SavedKundaliListItemDto>>> GetAll()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var kundalis = await _dbContext.Kundalis
+                .AsNoTracking()
+                .Where(k => k.UserId == userId.Value)
+                .OrderByDescending(k => k.CreatedAt)
+                .Select(k => new SavedKundaliListItemDto
+                {
+                    Id = k.Id,
+                    FullName = k.FullName,
+                    DateOfBirth = k.DateOfBirth,
+                    TimeOfBirth = k.TimeOfBirth,
+                    BirthPlace = k.BirthPlace,
+                    CreatedAt = k.CreatedAt,
+                    DisplayName = k.FullName + " - " + k.DateOfBirth.ToString("yyyy-MM-dd") + " - " + k.BirthPlace
+                })
+                .ToListAsync();
+
+            return Ok(kundalis);
+        }
+
+        [Authorize]
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<SavedKundaliDetailDto>> GetById(Guid id)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var kundali = await _dbContext.Kundalis
+                .AsNoTracking()
+                .FirstOrDefaultAsync(k => k.Id == id && k.UserId == userId.Value);
+
+            if (kundali == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(MapSavedKundaliDetail(kundali));
+        }
+
+        private Guid? GetCurrentUserId()
+        {
+            var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Guid.TryParse(claimValue, out var userId) ? userId : null;
+        }
+
+        private static SavedKundaliDetailDto MapSavedKundaliDetail(Kundali kundali)
+        {
+            return new SavedKundaliDetailDto
+            {
+                Id = kundali.Id,
+                FullName = kundali.FullName,
+                Gender = kundali.Gender,
+                DateOfBirth = kundali.DateOfBirth,
+                TimeOfBirth = kundali.TimeOfBirth,
+                BirthPlace = kundali.BirthPlace,
+                Latitude = kundali.Latitude,
+                Longitude = kundali.Longitude,
+                TimeZone = kundali.TimeZone,
+                ChartData = JsonSerializer.Deserialize<JsonElement>(kundali.ChartDataJson),
+                CreatedAt = kundali.CreatedAt
+            };
+        }
+
+        private static string FormatTimeZoneOffset(double offset)
+        {
+            var sign = offset < 0 ? "-" : "+";
+            var absolute = Math.Abs(offset);
+            var hours = (int)Math.Truncate(absolute);
+            var minuteValue = absolute - hours;
+            var minutes = (int)Math.Round(minuteValue * 100);
+
+            if (minutes > 59)
+            {
+                minutes = (int)Math.Round(minuteValue * 60);
+            }
+
+            return $"UTC{sign}{hours:00}:{minutes:00}";
+        }
         private RashiInsightDto? BuildRashiInsight(string moonSign)
         {
             var rashi = _rashiMetadataService.GetRashiBySign(moonSign);
@@ -635,6 +799,37 @@ namespace KundaliEngine.API.Controllers
             };
         }
 
+        private static SudarshanChakraDto MapSudarshanChakraDto(SudarshanChakraResult result)
+        {
+            return new SudarshanChakraDto
+            {
+                Name = result.Name,
+                Purpose = result.Purpose,
+                Usage = result.Usage,
+                CalculationMethod = result.CalculationMethod,
+                OverallScore = result.OverallScore,
+                OverallPrediction = result.OverallPrediction,
+                HouseEmphasis = result.HouseEmphasis.Select(item => new SudarshanHouseEmphasisDto
+                {
+                    HouseNumber = item.HouseNumber,
+                    Theme = item.Theme,
+                    LagnaPlanetCount = item.LagnaPlanetCount,
+                    MoonPlanetCount = item.MoonPlanetCount,
+                    SunPlanetCount = item.SunPlanetCount,
+                    TotalPlanetCount = item.TotalPlanetCount,
+                    IsRepeatedAcrossReferences = item.IsRepeatedAcrossReferences,
+                    Prediction = item.Prediction
+                }).ToList(),
+                Interpretations = result.Interpretations.Select(item => new SudarshanChakraInterpretationDto
+                {
+                    Area = item.Area,
+                    Score = item.Score,
+                    Tone = item.Tone,
+                    Factors = item.Factors,
+                    Prediction = item.Prediction
+                }).ToList()
+            };
+        }
         private static string GetPlanetConditionTone(
             PlanetPosition planet,
             bool hasBeneficAspect,
@@ -715,6 +910,25 @@ namespace KundaliEngine.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpPost("sudarshan-chakra")]
+        public ActionResult<SudarshanChakraDto> SudarshanChakra([FromBody] GenerateKundaliRequest request)
+        {
+            if (request == null)
+                return BadRequest("Request is required");
+
+            TimeZoneInfo indiaZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            var birthLocal = DateTime.SpecifyKind(request.BirthDateTime, DateTimeKind.Unspecified);
+            var birthUtc = TimeZoneInfo.ConvertTimeToUtc(birthLocal, indiaZone);
+            var planets = _chartService.GenerateChart(birthUtc, request.Latitude, request.Longitude);
+            var location = new GeoLocation(request.Latitude, request.Longitude);
+            var ascendantLongitude = _ephemerisProvider.GetAscendant(birthUtc, location).Longitude;
+            var ascendantIndex = (int)(ascendantLongitude / 30.0);
+            var ascendantSign = (ZodiacSign)((ascendantIndex % 12) + 1);
+            var result = _sudarshanChakraService.Calculate(planets, ascendantSign);
+
+            return Ok(MapSudarshanChakraDto(result));
+        }
         [HttpPost("houses")]
         public ActionResult<List<DTOs.Responses.HouseDto>> Houses([FromBody] GenerateKundaliRequest request)
         {
@@ -762,3 +976,6 @@ namespace KundaliEngine.API.Controllers
 
     }
 }
+
+
+

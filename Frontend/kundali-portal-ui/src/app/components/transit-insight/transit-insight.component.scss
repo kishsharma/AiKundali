@@ -271,3 +271,60 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Runtime theme alignment */
+:host {
+  color: var(--theme-text);
+}
+
+.transit-chart-panel,
+.transit-table-panel,
+.transit-statement,
+.transit-rows,
+.transit-row {
+  border-color: var(--theme-line);
+}
+
+.transit-chart-panel,
+.transit-table-panel {
+  background: color-mix(in srgb, var(--theme-surface) 92%, transparent);
+  box-shadow: 0 16px 34px var(--theme-shadow);
+}
+
+.transit-panel-header span,
+.transit-note,
+.transit-row-head,
+.transit-panel-header small,
+.activation-cell small,
+.dasha-links i {
+  color: var(--theme-text-muted);
+}
+
+.transit-panel-header strong,
+.transit-statement strong,
+.planet-cell strong,
+.activation-cell strong {
+  color: var(--theme-text);
+}
+
+.transit-statement,
+.transit-row-head {
+  background: color-mix(in srgb, var(--theme-surface-2) 82%, transparent);
+  color: var(--theme-text-muted);
+}
+
+.transit-row {
+  color: var(--theme-text);
+  border-bottom-color: var(--theme-line);
+}
+
+.planet-cell i {
+  border-color: color-mix(in srgb, var(--theme-accent) 34%, transparent);
+  color: var(--theme-accent);
+  background: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface));
+}
+
+.dasha-links i {
+  border-color: var(--theme-line);
+  background: color-mix(in srgb, var(--theme-surface-2) 76%, transparent);
+}

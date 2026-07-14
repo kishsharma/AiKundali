@@ -1,4 +1,4 @@
-// Top Navbar Component
+﻿// Top Navbar Component
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
             <span class="hamburger"></span>
           </button>
           <a routerLink="/" class="brand-text">
-            <span class="brand-icon">♈</span>
+            <span class="brand-icon">â™ˆ</span>
             <span class="brand-name">Kundali Portal</span>
           </a>
         </div>
@@ -32,8 +32,11 @@ import { RouterModule } from '@angular/router';
           <a routerLink="/app/compatibility" routerLinkActive="active">
             Compatibility
           </a>
-          <a routerLink="/app/panchang" routerLinkActive="active">
+          <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             Panchang
+          </a>
+          <a routerLink="/app/panchang/muhurtha" routerLinkActive="active">
+            Muhurtha
           </a>
           <a routerLink="/app/dasha" routerLinkActive="active">
             Dasha
@@ -260,3 +263,4 @@ export class NavbarComponent {
   @Input() userInitials: string = 'US';
   @Output() onToggleSidebar = new EventEmitter<void>();
 }
+

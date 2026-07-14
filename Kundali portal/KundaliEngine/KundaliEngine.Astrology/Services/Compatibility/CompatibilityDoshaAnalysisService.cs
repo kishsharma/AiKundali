@@ -6,12 +6,30 @@ namespace KundaliEngine.Astrology.Services.Compatibility
 {
     public class CompatibilityDoshaAnalysisService
     {
-        private static readonly string[] DoshaKeys = { "manglik", "chandra_grahan", "kaal_sarpa" };
+        private static readonly string[] DoshaKeys =
+        {
+            "manglik",
+            "chandra_grahan",
+            "kaal_sarpa",
+            "surya_grahan",
+            "guru_chandal",
+            "pitra",
+            "shani",
+            "kemadruma",
+            "daridra"
+        };
+
         private static readonly Dictionary<string, double> DoshaWeights = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["manglik"] = 0.45,
-            ["chandra_grahan"] = 0.30,
-            ["kaal_sarpa"] = 0.25
+            ["manglik"] = 0.32,
+            ["chandra_grahan"] = 0.16,
+            ["kaal_sarpa"] = 0.16,
+            ["surya_grahan"] = 0.10,
+            ["guru_chandal"] = 0.10,
+            ["pitra"] = 0.08,
+            ["shani"] = 0.04,
+            ["kemadruma"] = 0.02,
+            ["daridra"] = 0.02
         };
 
         public CompatibilityDoshaAnalysis Analyze(

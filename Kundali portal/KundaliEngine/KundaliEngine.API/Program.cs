@@ -1,5 +1,7 @@
 using KundaliEngine.API.Security;
+using KundaliEngine.API.Services.Recommendations;
 using KundaliEngine.API.Services.Auth;
+using KundaliEngine.API.Services.Muhurtha;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Compatibility;
@@ -8,17 +10,23 @@ using KundaliEngine.Astrology.Services.KundaliDosha;
 using KundaliEngine.Astrology.Services.KundaliYoga;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
+using KundaliEngine.Astrology.Services.SudarshanChakra;
 using KundaliEngine.Infrastructure;
 using KundaliEngine.KnowledgeBase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 // Register core astrology services for DI (Phase 1 foundation)
 builder.Services.AddSingleton<IEphemerisProvider, SwissEphemerisProvider>();
@@ -30,8 +38,10 @@ builder.Services.AddSingleton<PanchangService>();
 builder.Services.AddSingleton<AspectService>();
 builder.Services.AddSingleton<PlanetStrengthService>();
 builder.Services.AddSingleton<OverallKundaliScoreService>();
+builder.Services.AddSingleton<RemediesRecommendationService>();
 builder.Services.AddSingleton<CompatibilityScoreService>();
 builder.Services.AddSingleton<CompatibilityDoshaAnalysisService>();
+builder.Services.AddSingleton<SudarshanChakraService>();
 builder.Services.AddSingleton<AstrologyKnowledgeService>();
 builder.Services.AddSingleton<IYogaRule, GajakesariYogaRule>();
 builder.Services.AddSingleton<IYogaRule, BudhaAdityaYogaRule>();
@@ -55,6 +65,12 @@ builder.Services.AddSingleton<YogaDetectionService>();
 builder.Services.AddSingleton<IDoshaRule, ManglikDoshaRule>();
 builder.Services.AddSingleton<IDoshaRule, KaalSarpaDoshaRule>();
 builder.Services.AddSingleton<IDoshaRule, ChandraGrahanDoshaRule>();
+builder.Services.AddSingleton<IDoshaRule, SuryaGrahanDoshaRule>();
+builder.Services.AddSingleton<IDoshaRule, GuruChandalDoshaRule>();
+builder.Services.AddSingleton<IDoshaRule, PitraDoshaRule>();
+builder.Services.AddSingleton<IDoshaRule, ShaniDoshaRule>();
+builder.Services.AddSingleton<IDoshaRule, KemadrumaDoshaRule>();
+builder.Services.AddSingleton<IDoshaRule, DaridraDoshaRule>();
 builder.Services.AddSingleton<DoshaDetectionService>();
 
 builder.Services.AddSingleton(_ =>
@@ -82,6 +98,20 @@ builder.Services.AddSingleton(_ =>
     var yoniCompatibilityPath = Path.Combine(AppContext.BaseDirectory, "Data", "Compatibility", "YoniCompatibility.json");
     return new YoniCompatibilityService(yoniCompatibilityPath);
 });
+builder.Services.AddSingleton(_ =>
+{
+    var muhurthaMetadataPath = Path.Combine(AppContext.BaseDirectory, "Data", "Muhurtha");
+    return new MuhurthaMetadataService(muhurthaMetadataPath);
+});
+builder.Services.AddSingleton<IMuhurthaRuleConfigurationProvider, MuhurthaRuleConfigurationProvider>();
+builder.Services.AddSingleton<IMuhurthaSunriseSunsetService, MuhurthaSunriseSunsetService>();
+builder.Services.AddSingleton<IMuhurthaGenericTimeWindowService, MuhurthaGenericTimeWindowService>();
+builder.Services.AddSingleton<IVastuMuhurthaEligibilityService, VastuMuhurthaEligibilityService>();
+builder.Services.AddSingleton<IMuhurthaRuleEvaluationService, MuhurthaRuleEvaluationService>();
+builder.Services.AddSingleton<IMuhurthaCandidateGenerator, MuhurthaCandidateGenerator>();
+builder.Services.AddSingleton<IMuhurthaScoringService, MuhurthaScoringService>();
+builder.Services.AddSingleton<IMuhurthaRecommendationService, MuhurthaRecommendationService>();
+builder.Services.AddSingleton<IMuhurthaService, MuhurthaService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -141,3 +171,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

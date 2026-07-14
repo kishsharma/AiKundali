@@ -1,111 +1,393 @@
-<main class="landing-page">
-  <header class="landing-nav" aria-label="KundaliScore navigation">
-    <a class="brand" routerLink="/" aria-label="KundaliScore home">
-      <span class="brand-mark">
-        <app-astrology-icon name="kundali" [decorative]="true"></app-astrology-icon>
-      </span>
-      <span class="brand-copy">
-        <span class="brand-name">HoRa<span>Score</span></span>
-        <small>Decode Your Destiny. Score Your Life.</small>
-      </span>
-    </a>
-
-    <nav class="nav-links" aria-label="Primary">
-      <a *ngFor="let item of navLinks" [routerLink]="item.link" [class.active]="item.label === 'Home'">{{ item.label }}</a>
+﻿<div class="north-star" aria-hidden="true">
+  <span class="north-star-core"></span>
+  <span class="north-star-ray ray-vertical"></span>
+  <span class="north-star-ray ray-horizontal"></span>
+  <span class="north-star-label">N</span>
+</div>
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <path d="M20 2 L38 20 L20 38 L2 20 Z" stroke="#c9a24b" stroke-width="1.2"/>
+        <path d="M20 2 L38 20 M38 20 L20 38 M20 38 L2 20 M2 20 L20 2" stroke="#c9a24b" stroke-width="0.6" opacity="0.5"/>
+        <circle cx="20" cy="20" r="2.4" fill="#c9a24b"/>
+      </svg>
+      <div class="brand-text">
+        <span class="name"><span class="brand-word-hora">Hora</span><span class="brand-word-score">Life</span></span>
+        <span class="deva">ज्योतिषं प्रकाशते</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#process">Method</a>
+      <a href="#evaluators">Evaluators</a>
+      <a href="#preview">Sample Report</a>
+      <a href="#milan">Compatibility</a>
+      <a href="#philosophy">Sources</a>
     </nav>
+    <a href="#get-score" class="nav-cta">Get Your Life</a>
+  </div>
+</header>
 
-    <div class="nav-actions">
-      <button type="button" class="login-btn" routerLink="/app/dashboard">Login</button>
-      <button type="button" class="signup-btn" routerLink="/auth/register">Sign Up</button>
-    </div>
-  </header>
+<section class="shloka-strip" aria-label="Jyotisha shloka">
+  <div class="wrap">
+    <blockquote>
+      ग्रहयोगबलं ज्ञात्वा शास्त्रयुक्त्या विनिश्चितम्।
+      जीवनस्य पथं सम्यक् ज्योतिषा दीप्यते सदा॥
+    </blockquote>
+    <p>Jyotisha illuminates life through reasoned understanding of planetary and yoga strength.</p>
+  </div>
+</section>
 
-  <section class="hero-section">
-    <div class="hero-content">
-      <h1>
-        Understand Your <span class="purple-text">Kundali.</span>
-        <br />
-        Know Your <span class="orange-text">Life Score.</span>
-      </h1>
-      <p class="hero-copy">AI-powered astrology analysis with explainable scores for every key area of your life.</p>
-
-      <div class="hero-highlights">
-        <div class="highlight-item" *ngFor="let item of heroHighlights">
-          <app-astrology-icon [name]="item.icon" [decorative]="true"></app-astrology-icon>
-          <span>{{ item.label }}</span>
-        </div>
+<section class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="deva-field" id="deva-hero"></div>
+  <div class="moving-saturn" aria-hidden="true">
+    <svg viewBox="0 0 160 160" focusable="false">
+      <ellipse class="saturn-ring saturn-ring-back" cx="80" cy="80" rx="68" ry="18" transform="rotate(-14 80 80)"/>
+      <circle class="saturn-body" cx="80" cy="74" r="34"/>
+      <ellipse class="saturn-ring saturn-ring-front" cx="80" cy="80" rx="68" ry="18" transform="rotate(-14 80 80)"/>
+    </svg>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Explainable Vedic Astrology</span>
+      <h1>Your kundali,<br>scored like it <em>deserves</em> to be.</h1>
+      <p class="lede">Every planet's strength, every combustion, every yoga and dosha — traced back to the classical rule that produced it, not hidden behind a generic star rating.</p>
+      <div class="hero-ctas">
+        <a href="#get-score" class="btn-primary">Generate My Kundali</a>
+        <a href="#preview" class="btn-ghost">See a sample report</a>
       </div>
-
-      <div class="hero-actions">
-        <button type="button" class="primary-action" routerLink="/app/kundali">
-          Generate Your Kundali
-          <span aria-hidden="true">&rsaquo;</span>
-        </button>
-        <button type="button" class="secondary-action" routerLink="/app/kundali">
-          <app-astrology-icon name="reports" [decorative]="true"></app-astrology-icon>
-          Free Demo Report
-        </button>
-      </div>
+      <div class="hero-note"><span class="dot"></span> Built on Bṛhat Parāśara Horā Śāstra, Jaimini Sūtras &amp; Phaladeepika</div>
     </div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="chart-stage">
-        <svg class="kundali-chart" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Decorative North Indian Kundali chart">
-          <rect x="40" y="40" width="420" height="420" class="chart-outline" />
-          <polygon points="250,40 460,250 250,460 40,250" class="chart-outline" />
-          <line x1="40" y1="40" x2="460" y2="460" class="chart-line chart-diagonal-major" />
-          <line x1="460" y1="40" x2="40" y2="460" class="chart-line chart-diagonal-major" />
-          <line x1="145" y1="145" x2="250" y2="40" class="chart-line" />
-          <line x1="355" y1="145" x2="250" y2="40" class="chart-line" />
-          <line x1="355" y1="355" x2="460" y2="250" class="chart-line" />
-          <line x1="355" y1="355" x2="250" y2="460" class="chart-line" />
-          <line x1="145" y1="355" x2="250" y2="460" class="chart-line" />
-          <line x1="145" y1="145" x2="40" y2="250" class="chart-line" />
+    <div class="chart-stage">
+      <div class="chart-frame">
+        <svg viewBox="0 0 400 400" width="100%">
+          <!-- outer square -->
+          <rect x="6" y="6" width="388" height="388" fill="none" stroke="#c9a24b" stroke-width="1.4" opacity="0.55"/>
+          <!-- diagonals -->
+          <line x1="6" y1="6" x2="394" y2="394" stroke="#c9a24b" stroke-width="1" opacity="0.35"/>
+          <line x1="394" y1="6" x2="6" y2="394" stroke="#c9a24b" stroke-width="1" opacity="0.35"/>
+          <!-- diamond -->
+          <polygon points="200,6 394,200 200,394 6,200" fill="none" stroke="#c9a24b" stroke-width="1.2" opacity="0.55"/>
+
+          <!-- house numbers -->
+          <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#c9bfa9" opacity="0.6">
+            <text x="200" y="72" text-anchor="middle">1</text>
+            <text x="118" y="54" text-anchor="middle">2</text>
+            <text x="52" y="118" text-anchor="middle">3</text>
+            <text x="148" y="184" text-anchor="middle">4</text>
+            <text x="52" y="282" text-anchor="middle">5</text>
+            <text x="118" y="346" text-anchor="middle">6</text>
+            <text x="200" y="292" text-anchor="middle">7</text>
+            <text x="282" y="346" text-anchor="middle">8</text>
+            <text x="348" y="282" text-anchor="middle">9</text>
+            <text x="252" y="184" text-anchor="middle">10</text>
+            <text x="348" y="118" text-anchor="middle">11</text>
+            <text x="282" y="54" text-anchor="middle">12</text>
+          </g>
+
+          <!-- planet glyphs -->
+          <g font-family="Cormorant Garamond, serif" font-size="17" fill="#efe6d3">
+            <text x="200" y="118" text-anchor="middle">As</text>
+            <text x="84" y="132" text-anchor="middle">Su · Me</text>
+            <text x="200" y="336" text-anchor="middle">Ve · Mo</text>
+            <text x="294" y="208" text-anchor="middle">Sa</text>
+            <text x="106" y="208" text-anchor="middle">Ra</text>
+            <text x="294" y="92" text-anchor="middle">Ke</text>
+          </g>
+
+          <!-- highlighted houses -->
+          <text x="86" y="306" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="18" fill="#b8412f">Ma</text>
+          <text x="314" y="262" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="18" fill="#c9a24b">Ju</text>
+
         </svg>
 
-        <div class="chart-label label-one number-only"><span class="house-number">1</span></div>
-        <div class="chart-label label-two number-only"><span class="house-number">2</span></div>
-        <div class="chart-label label-top"><span class="house-number">12</span><strong>As</strong></div>
-        <div class="chart-label label-left"><span class="house-number">3</span><strong>Mo</strong></div>
-        <div class="chart-label label-center number-only"><span class="house-number">7</span></div>
-        <div class="chart-label label-right"><span class="house-number">11</span><strong>Ra</strong></div>
-        <div class="chart-label label-mars"><span class="house-number">4</span><strong>Ma</strong></div>
-        <div class="chart-label label-mercury"><span class="house-number">5</span><strong>Me</strong></div>
-        <div class="chart-label label-sun"><span class="house-number">6</span><strong>Su</strong></div>
-        <div class="chart-label label-venus"><span class="house-number">8</span><strong>Ve</strong></div>
-        <div class="chart-label label-saturn"><span class="house-number">9</span><strong>Sa</strong></div>
-        <div class="chart-label label-jupiter"><span class="house-number">10</span><strong>Ju</strong></div>
-      </div>
-
-      <div class="score-card">
-        <span>Your Overall</span>
-        <strong>Kundali Score</strong>
-        <div class="score-value"><b>78</b><span>/100</span></div>
-        <div class="score-bar"><span></span></div>
+        <div class="chip negative chip-a">
+          <span class="label">House 6 · Mars</span>
+          <span class="val">Combust · −14</span>
+        </div>
+        <div class="chip chip-b">
+          <span class="label">House 9 · Jupiter</span>
+          <span class="val">Exalted · +22</span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="feature-grid" aria-label="KundaliScore features">
-    <article class="feature-card" *ngFor="let feature of features" [class.orange-card]="feature.tone === 'orange'">
-      <div class="feature-icon">
-        <app-astrology-icon [name]="feature.icon" [decorative]="true"></app-astrology-icon>
+<section class="process" id="process">
+  <div class="deva-field" id="deva-process"></div>
+  <div class="wrap" style="position:relative; z-index:1;">
+    <div class="section-head">
+      <span class="eyebrow">How a score is built</span>
+      <h2>From raw chart to explained number.</h2>
+      <p>Four stages, each auditable. Nothing is asserted without the evaluator that produced it.</p>
+    </div>
+    <div class="process-row">
+      <div class="p-step">
+        <div class="p-num">01</div>
+        <h3>Chart</h3>
+        <p>Planetary positions, lagna and houses computed from birth date, time and place.</p>
       </div>
-      <div>
-        <h2>{{ feature.title }}</h2>
-        <p>{{ feature.description }}</p>
-        <a [routerLink]="feature.link">Explore <span aria-hidden="true">&rarr;</span></a>
+      <div class="p-step">
+        <div class="p-num">02</div>
+        <h3>Evaluate</h3>
+        <p>Strength, combustion, retrogression, dignity and Shadbala run against every graha.</p>
       </div>
-    </article>
-  </section>
-
-  <section class="trust-strip" aria-label="KundaliScore trust metrics">
-    <div class="metric" *ngFor="let metric of metrics">
-      <app-astrology-icon [name]="metric.icon" [decorative]="true"></app-astrology-icon>
-      <div>
-        <strong>{{ metric.value }}</strong>
-        <span>{{ metric.label }}</span>
+      <div class="p-step">
+        <div class="p-num">03</div>
+        <h3>Explain</h3>
+        <p>Evaluator outputs become structured, human-readable astrological facts — no black box.</p>
+      </div>
+      <div class="p-step">
+        <div class="p-num">04</div>
+        <h3>Score</h3>
+        <p>Facts roll up into a house-wise and overall <span class="brand-hora">Hora</span>Life, weighted by classical rule.</p>
       </div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
+
+<section class="evaluators" id="evaluators">
+  <div class="deva-field" id="deva-eval"></div>
+  <div class="wrap" style="position:relative; z-index:1;">
+    <div class="section-head">
+      <span class="eyebrow">The Evaluators</span>
+      <h2>Five lenses on every graha.</h2>
+      <p>Each evaluator applies one classical principle consistently across the whole chart.</p>
+    </div>
+    <div class="eval-grid">
+      <div class="eval-card">
+        <div class="glyph">Bl</div>
+        <div class="sanskrit">ग्रह बल</div>
+        <h3>Planet Strength</h3>
+        <p>Own sign, exaltation, debilitation and enemy placement, weighed against classical dignity rules.</p>
+        <div class="metric">Jupiter in Sagittarius — <b>own sign, +18</b></div>
+      </div>
+      <div class="eval-card">
+        <div class="glyph">Cb</div>
+        <div class="sanskrit">अस्त</div>
+        <h3>Combustion</h3>
+        <p>Proximity to the Sun and the degree at which a planet is weakened or fully combust.</p>
+        <div class="metric">Mercury at 4° from Sun — <b>combust, −11</b></div>
+      </div>
+      <div class="eval-card">
+        <div class="glyph">Rt</div>
+        <div class="sanskrit">वक्री</div>
+        <h3>Retrograde</h3>
+        <p>Apparent backward motion and its traditional effect on a planet's expression and timing.</p>
+        <div class="metric">Saturn retrograde in H10 — <b>intensified, +7</b></div>
+      </div>
+      <div class="eval-card">
+        <div class="glyph">Sb</div>
+        <div class="sanskrit">षड्बल</div>
+        <h3>Shadbala</h3>
+        <p>A simplified six-fold strength model — positional, temporal, directional, motional, natural and aspectual.</p>
+        <div class="metric">Venus composite Shadbala — <b>62 / 100</b></div>
+      </div>
+      <div class="eval-card">
+        <div class="glyph">Bb</div>
+        <div class="sanskrit">भाव बल</div>
+        <h3>Bhava Strength</h3>
+        <p>House-level strength from its lord's condition, occupants and the aspects it receives.</p>
+        <div class="metric">7th house, lord in H1 — <b>strong, +15</b></div>
+      </div>
+      <div class="eval-card">
+        <div class="glyph">Dr</div>
+        <div class="sanskrit">दृष्टि</div>
+        <h3>Aspects</h3>
+        <p>Full and partial graha drishti mapped across houses, including special aspects unique to Mars, Jupiter and Saturn.</p>
+        <div class="metric">Mars 8th-aspect on H1 — <b>flagged</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="preview">
+  <div class="deva-field" id="deva-preview"></div>
+  <div class="wrap preview-grid" style="position:relative; z-index:1;">
+    <div class="preview-card">
+      <div class="titlebar">
+        <span>bhava_detail.json</span>
+        <span>Live view</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-house">House VII · Rāśi: Vṛṣabha</div>
+        <div class="preview-title">Partnership &amp; Marriage</div>
+        <div class="stat-row"><span class="k">House lord</span><span class="v">Venus, own sign</span></div>
+        <div class="stat-row"><span class="k">Occupants</span><span class="v">Moon, Venus</span></div>
+        <div class="stat-row"><span class="k">Benefic influence</span><span class="v">Jupiter aspect</span></div>
+        <div class="stat-row"><span class="k">Malefic influence</span><span class="v neg">Saturn 3rd aspect</span></div>
+        <div class="stat-row"><span class="k">Bhava score</span><span class="v">74 / 100</span></div>
+        <div class="quote">"A benefic lord placed in his own house, joined by the Moon, confers a stable and affectionate partner."<cite>Phaladeepika, Ch. 6</cite></div>
+      </div>
+    </div>
+
+    <div class="preview-copy">
+      <span class="eyebrow">Sample Report</span>
+      <h2 style="margin:18px 0 20px; font-size:32px;">Click into any house. See exactly why.</h2>
+      <p>The interactive Bhava view is where the scoring stops being a number and starts being an argument — every figure traces to a rule you can read.</p>
+      <ul>
+        <li><span class="mark">01</span><div><h4>House lord condition</h4><p>Dignity, placement and strength of the ruling planet.</p></div></li>
+        <li><span class="mark">02</span><div><h4>Benefic &amp; malefic influence</h4><p>Which grahas are helping the house, and which are working against it.</p></div></li>
+        <li><span class="mark">03</span><div><h4>Combustion &amp; retrograde impact</h4><p>Adjustments applied when an occupant is weakened or reversed.</p></div></li>
+        <li><span class="mark">04</span><div><h4>Classical reference</h4><p>The verse or principle each conclusion is drawn from.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="milan" id="milan">
+  <div class="deva-field" id="deva-milan"></div>
+  <div class="wrap milan-grid" style="position:relative; z-index:1;">
+    <div class="milan-card">
+      <div class="titlebar">
+        <span>milan_report.json</span>
+        <span>Live view</span>
+      </div>
+      <div class="milan-body">
+        <div class="pair-row">
+          <div class="pair-person">
+            <div class="who">Aditi</div>
+            <div class="naks">Rohiṇī nakṣatra</div>
+          </div>
+          <div class="pair-glyph" aria-label="Male and female match symbols">
+            <span class="gender-symbol male-symbol">&#x2642;</span>
+            <span class="gender-symbol female-symbol">&#x2640;</span>
+          </div>
+          <div class="pair-person" style="text-align:right;">
+            <div class="who">Rohan</div>
+            <div class="naks">Hasta nakṣatra</div>
+          </div>
+        </div>
+
+        <div class="guna-score">
+          <span class="num">82</span>
+          <span class="of">/ 100 Kundali Milan score</span>
+          <span class="verdict">Deep match</span>
+        </div>
+
+        <div class="dim-row">
+          <div class="dim-head"><span class="dim-name">Ashtakoota Guna</span><span class="dim-pct">28 / 36</span></div>
+          <div class="bar"><div class="bar-fill" style="width:86%;"></div></div>
+          <div class="dim-note">One parameter, not the final verdict.</div>
+        </div>
+        <div class="dim-row">
+          <div class="dim-head"><span class="dim-name">Moon &amp; Lagna</span><span class="dim-pct">86%</span></div>
+          <div class="bar"><div class="bar-fill" style="width:86%;"></div></div>
+          <div class="dim-note">Temperament and life direction across both charts.</div>
+        </div>
+        <div class="dim-row">
+          <div class="dim-head"><span class="dim-name">Marriage promise</span><span class="dim-pct">72%</span></div>
+          <div class="bar"><div class="bar-fill moderate" style="width:72%;"></div></div>
+          <div class="dim-note">7th house, Venus, Jupiter and afflictions.</div>
+        </div>
+        <div class="dim-row">
+          <div class="dim-head"><span class="dim-name">Dosha balance</span><span class="dim-pct">64%</span></div>
+          <div class="bar"><div class="bar-fill moderate" style="width:64%;"></div></div>
+          <div class="dim-note">Mangal, Kuja and cancellation factors.</div>
+        </div>
+        <div class="dim-row">
+          <div class="dim-head"><span class="dim-name">Dasha support</span><span class="dim-pct">91%</span></div>
+          <div class="bar"><div class="bar-fill" style="width:91%;"></div></div>
+          <div class="dim-note">Timing support beyond the birth snapshot.</div>
+        </div>
+
+        <div class="quote">"A guna score can warn, but the full kundali must answer why."<cite>Kundali Milan synthesis</cite></div>
+      </div>
+    </div>
+
+    <div class="milan-copy">
+      <span class="eyebrow">Kundali Milan · कुण्डली मिलान</span>
+      <h2 style="margin:18px 0 20px;">Do not reject a match on Ashtakoota alone.</h2>
+      <p>Ashtakoota matters, but it is only one input. The Milan score reads both kundalis before deciding yes, no, or needs care.</p>
+      <ul>
+        <li><span class="mark">01</span><div><h4>Guna score</h4><p>Included, but not treated as the whole judgment.</p></div></li>
+        <li><span class="mark">02</span><div><h4>Chart promise</h4><p>7th house, Venus, Jupiter, Moon and Lagna.</p></div></li>
+        <li><span class="mark">03</span><div><h4>Dosha balance</h4><p>Mangal, Kuja, afflictions and cancellations.</p></div></li>
+        <li><span class="mark">04</span><div><h4>D9 &amp; dasha</h4><p>Marriage chart strength and relationship timing.</p></div></li>
+      </ul>
+      <p style="margin-bottom:22px;">
+        <span class="ai-chip">AI</span> explains why a match is strong, risky, or workable without reducing two charts to one guna number.
+      </p>
+      <div class="hero-ctas">
+        <a href="#get-score" class="btn-primary">Check Your Compatibility</a>
+        <a href="#get-score" class="btn-ghost">Two minutes. Both birth details.</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="philosophy" id="philosophy">
+  <div class="deva-field" id="deva-philosophy"></div>
+  <div class="wrap" style="position:relative; z-index:1;">
+    <span class="eyebrow" style="justify-content:center;">Where the rules come from</span>
+    <h2 style="margin-top:18px;">We don't invent astrology. We structure it.</h2>
+    <p>Every evaluator implements a documented classical principle. Where texts differ, we say so — a <span class="brand-hora">Hora</span>Life report shows its working rather than asking for faith in a single hidden model.</p>
+    <div class="refs">
+      <span>Bṛhat Parāśara Horā Śāstra</span>
+      <span>Jaimini Sūtras</span>
+      <span>Phaladeepika</span>
+      <span>Saravali</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="get-score">
+  <div class="deva-field" id="deva-cta"></div>
+  <div class="wrap cta-grid" style="position:relative; z-index:1;">
+    <div class="cta-copy">
+      <span class="eyebrow">Janma Vivara · जन्म विवरण</span>
+      <h2>Get your Life's <span class="brand-hora">Hora</span>.</h2>
+      <p>Enter your birth details once. Get a scored, explained chart you can actually read — and come back to as your dashas unfold.</p>
+      <div class="hero-note"><span class="dot"></span> No predictions without a cited rule behind them.</div>
+    </div>
+    <form class="cta-form">
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" type="text" placeholder="As it appears on your birth record">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="dob">Date of birth</label>
+          <input id="dob" type="date">
+        </div>
+        <div class="field">
+          <label for="tob">Time of birth</label>
+          <input id="tob" type="time">
+        </div>
+      </div>
+      <div class="field">
+        <label for="pob">Place of birth</label>
+        <input id="pob" type="text" placeholder="City, state, country">
+      </div>
+      <button type="submit" class="btn-primary">Generate My Kundali</button>
+      <p class="form-note">Your birth details are used only to compute your chart.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="deva-field" id="deva-footer"></div>
+  <div class="wrap" style="position:relative; z-index:1;">
+    <div class="foot-grid">
+      <div class="foot-tagline">
+        ग्रहाणां बलाबलम्
+        <span class="en">The strength and weakness of the planets — measured, not guessed.</span>
+      </div>
+      <div class="foot-links">
+        <a href="#process">Method</a>
+        <a href="#evaluators">Evaluators</a>
+        <a href="#preview">Sample Report</a>
+        <a href="#milan">Compatibility</a>
+        <a href="#philosophy">Sources</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 <span class="brand-hora">Hora</span>Life</span>
+      <span class="foot-soon"><span class="dot"></span> <span class="brand-hora">Hora</span> is coming to mobile next</span>
+      <span>Bengaluru, India</span>
+    </div>
+  </div>
+</footer>

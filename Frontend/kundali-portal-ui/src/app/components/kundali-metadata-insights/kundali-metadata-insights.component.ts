@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 
 type InsightRow = {
   labelKey: string;
@@ -22,18 +23,18 @@ export class KundaliMetadataInsightsComponent {
   @Input() nakshatraInsight: any;
 
   private readonly planetGlyphMap: Record<string, string> = {
-    Sun: '☉',
-    Moon: '☾',
-    Mars: '♂',
-    Mercury: '☿',
-    Jupiter: '♃',
-    Venus: '♀',
-    Saturn: '♄',
-    Rahu: '☊',
-    Ketu: '☋'
+    Sun: '\u2609',
+    Moon: '\u263E',
+    Mars: '\u2642',
+    Mercury: '\u263F',
+    Jupiter: '\u2643',
+    Venus: '\u2640',
+    Saturn: '\u2644',
+    Rahu: '\u260A',
+    Ketu: '\u260B'
   };
 
-  constructor(private translocoService: TranslocoService) {}
+  constructor(private translocoService: TranslocoService, private readonly apiTerms: ApiTermTranslationService) {}
 
   get rashiRows(): InsightRow[] {
     const item = this.rashiInsight;
@@ -43,7 +44,7 @@ export class KundaliMetadataInsightsComponent {
     }
 
     return [
-      { labelKey: 'metadata.ruler', value: item.ruler, valueKey: this.translationKey('planet', item.ruler), icon: this.getPlanetGlyph(item.ruler) },
+      { labelKey: 'metadata.ruler', value: this.apiTerms.translatePlanet(item.ruler), icon: this.getPlanetGlyph(item.ruler) },
       { labelKey: 'metadata.element', value: item.element },
       { labelKey: 'metadata.strength', value: item.strength },
       { labelKey: 'metadata.weakness', value: item.weakness },
@@ -64,7 +65,7 @@ export class KundaliMetadataInsightsComponent {
     }
 
     return [
-      { labelKey: 'metadata.lord', value: item.lord, valueKey: this.translationKey('planet', item.lord), icon: this.getPlanetGlyph(item.lord) },
+      { labelKey: 'metadata.lord', value: this.apiTerms.translatePlanet(item.lord), icon: this.getPlanetGlyph(item.lord) },
       { labelKey: 'metadata.symbol', value: item.symbol },
       { labelKey: 'metadata.gana', value: item.gana },
       { labelKey: 'metadata.yoni', value: item.yoni },
@@ -81,19 +82,20 @@ export class KundaliMetadataInsightsComponent {
     const name = this.rashiInsight?.englishName || this.rashiInsight?.name;
     const symbol = this.rashiInsight?.symbol;
 
-    return [symbol, name].filter(Boolean).join(' ');
+    return [symbol, this.apiTerms.translateSign(name)].filter(Boolean).join(' ');
   }
 
   get nakshatraTitle(): string {
     const name = this.nakshatraInsight?.name;
     const pada = this.nakshatraInsight?.pada;
 
-    return pada ? `${name} Pada ${pada}` : name;
+    const translatedName = this.apiTerms.translateNakshatra(name);
+    return pada ? `${translatedName} ${this.translocoService.translate('janmaStory.padaLabel')} ${pada}` : translatedName;
   }
 
   displayValue(row: InsightRow): string {
     if (!row.value) {
-      return '—';
+      return '-';
     }
 
     if (!row.valueKey) {
@@ -113,7 +115,7 @@ export class KundaliMetadataInsightsComponent {
   }
 
   private getPlanetGlyph(planet: string | null | undefined): string {
-    return this.planetGlyphMap[planet ?? ''] ?? '•';
+    return this.planetGlyphMap[planet ?? ''] ?? '\u2022';
   }
 
   private translationKey(prefix: string, value: string | null | undefined): string | undefined {

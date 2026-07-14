@@ -1,0 +1,2119 @@
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleResults' does not exist on type 'MuhurthaRecommendation'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:215:16:
+[37m      215 │     return slot.[32mruleResults[37m?.some((rule) => rule.ruleKey?.toLower...
+          ╵                 [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'rule' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:215:35:
+[37m      215 │ ...turn slot.ruleResults?.some(([32mrule[37m) => rule.ruleKey?.toLowerCas...
+          ╵                                 [32m~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleResults' does not exist on type 'MuhurthaRecommendation'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:219:16:
+[37m      219 │     return slot.[32mruleResults[37m?.some((rule) =>
+          ╵                 [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'rule' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:219:35:
+[37m      219 │     return slot.ruleResults?.some(([32mrule[37m) =>
+          ╵                                    [32m~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mAngular compilation initialization failed.[0m [1m[35m[plugin angular-compiler][0m
+
+  Error: FatalDiagnosticError: Code: 1010, Message: Failed to resolve styles at position 1 to a string
+    Value could not be determined statically.
+      at createValueHasWrongTypeError (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:7315:10)
+      at isStringArrayOrDie (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8554:13)
+      at parseDirectiveStyles (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8430:8)
+      at file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:21158:25
+      at async Promise.all (index 0)
+      at async Promise.all (index 0)
+      at async file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4498:7
+      at async _NgCompiler.analyzeAsync (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4486:5)
+      at async AotCompilation.initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\aot-compilation.js:107:9)
+      at async initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\parallel-worker.js:38:121)
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:48:60:
+[37m      48 │ ... class="location-dropdown compact" *ngIf="[32mtimezoneResults[37m.length">
+         ╵                                              [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:49:84:
+[37m      49 │ ...*ngFor="let timezone of [32mtimezoneResults[37m" (click)="selectTimezon...
+         ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:77:62:
+[37m      77 │ ...s="location-dropdown compact" *ngIf="[32mbirthTimezoneResults[37m.length">
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:78:86:
+[37m      78 │ ...gFor="let timezone of [32mbirthTimezoneResults[37m" (click)="selectBirt...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:224:34:
+[37m      224 │ ...cribe((value) => { this.[32mtimezoneResults[37m = this.searchTimezones...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:229:34:
+[37m      229 │ ...be((value) => { this.[32mbirthTimezoneResults[37m = this.searchTimezon...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:245:9:
+[37m      245 │     this.[32mtimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:250:9:
+[37m      250 │     this.[32mbirthTimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'showTimezoneOptions' does not exist on type 'MuhurthaComponent'. Did you mean 'timezoneOptions'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:47:137:
+[37m      47 │ ...mezone" autocomplete="off" (focus)="[32mshowTimezoneOptions[37m(false)" />
+         ╵                                        [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:48:60:
+[37m      48 │ ... class="location-dropdown compact" *ngIf="[32mtimezoneResults[37m.length">
+         ╵                                              [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:49:84:
+[37m      49 │ ...*ngFor="let timezone of [32mtimezoneResults[37m" (click)="selectTimezon...
+         ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'showTimezoneOptions' does not exist on type 'MuhurthaComponent'. Did you mean 'timezoneOptions'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:76:150:
+[37m      76 │ ...imezone" autocomplete="off" (focus)="[32mshowTimezoneOptions[37m(true)" />
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:77:62:
+[37m      77 │ ...s="location-dropdown compact" *ngIf="[32mbirthTimezoneResults[37m.length">
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:78:86:
+[37m      78 │ ...gFor="let timezone of [32mbirthTimezoneResults[37m" (click)="selectBirt...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:224:34:
+[37m      224 │ ...cribe((value) => { this.[32mtimezoneResults[37m = this.searchTimezones...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:229:34:
+[37m      229 │ ...be((value) => { this.[32mbirthTimezoneResults[37m = this.searchTimezon...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:245:9:
+[37m      245 │     this.[32mtimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:250:9:
+[37m      250 │     this.[32mbirthTimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'showTimezoneOptions' does not exist on type 'MuhurthaComponent'. Did you mean 'timezoneOptions'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:47:137:
+[37m      47 │ ...mezone" autocomplete="off" (focus)="[32mshowTimezoneOptions[37m(false)" />
+         ╵                                        [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:48:60:
+[37m      48 │ ... class="location-dropdown compact" *ngIf="[32mtimezoneResults[37m.length">
+         ╵                                              [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:49:84:
+[37m      49 │ ...*ngFor="let timezone of [32mtimezoneResults[37m" (click)="selectTimezon...
+         ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'showTimezoneOptions' does not exist on type 'MuhurthaComponent'. Did you mean 'timezoneOptions'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:76:150:
+[37m      76 │ ...imezone" autocomplete="off" (focus)="[32mshowTimezoneOptions[37m(true)" />
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:77:62:
+[37m      77 │ ...s="location-dropdown compact" *ngIf="[32mbirthTimezoneResults[37m.length">
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:78:86:
+[37m      78 │ ...gFor="let timezone of [32mbirthTimezoneResults[37m" (click)="selectBirt...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:224:34:
+[37m      224 │ ...cribe((value) => { this.[32mtimezoneResults[37m = this.searchTimezones...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:229:34:
+[37m      229 │ ...be((value) => { this.[32mbirthTimezoneResults[37m = this.searchTimezon...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:245:9:
+[37m      245 │     this.[32mtimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:250:9:
+[37m      250 │     this.[32mbirthTimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'showTimezoneOptions' does not exist on type 'MuhurthaComponent'. Did you mean 'timezoneOptions'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:47:137:
+[37m      47 │ ...mezone" autocomplete="off" (focus)="[32mshowTimezoneOptions[37m(false)" />
+         ╵                                        [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:48:60:
+[37m      48 │ ... class="location-dropdown compact" *ngIf="[32mtimezoneResults[37m.length">
+         ╵                                              [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:49:84:
+[37m      49 │ ...*ngFor="let timezone of [32mtimezoneResults[37m" (click)="selectTimezon...
+         ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'showTimezoneOptions' does not exist on type 'MuhurthaComponent'. Did you mean 'timezoneOptions'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:76:150:
+[37m      76 │ ...imezone" autocomplete="off" (focus)="[32mshowTimezoneOptions[37m(true)" />
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:77:62:
+[37m      77 │ ...s="location-dropdown compact" *ngIf="[32mbirthTimezoneResults[37m.length">
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:78:86:
+[37m      78 │ ...gFor="let timezone of [32mbirthTimezoneResults[37m" (click)="selectBirt...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:224:34:
+[37m      224 │ ...cribe((value) => { this.[32mtimezoneResults[37m = this.searchTimezones...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:229:34:
+[37m      229 │ ...be((value) => { this.[32mbirthTimezoneResults[37m = this.searchTimezon...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:245:9:
+[37m      245 │     this.[32mtimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:250:9:
+[37m      250 │     this.[32mbirthTimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:48:60:
+[37m      48 │ ... class="location-dropdown compact" *ngIf="[32mtimezoneResults[37m.length">
+         ╵                                              [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:49:84:
+[37m      49 │ ...*ngFor="let timezone of [32mtimezoneResults[37m" (click)="selectTimezon...
+         ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:77:62:
+[37m      77 │ ...s="location-dropdown compact" *ngIf="[32mbirthTimezoneResults[37m.length">
+         ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:78:86:
+[37m      78 │ ...gFor="let timezone of [32mbirthTimezoneResults[37m" (click)="selectBirt...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:224:34:
+[37m      224 │ ...cribe((value) => { this.[32mtimezoneResults[37m = this.searchTimezones...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:229:34:
+[37m      229 │ ...be((value) => { this.[32mbirthTimezoneResults[37m = this.searchTimezon...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:245:9:
+[37m      245 │     this.[32mtimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:250:9:
+[37m      250 │     this.[32mbirthTimezoneResults[37m = [];
+          ╵          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'birthTimezoneResults' does not exist on type 'MuhurthaComponent'. Did you mean 'birthLocationResults'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:254:11:
+[37m      254 │       this.[32mbirthTimezoneResults[37m = this.searchTimezones(this.form....
+          ╵            [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  'birthLocationResults' is declared here.
+
+    src/app/modules/panchang/muhurtha.component.ts:184:2:
+[37m      184 │   [32mbirthLocationResults[37m: any[] = [];
+          ╵   [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timezoneResults' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:258:9:
+[37m      258 │     this.[32mtimezoneResults[37m = this.searchTimezones(this.form.control...
+          ╵          [32m~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mAngular compilation initialization failed.[0m [1m[35m[plugin angular-compiler][0m
+
+  Error: FatalDiagnosticError: Code: 1010, Message: Failed to resolve styles at position 1 to a string
+    Value could not be determined statically.
+      at createValueHasWrongTypeError (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:7315:10)
+      at isStringArrayOrDie (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8554:13)
+      at parseDirectiveStyles (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8430:8)
+      at file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:21158:25
+      at async Promise.all (index 0)
+      at async Promise.all (index 0)
+      at async file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4498:7
+      at async _NgCompiler.analyzeAsync (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4486:5)
+      at async AotCompilation.initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\aot-compilation.js:107:9)
+      at async initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\parallel-worker.js:38:121)
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mAngular compilation initialization failed.[0m [1m[35m[plugin angular-compiler][0m
+
+  Error: FatalDiagnosticError: Code: 1010, Message: Failed to resolve styles at position 1 to a string
+    Value could not be determined statically.
+      at createValueHasWrongTypeError (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:7315:10)
+      at isStringArrayOrDie (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8554:13)
+      at parseDirectiveStyles (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8430:8)
+      at file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:21158:25
+      at async Promise.all (index 0)
+      at async Promise.all (index 0)
+      at async file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4498:7
+      at async _NgCompiler.analyzeAsync (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4486:5)
+      at async AotCompilation.initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\aot-compilation.js:107:9)
+      at async initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\parallel-worker.js:38:121)
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mAngular compilation initialization failed.[0m [1m[35m[plugin angular-compiler][0m
+
+  Error: FatalDiagnosticError: Code: 1010, Message: Failed to resolve styles at position 1 to a string
+    Value could not be determined statically.
+      at createValueHasWrongTypeError (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:7315:10)
+      at isStringArrayOrDie (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8554:13)
+      at parseDirectiveStyles (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8430:8)
+      at file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:21158:25
+      at async Promise.all (index 0)
+      at async Promise.all (index 0)
+      at async file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4498:7
+      at async _NgCompiler.analyzeAsync (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4486:5)
+      at async AotCompilation.initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\aot-compilation.js:107:9)
+      at async initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\parallel-worker.js:38:121)
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mAngular compilation initialization failed.[0m [1m[35m[plugin angular-compiler][0m
+
+  Error: FatalDiagnosticError: Code: 1010, Message: Failed to resolve styles at position 1 to a string
+    Value could not be determined statically.
+      at createValueHasWrongTypeError (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:7315:10)
+      at isStringArrayOrDie (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8554:13)
+      at parseDirectiveStyles (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8430:8)
+      at file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:21158:25
+      at async Promise.all (index 0)
+      at async Promise.all (index 0)
+      at async file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4498:7
+      at async _NgCompiler.analyzeAsync (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4486:5)
+      at async AotCompilation.initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\aot-compilation.js:107:9)
+      at async initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\parallel-worker.js:38:121)
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hasResultSlots' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:104:48:
+[37m      104 │             <div class="result-controls" *ngIf="[32mhasResultSlots[37m()">
+          ╵                                                 [32m~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mAngular compilation initialization failed.[0m [1m[35m[plugin angular-compiler][0m
+
+  Error: FatalDiagnosticError: Code: 1010, Message: Failed to resolve styles at position 1 to a string
+    Value could not be determined statically.
+      at createValueHasWrongTypeError (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:7315:10)
+      at isStringArrayOrDie (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8554:13)
+      at parseDirectiveStyles (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:8430:8)
+      at file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-XMX6JBER.js:21158:25
+      at async Promise.all (index 0)
+      at async Promise.all (index 0)
+      at async file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4498:7
+      at async _NgCompiler.analyzeAsync (file:///D:/Learning/Ai%20Kundali/GIT/Frontend/kundali-portal-ui/node_modules/@angular/compiler-cli/bundles/chunk-MR7LRZNT.js:4486:5)
+      at async AotCompilation.initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\aot-compilation.js:107:9)
+      at async initialize (D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui\node_modules\@angular\build\src\tools\angular\compilation\parallel-worker.js:38:121)
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: PageHeaderComponent is not used within the template of MuhurthaComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:19:47:
+[37m      19 │ ..., ReactiveFormsModule, [32mPageHeaderComponent[37m, SectionCardComponent],
+         ╵                           [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: SectionCardComponent is not used within the template of MuhurthaComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:19:68:
+[37m      19 │ ..., ReactiveFormsModule, PageHeaderComponent, [32mSectionCardComponent[37m],
+         ╵                                                [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG5002: Unexpected closing tag "form". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:82:8:
+[37m      82 │         [32m</form>[37m
+         ╵         [32m~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: PageHeaderComponent is not used within the template of MuhurthaComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:19:47:
+[37m      19 │ ..., ReactiveFormsModule, [32mPageHeaderComponent[37m, SectionCardComponent],
+         ╵                           [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: SectionCardComponent is not used within the template of MuhurthaComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:19:68:
+[37m      19 │ ..., ReactiveFormsModule, PageHeaderComponent, [32mSectionCardComponent[37m],
+         ╵                                                [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG5002: Unexpected closing tag "article". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:185:12:
+[37m      185 │             [32m</article>[37m
+          ╵             [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG5002: Unexpected closing tag "ng-container". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:189:8:
+[37m      189 │         [32m</ng-container>[37m
+          ╵         [32m~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: PageHeaderComponent is not used within the template of MuhurthaComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:19:47:
+[37m      19 │ ..., ReactiveFormsModule, [32mPageHeaderComponent[37m, SectionCardComponent],
+         ╵                           [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: SectionCardComponent is not used within the template of MuhurthaComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:19:68:
+[37m      19 │ ..., ReactiveFormsModule, PageHeaderComponent, [32mSectionCardComponent[37m],
+         ╵                                                [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG5002: Unexpected closing tag "ng-container". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:192:8:
+[37m      192 │         [32m</ng-container>[37m
+          ╵         [32m~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:65:45:
+[37m      65 │ ...tton type="button" (click)="[32msetQuickRange[37m(8)">Next 8 days</button>
+         ╵                                [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:66:45:
+[37m      66 │ ...<button type="button" (click)="[32msetQuickRange[37m(15)">15 days</button>
+         ╵                                   [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:67:45:
+[37m      67 │ ...<button type="button" (click)="[32msetQuickRange[37m(30)">30 days</button>
+         ╵                                   [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:109:55:
+[37m      109 │ ..."button" [class.active]="![32misTableView[37m()" (click)="setResultVie...
+          ╵                              [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setResultView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:109:79:
+[37m      109 │ ...e]="!isTableView()" (click)="[32msetResultView[37m('card')">Card</button>
+          ╵                                 [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:110:54:
+[37m      110 │ ...="button" [class.active]="[32misTableView[37m()" (click)="setResultVie...
+          ╵                              [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setResultView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:110:78:
+[37m      110 │ ...]="isTableView()" (click)="[32msetResultView[37m('table')">Table</button>
+          ╵                               [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:125:47:
+[37m      125 │ ...v class="panchang-table" *ngIf="[32misTableView[37m(); else cardResults">
+          ╵                                    [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hinduPeriodLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:127:25:
+[37m      127 │                 <span>{{ [32mhinduPeriodLabel[37m() }}</span>
+          ╵                          [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'englishPeriodLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:128:25:
+[37m      128 │                 <span>{{ [32menglishPeriodLabel[37m() }}</span>
+          ╵                          [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:150:29:
+[37m      150 │                       <td>{{ [32mruleMeta[37m(slot, 'tithi_suitability', ...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:151:29:
+[37m      151 │                       <td>{{ [32mruleValue[37m(slot, 'nakshatra_suitabili...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:152:29:
+[37m      152 │                       <td>{{ [32mruleValue[37m(slot, 'karana_suitability'...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:153:29:
+[37m      153 │                       <td>{{ [32mruleValue[37m(slot, 'yoga_suitability') ...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:154:29:
+[37m      154 │                       <td>{{ [32mruleMeta[37m(slot, 'moon_strength', 'moo...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:155:29:
+[37m      155 │                       <td>{{ [32mruleMeta[37m(slot, 'moon_strength', 'lag...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'muhurthaCategory' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:156:29:
+[37m      156 │                       <td>{{ [32mmuhurthaCategory[37m(slot) }}</td>
+          ╵                              [32m~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:65:45:
+[37m      65 │ ...tton type="button" (click)="[32msetQuickRange[37m(8)">Next 8 days</button>
+         ╵                                [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:66:45:
+[37m      66 │ ...<button type="button" (click)="[32msetQuickRange[37m(15)">15 days</button>
+         ╵                                   [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:67:45:
+[37m      67 │ ...<button type="button" (click)="[32msetQuickRange[37m(30)">30 days</button>
+         ╵                                   [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:109:55:
+[37m      109 │ ..."button" [class.active]="![32misTableView[37m()" (click)="setResultVie...
+          ╵                              [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setResultView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:109:79:
+[37m      109 │ ...e]="!isTableView()" (click)="[32msetResultView[37m('card')">Card</button>
+          ╵                                 [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:110:54:
+[37m      110 │ ...="button" [class.active]="[32misTableView[37m()" (click)="setResultVie...
+          ╵                              [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setResultView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:110:78:
+[37m      110 │ ...]="isTableView()" (click)="[32msetResultView[37m('table')">Table</button>
+          ╵                               [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:125:47:
+[37m      125 │ ...v class="panchang-table" *ngIf="[32misTableView[37m(); else cardResults">
+          ╵                                    [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hinduPeriodLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:127:25:
+[37m      127 │                 <span>{{ [32mhinduPeriodLabel[37m() }}</span>
+          ╵                          [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'englishPeriodLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:128:25:
+[37m      128 │                 <span>{{ [32menglishPeriodLabel[37m() }}</span>
+          ╵                          [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:150:29:
+[37m      150 │                       <td>{{ [32mruleMeta[37m(slot, 'tithi_suitability', ...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:151:29:
+[37m      151 │                       <td>{{ [32mruleValue[37m(slot, 'nakshatra_suitabili...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:152:29:
+[37m      152 │                       <td>{{ [32mruleValue[37m(slot, 'karana_suitability'...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:153:29:
+[37m      153 │                       <td>{{ [32mruleValue[37m(slot, 'yoga_suitability') ...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:154:29:
+[37m      154 │                       <td>{{ [32mruleMeta[37m(slot, 'moon_strength', 'moo...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:155:29:
+[37m      155 │                       <td>{{ [32mruleMeta[37m(slot, 'moon_strength', 'lag...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'muhurthaCategory' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:156:29:
+[37m      156 │                       <td>{{ [32mmuhurthaCategory[37m(slot) }}</td>
+          ╵                              [32m~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:65:45:
+[37m      65 │ ...tton type="button" (click)="[32msetQuickRange[37m(8)">Next 8 days</button>
+         ╵                                [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:66:45:
+[37m      66 │ ...<button type="button" (click)="[32msetQuickRange[37m(15)">15 days</button>
+         ╵                                   [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setQuickRange' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:67:45:
+[37m      67 │ ...<button type="button" (click)="[32msetQuickRange[37m(30)">30 days</button>
+         ╵                                   [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:109:55:
+[37m      109 │ ..."button" [class.active]="![32misTableView[37m()" (click)="setResultVie...
+          ╵                              [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setResultView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:109:79:
+[37m      109 │ ...e]="!isTableView()" (click)="[32msetResultView[37m('card')">Card</button>
+          ╵                                 [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:110:54:
+[37m      110 │ ...="button" [class.active]="[32misTableView[37m()" (click)="setResultVie...
+          ╵                              [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setResultView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:110:78:
+[37m      110 │ ...]="isTableView()" (click)="[32msetResultView[37m('table')">Table</button>
+          ╵                               [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isTableView' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:125:47:
+[37m      125 │ ...v class="panchang-table" *ngIf="[32misTableView[37m(); else cardResults">
+          ╵                                    [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hinduPeriodLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:127:25:
+[37m      127 │                 <span>{{ [32mhinduPeriodLabel[37m() }}</span>
+          ╵                          [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'englishPeriodLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:128:25:
+[37m      128 │                 <span>{{ [32menglishPeriodLabel[37m() }}</span>
+          ╵                          [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:150:29:
+[37m      150 │                       <td>{{ [32mruleMeta[37m(slot, 'tithi_suitability', ...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:151:29:
+[37m      151 │                       <td>{{ [32mruleValue[37m(slot, 'nakshatra_suitabili...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:152:29:
+[37m      152 │                       <td>{{ [32mruleValue[37m(slot, 'karana_suitability'...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleValue' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:153:29:
+[37m      153 │                       <td>{{ [32mruleValue[37m(slot, 'yoga_suitability') ...
+          ╵                              [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:154:29:
+[37m      154 │                       <td>{{ [32mruleMeta[37m(slot, 'moon_strength', 'moo...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'ruleMeta' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:155:29:
+[37m      155 │                       <td>{{ [32mruleMeta[37m(slot, 'moon_strength', 'lag...
+          ╵                              [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'muhurthaCategory' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:156:29:
+[37m      156 │                       <td>{{ [32mmuhurthaCategory[37m(slot) }}</td>
+          ╵                              [32m~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingName' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:149:99:
+[37m      149 │ ...ighlightedTithi(slot)">{{ [32mtimingName[37m(slot, 'tithi') }}</span><...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingWindow' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:149:144:
+[37m      149 │ ...thi') }}</span><small>{{ [32mtimingWindow[37m(slot, 'tithi') }}</small...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingName' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:151:55:
+[37m      151 │ ...an class="table-value">{{ [32mtimingName[37m(slot, 'nakshatra') }}</sp...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingWindow' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:151:104:
+[37m      151 │ ...tra') }}</span><small>{{ [32mtimingWindow[37m(slot, 'nakshatra') }}</s...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingName' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:152:55:
+[37m      152 │ ...an class="table-value">{{ [32mtimingName[37m(slot, 'karana') }}</span>...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingWindow' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:152:101:
+[37m      152 │ ...ana') }}</span><small>{{ [32mtimingWindow[37m(slot, 'karana') }}</smal...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingName' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:153:55:
+[37m      153 │ ...an class="table-value">{{ [32mtimingName[37m(slot, 'yoga') }}</span><s...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingWindow' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:153:99:
+[37m      153 │ ...oga') }}</span><small>{{ [32mtimingWindow[37m(slot, 'yoga') }}</small>...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingName' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:154:55:
+[37m      154 │ ...an class="table-value">{{ [32mtimingName[37m(slot, 'chandraRashi') }}<...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingWindow' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:154:107:
+[37m      154 │ ...shi') }}</span><small>{{ [32mtimingWindow[37m(slot, 'chandraRashi') }}...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingName' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:155:55:
+[37m      155 │ ...an class="table-value">{{ [32mtimingName[37m(slot, 'lagna') }}</span><...
+          ╵                              [32m~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'timingWindow' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:155:100:
+[37m      155 │ ...gna') }}</span><small>{{ [32mtimingWindow[37m(slot, 'lagna') }}</small...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2592: Cannot find name '$'. Do you need to install type definitions for jQuery? Try `npm i --save-dev @types/jquery` and then add 'jquery' to the types field in your tsconfig.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:449:11:
+[37m      449 │     return [32m$[37m{this.formatTime(detail.startTime)} - ;
+          ╵            [32m^[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS1005: ';' expected.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:449:12:
+[37m      449 │     return $[32m{[37mthis.formatTime(detail.startTime)} - ;
+          ╵             [32m^[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type 'string | null | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:449:29:
+[37m      449 │     return ${this.formatTime([32mdetail.startTime[37m)} - ;
+          ╵                              [32m~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS1109: Expression expected.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:449:50:
+[37m      449 │     return ${this.formatTime(detail.startTime)} - [32m;[37m
+          ╵                                                   [32m^[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mUnexpected ";"[0m
+
+    src/app/modules/panchang/muhurtha.component.ts:705:9:
+[37m      705 │         -[32m;[37m
+          ╵          [32m^[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'scoreTooltip' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:157:90:
+[37m      157 │ ...oreClass(slot)" [title]="[32mscoreTooltip[37m(slot)">{{ slot.score }}<...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'scoreTooltip' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:169:77:
+[37m      169 │ ...oreClass(slot)" [title]="[32mscoreTooltip[37m(slot)">{{ slot.score }}<...
+          ╵                             [32m~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'Generic'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:660:6:
+[37m      660 │       [32mGeneric[37m ,
+          ╵       [32m~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'Panchanga'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:661:6:
+[37m      661 │       [32mPanchanga[37m ,
+          ╵       [32m~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'Personal'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:662:6:
+[37m      662 │       [32mPersonal[37m ,
+          ╵       [32m~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'Lagna'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:663:6:
+[37m      663 │       [32mLagna[37m ,
+          ╵       [32m~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hinduYearLabel' does not exist on type 'MuhurthaComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/panchang/muhurtha.component.ts:106:48:
+[37m      106 │ ...s="year-context" *ngIf="[32mhinduYearLabel[37m() as yearLabel">{{ year...
+          ╵                            [32m~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m

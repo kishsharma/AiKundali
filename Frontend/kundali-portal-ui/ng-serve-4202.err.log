@@ -1,0 +1,3917 @@
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2341: Property 'translatePlanetName' is private and only accessible within class 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:484:25:
+[37m      484 │                       {{ [32mtranslatePlanetName[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:488:25:
+[37m      488 │                   <td>{{ [32mtranslateSignName[37m(planet.sign) }}</td>
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:515:23:
+[37m      515 │                     {{ [32mtranslateNakshatraName[37m(planet.nakshatra) }}
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'ApiTermTranslationService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:79:28:
+[37m      79 │   private apiTerms = inject([32mApiTermTranslationService[37m);
+         ╵                             [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2341: Property 'translatePlanetName' is private and only accessible within class 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:484:25:
+[37m      484 │                       {{ [32mtranslatePlanetName[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:488:25:
+[37m      488 │                   <td>{{ [32mtranslateSignName[37m(planet.sign) }}</td>
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:515:23:
+[37m      515 │                     {{ [32mtranslateNakshatraName[37m(planet.nakshatra) }}
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'ApiTermTranslationService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:79:28:
+[37m      79 │   private apiTerms = inject([32mApiTermTranslationService[37m);
+         ╵                             [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:395:27:
+[37m      395 │ ...const ascendant = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:396:23:
+[37m      396 │     const rashi = this.[32mtranslateSignName[37m(this.firstText(this.summ...
+          ╵                        [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:397:27:
+[37m      397 │ ...st nakshatra = this.[32mtranslateNakshatraName[37m(this.firstText(this...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:560:27:
+[37m      560 │ ...const ascendant = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:561:26:
+[37m      561 │     const moonSign = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:562:27:
+[37m      562 │ ...st nakshatra = this.[32mtranslateNakshatraName[37m(this.firstText(this...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2341: Property 'translatePlanetName' is private and only accessible within class 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:484:25:
+[37m      484 │                       {{ [32mtranslatePlanetName[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:488:25:
+[37m      488 │                   <td>{{ [32mtranslateSignName[37m(planet.sign) }}</td>
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:515:23:
+[37m      515 │                     {{ [32mtranslateNakshatraName[37m(planet.nakshatra) }}
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'ApiTermTranslationService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:79:28:
+[37m      79 │   private apiTerms = inject([32mApiTermTranslationService[37m);
+         ╵                             [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:395:27:
+[37m      395 │ ...const ascendant = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:396:23:
+[37m      396 │     const rashi = this.[32mtranslateSignName[37m(this.firstText(this.summ...
+          ╵                        [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:397:27:
+[37m      397 │ ...st nakshatra = this.[32mtranslateNakshatraName[37m(this.firstText(this...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:560:27:
+[37m      560 │ ...const ascendant = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:561:26:
+[37m      561 │     const moonSign = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:562:27:
+[37m      562 │ ...st nakshatra = this.[32mtranslateNakshatraName[37m(this.firstText(this...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2341: Property 'translatePlanetName' is private and only accessible within class 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:484:25:
+[37m      484 │                       {{ [32mtranslatePlanetName[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:488:25:
+[37m      488 │                   <td>{{ [32mtranslateSignName[37m(planet.sign) }}</td>
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:515:23:
+[37m      515 │                     {{ [32mtranslateNakshatraName[37m(planet.nakshatra) }}
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:67:15:
+[37m      67 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'ApiTermTranslationService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:79:28:
+[37m      79 │   private apiTerms = inject([32mApiTermTranslationService[37m);
+         ╵                             [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:395:27:
+[37m      395 │ ...const ascendant = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:396:23:
+[37m      396 │     const rashi = this.[32mtranslateSignName[37m(this.firstText(this.summ...
+          ╵                        [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:397:27:
+[37m      397 │ ...st nakshatra = this.[32mtranslateNakshatraName[37m(this.firstText(this...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:560:27:
+[37m      560 │ ...const ascendant = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:561:26:
+[37m      561 │     const moonSign = this.[32mtranslateSignName[37m(this.firstText(this.s...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:562:27:
+[37m      562 │ ...st nakshatra = this.[32mtranslateNakshatraName[37m(this.firstText(this...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mexpected "{".
+    ╷
+664 │ :host app-section-card.chart-section-pinned {`r`n  position: sticky;`r`n  top: 84px;`r`n  z-index: 760;`r`n  display: block;`r`n  align-self: start;`r`n}`r`n`r`n:host ::ng-deep app-section-card.chart-section-pinned > .card {`r`n  border-color: color-mix(in srgb, var(--brass) 44%, var(--theme-line));
+    │                                                                    ^
+    ╵
+  src\app\modules\kundali\kundali.component.scss 664:68  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mexpected "{".
+   ╷
+25 │   grid-template-columns: minmax(0, 1fr);`r`n  align-items: start;
+   │                                                                 ^
+   ╵
+  src\app\modules\kundali\kundali.component.scss 25:65  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mExpected identifier.
+   ╷
+23 │     $1600; }
+   │      ^
+   ╵
+  src\app\modules\panchang\muhurtha.component.ts 23:6  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mExpected identifier.
+   ╷
+23 │     $1600; }
+   │      ^
+   ╵
+  src\app\modules\panchang\muhurtha.component.ts 23:6  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mExpected identifier.
+   ╷
+23 │     $1600; }
+   │      ^
+   ╵
+  src\app\modules\panchang\muhurtha.component.ts 23:6  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mExpected identifier.
+   ╷
+23 │     $1600; }
+   │      ^
+   ╵
+  src\app\modules\panchang\muhurtha.component.ts 23:6  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: CosmicLoaderComponent is not used within the template of KundaliComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:49:4:
+[37m      49 │     [32mCosmicLoaderComponent[37m
+         ╵     [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'saveCurrentKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:13:17:
+[37m      13 │         (click)="[32msaveCurrentKundali[37m()"
+         ╵                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savingKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:14:20:
+[37m      14 │         [disabled]="[32msavingKundali[37m || loading"
+         ╵                     [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savingKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:15:27:
+[37m      15 │         [attr.aria-label]="[32msavingKundali[37m ? 'Saving kundali' : (sav...
+         ╵                            [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savedKundaliId' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:15:63:
+[37m      15 │ ...li ? 'Saving kundali' : ([32msavedKundaliId[37m ? 'Save kundali again' ...
+         ╵                             [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savingKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:22:17:
+[37m      22 │         <span>{{ [32msavingKundali[37m ? 'Saving' : (savedKundaliId ? 'Sav...
+         ╵                  [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savedKundaliId' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:22:45:
+[37m      22 │ ...ingKundali ? 'Saving' : ([32msavedKundaliId[37m ? 'Save Again' : 'Save'...
+         ╵                             [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'saveMessage' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:42:35:
+[37m      42 │ ...n class="save-status" *ngIf="[32msaveMessage[37m">{{ saveMessage }}</span>
+         ╵                                 [32m~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'saveMessage' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:42:51:
+[37m      42 │ ...n class="save-status" *ngIf="saveMessage">{{ [32msaveMessage[37m }}</span>
+         ╵                                                 [32m~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'kundaliPreparationSteps' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:68:50:
+[37m      68 │ ...*ngFor="let step of [32mkundaliPreparationSteps[37m; let stepIndex = in...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'janmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:75:39:
+[37m      75 │ ...ss="janma-story-rail" *ngIf="[32mjanmaStoryLines[37m.length && showChart">
+         ╵                                 [32m~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayPersonName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:79:17:
+[37m      79 │       <strong>{{ [32mdisplayPersonName[37m || 'Birth Chart' }}</strong>
+         ╵                  [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayedJanmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:82:48:
+[37m      82 │ ...*ngFor="let line of [32mdisplayedJanmaStoryLines[37m; let storyIndex = ...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayedJanmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:82:129:
+[37m      82 │ ...ve]="storyIndex === [32mdisplayedJanmaStoryLines[37m.length - 1 || disp...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayedJanmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:82:168:
+[37m      82 │ ...Lines.length - 1 || [32mdisplayedJanmaStoryLines[37m[storyIndex + 1] ==...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getHighlightedStoryLine' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:83:27:
+[37m      83 │         <span [innerHTML]="[32mgetHighlightedStoryLine[37m(line)"></span>
+         ╵                            [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isJanmaStoryComplete' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:84:53:
+[37m      84 │ ...et" [class.complete]="[32misJanmaStoryComplete[37m()" *ngIf="shouldShow...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'shouldShowStoryStar' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:84:84:
+[37m      84 │ ...oryComplete()" *ngIf="[32mshouldShowStoryStar[37m(storyIndex, line)"></...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'showChartBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:181:55:
+[37m      181 │ ...-branding-card" *ngIf="[32mshowChartBranding[37m && activeBranding as ...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:181:76:
+[37m      181 │ ...ng-card" *ngIf="showChartBranding && [32mactiveBranding[37m as branding">
+          ╵                                         [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'chandraRashiWatermark' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:195:65:
+[37m      195 │ ... *ngIf="showChart && [32mchandraRashiWatermark[37m as rashiWatermark" ...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportLogoUrl' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:202:24:
+[37m      202 │             <img [src]="[32mreportLogoUrl[37m" class="brand-logo" alt="Re...
+          ╵                         [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:211:43:
+[37m      211 │ ...      <h2 class="astrologer-name">{{ [32mreportAstrologerName[37m }}</h2>
+          ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerDesignation' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:212:46:
+[37m      212 │ ...class="astrologer-title">{{ [32mreportAstrologerDesignation[37m }}</span>
+          ╵                                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerContact' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:214:49:
+[37m      214 │ ...ger-contact" *ngIf="[32mreportAstrologerContact[37m">{{ reportAstrolog...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerContact' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:214:77:
+[37m      214 │ ...*ngIf="reportAstrologerContact">{{ [32mreportAstrologerContact[37m }}</p>
+          ╵                                       [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'showPdfBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:215:49:
+[37m      215 │ ...rologer-contact" *ngIf="[32mshowPdfBranding[37m && activeBranding?.add...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:215:68:
+[37m      215 │ ...oger-contact" *ngIf="showPdfBranding && [32mactiveBranding[37m?.address">
+          ╵                                            [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:216:17:
+[37m      216 │               {{ [32mactiveBranding[37m?.address }}
+          ╵                  [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:237:92:
+[37m      237 │ ...chart' | transloco" [class.chart-section-pinned]="[32misChartPinned[37m">
+          ╵                                                      [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:240:61:
+[37m      240 │ ...utton" role="tab" [class.active]="[32mactiveDivisionalChart[37m === 'd1'"
+          ╵                                      [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:241:36:
+[37m      241 │ ...attr.aria-selected]="[32mactiveDivisionalChart[37m === 'd1'" (click)="...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setActiveDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:241:77:
+[37m      241 │ ...visionalChart === 'd1'" (click)="[32msetActiveDivisionalChart[37m('d1')">
+          ╵                                     [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:245:61:
+[37m      245 │ ...utton" role="tab" [class.active]="[32mactiveDivisionalChart[37m === 'd9'"
+          ╵                                      [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:246:36:
+[37m      246 │ ...attr.aria-selected]="[32mactiveDivisionalChart[37m === 'd9'" [disabled...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:246:81:
+[37m      246 │ ...-selected]="activeDivisionalChart === 'd9'" [disabled]="![32md9Chart[37m"
+          ╵                                                             [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setActiveDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:247:23:
+[37m      247 │               (click)="[32msetActiveDivisionalChart[37m('d9')">
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:272:73:
+[37m      272 │ ...="button" class="chart-pin-button" [class.active]="[32misChartPinned[37m"
+          ╵                                                       [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:273:33:
+[37m      273 │ ...    [attr.aria-pressed]="[32misChartPinned[37m" [attr.title]="isChartP...
+          ╵                             [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:273:62:
+[37m      273 │ ...artPinned" [attr.title]="[32misChartPinned[37m ? 'Unpin chart' : 'Pin ...
+          ╵                             [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'toggleChartPin' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:274:21:
+[37m      274 │             (click)="[32mtoggleChartPin[37m()">
+          ╵                      [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:278:21:
+[37m      278 │             <span>{{ [32misChartPinned[37m ? 'Pinned' : 'Pin' }}</span>
+          ╵                      [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartTitle' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:286:44:
+[37m      286 │ ...           <div class="chart-title">{{ [32mprimaryChartTitle[37m }}</div>
+          ╵                                           [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartPlanets' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:287:87:
+[37m      287 │ ...gIf="activeChartType === 'north'" [planets]="[32mprimaryChartPlanets[37m"
+          ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartAscendant' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:288:31:
+[37m      288 │ ...        [ascendant]="[32mprimaryChartAscendant[37m" [housesData]="prim...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:288:68:
+[37m      288 │ ...endant]="primaryChartAscendant" [housesData]="[32mprimaryChartHouses[37m"
+          ╵                                                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartPlanets' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:291:87:
+[37m      291 │ ...gIf="activeChartType === 'south'" [planets]="[32mprimaryChartPlanets[37m"
+          ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartAscendant' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:292:31:
+[37m      292 │ ...        [ascendant]="[32mprimaryChartAscendant[37m" [housesData]="prim...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:292:68:
+[37m      292 │ ...endant]="primaryChartAscendant" [housesData]="[32mprimaryChartHouses[37m"
+          ╵                                                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartPlanets' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:295:84:
+[37m      295 │ ...f="activeChartType === 'western'" [planets]="[32mprimaryChartPlanets[37m"
+          ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartAscendant' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:296:31:
+[37m      296 │ ...        [ascendant]="[32mprimaryChartAscendant[37m" [housesData]="prim...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:296:68:
+[37m      296 │ ...endant]="primaryChartAscendant" [housesData]="[32mprimaryChartHouses[37m"
+          ╵                                                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:315:92:
+[37m      315 │ ..."house-details-card-container pdf-d9-chart-card" *ngIf="[32md9Chart[37m">
+          ╵                                                            [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:319:85:
+[37m      319 │ ...f="activeChartType === 'north'" [planets]="[32md9Chart[37m.planets ?? []"
+          ╵                                               [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:320:29:
+[37m      320 │                 [ascendant]="[32md9Chart[37m.ascendant ?? ''" [housesData...
+          ╵                              [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:320:68:
+[37m      320 │ ...endant ?? ''" [housesData]="[32md9Chart[37m.houses ?? []"></app-north-...
+          ╵                                [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:322:85:
+[37m      322 │ ...f="activeChartType === 'south'" [planets]="[32md9Chart[37m.planets ?? []"
+          ╵                                               [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:323:29:
+[37m      323 │                 [ascendant]="[32md9Chart[37m.ascendant ?? ''" [housesData...
+          ╵                              [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:323:68:
+[37m      323 │ ...endant ?? ''" [housesData]="[32md9Chart[37m.houses ?? []"></app-south-...
+          ╵                                [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:325:82:
+[37m      325 │ ..."activeChartType === 'western'" [planets]="[32md9Chart[37m.planets ?? []"
+          ╵                                               [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:326:29:
+[37m      326 │                 [ascendant]="[32md9Chart[37m.ascendant ?? ''" [housesData...
+          ╵                              [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:326:68:
+[37m      326 │ ...endant ?? ''" [housesData]="[32md9Chart[37m.houses ?? []"></app-wester...
+          ╵                                [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-kundali-metadata-insights' is not a known element:
+1. If 'app-kundali-metadata-insights' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-kundali-metadata-insights' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:339:10:
+[37m      339 │           [32m<app-kundali-metadata-insights[37m
+          ╵           [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'rashiInsight' since it isn't a known property of 'app-kundali-metadata-insights'.
+1. If 'app-kundali-metadata-insights' is an Angular component and it has 'rashiInsight' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-kundali-metadata-insights' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:340:12:
+[37m      340 │             [32m[rashiInsight]="kundaliResponse?.rashiInsight"[37m
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'nakshatraInsight' since it isn't a known property of 'app-kundali-metadata-insights'.
+1. If 'app-kundali-metadata-insights' is an Angular component and it has 'nakshatraInsight' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-kundali-metadata-insights' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:341:12:
+[37m      341 │             [32m[nakshatraInsight]="kundaliResponse?.nakshatraInsight"[37m>
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-remedies-recommendation' is not a known element:
+1. If 'app-remedies-recommendation' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-remedies-recommendation' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:346:10:
+[37m      346 │           [32m<app-remedies-recommendation[37m
+          ╵           [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'recommendation' since it isn't a known property of 'app-remedies-recommendation'.
+1. If 'app-remedies-recommendation' is an Angular component and it has 'recommendation' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-remedies-recommendation' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:347:12:
+[37m      347 │             [32m[recommendation]="kundaliResponse?.remediesRecommenda[37m...
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getPlanetSupportClass' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:513:33:
+[37m      513 │                       [ngClass]="[32mgetPlanetSupportClass[37m(planet)"
+          ╵                                  [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getPlanetGlyph' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:515:25:
+[37m      515 │                       {{ [32mgetPlanetGlyph[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translatePlanetName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:519:25:
+[37m      519 │                       {{ [32mtranslatePlanetName[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:523:25:
+[37m      523 │                   <td>{{ [32mtranslateSignName[37m(planet.sign) }}</td>
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hasPlanetAspects' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:537:38:
+[37m      537 │                       [class.empty]="![32mhasPlanetAspects[37m(planet)"
+          ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getAspectedByText' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:538:36:
+[37m      538 │                       [attr.title]="[32mgetAspectedByText[37m(planet)">
+          ╵                                     [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getAspectedByText' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:539:25:
+[37m      539 │                       {{ [32mgetAspectedByText[37m(planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:550:23:
+[37m      550 │                     {{ [32mtranslateNakshatraName[37m(planet.nakshatra) }}
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-sudarshan-chakra-chart' is not a known element:
+1. If 'app-sudarshan-chakra-chart' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sudarshan-chakra-chart' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:573:12:
+[37m      573 │             [32m<app-sudarshan-chakra-chart [planets]="planets" [asce[37m...
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'planets' since it isn't a known property of 'app-sudarshan-chakra-chart'.
+1. If 'app-sudarshan-chakra-chart' is an Angular component and it has 'planets' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sudarshan-chakra-chart' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:573:40:
+[37m      573 │ ...udarshan-chakra-chart [32m[planets]="planets"[37m [ascendant]="summary...
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'ascendant' since it isn't a known property of 'app-sudarshan-chakra-chart'.
+1. If 'app-sudarshan-chakra-chart' is an Angular component and it has 'ascendant' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sudarshan-chakra-chart' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:573:60:
+[37m      573 │ ...hakra-chart [planets]="planets" [32m[ascendant]="summary?.ascendant"[37m>
+          ╵                                    [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getTopSudarshanHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:597:43:
+[37m      597 │ ...      <li *ngFor="let house of [32mgetTopSudarshanHouses[37m(sudarshan)">
+          ╵                                   [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-transit-insight' is not a known element:
+1. If 'app-transit-insight' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-transit-insight' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:615:12:
+[37m      615 │             [32m<app-transit-insight[37m
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'transitInsight' since it isn't a known property of 'app-transit-insight'.
+1. If 'app-transit-insight' is an Angular component and it has 'transitInsight' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-transit-insight' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:616:14:
+[37m      616 │               [32m[transitInsight]="kundaliResponse?.transitInsight"[37m
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'housesData' since it isn't a known property of 'app-transit-insight'.
+1. If 'app-transit-insight' is an Angular component and it has 'housesData' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-transit-insight' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:617:14:
+[37m      617 │               [32m[housesData]="d1Houses"[37m>
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd1Houses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:617:28:
+[37m      617 │               [housesData]="[32md1Houses[37m">
+          ╵                             [32m~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'openHoraverse' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:630:65:
+[37m      630 │ ...e="button" class="horaverse-enter-btn" (click)="[32mopenHoraverse[37m()">
+          ╵                                                    [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'horaverseOpenError' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:633:44:
+[37m      633 │ ...raverse-error" *ngIf="[32mhoraverseOpenError[37m">{{ horaverseOpenErro...
+          ╵                          [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'horaverseOpenError' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:633:67:
+[37m      633 │ ...rror" *ngIf="horaverseOpenError">{{ [32mhoraverseOpenError[37m }}</small>
+          ╵                                        [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type '{ name: string | null | undefined; gender: string | null | undefined; birthDateTime: string; birthplace: string | null | undefined; latitude: string | null | undefined; longitude: string | ... 1 more ... | undefined; timeZoneOffset: number; }' is not assignable to parameter of type 'GenerateKundaliRequest'.
+  Types of property 'name' are incompatible.
+    Type 'string | null | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:230:51:
+[37m      230 │ ...    this.dashaApiService.getMahadashaPeriods([32mpayload[37m).subscribe({
+          ╵                                                 [32m~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:4:8:
+[37m      4 │ @import [32m[37m'./app/config/theme/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: CosmicLoaderComponent is not used within the template of KundaliComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:49:4:
+[37m      49 │     [32mCosmicLoaderComponent[37m
+         ╵     [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: TranslocoPipe is not used within the template of CosmicLoaderComponent[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/cosmic-loader/cosmic-loader.component.ts:9:26:
+[37m      9 │   imports: [CommonModule, [32mTranslocoPipe[37m],
+        ╵                           [32m~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'saveCurrentKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:13:17:
+[37m      13 │         (click)="[32msaveCurrentKundali[37m()"
+         ╵                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savingKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:14:20:
+[37m      14 │         [disabled]="[32msavingKundali[37m || loading"
+         ╵                     [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savingKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:15:27:
+[37m      15 │         [attr.aria-label]="[32msavingKundali[37m ? 'Saving kundali' : (sav...
+         ╵                            [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savedKundaliId' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:15:63:
+[37m      15 │ ...li ? 'Saving kundali' : ([32msavedKundaliId[37m ? 'Save kundali again' ...
+         ╵                             [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savingKundali' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:22:17:
+[37m      22 │         <span>{{ [32msavingKundali[37m ? 'Saving' : (savedKundaliId ? 'Sav...
+         ╵                  [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'savedKundaliId' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:22:45:
+[37m      22 │ ...ingKundali ? 'Saving' : ([32msavedKundaliId[37m ? 'Save Again' : 'Save'...
+         ╵                             [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'saveMessage' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:42:35:
+[37m      42 │ ...n class="save-status" *ngIf="[32msaveMessage[37m">{{ saveMessage }}</span>
+         ╵                                 [32m~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'saveMessage' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:42:51:
+[37m      42 │ ...n class="save-status" *ngIf="saveMessage">{{ [32msaveMessage[37m }}</span>
+         ╵                                                 [32m~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'kundaliPreparationSteps' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:68:50:
+[37m      68 │ ...*ngFor="let step of [32mkundaliPreparationSteps[37m; let stepIndex = in...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'janmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:75:39:
+[37m      75 │ ...ss="janma-story-rail" *ngIf="[32mjanmaStoryLines[37m.length && showChart">
+         ╵                                 [32m~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayPersonName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:79:17:
+[37m      79 │       <strong>{{ [32mdisplayPersonName[37m || 'Birth Chart' }}</strong>
+         ╵                  [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayedJanmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:82:48:
+[37m      82 │ ...*ngFor="let line of [32mdisplayedJanmaStoryLines[37m; let storyIndex = ...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayedJanmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:82:129:
+[37m      82 │ ...ve]="storyIndex === [32mdisplayedJanmaStoryLines[37m.length - 1 || disp...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'displayedJanmaStoryLines' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:82:168:
+[37m      82 │ ...Lines.length - 1 || [32mdisplayedJanmaStoryLines[37m[storyIndex + 1] ==...
+         ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getHighlightedStoryLine' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:83:27:
+[37m      83 │         <span [innerHTML]="[32mgetHighlightedStoryLine[37m(line)"></span>
+         ╵                            [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isJanmaStoryComplete' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:84:53:
+[37m      84 │ ...et" [class.complete]="[32misJanmaStoryComplete[37m()" *ngIf="shouldShow...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'shouldShowStoryStar' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:84:84:
+[37m      84 │ ...oryComplete()" *ngIf="[32mshouldShowStoryStar[37m(storyIndex, line)"></...
+         ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'showChartBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:181:55:
+[37m      181 │ ...-branding-card" *ngIf="[32mshowChartBranding[37m && activeBranding as ...
+          ╵                           [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:181:76:
+[37m      181 │ ...ng-card" *ngIf="showChartBranding && [32mactiveBranding[37m as branding">
+          ╵                                         [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'chandraRashiWatermark' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:195:65:
+[37m      195 │ ... *ngIf="showChart && [32mchandraRashiWatermark[37m as rashiWatermark" ...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportLogoUrl' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:202:24:
+[37m      202 │             <img [src]="[32mreportLogoUrl[37m" class="brand-logo" alt="Re...
+          ╵                         [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:211:43:
+[37m      211 │ ...      <h2 class="astrologer-name">{{ [32mreportAstrologerName[37m }}</h2>
+          ╵                                         [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerDesignation' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:212:46:
+[37m      212 │ ...class="astrologer-title">{{ [32mreportAstrologerDesignation[37m }}</span>
+          ╵                                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerContact' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:214:49:
+[37m      214 │ ...ger-contact" *ngIf="[32mreportAstrologerContact[37m">{{ reportAstrolog...
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'reportAstrologerContact' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:214:77:
+[37m      214 │ ...*ngIf="reportAstrologerContact">{{ [32mreportAstrologerContact[37m }}</p>
+          ╵                                       [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'showPdfBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:215:49:
+[37m      215 │ ...rologer-contact" *ngIf="[32mshowPdfBranding[37m && activeBranding?.add...
+          ╵                            [32m~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:215:68:
+[37m      215 │ ...oger-contact" *ngIf="showPdfBranding && [32mactiveBranding[37m?.address">
+          ╵                                            [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeBranding' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:216:17:
+[37m      216 │               {{ [32mactiveBranding[37m?.address }}
+          ╵                  [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:237:92:
+[37m      237 │ ...chart' | transloco" [class.chart-section-pinned]="[32misChartPinned[37m">
+          ╵                                                      [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:240:61:
+[37m      240 │ ...utton" role="tab" [class.active]="[32mactiveDivisionalChart[37m === 'd1'"
+          ╵                                      [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:241:36:
+[37m      241 │ ...attr.aria-selected]="[32mactiveDivisionalChart[37m === 'd1'" (click)="...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setActiveDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:241:77:
+[37m      241 │ ...visionalChart === 'd1'" (click)="[32msetActiveDivisionalChart[37m('d1')">
+          ╵                                     [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:245:61:
+[37m      245 │ ...utton" role="tab" [class.active]="[32mactiveDivisionalChart[37m === 'd9'"
+          ╵                                      [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'activeDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:246:36:
+[37m      246 │ ...attr.aria-selected]="[32mactiveDivisionalChart[37m === 'd9'" [disabled...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:246:81:
+[37m      246 │ ...-selected]="activeDivisionalChart === 'd9'" [disabled]="![32md9Chart[37m"
+          ╵                                                             [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'setActiveDivisionalChart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:247:23:
+[37m      247 │               (click)="[32msetActiveDivisionalChart[37m('d9')">
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:272:73:
+[37m      272 │ ...="button" class="chart-pin-button" [class.active]="[32misChartPinned[37m"
+          ╵                                                       [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:273:33:
+[37m      273 │ ...    [attr.aria-pressed]="[32misChartPinned[37m" [attr.title]="isChartP...
+          ╵                             [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:273:62:
+[37m      273 │ ...artPinned" [attr.title]="[32misChartPinned[37m ? 'Unpin chart' : 'Pin ...
+          ╵                             [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'toggleChartPin' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:274:21:
+[37m      274 │             (click)="[32mtoggleChartPin[37m()">
+          ╵                      [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isChartPinned' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:278:21:
+[37m      278 │             <span>{{ [32misChartPinned[37m ? 'Pinned' : 'Pin' }}</span>
+          ╵                      [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartTitle' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:286:44:
+[37m      286 │ ...           <div class="chart-title">{{ [32mprimaryChartTitle[37m }}</div>
+          ╵                                           [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartPlanets' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:287:87:
+[37m      287 │ ...gIf="activeChartType === 'north'" [planets]="[32mprimaryChartPlanets[37m"
+          ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartAscendant' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:288:31:
+[37m      288 │ ...        [ascendant]="[32mprimaryChartAscendant[37m" [housesData]="prim...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:288:68:
+[37m      288 │ ...endant]="primaryChartAscendant" [housesData]="[32mprimaryChartHouses[37m"
+          ╵                                                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartPlanets' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:291:87:
+[37m      291 │ ...gIf="activeChartType === 'south'" [planets]="[32mprimaryChartPlanets[37m"
+          ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartAscendant' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:292:31:
+[37m      292 │ ...        [ascendant]="[32mprimaryChartAscendant[37m" [housesData]="prim...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:292:68:
+[37m      292 │ ...endant]="primaryChartAscendant" [housesData]="[32mprimaryChartHouses[37m"
+          ╵                                                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartPlanets' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:295:84:
+[37m      295 │ ...f="activeChartType === 'western'" [planets]="[32mprimaryChartPlanets[37m"
+          ╵                                                 [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartAscendant' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:296:31:
+[37m      296 │ ...        [ascendant]="[32mprimaryChartAscendant[37m" [housesData]="prim...
+          ╵                         [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'primaryChartHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:296:68:
+[37m      296 │ ...endant]="primaryChartAscendant" [housesData]="[32mprimaryChartHouses[37m"
+          ╵                                                  [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:315:92:
+[37m      315 │ ..."house-details-card-container pdf-d9-chart-card" *ngIf="[32md9Chart[37m">
+          ╵                                                            [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:319:85:
+[37m      319 │ ...f="activeChartType === 'north'" [planets]="[32md9Chart[37m.planets ?? []"
+          ╵                                               [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:320:29:
+[37m      320 │                 [ascendant]="[32md9Chart[37m.ascendant ?? ''" [housesData...
+          ╵                              [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:320:68:
+[37m      320 │ ...endant ?? ''" [housesData]="[32md9Chart[37m.houses ?? []"></app-north-...
+          ╵                                [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:322:85:
+[37m      322 │ ...f="activeChartType === 'south'" [planets]="[32md9Chart[37m.planets ?? []"
+          ╵                                               [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:323:29:
+[37m      323 │                 [ascendant]="[32md9Chart[37m.ascendant ?? ''" [housesData...
+          ╵                              [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:323:68:
+[37m      323 │ ...endant ?? ''" [housesData]="[32md9Chart[37m.houses ?? []"></app-south-...
+          ╵                                [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:325:82:
+[37m      325 │ ..."activeChartType === 'western'" [planets]="[32md9Chart[37m.planets ?? []"
+          ╵                                               [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:326:29:
+[37m      326 │                 [ascendant]="[32md9Chart[37m.ascendant ?? ''" [housesData...
+          ╵                              [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd9Chart' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:326:68:
+[37m      326 │ ...endant ?? ''" [housesData]="[32md9Chart[37m.houses ?? []"></app-wester...
+          ╵                                [32m~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-kundali-metadata-insights' is not a known element:
+1. If 'app-kundali-metadata-insights' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-kundali-metadata-insights' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:339:10:
+[37m      339 │           [32m<app-kundali-metadata-insights[37m
+          ╵           [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'rashiInsight' since it isn't a known property of 'app-kundali-metadata-insights'.
+1. If 'app-kundali-metadata-insights' is an Angular component and it has 'rashiInsight' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-kundali-metadata-insights' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:340:12:
+[37m      340 │             [32m[rashiInsight]="kundaliResponse?.rashiInsight"[37m
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'nakshatraInsight' since it isn't a known property of 'app-kundali-metadata-insights'.
+1. If 'app-kundali-metadata-insights' is an Angular component and it has 'nakshatraInsight' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-kundali-metadata-insights' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:341:12:
+[37m      341 │             [32m[nakshatraInsight]="kundaliResponse?.nakshatraInsight"[37m>
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-remedies-recommendation' is not a known element:
+1. If 'app-remedies-recommendation' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-remedies-recommendation' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:346:10:
+[37m      346 │           [32m<app-remedies-recommendation[37m
+          ╵           [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'recommendation' since it isn't a known property of 'app-remedies-recommendation'.
+1. If 'app-remedies-recommendation' is an Angular component and it has 'recommendation' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-remedies-recommendation' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:347:12:
+[37m      347 │             [32m[recommendation]="kundaliResponse?.remediesRecommenda[37m...
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getPlanetSupportClass' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:513:33:
+[37m      513 │                       [ngClass]="[32mgetPlanetSupportClass[37m(planet)"
+          ╵                                  [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getPlanetGlyph' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:515:25:
+[37m      515 │                       {{ [32mgetPlanetGlyph[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translatePlanetName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:519:25:
+[37m      519 │                       {{ [32mtranslatePlanetName[37m(planet.planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateSignName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:523:25:
+[37m      523 │                   <td>{{ [32mtranslateSignName[37m(planet.sign) }}</td>
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'hasPlanetAspects' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:537:38:
+[37m      537 │                       [class.empty]="![32mhasPlanetAspects[37m(planet)"
+          ╵                                       [32m~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getAspectedByText' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:538:36:
+[37m      538 │                       [attr.title]="[32mgetAspectedByText[37m(planet)">
+          ╵                                     [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getAspectedByText' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:539:25:
+[37m      539 │                       {{ [32mgetAspectedByText[37m(planet) }}
+          ╵                          [32m~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'translateNakshatraName' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:550:23:
+[37m      550 │                     {{ [32mtranslateNakshatraName[37m(planet.nakshatra) }}
+          ╵                        [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-sudarshan-chakra-chart' is not a known element:
+1. If 'app-sudarshan-chakra-chart' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sudarshan-chakra-chart' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:573:12:
+[37m      573 │             [32m<app-sudarshan-chakra-chart [planets]="planets" [asce[37m...
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'planets' since it isn't a known property of 'app-sudarshan-chakra-chart'.
+1. If 'app-sudarshan-chakra-chart' is an Angular component and it has 'planets' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sudarshan-chakra-chart' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:573:40:
+[37m      573 │ ...udarshan-chakra-chart [32m[planets]="planets"[37m [ascendant]="summary...
+          ╵                          [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'ascendant' since it isn't a known property of 'app-sudarshan-chakra-chart'.
+1. If 'app-sudarshan-chakra-chart' is an Angular component and it has 'ascendant' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sudarshan-chakra-chart' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:573:60:
+[37m      573 │ ...hakra-chart [planets]="planets" [32m[ascendant]="summary?.ascendant"[37m>
+          ╵                                    [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getTopSudarshanHouses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:597:43:
+[37m      597 │ ...      <li *ngFor="let house of [32mgetTopSudarshanHouses[37m(sudarshan)">
+          ╵                                   [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-transit-insight' is not a known element:
+1. If 'app-transit-insight' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-transit-insight' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:615:12:
+[37m      615 │             [32m<app-transit-insight[37m
+          ╵             [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'transitInsight' since it isn't a known property of 'app-transit-insight'.
+1. If 'app-transit-insight' is an Angular component and it has 'transitInsight' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-transit-insight' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:616:14:
+[37m      616 │               [32m[transitInsight]="kundaliResponse?.transitInsight"[37m
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'housesData' since it isn't a known property of 'app-transit-insight'.
+1. If 'app-transit-insight' is an Angular component and it has 'housesData' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-transit-insight' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:617:14:
+[37m      617 │               [32m[housesData]="d1Houses"[37m>
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'd1Houses' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:617:28:
+[37m      617 │               [housesData]="[32md1Houses[37m">
+          ╵                             [32m~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'openHoraverse' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:630:65:
+[37m      630 │ ...e="button" class="horaverse-enter-btn" (click)="[32mopenHoraverse[37m()">
+          ╵                                                    [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'horaverseOpenError' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:633:44:
+[37m      633 │ ...raverse-error" *ngIf="[32mhoraverseOpenError[37m">{{ horaverseOpenErro...
+          ╵                          [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'horaverseOpenError' does not exist on type 'KundaliComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.html:633:67:
+[37m      633 │ ...rror" *ngIf="horaverseOpenError">{{ [32mhoraverseOpenError[37m }}</small>
+          ╵                                        [32m~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component KundaliComponent.
+
+    src/app/modules/kundali/kundali.component.ts:51:15:
+[37m      51 │   templateUrl: [32m'./kundali.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2345: Argument of type '{ name: string | null | undefined; gender: string | null | undefined; birthDateTime: string; birthplace: string | null | undefined; latitude: string | null | undefined; longitude: string | ... 1 more ... | undefined; timeZoneOffset: number; }' is not assignable to parameter of type 'GenerateKundaliRequest'.
+  Types of property 'name' are incompatible.
+    Type 'string | null | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/modules/kundali/kundali.component.ts:230:51:
+[37m      230 │ ...    this.dashaApiService.getMahadashaPeriods([32mpayload[37m).subscribe({
+          ╵                                                 [32m~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'title' does not exist on type '{ titleKey: string; descriptionKey: string; completed: boolean; }'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/cosmic-loader/cosmic-loader.component.html:39:22:
+[37m      39 │           <h4>{{ step.[32mtitle[37m }}</h4>
+         ╵                       [32m~~~~~[0m
+
+  Error occurs in the template of component CosmicLoaderComponent.
+
+    src/app/shared/components/cosmic-loader/cosmic-loader.component.ts:11:15:
+[37m      11 │   templateUrl: [32m'./cosmic-loader.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2551: Property 'description' does not exist on type '{ titleKey: string; descriptionKey: string; completed: boolean; }'. Did you mean 'descriptionKey'?[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/components/cosmic-loader/cosmic-loader.component.html:40:21:
+[37m      40 │           <p>{{ step.[32mdescription[37m }}</p>
+         ╵                      [32m~~~~~~~~~~~[0m
+
+  Error occurs in the template of component CosmicLoaderComponent.
+
+    src/app/shared/components/cosmic-loader/cosmic-loader.component.ts:11:15:
+[37m      11 │   templateUrl: [32m'./cosmic-loader.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m

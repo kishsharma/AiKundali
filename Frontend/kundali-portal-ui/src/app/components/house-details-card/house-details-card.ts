@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 @Component({
   selector: 'app-house-details-card',
   standalone: true,
@@ -11,7 +12,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 export class HouseDetailsCard {
   @Input() houseData: any;
 
-  constructor(private readonly translocoService: TranslocoService) {}
+  constructor(private readonly translocoService: TranslocoService, private readonly apiTerms: ApiTermTranslationService) {}
 
   get aspectedByText(): string {
     const planets = this.normalizePlanetList(this.houseData?.aspectedBy);
@@ -21,7 +22,7 @@ export class HouseDetailsCard {
     }
 
     return planets
-      .map(planet => this.translatePlanetName(planet))
+      .map(planet => this.apiTerms.translatePlanet(planet))
       .join(', ');
   }
 
@@ -29,10 +30,12 @@ export class HouseDetailsCard {
     return this.normalizePlanetList(this.houseData?.aspectedBy).length > 0;
   }
 
-  private translatePlanetName(planet: string): string {
-    const key = `planet.${planet}`;
-    const translated = this.translocoService.translate(key);
-    return translated && translated !== key ? translated : planet;
+  translateSign(value: unknown): string {
+    return this.apiTerms.translateSign(value);
+  }
+
+  translatePlanet(value: unknown): string {
+    return this.apiTerms.translatePlanet(value);
   }
 
   private normalizePlanetList(value: any): string[] {

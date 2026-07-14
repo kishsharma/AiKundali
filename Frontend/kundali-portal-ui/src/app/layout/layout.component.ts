@@ -81,6 +81,31 @@ import { SidebarComponent } from './sidebar.component';
       }
     }
 
+    /* Runtime theme shell */
+    :host {
+      display: block;
+      min-height: 100dvh;
+      background: var(--theme-bg);
+      color: var(--theme-text);
+    }
+
+    .app-shell {
+      min-height: 100dvh;
+      height: auto;
+      background: var(--theme-bg);
+      color: var(--theme-text);
+    }
+
+    .app-container,
+    .content,
+    .content-wrapper {
+      background: transparent;
+      color: var(--theme-text);
+    }
+
+    .content {
+      scrollbar-color: color-mix(in srgb, var(--theme-accent) 42%, transparent) transparent;
+    }
     /* Scrollbar Styling */
     .content::-webkit-scrollbar {
       width: 8px;
@@ -91,11 +116,11 @@ import { SidebarComponent } from './sidebar.component';
     }
 
     .content::-webkit-scrollbar-thumb {
-      background: #BDBDBD;
+      background: color-mix(in srgb, var(--theme-accent) 42%, transparent);
       border-radius: 4px;
 
       &:hover {
-        background: #757575;
+        background: color-mix(in srgb, var(--theme-accent) 62%, transparent);
       }
     }
   `],

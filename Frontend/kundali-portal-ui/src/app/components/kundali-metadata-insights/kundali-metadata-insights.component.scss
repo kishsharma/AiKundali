@@ -7,11 +7,11 @@
 
 .metadata-card {
   min-width: 0;
-  border: 1px solid #e6e9f4;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 8px 22px rgba(16, 20, 61, 0.05);
   overflow: hidden;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-card);
+  background: color-mix(in srgb, var(--theme-surface) 86%, var(--theme-bg));
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--theme-bg) 58%, transparent);
 }
 
 .metadata-card-header {
@@ -20,12 +20,12 @@
   justify-content: space-between;
   gap: 10px;
   padding: 10px 12px;
-  border-bottom: 1px solid #edf0f8;
-  background: #fbfcff;
+  border-bottom: 1px solid var(--theme-line-soft);
+  background: color-mix(in srgb, var(--theme-surface-2) 70%, var(--theme-bg));
 }
 
 .metadata-card-header span {
-  color: #5d6689;
+  color: var(--theme-accent-soft);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.5px;
@@ -34,7 +34,7 @@
 
 .metadata-card-header strong {
   min-width: 0;
-  color: #10143d;
+  color: var(--theme-text);
   font-size: 13px;
   font-weight: 900;
   text-align: right;
@@ -51,7 +51,7 @@
   gap: 10px;
   align-items: center;
   padding: 8px 12px;
-  border-bottom: 1px solid #edf0f8;
+  border-bottom: 1px solid var(--theme-line-soft);
 }
 
 .metadata-row:last-child {
@@ -59,7 +59,7 @@
 }
 
 .metadata-label {
-  color: #5d6689;
+  color: var(--theme-text-muted);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.35px;
@@ -72,9 +72,9 @@
   justify-content: flex-end;
   gap: 6px;
   min-width: 0;
-  color: #10143d;
+  color: var(--theme-text);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
   text-align: right;
   word-break: break-word;
@@ -86,10 +86,10 @@
   width: 22px;
   height: 22px;
   min-width: 22px;
-  border: 1px solid #dbe5ff;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 42%, var(--theme-line));
   border-radius: 50%;
-  color: #6d28d9;
-  background: #f6f1ff;
+  color: var(--theme-accent);
+  background: color-mix(in srgb, var(--theme-accent) 13%, var(--theme-bg));
   font-size: 12px;
   line-height: 1;
 }
@@ -98,7 +98,7 @@
   width: 14px;
   height: 14px;
   min-width: 14px;
-  border: 1px solid #d9deee;
+  border: 1px solid var(--theme-line);
   border-radius: 50%;
 }
 
@@ -116,13 +116,19 @@
   margin-top: 6px !important;
 }
 
+:host-context(.pdf-mode) .metadata-card {
+  border-color: #e6e9f4 !important;
+}
+
 :host-context(.pdf-mode) .metadata-card-header {
   padding: 5px 7px !important;
+  border-bottom-color: #edf0f8 !important;
 }
 
 :host-context(.pdf-mode) .metadata-row {
   grid-template-columns: minmax(84px, 0.42fr) minmax(0, 1fr) !important;
   padding: 4px 7px !important;
+  border-bottom-color: #edf0f8 !important;
 }
 
 :host-context(.pdf-mode) .metadata-label,
@@ -154,6 +160,9 @@
   width: 16px !important;
   height: 16px !important;
   min-width: 16px !important;
+  color: #6d28d9 !important;
+  background: #f6f1ff !important;
+  border-color: #dbe5ff !important;
   font-size: 9px !important;
 }
 

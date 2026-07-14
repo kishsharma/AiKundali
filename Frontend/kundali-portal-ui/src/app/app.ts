@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './core/auth/auth.service';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class App {
   isPublicLanding = true;
  isUserMenuOpen = false;
  pageTitle = 'Kundali Portal';
-  constructor(private translocoService: TranslocoService, private router: Router,  public authService: AuthService,) {
+  constructor(private translocoService: TranslocoService, private router: Router, public authService: AuthService, public themeService: ThemeService) {
     this.activeLanguage = this.translocoService.getActiveLang();
     this.updateShellMode(this.router.url);
     this.router.events
@@ -76,3 +77,4 @@ logout(): void {
     this.isUserMenuOpen = false;
   }
 }
+

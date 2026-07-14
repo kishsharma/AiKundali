@@ -2,12 +2,17 @@
   <div class="cosmic-card">
     <div class="brand">✨ KundaliScore</div>
 
-    <h2>{{ 'loader.cosmicTitle' | transloco }}</h2>
+    <h2>The cosmos is aligning your birth chart...</h2>
 
     <p class="subtitle">
-      {{ 'loader.cosmicSubtitle' | transloco }}
+      Every planet, every house and every aspect is being interpreted.
     </p>
-
+<div class="progress-bar">
+  <div class="progress-fill" [style.width.%]="progress"></div>
+</div>
+<div class="progress-text">
+  {{ progress }}% completed
+</div>
     <div class="zodiac-wheel">
       <div class="sun"></div>
       <span>☉</span>
@@ -31,14 +36,14 @@
         </div>
 
         <div>
-          <h4>{{ step.titleKey | transloco }}</h4>
-          <p>{{ step.descriptionKey | transloco }}</p>
+          <h4>{{ step.title }}</h4>
+          <p>{{ step.description }}</p>
         </div>
       </div>
     </div>
 
     <div class="final-message">
-      {{ 'loader.cosmicFinalMessage' | transloco }}
+      Your cosmic blueprint is getting ready...
     </div>
   </div>
 </div>

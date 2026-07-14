@@ -1,387 +1,87 @@
 <!-- Application Root -->
-<div [class.public-shell]="isPublicLanding">
+<div class="root-shell" [class.public-shell]="isPublicLanding">
   <header class="app-topbar" [class.hidden]="!showAppTopbar">
-    <div class="app-brand">
-      <span class="brand-mark">✦</span>
-      <h1>Kundali<span>Score</span></h1>
+    <div class="app-brand" aria-label="HoraLife">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" fill="none">
+        <path class="mark-outline" d="M20 2 L38 20 L20 38 L2 20 Z" />
+        <path class="mark-lines" d="M20 2 L38 20 M38 20 L20 38 M20 38 L2 20 M2 20 L20 2" />
+        <circle class="mark-core" cx="20" cy="20" r="2.4" />
+      </svg>
+
+      <div class="brand-copy">
+        <h1><span class="brand-hora">Hora</span><span class="brand-score">Life</span></h1>
+        <small>Explainable Vedic Astrology</small>
+      </div>
     </div>
-<div class="language-switcher"  aria-label="Select language">
+
+    <div class="language-switcher" aria-label="Select language">
       <button type="button" [class.active]="activeLanguage === 'en'" (click)="changeLanguage('en')">English</button>
-      <button type="button" [class.active]="activeLanguage === 'hi'" (click)="changeLanguage('hi')">हिंदी</button>
-      <button type="button" [class.active]="activeLanguage === 'kn'" (click)="changeLanguage('kn')">ಕನ್ನಡ</button>
+      <button type="button" [class.active]="activeLanguage === 'hi'" (click)="changeLanguage('hi')">&#2361;&#2367;&#2306;&#2342;&#2368;</button>
+      <button type="button" [class.active]="activeLanguage === 'kn'" (click)="changeLanguage('kn')">&#3221;&#3240;&#3277;&#3240;&#3233;</button>
     </div>
 
-
-  <div class="topbar-right" *ngIf="showUserMenu">
-
-    <div
-      class="user-menu"
-      role="button"
-      tabindex="0"
-      (click)="toggleUserMenu()"
-      (keydown.enter)="toggleUserMenu()"
-      (keydown.space)="toggleUserMenu()"
-      [class.open]="isUserMenuOpen"
-      [attr.aria-expanded]="isUserMenuOpen"
-      aria-haspopup="menu"
-      aria-label="Open user menu">
-      <div class="user-avatar">
-        {{ userInitial }}
-      </div>
-
-      <div class="user-info">
-        <span class="user-name">{{ userName }}</span>
-        <small>{{ userEmail }}</small>
-      </div>
-
-      <span class="chevron">⌄</span>
+    <div class="theme-selector" aria-label="Select theme">
+      <button type="button" [class.active]="themeService.mode() === 'dark'" (click)="themeService.setTheme('dark')" title="Dark theme">&#9790;</button>
+      <button type="button" [class.active]="themeService.mode() === 'light'" (click)="themeService.setTheme('light')" title="Light theme">&#9728;</button>
+      <button type="button" [class.active]="themeService.mode() === 'hora'" (click)="themeService.setTheme('hora')" title="Hora theme">H</button>
     </div>
 
-    <div class="user-dropdown" *ngIf="isUserMenuOpen">
-      <div class="dropdown-header">
-        <strong>{{ userName }}</strong>
-        <small>{{ userEmail }}</small>
+    <div class="topbar-right" *ngIf="showUserMenu">
+      <div
+        class="user-menu"
+        role="button"
+        tabindex="0"
+        (click)="toggleUserMenu()"
+        (keydown.enter)="toggleUserMenu()"
+        (keydown.space)="toggleUserMenu()"
+        [class.open]="isUserMenuOpen"
+        [attr.aria-expanded]="isUserMenuOpen"
+        aria-haspopup="menu"
+        aria-label="Open user menu">
+        <div class="user-avatar">
+          {{ userInitial }}
+        </div>
+
+        <div class="user-info">
+          <span class="user-name">{{ userName }}</span>
+          <small>{{ userEmail }}</small>
+        </div>
+
+        <span class="chevron" aria-hidden="true"></span>
       </div>
 
-      <button type="button" routerLink="/profile">
-        My Profile
-      </button>
+      <div class="user-dropdown" *ngIf="isUserMenuOpen">
+        <div class="dropdown-header">
+          <strong>{{ userName }}</strong>
+          <small>{{ userEmail }}</small>
+        </div>
 
-      <button type="button" routerLink="/settings">
-        Settings
-      </button>
+        <button type="button" routerLink="/profile">
+          My Profile
+        </button>
 
-      <button type="button" routerLink="/app/change-password">
-        Change Password
-      </button>
+        <button type="button" routerLink="/settings">
+          Settings
+        </button>
 
-      <button type="button" routerLink="/app/white-label-settings">
-        White-label Settings
-      </button>
+        <button type="button" routerLink="/app/change-password">
+          Change Password
+        </button>
 
-      <div class="dropdown-divider"></div>
+        <button type="button" routerLink="/app/white-label-settings">
+          White-label Settings
+        </button>
 
-      <button type="button" class="logout" (click)="logout()">
-        Logout
-      </button>
+        <div class="dropdown-divider"></div>
+
+        <button type="button" class="logout" (click)="logout()">
+          Logout
+        </button>
+      </div>
     </div>
-  </div>
   </header>
 
   <main class="page-content" [class.public-page-content]="isPublicLanding">
     <router-outlet></router-outlet>
   </main>
 </div>
-
-<style>
-  :host {
-    --bright-blue: oklch(51.01% 0.274 263.83);
-    --electric-violet: oklch(53.18% 0.28 296.97);
-    --french-violet: oklch(47.66% 0.246 305.88);
-    --vivid-pink: oklch(69.02% 0.277 332.77);
-    --hot-red: oklch(61.42% 0.238 15.34);
-    --orange-red: oklch(63.32% 0.24 31.68);
-
-    --gray-900: oklch(19.37% 0.006 300.98);
-    --gray-700: oklch(36.98% 0.014 302.71);
-    --gray-400: oklch(70.9% 0.015 304.04);
-
-    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-      180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-      90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --pill-accent: var(--bright-blue);
-
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    display: block;
-    height: 100dvh;
-  }
-
-  h1 {
-    font-size: 3.125rem;
-    color: var(--gray-900);
-    font-weight: 500;
-    line-height: 100%;
-    letter-spacing: -0.125rem;
-    margin: 0;
-    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-  }
-
-  p {
-    margin: 0;
-    color: var(--gray-700);
-  }
-
-  .app-shell {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    background: linear-gradient(180deg, #fffdf8 0%, #f8f4eb 100%);
-  }
-
-  .app-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    height: 60px;
-    padding: 0 1.35rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-   background:linear-gradient(105deg, #1f093e 0%, #8861c1 56%, #1b0739 100%);
-    box-shadow: 0 10px 28px rgba(31, 9, 62, 0.18);
-    color: #fff;
-  }
-
-  .app-topbar.hidden {
-    display: none;
-  }
-
-  .app-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-  }
-
-  .brand-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.15rem;
-    height: 2.15rem;
-    border-radius: 0.7rem;
-    border: 1px solid rgba(255, 138, 0, 0.5);
-    background: rgba(255, 138, 0, 0.1);
-    color: #ff8a00;
-    font-size: 0;
-    font-weight: 900;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
-  }
-
-  .brand-mark::before {
-    content: "✦";
-    font-size: 1.15rem;
-  }
-
-  .app-topbar h1 {
-    font-size: 1.35rem;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: 0;
-    margin: 0;
-    color: #fff;
-  }
-
-  .app-topbar h1 span {
-    color: #ff8a00;
-  }
-
-  .language-switcher {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
-  }
-
-  .language-switcher button {
-    border: none;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.82);
-    padding: 0.42rem 0.78rem;
-    border-radius: 10px;
-    font-size: 0.82rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 180ms ease;
-  }
-
-  .language-switcher button:hover {
-    color: #fff;
-    background: rgba(255,255,255,0.13);
-  }
-
-  .language-switcher button.active {
-    background: linear-gradient(135deg, #ff9c11 0%, #f07700 100%);
-    color: #fff;
-    box-shadow: 0 8px 18px rgba(240, 119, 0, 0.25);
-  }
-
-  .page-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    box-sizing: inherit;
-    position: relative;
-  }
-
-  .page-content.public-page-content {
-    display: block;
-    min-height: 100vh;
-    width: 100%;
-    padding: 0;
-  }
-
-  .angular-logo {
-    max-width: 9.2rem;
-  }
-
-  .content {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 700px;
-    margin-bottom: 3rem;
-  }
-
-  .content h1 {
-    margin-top: 1.75rem;
-  }
-
-  .content p {
-    margin-top: 1.5rem;
-  }
-
-  .divider {
-    width: 1px;
-    background: var(--red-to-pink-to-purple-vertical-gradient);
-    margin-inline: 0.5rem;
-  }
-
-  .pill-group {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-  }
-
-  .pill {
-    display: flex;
-    align-items: center;
-    --pill-accent: var(--bright-blue);
-    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
-    color: var(--pill-accent);
-    padding-inline: 0.75rem;
-    padding-block: 0.375rem;
-    border-radius: 2.75rem;
-    border: 0;
-    transition: background 0.3s ease;
-    font-family: var(--inter-font);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 1.4rem;
-    letter-spacing: -0.00875rem;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .pill:hover {
-    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
-  }
-
-  .pill-group .pill:nth-child(6n + 1) {
-    --pill-accent: var(--bright-blue);
-  }
-  .pill-group .pill:nth-child(6n + 2) {
-    --pill-accent: var(--electric-violet);
-  }
-  .pill-group .pill:nth-child(6n + 3) {
-    --pill-accent: var(--french-violet);
-  }
-
-  .pill-group .pill:nth-child(6n + 4),
-  .pill-group .pill:nth-child(6n + 5),
-  .pill-group .pill:nth-child(6n + 6) {
-    --pill-accent: var(--hot-red);
-  }
-
-  .pill-group svg {
-    margin-inline-start: 0.25rem;
-  }
-
-  .social-links {
-    display: flex;
-    align-items: center;
-    gap: 0.73rem;
-    margin-top: 1.5rem;
-  }
-
-  .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
-  }
-
-  .social-links a:hover svg path {
-    fill: var(--gray-900);
-  }
-.topbar-right {
-  position: relative;
-  display: flex;
-  align-items: center;
-  z-index: 10001;
-
-}
-
-.login-link {
-  color: #f6d58b;
-  text-decoration: none;
-  font-weight: 700;
-}
-  @media screen and (max-width: 650px) {
-    .app-topbar {
-      height: auto;
-      min-height: 60px;
-      flex-wrap: wrap;
-      padding: 0.7rem 0.9rem;
-    }
-
-    .app-topbar h1 {
-      font-size: 1.15rem;
-    }
-
-    .language-switcher {
-      width: 100%;
-      justify-content: space-between;
-    }
-
-    .language-switcher button {
-      flex: 1;
-      padding-inline: 0.4rem;
-    }
-
-    .content {
-      flex-direction: column;
-      width: max-content;
-    }
-
-    .divider {
-      height: 1px;
-      width: 100%;
-      background: var(--red-to-pink-to-purple-horizontal-gradient);
-      margin-block: 1.5rem;
-    }
-  }
-</style>

@@ -4,6 +4,7 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { KundaliComponent } from './modules/kundali/kundali.component';
 import { CompatibilityComponent } from './modules/compatibility/compatibility.component';
 import { PanchangComponent } from './modules/panchang/panchang.component';
+import { MuhurthaComponent } from './modules/panchang/muhurtha.component';
 import { MahadashaPageComponent } from './features/mahadasha/pages/mahadasha-page/mahadasha-page.component';
 import { KundaliLandingComponent } from './modules/home/kundali-landing/kundali-landing.component';
 import { authGuard } from './core/auth/auth.guard';
@@ -30,6 +31,13 @@ export const routes: Routes = [
       .then(m => m.RegisterComponent)
 },
   {
+    path: 'horaverse',
+    loadComponent: () =>
+      import('./modules/horaverse/horaverse-page.component')
+        .then(m => m.HoraversePageComponent),
+    data: { title: 'HoraVerse' },
+  },
+  {
     path: 'app',
     component: LayoutComponent,
     canActivate: [authGuard],
@@ -45,6 +53,11 @@ export const routes: Routes = [
         data: { title: 'Dashboard' },
       },
       {
+        path: 'kundali/saved/:id',
+        component: KundaliComponent,
+        data: { title: 'Saved Kundali' },
+      },
+      {
         path: 'kundali',
         component: KundaliComponent,
         data: { title: 'Generate Kundali' },
@@ -58,6 +71,11 @@ export const routes: Routes = [
         path: 'panchang',
         component: PanchangComponent,
         data: { title: 'Panchang' },
+      },
+      {
+        path: 'panchang/muhurtha',
+        component: MuhurthaComponent,
+        data: { title: 'Muhurtha Finder' },
       },
       {
         path: 'dasha',
@@ -104,6 +122,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'muhurtha',
+    redirectTo: 'app/panchang/muhurtha',
+    pathMatch: 'full',
+  },
+  {
     path: 'dasha',
     redirectTo: 'app/dasha',
     pathMatch: 'full',
@@ -134,3 +157,5 @@ export const routes: Routes = [
     redirectTo: '',
   },
 ];
+
+

@@ -10,7 +10,6 @@ import { DashaApiService } from '../../core/services/dasha-api.service';
 import { NorthIndianChartComponent } from '../../components/north-indian-chart/north-indian-chart.component';
 import { SouthIndianChartComponent } from '../../components/south-indian-chart/south-indian-chart.component';
 import { WesternChartComponent } from '../../components/western-chart/western-chart.component';
-import { SudarshanChakraChartComponent } from '../../components/sudarshan-chakra-chart/sudarshan-chakra-chart.component';
 
 import {
   FormBuilder,
@@ -25,14 +24,9 @@ import { KundaliScoreCard } from "../../components/kundali-score-card/kundali-sc
 import { MahadashaAntardasha } from "../../components/mahadasha-antardasha/mahadasha-antardasha";
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { HouseScoreOverview } from "../../components/house-score-overview/house-score-overview";
-import { KundaliMetadataInsightsComponent } from "../../components/kundali-metadata-insights/kundali-metadata-insights.component";
-import { TransitInsightComponent } from "../../components/transit-insight/transit-insight.component";
-import {
-  AstrologerBrandingSetting,
-  AstrologerBrandingSettingsService
-} from '../../core/services/astrologer-branding-settings.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { CosmicLoaderComponent } from "../../shared/components/cosmic-loader/cosmic-loader.component";
 
 @Component({
   selector: 'app-kundali',
@@ -45,7 +39,6 @@ import jsPDF from 'jspdf';
     NorthIndianChartComponent,
     SouthIndianChartComponent,
     WesternChartComponent,
-    SudarshanChakraChartComponent,
     HouseDetailsCard,
     KundaliSummary,
     PanchangCardComponent,
@@ -53,8 +46,7 @@ import jsPDF from 'jspdf';
     MahadashaAntardasha,
     TranslocoPipe,
     HouseScoreOverview,
-    KundaliMetadataInsightsComponent,
-    TransitInsightComponent
+    CosmicLoaderComponent
 ],
   templateUrl: './kundali.component.html',
   styleUrls: ['./kundali.component.scss', './kundali.component.exportpdf.scss']
@@ -66,10 +58,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   private kundaliService = inject(KundaliService);
   private dashaApiService = inject(DashaApiService);
   private locationService = inject(LocationService);
-  private brandingSettingsService = inject(AstrologerBrandingSettingsService);
   locationResults: any[] = [];
   kundaliResponse: any = null;
-  brandingSettings: AstrologerBrandingSetting | null = null;
   houseScores: any[] = [];
   loading = false;
   showChart = false;
@@ -83,28 +73,9 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   openDoshaIndex: number | null = null;
   selectedHouseData: any;
   activeChartType: 'north' | 'south' | 'western' = 'north';
-  activeDivisionalChart: 'd1' | 'd9' = 'd1';
-  d1Planets: any[] = [];
-  d1Houses: any[] = [];
-  d1Ascendant: string | undefined = '';
-  d9Chart: any = null;
   today: Date = new Date();
 exportingPdf = false;
-
-  private readonly planetGlyphMap: Record<string, string> = {
-    Sun: '☉',
-    Moon: '☾',
-    Mars: '♂',
-    Mercury: '☿',
-    Jupiter: '♃',
-    Venus: '♀',
-    Saturn: '♄',
-    Rahu: '☊',
-    Ketu: '☋'
-  };
   ngOnInit(): void {
-    this.loadBrandingSettings();
-
     this.kundaliForm.controls.birthPlace.valueChanges
       .pipe(
         debounceTime(500),
@@ -130,58 +101,6 @@ exportingPdf = false;
 
         this.locationResults = results;
       });
-  }
-
-  loadBrandingSettings(): void {
-    this.brandingSettingsService.getMine().subscribe({
-      next: (settings) => {
-        this.brandingSettings = settings;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Branding settings load error:', error);
-        this.brandingSettings = null;
-      }
-    });
-  }
-
-  get activeBranding(): AstrologerBrandingSetting | null {
-    return this.brandingSettings?.isActive ? this.brandingSettings : null;
-  }
-
-  get showChartBranding(): boolean {
-    return !!this.activeBranding?.showOnChartPage;
-  }
-
-  get showPdfBranding(): boolean {
-    return !!this.activeBranding?.showOnPdfReport;
-  }
-
-  get reportLogoUrl(): string {
-    return this.showPdfBranding ? this.activeBranding?.logoUrl || 'assets/logo.png' : 'assets/logo.png';
-  }
-
-  get reportAstrologerName(): string {
-    return this.showPdfBranding
-      ? this.activeBranding?.astrologerName || this.translocoService.translate('kundali.reportAuthorName')
-      : this.translocoService.translate('kundali.reportAuthorName');
-  }
-
-  get reportAstrologerDesignation(): string {
-    return this.showPdfBranding
-      ? this.activeBranding?.designation || this.translocoService.translate('kundali.reportAuthorRole')
-      : this.translocoService.translate('kundali.reportAuthorRole');
-  }
-
-  get reportAstrologerContact(): string {
-    if (!this.showPdfBranding || !this.activeBranding) {
-      return this.translocoService.translate('kundali.reportAuthorContact');
-    }
-
-    return [
-      this.activeBranding.contactNumber,
-      this.activeBranding.email
-    ].filter(Boolean).join(' | ');
   }
   selectedCoordinates: any = null;
 
@@ -267,139 +186,9 @@ exportingPdf = false;
     };
   }
 
-  getPlanetGlyph(planet: string | null | undefined): string {
-    return this.planetGlyphMap[planet ?? ''] ?? '•';
-  }
-
-  getPlanetSupportStatus(planet: any): 'supportive' | 'neutral' | 'challenging' {
-    const normalized = this.normalizeStrength(planet?.detailedStrength);
-    const isChallenging = planet?.isCombust || normalized.includes('Weak') || normalized.includes('Enemy') || normalized.includes('Debilitated');
-    const isSupportive = !isChallenging && (normalized.includes('Own') || normalized.includes('Exalted'));
-
-    if (isChallenging) {
-      return 'challenging';
-    }
-
-    if (isSupportive) {
-      return 'supportive';
-    }
-
-    return 'neutral';
-  }
-
-  getPlanetSupportClass(planet: any): Record<string, boolean> {
-    const status = this.getPlanetSupportStatus(planet);
-
-    return {
-      supportive: status === 'supportive',
-      neutral: status === 'neutral',
-      challenging: status === 'challenging'
-    };
-  }
-
-  getPlanetSupportLabel(planet: any): string {
-    const status = this.getPlanetSupportStatus(planet);
-
-    if (status === 'supportive') {
-      return 'Supportive';
-    }
-
-    if (status === 'challenging') {
-      return 'Challenging';
-    }
-
-    return 'Neutral';
-  }
-
-  getAspectedByText(planet: any): string {
-    const aspects = this.normalizePlanetNameList(planet?.aspectedBy);
-
-    if (!aspects.length) {
-      return this.translocoService.translate('common.none');
-    }
-
-    return aspects.map(name => this.translatePlanetName(name)).join(', ');
-  }
-
-  hasPlanetAspects(planet: any): boolean {
-    return this.normalizePlanetNameList(planet?.aspectedBy).length > 0;
-  }
-
-  private translatePlanetName(planet: string): string {
-    const key = `planet.${planet}`;
-    const translated = this.translocoService.translate(key);
-    return translated && translated !== key ? translated : planet;
-  }
-
-  private normalizePlanetNameList(value: any): string[] {
-    if (!value) {
-      return [];
-    }
-
-    if (Array.isArray(value)) {
-      return value.map(item => String(item).trim()).filter(Boolean);
-    }
-
-    if (typeof value === 'string') {
-      return value.split(',').map(item => item.trim()).filter(Boolean);
-    }
-
-    return [];
-  }
-
-  get activeChartPlanets(): any[] {
-    return this.activeDivisionalChart === 'd9'
-      ? this.d9Chart?.planets ?? []
-      : this.d1Planets;
-  }
-
-  get activeChartHouses(): any[] {
-    return this.activeDivisionalChart === 'd9'
-      ? this.d9Chart?.houses ?? []
-      : this.d1Houses;
-  }
-
-  get activeChartAscendant(): string {
-    return this.activeDivisionalChart === 'd9'
-      ? this.d9Chart?.ascendant ?? ''
-      : this.d1Ascendant ?? '';
-  }
-
-  get chartTitle(): string {
-    return this.activeDivisionalChart === 'd9'
-      ? 'Navamsa Kundali (D9)'
-      : 'Lagna Kundali';
-  }
-
-  get primaryChartPlanets(): any[] {
-    return this.exportingPdf ? this.d1Planets : this.activeChartPlanets;
-  }
-
-  get primaryChartHouses(): any[] {
-    return this.exportingPdf ? this.d1Houses : this.activeChartHouses;
-  }
-
-  get primaryChartAscendant(): string {
-    return this.exportingPdf ? this.d1Ascendant ?? '' : this.activeChartAscendant;
-  }
-
-  get primaryChartTitle(): string {
-    return this.exportingPdf ? 'Lagna Kundali' : this.chartTitle;
-  }
-
-  setActiveDivisionalChart(chart: 'd1' | 'd9'): void {
-    if (chart === 'd9' && !this.d9Chart) {
-      return;
-    }
-
-    this.activeDivisionalChart = chart;
-    this.setDefaultHouseSelection();
-  }
-
   generateKundali(): void {
     this.showChart = false;
     this.selectedHouseData = null;
-    this.activeDivisionalChart = 'd1';
     if (this.kundaliForm.invalid) {
       this.kundaliForm.markAllAsTouched();
       return;
@@ -423,11 +212,7 @@ exportingPdf = false;
           console.log(response);
 console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.planets = response.planets;
-          this.d1Planets = response.planets ?? [];
-          this.d1Houses = response.houses ?? [];
           this.summary = response.summary;
-          this.d1Ascendant = response.summary?.ascendant;
-          this.d9Chart = response.d9Chart ?? null;
           this.scores = response.scores;
           this.yogas = this.extractYogas(response);
           this.doshas = this.extractDoshas(response);
@@ -469,9 +254,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   setDefaultHouseSelection(): void {
-    const availableHouses = this.activeChartHouses?.length
-      ? this.activeChartHouses
-      : this.kundaliResponse?.houses ?? this.houseScores ?? [];
+    const availableHouses = this.kundaliResponse?.houses ?? this.houseScores ?? [];
     const defaultHouse = availableHouses.find((item: any) => item?.houseNumber != null) ?? availableHouses[0] ?? null;
     this.selectedHouseData = defaultHouse;
   }
@@ -666,8 +449,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
       logging: false,
       windowWidth: element.scrollWidth,
       width: element.scrollWidth,
-      height: element.scrollHeight,
-      onclone: (clonedDocument: Document) => this.sanitizePdfClone(clonedDocument)
+      height: element.scrollHeight
     });
 
     const usableWidth = pdfWidth - margin * 2;
@@ -731,40 +513,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     return currentPageHeight + renderedHeight + spacing;
   }
 
-  private sanitizePdfClone(clonedDocument: Document): void {
-    const unsupportedColorPattern = /(color-mix|oklch|lab\(|lch\(|color\()/i;
-
-    clonedDocument.querySelectorAll<HTMLElement>('*').forEach((node) => {
-      const tagName = node.tagName.toLowerCase();
-
-      if (tagName === 'svg' || tagName === 'path' || tagName === 'polygon' || tagName === 'line' || tagName === 'circle' || tagName === 'text') {
-        return;
-      }
-
-      const inlineStyle = node.getAttribute('style');
-      if (inlineStyle && unsupportedColorPattern.test(inlineStyle)) {
-        node.setAttribute(
-          'style',
-          inlineStyle
-            .replace(/color-mix\([^;)]*(?:\)[^;)]*)?\)/gi, '#ffffff')
-            .replace(/oklch\([^)]*\)/gi, '#000000')
-            .replace(/lab\([^)]*\)/gi, '#000000')
-            .replace(/lch\([^)]*\)/gi, '#000000')
-            .replace(/color\([^)]*\)/gi, '#000000')
-        );
-      }
-
-      node.style.backgroundImage = 'none';
-      node.style.boxShadow = 'none';
-      node.style.textShadow = 'none';
-      node.style.outlineColor = '#d9deee';
-      node.style.borderColor = '#d9deee';
-    });
-
-    clonedDocument.body.style.backgroundColor = '#ffffff';
-    clonedDocument.body.style.color = '#000000';
-  }
-
   async downloadPdf(): Promise<void> {
     this.exportingPdf = true;
     const report = document.getElementById('kundali-report');
@@ -777,7 +525,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     try {
       document.body.classList.add('pdf-mode');
       document.body.classList.add('kundali-layout');
-      report.classList.add('pdf-mode');
       document.getElementById('divtabs')?.classList.add('displaynone');
 
       await new Promise(resolve => setTimeout(resolve, 400));
@@ -827,10 +574,10 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         elementsToRender.push(kundaliscore);
       }
 
-      const lowerDetailCards = document.querySelectorAll<HTMLElement>(
-        '#kundali-report > .results-sections > .detail-grid > app-section-card'
-      );
-      lowerDetailCards.forEach(section => elementsToRender.push(section));
+      const scoreSection = document.querySelector('#kundali-report > .results-sections > .detail-grid') as HTMLElement | null;
+      if (scoreSection) {
+        elementsToRender.push(scoreSection);
+      }
 
     
 
@@ -848,7 +595,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     }
     finally {
       document.getElementById('divtabs')?.classList.remove('displaynone');
-      report.classList.remove('pdf-mode');
       document.body.classList.remove('pdf-mode');
       this.cdr.detectChanges();
       setTimeout(() => {
