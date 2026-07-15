@@ -1,0 +1,49 @@
+<div class="cosmic-loader">
+  <div class="cosmic-card">
+    <div class="brand">✨ KundaliScore</div>
+
+    <h2>The cosmos is aligning your birth chart...</h2>
+
+    <p class="subtitle">
+      Every planet, every house and every aspect is being interpreted.
+    </p>
+<div class="progress-bar">
+  <div class="progress-fill" [style.width.%]="progress"></div>
+</div>
+<div class="progress-text">
+  {{ progress }}% completed
+</div>
+    <div class="zodiac-wheel">
+      <div class="sun"></div>
+      <span>☉</span>
+      <span>☽</span>
+      <span>♂</span>
+      <span>☿</span>
+      <span>♃</span>
+      <span>♄</span>
+    </div>
+
+    <div class="steps">
+      <div
+        class="step"
+        *ngFor="let step of steps; let i = index"
+        [class.completed]="step.completed"
+        [class.active]="!step.completed && i === activeStepIndex"
+      >
+        <div class="step-icon">
+          <span *ngIf="step.completed">✓</span>
+          <span *ngIf="!step.completed">○</span>
+        </div>
+
+        <div>
+          <h4>{{ step.title }}</h4>
+          <p>{{ step.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-message">
+      Your cosmic blueprint is getting ready...
+    </div>
+  </div>
+</div>

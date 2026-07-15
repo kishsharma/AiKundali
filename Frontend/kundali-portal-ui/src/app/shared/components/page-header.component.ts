@@ -271,6 +271,42 @@ export interface Breadcrumb {
     width: 80px;
   }
 }
+    /* Runtime theme alignment */
+    .page-header {
+      border: 1px solid var(--theme-line);
+      background: var(--theme-surface);
+      box-shadow: 0 16px 34px var(--theme-shadow);
+    }
+
+    .breadcrumb-link {
+      color: var(--theme-info);
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--theme-accent);
+    }
+
+    .breadcrumbs li:not(:last-child)::after,
+    .breadcrumb-text,
+    .page-subtitle,
+    .header-description,
+    .header-statement,
+    .legacy-statement p {
+      color: var(--theme-text-muted);
+    }
+
+    .breadcrumb-text.active,
+    .page-title {
+      color: var(--theme-text);
+    }
+
+    .legacy-line {
+      background: linear-gradient(90deg, transparent, var(--theme-accent), transparent);
+    }
+
+    .legacy-statement span {
+      color: var(--theme-accent);
+    }
     @media (max-width: 768px) {
       .page-header {
         padding: 1rem;

@@ -11,6 +11,7 @@ export const environment = {
   apiEndpoints: {
     kundali: {
       generate: 'Kundali/generate',
+      save: 'Kundali/save',
       getAll: 'Kundali',
       getById: 'Kundali/:id',
       update: 'Kundali/:id',
@@ -28,3 +29,4 @@ export const environment = {
     dasha: true,
   },
 };
+

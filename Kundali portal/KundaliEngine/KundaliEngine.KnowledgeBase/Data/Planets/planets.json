@@ -1,4 +1,4 @@
-{
+﻿{
   "planets": [
     {
       "name": "Sun",
@@ -8,19 +8,157 @@
       "gender": "Male",
       "tattva": "Agni",
       "guna": "Sattva",
-      "karakatva": ["Atma", "Father", "Authority", "Leadership", "Government", "Confidence"],
-      "ownSigns": ["Leo"],
+      "karakatva": [
+        "Atma",
+        "Father",
+        "Authority",
+        "Leadership",
+        "Government",
+        "Confidence"
+      ],
+      "ownSigns": [
+        "Leo"
+      ],
       "exaltation": "Aries",
       "debilitation": "Libra",
       "moolatrikona": "Leo",
-      "friends": ["Moon", "Mars", "Jupiter"],
-      "enemies": ["Venus", "Saturn"],
-      "neutral": ["Mercury"],
+      "friends": [
+        "Moon",
+        "Mars",
+        "Jupiter"
+      ],
+      "enemies": [
+        "Venus",
+        "Saturn"
+      ],
+      "neutral": [
+        "Mercury"
+      ],
       "predictionNature": "authority, self-respect, leadership, visibility, and the need to stand independently",
       "positiveOutcome": "confidence, authority, recognition, leadership, and clarity of purpose",
       "negativeOutcome": "ego clashes, pride, dominance issues, or strain with authority figures",
       "dashaPrediction": "activates leadership, authority, recognition, confidence, career visibility, and self-expression.",
-      "shortDashaTheme": "leadership, authority, recognition, and self-expression"
+      "shortDashaTheme": "leadership, authority, recognition, and self-expression",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Ruby",
+          "sanskritName": "Manikya",
+          "englishName": "Ruby",
+          "category": "Ratna",
+          "strengthLevel": "Strong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Sun",
+          "suitabilityRule": "Recommend only when Sun is functionally benefic, safe to strengthen, and relevant through Lagna, Chandra Rashi, dasha, or chart need.",
+          "bestUsedWhen": [
+            "Sun is lagna lord or functionally supportive for the ascendant",
+            "Sun supports the current mahadasha or antardasha",
+            "Sun is weak but not harmful to strengthen",
+            "authority, confidence, leadership, visibility, or father-related themes need support"
+          ],
+          "avoidWhen": [
+            "Sun is functionally malefic for the ascendant",
+            "Sun strongly activates difficult houses and strengthening may increase conflict",
+            "Sun is severely afflicted and may amplify ego, dominance, authority clashes, or heat-related imbalance"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Red Garnet",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Ruby is too strong or expensive",
+              "A milder confidence and vitality support is preferred"
+            ]
+          },
+          {
+            "name": "Red Spinel",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Sun needs support but a softer substitute is safer",
+              "Career visibility or leadership support is needed gradually"
+            ]
+          },
+          {
+            "name": "Sunstone",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "Only gentle Sun support is suitable",
+              "Confidence and vitality need mild encouragement"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Can be considered when Sun is the Chandra Rashi lord or strongly supports mental confidence, but Lagna safety must still be checked first.",
+        "recommendationCaution": "Do not recommend Ruby only because Sun is weak; verify functional suitability, affliction, and chart context."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Ruby",
+            "sanskritName": "Manikya",
+            "purpose": "Strengthens Sun when Sun is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Sun",
+              "low confidence",
+              "authority issues",
+              "career visibility",
+              "leadership support"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Red Garnet",
+              "purpose": "Budget alternative for Sun strengthening."
+            },
+            {
+              "name": "Red Spinel",
+              "purpose": "Alternative gemstone for Sun energy."
+            },
+            {
+              "name": "Sunstone",
+              "purpose": "Milder substitute for confidence and vitality."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Ring finger",
+            "dayToWear": "Sunday",
+            "time": "Morning after sunrise",
+            "metal": [
+              "Gold",
+              "Copper"
+            ]
+          },
+          "caution": "Ruby should be recommended only if Sun is functionally suitable for the chart. Do not recommend only because Sun is weak."
+        },
+        "yantra": {
+          "name": "Surya Yantra",
+          "purpose": "Used for balancing and strengthening Sun-related energy.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Sun is afflicted",
+            "native needs confidence and authority support"
+          ]
+        },
+        "daan": [
+          "Wheat",
+          "Jaggery",
+          "Copper",
+          "Red cloth"
+        ],
+        "japa": {
+          "mantra": "Om Hram Hreem Hraum Sah Suryaya Namah",
+          "count": 108,
+          "day": "Sunday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Moon",
@@ -30,19 +168,160 @@
       "gender": "Female",
       "tattva": "Jala",
       "guna": "Sattva",
-      "karakatva": ["Mind", "Mother", "Emotions", "Public", "MentalPeace"],
-      "ownSigns": ["Cancer"],
+      "karakatva": [
+        "Mind",
+        "Mother",
+        "Emotions",
+        "Public",
+        "MentalPeace"
+      ],
+      "ownSigns": [
+        "Cancer"
+      ],
       "exaltation": "Taurus",
       "debilitation": "Scorpio",
       "moolatrikona": "Taurus",
-      "friends": ["Sun", "Mercury"],
-      "enemies": [],
-      "neutral": ["Mars", "Jupiter", "Venus", "Saturn"],
+      "friends": [
+        "Sun",
+        "Mercury"
+      ],
+      "enemies": [
+
+      ],
+      "neutral": [
+        "Mars",
+        "Jupiter",
+        "Venus",
+        "Saturn"
+      ],
       "predictionNature": "emotions, sensitivity, public connection, nurturing, and mental peace",
       "positiveOutcome": "emotional intelligence, adaptability, public support, care, and intuitive response",
       "negativeOutcome": "mood fluctuations, dependency, restlessness, or emotional overreaction",
       "dashaPrediction": "activates emotions, relationships with the public, mental sensitivity, adaptability, and emotional growth.",
-      "shortDashaTheme": "emotions, adaptability, relationships, and mental sensitivity"
+      "shortDashaTheme": "emotions, adaptability, relationships, and mental sensitivity",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Pearl",
+          "sanskritName": "Moti",
+          "englishName": "Pearl",
+          "category": "Ratna",
+          "strengthLevel": "Strong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Moon",
+          "suitabilityRule": "Recommend only when Moon is functionally suitable, emotionally supportive, and safe to strengthen after checking Lagna and Chandra Rashi context.",
+          "bestUsedWhen": [
+            "Moon is lagna lord or a supportive functional planet",
+            "Moon is the Chandra Rashi lord and emotional stability needs support",
+            "Moon supports the current mahadasha or antardasha",
+            "mental peace, sleep, mother-related support, public connection, or emotional balance need strengthening"
+          ],
+          "avoidWhen": [
+            "Moon is functionally harmful for the ascendant",
+            "Moon strongly connects to difficult houses and strengthening may increase emotional instability",
+            "Moon is severely afflicted and a direct gemstone may amplify mood fluctuation or dependency"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Moonstone",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Pearl is too strong for immediate use",
+              "Gentle emotional balance and calmness support is preferred"
+            ]
+          },
+          {
+            "name": "Opal",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Softness, comfort, and emotional ease are needed",
+              "A gentler substitute is preferred over direct Moon strengthening"
+            ]
+          },
+          {
+            "name": "White Coral",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "Only light Moon-related support is appropriate",
+              "Traditional gentle lunar support is desired"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Moon and Chandra Rashi analysis are central for emotional recommendations, but Moon gemstone selection must still pass Lagna-based safety checks.",
+        "recommendationCaution": "Do not recommend Pearl only because Moon is weak or afflicted; verify that strengthening Moon will not amplify emotional instability."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Pearl",
+            "sanskritName": "Moti",
+            "englishName": "Pearl",
+            "purpose": "Strengthens Moon when Moon is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Moon",
+              "emotional instability",
+              "mental peace",
+              "mother-related support",
+              "sleep and calmness",
+              "public connection"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Moonstone",
+              "purpose": "Milder substitute for Moon strengthening and emotional balance."
+            },
+            {
+              "name": "Opal",
+              "purpose": "Alternative support for emotional softness and calmness."
+            },
+            {
+              "name": "White Coral",
+              "purpose": "Traditional substitute used for gentle Moon-related support."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Little finger",
+            "dayToWear": "Monday",
+            "time": "Morning after sunrise",
+            "metal": [
+              "Silver"
+            ]
+          },
+          "caution": "Pearl should be recommended only if Moon is functionally suitable for the chart. Do not recommend only because Moon is weak or afflicted."
+        },
+        "yantra": {
+          "name": "Chandra Yantra",
+          "purpose": "Used for balancing Moon-related emotional, mental, and domestic energy.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Moon is afflicted",
+            "native needs emotional stability",
+            "mental peace and sleep support are needed"
+          ]
+        },
+        "daan": [
+          "Rice",
+          "Milk",
+          "White cloth",
+          "Sugar",
+          "Silver"
+        ],
+        "japa": {
+          "mantra": "Om Shram Shreem Shraum Sah Chandraya Namah",
+          "count": 108,
+          "day": "Monday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Mars",
@@ -52,19 +331,163 @@
       "gender": "Male",
       "tattva": "Agni",
       "guna": "Tamas",
-      "karakatva": ["Courage", "Energy", "Land", "Siblings", "Competition", "Action"],
-      "ownSigns": ["Aries", "Scorpio"],
+      "karakatva": [
+        "Courage",
+        "Energy",
+        "Land",
+        "Siblings",
+        "Competition",
+        "Action"
+      ],
+      "ownSigns": [
+        "Aries",
+        "Scorpio"
+      ],
       "exaltation": "Capricorn",
       "debilitation": "Cancer",
       "moolatrikona": "Aries",
-      "friends": ["Sun", "Moon", "Jupiter"],
-      "enemies": ["Mercury"],
-      "neutral": ["Venus", "Saturn"],
+      "friends": [
+        "Sun",
+        "Moon",
+        "Jupiter"
+      ],
+      "enemies": [
+        "Mercury"
+      ],
+      "neutral": [
+        "Venus",
+        "Saturn"
+      ],
       "predictionNature": "energy, courage, action, competition, protection, and raw drive",
       "positiveOutcome": "strong drive, courage, competitive success, technical skill, and decisive action",
       "negativeOutcome": "aggression, conflicts, impulsive speech, impatience, or unnecessary confrontation",
       "dashaPrediction": "activates action, competition, courage, ambition, technical effort, and aggressive decision-making.",
-      "shortDashaTheme": "action, ambition, competition, and aggressive effort"
+      "shortDashaTheme": "action, ambition, competition, and aggressive effort",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Red Coral",
+          "sanskritName": "Moonga",
+          "englishName": "Red Coral",
+          "category": "Ratna",
+          "strengthLevel": "Strong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Mars",
+          "suitabilityRule": "Recommend only when Mars is functionally benefic, disciplined enough to strengthen, and relevant through Lagna, Chandra Rashi, dasha, or chart need.",
+          "bestUsedWhen": [
+            "Mars is lagna lord, yogakaraka, or functionally supportive",
+            "Mars supports the current mahadasha or antardasha",
+            "Mars is weak but constructive and needs action-oriented support",
+            "courage, stamina, discipline, property matters, competition, or decisive action need strengthening"
+          ],
+          "avoidWhen": [
+            "Mars is functionally malefic for the ascendant",
+            "Mars is severely afflicted and strengthening may increase anger, accidents, conflict, or impulsiveness",
+            "Mangal Dosha is present but Mars is not otherwise safe to strengthen"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Carnelian",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Red Coral is too intense or costly",
+              "Courage and initiative need moderate support"
+            ]
+          },
+          {
+            "name": "Red Jasper",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Grounded action and stamina are needed without aggressive amplification",
+              "A calmer Mars substitute is preferred"
+            ]
+          },
+          {
+            "name": "Red Agate",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "Only gentle Mars support is suitable",
+              "Vitality and confidence need gradual strengthening"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Can be considered when Mars is the Chandra Rashi lord and courage or emotional assertiveness needs support, but aggression risk must be checked from Lagna.",
+        "recommendationCaution": "Do not recommend Red Coral blindly for Mangal Dosha or weak Mars; confirm Mars is safe to strengthen."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Red Coral",
+            "sanskritName": "Moonga",
+            "englishName": "Red Coral",
+            "purpose": "Strengthens Mars when Mars is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Mars",
+              "low courage",
+              "lack of confidence in action",
+              "property or land-related support",
+              "energy and stamina",
+              "discipline and decisiveness"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Carnelian",
+              "purpose": "Budget alternative for Mars strengthening and courage support."
+            },
+            {
+              "name": "Red Jasper",
+              "purpose": "Milder substitute for energy, stability, and action-oriented support."
+            },
+            {
+              "name": "Red Agate",
+              "purpose": "Alternative stone used for Mars-related strength and vitality."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Ring finger",
+            "dayToWear": "Tuesday",
+            "time": "Morning after sunrise",
+            "metal": [
+              "Gold",
+              "Copper"
+            ]
+          },
+          "caution": "Red Coral should be recommended only if Mars is functionally suitable for the chart. Do not recommend it blindly for Mangal Dosha or because Mars is weak."
+        },
+        "yantra": {
+          "name": "Mangal Yantra",
+          "purpose": "Used for balancing Mars-related energy, courage, discipline, aggression, and property matters.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Mars is afflicted",
+            "Mangal Dosha needs balancing",
+            "native needs courage and discipline support",
+            "anger or impulsiveness needs control"
+          ]
+        },
+        "daan": [
+          "Red lentils",
+          "Red cloth",
+          "Jaggery",
+          "Copper",
+          "Pomegranate"
+        ],
+        "japa": {
+          "mantra": "Om Kram Kreem Kraum Sah Bhaumaya Namah",
+          "count": 108,
+          "day": "Tuesday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Mercury",
@@ -74,19 +497,163 @@
       "gender": "Neuter",
       "tattva": "Prithvi",
       "guna": "Rajas",
-      "karakatva": ["Speech", "Intellect", "Trade", "Communication", "Logic", "Analytics"],
-      "ownSigns": ["Gemini", "Virgo"],
+      "karakatva": [
+        "Speech",
+        "Intellect",
+        "Trade",
+        "Communication",
+        "Logic",
+        "Analytics"
+      ],
+      "ownSigns": [
+        "Gemini",
+        "Virgo"
+      ],
       "exaltation": "Virgo",
       "debilitation": "Pisces",
       "moolatrikona": "Virgo",
-      "friends": ["Sun", "Venus"],
-      "enemies": ["Moon"],
-      "neutral": ["Mars", "Jupiter", "Saturn"],
+      "friends": [
+        "Sun",
+        "Venus"
+      ],
+      "enemies": [
+        "Moon"
+      ],
+      "neutral": [
+        "Mars",
+        "Jupiter",
+        "Saturn"
+      ],
       "predictionNature": "communication, trade, logic, learning, calculation, and adaptability",
       "positiveOutcome": "clever speech, business sense, learning ability, negotiation, and practical intelligence",
       "negativeOutcome": "overthinking, nervousness, scattered decisions, or manipulative communication",
       "dashaPrediction": "activates communication, business, learning, networking, analytical thinking, and intellectual activity.",
-      "shortDashaTheme": "communication, networking, business, learning, and analytical thinking"
+      "shortDashaTheme": "communication, networking, business, learning, and analytical thinking",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Emerald",
+          "sanskritName": "Panna",
+          "englishName": "Emerald",
+          "category": "Ratna",
+          "strengthLevel": "Strong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Mercury",
+          "suitabilityRule": "Recommend only when Mercury is functionally supportive, mentally stabilizing, and safe to strengthen in the chart.",
+          "bestUsedWhen": [
+            "Mercury is lagna lord, yogakaraka-like by ownership, or functionally supportive",
+            "Mercury is the Chandra Rashi lord and mental clarity needs support",
+            "Mercury supports the current mahadasha or antardasha",
+            "speech, education, business, analytics, negotiation, or communication need strengthening"
+          ],
+          "avoidWhen": [
+            "Mercury is functionally malefic for the ascendant",
+            "Mercury is severely afflicted and strengthening may increase nervousness, overthinking, or manipulative speech",
+            "Mercury strongly activates difficult houses without benefic support"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Peridot",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Emerald is too strong or expensive",
+              "Business, learning, and analytical clarity need moderate support"
+            ]
+          },
+          {
+            "name": "Green Onyx",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "A calmer Mercury substitute is preferred",
+              "Speech and communication support should be gradual"
+            ]
+          },
+          {
+            "name": "Green Tourmaline",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Mercury support is useful but Emerald is not preferred",
+              "Learning, trade, and practical intelligence need strengthening"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Can be considered when Mercury is the Chandra Rashi lord and mental clarity or communication support is needed, after confirming Lagna safety.",
+        "recommendationCaution": "Do not recommend Emerald only for business, education, or speech issues without checking Mercury\u0027s functional role."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Emerald",
+            "sanskritName": "Panna",
+            "englishName": "Emerald",
+            "purpose": "Strengthens Mercury when Mercury is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Mercury",
+              "communication skills",
+              "business and trade support",
+              "education and learning",
+              "analytical ability",
+              "speech and intelligence"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Peridot",
+              "purpose": "Budget alternative for Mercury strengthening and intellectual clarity."
+            },
+            {
+              "name": "Green Onyx",
+              "purpose": "Milder substitute for communication, business, and learning support."
+            },
+            {
+              "name": "Green Tourmaline",
+              "purpose": "Alternative stone used for Mercury-related intelligence and analytical ability."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Little finger",
+            "dayToWear": "Wednesday",
+            "time": "Morning after sunrise",
+            "metal": [
+              "Gold",
+              "Silver"
+            ]
+          },
+          "caution": "Emerald should be recommended only if Mercury is functionally suitable for the chart. Do not recommend it blindly for weak Mercury, speech issues, or business problems without checking overall chart suitability."
+        },
+        "yantra": {
+          "name": "Budha Yantra",
+          "purpose": "Used for balancing Mercury-related energy, communication, intelligence, business, and decision-making.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Mercury is afflicted",
+            "native needs communication support",
+            "business or analytical clarity is needed",
+            "education or speech-related support is needed"
+          ]
+        },
+        "daan": [
+          "Green gram",
+          "Green cloth",
+          "Bronze",
+          "Fodder for cows",
+          "Green vegetables"
+        ],
+        "japa": {
+          "mantra": "Om Bram Breem Braum Sah Budhaya Namah",
+          "count": 108,
+          "day": "Wednesday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Jupiter",
@@ -96,19 +663,162 @@
       "gender": "Male",
       "tattva": "Akasha",
       "guna": "Sattva",
-      "karakatva": ["Wisdom", "Dharma", "Guru", "Children", "Prosperity", "Spirituality"],
-      "ownSigns": ["Sagittarius", "Pisces"],
+      "karakatva": [
+        "Wisdom",
+        "Dharma",
+        "Guru",
+        "Children",
+        "Prosperity",
+        "Spirituality"
+      ],
+      "ownSigns": [
+        "Sagittarius",
+        "Pisces"
+      ],
       "exaltation": "Cancer",
       "debilitation": "Capricorn",
       "moolatrikona": "Sagittarius",
-      "friends": ["Sun", "Moon", "Mars"],
-      "enemies": ["Venus", "Mercury"],
-      "neutral": ["Saturn"],
+      "friends": [
+        "Sun",
+        "Moon",
+        "Mars"
+      ],
+      "enemies": [
+        "Venus",
+        "Mercury"
+      ],
+      "neutral": [
+        "Saturn"
+      ],
       "predictionNature": "wisdom, expansion, faith, knowledge, generosity, and guidance",
       "positiveOutcome": "wisdom, protection, teaching ability, prosperity, ethics, and long-term growth",
       "negativeOutcome": "overconfidence, excess, moral rigidity, laziness, or promises larger than results",
       "dashaPrediction": "activates wisdom, growth, guidance, prosperity, spirituality, and long-term expansion.",
-      "shortDashaTheme": "wisdom, growth, prosperity, spirituality, and guidance"
+      "shortDashaTheme": "wisdom, growth, prosperity, spirituality, and guidance",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Yellow Sapphire",
+          "sanskritName": "Pukhraj",
+          "englishName": "Yellow Sapphire",
+          "category": "Ratna",
+          "strengthLevel": "Strong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Jupiter",
+          "suitabilityRule": "Recommend only when Jupiter is functionally benefic, protective, and safe to strengthen for the chart.",
+          "bestUsedWhen": [
+            "Jupiter is lagna lord, yogakaraka-like by ownership, or a strong functional benefic",
+            "Jupiter is the Chandra Rashi lord and emotional faith or guidance needs support",
+            "Jupiter supports the current mahadasha or antardasha",
+            "wisdom, education, marriage blessings, family harmony, prosperity, children, or dharma need strengthening"
+          ],
+          "avoidWhen": [
+            "Jupiter is functionally malefic for the ascendant",
+            "Jupiter strongly activates difficult houses and strengthening may increase excess, laziness, or misplaced optimism",
+            "Jupiter is severely afflicted and direct strengthening may amplify poor judgment"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Citrine",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Yellow Sapphire is too strong or expensive",
+              "Gentle prosperity, positivity, or guidance support is preferred"
+            ]
+          },
+          {
+            "name": "Yellow Topaz",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Jupiter support is useful but a substitute is preferred",
+              "Education, wisdom, or family support needs moderate strengthening"
+            ]
+          },
+          {
+            "name": "Yellow Zircon",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "A milder Jupiter stone is safer",
+              "Positive outlook and guidance need gradual support"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Can be considered when Jupiter is the Chandra Rashi lord and wisdom, faith, optimism, or emotional guidance needs support, after Lagna safety checks.",
+        "recommendationCaution": "Do not recommend Yellow Sapphire blindly for marriage, education, children, or wealth without confirming Jupiter\u0027s chart suitability."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Yellow Sapphire",
+            "sanskritName": "Pukhraj",
+            "englishName": "Yellow Sapphire",
+            "purpose": "Strengthens Jupiter when Jupiter is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Jupiter",
+              "wisdom and guidance",
+              "education and knowledge",
+              "marriage and family blessings",
+              "wealth and prosperity support",
+              "spiritual growth and dharma"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Citrine",
+              "purpose": "Budget alternative for Jupiter strengthening and prosperity support."
+            },
+            {
+              "name": "Yellow Topaz",
+              "purpose": "Alternative stone used for wisdom, education, and Jupiter-related growth."
+            },
+            {
+              "name": "Yellow Zircon",
+              "purpose": "Milder substitute for Jupiter-related positivity and guidance."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Index finger",
+            "dayToWear": "Thursday",
+            "time": "Morning after sunrise",
+            "metal": [
+              "Gold"
+            ]
+          },
+          "caution": "Yellow Sapphire should be recommended only if Jupiter is functionally suitable for the chart. Do not recommend it blindly for marriage, education, or wealth issues without checking overall chart suitability."
+        },
+        "yantra": {
+          "name": "Guru Yantra",
+          "purpose": "Used for balancing Jupiter-related energy, wisdom, prosperity, dharma, education, and family blessings.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Jupiter is afflicted",
+            "native needs wisdom and guidance support",
+            "education or career growth needs support",
+            "marriage or family harmony needs support"
+          ]
+        },
+        "daan": [
+          "Turmeric",
+          "Chana dal",
+          "Yellow cloth",
+          "Ghee",
+          "Banana"
+        ],
+        "japa": {
+          "mantra": "Om Gram Greem Graum Sah Gurave Namah",
+          "count": 108,
+          "day": "Thursday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Venus",
@@ -118,19 +828,164 @@
       "gender": "Female",
       "tattva": "Jala",
       "guna": "Rajas",
-      "karakatva": ["Marriage", "Luxury", "Arts", "Relationships", "Comforts", "Beauty"],
-      "ownSigns": ["Taurus", "Libra"],
+      "karakatva": [
+        "Marriage",
+        "Luxury",
+        "Arts",
+        "Relationships",
+        "Comforts",
+        "Beauty"
+      ],
+      "ownSigns": [
+        "Taurus",
+        "Libra"
+      ],
       "exaltation": "Pisces",
       "debilitation": "Virgo",
       "moolatrikona": "Libra",
-      "friends": ["Mercury", "Saturn"],
-      "enemies": ["Sun", "Moon"],
-      "neutral": ["Mars", "Jupiter"],
+      "friends": [
+        "Mercury",
+        "Saturn"
+      ],
+      "enemies": [
+        "Sun",
+        "Moon"
+      ],
+      "neutral": [
+        "Mars",
+        "Jupiter"
+      ],
       "predictionNature": "relationships, beauty, harmony, comforts, pleasures, and artistic taste",
       "positiveOutcome": "relationships, comforts, artistic gains, diplomacy, and refined enjoyment",
       "negativeOutcome": "attachment, indulgence, dependency, vanity, or pleasure-seeking without balance",
       "dashaPrediction": "activates relationships, comforts, pleasures, creativity, artistic expression, and material enjoyment.",
-      "shortDashaTheme": "relationships, comforts, creativity, and material enjoyment"
+      "shortDashaTheme": "relationships, comforts, creativity, and material enjoyment",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Diamond",
+          "sanskritName": "Heera",
+          "englishName": "Diamond",
+          "category": "Ratna",
+          "strengthLevel": "Strong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Venus",
+          "suitabilityRule": "Recommend only when Venus is functionally supportive, relationship-safe, and beneficial to strengthen in the chart.",
+          "bestUsedWhen": [
+            "Venus is lagna lord, yogakaraka, or functionally supportive",
+            "Venus is the Chandra Rashi lord and emotional harmony or comfort needs support",
+            "Venus supports the current mahadasha or antardasha",
+            "marriage, relationships, creativity, comforts, beauty, luxury, or diplomacy need strengthening"
+          ],
+          "avoidWhen": [
+            "Venus is functionally malefic for the ascendant",
+            "Venus strongly activates difficult houses and strengthening may increase indulgence or attachment",
+            "Venus is severely afflicted and direct strengthening may amplify relationship complications"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "White Sapphire",
+            "category": "Upratna",
+            "strengthLevel": "Strong",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Diamond is not preferred but strong Venus support is still suitable",
+              "Relationship harmony and comfort need clear strengthening"
+            ]
+          },
+          {
+            "name": "Opal",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "A popular softer Venus substitute is preferred",
+              "Creativity, charm, and relationship ease need support"
+            ]
+          },
+          {
+            "name": "Zircon",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "Budget-friendly Venus support is preferred",
+              "Only mild attraction, comfort, and artistic support is suitable"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Can be considered when Venus is the Chandra Rashi lord and emotional comfort, relationships, or harmony need support, after Lagna safety checks.",
+        "recommendationCaution": "Do not recommend Diamond or Venus gemstones blindly for marriage, luxury, attraction, or relationship issues."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Diamond",
+            "sanskritName": "Heera",
+            "englishName": "Diamond",
+            "purpose": "Strengthens Venus when Venus is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Venus",
+              "marriage and relationship harmony",
+              "luxury and comfort",
+              "creativity and artistic expression",
+              "beauty and charm",
+              "material prosperity and enjoyment"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "White Sapphire",
+              "purpose": "Strong alternative for Venus strengthening and relationship harmony."
+            },
+            {
+              "name": "Opal",
+              "purpose": "Popular substitute for Venus-related charm, creativity, and luxury support."
+            },
+            {
+              "name": "Zircon",
+              "purpose": "Budget alternative for Venus energy, attraction, and comfort."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Middle finger or ring finger",
+            "dayToWear": "Friday",
+            "time": "Morning after sunrise",
+            "metal": [
+              "Silver",
+              "Platinum",
+              "White Gold"
+            ]
+          },
+          "caution": "Diamond or Venus gemstone should be recommended only if Venus is functionally suitable for the chart. Do not recommend it blindly for marriage, luxury, attraction, or relationship issues without checking overall chart suitability."
+        },
+        "yantra": {
+          "name": "Shukra Yantra",
+          "purpose": "Used for balancing Venus-related energy, relationships, beauty, luxury, creativity, and marital harmony.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Venus is afflicted",
+            "native needs relationship harmony",
+            "marriage or comfort-related support is needed",
+            "creativity or artistic expression needs support"
+          ]
+        },
+        "daan": [
+          "White sweets",
+          "Rice",
+          "Curd",
+          "White cloth",
+          "Perfume"
+        ],
+        "japa": {
+          "mantra": "Om Dram Dreem Draum Sah Shukraya Namah",
+          "count": 108,
+          "day": "Friday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Saturn",
@@ -140,19 +995,163 @@
       "gender": "Neuter",
       "tattva": "Vayu",
       "guna": "Tamas",
-      "karakatva": ["Karma", "Discipline", "Delay", "Endurance", "Suffering", "Labor"],
-      "ownSigns": ["Capricorn", "Aquarius"],
+      "karakatva": [
+        "Karma",
+        "Discipline",
+        "Delay",
+        "Endurance",
+        "Suffering",
+        "Labor"
+      ],
+      "ownSigns": [
+        "Capricorn",
+        "Aquarius"
+      ],
       "exaltation": "Libra",
       "debilitation": "Aries",
       "moolatrikona": "Aquarius",
-      "friends": ["Mercury", "Venus"],
-      "enemies": ["Sun", "Moon"],
-      "neutral": ["Mars", "Jupiter"],
+      "friends": [
+        "Mercury",
+        "Venus"
+      ],
+      "enemies": [
+        "Sun",
+        "Moon"
+      ],
+      "neutral": [
+        "Mars",
+        "Jupiter"
+      ],
       "predictionNature": "discipline, endurance, time, duty, maturity, and hard-earned results",
       "positiveOutcome": "discipline, endurance, responsibility, patience, and success through consistent effort",
       "negativeOutcome": "delays, pressure, isolation, fear, heaviness, or slow progress",
       "dashaPrediction": "activates discipline, responsibility, karmic lessons, delays, endurance, and long-term effort.",
-      "shortDashaTheme": "discipline, responsibility, delays, endurance, and karmic pressure"
+      "shortDashaTheme": "discipline, responsibility, delays, endurance, and karmic pressure",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Blue Sapphire",
+          "sanskritName": "Neelam",
+          "englishName": "Blue Sapphire",
+          "category": "Ratna",
+          "strengthLevel": "VeryStrong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Saturn",
+          "suitabilityRule": "Recommend only when Saturn is clearly functionally benefic, stable, and safe to strengthen after strict chart review.",
+          "bestUsedWhen": [
+            "Saturn is lagna lord, yogakaraka, or strongly supportive",
+            "Saturn is the Chandra Rashi lord and emotional steadiness or discipline needs support",
+            "Saturn supports the current mahadasha or antardasha and is safe to strengthen",
+            "career stability, discipline, endurance, responsibility, patience, or long-term success need strengthening"
+          ],
+          "avoidWhen": [
+            "Saturn is functionally malefic for the ascendant",
+            "Saturn is severely afflicted and strengthening may increase delay, fear, isolation, or heaviness",
+            "Recommendation is based only on Sade Sati, Shani Dhaiya, Saturn Mahadasha, or career delay without suitability checks"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Amethyst",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Blue Sapphire is too powerful or risky",
+              "Discipline and mental stability need gentle support"
+            ]
+          },
+          {
+            "name": "Iolite",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "A softer Saturn substitute is preferred",
+              "Focus, patience, and stability need gradual support"
+            ]
+          },
+          {
+            "name": "Blue Spinel",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Saturn support is useful but Blue Sapphire is not preferred",
+              "Endurance and responsibility need moderate strengthening"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Can be considered when Saturn is the Chandra Rashi lord and steadiness, patience, or emotional maturity needs support, but strict Lagna safety is required.",
+        "recommendationCaution": "Blue Sapphire is a high-impact gemstone; do not recommend it without strong functional suitability and safety checks."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Blue Sapphire",
+            "sanskritName": "Neelam",
+            "englishName": "Blue Sapphire",
+            "purpose": "Strengthens Saturn when Saturn is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "weak but benefic Saturn",
+              "discipline and patience",
+              "career stability",
+              "long-term success",
+              "responsibility and maturity",
+              "protection during Saturn Mahadasha"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Amethyst",
+              "purpose": "Budget alternative for Saturn support, discipline, and mental stability."
+            },
+            {
+              "name": "Iolite",
+              "purpose": "Milder substitute for Saturn-related focus, patience, and stability."
+            },
+            {
+              "name": "Blue Spinel",
+              "purpose": "Alternative stone used for Saturn-related strength and endurance."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Middle finger",
+            "dayToWear": "Saturday",
+            "time": "Morning after sunrise or evening before sunset",
+            "metal": [
+              "Silver",
+              "Panchdhatu"
+            ]
+          },
+          "caution": "Blue Sapphire is considered a powerful gemstone and should be recommended only if Saturn is functionally suitable for the chart. Do not recommend it blindly for Sade Sati, Saturn Mahadasha, delays, or career problems without checking overall chart suitability."
+        },
+        "yantra": {
+          "name": "Shani Yantra",
+          "purpose": "Used for balancing Saturn-related energy, karma, discipline, delays, obstacles, and long-term stability.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Saturn is afflicted",
+            "native is going through Saturn Mahadasha",
+            "Sade Sati or Shani Dhaiya needs balancing",
+            "career delay or heavy responsibilities need support"
+          ]
+        },
+        "daan": [
+          "Black sesame",
+          "Black urad",
+          "Iron",
+          "Mustard oil",
+          "Black cloth"
+        ],
+        "japa": {
+          "mantra": "Om Pram Preem Praum Sah Shanaye Namah",
+          "count": 108,
+          "day": "Saturday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Rahu",
@@ -162,19 +1161,162 @@
       "gender": "Neuter",
       "tattva": "Vayu",
       "guna": "Tamas",
-      "karakatva": ["Obsession", "ForeignInfluence", "Illusion", "MaterialDesire", "Unconventionality"],
-      "ownSigns": [],
+      "karakatva": [
+        "Obsession",
+        "ForeignInfluence",
+        "Illusion",
+        "MaterialDesire",
+        "Unconventionality"
+      ],
+      "ownSigns": [
+
+      ],
       "exaltation": "Taurus",
       "debilitation": "Scorpio",
       "moolatrikona": "Gemini",
-      "friends": ["Venus", "Saturn", "Mercury"],
-      "enemies": ["Sun", "Moon"],
-      "neutral": ["Mars", "Jupiter"],
+      "friends": [
+        "Venus",
+        "Saturn",
+        "Mercury"
+      ],
+      "enemies": [
+        "Sun",
+        "Moon"
+      ],
+      "neutral": [
+        "Mars",
+        "Jupiter"
+      ],
       "predictionNature": "amplification, obsession, foreign influences, ambition, and material desires",
       "positiveOutcome": "unusual growth, worldly ambition, foreign connections, innovation, and powerful desire",
       "negativeOutcome": "obsession, confusion, shortcuts, instability, or hunger for results without satisfaction",
       "dashaPrediction": "activates ambition, worldly desires, foreign influence, unconventional experiences, and material obsession.",
-      "shortDashaTheme": "ambition, worldly desires, unconventional experiences, and obsession"
+      "shortDashaTheme": "ambition, worldly desires, unconventional experiences, and obsession",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Hessonite",
+          "sanskritName": "Gomed",
+          "englishName": "Hessonite Garnet",
+          "category": "Ratna",
+          "strengthLevel": "VeryStrong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Rahu",
+          "suitabilityRule": "Recommend only when Rahu is suitable to strengthen, materially constructive, and not likely to amplify instability or obsession.",
+          "bestUsedWhen": [
+            "Rahu is well placed and supports the chart\u0027s practical goals",
+            "Rahu supports the current mahadasha or antardasha and is safe to strengthen",
+            "foreign opportunities, technology, research, politics, unconventional career, or public influence need support",
+            "Rahu behaves as a constructive amplifier through sign, house, dispositor, and aspects"
+          ],
+          "avoidWhen": [
+            "Rahu is severely afflicted or causing confusion, obsession, fear, addiction, or instability",
+            "Rahu\u0027s dispositor is weak or harmful and strengthening Rahu may amplify problems",
+            "Recommendation is based only on Rahu Mahadasha, Kaal Sarp Dosha, foreign settlement desire, or fear"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Honey Zircon",
+            "category": "Upratna",
+            "strengthLevel": "Medium",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Hessonite is too strong but Rahu support is still useful",
+              "Focus, ambition, and worldly success need moderate support"
+            ]
+          },
+          {
+            "name": "Brown Garnet",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "A budget or softer Rahu substitute is preferred",
+              "Grounding is needed alongside material progress"
+            ]
+          },
+          {
+            "name": "Agate",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "Only grounding and stabilizing support is appropriate",
+              "Confusion or instability needs balancing instead of strong amplification"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Rahu has no sign ownership, so Chandra Rashi use should be based on Moon chart placement, dispositor strength, and dasha context rather than lordship.",
+        "recommendationCaution": "Do not recommend Hessonite blindly for Rahu Mahadasha, Kaal Sarp Dosha, confusion, fear, or foreign matters."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Hessonite",
+            "sanskritName": "Gomed",
+            "englishName": "Hessonite Garnet",
+            "purpose": "Strengthens Rahu when Rahu is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "suitable Rahu needing strengthening",
+              "career growth in unconventional fields",
+              "foreign opportunities",
+              "politics and public influence",
+              "technology and research-related success",
+              "clarity during Rahu Mahadasha"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Honey Zircon",
+              "purpose": "Alternative stone used for Rahu-related focus, ambition, and worldly success."
+            },
+            {
+              "name": "Brown Garnet",
+              "purpose": "Budget substitute for Rahu-related stability and material progress."
+            },
+            {
+              "name": "Agate",
+              "purpose": "Milder support for Rahu-related confusion, instability, and grounding."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Middle finger",
+            "dayToWear": "Saturday",
+            "time": "Evening or during Rahu Kaal after proper purification",
+            "metal": [
+              "Silver",
+              "Panchdhatu"
+            ]
+          },
+          "caution": "Hessonite should be recommended only if Rahu is suitable to strengthen in the chart. Do not recommend it blindly for Rahu Mahadasha, Kaal Sarp Dosha, confusion, fear, or foreign settlement matters without checking overall chart suitability."
+        },
+        "yantra": {
+          "name": "Rahu Yantra",
+          "purpose": "Used for balancing Rahu-related energy, confusion, obsession, illusion, foreign influence, ambition, and sudden changes.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Rahu is afflicted",
+            "native is going through Rahu Mahadasha",
+            "Rahu is causing confusion or instability",
+            "foreign, career, or unconventional path needs balancing"
+          ]
+        },
+        "daan": [
+          "Coconut",
+          "Blue cloth",
+          "Black sesame",
+          "Mustard oil",
+          "Blanket"
+        ],
+        "japa": {
+          "mantra": "Om Bhram Bhreem Bhraum Sah Rahave Namah",
+          "count": 108,
+          "day": "Saturday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     },
     {
       "name": "Ketu",
@@ -184,19 +1326,161 @@
       "gender": "Neuter",
       "tattva": "Agni",
       "guna": "Tamas",
-      "karakatva": ["Moksha", "Detachment", "Spirituality", "PastKarma", "Isolation"],
-      "ownSigns": [],
+      "karakatva": [
+        "Moksha",
+        "Detachment",
+        "Spirituality",
+        "PastKarma",
+        "Isolation"
+      ],
+      "ownSigns": [
+
+      ],
       "exaltation": "Scorpio",
       "debilitation": "Taurus",
       "moolatrikona": "Sagittarius",
-      "friends": ["Mars", "Jupiter"],
-      "enemies": ["Sun", "Moon"],
-      "neutral": ["Venus", "Saturn"],
+      "friends": [
+        "Mars",
+        "Jupiter"
+      ],
+      "enemies": [
+        "Sun",
+        "Moon"
+      ],
+      "neutral": [
+        "Venus",
+        "Saturn"
+      ],
       "predictionNature": "detachment, spirituality, karmic isolation, insight, and separation from worldly attachment",
       "positiveOutcome": "spiritual insight, detachment, research ability, intuition, and freedom from ego",
       "negativeOutcome": "disinterest, karmic isolation, separation, dissatisfaction, or difficulty feeling rooted",
       "dashaPrediction": "activates detachment, spirituality, karmic reflection, inner transformation, and separation from attachment.",
-      "shortDashaTheme": "detachment, spirituality, karmic reflection, and inner transformation"
+      "shortDashaTheme": "detachment, spirituality, karmic reflection, and inner transformation",
+      "gemstoneRecommendation": {
+        "primaryGemstone": {
+          "name": "Cat\u0027s Eye",
+          "sanskritName": "Lehsunia",
+          "englishName": "Cat\u0027s Eye Chrysoberyl",
+          "category": "Ratna",
+          "strengthLevel": "VeryStrong",
+          "recommendationRole": "Primary",
+          "planetaryAction": "Strengthens Ketu",
+          "suitabilityRule": "Recommend only when Ketu is suitable to strengthen, spiritually constructive, and not likely to amplify isolation or sudden disruption.",
+          "bestUsedWhen": [
+            "Ketu is well placed and supports spiritual insight, research, intuition, or protection",
+            "Ketu supports the current mahadasha or antardasha and is safe to strengthen",
+            "occult learning, detachment, intuition, moksha-oriented growth, or protection from sudden obstacles need support",
+            "Ketu behaves constructively through sign, house, dispositor, and aspects"
+          ],
+          "avoidWhen": [
+            "Ketu is severely afflicted or causing isolation, fear, confusion, sudden losses, or detachment from practical life",
+            "Ketu\u0027s dispositor is weak or harmful and strengthening Ketu may increase instability",
+            "Recommendation is based only on Ketu Mahadasha, Kaal Sarp Dosha, fear, or spiritual confusion"
+          ]
+        },
+        "alternatives": [
+          {
+            "name": "Tiger\u0027s Eye",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "Cat\u0027s Eye is too strong or risky",
+              "Grounding, protection, and focus need gentle support"
+            ]
+          },
+          {
+            "name": "Quartz Cat\u0027s Eye",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "Alternative",
+            "useWhen": [
+              "A softer Ketu substitute is preferred",
+              "Intuition and spiritual balance need mild support"
+            ]
+          },
+          {
+            "name": "Lahsuniya Quartz",
+            "category": "Upratna",
+            "strengthLevel": "Mild",
+            "recommendationRole": "MildAlternative",
+            "useWhen": [
+              "Only light Ketu protection is suitable",
+              "Stability and protection are preferred over strong Ketu amplification"
+            ]
+          }
+        ],
+        "chandraRashiUse": "Ketu has no sign ownership, so Chandra Rashi use should be based on Moon chart placement, dispositor strength, and dasha context rather than lordship.",
+        "recommendationCaution": "Do not recommend Cat\u0027s Eye blindly for Ketu Mahadasha, Kaal Sarp Dosha, fear, sudden losses, or spiritual issues."
+      },
+      "remedies": {
+        "gemstone": {
+          "primary": {
+            "name": "Cat\u0027s Eye",
+            "sanskritName": "Lehsunia",
+            "englishName": "Cat\u0027s Eye Chrysoberyl",
+            "purpose": "Strengthens Ketu when Ketu is suitable and needs support in the chart.",
+            "recommendedFor": [
+              "suitable Ketu needing strengthening",
+              "spiritual growth and detachment",
+              "intuition and inner clarity",
+              "research and occult knowledge",
+              "protection from sudden obstacles",
+              "clarity during Ketu Mahadasha"
+            ]
+          },
+          "alternatives": [
+            {
+              "name": "Tiger\u0027s Eye",
+              "purpose": "Budget alternative for Ketu-related grounding, protection, and focus."
+            },
+            {
+              "name": "Quartz Cat\u0027s Eye",
+              "purpose": "Milder substitute for Ketu-related intuition and spiritual balance."
+            },
+            {
+              "name": "Lahsuniya Quartz",
+              "purpose": "Alternative stone used for Ketu-related protection and stability."
+            }
+          ],
+          "wearingRules": {
+            "finger": "Middle finger or little finger",
+            "dayToWear": "Tuesday or Thursday",
+            "time": "Morning after sunrise after proper purification",
+            "metal": [
+              "Silver",
+              "Panchdhatu"
+            ]
+          },
+          "caution": "Cat\u0027s Eye should be recommended only if Ketu is suitable to strengthen in the chart. Do not recommend it blindly for Ketu Mahadasha, Kaal Sarp Dosha, fear, sudden losses, or spiritual issues without checking overall chart suitability."
+        },
+        "yantra": {
+          "name": "Ketu Yantra",
+          "purpose": "Used for balancing Ketu-related energy, detachment, spirituality, sudden events, isolation, intuition, and moksha-oriented growth.",
+          "applicableWhen": [
+            "gemstone is not suitable",
+            "Ketu is afflicted",
+            "native is going through Ketu Mahadasha",
+            "Ketu is causing confusion, isolation, or sudden obstacles",
+            "spiritual or occult growth needs balancing"
+          ]
+        },
+        "daan": [
+          "Multi-colored cloth",
+          "Sesame seeds",
+          "Blanket",
+          "Food for dogs",
+          "Mustard oil"
+        ],
+        "japa": {
+          "mantra": "Om Sram Sreem Sraum Sah Ketave Namah",
+          "count": 108,
+          "day": "Tuesday"
+        },
+        "additionalRemedies": [
+
+        ]
+      }
     }
   ]
 }

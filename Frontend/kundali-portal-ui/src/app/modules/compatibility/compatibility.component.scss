@@ -39,6 +39,7 @@
 .hero-report,
 .total-score-row,
 .chart-comparison,
+.dosha-summary,
 .remedy-box {
   display: flex;
   align-items: center;
@@ -53,6 +54,9 @@
 .input-heading h2,
 .input-heading p,
 .report-toolbar h1,
+.compatibility-report-intro h2,
+.compatibility-report-intro h3,
+.compatibility-report-intro p,
 .report-section h2,
 .person-form h3,
 .profile-card h2,
@@ -136,6 +140,40 @@
   flex: 1;
 }
 
+.place-field {
+  position: relative;
+}
+
+.location-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid #eadaca;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(91, 31, 12, 0.12);
+}
+
+.location-dropdown button {
+  border: 0;
+  border-bottom: 1px solid #f2e7dc;
+  padding: 9px 10px;
+  color: var(--ink);
+  background: #fff;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.location-dropdown button:hover {
+  background: #fff7ed;
+}
+
 .primary-btn,
 .outline-btn,
 .ghost-btn {
@@ -168,6 +206,11 @@
   background: #fff;
 }
 
+.outline-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
 .ghost-btn {
   border-color: transparent;
   color: #5b1f0c;
@@ -198,6 +241,52 @@
 
 .toolbar-actions {
   gap: 10px;
+}
+
+.compatibility-report-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 18px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1dcc4;
+  align-items: start;
+}
+
+.compatibility-report-intro h2,
+.compatibility-report-intro h3,
+.compatibility-report-intro p {
+  margin: 0;
+}
+
+.compatibility-report-intro h2,
+.compatibility-report-intro h3 {
+  color: #5b1f0c;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.compatibility-report-intro p,
+.report-pandit-block span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.report-pandit-block {
+  justify-self: end;
+  text-align: right;
+}
+
+.compatibility-owner-statement {
+  grid-column: 1 / -1;
+  padding-top: 2px;
+}
+
+.compatibility-owner-statement strong {
+  color: #7c2d12;
+  font-weight: 900;
 }
 
 .hero-report {
@@ -400,12 +489,19 @@
 
 .kuta-icon,
 .dosha-mark {
-  display: grid;
   place-items: center;
-  width: 36px;
-  aspect-ratio: 1;
+
   border-radius: 50%;
   font-weight: 900;
+}
+
+.dosha-mark {
+  display: grid;
+  width: 36px;
+  min-width: 36px;
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  background: #fff;
 }
 
 .kuta-card h3,
@@ -489,6 +585,47 @@
   padding: 18px 12px;
 }
 
+.aspect-card-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+}
+
+.aspect-card-header h3 {
+  min-height: 30px;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.aspect-info-btn,
+.dosha-info-btn {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.aspect-info-btn,
+.dosha-info-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d6c6ff;
+  color: var(--purple);
+  background: #fff;
+  font-size: 15px;
+}
+
+.aspect-info-btn:hover,
+.aspect-info-btn.active,
+.dosha-info-btn:hover,
+.dosha-info-btn.active {
+  color: #fff;
+  border-color: var(--purple);
+  background: var(--purple);
+}
+
 .mini-ring {
   --score: 75;
   display: grid;
@@ -507,7 +644,17 @@
 }
 
 .dosha-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dosha-summary {
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid #f1dcc4;
+  border-radius: 8px;
+  background: #fffaf5;
 }
 
 .dosha-card {
@@ -517,9 +664,53 @@
   padding: 14px;
 }
 
+.dosha-card > div:last-child {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dosha-card-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: start;
+  gap: 8px;
+}
+
+.dosha-score-row,
+.dosha-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.dosha-score-row strong {
+  color: #111;
+  font-size: 20px;
+}
+
+.dosha-meta-row small {
+  border: 1px solid #efe3d8;
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: var(--muted);
+  background: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.dosha-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .dosha-card p,
 .insight-card p,
-.remedy-box li {
+.remedy-box li,
+.remedy-box p {
   margin: 5px 0 0;
   color: #2f2926;
   font-size: 12px;
@@ -633,6 +824,191 @@
   font-size: 12px;
 }
 
+.cosmic-export-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 18px;
+  padding: 24px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(242, 140, 18, 0.18), transparent 220px),
+    rgba(25, 12, 7, 0.82);
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+
+.cosmic-export-overlay h2,
+.cosmic-export-overlay p {
+  max-width: 520px;
+  margin: 0;
+}
+
+.cosmic-export-overlay h2 {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.cosmic-export-overlay p {
+  color: #ffe9cf;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cosmic-orbit-loader {
+  position: relative;
+  width: 150px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 221, 184, 0.36);
+  border-radius: 50%;
+  animation: cosmic-spin 4.2s linear infinite;
+}
+
+.cosmic-orbit-loader::before,
+.cosmic-orbit-loader::after {
+  content: '';
+  position: absolute;
+  inset: 22px;
+  border: 1px solid rgba(255, 231, 204, 0.24);
+  border-radius: 50%;
+}
+
+.cosmic-orbit-loader::after {
+  inset: 45px;
+}
+
+.navagraha-loader {
+  width: 190px;
+  background:
+    radial-gradient(circle at center, rgba(255, 214, 140, 0.14), transparent 30%),
+    radial-gradient(circle at center, transparent 0 38px, rgba(255, 231, 204, 0.22) 39px 40px, transparent 41px 68px, rgba(255, 231, 204, 0.18) 69px 70px, transparent 71px);
+}
+
+.navagraha-loader::before {
+  display: none;
+}
+
+.navagraha-loader::after {
+  display: none;
+}
+
+.cosmic-body {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: var(--s);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 14px currentColor;
+  transform:
+    translate(-50%, -50%)
+    rotate(var(--angle))
+    translateX(var(--orbit))
+    rotate(calc(var(--angle) * -1));
+  animation: navagraha-pulse 1.8s ease-in-out infinite;
+}
+
+.sun-body {
+  color: #f59e0b;
+  width: 30px;
+  border: 0;
+  background: currentColor;
+  box-shadow: 0 0 30px currentColor;
+  transform: translate(-50%, -50%);
+  animation: none;
+}
+
+.moon-body {
+  color: #f8fafc;
+  --orbit: 38px;
+  --s: 16px;
+  --angle: 18deg;
+}
+
+.mars-body {
+  color: #ef4444;
+  --orbit: 38px;
+  --s: 13px;
+  --angle: 138deg;
+}
+
+.mercury-body {
+  color: #22c55e;
+  --orbit: 38px;
+  --s: 12px;
+  --angle: 258deg;
+}
+
+.jupiter-body {
+  color: #fbbf24;
+  --orbit: 68px;
+  --s: 20px;
+  --angle: 62deg;
+}
+
+.venus-body {
+  color: #f5e8c8;
+  --orbit: 68px;
+  --s: 15px;
+  --angle: 182deg;
+}
+
+.saturn-body {
+  color: #64748b;
+  --orbit: 68px;
+  --s: 17px;
+  --angle: 302deg;
+}
+
+.rahu-body {
+  color: #4c1d95;
+  --orbit: 92px;
+  --s: 15px;
+  --angle: 110deg;
+}
+
+.ketu-body {
+  color: #b45309;
+  --orbit: 92px;
+  --s: 13px;
+  --angle: 250deg;
+}
+
+@keyframes navagraha-pulse {
+  50% {
+    filter: brightness(1.25);
+    box-shadow: 0 0 20px currentColor;
+  }
+}
+
+@keyframes cosmic-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.compatibility-pdf-mode .ghost-btn,
+.compatibility-pdf-mode .toolbar-actions,
+.compatibility-pdf-mode .aspect-info-btn,
+.compatibility-pdf-mode .dosha-info-btn,
+.compatibility-pdf-mode .cosmic-export-overlay,
+.compatibility-pdf-mode app-score-details-modal,
+.compatibility-pdf-mode .location-dropdown {
+  display: none !important;
+}
+
+.compatibility-pdf-mode .report-shell,
+.compatibility-pdf-mode .report-section,
+.compatibility-pdf-mode .hero-report {
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
 .tone-orange { color: var(--orange); background-color: #fff8ec; border-color: #f3c987; }
 .tone-blue { color: var(--blue); background-color: #f6f9ff; border-color: #cbdcff; }
 .tone-green { color: var(--green); background-color: #f5fff8; border-color: #c9efd4; }
@@ -666,10 +1042,20 @@
   .input-heading,
   .report-toolbar,
   .total-score-row,
+  .dosha-summary,
   .remedy-box,
   .profile-card {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .compatibility-report-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .report-pandit-block {
+    justify-self: start;
+    text-align: left;
   }
 
   .toolbar-actions,

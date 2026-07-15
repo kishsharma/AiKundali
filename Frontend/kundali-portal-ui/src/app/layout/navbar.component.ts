@@ -1,4 +1,4 @@
-// Top Navbar Component
+﻿// Top Navbar Component
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,26 +16,29 @@ import { RouterModule } from '@angular/router';
             <span class="hamburger"></span>
           </button>
           <a routerLink="/" class="brand-text">
-            <span class="brand-icon">♈</span>
+            <span class="brand-icon">â™ˆ</span>
             <span class="brand-name">Kundali Portal</span>
           </a>
         </div>
 
         <!-- Nav Links (Center) -->
         <nav class="navbar-nav">
-          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/app/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             Dashboard
           </a>
-          <a routerLink="/kundali" routerLinkActive="active">
+          <a routerLink="/app/kundali" routerLinkActive="active">
             Kundali
           </a>
-          <a routerLink="/compatibility" routerLinkActive="active">
+          <a routerLink="/app/compatibility" routerLinkActive="active">
             Compatibility
           </a>
-          <a routerLink="/panchang" routerLinkActive="active">
+          <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             Panchang
           </a>
-          <a routerLink="/dasha" routerLinkActive="active">
+          <a routerLink="/app/panchang/muhurtha" routerLinkActive="active">
+            Muhurtha
+          </a>
+          <a routerLink="/app/dasha" routerLinkActive="active">
             Dasha
           </a>
         </nav>
@@ -260,3 +263,4 @@ export class NavbarComponent {
   @Input() userInitials: string = 'US';
   @Output() onToggleSidebar = new EventEmitter<void>();
 }
+

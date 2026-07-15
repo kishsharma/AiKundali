@@ -63,8 +63,119 @@
 }
 
 .pdf-mode .chart-with-house-details {
-  gap: 0.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
   margin-top: 0.2rem;
+  align-items: start;
+}
+
+.pdf-mode .division-tabs,
+.pdf-mode .screen-house-details {
+  display: none !important;
+}
+
+.pdf-mode .pdf-d9-chart-card {
+  display: block !important;
+}
+
+.pdf-mode .chart-wrapper,
+.pdf-mode .pdf-d9-chart-card .card {
+  min-height: 0 !important;
+  padding: 0.18rem !important;
+  overflow: visible !important;
+}
+
+.pdf-mode .chart-title {
+  margin-bottom: 0.2rem !important;
+  font-size: 11px !important;
+}
+
+.pdf-mode .left,
+.pdf-mode .right,
+.pdf-mode .house-details-card-container {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+.pdf-mode app-north-indian-chart,
+.pdf-mode app-south-indian-chart,
+.pdf-mode app-western-chart {
+  display: block !important;
+  width: 100% !important;
+  max-width: 260px !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+}
+
+.pdf-mode app-north-indian-chart svg,
+.pdf-mode app-western-chart svg,
+.pdf-mode app-south-indian-chart .south-chart {
+  width: 100% !important;
+  max-width: 260px !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  overflow: visible !important;
+}
+
+:host ::ng-deep .pdf-mode app-north-indian-chart svg,
+:host ::ng-deep .pdf-mode app-western-chart svg,
+:host ::ng-deep .pdf-mode app-south-indian-chart .south-chart {
+  width: 100% !important;
+  max-width: 260px !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  overflow: visible !important;
+}
+
+.pdf-mode .sudarshan-pdf-section .card {
+  padding: 0.28rem 0.35rem !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .card-header {
+  margin-bottom: 0.2rem !important;
+  padding-bottom: 0.18rem !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .sudarshan-chart {
+  gap: 0.18rem !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .chart-stage {
+  width: min(100%, 940px) !important;
+  padding: 0 !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .sudarshan-layout.clean {
+  grid-template-columns: minmax(170px, 205px) 430px minmax(170px, 205px) !important;
+  gap: 18px !important;
+  padding: 12px 6px 8px !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-zone {
+  width: 430px !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-center,
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-center svg {
+  width: 410px !important;
+  height: 410px !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-legend {
+  gap: 0.18rem !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .legend-item {
+  min-height: 16px !important;
+  padding: 0 5px !important;
+  font-size: 8px !important;
+  font-weight: 600 !important;
+}
+
+:host ::ng-deep .pdf-mode .sudarshan-pdf-section .legend-item i {
+  width: 6px !important;
+  height: 6px !important;
 }
 
 .pdf-mode .card-content,
@@ -93,6 +204,13 @@
   margin-top: 0.22rem;
   margin-bottom: 0.22rem;
   padding: 0.18rem 0;
+}
+
+.pdf-mode .planet-icon {
+  color: var(--planet-color) !important;
+  border-color: #d9deee !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
 }
 
 /* SVG */

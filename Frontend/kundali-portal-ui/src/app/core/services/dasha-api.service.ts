@@ -2,8 +2,9 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
-import { GenerateKundaliRequest, Kundali } from './kundali-api.service';
+import { GenerateKundaliRequest } from './kundali-api.service';
 import { environment } from '../../config/environment/environment';
+import { MahadashaAnalysis } from '../../features/mahadasha/models/mahadasha.model';
 
 export interface DashaPeriod {
   planet: string;
@@ -22,12 +23,25 @@ export interface DashaAnalysis {
   analysis: string;
 }
 
+export interface AntardashaPeriodDto {
+  subPlanet: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface MahadashaPeriodDto {
+  planet: string;
+  start: string;
+  end: string;
+  antardashas: AntardashaPeriodDto[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class DashaApiService extends BaseApiService {
- // private endpoint = 'dasha';
-  private endpoint =`${environment.apiBaseUrl}/${environment.apiEndpoints.dasha}`;
+  private endpoint = `${environment.apiBaseUrl}/${environment.apiEndpoints.dasha}`;
+
   /**
    * Get Dasha analysis for a Kundali
    */
@@ -55,16 +69,16 @@ export class DashaApiService extends BaseApiService {
   }
 
   /**
-   * Get Maha Dasha period data
+   * Get compact Maha Dasha period data used by the Kundali report table.
    */
-  // getMahadashaPeriods(
-  //    request: GenerateKundaliRequest
-  // ): Observable<ApiResponse<DashaPeriod[]>> {
-  //   return this.get<DashaPeriod[]>(`${this.endpoint}/mahadasha-periods`);
-  // }
-
-   getMahadashaPeriods(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.endpoint}/mahadasha-periods`, payload);
+  getMahadashaPeriods(payload: GenerateKundaliRequest): Observable<MahadashaPeriodDto[]> {
+    return this.http.post<MahadashaPeriodDto[]>(`${this.endpoint}/mahadasha-periods`, payload);
   }
 
+  /**
+   * Get enhanced Maha Dasha analysis used by the dedicated Dasha page.
+   */
+  getMahadashaAnalysis(payload: GenerateKundaliRequest): Observable<MahadashaAnalysis> {
+    return this.http.post<MahadashaAnalysis>(`${this.endpoint}/mahadasha-analysis`, payload);
+  }
 }

@@ -4,6 +4,8 @@ export interface CompatibilityResponse {
 
   personAchart: BirthChart;
   personBchart: BirthChart;
+  ashtakoota: AshtakootaResult;
+  doshaAnalysis: CompatibilityDoshaAnalysis;
 
   overallCompatibilityScore: number;
   dimensions: CompatibilityDimension[];
@@ -124,6 +126,8 @@ export interface Panchang {
 
   pada: number;
 
+  akshara: string;
+
   yoga: string;
 
   karana: string;
@@ -147,7 +151,65 @@ export interface CompatibilityDimension {
 
   factors: string[];
 
+  scoreBreakdown: CompatibilityScoreComponent[];
+
   summary: string;
 
   confidence: number;
+}
+
+export interface CompatibilityScoreComponent {
+  label: string;
+  score: number;
+  weight: number;
+  contribution: number;
+}
+
+export interface CompatibilityDoshaAnalysis {
+  overallDoshaScore: number;
+  overallDoshaStatus: string;
+  doshaFactors: string[];
+  doshaRemedies: string[];
+  items: CompatibilityDoshaItem[];
+  scoreBreakdown: CompatibilityScoreComponent[];
+}
+
+export interface CompatibilityDoshaItem {
+  key: string;
+  name: string;
+  category: string;
+  status: string;
+  compatibilityScore: number;
+  riskScore: number;
+  severity: string;
+  tone: string;
+  personA: CompatibilityDoshaPersonSummary;
+  personB: CompatibilityDoshaPersonSummary;
+  reason: string;
+  factors: string[];
+  remedies: string[];
+  references: string[];
+  scoreBreakdown: CompatibilityScoreComponent[];
+}
+
+export interface CompatibilityDoshaPersonSummary {
+  isPresent: boolean;
+  severity: string;
+  reason: string;
+  involvedPlanets: string[];
+  involvedHouses: number[];
+}
+
+export interface AshtakootaResult {
+  totalScore: number;
+  maxScore: number;
+  scores: KutaScore[];
+}
+
+export interface KutaScore {
+  name: string;
+  score: number;
+  maxScore: number;
+  grade: string;
+  detail: string;
 }

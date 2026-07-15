@@ -3,8 +3,8 @@
 
   legacycompatibility="yes"
   [breadcrumbs]="[
-    { label: 'Home', routerLink: '/' },
-    { label: 'Compatibility', active: true }
+    { label: ('menu.home' | transloco), routerLink: '/' },
+    { label: ('compatibility.title' | transloco), active: true }
   ]"
 ></app-page-header>
 
@@ -12,38 +12,50 @@
   <section class="input-panel">
     <div class="input-heading">
       <div>
-        <h2>Birth Details</h2>
-        <p>Use exact birth details when available. Some Milan sections use placeholder data until the backend returns full report fields.</p>
+        <h2>{{ 'compatibility.birthDetails' | transloco }}</h2>
+        <p>{{ 'compatibility.birthDetailsHelp' | transloco }}</p>
       </div>
       <button type="button" class="primary-btn" (click)="analyzeCompatibility()" [disabled]="loading">
-        {{ loading ? 'Calculating...' : 'Generate Milan Report' }}
+        {{ (loading ? 'compatibility.calculating' : 'compatibility.generateReport') | transloco }}
       </button>
     </div>
 
     <form [formGroup]="form" class="match-form">
       <div class="person-form boy-form">
-        <h3>Boy Details</h3>
-        <label>Name <input formControlName="boyName" type="text" /></label>
-        <label>Date <input formControlName="boyBirthDate" type="date" /></label>
-        <label>Time <input formControlName="boyBirthTime" type="time" /></label>
+        <h3>{{ 'compatibility.boyDetails' | transloco }}</h3>
+        <label>{{ 'compatibility.name' | transloco }} <input formControlName="boyName" type="text" /></label>
+        <label>{{ 'compatibility.date' | transloco }} <input formControlName="boyBirthDate" type="date" /></label>
+        <label>{{ 'compatibility.time' | transloco }} <input formControlName="boyBirthTime" type="time" /></label>
 
         <div class="coordinate-row">
-                  <label>Birth Place <input formControlName="boyBirthPlace" type="text" /></label>
-          <label>Latitude <input formControlName="boyLatitude" type="number" step="0.000001" /></label>
-          <label>Longitude <input formControlName="boyLongitude" type="number" step="0.000001" /></label>
+          <label class="place-field">{{ 'compatibility.birthPlace' | transloco }} <input formControlName="boyBirthPlace" type="text" />
+            <div class="location-dropdown" *ngIf="boyLocationResults.length">
+              <button type="button" *ngFor="let place of boyLocationResults" (click)="selectLocation('boy', place)">
+                {{ place.display_name }}
+              </button>
+            </div>
+          </label>
+          <label>{{ 'compatibility.latitude' | transloco }} <input formControlName="boyLatitude" type="number" step="0.000001" /></label>
+          <label>{{ 'compatibility.longitude' | transloco }} <input formControlName="boyLongitude" type="number" step="0.000001" /></label>
         </div>
       </div>
 
       <div class="person-form girl-form">
-        <h3>Girl Details</h3>
-        <label>Name <input formControlName="girlName" type="text" /></label>
-        <label>Date <input formControlName="girlBirthDate" type="date" /></label>
-        <label>Time <input formControlName="girlBirthTime" type="time" /></label>
+        <h3>{{ 'compatibility.girlDetails' | transloco }}</h3>
+        <label>{{ 'compatibility.name' | transloco }} <input formControlName="girlName" type="text" /></label>
+        <label>{{ 'compatibility.date' | transloco }} <input formControlName="girlBirthDate" type="date" /></label>
+        <label>{{ 'compatibility.time' | transloco }} <input formControlName="girlBirthTime" type="time" /></label>
         <div class="coordinate-row">
-                  <label>Birth Place <input formControlName="girlBirthPlace" type="text" /></label>
+          <label class="place-field">{{ 'compatibility.birthPlace' | transloco }} <input formControlName="girlBirthPlace" type="text" />
+            <div class="location-dropdown" *ngIf="girlLocationResults.length">
+              <button type="button" *ngFor="let place of girlLocationResults" (click)="selectLocation('girl', place)">
+                {{ place.display_name }}
+              </button>
+            </div>
+          </label>
 
-          <label>Latitude <input formControlName="girlLatitude" type="number" step="0.000001" /></label>
-          <label>Longitude <input formControlName="girlLongitude" type="number" step="0.000001" /></label>
+          <label>{{ 'compatibility.latitude' | transloco }} <input formControlName="girlLatitude" type="number" step="0.000001" /></label>
+          <label>{{ 'compatibility.longitude' | transloco }} <input formControlName="girlLongitude" type="number" step="0.000001" /></label>
         </div>
       </div>
     </form>
@@ -51,28 +63,46 @@
     <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
   </section>
 
-  <section class="report-shell"  *ngIf="showReport">
+  <section id="compatibility-report" class="report-shell"  *ngIf="showReport">
     <div class="report-toolbar">
-      <button type="button" class="ghost-btn">Back to Dashboard</button>
-      <h1>Compatibility Report</h1>
+      <button type="button" class="ghost-btn"></button>
+      <h1></h1>
       <div class="toolbar-actions">
-        <button type="button" class="outline-btn">Download PDF</button>
-        <button type="button" class="outline-btn">Share</button>
+        <button type="button" class="outline-btn" (click)="downloadPdf()" [disabled]="exportingPdf">
+          {{ (exportingPdf ? 'compatibility.preparingPdf' : 'compatibility.downloadPdf') | transloco }}
+        </button>
+
       </div>
+    </div>
+
+    <div class="compatibility-report-intro">
+      <div>
+        <h2>{{ 'kundali.brandName' | transloco }}</h2>
+        <p>{{ 'kundali.brandTagline' | transloco }}</p>
+      </div>
+      <div class="report-pandit-block">
+        <h3>{{ 'kundali.reportAuthorName' | transloco }}</h3>
+        <span>{{ 'kundali.reportAuthorRole' | transloco }}</span>
+        <p>{{ 'kundali.reportAuthorContact' | transloco }}</p>
+      </div>
+      <p class="compatibility-owner-statement">
+        {{ 'compatibility.reportOwnerPrefix' | transloco }} <strong>{{ boy.name }}</strong> {{ 'compatibility.reportOwnerAnd' | transloco }} <strong>{{ girl.name }}</strong>,
+        {{ 'compatibility.reportOwnerSuffix' | transloco }}
+      </p>
     </div>
 
     <div class="hero-report">
       <article class="profile-card profile-card--boy">
         <div class="avatar avatar--boy">{{ boy.name.charAt(0) }}</div>
         <div class="profile-content">
-          <span class="role-badge boy-badge">Boy</span>
+          <span class="role-badge boy-badge">{{ 'compatibility.boy' | transloco }}</span>
           <h2>{{ boy.name }}</h2>
           <dl>
-            <div><dt>Moon Sign</dt><dd>{{ boy.moonSign }}</dd></div>
-            <div><dt>Nakshatra</dt><dd>{{ boy.nakshatra }}</dd></div>
-            <div><dt>Ascendant</dt><dd>{{ boy.ascendant }}</dd></div>
-            <div><dt>Date of Birth</dt><dd>{{ boy.birthDate }}, {{ boy.birthTime }}</dd></div>
-            <div><dt>Birth Place</dt><dd>{{ boy.birthPlace }}</dd></div>
+            <div><dt>{{ 'compatibility.moonSign' | transloco }}</dt><dd>{{ getMoonSign(personAchart) }}</dd></div>
+            <div><dt>{{ 'compatibility.nakshatra' | transloco }}</dt><dd>{{ getNakshatraDisplay(personAchart) }}</dd></div>
+            <div><dt>{{ 'compatibility.ascendant' | transloco }}</dt><dd>{{ getAscendant(personAchart) }}</dd></div>
+            <div><dt>{{ 'compatibility.dateOfBirth' | transloco }}</dt><dd>{{ boy.birthDate }}, {{ boy.birthTime }}</dd></div>
+            <div><dt>{{ 'compatibility.birthPlace' | transloco }}</dt><dd>{{ boy.birthPlace }}</dd></div>
           </dl>
         </div>
       </article>
@@ -80,21 +110,21 @@
       <div class="score-ring" [style.--score]="overallScore">
         <div class="ring-inner">
           <strong>{{ overallScore }}%</strong>
-          <span>Compatible</span>
+          <span>{{ 'compatibility.compatible' | transloco }}</span>
         </div>
         <div class="match-ribbon">{{ scoreLabel }}</div>
       </div>
 
       <article class="profile-card profile-card--girl">
         <div class="profile-content">
-          <span class="role-badge girl-badge">Girl</span>
+          <span class="role-badge girl-badge">{{ 'compatibility.girl' | transloco }}</span>
           <h2>{{ girl.name }}</h2>
           <dl>
-            <div><dt>Moon Sign</dt><dd>{{ girl.moonSign }}</dd></div>
-            <div><dt>Nakshatra</dt><dd>{{ girl.nakshatra }}</dd></div>
-            <div><dt>Ascendant</dt><dd>{{ girl.ascendant }}</dd></div>
-            <div><dt>Date of Birth</dt><dd>{{ girl.birthDate }}, {{ girl.birthTime }}</dd></div>
-            <div><dt>Birth Place</dt><dd>{{ girl.birthPlace }}</dd></div>
+            <div><dt>{{ 'compatibility.moonSign' | transloco }}</dt><dd>{{ getMoonSign(personBchart) }}</dd></div>
+            <div><dt>{{ 'compatibility.nakshatra' | transloco }}</dt><dd>{{ getNakshatraDisplay(personBchart) }}</dd></div>
+            <div><dt>{{ 'compatibility.ascendant' | transloco }}</dt><dd>{{ getAscendant(personBchart) }}</dd></div>
+            <div><dt>{{ 'compatibility.dateOfBirth' | transloco }}</dt><dd>{{ girl.birthDate }}, {{ girl.birthTime }}</dd></div>
+            <div><dt>{{ 'compatibility.birthPlace' | transloco }}</dt><dd>{{ girl.birthPlace }}</dd></div>
           </dl>
         </div>
         <div class="avatar avatar--girl">{{ girl.name.charAt(0) }}</div>
@@ -102,58 +132,120 @@
     </div>
 
     <section class="report-section">
-      <h2>1. Ashtakoota (Kuta) Score</h2>
+      <h2>{{ 'compatibility.ashtakootaScoreTitle' | transloco }}</h2>
       <div class="kuta-grid">
-        <article class="kuta-card" *ngFor="let item of kutaScores" [class]="'tone-' + item.tone">
-          <div class="kuta-icon">{{ item.name.charAt(0) }}</div>
-          <h3>{{ item.name }}</h3>
-          <strong>{{ item.score }} <span>/ {{ item.max }}</span></strong>
-          <small>Max {{ item.max }}</small>
+        <article class="kuta-card" *ngFor="let item of kutaScores" [class]="'tone-' + item.tone" [title]="item.detail">
+
+          <div class="kuta-icon">{{ item.name }}</div>
+          <strong [title]="item.detail">{{ item.score }} <span>/ {{ item.max }}</span></strong>
+          <small>{{ 'compatibility.max' | transloco }} {{ item.max }}</small>
           <em>{{ item.grade }}</em>
         </article>
       </div>
       <div class="total-score-row">
-        <strong>Total Score: {{ totalKutaScore }} / 36</strong>
+        <strong>{{ 'compatibility.totalScore' | transloco }}: {{ totalKutaScore }} / 36</strong>
         <div class="score-track"><span [style.width.%]="(totalKutaScore / 36) * 100"></span></div>
-        <span class="status-pill">Excellent Compatibility</span>
+        <span class="status-pill">{{ totalKutaLabel }}</span>
       </div>
     </section>
 
     <section class="report-section">
-      <h2>2. Compatibility Aspects (Overall Analysis)</h2>
+      <h2>{{ 'compatibility.aspectsTitle' | transloco }}</h2>
       <div class="aspect-grid">
         <article class="aspect-card" *ngFor="let aspect of compatibilityAspects" [class]="'tone-' + aspect.tone">
-          <h3>{{ aspect.name }}</h3>
+          <div class="aspect-card-header">
+            <h3>{{ aspect.name }}</h3>
+            <button
+              type="button"
+              class="aspect-info-btn"
+              [class.active]="selectedCompatibilityAspect?.name === aspect.name && isCompatibilityScoreModalOpen"
+              (click)="openCompatibilityFactors(aspect)"
+              aria-haspopup="dialog"
+              [attr.aria-expanded]="selectedCompatibilityAspect?.name === aspect.name"
+              [attr.aria-label]="'compatibility.viewScoreCalculationFor' | transloco: { name: aspect.name }"
+              [title]="'compatibility.viewScoreCalculation' | transloco">
+              <app-astrology-icon name="info" [decorative]="true"></app-astrology-icon>
+            </button>
+          </div>
           <div class="mini-ring" [style.--score]="aspect.score">
             <strong>{{ aspect.score }}%</strong>
           </div>
           <span>{{ aspect.grade }}</span>
         </article>
       </div>
+      <ng-container *ngIf="selectedCompatibilityAspect as activeAspect">
+        <app-score-details-modal
+          [isOpen]="isCompatibilityScoreModalOpen"
+          scoreType="overall"
+          [scoreLabel]="activeAspect.name"
+          [scoreValue]="activeAspect.score"
+          [scoreBreakdown]="activeAspect.scoreBreakdown"
+          [factors]="activeAspect.factors"
+          (close)="closeCompatibilityFactors()">
+        </app-score-details-modal>
+      </ng-container>
     </section>
 
     <section class="report-section">
-      <h2>3. Dosha Analysis</h2>
-      <div class="dosha-grid">
+      <h2>{{ 'compatibility.doshaAnalysisTitle' | transloco }}</h2>
+      <div class="dosha-summary" *ngIf="result?.doshaAnalysis as doshaSummary">
+        <strong>{{ 'compatibility.overallDoshaScore' | transloco }}: {{ doshaSummary.overallDoshaScore }} / 100</strong>
+        <span class="status-pill">{{ doshaSummary.overallDoshaStatus }}</span>
+      </div>
+      <div class="dosha-grid" *ngIf="doshas.length; else noCompatibilityDoshas">
         <article class="dosha-card" *ngFor="let dosha of doshas" [class]="'tone-' + dosha.tone">
           <div class="dosha-mark">{{ dosha.name.charAt(0) }}</div>
           <div>
-            <h3>{{ dosha.name }}</h3>
+            <div class="dosha-card-header">
+              <h3>{{ dosha.name }}</h3>
+              <button
+                type="button"
+                class="dosha-info-btn"
+                [class.active]="selectedDosha?.key === dosha.key && isDoshaModalOpen"
+                (click)="openDoshaFactors(dosha)"
+                aria-haspopup="dialog"
+                [attr.aria-expanded]="selectedDosha?.key === dosha.key"
+                [attr.aria-label]="'compatibility.viewDoshaCalculationFor' | transloco: { name: dosha.name }"
+                [title]="'compatibility.viewDoshaCalculation' | transloco">
+                <app-astrology-icon name="info" [decorative]="true"></app-astrology-icon>
+              </button>
+            </div>
             <p>{{ dosha.detail }}</p>
-            <span>{{ dosha.status }}</span>
+            <div class="dosha-score-row">
+              <strong>{{ dosha.compatibilityScore }}%</strong>
+              <span>{{ dosha.status }}</span>
+            </div>
+            <div class="dosha-meta-row">
+              <small>{{ 'compatibility.who' | transloco }}: {{ dosha.whoHas }}</small>
+              <small>{{ 'compatibility.severity' | transloco }}: {{ dosha.severity }}</small>
+            </div>
           </div>
         </article>
       </div>
+      <ng-template #noCompatibilityDoshas>
+        <p class="dosha-empty">{{ 'compatibility.noDoshaAnalysisYet' | transloco }}</p>
+      </ng-template>
+      <ng-container *ngIf="selectedDosha as activeDosha">
+        <app-score-details-modal
+          [isOpen]="isDoshaModalOpen"
+          scoreType="overall"
+          [scoreLabel]="'compatibility.doshaCalculationLabel' | transloco: { name: activeDosha.name }"
+          [scoreValue]="activeDosha.compatibilityScore"
+          [scoreBreakdown]="activeDosha.scoreBreakdown"
+          [factors]="activeDosha.factors"
+          (close)="closeDoshaFactors()">
+        </app-score-details-modal>
+      </ng-container>
     </section>
 
     <section class="report-section chart-section">
-      <h2>4. Kundali (Chart) Comparison</h2>
+      <h2>{{ 'compatibility.chartComparisonTitle' | transloco }}</h2>
       <div class="chart-comparison">
-        <h3>Boy's Kundali</h3>
+        <h3>{{ 'compatibility.boyKundali' | transloco }}</h3>
         <div class="kundali-placeholder boy-chart">
           <!-- <span>Me</span><span>Ve</span><span>Sa</span><span>Ju</span><span>Mo</span><span>Ra</span> -->
 
-          
+
            <div>
 
               <app-north-indian-chart  [planets]="personAplanetPositions"
@@ -167,22 +259,22 @@
               <app-western-chart *ngIf="activeChartType === 'western'" [planets]="planets"
                 [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
                 (houseSelected)="selectedHouseData = $event"></app-western-chart> -->
-                </div> 
+                </div>
 
         </div>
-        <strong class="vs-badge">VS</strong>
+        <strong class="vs-badge">{{ 'compatibility.vs' | transloco }}</strong>
         <div class="kundali-placeholder girl-chart">
 
                         <app-north-indian-chart  [planets]="personBplanetPositions"
                 [ascendant]="personBchart?.ascendantSignAndNumber" [housesData]="personBhouses"
                 ></app-north-indian-chart>
         </div>
-        <h3>Girl's Kundali</h3>
+        <h3>{{ 'compatibility.girlKundali' | transloco }}</h3>
       </div>
     </section>
 
     <section class="report-section">
-      <h2>5. AI Insights & Interpretation</h2>
+      <h2>{{ 'compatibility.aiInsightsTitle' | transloco }}</h2>
       <div class="insight-grid">
         <article class="insight-card" *ngFor="let insight of insights" [class]="'tone-' + insight.tone">
           <h3>{{ insight.title }}</h3>
@@ -192,23 +284,24 @@
     </section>
 
     <section class="report-section remedies-section">
-      <h2>6. Remedies (if any)</h2>
+      <h2>{{ 'compatibility.remediesTitle' | transloco }}</h2>
       <div class="remedy-box">
         <div class="remedy-art">ॐ</div>
         <div>
-          <h3>Minor doshas detected. Suggested Remedies:</h3>
-          <ul>
-            <li>Worship Lord Shiva on Mondays</li>
-            <li>Recite Mahamrityunjaya Mantra 108 times daily</li>
-            <li>Perform Navagraha Shanti Puja for overall harmony</li>
+          <h3>{{ doshaRemedyTitle }}</h3>
+          <ul *ngIf="doshaRemedies.length; else noDoshaRemedies">
+            <li *ngFor="let remedy of doshaRemedies">{{ remedy }}</li>
           </ul>
+          <ng-template #noDoshaRemedies>
+            <p>{{ 'compatibility.noDoshaRemedies' | transloco }}</p>
+          </ng-template>
         </div>
-        <button type="button" class="outline-btn">View Detailed Remedies</button>
+        <button type="button" class="outline-btn">{{ 'compatibility.viewDetailedRemedies' | transloco }}</button>
       </div>
     </section>
 
     <section class="report-section">
-      <h2>7. Auspicious Marriage Periods</h2>
+      <h2>{{ 'compatibility.marriagePeriodsTitle' | transloco }}</h2>
       <div class="period-grid">
         <article class="period-card" *ngFor="let period of marriagePeriods" [class]="'tone-' + period.tone">
           <strong>{{ period.period }}</strong>
@@ -217,6 +310,22 @@
       </div>
     </section>
 
-    <p class="report-note">Note: This report is based on Vedic Astrology calculations. Final decision should be based on mutual understanding and trust.</p>
+    <p class="report-note">{{ 'compatibility.reportNote' | transloco }}</p>
   </section>
+
+  <div class="cosmic-export-overlay" *ngIf="exportingPdf" role="status" aria-live="polite" [attr.aria-label]="'compatibility.preparingCompatibilityPdf' | transloco">
+    <div class="cosmic-orbit-loader navagraha-loader" aria-hidden="true">
+      <span class="cosmic-body sun-body" title="Sun"></span>
+      <span class="cosmic-body moon-body" title="Moon"></span>
+      <span class="cosmic-body mars-body" title="Mars"></span>
+      <span class="cosmic-body mercury-body" title="Mercury"></span>
+      <span class="cosmic-body jupiter-body" title="Jupiter"></span>
+      <span class="cosmic-body venus-body" title="Venus"></span>
+      <span class="cosmic-body saturn-body" title="Saturn"></span>
+      <span class="cosmic-body rahu-body" title="Rahu"></span>
+      <span class="cosmic-body ketu-body" title="Ketu"></span>
+    </div>
+    <h2>{{ 'compatibility.pdfLoaderTitle' | transloco }}</h2>
+    <p>{{ 'compatibility.pdfLoaderText' | transloco }}</p>
+  </div>
 </div>

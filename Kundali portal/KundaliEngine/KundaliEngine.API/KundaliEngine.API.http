@@ -1,6 +1,34 @@
-@KundaliEngine.API_HostAddress = http://localhost:5265
+@KundaliEngine_API_HostAddress = https://localhost:7245
 
-GET {{KundaliEngine.API_HostAddress}}/weatherforecast/
+### Health / Weather test if available
+GET {{KundaliEngine_API_HostAddress}}/weatherforecast
 Accept: application/json
 
-###
+
+### Register User
+POST {{KundaliEngine_API_HostAddress}}/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "fullName": "Kishore Sharma",
+  "email": "kishore@test.com",
+  "phoneNumber": "9999999999",
+  "password": "Test@123"
+}
+
+
+### Login User
+POST {{KundaliEngine_API_HostAddress}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "kishore@test.com",
+  "password": "Test@123"
+}
+
+### Get logged-in user profile
+GET {{KundaliEngine_API_HostAddress}}/api/user/me
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjA2ZWFmOGMyLTMxNTAtNDY4Yy04M2Q5LWEzY2UyOTdhOGM1NyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJLaXNob3JlIFNoYXJtYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Imtpc2hvcmVAdGVzdC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzgzNDk3MjAyLCJpc3MiOiJLdW5kYWxpRW5naW5lIiwiYXVkIjoiS3VuZGFsaVBvcnRhbFVzZXJzIn0.fVvGzzC4Jx4K-9WNhDjAxSZHvq8x_jCOMDVN3WR5jps

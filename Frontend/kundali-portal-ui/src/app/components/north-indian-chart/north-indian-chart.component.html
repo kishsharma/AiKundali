@@ -2,7 +2,7 @@
 <div class="chart-wrapper">
 
   <svg
-    viewBox="0 0 500 500"
+    viewBox="35 35 430 430"
     preserveAspectRatio="xMidYMid meet"
     class="kundali-svg"
   >
@@ -297,8 +297,10 @@
       [attr.x]="getPlanetX(house, i)"
       [attr.y]="getPlanetY(house, i)"
       class="planet-text"
+      [ngClass]="getPlanetToneClass(planet)"
     >
-      {{ planet }}
+      <title>{{ getPlanetTooltip(planet) }}</title>
+      {{ getPlanetShortName(planet) }}
     </text>
 
   </ng-container>

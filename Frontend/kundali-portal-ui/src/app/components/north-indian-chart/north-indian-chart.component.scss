@@ -1,54 +1,87 @@
-/* kundali-chart.component.scss */
+:host {
+  display: block;
+  width: min(100%, 720px);
+  overflow: visible;
+}
 
 .chart-wrapper {
-  width: 350px;
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0.5rem;
+  padding: 0;
+  overflow: visible;
 }
 
 .kundali-svg {
   width: 100%;
-  max-width: 600px;
   height: auto;
+  aspect-ratio: 1;
+  display: block;
+  overflow: visible;
 }
 
 .chart-outline {
-  fill: white;
-  stroke: black;
+  fill: var(--theme-input-bg);
+  stroke: var(--theme-accent);
   stroke-width: 2;
 }
 
 
 .house {
-  fill: #f8fbff;
-  stroke: #2563eb;
+  fill: color-mix(in srgb, var(--theme-surface) 72%, transparent);
+  stroke: var(--theme-accent);
   stroke-width: 2;
   cursor: pointer;
   transition: fill 0.3s ease;
 }
 .house:hover {
-  fill: #e9f2ff;
+  fill: color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 
 .house.active {
-  fill: #dbeafe;
+  fill: color-mix(in srgb, var(--theme-accent) 18%, transparent);
 }
 
 .house-label {
-  font-size: 0.85rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  fill: var(--theme-success);
+  paint-order: stroke;
+  stroke: var(--theme-input-bg);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
 }
 
 .planet {
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 700;
-  fill: #d32f2f;
+  fill: var(--theme-success);
 }
 
 .planet-text {
-  font-size: 0.85rem;
+  font-size: 0.80rem;
   font-weight: 700;
-  fill: #c62828;
+  fill: var(--theme-text);
+}
+
+.planet-text.tone-supportive {
+  fill: var(--theme-success);
+}
+
+.planet-text.tone-neutral {
+  fill: var(--theme-info);
+}
+
+.planet-text.tone-mixed {
+  fill: var(--theme-copper);
+}
+
+.planet-text.tone-challenging {
+  fill: var(--theme-danger);
+}
+
+.planet-text.tone-special {
+  fill: var(--theme-success);
 }
 
 .info-panel {
@@ -61,7 +94,7 @@
   .house-label,
   .planet,
   .planet-text {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
   }
 }
 
@@ -71,9 +104,5 @@
 //   fill: #c62828;
 // }
 
-.planet-text {
-  font-size: 12px;
-  font-weight: 600;
-  fill: #c62828;
-}
+
 

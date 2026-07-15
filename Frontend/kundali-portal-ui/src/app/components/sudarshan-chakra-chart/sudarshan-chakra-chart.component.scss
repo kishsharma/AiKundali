@@ -1,0 +1,301 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.sudarshan-chart {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.chart-stage {
+  width: min(100%, 980px);
+  padding: 8px;
+}
+
+.chakra-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chakra-sector {
+  stroke-width: 1.6;
+  transition: opacity 0.2s ease;
+}
+
+.lagna-ring {
+  fill: #e4f1ee;
+  stroke: #4f8f87;
+}
+
+.moon-ring {
+  fill: #eee7f8;
+  stroke: #9270b7;
+}
+
+.sun-ring {
+  fill: #f7f0df;
+  stroke: #b99555;
+}
+
+.house-number {
+  fill: #475569;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.planet-label {
+  font-size: 10px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.planet-label.lagna-ring {
+  fill: #2f6f69;
+}
+
+.planet-label.moon-ring {
+  fill: #74519a;
+}
+
+.planet-label.sun-ring {
+  fill: #8a6426;
+}
+
+.center-disc {
+  fill: #ffffff;
+  stroke: #d9deee;
+  stroke-width: 1.5;
+}
+
+.center-title,
+.center-subtitle {
+  fill: #10143d;
+  font-weight: 900;
+}
+
+.center-title {
+  font-size: 13px;
+}
+
+.center-subtitle {
+  font-size: 12px;
+}
+
+.chakra-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  border: 1px solid #d9deee;
+  border-radius: 999px;
+  padding: 0 10px;
+  color: #263150;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.legend-item i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-item.lagna i {
+  background: #4f8f87;
+}
+
+.legend-item.moon i {
+  background: #9270b7;
+}
+
+.legend-item.sun i {
+  background: #b99555;
+}
+
+.empty-state {
+  width: 100%;
+  border: 1px dashed #d9deee;
+  border-radius: 8px;
+  padding: 18px;
+  color: #5d6689;
+  background: #fbfcff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+.sudarshan-layout.clean {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(190px, 220px) 460px minmax(190px, 220px);
+  justify-content: center;
+  align-items: center;
+  gap: 26px;
+  padding: 30px 12px 18px;
+
+}
+
+.sudarshan-text-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.sudarshan-text-panel section {
+  padding: 0 0 14px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.sudarshan-text-panel section:last-child {
+  border-bottom: none;
+}
+
+.sudarshan-text-panel h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.02em;
+}
+
+.sudarshan-text-panel p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.sudarshan-text-panel ul {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.sudarshan-text-panel li {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: #475569;
+}
+
+.layer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-bottom: 10px;
+}
+
+.layer-row strong {
+  display: block;
+  font-size: 11.5px;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.layer-row p {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex: 0 0 auto;
+}
+
+.dot.lagna {
+  background: #4f9a91;
+}
+
+.dot.moon {
+  background: #8c64c8;
+}
+
+.dot.sun {
+  background: #c69b42;
+}
+
+.chakra-zone {
+  width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chakra-center {
+  width: 430px;
+  height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chakra-center svg {
+  width: 430px;
+  height: 430px;
+  display: block;
+}
+
+.chakra-legend {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sudarshan-text-panel {
+  opacity: 0.88;
+}
+
+.sudarshan-text-panel h4 {
+  color: #1e293b;
+}
+
+.sudarshan-text-panel p,
+.sudarshan-text-panel li {
+  color: #64748b;
+}
+@media (max-width: 1150px) {
+  .sudarshan-layout.clean {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 24px;
+  }
+
+  .sudarshan-text-panel {
+    width: min(100%, 520px);
+  }
+
+  .chakra-zone {
+    width: min(100%, 400px);
+  }
+}
+@media (max-width: 720px) {
+  .chart-stage {
+    padding: 2px;
+  }
+
+  .planet-label {
+    font-size: 9px;
+  }
+
+  .house-number {
+    font-size: 9px;
+  }
+}

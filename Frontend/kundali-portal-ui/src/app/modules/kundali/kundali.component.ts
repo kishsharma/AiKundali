@@ -26,6 +26,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { HouseScoreOverview } from "../../components/house-score-overview/house-score-overview";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { CosmicLoaderComponent } from "../../shared/components/cosmic-loader/cosmic-loader.component";
 
 @Component({
   selector: 'app-kundali',
@@ -44,7 +45,8 @@ import jsPDF from 'jspdf';
     KundaliScoreCard,
     MahadashaAntardasha,
     TranslocoPipe,
-    HouseScoreOverview
+    HouseScoreOverview,
+    CosmicLoaderComponent
 ],
   templateUrl: './kundali.component.html',
   styleUrls: ['./kundali.component.scss', './kundali.component.exportpdf.scss']
@@ -66,6 +68,9 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   summary: any;
   scores: any[] = [];
   yogas: any[] = [];
+  doshas: any[] = [];
+  openYogaIndex: number | null = null;
+  openDoshaIndex: number | null = null;
   selectedHouseData: any;
   activeChartType: 'north' | 'south' | 'western' = 'north';
   today: Date = new Date();
@@ -210,6 +215,9 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.summary = response.summary;
           this.scores = response.scores;
           this.yogas = this.extractYogas(response);
+          this.doshas = this.extractDoshas(response);
+          this.openYogaIndex = null;
+          this.openDoshaIndex = null;
           this.houseScores = response.houses;  
           this.kundaliResponse = response;
           this.showChart = true;
@@ -278,7 +286,11 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
             strength: item.strength,
             reason: item.reason,
             sanskritName: item.sanskritName,
-            description: item.description
+            description: item.description,
+            impact: item.impact,
+            involvedPlanets: item.involvedPlanets ?? item.planets ?? [],
+            involvedHouses: item.involvedHouses ?? item.houses ?? [],
+            impactAreas: this.normalizeImpactAreas(item.impactAreas ?? item.ImpactAreas ?? item.effects ?? item.Effects ?? [])
           };
         })
         .filter(Boolean);
@@ -293,6 +305,132 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     }
 
     return [];
+  }
+
+  extractDoshas(response: any): any[] {
+    const rawDoshas = response?.doshas ?? response?.summary?.doshas ?? response?.summary?.dosha ?? response?.dosha;
+
+    if (Array.isArray(rawDoshas)) {
+      return rawDoshas
+        .map((item: any) => {
+          if (!item) {
+            return null;
+          }
+
+          if (typeof item === 'string') {
+            const trimmed = item.trim();
+            return trimmed ? { name: trimmed } : null;
+          }
+
+          const name = item.name || item.Name || item.title || item.label || item.doshaName || item.DoshaName;
+
+          if (!name) {
+            return null;
+          }
+
+          return {
+            name: String(name),
+            category: item.category ?? item.Category,
+            severity: item.severity ?? item.Severity ?? item.strength ?? item.Strength ?? item.status ?? item.Status,
+            reason: item.reason ?? item.Reason,
+            description: item.description ?? item.Description,
+            involvedPlanets: item.involvedPlanets ?? item.InvolvedPlanets ?? item.planets ?? item.Planets ?? [],
+            involvedHouses: item.involvedHouses ?? item.InvolvedHouses ?? item.houses ?? item.Houses ?? [],
+            impactAreas: this.normalizeImpactAreas(item.impactAreas ?? item.ImpactAreas ?? item.effects ?? item.Effects ?? []),
+            remedies: item.remedies ?? item.Remedies ?? []
+          };
+        })
+        .filter(Boolean);
+    }
+
+    if (typeof rawDoshas === 'string') {
+      return rawDoshas
+        .split(',')
+        .map((item: string) => item.trim())
+        .filter(Boolean)
+        .map((name: string) => ({ name }));
+    }
+
+    return [];
+  }
+
+  private normalizeImpactAreas(rawImpactAreas: any): any[] {
+    if (!Array.isArray(rawImpactAreas)) {
+      return [];
+    }
+
+    return rawImpactAreas
+      .map((area: any) => {
+        const category = area?.category ?? area?.Category;
+        const statements = area?.statements ?? area?.Statements ?? [];
+
+        if (!category || !Array.isArray(statements) || !statements.length) {
+          return null;
+        }
+
+        return {
+          category,
+          statements
+        };
+      })
+      .filter(Boolean);
+  }
+
+  getDoshaSeverityClass(value: string | null | undefined): Record<string, boolean> {
+    const severity = (value ?? '').toLowerCase();
+
+    return {
+      high: severity.includes('high'),
+      medium: severity.includes('medium'),
+      low: severity.includes('low') || !severity
+    };
+  }
+
+  toggleYogaDetails(index: number): void {
+    this.openYogaIndex = this.openYogaIndex === index ? null : index;
+  }
+
+  toggleDoshaDetails(index: number): void {
+    this.openDoshaIndex = this.openDoshaIndex === index ? null : index;
+  }
+
+  isYogaDetailsOpen(index: number): boolean {
+    return this.openYogaIndex === index;
+  }
+
+  isDoshaDetailsOpen(index: number): boolean {
+    return this.openDoshaIndex === index;
+  }
+
+  hasImpactDetails(item: any): boolean {
+    return !!(item?.impactAreas?.length || item?.remedies?.length || item?.impact);
+  }
+
+  getImpactIcon(category: string | null | undefined): string {
+    const normalized = (category ?? '').trim();
+
+    if (!normalized) {
+      return 'IN';
+    }
+
+    return normalized
+      .split(/[\s&/,-]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(part => part.charAt(0).toUpperCase())
+      .join('');
+  }
+
+  getImpactTone(category: string | null | undefined): Record<string, boolean> {
+    const normalized = (category ?? '').toLowerCase();
+
+    return {
+      mind: normalized.includes('mental') || normalized.includes('emotional') || normalized.includes('mind'),
+      relation: normalized.includes('relationship') || normalized.includes('marriage') || normalized.includes('family'),
+      career: normalized.includes('career') || normalized.includes('financial') || normalized.includes('wealth'),
+      health: normalized.includes('health'),
+      spiritual: normalized.includes('spiritual')
+    };
   }
 
   private async addElementToPdf(
@@ -417,9 +555,14 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         elementsToRender.push(detailGrid);
       }
 
-      const yogaSection = document.querySelector('#kundali-report > app-section-card.full-row') as HTMLElement | null;
+      const yogaSection = document.getElementById('yogaSection');
       if (yogaSection) {
         elementsToRender.push(yogaSection);
+      }
+
+      const doshaSection = document.getElementById('doshaSection');
+      if (doshaSection) {
+        elementsToRender.push(doshaSection);
       }
 
       const planetPositionsSection = document.querySelector('#kundali-report > .results-sections > app-section-card.full-row') as HTMLElement | null;

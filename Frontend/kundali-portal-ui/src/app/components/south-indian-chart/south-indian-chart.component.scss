@@ -1,19 +1,23 @@
+:host {
+  display: block;
+  width: min(100%, 720px);
+}
+
 .south-chart-wrapper {
-  width: 350px;
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  padding: 0;
 }
 
 .south-chart {
   width: 100%;
-  max-width: 600px;
   aspect-ratio: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  border: 2px solid #111;
-  background: #fff;
+  border: 2px solid var(--theme-accent);
+  background: var(--theme-input-bg);
 }
 
 :host ::ng-deep.chart-cell {
@@ -21,9 +25,9 @@
   min-width: 0;
   min-height: 0;
   padding: 0.35rem;
-  border: 1px solid #2563eb;
-  background: #f8fbff;
-  color: #222;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 42%, transparent);
+  background: color-mix(in srgb, var(--theme-surface) 72%, transparent);
+  color: var(--theme-text);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -31,7 +35,7 @@
   gap: 0.12rem;
   text-align: left;
   transition: background-color 0.2s ease;
-   font-family: "Inter", "Segoe UI", sans-serif;
+   font-family: "Work Sans", "Segoe UI", sans-serif;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -41,16 +45,18 @@
 
 .chart-cell:hover,
 .chart-cell.active {
-  background: #e9f2ff;
+  background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 
 .chart-cell.selected {
-  background: #dbeafe;
+  background: color-mix(in srgb, var(--theme-accent) 18%, transparent);
 }
 
 .sign-number {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: var(--theme-success);
+  text-shadow: none;
 }
 
 .sign-label,
@@ -60,29 +66,55 @@
 }
 
 .house-label {
-  color: #5d6689;
+  color: var(--theme-success);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-shadow: none;
 }
 
 .planet-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
   margin-top: auto;
-  color: #c62828;
+  color: var(--theme-text);
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
 
+.planet-token.tone-supportive {
+  color: var(--theme-success);
+}
+
+.planet-token.tone-neutral {
+  color: var(--theme-info);
+}
+
+.planet-token.tone-mixed {
+  color: var(--theme-copper);
+}
+
+.planet-token.tone-challenging {
+  color: var(--theme-danger);
+}
+
+.planet-token.tone-special {
+  color: var(--theme-success);
+}
+
 .chart-center {
   grid-row: 2 / span 2;
   grid-column: 2 / span 2;
-  border: 1px solid #2563eb;
-  background: #fffaf2;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 42%, transparent);
+  background: color-mix(in srgb, var(--theme-input-bg) 82%, transparent);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #10143d;
+  color: var(--theme-text);
   font-size: 0.9rem;
 }
 
@@ -102,9 +134,13 @@
   }
 
   .sign-label,
-  .house-label,
   .planet-list {
     font-size: 0.68rem;
+  }
+
+  .house-label,
+  .sign-number {
+    font-size: 0.74rem;
   }
 }
 

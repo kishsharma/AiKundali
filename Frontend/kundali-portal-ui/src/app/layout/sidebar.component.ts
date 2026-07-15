@@ -1,7 +1,9 @@
 // Left Sidebar Component
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, HostListener, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AstrologyIconComponent } from '../shared/components/astrology-icon.component';
+import { KundaliService } from '../modules/kundali/kundali.service';
 
 export interface NavItem {
   label: string;
@@ -14,13 +16,13 @@ export interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AstrologyIconComponent],
   template: `
     <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact">
       <div class="sidebar-header">
         <button class="collapse-btn" type="button" (click)="toggleCompact()" [attr.aria-label]="compact ? 'Expand sidebar' : 'Collapse sidebar'" [title]="compact ? 'Expand sidebar' : 'Collapse sidebar'">
-          <span *ngIf="!compact">⟨</span>
-          <span *ngIf="compact">⟩</span>
+          <span *ngIf="!compact">&lt;</span>
+          <span *ngIf="compact">&gt;</span>
         </button>
 
         <button class="close-btn" (click)="onClose.emit()" *ngIf="mobileView">
@@ -37,20 +39,42 @@ export interface NavItem {
           <h3 class="nav-section-title">Main</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a routerLink="/dashboard" routerLinkActive="active" (click)="onClose.emit()">
-                <span class="nav-icon">📊</span>
+              <a routerLink="/app/dashboard" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon">DB</span>
                 <span class="nav-label">Dashboard</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a routerLink="/kundali" routerLinkActive="active" >
-                <span class="nav-icon">♈</span>
+            <li class="nav-item nav-parent">
+              <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">Kundali</span>
+              </a>
+              <ul class="nav-sublist" *ngIf="!compact">
+                <li>
+                  <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                    <span class="nav-dot"></span>
+                    <span class="nav-label">Create New</span>
+                  </a>
+                </li>
+                <li class="saved-group">
+                  <span class="saved-title">Saved Kundali</span>
+                  <a *ngFor="let item of savedKundalis" [routerLink]="['/app/kundali/saved', item.id]" routerLinkActive="active" (click)="onClose.emit()" [title]="item.displayName">
+                    <span class="nav-dot saved"></span>
+                    <span class="nav-label">{{ item.displayName }}</span>
+                  </a>
+                  <span class="saved-empty" *ngIf="!savedKundalis.length">No saved kundali</span>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                <app-astrology-icon name="reports" class="nav-icon icon-md"></app-astrology-icon>
+                <span class="nav-label">Website Home</span>
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/compatibility" routerLinkActive="active" (click)="onClose.emit()">
-                <span class="nav-icon">💑</span>
+              <a routerLink="/app/compatibility" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon">C</span>
                 <span class="nav-label">Compatibility</span>
               </a>
             </li>
@@ -61,14 +85,20 @@ export interface NavItem {
           <h3 class="nav-section-title">Astrology</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a routerLink="/panchang" routerLinkActive="active" (click)="onClose.emit()">
-                <span class="nav-icon">📅</span>
+              <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                <span class="nav-icon">P</span>
                 <span class="nav-label">Panchang</span>
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/dasha" routerLinkActive="active" (click)="onClose.emit()">
-                <span class="nav-icon">⏰</span>
+              <a routerLink="/app/panchang/muhurtha" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon">M</span>
+                <span class="nav-label">Muhurtha</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/app/dasha" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon">D</span>
                 <span class="nav-label">Dasha</span>
               </a>
             </li>
@@ -79,14 +109,14 @@ export interface NavItem {
           <h3 class="nav-section-title">Settings</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#settings">
-                <span class="nav-icon">⚙️</span>
-                <span class="nav-label">Preferences</span>
+              <a routerLink="/app/white-label-settings" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon">W</span>
+                <span class="nav-label">White-label</span>
               </a>
             </li>
             <li class="nav-item">
               <a href="#help">
-                <span class="nav-icon">❓</span>
+                <span class="nav-icon">?</span>
                 <span class="nav-label">Help & Support</span>
               </a>
             </li>
@@ -96,7 +126,7 @@ export interface NavItem {
 
       <div class="sidebar-footer">
         <button class="logout-btn">
-          <span class="nav-icon">🚪</span>
+          <span class="nav-icon">O</span>
           <span class="nav-label">Logout</span>
         </button>
       </div>
@@ -110,14 +140,14 @@ export interface NavItem {
       width: 250px;
       background: #FFFFFF;
       border-right: 1px solid #E0E0E0;
-      height: calc(100vh - 60px);
+      height: calc(100dvh - 76px);
       position: fixed;
       left: 0;
-      top: 60px;
+      top: 76px;
       display: flex;
       flex-direction: column;
       z-index: 99;
-      overflow-y: auto;
+      overflow: hidden;
       transition: all 300ms ease;
 
       &.compact {
@@ -168,15 +198,15 @@ export interface NavItem {
 
     .sidebar-nav {
       flex: 1;
-      overflow-y: auto;
-      padding: 0.5rem 0 1rem;
+      overflow: visible;
+      padding: 0.35rem 0 0.75rem;
     }
 
     .nav-section {
-      margin-bottom: 2rem;
+      margin-bottom: 1.2rem;
 
       &:first-child {
-        margin-top: 1rem;
+        margin-top: 0.5rem;
       }
     }
 
@@ -204,7 +234,7 @@ export interface NavItem {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        padding: 0.75rem 1.5rem;
+        padding: 0.62rem 1.5rem;
         color: #424242;
         text-decoration: none;
         font-size: 0.875rem;
@@ -224,6 +254,52 @@ export interface NavItem {
           border-left-color: #7E3BA8;
         }
       }
+    }
+
+    .nav-sublist {
+      list-style: none;
+      margin: 0.15rem 0 0.4rem 0;
+      padding: 0 0 0 2.4rem;
+    }
+
+    .nav-sublist a {
+      min-height: 34px;
+      padding: 0.35rem 1rem 0.35rem 0.5rem;
+      border-left: none;
+      font-size: 0.78rem;
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #BDBDBD;
+      flex: 0 0 6px;
+    }
+
+    .nav-dot.saved {
+      background: #7E3BA8;
+    }
+
+    .saved-group {
+      display: grid;
+      gap: 0.1rem;
+      margin-top: 0.2rem;
+    }
+
+    .saved-title,
+    .saved-empty {
+      display: block;
+      padding: 0.35rem 1rem 0.25rem 0.5rem;
+      color: #8A8A8A;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .saved-empty {
+      text-transform: none;
+      font-weight: 500;
     }
 
     .nav-icon {
@@ -254,7 +330,8 @@ export interface NavItem {
     }
 
     .sidebar-footer {
-      padding: 1rem;
+      margin-top: auto;
+      padding: 0.75rem 1rem;
       border-top: 1px solid #E0E0E0;
     }
 
@@ -303,6 +380,65 @@ export interface NavItem {
       z-index: 98;
     }
 
+    /* Runtime theme sidebar */
+    :host {
+      color: var(--theme-text);
+    }
+
+    .sidebar {
+      border-right-color: var(--theme-line);
+      background: var(--theme-surface);
+      color: var(--theme-text);
+      box-shadow: 10px 0 34px var(--theme-shadow);
+    }
+
+    .collapse-btn,
+    .close-btn,
+    .nav-item a,
+    .logout-btn {
+      color: var(--theme-text-muted);
+    }
+
+    .collapse-btn:hover,
+    .close-btn:hover,
+    .nav-item a:hover {
+      color: var(--theme-accent);
+      background: color-mix(in srgb, var(--theme-accent) 10%, transparent);
+    }
+
+    .nav-item a.active {
+      border-left-color: var(--theme-accent);
+      background: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface));
+      color: var(--theme-accent);
+    }
+
+    .nav-section-title,
+    .saved-title,
+    .saved-empty {
+      color: var(--theme-text-muted);
+    }
+
+    .nav-dot {
+      background: color-mix(in srgb, var(--theme-text-muted) 52%, transparent);
+    }
+
+    .nav-dot.saved {
+      background: var(--theme-accent);
+    }
+
+    .sidebar-footer,
+    .logout-btn {
+      border-color: var(--theme-line);
+    }
+
+    .logout-btn {
+      background: color-mix(in srgb, var(--theme-surface-2) 74%, transparent);
+    }
+
+    .logout-btn:hover {
+      background: color-mix(in srgb, var(--theme-danger) 12%, transparent);
+      color: var(--theme-danger);
+    }
     @media (max-width: 768px) {
       .sidebar {
         width: 100%;
@@ -324,7 +460,7 @@ export interface NavItem {
     }
   `],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   @Input() isOpen: boolean = false;
   @Input() compact: boolean = false;
   @Input() mobileView: boolean = false;
@@ -332,8 +468,38 @@ export class SidebarComponent {
   @Output() onToggleCompact = new EventEmitter<void>();
 
   navItems: NavItem[] = [];
+  savedKundalis: any[] = [];
+
+  constructor(private kundaliService: KundaliService) {}
+
+  ngOnInit(): void {
+    this.loadSavedKundalis();
+  }
+
+  @HostListener('window:kundali-saved')
+  onKundaliSaved(): void {
+    this.loadSavedKundalis();
+  }
+
+  private loadSavedKundalis(): void {
+    this.kundaliService.getSavedKundalis().subscribe({
+      next: (items) => {
+        this.savedKundalis = Array.isArray(items) ? items : [];
+      },
+      error: (error) => {
+        console.error('Saved kundali menu load error:', error);
+        this.savedKundalis = [];
+      }
+    });
+  }
 
   toggleCompact(): void {
     this.onToggleCompact.emit();
   }
 }
+
+
+
+
+
+

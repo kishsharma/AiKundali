@@ -1,0 +1,215 @@
+<main class="horaverse-shell" (click)="onStageClick($event)">
+  <canvas #starfield class="starfield" aria-hidden="true"></canvas>
+
+  <section class="empty-state" *ngIf="!session">
+    <div class="empty-symbol" aria-hidden="true"></div>
+    <p>HoraVerse is waiting for a completed Kundali report.</p>
+    <span>{{ loadError }}</span>
+    <button type="button" (click)="exitHoraverse()">Return to Kundali</button>
+  </section>
+
+  <ng-container *ngIf="session && currentScene as scene">
+    <button type="button" class="exit-link" (click)="exitHoraverse()">Exit</button>
+    <div class="voice-ritual" [style.--voice-color]="activeVoiceColor">
+      <button type="button" (click)="toggleVoiceover()" [disabled]="!voiceAvailable">
+        {{ voiceButtonLabel }}
+      </button>
+      <span [class.speaking]="isSpeaking">{{ activeVoiceLabel }}</span>
+    </div>
+
+    <section class="scene" [ngClass]="'scene-' + scene.kind" [style.--accent]="scene.accent">
+      <div class="scene-copy">
+        <span class="kicker">{{ scene.kicker }}</span>
+        <h1>{{ scene.title }}</h1>
+        <div class="scene-lines">
+          <p *ngFor="let line of scene.lines">{{ line }}</p>
+        </div>
+      </div>
+
+      <div class="visual-zone">
+        <div class="birth-pulse" *ngIf="scene.kind === 'awakening'">
+          <span class="pulse-core"></span>
+          <svg viewBox="0 0 520 120" role="img" aria-label="Animated heartbeat line">
+            <path class="heartbeat-base" d="M20 60 H160 L176 60 L186 38 L198 86 L212 60 H308 L322 60 L334 48 L346 74 L360 60 H500" />
+            <path class="heartbeat-live" d="M20 60 H160 L176 60 L186 38 L198 86 L212 60 H308 L322 60 L334 48 L346 74 L360 60 H500" />
+          </svg>
+          <strong>{{ session.birthProfile.birthTime || 'Birth time' }}</strong>
+          <span>Heartbeat of the Hora</span>
+        </div>
+
+        <svg
+          *ngIf="scene.kind === 'solar-ring'"
+          class="solar-ring"
+          [attr.viewBox]="viewBox"
+          role="img"
+          aria-label="HoraVerse solar ring with planet placements">
+          <defs>
+            <radialGradient id="ringCore" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff7cd" />
+              <stop offset="55%" stop-color="#f7bf63" />
+              <stop offset="100%" stop-color="rgba(247, 191, 99, 0)" />
+            </radialGradient>
+          </defs>
+
+          <circle class="ring-halo" [attr.cx]="center" [attr.cy]="center" r="260"></circle>
+          <path *ngFor="let arc of houseArcs" class="house-arc" [attr.d]="arc.path"></path>
+          <line
+            *ngFor="let arc of houseArcs"
+            class="house-ray"
+            [attr.x1]="center"
+            [attr.y1]="center"
+            [attr.x2]="geometry.pointOnCircle(arc.startAngle, 276).x"
+            [attr.y2]="geometry.pointOnCircle(arc.startAngle, 276).y"></line>
+          <text *ngFor="let arc of houseArcs" class="house-label" [attr.x]="arc.labelX" [attr.y]="arc.labelY">
+            {{ arc.house }}
+          </text>
+          <circle class="solar-core" [attr.cx]="center" [attr.cy]="center" r="42"></circle>
+          <circle class="solar-dot" [attr.cx]="center" [attr.cy]="center" r="10"></circle>
+
+          <g *ngFor="let point of planetPoints" class="planet-node">
+            <line class="planet-orbit-line" [attr.x1]="center" [attr.y1]="center" [attr.x2]="point.x" [attr.y2]="point.y"></line>
+            <circle class="planet-glow" [attr.cx]="point.x" [attr.cy]="point.y" r="16" [attr.fill]="getPlanetColor(point)"></circle>
+            <circle class="planet-dot" [attr.cx]="point.x" [attr.cy]="point.y" r="7" [attr.fill]="getPlanetColor(point)">
+              <title>{{ point.label }} | House {{ point.house || '?' }} | {{ point.sign }}</title>
+            </circle>
+            <text class="planet-label" [attr.x]="point.x" [attr.y]="point.y - 18">{{ getPlanetAbbreviation(point) }}</text>
+          </g>
+        </svg>
+
+        <svg *ngIf="scene.kind === 'kaala'" class="kaala-figure" viewBox="0 0 520 520" role="img" aria-label="Kaala formed from cosmic energy reading the Hora">
+          <defs>
+            <radialGradient id="kaalaNebula" cx="50%" cy="43%" r="48%">
+              <stop offset="0%" stop-color="#fff8d6" stop-opacity="0.78" />
+              <stop offset="32%" stop-color="#b98cff" stop-opacity="0.42" />
+              <stop offset="72%" stop-color="#54f0d7" stop-opacity="0.15" />
+              <stop offset="100%" stop-color="#050712" stop-opacity="0" />
+            </radialGradient>
+            <radialGradient id="kaalaCore" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff9d8" />
+              <stop offset="52%" stop-color="#c890ff" stop-opacity="0.68" />
+              <stop offset="100%" stop-color="#54f0d7" stop-opacity="0" />
+            </radialGradient>
+            <linearGradient id="kaalaReadingBeam" x1="260" y1="265" x2="260" y2="446" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#fff8d6" stop-opacity="0.38" />
+              <stop offset="58%" stop-color="#54f0d7" stop-opacity="0.18" />
+              <stop offset="100%" stop-color="#54f0d7" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <circle class="kaala-aura" cx="260" cy="210" r="178"></circle>
+          <ellipse class="kaala-nebula" cx="260" cy="218" rx="114" ry="148"></ellipse>
+          <g class="kaala-yantra" aria-hidden="true">
+            <circle cx="260" cy="202" r="78"></circle>
+            <circle cx="260" cy="202" r="48"></circle>
+            <rect x="210" y="152" width="100" height="100" transform="rotate(45 260 202)"></rect>
+            <path d="M260 136 L314 244 H206 Z"></path>
+            <path d="M260 268 L206 160 H314 Z"></path>
+          </g>
+          <circle class="kaala-core" cx="260" cy="202" r="30"></circle>
+          <circle class="kaala-core inner-core" cx="260" cy="202" r="10"></circle>
+          <g class="kaala-core-cluster" aria-hidden="true">
+            <circle cx="232" cy="188" r="3.2"></circle>
+            <circle cx="286" cy="216" r="2.6"></circle>
+            <circle cx="246" cy="232" r="2.1"></circle>
+            <circle cx="300" cy="180" r="1.8"></circle>
+          </g>
+
+          <path class="kaala-reading-beam" d="M218 284 C238 334 238 396 188 456 H332 C282 396 282 334 302 284 Z"></path>
+          <path class="kaala-veil" d="M168 270 C198 146 322 128 354 268 C322 238 286 231 260 237 C228 231 196 240 168 270 Z"></path>
+          <path class="kaala-veil lower-veil" d="M188 308 C224 282 296 282 334 308 C314 348 288 374 260 390 C232 374 208 348 188 308 Z"></path>
+
+          <path class="kaala-orbit orbit-one" d="M102 232 C150 110 344 76 416 176 C466 248 404 340 288 356 C176 372 66 318 102 232 Z"></path>
+          <path class="kaala-orbit orbit-two" d="M154 188 C214 112 332 130 374 214 C404 276 350 324 260 318 C172 312 112 244 154 188 Z"></path>
+          <path class="kaala-orbit orbit-three" d="M132 300 C188 250 312 244 386 292"></path>
+
+          <g class="kaala-constellation">
+            <path d="M185 164 L226 132 L282 146 L336 190 L318 254 L260 286 L204 250 Z"></path>
+            <path d="M218 226 L260 202 L304 238"></path>
+            <path d="M204 250 L252 238 L318 254"></path>
+          </g>
+
+          <g class="kaala-stars">
+            <circle cx="185" cy="164" r="3"></circle>
+            <circle cx="226" cy="132" r="2.5"></circle>
+            <circle cx="282" cy="146" r="3.2"></circle>
+            <circle cx="336" cy="190" r="2.6"></circle>
+            <circle cx="318" cy="254" r="2.8"></circle>
+            <circle cx="260" cy="286" r="3.4"></circle>
+            <circle cx="204" cy="250" r="2.7"></circle>
+            <circle cx="156" cy="288" r="2.2"></circle>
+            <circle cx="366" cy="278" r="2.2"></circle>
+            <circle cx="214" cy="344" r="2.4"></circle>
+            <circle cx="306" cy="346" r="2.4"></circle>
+            <circle cx="260" cy="420" r="4"></circle>
+            <circle cx="220" cy="438" r="2.2"></circle>
+            <circle cx="300" cy="438" r="2.2"></circle>
+          </g>
+          <g class="kaala-dust" aria-hidden="true">
+            <circle cx="150" cy="206" r="1.6"></circle>
+            <circle cx="176" cy="128" r="1.3"></circle>
+            <circle cx="250" cy="100" r="1.8"></circle>
+            <circle cx="344" cy="126" r="1.5"></circle>
+            <circle cx="384" cy="226" r="1.4"></circle>
+            <circle cx="354" cy="334" r="1.7"></circle>
+            <circle cx="274" cy="372" r="1.3"></circle>
+            <circle cx="174" cy="354" r="1.6"></circle>
+            <circle cx="248" cy="462" r="1.5"></circle>
+            <circle cx="326" cy="414" r="1.4"></circle>
+          </g>
+        </svg>
+
+        <div class="inner-focus" *ngIf="scene.kind === 'inner-focus'">
+          <svg class="focus-orbit" [attr.viewBox]="viewBox" aria-hidden="true">
+            <circle class="focus-ring moon-ring" [attr.cx]="center" [attr.cy]="center" r="172"></circle>
+            <circle class="focus-ring" [attr.cx]="center" [attr.cy]="center" r="112"></circle>
+            <g *ngIf="moonPoint as moon">
+              <circle class="focus-planet moon" [attr.cx]="moon.x" [attr.cy]="moon.y" r="18"></circle>
+              <text class="focus-label" [attr.x]="moon.x" [attr.y]="moon.y - 30">MOON</text>
+            </g>
+            <g *ngIf="saturnPoint as saturn">
+              <line class="saturn-aspect" [attr.x1]="center" [attr.y1]="center" [attr.x2]="saturn.x" [attr.y2]="saturn.y"></line>
+              <circle class="focus-planet saturn" [attr.cx]="saturn.x" [attr.cy]="saturn.y" r="14"></circle>
+              <text class="focus-label saturn-text" [attr.x]="saturn.x" [attr.y]="saturn.y - 24">SATURN</text>
+            </g>
+          </svg>
+          <div class="focus-whisper">
+            <span>Moon room</span>
+            <strong>{{ moonPoint?.sign || session.report?.summary?.moonSign || 'Moon' }}</strong>
+            <p>House {{ moonPoint?.house || '?' }}</p>
+          </div>
+        </div>
+
+        <div class="door-ahead" *ngIf="scene.kind === 'door-ahead'">
+          <div class="door-portal" aria-hidden="true">
+            <span></span>
+          </div>
+          <div class="dasha-chip">{{ currentDashaLabel }}</div>
+          <div class="score-thread">
+            <div class="score-line" *ngFor="let metric of scoreMetrics">
+              <span>{{ metric.label }}</span>
+              <div class="score-track">
+                <i [style.width]="getMetricWidth(metric.value)" [style.background]="metric.color"></i>
+              </div>
+              <strong>{{ metric.value || 0 }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scene-controls">
+        <button type="button" (click)="previousScene()" [disabled]="activeSceneIndex === 0" aria-label="Previous scene">Prev</button>
+        <div class="progress-dots" role="tablist" aria-label="HoraVerse scenes">
+          <button
+            type="button"
+            *ngFor="let item of scenes; let sceneIndex = index"
+            [class.active]="sceneIndex === activeSceneIndex"
+            [attr.aria-label]="'Scene ' + (sceneIndex + 1)"
+            (click)="setScene(sceneIndex)">
+          </button>
+        </div>
+        <button type="button" (click)="nextScene()" [disabled]="activeSceneIndex === scenes.length - 1" aria-label="Next scene">Next</button>
+        <span class="progress-label">{{ progressLabel }}</span>
+      </div>
+    </section>
+  </ng-container>
+</main>

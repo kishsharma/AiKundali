@@ -102,6 +102,16 @@ namespace KundaliEngine.Astrology.Astronomy
             return ascmc[0];
         }
 
+        public static (double[] Cusps, double[] AscMc) CalculateHouseCusps(double julianDay, double latitude, double longitude)
+        {
+            double[] cusps = new double[13];
+            double[] ascmc = new double[10];
+            int flags = SEFLG_SWIEPH | SEFLG_SIDEREAL;
+
+            swe_houses_ex(julianDay, flags, latitude, longitude, DefaultHouseSystem, cusps, ascmc);
+            return (cusps, ascmc);
+        }
+
         [DllImport("Native\\swedll64.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void swe_set_ephe_path(string path);
 

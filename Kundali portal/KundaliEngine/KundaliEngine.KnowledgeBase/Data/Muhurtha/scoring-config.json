@@ -1,0 +1,33 @@
+{
+  "genericTimeRulesWeight": 15,
+  "panchangaRulesWeight": 25,
+  "personalHoroscopeRulesWeight": 30,
+  "muhurthaChartRulesWeight": 30,
+  "verdicts": [
+    {
+      "minScore": 85,
+      "maxScore": 100,
+      "verdict": "ExcellentMuhurtha"
+    },
+    {
+      "minScore": 70,
+      "maxScore": 84,
+      "verdict": "HighlyFavourable"
+    },
+    {
+      "minScore": 55,
+      "maxScore": 69,
+      "verdict": "AcceptableWithMinorCautions"
+    },
+    {
+      "minScore": 40,
+      "maxScore": 54,
+      "verdict": "WeakMuhurtha"
+    },
+    {
+      "minScore": 0,
+      "maxScore": 39,
+      "verdict": "NotRecommended"
+    }
+  ]
+}

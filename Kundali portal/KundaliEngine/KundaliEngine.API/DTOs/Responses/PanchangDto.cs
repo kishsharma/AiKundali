@@ -12,6 +12,8 @@
 
         public int Pada { get; set; }
 
+        public string Akshara { get; set; } = string.Empty;
+
         // Yogas & Karana
         public string Yoga { get; set; } = string.Empty;
 

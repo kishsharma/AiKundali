@@ -1,6 +1,6 @@
 <div class="western-chart-wrapper">
   <svg
-    viewBox="0 0 500 500"
+    viewBox="35 35 430 430"
     preserveAspectRatio="xMidYMid meet"
     class="western-svg"
     [attr.aria-label]="'chart.westernAriaLabel' | transloco"
@@ -43,7 +43,14 @@
         class="planet-text"
         text-anchor="middle"
       >
-        {{ getPlanets(segment.sign) }}
+        <tspan
+          *ngFor="let planet of getPlanets(segment.sign); let planetIndex = index"
+          [attr.x]="segment.planetX"
+          [attr.dy]="planetIndex === 0 ? 0 : 13"
+          [ngClass]="getPlanetToneClass(planet)">
+          <title>{{ getPlanetTooltip(planet) }}</title>
+          {{ getPlanetShortName(planet) }}
+        </tspan>
       </text>
     </g>
 

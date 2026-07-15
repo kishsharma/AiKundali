@@ -1,235 +1,106 @@
-/* =========================
-   PANCHANG CARD
-========================= */
+:host {
+  --ink: var(--theme-bg);
+  --ink-2: var(--theme-surface);
+  --parchment: var(--theme-text);
+  --parchment-dim: var(--theme-text-muted);
+  --brass: var(--theme-accent);
+  --brass-soft: var(--theme-accent-soft);
+  --line: var(--theme-line);
+  --line-soft: var(--theme-line-soft);
+}
 
 .panchang-card {
-
-  background:
-    linear-gradient(
-      180deg,
-      #ffffff,
-      #ffffff
-    );
-
-  border: 1px solid #e6e9f4;
-
-  border-radius: 8px;
-
-  padding: 0.8rem 0.9rem;
-
-  box-shadow:
-    0 8px 22px rgba(16,20,61,0.05);
-
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--theme-radius-card);
+  padding: 0.65rem;
+  background: color-mix(in srgb, var(--theme-input-bg) 56%, transparent);
 }
-
-/* =========================
-   GRID
-========================= */
 
 .panchang-grid {
-
   display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  border: 1px solid #e6e9f4;
-
-  border-radius: 8px;
-
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   overflow: hidden;
-
-  background: #fbfcff;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-surface) 72%, transparent);
 }
 
-/* =========================
-   ITEM
-========================= */
-
 .panchang-item {
-
   display: flex;
-
   align-items: center;
-
   gap: 0.6rem;
-
-  padding: 0.75rem 0.8rem;
-
-  border-right: 1px solid #edf0f8;
-
-  transition: 0.2s ease;
-
   min-width: 0;
+  border-right: 1px solid var(--line-soft);
+  padding: 0.7rem;
+  transition: background 0.18s ease;
 }
 
 .panchang-item:last-child {
-
   border-right: none;
 }
 
 .panchang-item:hover {
-
-  background: #f5f7ff;
+  background: color-mix(in srgb, var(--brass) 7%, transparent);
 }
 
-/* =========================
-   ICON
-========================= */
-
 .panchang-icon {
-
-  width: 38px;
-  height: 38px;
-
-  min-width: 38px;
-
-  border-radius: 8px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background:
-    linear-gradient(
-      135deg,
-      #eef4ff,
-      #eef4ff
-    );
-
-  border: 1px solid #dbe5ff;
-
-  color: #f59e0b;
-
-  font-size: 16px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border: 1px solid var(--line);
+  color: var(--brass);
+  background: var(--ink);
+  font-size: 15px;
 }
 
-/* =========================
-   CONTENT
-========================= */
-
 .panchang-content {
-
   display: flex;
-
   flex-direction: column;
-
   min-width: 0;
 }
 
-/* LABEL */
-
 .panchang-content span {
-
-  font-size: 10px;
-
-  font-weight: 700;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.6px;
-
-  color: #5d6689;
-
   margin-bottom: 2px;
+  color: var(--brass-soft);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-/* VALUE */
-
 .panchang-content strong {
-
+  color: var(--parchment);
   font-size: 13px;
-
-  font-weight: 700;
-
-  color: #10143d;
-
-  line-height: 1.4;
-
+  font-weight: 600;
+  line-height: 1.35;
   word-break: break-word;
 }
 
-/* =========================
-   TABLET
-========================= */
-
 @media (max-width: 992px) {
-
   .panchang-grid {
-
-    grid-template-columns:
-      repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .panchang-item {
-
-    border-bottom:
-      1px solid #edf0f8;
-  }
-
-  .panchang-item:nth-child(3n) {
-
-    border-right: none;
-  }
-
-  .panchang-item:nth-last-child(-n + 3) {
-
-    border-bottom: none;
+    border-bottom: 1px solid var(--line-soft);
   }
 }
 
-/* =========================
-   MOBILE
-========================= */
-
 @media (max-width: 576px) {
-
   .panchang-card {
-
-    padding: 0.7rem;
+    padding: 0.6rem;
   }
 
   .panchang-grid {
-
     grid-template-columns: 1fr;
   }
 
   .panchang-item {
-
     border-right: none !important;
-
-    border-bottom:
-      1px solid #edf0f8;
-
-    padding: 0.75rem;
   }
-
-  .panchang-item:last-child {
-
-    border-bottom: none;
-  }
-
-  .panchang-icon {
-
-    width: 34px;
-    height: 34px;
-
-    min-width: 34px;
-
-    font-size: 14px;
-  }
-
- .panchang-content strong {
-
-  font-size: 13px;
-
-  font-weight: 700;
-
-  color: #10143d;
-
-  line-height: 1.4;
-
-  word-break: break-word;
-}
 }

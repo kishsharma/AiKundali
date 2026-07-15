@@ -1,10 +1,18 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { NorthIndianChartComponent } from '../../components/north-indian-chart/north-indian-chart.component';
+import { AstrologyIconComponent } from '../../shared/components/astrology-icon.component';
+import { ScoreDetailsModalComponent } from '../../components/score-details-modal/score-details-modal';
 import {CompatibilityApiService,MatchRequestPerson} from '../../core/services/compatibility-api.service';
-import { BirthChart, CompatibilityResponse } from '../../shared/models/compatibility.model';
+import { BirthChart, CompatibilityDoshaItem, CompatibilityResponse, CompatibilityScoreComponent } from '../../shared/models/compatibility.model';
+import { LocationService } from '../../core/services/location.service';
+import { of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 interface PersonSummary {
   role: 'Boy' | 'Girl';
@@ -18,20 +26,42 @@ interface PersonSummary {
   birthPlace: string;
 }
 
+interface CompatibilityAspectCard {
+  name: string;
+  score: number;
+  grade: string;
+  tone: string;
+  summary: string;
+  confidence: number;
+  factors: string[];
+  scoreBreakdown: CompatibilityScoreComponent[];
+}
+
+interface CompatibilityDoshaCard extends CompatibilityDoshaItem {
+  detail: string;
+  whoHas: string;
+}
+
 @Component({
   selector: 'app-compatibility',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe],
   templateUrl: './compatibility.component.html',
   styleUrls: ['./compatibility.component.scss'],
 })
 export class CompatibilityComponent {
   private fb = inject(FormBuilder);
   private compatibilityApi = inject(CompatibilityApiService);
+  private locationService = inject(LocationService);
+  private cdr = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
 
   loading = false;
+  exportingPdf = false;
   showReport=false;
   errorMessage = '';
+  boyLocationResults: any[] = [];
+  girlLocationResults: any[] = [];
   result: CompatibilityResponse | null = null;
   personAhouses: any = null;
   personBhouses: any = null;
@@ -39,6 +69,10 @@ export class CompatibilityComponent {
   personBplanetPositions: any = null;
   personAchart: BirthChart | null = null;
   personBchart: BirthChart | null = null;
+  selectedCompatibilityAspect: CompatibilityAspectCard | null = null;
+  isCompatibilityScoreModalOpen = false;
+  selectedDosha: CompatibilityDoshaCard | null = null;
+  isDoshaModalOpen = false;
   //result: any | null = null;
   readonly form = this.fb.group({
     boyName: ['Kishor Sharma', Validators.required],
@@ -55,31 +89,48 @@ export class CompatibilityComponent {
     girlLongitude: [75.3433, Validators.required],
   });
 
-  readonly kutaScores = [
-    { name: 'Varna', score: 1, max: 1, grade: 'Excellent', tone: 'orange' },
-    { name: 'Vasya', score: 2, max: 2, grade: 'Excellent', tone: 'blue' },
-    { name: 'Tara', score: 2.5, max: 3, grade: 'Good', tone: 'purple' },
-    { name: 'Yoni', score: 3, max: 4, grade: 'Good', tone: 'pink' },
-    { name: 'Graha Maitri', score: 5, max: 5, grade: 'Excellent', tone: 'green' },
-    { name: 'Gana', score: 5, max: 6, grade: 'Good', tone: 'orange' },
-    { name: 'Bhakoot', score: 6, max: 7, grade: 'Good', tone: 'blue' },
-    { name: 'Nadi', score: 8, max: 8, grade: 'Excellent', tone: 'purple' },
-  ];
+  ngOnInit(): void {
+    this.form.controls.boyBirthPlace.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((value) => value && value.length >= 3 ? this.locationService.searchLocation(value) : of([]))
+      )
+      .subscribe((results) => this.boyLocationResults = results);
 
-  readonly doshas = [
-    { name: 'Manglik Dosha', detail: 'Both are Manglik', status: 'Neutral', tone: 'orange' },
-    { name: 'Nadi Dosha', detail: 'Different Nadis', status: 'No Dosha', tone: 'green' },
-    { name: 'Bhakoot Dosha', detail: 'Compatible', status: 'No Dosha', tone: 'blue' },
-    { name: 'Gana Compatibility', detail: 'Deva - Manushya', status: 'Good', tone: 'pink' },
-    { name: 'Yoni Compatibility', detail: 'Compatible', status: 'Good', tone: 'purple' },
-  ];
+    this.form.controls.girlBirthPlace.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((value) => value && value.length >= 3 ? this.locationService.searchLocation(value) : of([]))
+      )
+      .subscribe((results) => this.girlLocationResults = results);
+  }
 
-  readonly marriagePeriods = [
-    { period: 'May 2025 - Aug 2025', grade: 'Very Auspicious', tone: 'green' },
-    { period: 'Jan 2026 - Apr 2026', grade: 'Auspicious', tone: 'blue' },
-    { period: 'Sep 2026 - Dec 2026', grade: 'Good', tone: 'purple' },
-    { period: 'Mar 2027 - Jun 2027', grade: 'Auspicious', tone: 'pink' },
-  ];
+  selectLocation(role: 'boy' | 'girl', place: any): void {
+    this.form.patchValue({
+      [`${role}BirthPlace`]: place.display_name,
+      [`${role}Latitude`]: Number(place.lat),
+      [`${role}Longitude`]: Number(place.lon),
+    });
+
+    if (role === 'boy') {
+      this.boyLocationResults = [];
+    } else {
+      this.girlLocationResults = [];
+    }
+  }
+
+  readonly kutaTones = ['orange', 'blue', 'purple', 'pink', 'green', 'orange', 'blue', 'purple'];
+
+  get marriagePeriods() {
+    return [
+      { period: this.t('compatibility.periodMayAug2025'), grade: this.t('compatibility.veryAuspicious'), tone: 'green' },
+      { period: this.t('compatibility.periodJanApr2026'), grade: this.t('compatibility.auspicious'), tone: 'blue' },
+      { period: this.t('compatibility.periodSepDec2026'), grade: this.t('compatibility.good'), tone: 'purple' },
+      { period: this.t('compatibility.periodMarJun2027'), grade: this.t('compatibility.auspicious'), tone: 'pink' },
+    ];
+  }
 
   get boy(): PersonSummary {
     return {
@@ -114,24 +165,43 @@ export class CompatibilityComponent {
   }
 
   get scoreLabel(): string {
-    if (this.overallScore >= 75) return 'Excellent Match';
-    if (this.overallScore >= 60) return 'Good Match';
-    if (this.overallScore >= 45) return 'Moderate Match';
-    return 'Needs Careful Review';
+    if (this.overallScore >= 75) return this.t('compatibility.excellentMatch');
+    if (this.overallScore >= 60) return this.t('compatibility.goodMatch');
+    if (this.overallScore >= 45) return this.t('compatibility.moderateMatch');
+    return this.t('compatibility.needsCarefulReview');
   }
 
   get totalKutaScore(): number {
-    return this.kutaScores.reduce((total, item) => total + item.score, 0);
+    return this.result?.ashtakoota?.totalScore ?? 0;
+  }
+
+  get totalKutaLabel(): string {
+    const score = this.totalKutaScore;
+    if (score >= 28) return this.t('compatibility.excellentCompatibility');
+    if (score >= 22) return this.t('compatibility.goodCompatibility');
+    if (score >= 18) return this.t('compatibility.goodCompatibility');
+    return this.t('compatibility.needsReview');
+  }
+
+  get kutaScores() {
+    return (this.result?.ashtakoota?.scores ?? []).map((item, index) => ({
+      name: item.name,
+      score: item.score,
+      max: item.maxScore,
+      grade: item.grade,
+      detail: item.detail,
+      tone: this.kutaTones[index % this.kutaTones.length],
+    }));
   }
 
   get compatibilityAspects() {
     const fallback = [
-      { name: 'Emotional Compatibility', score: 82, grade: 'Very Strong', tone: 'green' },
-      { name: 'Communication', score: 75, grade: 'Strong', tone: 'blue' },
-      { name: 'Financial Harmony', score: 70, grade: 'Good', tone: 'purple' },
-      { name: 'Physical Compatibility', score: 80, grade: 'Very Strong', tone: 'pink' },
-      { name: 'Spiritual Alignment', score: 85, grade: 'Excellent', tone: 'orange' },
-      { name: 'Family Harmony', score: 78, grade: 'Strong', tone: 'blue' },
+      { name: this.t('compatibility.emotionalCompatibility'), score: 82, grade: this.t('compatibility.veryStrong'), tone: 'green', summary: this.t('compatibility.sampleEmotionalScore'), confidence: 0, factors: [this.t('compatibility.generateReportForFactors')], scoreBreakdown: [] },
+      { name: this.t('compatibility.communication'), score: 75, grade: this.t('compatibility.strong'), tone: 'blue', summary: this.t('compatibility.sampleCommunicationScore'), confidence: 0, factors: [this.t('compatibility.generateReportForFactors')], scoreBreakdown: [] },
+      { name: this.t('compatibility.financialHarmony'), score: 70, grade: this.t('compatibility.good'), tone: 'purple', summary: this.t('compatibility.sampleFinancialScore'), confidence: 0, factors: [this.t('compatibility.generateReportForFactors')], scoreBreakdown: [] },
+      { name: this.t('compatibility.physicalCompatibility'), score: 80, grade: this.t('compatibility.veryStrong'), tone: 'pink', summary: this.t('compatibility.sampleAttractionScore'), confidence: 0, factors: [this.t('compatibility.generateReportForFactors')], scoreBreakdown: [] },
+      { name: this.t('compatibility.spiritualAlignment'), score: 85, grade: this.t('compatibility.excellent'), tone: 'orange', summary: this.t('compatibility.sampleSpiritualScore'), confidence: 0, factors: [this.t('compatibility.generateReportForFactors')], scoreBreakdown: [] },
+      { name: this.t('compatibility.familyHarmony'), score: 78, grade: this.t('compatibility.strong'), tone: 'blue', summary: this.t('compatibility.sampleFamilyScore'), confidence: 0, factors: [this.t('compatibility.generateReportForFactors')], scoreBreakdown: [] },
     ];
 
     if (!this.result?.dimensions?.length) {
@@ -143,35 +213,66 @@ export class CompatibilityComponent {
       score: dimension.score,
       grade: this.getGrade(dimension.score),
       tone: fallback[index % fallback.length].tone,
+      summary: dimension.summary,
+      confidence: dimension.confidence,
+      factors: dimension.factors ?? [],
+      scoreBreakdown: dimension.scoreBreakdown ?? [],
     }));
+  }
+
+  get doshas(): CompatibilityDoshaCard[] {
+    return (this.result?.doshaAnalysis?.items ?? []).map((dosha) => ({
+      ...dosha,
+      factors: dosha.factors ?? [],
+      remedies: dosha.remedies ?? [],
+      references: dosha.references ?? [],
+      scoreBreakdown: dosha.scoreBreakdown ?? [],
+      detail: dosha.reason || this.t('compatibility.noDoshaPressure'),
+      whoHas: this.getDoshaOwnership(dosha),
+    }));
+  }
+
+  get doshaRemedies(): string[] {
+    return this.result?.doshaAnalysis?.doshaRemedies ?? [];
+  }
+
+  get doshaRemedyTitle(): string {
+    const status = this.result?.doshaAnalysis?.overallDoshaStatus;
+    if (!status || status === 'No Dosha') {
+      return this.t('compatibility.noActiveDoshaRemediesRequired');
+    }
+
+    return `${status}. ${this.t('compatibility.suggestedRemedies')}`;
   }
 
   get insights() {
     const strengths = this.result?.dominantStrengths?.length
       ? this.result.dominantStrengths
-      : ['Strong emotional bond, mutual understanding and support in difficult times.'];
+      : [this.t('compatibility.defaultStrengthText')];
     const challenges = this.result?.dominantChallenges?.length
       ? this.result.dominantChallenges
-      : ['Ego clashes can occur at times. Patience and communication are key.'];
+      : [this.t('compatibility.defaultChallengeText')];
 
     return [
-      { title: 'Relationship Strengths', text: strengths[0], tone: 'green' },
-      { title: 'Potential Challenges', text: challenges[0], tone: 'orange' },
-      { title: 'Marriage Stability', text: 'High stability indicated. Long-lasting and harmonious married life.', tone: 'blue' },
-      { title: 'Career Support', text: 'Both will support each other career growth and financial success.', tone: 'purple' },
-      { title: 'Emotional Bonding', text: this.result?.summary ?? 'Deep emotional connection and strong attraction present.', tone: 'pink' },
-      { title: 'Family Life', text: 'Good chances of a peaceful and happy family life.', tone: 'orange' },
+      { title: this.t('compatibility.relationshipStrengths'), text: strengths[0], tone: 'green' },
+      { title: this.t('compatibility.potentialChallenges'), text: challenges[0], tone: 'orange' },
+      { title: this.t('compatibility.marriageStability'), text: this.t('compatibility.marriageStabilityText'), tone: 'blue' },
+      { title: this.t('compatibility.careerSupport'), text: this.t('compatibility.careerSupportText'), tone: 'purple' },
+      { title: this.t('compatibility.emotionalBonding'), text: this.result?.summary ?? this.t('compatibility.emotionalBondingText'), tone: 'pink' },
+      { title: this.t('compatibility.familyLife'), text: this.t('compatibility.familyLifeText'), tone: 'orange' },
     ];
   }
 
   analyzeCompatibility(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.cdr.detectChanges();
       return;
     }
 
     this.loading = true;
     this.errorMessage = '';
+    this.cdr.detectChanges();
 
     this.compatibilityApi.match({
       personA: this.toPersonRequest('boy'),
@@ -179,6 +280,10 @@ export class CompatibilityComponent {
     }).subscribe({
       next: (result) => {
         this.result = result;
+        this.selectedCompatibilityAspect = null;
+        this.isCompatibilityScoreModalOpen = false;
+        this.selectedDosha = null;
+        this.isDoshaModalOpen = false;
         this.showReport = true;
         this.personAhouses = result?.personAchart?.houses || null;
         // this.personAhouses = result?.personAchart?.houses?.map(h => ({
@@ -189,6 +294,7 @@ export class CompatibilityComponent {
         this.personAchart = result?.personAchart || null;  
         this.personBchart = result?.personBchart || null;
         this.loading = false;
+        this.cdr.detectChanges();
         console.log('Compatibility Result:', result);
         console.log('Person A Houses:', this.personAhouses);
         console.log('Person B Houses:', this.personBhouses);
@@ -196,10 +302,171 @@ export class CompatibilityComponent {
         console.log('Person B Planet Positions:', this.personBplanetPositions);
       },
       error: (error) => {
-        this.errorMessage = error.message || 'Unable to calculate compatibility right now.';
+        this.errorMessage = error.message || this.t('compatibility.calculateError');
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
+  }
+
+  openCompatibilityFactors(aspect: CompatibilityAspectCard): void {
+    this.selectedCompatibilityAspect = aspect;
+    this.isCompatibilityScoreModalOpen = true;
+  }
+
+  closeCompatibilityFactors(): void {
+    this.isCompatibilityScoreModalOpen = false;
+    setTimeout(() => {
+      this.selectedCompatibilityAspect = null;
+    }, 300);
+  }
+
+  openDoshaFactors(dosha: CompatibilityDoshaCard): void {
+    this.selectedDosha = dosha;
+    this.isDoshaModalOpen = true;
+  }
+
+  closeDoshaFactors(): void {
+    this.isDoshaModalOpen = false;
+    setTimeout(() => {
+      this.selectedDosha = null;
+    }, 300);
+  }
+
+  async downloadPdf(): Promise<void> {
+    const report = document.getElementById('compatibility-report');
+
+    if (!report || !this.showReport || this.exportingPdf) {
+      return;
+    }
+
+    this.exportingPdf = true;
+    this.isCompatibilityScoreModalOpen = false;
+    this.isDoshaModalOpen = false;
+    this.selectedCompatibilityAspect = null;
+    this.selectedDosha = null;
+    this.cdr.detectChanges();
+    const exportWatchdog = window.setTimeout(() => this.resetPdfExportState(), 30000);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      document.body.classList.add('compatibility-pdf-mode');
+      this.cdr.detectChanges();
+      await new Promise((resolve) => setTimeout(resolve, 120));
+
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        compress: true,
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const elementsToRender = Array.from(
+        report.querySelectorAll<HTMLElement>(':scope > .report-toolbar, :scope > .compatibility-report-intro, :scope > .hero-report, :scope > .report-section, :scope > .report-note')
+      );
+
+      let pageHeightUsed = 0;
+      for (const element of elementsToRender) {
+        pageHeightUsed = await this.addElementToPdf(pdf, element, pdfWidth, pdfHeight, 6, pageHeightUsed, 4);
+      }
+
+      pdf.save(this.getCompatibilityPdfFileName());
+    } catch (error) {
+      console.error('Compatibility PDF export failed:', error);
+      this.errorMessage = this.t('compatibility.pdfError');
+    } finally {
+      window.clearTimeout(exportWatchdog);
+      this.resetPdfExportState();
+    }
+  }
+
+  private resetPdfExportState(): void {
+    document.body.classList.remove('compatibility-pdf-mode');
+    this.exportingPdf = false;
+    this.cdr.detectChanges();
+  }
+
+  private async addElementToPdf(
+    pdf: jsPDF,
+    element: HTMLElement,
+    pdfWidth: number,
+    pageHeight: number,
+    margin: number,
+    pageHeightUsed: number,
+    spacing: number
+  ): Promise<number> {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      useCORS: true,
+      logging: false,
+      windowWidth: element.scrollWidth,
+      width: element.scrollWidth,
+      height: element.scrollHeight,
+    });
+
+    const usableWidth = pdfWidth - margin * 2;
+    const contentHeight = pageHeight - margin * 2;
+    const renderedHeight = (canvas.height * usableWidth) / canvas.width;
+    let currentPageHeight = pageHeightUsed;
+
+    if (renderedHeight > contentHeight) {
+      let startY = 0;
+      while (startY < canvas.height) {
+        const remainingHeight = canvas.height - startY;
+        const sliceHeight = Math.min(remainingHeight, Math.ceil((contentHeight * canvas.width) / usableWidth));
+
+        if (currentPageHeight > 0) {
+          pdf.addPage();
+          currentPageHeight = 0;
+        }
+
+        const sliceCanvas = document.createElement('canvas');
+        sliceCanvas.width = canvas.width;
+        sliceCanvas.height = sliceHeight;
+        const context = sliceCanvas.getContext('2d');
+
+        if (!context) {
+          break;
+        }
+
+        context.drawImage(canvas, 0, startY, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
+        const sliceHeightMm = (sliceHeight * usableWidth) / canvas.width;
+        pdf.addImage(sliceCanvas.toDataURL('image/png'), 'PNG', margin, margin + currentPageHeight, usableWidth, sliceHeightMm);
+
+        currentPageHeight = sliceHeightMm;
+        startY += sliceHeight;
+      }
+
+      return currentPageHeight;
+    }
+
+    if (currentPageHeight + renderedHeight + spacing > contentHeight) {
+      pdf.addPage();
+      currentPageHeight = 0;
+    }
+
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', margin, margin + currentPageHeight, usableWidth, renderedHeight);
+
+    return currentPageHeight + renderedHeight + spacing;
+  }
+
+  private getCompatibilityPdfFileName(): string {
+    const boyName = this.slugify(this.boy.name || 'boy');
+    const girlName = this.slugify(this.girl.name || 'girl');
+    return `compatibility-${boyName}-${girlName}.pdf`;
+  }
+
+  private slugify(value: string): string {
+    const slug = value
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    return slug || 'report';
   }
 
   private toPersonRequest(prefix: 'boy' | 'girl'): MatchRequestPerson {
@@ -218,21 +485,81 @@ export class CompatibilityComponent {
     };
   }
 
+  getMoonSign(chart: BirthChart | null): string {
+    const moon = chart?.planetPositions?.find((item) => Number(item.planet) === 1);
+    return this.formatSign(moon?.sign);
+  }
+
+  getNakshatra(chart: BirthChart | null): string {
+    return chart?.panchang?.nakshatra || '—';
+  }
+
+  getAscendant(chart: BirthChart | null): string {
+    return this.formatSign(chart?.ascendantSign);
+  }
+
+  getNakshatraDisplay(chart: BirthChart | null): string {
+    const nakshatra = chart?.panchang?.nakshatra;
+    const pada = chart?.panchang?.pada;
+    const akshara = chart?.panchang?.akshara;
+
+    if (!nakshatra) return '—';
+
+    const padaText = pada ? ` ${this.t('compatibility.pada')} ${pada}` : '';
+    const aksharaText = akshara ? ` (${akshara})` : '';
+    return `${nakshatra}${padaText}${aksharaText}`;
+  }
+
   private formatDate(value: string | null | undefined): string {
     if (!value) return '—';
     const [year, month, day] = value.split('-').map(Number);
-    return new Date(year, month - 1, day).toLocaleDateString('en-GB', {
+    const locale = this.transloco.getActiveLang() === 'hi' ? 'hi-IN' : 'en-GB';
+    return new Date(year, month - 1, day).toLocaleDateString(locale, {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
     });
   }
 
+  private formatSign(value: number | string | null | undefined): string {
+    const signs: Record<number, string> = {
+      1: 'sign.Aries',
+      2: 'sign.Taurus',
+      3: 'sign.Gemini',
+      4: 'sign.Cancer',
+      5: 'sign.Leo',
+      6: 'sign.Virgo',
+      7: 'sign.Libra',
+      8: 'sign.Scorpio',
+      9: 'sign.Sagittarius',
+      10: 'sign.Capricorn',
+      11: 'sign.Aquarius',
+      12: 'sign.Pisces',
+    };
+
+    const key = signs[Number(value)];
+    return key ? this.t(key) : '—';
+  }
+
   private getGrade(score: number): string {
-    if (score >= 82) return 'Excellent';
-    if (score >= 75) return 'Very Strong';
-    if (score >= 65) return 'Strong';
-    if (score >= 50) return 'Good';
-    return 'Needs Work';
+    if (score >= 82) return this.t('compatibility.excellent');
+    if (score >= 75) return this.t('compatibility.veryStrong');
+    if (score >= 65) return this.t('compatibility.strong');
+    if (score >= 50) return this.t('compatibility.good');
+    return this.t('compatibility.needsWork');
+  }
+
+  private getDoshaOwnership(dosha: CompatibilityDoshaItem): string {
+    const boyHas = dosha.personA?.isPresent;
+    const girlHas = dosha.personB?.isPresent;
+
+    if (boyHas && girlHas) return this.t('compatibility.both');
+    if (boyHas) return this.t('compatibility.boy');
+    if (girlHas) return this.t('compatibility.girl');
+    return this.t('compatibility.none');
+  }
+
+  private t(key: string, params?: Record<string, string | number>): string {
+    return this.transloco.translate(key, params);
   }
 }

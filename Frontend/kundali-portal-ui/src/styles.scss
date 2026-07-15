@@ -3,6 +3,86 @@
 // Import theme variables and mixins
 @import './app/config/theme/theme.scss';
 
+
+/* ===========================
+   RUNTIME THEME TOKENS
+   =========================== */
+
+:root,
+body[data-theme='dark'] {
+  --theme-bg: #0d1120;
+  --theme-bg-alt: #0d1120;
+  --theme-surface: #161b30;
+  --theme-surface-2: #1e2440;
+  --theme-surface-soft: rgba(22, 27, 48, 0.92);
+  --theme-text: #efe6d3;
+  --theme-text-muted: #c9bfa9;
+  --theme-accent: #c9a24b;
+  --theme-accent-soft: #8f7a45;
+  --theme-danger: #b8412f;
+  --theme-success: #67b07f;
+  --theme-info: #7fa6bd;
+  --theme-warning: #c9a24b;
+  --theme-copper: #a9764a;
+  --theme-line: rgba(201, 162, 75, 0.22);
+  --theme-line-soft: rgba(201, 162, 75, 0.12);
+  --theme-shadow: rgba(0, 0, 0, 0.30);
+  --theme-input-bg: #0d1120;
+  --theme-grid-line: rgba(201, 162, 75, 0.035);
+  --theme-grid-line-2: rgba(201, 162, 75, 0.028);
+  --theme-radius-card: 0;
+  --theme-radius-control: 0;
+}
+
+body[data-theme='light'] {
+  --theme-bg: #f5eddd;
+  --theme-bg-alt: #efe2c9;
+  --theme-surface: #fffaf0;
+  --theme-surface-2: #f3e8d2;
+  --theme-surface-soft: rgba(255, 250, 240, 0.92);
+  --theme-text: #1d2433;
+  --theme-text-muted: #665b49;
+  --theme-accent: #a87922;
+  --theme-accent-soft: #8b6b35;
+  --theme-danger: #a9412f;
+  --theme-success: #2f8f55;
+  --theme-info: #2f72c7;
+  --theme-warning: #b98122;
+  --theme-copper: #996a42;
+  --theme-line: rgba(168, 121, 34, 0.28);
+  --theme-line-soft: rgba(168, 121, 34, 0.14);
+  --theme-shadow: rgba(92, 65, 25, 0.15);
+  --theme-input-bg: #fffdf7;
+  --theme-grid-line: rgba(168, 121, 34, 0.08);
+  --theme-grid-line-2: rgba(168, 121, 34, 0.06);
+  --theme-radius-card: 8px;
+  --theme-radius-control: 6px;
+}
+
+body[data-theme='hora'] {
+  --theme-bg: #f7f8fa;
+  --theme-bg-alt: #ffffff;
+  --theme-surface: #ffffff;
+  --theme-surface-2: #f8fafc;
+  --theme-surface-soft: rgba(255, 255, 255, 0.96);
+  --theme-text: #111827;
+  --theme-text-muted: #5f6673;
+  --theme-accent: #d8643a;
+  --theme-accent-soft: #ad4f32;
+  --theme-danger: #dc3f3f;
+  --theme-success: #24a35a;
+  --theme-info: #2f7de1;
+  --theme-warning: #e2a235;
+  --theme-copper: #b5693a;
+  --theme-line: rgba(17, 24, 39, 0.1);
+  --theme-line-soft: rgba(17, 24, 39, 0.07);
+  --theme-shadow: rgba(15, 23, 42, 0.08);
+  --theme-input-bg: #ffffff;
+  --theme-grid-line: transparent;
+  --theme-grid-line-2: transparent;
+  --theme-radius-card: 8px;
+  --theme-radius-control: 6px;
+}
 /* ===========================
    RESET & BASE STYLES
    =========================== */
@@ -23,8 +103,8 @@ body {
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
   line-height: 1.6;
-  color: $color-dark;
-  background: $color-lighter;
+  color: var(--theme-text, #{$color-dark});
+  background: var(--theme-bg, #{$color-lighter});
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -256,6 +336,51 @@ label {
 }
 
 /* ===========================
+   ICON UTILITIES
+   =========================== */
+
+:root {
+  --icon-gold: #b7791f;
+  --icon-muted: #757575;
+  --icon-danger: #f44336;
+  --icon-success: #4caf50;
+}
+
+.icon-sm {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.icon-md {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+.icon-lg {
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
+}
+
+.icon-gold {
+  color: var(--icon-gold, #b7791f);
+}
+
+.icon-muted {
+  color: var(--icon-muted, #757575);
+}
+
+.icon-danger {
+  color: var(--icon-danger, #f44336);
+}
+
+.icon-success {
+  color: var(--icon-success, #4caf50);
+}
+
+/* ===========================
    RESPONSIVE UTILITIES
    =========================== */
 
@@ -322,3 +447,34 @@ body.pdf-mode {
 
 }
 
+
+
+/* Runtime theme global coverage for the authenticated app shell. */
+html,
+body,
+app-root {
+  min-height: 100%;
+  background: var(--theme-bg, #0d1120);
+}
+
+body {
+  transition: background 180ms ease, color 180ms ease;
+}
+
+body:not(.pdf-mode) app-root {
+  display: block;
+  color: var(--theme-text);
+}
+
+body:not(.pdf-mode) input,
+body:not(.pdf-mode) select,
+body:not(.pdf-mode) textarea {
+  color: var(--theme-text);
+  background: var(--theme-input-bg);
+  border-color: var(--theme-line);
+}
+
+body:not(.pdf-mode) input::placeholder,
+body:not(.pdf-mode) textarea::placeholder {
+  color: color-mix(in srgb, var(--theme-text-muted) 62%, transparent);
+}

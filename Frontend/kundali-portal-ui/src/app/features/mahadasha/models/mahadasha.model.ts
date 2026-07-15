@@ -1,8 +1,23 @@
+export interface BirthChartSummary {
+  name: string;
+  gender: string;
+  birthDateTime: string;
+  birthPlace: string;
+  latitude: number;
+  longitude: number;
+  lagna: string;
+  chandraRashi: string;
+  suryaRashi: string;
+  nakshatra: string;
+  pada: number;
+  dashaBelongsTo: string;
+}
 export interface MahadashaPeriod {
   planet: string;
   start?: string;
   end?: string;
   status?: 'completed' | 'current' | 'upcoming' | string;
+  antardashas?: AntardashaPeriod[];
 }
 
 export interface AntardashaPeriod extends MahadashaPeriod {}
@@ -123,6 +138,7 @@ export interface UpcomingDasha {
 
 export interface MahadashaAnalysis {
   summary: MahadashaSummary;
+  birthChart: BirthChartSummary;
   currentMahadasha: CurrentMahadasha;
   currentAntardasha: CurrentAntardasha;
   timeline: DashaTimeline;
@@ -137,3 +153,6 @@ export interface MahadashaAnalysis {
   remedies: Remedies;
   upcomingDasha: UpcomingDasha;
 }
+
+
+

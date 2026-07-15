@@ -14,7 +14,7 @@ namespace KundaliEngine.Astrology.Services.DivisionalCharts.Calculators
             {
                 var d9Sign = CalculateNavamsaSign(
                     planet.Sign,
-                    planet.Degree);
+                    planet.DegreeInSign);
 
                 var d9Planet = new PlanetPosition
                 {
@@ -43,7 +43,7 @@ namespace KundaliEngine.Astrology.Services.DivisionalCharts.Calculators
             return d9Planets;
         }
 
-        private ZodiacSign CalculateNavamsaSign(
+        public static ZodiacSign CalculateNavamsaSign(
             ZodiacSign d1Sign,
             double degreeInSign)
         {

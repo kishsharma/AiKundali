@@ -1,13 +1,14 @@
-// Panchang Module - Panchang Viewer Page
+﻿// Panchang Module - Panchang Viewer Page
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { SectionCardComponent } from '../../shared/components/section-card.component';
 
 @Component({
   selector: 'app-panchang',
   standalone: true,
-  imports: [CommonModule, PageHeaderComponent, SectionCardComponent],
+  imports: [CommonModule, RouterModule, PageHeaderComponent, SectionCardComponent],
   templateUrl: './panchang.component.html',
   styles: [`
     .panchang-layout {
@@ -34,6 +35,17 @@ import { SectionCardComponent } from '../../shared/components/section-card.compo
       }
     }
 
+    .muhurtha-link {
+      display: inline-flex;
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      background: #7E3BA8;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
     @media (max-width: 768px) {
       .panchang-layout {
         grid-template-columns: 1fr;
@@ -42,3 +54,4 @@ import { SectionCardComponent } from '../../shared/components/section-card.compo
   `],
 })
 export class PanchangComponent {}
+

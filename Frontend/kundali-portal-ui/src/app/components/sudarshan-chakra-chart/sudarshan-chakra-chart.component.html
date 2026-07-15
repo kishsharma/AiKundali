@@ -1,0 +1,180 @@
+<div class="sudarshan-chart">
+  <div class="chart-stage" *ngIf="hasRequiredData; else missingData">
+
+    <div class="sudarshan-layout clean">
+
+      <!-- LEFT TEXT PANEL -->
+      <aside class="sudarshan-text-panel left-panel">
+
+        <section>
+          <h4>{{ 'sudarshan.howToRead' | transloco }}</h4>
+          <p>
+            {{ 'sudarshan.howToReadText' | transloco }}
+          </p>
+        </section>
+
+        <section>
+          <h4>{{ 'sudarshan.layerMeaning' | transloco }}</h4>
+
+          <div class="layer-row">
+            <span class="dot lagna"></span>
+            <div>
+              <strong>{{ 'planet.Ascendant' | transloco }}</strong>
+              <p>{{ 'sudarshan.lagnaMeaning' | transloco }}</p>
+            </div>
+          </div>
+
+          <div class="layer-row">
+            <span class="dot moon"></span>
+            <div>
+              <strong>{{ 'planet.Moon' | transloco }}</strong>
+              <p>{{ 'sudarshan.moonMeaning' | transloco }}</p>
+            </div>
+          </div>
+
+          <div class="layer-row">
+            <span class="dot sun"></span>
+            <div>
+              <strong>{{ 'planet.Sun' | transloco }}</strong>
+              <p>{{ 'sudarshan.sunMeaning' | transloco }}</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h4>{{ 'sudarshan.confidenceRule' | transloco }}</h4>
+          <p>
+            {{ 'sudarshan.confidenceRuleText' | transloco }}
+          </p>
+        </section>
+
+      </aside>
+
+      <!-- CENTER CHAKRA -->
+      <div class="chakra-zone">
+
+        <div class="chakra-center">
+          <svg
+            [attr.viewBox]="viewBox"
+            preserveAspectRatio="xMidYMid meet"
+            class="chakra-svg"
+            role="img"
+            [attr.aria-label]="'sudarshan.ariaLabel' | transloco"
+          >
+            <g class="sector-layer">
+              <path
+                *ngFor="let sector of sectors; trackBy: trackSector"
+                [attr.d]="sector.path"
+                class="chakra-sector"
+                [ngClass]="sector.ring.className"
+              />
+            </g>
+
+            <g class="house-label-layer">
+              <text
+                *ngFor="let label of houseLabels; trackBy: trackLabel"
+                [attr.x]="label.x"
+                [attr.y]="label.y"
+                class="house-number"
+                text-anchor="middle"
+                dominant-baseline="middle"
+              >
+                H{{ label.house }}
+              </text>
+            </g>
+
+            <g class="planet-layer">
+              <text
+                *ngFor="let group of planetGroups; trackBy: trackPlanetGroup"
+                [attr.x]="group.x"
+                [attr.y]="group.y - ((group.labels.length - 1) * 6)"
+                class="planet-label"
+                [ngClass]="group.ring.className"
+                text-anchor="middle"
+                dominant-baseline="middle"
+              >
+                <tspan
+                  *ngFor="let label of group.labels; let labelIndex = index"
+                  [attr.x]="group.x"
+                  [attr.dy]="labelIndex === 0 ? 0 : 12"
+                >
+                  {{ getPlanetShortName(label) }}
+                </tspan>
+              </text>
+            </g>
+
+            <circle cx="250" cy="250" r="51" class="center-disc" />
+            <text x="250" y="243" text-anchor="middle" class="center-title">
+              {{ 'sudarshan.centerTitle' | transloco }}
+            </text>
+            <text x="250" y="262" text-anchor="middle" class="center-subtitle">
+              {{ 'sudarshan.centerSubtitle' | transloco }}
+            </text>
+          </svg>
+        </div>
+
+        <div class="chakra-legend">
+          <span class="legend-item lagna">
+            <i></i>
+            {{ 'planet.Ascendant' | transloco }}: {{ getSignLabel(lagnaSign) }}
+          </span>
+
+          <span class="legend-item moon">
+            <i></i>
+            {{ 'planet.Moon' | transloco }}: {{ getSignLabel(moonSign) }}
+          </span>
+
+          <span class="legend-item sun">
+            <i></i>
+            {{ 'planet.Sun' | transloco }}: {{ getSignLabel(sunSign) }}
+          </span>
+        </div>
+
+      </div>
+
+      <!-- RIGHT TEXT PANEL -->
+      <aside class="sudarshan-text-panel right-panel">
+
+        <section>
+          <h4>{{ 'sudarshan.overallPattern' | transloco }}</h4>
+          <p>
+            {{ 'sudarshan.overallPatternText' | transloco }}
+          </p>
+        </section>
+
+        <section>
+          <h4>{{ 'sudarshan.strongAreas' | transloco }}</h4>
+          <ul>
+            <li>{{ 'sudarshan.strongAreaCareer' | transloco }}</li>
+            <li>{{ 'sudarshan.strongAreaLearning' | transloco }}</li>
+            <li>{{ 'sudarshan.strongAreaRecognition' | transloco }}</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>{{ 'sudarshan.sensitiveAreas' | transloco }}</h4>
+          <ul>
+            <li>{{ 'sudarshan.sensitiveAreaEmotionalPeace' | transloco }}</li>
+            <li>{{ 'sudarshan.sensitiveAreaRelationship' | transloco }}</li>
+            <li>{{ 'sudarshan.sensitiveAreaDecisionMaking' | transloco }}</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>{{ 'sudarshan.guidance' | transloco }}</h4>
+          <p>
+            {{ 'sudarshan.guidanceText' | transloco }}
+          </p>
+        </section>
+
+      </aside>
+
+    </div>
+  </div>
+
+  <ng-template #missingData>
+    <div class="empty-state">
+      {{ 'sudarshan.missingData' | transloco }}
+    </div>
+  </ng-template>
+</div>

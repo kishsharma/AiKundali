@@ -67,7 +67,10 @@
 
       <div class="kundali-summary-content">
         <span>{{ 'kundali.ascendant' | transloco }}</span>
-        <strong>{{ summary.ascendant }}</strong>
+        <strong class="summary-primary">{{ translateSign(summary.ascendant) }}</strong>
+        <small class="summary-lord" *ngIf="getLagnaLord() as lord">
+          {{ 'metadata.lord' | transloco }}: {{ lord }}
+        </small>
       </div>
 
     </div>
@@ -80,7 +83,10 @@
 
       <div class="kundali-summary-content">
         <span>{{ 'kundali.moonSign' | transloco }}</span>
-        <strong>{{ summary.moonSign }}</strong>
+        <strong class="summary-primary">{{ translateSign(summary.moonSign) }}</strong>
+        <small class="summary-lord" *ngIf="getMoonSignLord() as lord">
+          {{ 'metadata.lord' | transloco }}: {{ lord }}
+        </small>
       </div>
 
     </div>
@@ -93,7 +99,10 @@
 
       <div class="kundali-summary-content">
         <span>{{ 'kundali.sunSign' | transloco }}</span>
-        <strong>{{ summary.sunSign }}</strong>
+        <strong class="summary-primary">{{ translateSign(summary.sunSign) }}</strong>
+        <small class="summary-lord" *ngIf="getSunSignLord() as lord">
+          {{ 'metadata.lord' | transloco }}: {{ lord }}
+        </small>
       </div>
 
     </div>
@@ -106,7 +115,10 @@
 
       <div class="kundali-summary-content">
         <span>{{ 'kundali.mahadasha' | transloco }}</span>
-        <strong>{{ summary.currentMahadasha }}</strong>
+        <strong class="summary-primary">{{ translatePlanet(summary.currentMahadasha) }}</strong>
+        <small class="summary-lord" *ngIf="getMahadashaLord() as lord">
+          {{ 'metadata.lord' | transloco }}: {{ lord }}
+        </small>
       </div>
 
     </div>

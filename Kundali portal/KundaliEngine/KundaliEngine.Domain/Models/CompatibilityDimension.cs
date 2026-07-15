@@ -32,6 +32,12 @@ namespace KundaliEngine.Domain.Models
         public List<string> Factors { get; set; } = new List<string>();
 
         /// <summary>
+        /// Structured numeric breakdown of the score.
+        /// Mirrors Kundali score breakdown items for UI display.
+        /// </summary>
+        public List<ScoreComponent> ScoreBreakdown { get; set; } = new List<ScoreComponent>();
+
+        /// <summary>
         /// Brief summary of this dimension's compatibility.
         /// Placeholder in Phase 1; future phases will use semantic/AI generation.
         /// </summary>

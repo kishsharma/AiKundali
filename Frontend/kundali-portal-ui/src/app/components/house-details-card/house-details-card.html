@@ -13,7 +13,7 @@
     </h3>
 
     <span class="sign-badge">
-      {{ houseData.sign }}
+      {{ translateSign(houseData.sign) }}
     </span>
 
   </div>
@@ -22,7 +22,7 @@
 
     <div>
       <span>{{ 'house.owner' | transloco }}</span>
-      <strong>{{ houseData.houseOwner }}</strong>
+      <strong>{{ translatePlanet(houseData.houseOwner) }}</strong>
     </div>
 
     <div>
@@ -44,6 +44,13 @@
       </strong>
     </div>
 
+  </div>
+
+  <div class="tag-section simple-text-section aspect-section">
+    <label>{{ 'house.aspectedBy' | transloco }}</label>
+    <p class="simple-text" [class.muted]="!hasAspects">
+      {{ aspectedByText }}
+    </p>
   </div>
 
   <div

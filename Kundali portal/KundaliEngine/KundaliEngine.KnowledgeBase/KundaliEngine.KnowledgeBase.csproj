@@ -13,12 +13,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Data\Rashi\Mesha.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Data\Rashi\Mesha.json" />
-  </ItemGroup>
-
 </Project>
