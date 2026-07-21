@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
-import { environment } from '../../config/environment/environment';
+import { apiEndpoints } from '../../config/api-endpoints';
 
 export interface Kundali {
   id: string;
@@ -31,7 +31,7 @@ export interface GenerateKundaliRequest {
   providedIn: 'root',
 })
 export class KundaliApiService extends BaseApiService {
-  private kundaliEndpoints = environment.apiEndpoints.kundali;
+  private kundaliEndpoints = apiEndpoints.kundali;
 
   /**
    * Get all Kundali charts for the current user
@@ -73,4 +73,5 @@ export class KundaliApiService extends BaseApiService {
     return this.delete<void>(endpoint);
   }
 }
+
 

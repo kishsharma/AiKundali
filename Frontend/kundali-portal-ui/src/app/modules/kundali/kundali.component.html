@@ -22,20 +22,111 @@
         <span>{{ savingKundali ? 'Saving' : (savedKundaliId ? 'Save Again' : 'Save') }}</span>
       </button>
 
-      <button
-        class="report-action-btn download-action"
-        type="button"
-        (click)="downloadPdf()"
-        [disabled]="exportingPdf"
-        aria-label="Download PDF"
-        title="Download PDF">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>PDF</span>
-      </button>
+      <details #pdfModePicker class="pdf-mode-picker" [class.disabled]="exportingPdf" (toggle)="onReportPickerToggle($event, emailSharePicker, whatsAppSharePicker)">
+        <summary
+          class="report-action-btn download-action pdf-mode-trigger"
+          aria-label="Choose PDF download mode"
+          title="Choose PDF download mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 3v12"></path>
+            <path d="M7 10l5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+          <span>{{ exportingPdf ? 'Preparing' : 'PDF' }}</span>
+        </summary>
+
+        <div class="pdf-mode-menu" role="menu" aria-label="PDF download modes">
+          <button
+            type="button"
+            class="pdf-mode-option"
+            role="menuitem"
+            *ngFor="let pdfMode of pdfModes"
+            (click)="pdfModePicker.removeAttribute('open'); downloadPdf(pdfMode.mode)"
+            [disabled]="exportingPdf">
+            <span>{{ pdfMode.label }}</span>
+            <small>{{ pdfMode.description }}</small>
+          </button>
+        </div>
+      </details>
+
+      <details #emailSharePicker class="share-email-picker" (toggle)="onReportPickerToggle($event, pdfModePicker, whatsAppSharePicker)">
+        <summary
+          class="report-action-btn share-action email-share-action"
+          aria-label="Share Kundali report by email"
+          title="Share report by email">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 6h16v12H4z"></path>
+            <path d="M4 7l8 6 8-6"></path>
+          </svg>
+          <span>Email</span>
+        </summary>
+
+        <form class="share-email-panel share-panel" (submit)="$event.preventDefault(); sendReportByEmail()" novalidate>
+          <label class="share-email-field share-field">
+            <span>Email</span>
+            <input
+              type="email"
+              name="shareEmail"
+              inputmode="email"
+              autocomplete="email"
+              placeholder="name@example.com"
+              [value]="shareEmail"
+              (input)="onShareEmailInput($any($event.target).value)"
+              (blur)="shareEmailTouched = true"
+              [attr.aria-invalid]="showShareEmailError"
+              aria-describedby="shareEmailFeedback" />
+          </label>
+          <label class="share-email-field share-field share-format-field">
+            <span>Report Format</span>
+            <select
+              name="shareReportFormat"
+              [value]="selectedEmailPdfMode"
+              (change)="onEmailPdfModeChange($any($event.target).value)">
+              <option *ngFor="let pdfMode of pdfModes" [value]="pdfMode.mode">
+                {{ pdfMode.label }}
+              </option>
+            </select>
+          </label>
+          <button type="submit" class="share-send-btn" [disabled]="shareSending">{{ shareSending ? 'Sending' : 'Send' }}</button>
+          <small id="shareEmailFeedback" class="share-email-feedback share-feedback" [class.error]="showShareEmailError">
+            {{ showShareEmailError ? 'Enter a valid email address.' : shareMessage }}
+          </small>
+        </form>
+      </details>
+
+      <details #whatsAppSharePicker class="share-email-picker share-whatsapp-picker" (toggle)="onReportPickerToggle($event, pdfModePicker, emailSharePicker)">
+        <summary
+          class="report-action-btn share-action whatsapp-share-action"
+          aria-label="Share Kundali report on WhatsApp"
+          title="Share report on WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 4a8 8 0 0 0-6.95 11.97L4 20l4.16-1.02A8 8 0 1 0 12 4z"></path>
+            <path d="M9.3 8.8c.2-.45.42-.48.72-.48h.52c.17 0 .4.06.6.44.22.47.72 1.62.78 1.75.06.14.1.3.02.48-.1.2-.16.32-.32.5l-.22.24c-.12.13-.25.28-.1.55.16.28.7 1.15 1.5 1.86 1.04.92 1.9 1.2 2.18 1.34.28.14.45.12.62-.08.18-.2.72-.84.92-1.14.2-.3.38-.24.64-.14.26.1 1.66.78 1.94.92.28.14.48.22.54.34.06.12.06.7-.16 1.36-.22.66-1.28 1.25-1.78 1.3-.46.04-1.04.06-1.68-.1-.38-.1-.88-.28-1.52-.56-2.68-1.15-4.42-3.82-4.56-4-.14-.18-1.08-1.44-1.08-2.74 0-1.3.68-1.94.92-2.2z"></path>
+          </svg>
+          <span>WhatsApp</span>
+        </summary>
+
+        <form class="share-email-panel share-panel" (submit)="$event.preventDefault(); shareReportOnWhatsApp()" novalidate>
+          <label class="share-email-field share-field">
+            <span>WhatsApp Number</span>
+            <input
+              type="tel"
+              name="shareWhatsAppNumber"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="9876543210"
+              [value]="shareWhatsAppNumber"
+              (input)="onShareWhatsAppNumberInput($any($event.target).value)"
+              (blur)="shareWhatsAppTouched = true"
+              [attr.aria-invalid]="showShareWhatsAppError"
+              aria-describedby="shareWhatsAppFeedback" />
+          </label>
+          <button type="submit" class="share-send-btn whatsapp-send-btn">Open</button>
+          <small id="shareWhatsAppFeedback" class="share-email-feedback share-feedback" [class.error]="showShareWhatsAppError">
+            {{ showShareWhatsAppError ? 'Enter a valid WhatsApp number.' : shareWhatsAppMessage }}
+          </small>
+        </form>
+      </details>
     </div>
   </app-page-header>
 
@@ -72,11 +163,28 @@
   </div>
 </div>
 
-<aside class="janma-story-rail" *ngIf="janmaStoryLines.length && showChart">
+<aside class="janma-story-rail" [class.collapsed]="isJanmaStoryRailCollapsed" *ngIf="janmaStoryLines.length && showChart">
+  <button
+    type="button"
+    class="janma-story-edge-toggle"
+    (click)="toggleJanmaStoryRail()"
+    [attr.aria-expanded]="!isJanmaStoryRailCollapsed"
+    [attr.aria-label]="isJanmaStoryRailCollapsed ? 'Show story telling bar' : 'Hide story telling bar'"
+    [attr.title]="isJanmaStoryRailCollapsed ? 'Show story telling bar' : 'Hide story telling bar'">
+    <span aria-hidden="true">{{ isJanmaStoryRailCollapsed ? '< Story' : 'Hide' }}</span>
+  </button>
   <section class="janma-story-card">
     <div class="story-header">
       <span class="story-kicker">{{ 'janmaStory.title' | transloco }}</span>
       <strong>{{ displayPersonName || 'Birth Chart' }}</strong>
+      <button
+        type="button"
+        class="janma-story-header-toggle"
+        (click)="toggleJanmaStoryRail()"
+        aria-label="Hide story telling bar"
+        title="Hide story telling bar">
+        Hide
+      </button>
     </div>
     <div class="story-lines" aria-live="polite">
       <p class="story-line" *ngFor="let line of displayedJanmaStoryLines; let storyIndex = index" [class.active]="storyIndex === displayedJanmaStoryLines.length - 1 || displayedJanmaStoryLines[storyIndex + 1] === ''">
@@ -93,7 +201,7 @@
 
 <div class="kundali-layout">
   <div class="primary-sections">
-    <app-section-card title="Birth Details">
+    <app-section-card class="birth-details-card" title="Birth Details">
       <form class="kundali-form" [formGroup]="kundaliForm" (ngSubmit)="generateKundali()">
         <div class="form-grid">
           <div class="form-group">
@@ -195,6 +303,18 @@
       <aside class="chandra-rashi-watermark" *ngIf="showChart && chandraRashiWatermark as rashiWatermark" aria-hidden="true">
         <span class="rashi-watermark-symbol">{{ rashiWatermark.symbol }}</span>
       </aside>
+      <nav class="report-quick-links" aria-label="Kundali report sections" style="position: sticky; top: 8px; z-index: 25; display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 7px 2px; background: color-mix(in srgb, var(--theme-bg) 86%, transparent); backdrop-filter: blur(10px);">
+        <span class="save-status" style="flex: 0 0 auto;">Sections</span>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('kundali-chart')">Chart</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('kundali-summary')">Summary</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('yogaSection')">Yogas</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('doshaSection')">Doshas</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('planetPositions')">Planets</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('scoreSection')">Scores</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('dashaSection')">Dasha</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('remediesSection')">Remedies</button>
+        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('transitSection')" *ngIf="kundaliResponse?.transitInsight">Transit</button>
+      </nav>
       <div class="pdf-only report-header premium-header" id="pdfHeader">
 
         <div class="header-top-section">
@@ -234,7 +354,22 @@
         </div>
 
       </div>
-      <app-section-card [title]="'kundali.chart' | transloco" [class.chart-section-pinned]="isChartPinned">
+      <aside class="pinned-chart-reference" *ngIf="isChartPinned" aria-label="Pinned kundali chart reference">
+        <div class="pinned-chart-header">
+          <span>{{ primaryChartTitle }}</span>
+          <button type="button" class="chart-pin-button active compact" aria-label="Unpin chart" title="Unpin chart" (click)="toggleChartPin()">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3l7 7-2 2-2-2-4 4v5l-1 1-4.5-4.5L3 11l1-1h5l4-4-2-2 3-1z" />
+            </svg>
+          </button>
+        </div>
+        <div class="pinned-chart-surface">
+          <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-north-indian-chart>
+          <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-south-indian-chart>
+          <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-western-chart>
+        </div>
+      </aside>
+      <app-section-card id="kundali-chart" [title]="'kundali.chart' | transloco">
         <div class="chart-control-bar" aria-label="Kundali chart controls">
           <div class="division-tabs" role="tablist" aria-label="Kundali divisional chart">
             <button type="button" role="tab" [class.active]="activeDivisionalChart === 'd1'"
@@ -254,36 +389,34 @@
             <div id='divtabs' class="chart-tabs" role="tablist" aria-label="Kundali chart type">
               <button type="button" role="tab" [class.active]="activeChartType === 'north'"
                 [attr.aria-selected]="activeChartType === 'north'" (click)="activeChartType = 'north'">
-                {{ 'chartTypes.northIndian' | transloco }}
+                North
               </button>
 
               <button type="button" role="tab" [class.active]="activeChartType === 'south'"
                 [attr.aria-selected]="activeChartType === 'south'" (click)="activeChartType = 'south'">
-                {{ 'chartTypes.southIndian' | transloco }}
+                South
               </button>
 
               <button type="button" role="tab" [class.active]="activeChartType === 'western'"
                 [attr.aria-selected]="activeChartType === 'western'" (click)="activeChartType = 'western'">
-                {{ 'chartTypes.western' | transloco }}
+                Western
               </button>
             </div>
-          </div>
-
-          <button type="button" class="chart-pin-button" [class.active]="isChartPinned"
-            [attr.aria-pressed]="isChartPinned" [attr.title]="isChartPinned ? 'Unpin chart' : 'Pin chart'"
-            (click)="toggleChartPin()">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M14 3l7 7-2 2-2-2-4 4v5l-1 1-4.5-4.5L3 11l1-1h5l4-4-2-2 3-1z" />
-            </svg>
-            <span>{{ isChartPinned ? 'Pinned' : 'Pin' }}</span>
-          </button>
-        </div>
+          </div></div>
 
         <div class="chart-with-house-details">
           <div class="left">
             <div class="chart-wrapper">
               <div class="chart-surface">
                 <div class="chart-title">{{ primaryChartTitle }}</div>
+          <button type="button" class="chart-pin-button" [class.active]="isChartPinned"
+            [attr.aria-pressed]="isChartPinned" [attr.title]="isChartPinned ? 'Unpin chart reference' : 'Pin chart reference'"
+            (click)="toggleChartPin()">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3l7 7-2 2-2-2-4 4v5l-1 1-4.5-4.5L3 11l1-1h5l4-4-2-2 3-1z" />
+            </svg>
+            <span>{{ isChartPinned ? 'Unpin' : 'Pin' }}</span>
+          </button>
                 <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets"
                   [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
                   (houseSelected)="selectedHouseData = $event"></app-north-indian-chart>
@@ -331,7 +464,7 @@
       </app-section-card>
       <div class="detail-grid">
 
-        <app-section-card [title]="'kundali.summary' | transloco"  class="full-row" >
+        <app-section-card id="kundali-summary" [title]="'kundali.summary' | transloco"  class="full-row" >
           <app-kundali-summary [summary]="kundaliResponse?.summary" [kundaliFormValue]="kundaliForm.value">
           </app-kundali-summary>
           <app-panchang-card [panchang]="kundaliResponse?.panchang">
@@ -341,28 +474,20 @@
             [nakshatraInsight]="kundaliResponse?.nakshatraInsight">
           </app-kundali-metadata-insights>
         </app-section-card>
-
-        <app-section-card title="Remedies Recommendation" class="full-row" *ngIf="kundaliResponse">
-          <app-remedies-recommendation
-            [recommendation]="kundaliResponse?.remediesRecommendation || kundaliResponse?.RemediesRecommendation">
-          </app-remedies-recommendation>
-        </app-section-card>
-
-      </div>
+</div>
       <app-section-card id="yogaSection" [title]="'kundali.yogas' | transloco" class="full-row" *ngIf="kundaliResponse">
         <div class="yogas-list" *ngIf="yogas.length; else noYogas">
           <div class="yoga-item" *ngFor="let yoga of yogas; let yogaIndex = index">
             <div class="yoga-header">
               <div class="yoga-title">
                 <h4>{{ yoga.name }}</h4>
-                <span class="meta-chip category-chip" *ngIf="yoga.category">
-                  <span class="chip-label">Category</span>
-                  {{ yoga.category }}
-                </span>
+                <span class="meta-chip" *ngIf="yoga.category">Category: {{ yoga.category }}</span>
+                <span class="meta-chip" *ngIf="yoga.involvedPlanets?.length">Planets: {{ yoga.involvedPlanets.join(', ') }}</span>
+                <span class="meta-chip" *ngIf="yoga.involvedHouses?.length">Houses: {{ yoga.involvedHouses.join(', ') }}</span>
                 <span class="meta-chip" *ngIf="yoga.sanskritName">{{ yoga.sanskritName }}</span>
               </div>
               <div class="item-actions">
-                <span class="yoga-strength" *ngIf="yoga.strength">{{ yoga.strength }}</span>
+                <span class="yoga-strength" *ngIf="yoga.strength">Natal: {{ yoga.strength }}</span>
                 <button
                   type="button"
                   class="info-toggle"
@@ -376,22 +501,17 @@
               </div>
             </div>
 
-            <!-- <div class="yoga-meta" *ngIf="yoga.category || yoga.sanskritName">
-              <span *ngIf="yoga.category">{{ yoga.category }}</span>
-              <span *ngIf="yoga.sanskritName">{{ yoga.sanskritName }}</span>
-            </div> -->
-
             <p class="yoga-description" *ngIf="yoga.reason || yoga.description">
               {{ yoga.description ||yoga.reason  }}
             </p>
-            <div class="yoga-meta" *ngIf="yoga.involvedPlanets?.length || yoga.involvedHouses?.length">
-              <span *ngIf="yoga.involvedPlanets?.length">
-                Planets: {{ yoga.involvedPlanets.join(', ') }}
-              </span>
-              <span *ngIf="yoga.involvedHouses?.length">
-                Houses: {{ yoga.involvedHouses.join(', ') }}
+            
+            <div class="activation-inline activation-inline--yoga" [class.is-current]="!!getCurrentActivation(yoga)" *ngIf="getDisplayActivation(yoga) as activation">
+              <span class="activation-statement">
+                <strong class="activation-status">{{ getActivationStatusLabel(yoga) }} -</strong> <strong class="activation-level-text" [ngClass]="getActivationLevelClass(activation)">{{ getActivationLevel(activation) }}:</strong>
+                {{ formatActivationSentence(yoga, activation) }}
               </span>
             </div>
+
             <div class="impact-panel" *ngIf="isYogaDetailsOpen(yogaIndex)">
               <div class="impact-panel-header">
                 <strong>Impact Areas</strong>
@@ -424,14 +544,13 @@
             <div class="dosha-header">
               <div class="dosha-title">
                 <h4>{{ dosha.name }}</h4>
-                <span class="meta-chip category-chip" *ngIf="dosha.category">
-                  <span class="chip-label">Category</span>
-                  {{ dosha.category }}
-                </span>
+                <span class="meta-chip" *ngIf="dosha.category">Category: {{ dosha.category }}</span>
+                <span class="meta-chip" *ngIf="dosha.involvedPlanets?.length">Planets: {{ dosha.involvedPlanets.join(', ') }}</span>
+                <span class="meta-chip" *ngIf="dosha.involvedHouses?.length">Houses: {{ dosha.involvedHouses.join(', ') }}</span>
               </div>
               <div class="item-actions">
                 <span class="dosha-severity" *ngIf="dosha.severity" [ngClass]="getDoshaSeverityClass(dosha.severity)">
-                  {{ dosha.severity }}
+                  Natal: {{ dosha.severity }}
                 </span>
                 <button
                   type="button"
@@ -450,12 +569,10 @@
               {{ dosha.reason || dosha.description }}
             </p>
 
-            <div class="dosha-meta" *ngIf="dosha.involvedPlanets?.length || dosha.involvedHouses?.length">
-              <span *ngIf="dosha.involvedPlanets?.length">
-                Planets: {{ dosha.involvedPlanets.join(', ') }}
-              </span>
-              <span *ngIf="dosha.involvedHouses?.length">
-                Houses: {{ dosha.involvedHouses.join(', ') }}
+            <div class="activation-inline activation-inline--dosha" [class.is-current]="!!getCurrentActivation(dosha)" *ngIf="getDisplayActivation(dosha) as activation">
+              <span class="activation-statement">
+                <strong class="activation-status">{{ getActivationStatusLabel(dosha) }} -</strong> <strong class="activation-level-text" [ngClass]="getActivationLevelClass(activation)">{{ getActivationLevel(activation) }}:</strong>
+                {{ formatActivationSentence(dosha, activation) }}
               </span>
             </div>
 
@@ -489,7 +606,7 @@
       </app-section-card>
 
       <div class="results-sections" *ngIf="planets.length">
-        <app-section-card [title]="'kundali.planetPositions' | transloco" class="full-row">
+        <app-section-card id="planetPositions" [title]="'kundali.planetPositions' | transloco" class="full-row">
           <div class="planet-table-wrapper">
             <table class="planet-table">
               <thead>
@@ -557,9 +674,90 @@
         </app-section-card>
 
 
+        <app-section-card id="advancedStrengthSection" title="Advanced Strength Tables" class="full-row" *ngIf="kundaliResponse?.advancedStrengthTables as strengthTables">
+          <div class="advanced-strength-intro" *ngIf="strengthTables.methodNote">
+            {{ strengthTables.methodNote }}
+          </div>
+
+          <div class="advanced-strength-grid">
+            <section class="advanced-strength-block" *ngIf="strengthTables.planetaryStrengths?.length">
+              <div class="advanced-strength-heading">
+                <h4>Planetary Strengths</h4>
+                <span>Shadbala-ready</span>
+              </div>
+              <div class="planet-table-wrapper advanced-table-wrapper">
+                <table class="planet-table advanced-strength-table">
+                  <thead>
+                    <tr>
+                      <th>Planet</th>
+                      <th>Total</th>
+                      <th>Level</th>
+                      <th>Sthana</th>
+                      <th>Dig</th>
+                      <th>Kala</th>
+                      <th>Cheshta</th>
+                      <th>Naisargika</th>
+                      <th>Drik</th>
+                      <th>Reading</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of strengthTables.planetaryStrengths">
+                      <td class="planet-cell"><span class="planet-icon" [attr.data-planet]="row.planet">{{ getPlanetGlyph(row.planet) }}</span><span class="planet-name">{{ translatePlanetName(row.planet) }}</span></td>
+                      <td><strong>{{ row.totalScore }}/100</strong></td>
+                      <td><span class="strength-pill" [ngClass]="getStrengthClass(row.strengthLevel)">{{ row.strengthLevel }}</span></td>
+                      <td>{{ row.sthanaBala }}</td>
+                      <td>{{ row.digBala }}</td>
+                      <td>{{ row.kalaBala }}</td>
+                      <td>{{ row.cheshtaBala }}</td>
+                      <td>{{ row.naisargikaBala }}</td>
+                      <td>{{ row.drikBala }}</td>
+                      <td class="advanced-reading">{{ row.interpretation }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="advanced-strength-block" *ngIf="strengthTables.houseSupport?.length">
+              <div class="advanced-strength-heading">
+                <h4>Ashtakavarga House Support</h4>
+                <span>BAV/SAV estimated</span>
+              </div>
+              <div class="planet-table-wrapper advanced-table-wrapper">
+                <table class="planet-table advanced-strength-table">
+                  <thead>
+                    <tr>
+                      <th>House</th>
+                      <th>Sign</th>
+                      <th>Score</th>
+                      <th>BAV est.</th>
+                      <th>SAV est.</th>
+                      <th>Support</th>
+                      <th>Life areas</th>
+                      <th>Transit use</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of strengthTables.houseSupport">
+                      <td><strong>{{ row.house }}</strong> <span class="muted-table-text">{{ row.houseName }}</span></td>
+                      <td>{{ translateSignName(row.sign) }}</td>
+                      <td><strong>{{ row.score }}/100</strong></td>
+                      <td>{{ row.estimatedBavPoints }}/8</td>
+                      <td>{{ row.estimatedSavPoints }}</td>
+                      <td><span class="strength-pill" [ngClass]="getStrengthClass(row.supportLevel)">{{ row.supportLevel }}</span></td>
+                      <td>{{ row.lifeAreas || '-' }}</td>
+                      <td class="advanced-reading">{{ row.transitUsefulness }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </app-section-card>
 <div class="kundaliscore-grid">
 
-          <app-section-card class="full-row" [title]="'kundali.scores' | transloco">
+          <app-section-card id="scoreSection" class="full-row" [title]="'kundali.scores' | transloco">
             <app-kundali-score-card [scores]="scores">
             </app-kundali-score-card>
           </app-section-card>
@@ -603,12 +801,18 @@
             </div>
           </app-section-card>
 
-          <app-section-card [title]="'kundali.dasha' | transloco" class="full-row">
+          <app-section-card id="dashaSection" [title]="'kundali.dasha' | transloco" class="full-row">
             <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods">
             </app-mahadasha-antardasha>
           </app-section-card>
+          <app-section-card id="remediesSection" title="Remedies Recommendation" class="full-row" *ngIf="kundaliResponse">
+            <app-remedies-recommendation
+              [recommendation]="kundaliResponse?.remediesRecommendation || kundaliResponse?.RemediesRecommendation">
+            </app-remedies-recommendation>
+          </app-section-card>
 
           <app-section-card
+            id="transitSection"
             [title]="'transit.sectionTitle' | transloco"
             class="full-row transit-pdf-section"
             *ngIf="kundaliResponse?.transitInsight">
@@ -617,6 +821,15 @@
               [housesData]="d1Houses">
             </app-transit-insight>
           </app-section-card>
+
+          <app-current-life-focus
+            *ngIf="kundaliResponse"
+            class="full-row"
+            [kundaliId]="savedKundaliId"
+            [savePayload]="currentLifeFocusSavePayload"
+            [resetKey]="currentLifeFocusResetKey"
+            (kundaliSaved)="onCurrentLifeFocusSaved($event)">
+          </app-current-life-focus>
         </div>
       </div>
     </div>
@@ -645,6 +858,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 

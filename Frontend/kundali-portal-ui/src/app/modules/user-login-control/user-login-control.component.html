@@ -1,0 +1,88 @@
+<section class="user-login-page">
+  <app-page-header
+    title="User Login Control"
+    subtitle="Enable or disable login access for users"
+    [breadcrumbs]="[
+      { label: 'Home', routerLink: '/' },
+      { label: 'User Login Control', active: true }
+    ]">
+  </app-page-header>
+
+  <div class="status-banner loading" *ngIf="loading">Loading users...</div>
+  <div class="status-banner error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="status-banner success" *ngIf="successMessage">{{ successMessage }}</div>
+
+  <section class="control-panel">
+    <div class="toolbar">
+      <label class="search-field">
+        <span>Search users</span>
+        <input type="search" [(ngModel)]="searchTerm" placeholder="Name, email, or mobile" />
+      </label>
+      <button type="button" class="secondary-btn" (click)="loadUsers()" [disabled]="loading">
+        {{ loading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && filteredUsers.length === 0">
+      No users found.
+    </div>
+
+    <div class="users-table" *ngIf="filteredUsers.length > 0">
+      <div class="table-head">
+        <span>User</span>
+        <span>Email</span>
+        <span>Mobile</span>
+        <span>Status</span>
+        <span>Login Access</span>
+      </div>
+
+      <div class="table-row" *ngFor="let user of filteredUsers; trackBy: trackByUserId">
+        <div class="user-cell">
+          <span class="avatar">{{ (user.fullName || user.email).charAt(0).toUpperCase() }}</span>
+          <strong>{{ user.fullName || 'Unnamed user' }}</strong>
+        </div>
+        <span class="muted">{{ user.email }}</span>
+        <span class="muted">{{ user.phoneNumber || '-' }}</span>
+        <span class="status-pill" [class.inactive]="!user.isActive">
+          {{ user.isActive ? 'Active' : 'Inactive' }}
+        </span>
+        <label class="switch" [class.busy]="isSaving(user.id)">
+          <input
+            type="checkbox"
+            [checked]="user.isActive"
+            [disabled]="isSaving(user.id)"
+            (change)="toggleLoginAccess(user)" />
+          <span class="slider"></span>
+          <span class="switch-text">{{ isSaving(user.id) ? 'Saving' : (user.isActive ? 'Enabled' : 'Disabled') }}</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="mobile-list" *ngIf="filteredUsers.length > 0">
+      <article class="user-card" *ngFor="let user of filteredUsers; trackBy: trackByUserId">
+        <div class="card-main">
+          <span class="avatar">{{ (user.fullName || user.email).charAt(0).toUpperCase() }}</span>
+          <div>
+            <h2>{{ user.fullName || 'Unnamed user' }}</h2>
+            <p>{{ user.email }}</p>
+            <p>{{ user.phoneNumber || '-' }}</p>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="status-pill" [class.inactive]="!user.isActive">
+            {{ user.isActive ? 'Active' : 'Inactive' }}
+          </span>
+          <label class="switch" [class.busy]="isSaving(user.id)">
+            <input
+              type="checkbox"
+              [checked]="user.isActive"
+              [disabled]="isSaving(user.id)"
+              (change)="toggleLoginAccess(user)" />
+            <span class="slider"></span>
+            <span class="switch-text">{{ isSaving(user.id) ? 'Saving' : (user.isActive ? 'Enabled' : 'Disabled') }}</span>
+          </label>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>

@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
+import { apiEndpoints } from '../../config/api-endpoints';
 
 export interface Panchang {
   id: string;
@@ -30,7 +31,7 @@ export interface AuspiciousTiming {
   providedIn: 'root',
 })
 export class PanchangApiService extends BaseApiService {
-  private endpoint = 'panchang';
+  private endpoint = apiEndpoints.panchang;
 
   /**
    * Get Panchang for a specific date

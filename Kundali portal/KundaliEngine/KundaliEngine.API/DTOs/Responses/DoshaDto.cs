@@ -14,6 +14,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public List<DoshaImpactAreaDto> ImpactAreas { get; set; } = new();
         public List<string> Remedies { get; set; } = new();
         public List<string> References { get; set; } = new();
+        public FormationActivationPeriodsDto ActivationPeriods { get; set; } = new();
     }
 
     public class DoshaImpactAreaDto

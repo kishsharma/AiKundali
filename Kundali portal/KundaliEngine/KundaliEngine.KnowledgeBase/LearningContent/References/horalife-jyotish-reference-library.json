@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "1.0.0",
+  "libraryId": "horalife-jyotish-reference-library",
+  "title": "Learning by HoraLife — Jyotish Reference Library",
+  "description": "Controlled source registry for authentic Jyotish course content. Session JSON files must cite sourceId and editionId and must not invent verses, chapter numbers, translations or doctrinal claims.",
+  "defaultLanguage": "en",
+  "supportedLanguages": ["en", "hi", "kn"],
+  "governance": {
+    "sourcePriority": [
+      "Original Sanskrit text from a recognised classical work",
+      "Established Sanskrit-English or Sanskrit-Hindi edition",
+      "Second classical text used for cross-verification",
+      "Modern explanatory work used only for teaching clarity",
+      "Original HoraLife learner-friendly explanation"
+    ],
+    "verificationStatuses": [
+      {"id": "unverified", "meaning": "Located but not checked against the scanned source page."},
+      {"id": "single-edition-verified", "meaning": "Checked against one identified edition."},
+      {"id": "cross-edition-verified", "meaning": "Checked against two editions or one edition plus a reliable critical reference."},
+      {"id": "editor-reviewed", "meaning": "Cross-verified and approved for publication by the HoraLife content reviewer."}
+    ],
+    "mandatoryRules": [
+      "Never generate or reconstruct a Sanskrit verse from memory.",
+      "Never assign a chapter or verse number unless it has been checked in the cited edition.",
+      "Record edition details because chapter and verse numbering may differ between editions.",
+      "Store Sanskrit, transliteration, literal meaning and HoraLife explanation separately.",
+      "Do not describe every classical Jyotisha verse as Vedic.",
+      "Use the label Vedic source only for a genuinely Vedic text.",
+      "Label BPHS, Phaladeepika, Brihat Jataka, Saravali and Jataka Parijata as classical Jyotisha sources.",
+      "When authorities disagree, present the difference instead of silently choosing one rule.",
+      "Avoid lengthy reproduction of modern copyrighted translations; quote briefly and paraphrase.",
+      "A session may contain zero, one or at most two shloka references, collapsed by default."
+    ],
+    "requiredCitationFields": [
+      "sourceId", "editionId", "chapterTitle", "chapterNumberAsPrinted",
+      "verseNumberAsPrinted", "pageNumber", "supports", "verificationStatus", "verifiedOn"
+    ],
+    "shlokaDisplayPolicy": {
+      "maximumPerSession": 2,
+      "defaultDisplayMode": "collapsed",
+      "uiLabel": "Classical Reference",
+      "icon": "om",
+      "requiredFields": [
+        "sanskrit", "transliteration", "literalMeaning", "learnerMeaning", "sourceCitation", "relevance"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "sourceId": "bphs",
+      "title": "Brihat Parashara Hora Shastra",
+      "sanskritTitle": "बृहत्पाराशरहोराशास्त्रम्",
+      "authorOrAttribution": "Traditionally attributed to Maharishi Parashara",
+      "category": "classical-jyotisha",
+      "tradition": "Parashari",
+      "authorityLevel": "primary",
+      "primaryUses": ["grahas", "rashis", "bhavas", "planetary aspects", "vargas", "yogas", "vimshottari dasha", "functional planetary nature"],
+      "cautions": [
+        "The received text exists in differing recensions and editions.",
+        "Chapter sequence and verse numbering can vary.",
+        "Every quoted verse must be checked in the exact edition cited."
+      ],
+      "editions": [
+        {
+          "editionId": "bphs-girish-chand-sharma-v1",
+          "language": "Sanskrit-English",
+          "translatorEditor": "Girish Chand Sharma",
+          "volume": 1,
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/brihatparasarahorasastrawithenglishtranslationgirishchandsharmavolume1_547_G",
+          "accessType": "digitised scan",
+          "status": "approved-for-verification"
+        },
+        {
+          "editionId": "bphs-girish-chand-sharma-v2",
+          "language": "Sanskrit-English",
+          "translatorEditor": "Girish Chand Sharma",
+          "volume": 2,
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/brihatparasarahorasastrawithenglishtranslationgirishchandsharmavolume2_433_w",
+          "accessType": "digitised scan",
+          "status": "approved-for-verification"
+        }
+      ]
+    },
+    {
+      "sourceId": "phaladeepika",
+      "title": "Phaladeepika",
+      "sanskritTitle": "फलदीपिका",
+      "authorOrAttribution": "Mantreshwara",
+      "category": "classical-jyotisha",
+      "tradition": "Classical Hora",
+      "authorityLevel": "primary",
+      "primaryUses": ["graha characteristics", "house results", "planetary dignity", "yogas", "profession", "longevity", "dasha interpretation", "practical chart judgement"],
+      "cautions": ["Use the Sanskrit text as the anchor when a translation appears interpretive.", "Record printed chapter and verse numbers exactly."],
+      "editions": [
+        {
+          "editionId": "phaladeepika-subrahmanya-sastri-1950",
+          "language": "Sanskrit-English",
+          "translatorEditor": "V. Subrahmanya Sastri",
+          "publicationYear": 1950,
+          "edition": "Second edition",
+          "repository": "IGNCA / Internet Archive",
+          "url": "https://archive.org/details/in.gov.ignca.6945",
+          "alternateUrl": "https://ignca.gov.in/Asi_data/6945.pdf",
+          "accessType": "digitised scan",
+          "status": "preferred"
+        },
+        {
+          "editionId": "phaladeepika-subrahmanya-sastri-1937",
+          "language": "Sanskrit-English",
+          "translatorEditor": "V. Subrahmanya Sastri",
+          "publicationYear": 1937,
+          "repository": "Internet Archive / Digital Library of India",
+          "url": "https://archive.org/details/in.ernet.dli.2015.92117",
+          "accessType": "digitised scan",
+          "status": "cross-check"
+        }
+      ]
+    },
+    {
+      "sourceId": "brihat-jataka",
+      "title": "Brihat Jataka",
+      "sanskritTitle": "बृहज्जातकम्",
+      "authorOrAttribution": "Varahamihira",
+      "category": "classical-jyotisha",
+      "tradition": "Classical Hora",
+      "authorityLevel": "primary",
+      "primaryUses": ["technical foundations", "signs and planets", "birth-chart fundamentals", "planetary combinations", "classical synthesis", "supporting shlokas"],
+      "cautions": ["The work is concise and often requires commentary.", "Do not expand a terse verse beyond what the text and recognised commentary support."],
+      "editions": [
+        {
+          "editionId": "brihat-jataka-subrahmanya-sastri-1956",
+          "language": "Sanskrit-English",
+          "translatorEditor": "V. Subrahmanya Sastri",
+          "publicationYear": 1956,
+          "edition": "Second edition",
+          "repository": "Internet Archive / West Bengal Public Library",
+          "url": "https://archive.org/details/dli.bengal.10689.19810",
+          "accessType": "digitised scan",
+          "status": "preferred"
+        }
+      ]
+    },
+    {
+      "sourceId": "saravali",
+      "title": "Saravali",
+      "sanskritTitle": "सारावली",
+      "authorOrAttribution": "Kalyana Varma",
+      "category": "classical-jyotisha",
+      "tradition": "Classical Hora",
+      "authorityLevel": "primary",
+      "primaryUses": ["graha descriptions", "planets in signs", "planets in houses", "conjunctions", "planetary states", "yogas", "expanded predictive interpretation"],
+      "cautions": ["Use a stable printed edition for final page and verse references.", "Do not rely on OCR-only text without checking the scan."],
+      "editions": [
+        {
+          "editionId": "saravali-krishna-rau-choudhari",
+          "language": "Sanskrit-English",
+          "translatorEditor": "N. N. Krishna Rau and V. B. Choudhari",
+          "publicationYear": 1961,
+          "repository": "Printed edition / digitised copies may vary",
+          "url": "https://archive.org/search?query=title%3A%28Saravali%29+AND+creator%3A%28Kalyana%29",
+          "accessType": "catalogue/search link",
+          "status": "locate-stable-scan-before-citation"
+        }
+      ]
+    },
+    {
+      "sourceId": "jataka-parijata",
+      "title": "Jataka Parijata",
+      "sanskritTitle": "जातकपारिजात",
+      "authorOrAttribution": "Vaidyanatha Dikshita",
+      "category": "classical-jyotisha",
+      "tradition": "Classical synthesis",
+      "authorityLevel": "primary",
+      "primaryUses": ["advanced synthesis", "yogas", "dasha interpretation", "longevity", "profession", "relationships", "cross-checking classical rules"],
+      "cautions": ["Some verses parallel or reproduce earlier classical material.", "Identify the immediate source cited and note earlier parallels where known."],
+      "editions": [
+        {
+          "editionId": "jataka-parijata-subrahmanya-sastri",
+          "language": "Sanskrit-English",
+          "translatorEditor": "V. Subrahmanya Sastri",
+          "repository": "Internet Archive",
+          "url": "https://archive.org/search?query=title%3A%28Jataka+Parijata%29+AND+creator%3A%28Subrahmanya+Sastri%29",
+          "accessType": "catalogue/search link",
+          "status": "locate-volume-and-page-before-citation"
+        }
+      ]
+    },
+    {
+      "sourceId": "surya-siddhanta",
+      "title": "Surya Siddhanta",
+      "sanskritTitle": "सूर्यसिद्धान्त",
+      "authorOrAttribution": "Traditional astronomical text with a long transmission history",
+      "category": "traditional-astronomy",
+      "tradition": "Siddhanta astronomy",
+      "authorityLevel": "primary-for-astronomy",
+      "primaryUses": ["celestial circle", "time measurement", "solar and lunar motion", "ecliptic foundations", "traditional astronomical terminology", "nakshatra and calendrical foundations"],
+      "cautions": ["Use for astronomy and calendrical foundations, not as the primary authority for natal prediction.", "Distinguish traditional astronomical models from modern astronomy."],
+      "editions": [
+        {
+          "editionId": "surya-siddhanta-burgess-gangooly",
+          "language": "Sanskrit-English",
+          "translatorEditor": "Ebenezer Burgess; edited by Phanindralal Gangooly",
+          "publicationYear": 1935,
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+          "accessType": "digitised scan",
+          "status": "preferred"
+        }
+      ]
+    },
+    {
+      "sourceId": "hora-sara",
+      "title": "Hora Sara",
+      "sanskritTitle": "होरासार",
+      "authorOrAttribution": "Prithuyasas",
+      "category": "classical-jyotisha",
+      "tradition": "Classical Hora",
+      "authorityLevel": "secondary-classical",
+      "primaryUses": ["concise predictive principles", "cross-checking graha and bhava results", "advanced interpretation"],
+      "cautions": ["Use only after establishing the core rule from a primary course source.", "Translations may be interpretive; verify Sanskrit where a verse is quoted."],
+      "editions": [
+        {
+          "editionId": "hora-sara-r-santhanam",
+          "language": "Sanskrit-English",
+          "translatorEditor": "R. Santhanam",
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/HoraSaraRSanthanamEng",
+          "accessType": "digitised scan",
+          "status": "secondary"
+        }
+      ]
+    },
+    {
+      "sourceId": "jaimini-sutras",
+      "title": "Jaimini Sutras",
+      "sanskritTitle": "जैमिनिसूत्राणि",
+      "authorOrAttribution": "Traditionally attributed to Maharishi Jaimini",
+      "category": "specialised-tradition",
+      "tradition": "Jaimini",
+      "authorityLevel": "specialised",
+      "primaryUses": ["Jaimini karakas", "rashi drishti", "Jaimini dashas", "Jaimini-specific interpretive principles"],
+      "cautions": ["Never mix Jaimini rules into a Parashari lesson without explicit labelling.", "Commentarial traditions differ significantly."],
+      "editions": [
+        {
+          "editionId": "jaimini-sutras-b-suryanarain-rao",
+          "language": "Sanskrit-English",
+          "translatorEditor": "B. Suryanarain Rao",
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/in.ernet.dli.2015.486584",
+          "accessType": "digitised scan",
+          "status": "specialised"
+        }
+      ]
+    },
+    {
+      "sourceId": "uttara-kalamrita",
+      "title": "Uttara Kalamrita",
+      "sanskritTitle": "उत्तरकालामृत",
+      "authorOrAttribution": "Traditionally attributed to Kalidasa; authorship should be stated cautiously",
+      "category": "classical-jyotisha",
+      "tradition": "Later classical Hora",
+      "authorityLevel": "advanced-secondary",
+      "primaryUses": ["significations", "specialised house judgement", "longevity", "advanced interpretation"],
+      "cautions": ["Not a Level 1 primary source.", "Avoid strong historical authorship claims."],
+      "editions": [
+        {
+          "editionId": "uttara-kalamrita-p-s-sastri",
+          "language": "Sanskrit-Hindi/English depending on scan",
+          "translatorEditor": "P. S. Sastri edition",
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/p.-s.-sastri-uttarakaalaamruta-of-kaalidaasa-hindi",
+          "accessType": "digitised scan",
+          "status": "advanced-secondary"
+        }
+      ]
+    },
+    {
+      "sourceId": "astrology-for-beginners-bv-raman",
+      "title": "Astrology for Beginners",
+      "sanskritTitle": null,
+      "authorOrAttribution": "B. V. Raman",
+      "category": "modern-explanatory",
+      "tradition": "Modern teaching",
+      "authorityLevel": "explanatory-only",
+      "primaryUses": ["beginner-friendly sequencing", "simple explanations", "teaching examples"],
+      "cautions": ["Do not use as the sole authority for a classical rule.", "Respect copyright and paraphrase rather than reproducing large passages."],
+      "editions": [
+        {
+          "editionId": "astrology-for-beginners-bv-raman-scan",
+          "language": "English",
+          "author": "B. V. Raman",
+          "repository": "Internet Archive",
+          "url": "https://archive.org/details/AstrologyForBeginners_201705",
+          "accessType": "digitised scan",
+          "status": "explanatory"
+        }
+      ]
+    }
+  ],
+  "topicSourceMap": [
+    {"topic": "360-degree celestial circle and traditional astronomy", "primarySourceIds": ["surya-siddhanta"], "crossCheckSourceIds": ["brihat-jataka"], "notes": "Explain the geocentric observational framework carefully and distinguish it from modern physical cosmology."},
+    {"topic": "grahas and rashis", "primarySourceIds": ["bphs", "brihat-jataka"], "crossCheckSourceIds": ["phaladeepika", "saravali"]},
+    {"topic": "bhavas and house results", "primarySourceIds": ["bphs", "phaladeepika"], "crossCheckSourceIds": ["saravali", "jataka-parijata"]},
+    {"topic": "planetary dignity and relationships", "primarySourceIds": ["bphs", "phaladeepika"], "crossCheckSourceIds": ["brihat-jataka", "saravali"]},
+    {"topic": "planetary aspects and conjunctions", "primarySourceIds": ["bphs"], "crossCheckSourceIds": ["brihat-jataka", "saravali"]},
+    {"topic": "yogas", "primarySourceIds": ["bphs", "phaladeepika"], "crossCheckSourceIds": ["jataka-parijata", "saravali", "brihat-jataka"]},
+    {"topic": "vargas and navamsha", "primarySourceIds": ["bphs"], "crossCheckSourceIds": ["brihat-jataka", "jataka-parijata"]},
+    {"topic": "vimshottari dasha", "primarySourceIds": ["bphs"], "crossCheckSourceIds": ["phaladeepika", "jataka-parijata"]},
+    {"topic": "Jaimini-specific methods", "primarySourceIds": ["jaimini-sutras"], "crossCheckSourceIds": [], "notes": "Keep separate from Parashari methodology."}
+  ],
+  "sessionReferenceTemplate": {
+    "references": [
+      {
+        "sourceId": "bphs",
+        "editionId": "bphs-girish-chand-sharma-v1",
+        "chapterTitle": "",
+        "chapterNumberAsPrinted": "",
+        "verseNumberAsPrinted": "",
+        "pageNumber": "",
+        "supports": "",
+        "quotationType": "paraphrase",
+        "verificationStatus": "unverified",
+        "verifiedOn": "",
+        "verifiedBy": "",
+        "notes": ""
+      }
+    ],
+    "shlokaReferences": [
+      {
+        "id": "",
+        "displayMode": "collapsed",
+        "label": "Classical Reference",
+        "icon": "om",
+        "sanskrit": "",
+        "transliteration": "",
+        "literalMeaning": "",
+        "learnerMeaning": "",
+        "sourceCitation": {
+          "sourceId": "",
+          "editionId": "",
+          "chapterTitle": "",
+          "chapterNumberAsPrinted": "",
+          "verseNumberAsPrinted": "",
+          "pageNumber": ""
+        },
+        "relevance": "",
+        "verificationStatus": "unverified"
+      }
+    ]
+  }
+}

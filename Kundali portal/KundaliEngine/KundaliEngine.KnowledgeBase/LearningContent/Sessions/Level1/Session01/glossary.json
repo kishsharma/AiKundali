@@ -1,0 +1,327 @@
+[
+  {
+    "key": "jyotisha",
+    "term": {
+      "en": "Jyotisha",
+      "hi": "ज्योतिष",
+      "kn": "ಜ್ಯೋತಿಷ"
+    },
+    "transliteration": "Jyotisha",
+    "definition": {
+      "en": "The traditional Indian system for studying time, celestial positions and their interpretation.",
+      "hi": "समय, खगोलीय स्थितियों और उनके अर्थ का अध्ययन करने वाली भारतीय परंपरा।",
+      "kn": "ಕಾಲ, ಖಗೋಳೀಯ ಸ್ಥಾನಗಳು ಮತ್ತು ಅವುಗಳ ಅರ್ಥವನ್ನು ಅಧ್ಯಯನ ಮಾಡುವ ಭಾರತೀಯ ಪರಂಪರೆ."
+    }
+  },
+  {
+    "key": "graha",
+    "term": {
+      "en": "Graha",
+      "hi": "ग्रह",
+      "kn": "ಗ್ರಹ"
+    },
+    "transliteration": "Graha",
+    "definition": {
+      "en": "A celestial influencer considered in Jyotisha.",
+      "hi": "ज्योतिष में विचार किया जाने वाला खगोलीय प्रभावक।",
+      "kn": "ಜ್ಯೋತಿಷದಲ್ಲಿ ಪರಿಗಣಿಸಲ್ಪಡುವ ಖಗೋಳೀಯ ಪ್ರಭಾವಕ."
+    }
+  },
+  {
+    "key": "zodiac",
+    "term": {
+      "en": "Zodiac",
+      "hi": "राशिचक्र",
+      "kn": "ರಾಶಿಚಕ್ರ"
+    },
+    "transliteration": "Rashi Chakra",
+    "definition": {
+      "en": "The 360-degree celestial reference circle divided into twelve zodiac signs.",
+      "hi": "बारह राशियों में विभाजित 360 अंश का खगोलीय संदर्भ चक्र।",
+      "kn": "ಹನ್ನೆರಡು ರಾಶಿಗಳಾಗಿ ವಿಭಜಿಸಲಾದ 360 ಅಂಶಗಳ ಖಗೋಳೀಯ ಸೂಚಕ ವೃತ್ತ."
+    }
+  },
+  {
+    "key": "rashi",
+    "term": {
+      "en": "Zodiac Sign",
+      "hi": "राशि",
+      "kn": "ರಾಶಿ"
+    },
+    "transliteration": "Rashi",
+    "definition": {
+      "en": "One of the twelve divisions of the zodiac, each covering 30 degrees.",
+      "hi": "राशिचक्र के बारह भागों में से एक, प्रत्येक 30 अंश का।",
+      "kn": "ರಾಶಿಚಕ್ರದ ಹನ್ನೆರಡು ಭಾಗಗಳಲ್ಲಿ ಒಂದು; ಪ್ರತಿ ಭಾಗವು 30 ಅಂಶಗಳನ್ನು ಹೊಂದಿರುತ್ತದೆ."
+    }
+  },
+  {
+    "key": "degree",
+    "term": {
+      "en": "Degree",
+      "hi": "अंश",
+      "kn": "ಅಂಶ"
+    },
+    "transliteration": "Ansha",
+    "definition": {
+      "en": "A unit used to measure position on the 360-degree zodiac.",
+      "hi": "360 अंश के राशिचक्र पर स्थिति मापने की इकाई।",
+      "kn": "360 ಅಂಶಗಳ ರಾಶಿಚಕ್ರದಲ್ಲಿ ಸ್ಥಾನವನ್ನು ಅಳೆಯುವ ಘಟಕ."
+    }
+  },
+  {
+    "key": "celestialSphere",
+    "term": {
+      "en": "Celestial Sphere",
+      "hi": "खगोलीय गोला",
+      "kn": "ಖಗೋಳೀಯ ಗೋಳ"
+    },
+    "transliteration": "Khagoliya Gola",
+    "definition": {
+      "en": "An imaginary sphere used to represent celestial positions as seen from Earth.",
+      "hi": "पृथ्वी से देखी जाने वाली खगोलीय स्थितियों को दर्शाने वाला काल्पनिक गोला।",
+      "kn": "ಭೂಮಿಯಿಂದ ಕಾಣುವ ಖಗೋಳೀಯ ಸ್ಥಾನಗಳನ್ನು ತೋರಿಸಲು ಬಳಸುವ ಕಲ್ಪಿತ ಗೋಳ."
+    }
+  },
+  {
+    "key": "earthBasedView",
+    "term": {
+      "en": "Earth-Based View",
+      "hi": "पृथ्वी-आधारित दृष्टिकोण",
+      "kn": "ಭೂಮಿ ಆಧಾರಿತ ದೃಷ್ಟಿಕೋನ"
+    },
+    "definition": {
+      "en": "Observing and measuring celestial positions from Earth.",
+      "hi": "पृथ्वी से खगोलीय स्थितियों का अवलोकन और मापन।",
+      "kn": "ಭೂಮಿಯಿಂದ ಖಗೋಳೀಯ ಸ್ಥಾನಗಳನ್ನು ಗಮನಿಸುವುದು ಮತ್ತು ಅಳೆಯುವುದು."
+    }
+  },
+  {
+    "key": "geocentricView",
+    "term": {
+      "en": "Geocentric View",
+      "hi": "भूकेंद्रीय दृष्टिकोण",
+      "kn": "ಭೂಕೇಂದ್ರಿತ ದೃಷ್ಟಿಕೋನ"
+    },
+    "definition": {
+      "en": "A reference system in which celestial positions are observed from Earth.",
+      "hi": "वह संदर्भ प्रणाली जिसमें खगोलीय स्थितियां पृथ्वी से देखी जाती हैं।",
+      "kn": "ಖಗೋಳೀಯ ಸ್ಥಾನಗಳನ್ನು ಭೂಮಿಯಿಂದ ವೀಕ್ಷಿಸುವ ಸೂಚಕ ವ್ಯವಸ್ಥೆ."
+    }
+  },
+  {
+    "key": "ecliptic",
+    "term": {
+      "en": "Ecliptic",
+      "hi": "क्रांतिवृत्त",
+      "kn": "ಕ್ರಾಂತಿವೃತ್ತ"
+    },
+    "transliteration": "Kranti Vritta",
+    "definition": {
+      "en": "The apparent yearly path of the Sun across the celestial sphere.",
+      "hi": "खगोलीय गोले पर सूर्य का दिखाई देने वाला वार्षिक पथ।",
+      "kn": "ಖಗೋಳೀಯ ಗೋಳದ ಮೇಲೆ ಸೂರ್ಯನ ಕಾಣಿಸಿಕೊಳ್ಳುವ ವಾರ್ಷಿಕ ಮಾರ್ಗ."
+    }
+  },
+  {
+    "key": "eclipticLongitude",
+    "term": {
+      "en": "Ecliptic Longitude",
+      "hi": "क्रांतिवृत्तीय देशांतर",
+      "kn": "ಕ್ರಾಂತಿವೃತ್ತೀಯ ರೇಖಾಂಶ"
+    },
+    "simpleTerm": {
+      "en": "Celestial Longitude",
+      "hi": "खगोलीय देशांतर",
+      "kn": "ಖಗೋಳೀಯ ರೇಖಾಂಶ"
+    },
+    "definition": {
+      "en": "The angular position of a celestial body measured along the ecliptic from 0 to 360 degrees.",
+      "hi": "क्रांतिवृत्त पर 0 से 360 अंश तक मापी गई किसी खगोलीय पिंड की कोणीय स्थिति।",
+      "kn": "ಕ್ರಾಂತಿವೃತ್ತದ ಮೇಲೆ 0 ರಿಂದ 360 ಅಂಶಗಳವರೆಗೆ ಅಳೆಯುವ ಖಗೋಳೀಯ ವಸ್ತುವಿನ ಕೋಣೀಯ ಸ್ಥಾನ."
+    }
+  },
+  {
+    "key": "apparentPosition",
+    "term": {
+      "en": "Apparent Position",
+      "hi": "दृश्य स्थिति",
+      "kn": "ದೃಶ್ಯ ಸ್ಥಾನ"
+    },
+    "definition": {
+      "en": "The position where a celestial body appears to be when observed from Earth.",
+      "hi": "पृथ्वी से देखने पर खगोलीय पिंड जिस स्थान पर दिखाई देता है।",
+      "kn": "ಭೂಮಿಯಿಂದ ನೋಡಿದಾಗ ಖಗೋಳೀಯ ವಸ್ತು ಕಾಣಿಸುವ ಸ್ಥಾನ."
+    }
+  },
+  {
+    "key": "apparentMotion",
+    "term": {
+      "en": "Apparent Motion",
+      "hi": "दृश्य गति",
+      "kn": "ದೃಶ್ಯ ಚಲನೆ"
+    },
+    "definition": {
+      "en": "The observed movement of celestial bodies as seen from Earth.",
+      "hi": "पृथ्वी से दिखाई देने वाली खगोलीय पिंडों की गति।",
+      "kn": "ಭೂಮಿಯಿಂದ ಕಾಣುವ ಖಗೋಳೀಯ ವಸ್ತುಗಳ ಚಲನೆ."
+    }
+  },
+  {
+    "key": "sun",
+    "term": {
+      "en": "Sun",
+      "hi": "सूर्य",
+      "kn": "ಸೂರ್ಯ"
+    },
+    "transliteration": "Surya"
+  },
+  {
+    "key": "moon",
+    "term": {
+      "en": "Moon",
+      "hi": "चंद्र",
+      "kn": "ಚಂದ್ರ"
+    },
+    "transliteration": "Chandra"
+  },
+  {
+    "key": "mars",
+    "term": {
+      "en": "Mars",
+      "hi": "मंगल",
+      "kn": "ಮಂಗಳ"
+    },
+    "transliteration": "Mangala"
+  },
+  {
+    "key": "rahu",
+    "term": {
+      "en": "Rahu",
+      "hi": "राहु",
+      "kn": "ರಾಹು"
+    },
+    "definition": {
+      "en": "The north lunar node used as a Graha in Jyotisha.",
+      "hi": "ज्योतिष में ग्रह के रूप में प्रयुक्त चंद्रमा का उत्तरी नोड।",
+      "kn": "ಜ್ಯೋತಿಷದಲ್ಲಿ ಗ್ರಹವಾಗಿ ಪರಿಗಣಿಸುವ ಚಂದ್ರನ ಉತ್ತರ ನೋಡ್."
+    }
+  },
+  {
+    "key": "ketu",
+    "term": {
+      "en": "Ketu",
+      "hi": "केतु",
+      "kn": "ಕೇತು"
+    },
+    "definition": {
+      "en": "The south lunar node used as a Graha in Jyotisha.",
+      "hi": "ज्योतिष में ग्रह के रूप में प्रयुक्त चंद्रमा का दक्षिणी नोड।",
+      "kn": "ಜ್ಯೋತಿಷದಲ್ಲಿ ಗ್ರಹವಾಗಿ ಪರಿಗಣಿಸುವ ಚಂದ್ರನ ದಕ್ಷಿಣ ನೋಡ್."
+    }
+  },
+  {
+    "key": "lunarNode",
+    "term": {
+      "en": "Lunar Node",
+      "hi": "चंद्र नोड",
+      "kn": "ಚಂದ್ರ ನೋಡ್"
+    },
+    "definition": {
+      "en": "A point where the Moon's orbital path crosses the ecliptic.",
+      "hi": "वह बिंदु जहां चंद्रमा का कक्षीय पथ क्रांतिवृत्त को काटता है।",
+      "kn": "ಚಂದ್ರನ ಕಕ್ಷಾ ಮಾರ್ಗವು ಕ್ರಾಂತಿವೃತ್ತವನ್ನು ದಾಟುವ ಬಿಂದು."
+    }
+  },
+  {
+    "key": "rahuKetuAxis",
+    "term": {
+      "en": "Rahu–Ketu Axis",
+      "hi": "राहु–केतु अक्ष",
+      "kn": "ರಾಹು–ಕೇತು ಅಕ್ಷ"
+    },
+    "definition": {
+      "en": "The imaginary line connecting the north and south lunar nodes.",
+      "hi": "चंद्रमा के उत्तरी और दक्षिणी नोड को जोड़ने वाली काल्पनिक रेखा।",
+      "kn": "ಚಂದ್ರನ ಉತ್ತರ ಮತ್ತು ದಕ್ಷಿಣ ನೋಡ್‌ಗಳನ್ನು ಸಂಪರ್ಕಿಸುವ ಕಲ್ಪಿತ ರೇಖೆ."
+    }
+  },
+  {
+    "key": "nakshatra",
+    "term": {
+      "en": "Nakshatra",
+      "hi": "नक्षत्र",
+      "kn": "ನಕ್ಷತ್ರ"
+    },
+    "transliteration": "Nakshatra",
+    "definition": {
+      "en": "One of the 27 divisions of the zodiac used mainly to track the Moon's position.",
+      "hi": "राशिचक्र के 27 भागों में से एक, जिसका उपयोग मुख्यतः चंद्रमा की स्थिति जानने के लिए किया जाता है।",
+      "kn": "ಮುಖ್ಯವಾಗಿ ಚಂದ್ರನ ಸ್ಥಾನವನ್ನು ಗುರುತಿಸಲು ಬಳಸುವ ರಾಶಿಚಕ್ರದ 27 ವಿಭಾಗಗಳಲ್ಲಿ ಒಂದು."
+    }
+  },
+  {
+    "key": "tithi",
+    "term": {
+      "en": "Tithi",
+      "hi": "तिथि",
+      "kn": "ತಿಥಿ"
+    },
+    "transliteration": "Tithi",
+    "definition": {
+      "en": "A lunar day determined by the angular difference between the Sun and Moon.",
+      "hi": "सूर्य और चंद्रमा के बीच के कोणीय अंतर से निर्धारित चंद्र दिवस।",
+      "kn": "ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರನ ನಡುವಿನ ಕೋಣೀಯ ವ್ಯತ್ಯಾಸದಿಂದ ನಿರ್ಧರಿಸಲ್ಪಡುವ ಚಾಂದ್ರ ದಿನ."
+    }
+  },
+  {
+    "key": "yoga",
+    "term": {
+      "en": "Yoga",
+      "hi": "योग",
+      "kn": "ಯೋಗ"
+    },
+    "transliteration": "Yoga",
+    "definition": {
+      "en": "A Panchanga element calculated from the combined longitude of the Sun and Moon.",
+      "hi": "सूर्य और चंद्रमा के संयुक्त देशांतर से गणना किया जाने वाला पंचांग तत्व।",
+      "kn": "ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರನ ಒಟ್ಟು ರೇಖಾಂಶದಿಂದ ಲೆಕ್ಕಿಸಲ್ಪಡುವ ಪಂಚಾಂಗದ ಅಂಗ."
+    }
+  },
+  {
+    "key": "karana",
+    "term": {
+      "en": "Karana",
+      "hi": "करण",
+      "kn": "ಕರಣ"
+    },
+    "transliteration": "Karana",
+    "definition": {
+      "en": "Half of a Tithi, based on six degrees of angular separation between the Sun and Moon.",
+      "hi": "एक तिथि का आधा भाग, जो सूर्य और चंद्रमा के बीच छह अंश के अंतर पर आधारित होता है।",
+      "kn": "ತಿಥಿಯ ಅರ್ಧ ಭಾಗ; ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರನ ನಡುವಿನ ಆರು ಅಂಶಗಳ ವ್ಯತ್ಯಾಸದ ಮೇಲೆ ಆಧಾರಿತ."
+    }
+  },
+  {
+    "key": "panchanga",
+    "term": {
+      "en": "Panchanga",
+      "hi": "पंचांग",
+      "kn": "ಪಂಚಾಂಗ"
+    },
+    "transliteration": "Panchanga",
+    "definition": {
+      "en": "The traditional Indian calendar system based on five primary elements.",
+      "hi": "पांच प्रमुख अंगों पर आधारित भारतीय पारंपरिक कालगणना प्रणाली।",
+      "kn": "ಐದು ಪ್ರಮುಖ ಅಂಗಗಳ ಮೇಲೆ ಆಧಾರಿತ ಭಾರತೀಯ ಪರಂಪರাগত ಕಾಲಗಣನಾ ವ್ಯವಸ್ಥೆ."
+    }
+  },
+  {
+    "key": "longitudeToRashiDegree",
+    "term": {
+      "en": "Convert Longitude into Zodiac Sign and Degree",
+      "hi": "देशांतर को राशि और अंश में बदलना",
+      "kn": "ರೇಖಾಂಶವನ್ನು ರಾಶಿ ಮತ್ತು ಅಂಶಕ್ಕೆ ಪರಿವರ್ತಿಸುವುದು"
+    }
+  }
+]

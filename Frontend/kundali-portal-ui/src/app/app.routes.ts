@@ -10,6 +10,8 @@ import { KundaliLandingComponent } from './modules/home/kundali-landing/kundali-
 import { authGuard } from './core/auth/auth.guard';
 import { WhiteLabelSettingsComponent } from './modules/white-label-settings/white-label-settings.component';
 import { ChangePasswordComponent } from './modules/account/change-password/change-password.component';
+import { UserLoginControlComponent } from './modules/user-login-control/user-login-control.component';
+import { AuditLogsComponent } from './modules/audit-logs/audit-logs.component';
 
 export const routes: Routes = [
   {
@@ -78,6 +80,27 @@ export const routes: Routes = [
         data: { title: 'Muhurtha Finder' },
       },
       {
+        path: 'learning',
+        loadComponent: () =>
+          import('./modules/learning/learning-home.component')
+            .then(m => m.LearningHomeComponent),
+        data: { title: 'Jyotish Study' },
+      },
+      {
+        path: 'learning/level/:levelCode',
+        loadComponent: () =>
+          import('./modules/learning/learning-home.component')
+            .then(m => m.LearningHomeComponent),
+        data: { title: 'Jyotish Study' },
+      },
+      {
+        path: 'learning/session/:sessionGuid',
+        loadComponent: () =>
+          import('./modules/learning/learning-session.component')
+            .then(m => m.LearningSessionComponent),
+        data: { title: 'Jyotish Study Session' },
+      },
+      {
         path: 'dasha',
         component: MahadashaPageComponent,
         data: { title: 'Dasha Analysis' },
@@ -91,6 +114,16 @@ export const routes: Routes = [
         path: 'white-label-settings',
         component: WhiteLabelSettingsComponent,
         data: { title: 'White-label Settings' },
+      },
+      {
+        path: 'user-login-control',
+        component: UserLoginControlComponent,
+        data: { title: 'User Login Control' },
+      },
+      {
+        path: 'audit-logs',
+        component: AuditLogsComponent,
+        data: { title: 'Audit Logs' },
       },
       {
         path: 'change-password',
@@ -127,6 +160,21 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'learning',
+    redirectTo: 'app/learning',
+    pathMatch: 'full',
+  },
+  {
+    path: 'learning/level/:levelCode',
+    redirectTo: 'app/learning/level/:levelCode',
+    pathMatch: 'full',
+  },
+  {
+    path: 'learning/session/:sessionGuid',
+    redirectTo: 'app/learning/session/:sessionGuid',
+    pathMatch: 'full',
+  },
+  {
     path: 'dasha',
     redirectTo: 'app/dasha',
     pathMatch: 'full',
@@ -147,6 +195,16 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'user-login-control',
+    redirectTo: 'app/user-login-control',
+    pathMatch: 'full',
+  },
+  {
+    path: 'audit-logs',
+    redirectTo: 'app/audit-logs',
+    pathMatch: 'full',
+  },
+  {
     path: 'home',
     redirectTo: '',
     pathMatch: 'full',
@@ -157,5 +215,14 @@ export const routes: Routes = [
     redirectTo: '',
   },
 ];
+
+
+
+
+
+
+
+
+
 
 

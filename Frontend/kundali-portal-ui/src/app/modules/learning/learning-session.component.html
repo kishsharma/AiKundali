@@ -1,0 +1,260 @@
+﻿<section class="learning-reader">
+  <div class="state" *ngIf="loading && !session">Loading session...</div>
+  <div class="state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+
+  <ng-container *ngIf="!loading && !errorMessage && session">
+    <aside class="course-nav" *ngIf="level">
+      <div class="course-card">
+        <p class="level-label">Level 1</p>
+        <h2>{{ level.title }}</h2>
+        <div class="progress-label"><span>Progress</span><strong>3%</strong></div>
+        <div class="progress-track"><span></span></div>
+      </div>
+
+      <label class="mobile-session-picker">
+        <span>Session</span>
+        <select (change)="navigateToSession(level.sessions[$any($event.target).selectedIndex])">
+          <option *ngFor="let item of level.sessions" [selected]="item.id === manifestSession?.id">
+            {{ item.sessionNumber }}. {{ item.title }}
+          </option>
+        </select>
+      </label>
+
+      <nav class="session-list" aria-label="Learning sessions">
+        <button
+          type="button"
+          *ngFor="let item of level.sessions"
+          [class.active]="item.id === manifestSession?.id"
+          [class.locked]="!isSessionAvailable(item)"
+          (click)="navigateToSession(item)">
+          <span>{{ item.sessionNumber }}</span>
+          <strong>{{ item.title }}</strong>
+        </button>
+      </nav>
+
+      <div class="help-box">
+        <strong>Need Help?</strong>
+        <p>Still stuck on a topic? Ask our mentors.</p>
+        <button type="button">Ask a Question</button>
+      </div>
+    </aside>
+
+    <main class="lesson" [attr.lang]="resolvedLanguage">
+      <header class="lesson-header">
+        <div class="breadcrumbs">
+          <a routerLink="/app/learning">Jyotish Study</a>
+          <span>Level 1: Foundation</span>
+          <span>Session {{ session.sessionNumber }}</span>
+        </div>
+
+        <div class="lesson-toolbar">
+          <label>
+            <span>Language</span>
+            <select [value]="selectedLanguage" [disabled]="refreshing" (change)="onLanguageChange($event)">
+              <option *ngFor="let language of languages" [value]="language.code">{{ language.label }}</option>
+            </select>
+          </label>
+          <span class="fallback" *ngIf="refreshing">Refreshing...</span>
+          <span class="fallback" *ngIf="usedFallback">English version shown</span>
+        </div>
+
+        <div class="title-grid">
+          <div>
+            <span class="session-pill">Session {{ session.sessionNumber }}</span>
+            <h1>{{ session.title }}</h1>
+            <p class="subtitle">{{ session.subtitle }}</p>
+            <p class="summary"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: session.summary }"></ng-container></p>
+          </div>
+          <figure class="hero-diagram" aria-label="Learning topic visual placeholder">
+            <div class="zodiac-ring"><span>360</span></div>
+            <figcaption>Celestial circle study frame</figcaption>
+          </figure>
+        </div>
+
+        <div class="meta-grid">
+          <span><strong>{{ session.estimatedMinutes }}</strong> estimated minutes</span>
+          <span><strong>{{ session.tableOfContents.length }}</strong> sections</span>
+          <span><strong>{{ session.difficulty }}</strong> level</span>
+          <span><strong>{{ session.keyTerms.length }}</strong> key terms</span>
+        </div>
+      </header>
+
+      <section class="objectives">
+        <h2>Objectives</h2>
+        <ul>
+          <li *ngFor="let objective of session.learningObjectives"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: objective }"></ng-container></li>
+        </ul>
+      </section>
+
+      <article class="lesson-section" *ngFor="let section of session.sections" [id]="section.id">
+        <header>
+          <h2>{{ section.title }}</h2>
+          <span>{{ section.estimatedMinutes }} min</span>
+        </header>
+
+        <ng-container *ngFor="let block of section.blocks" [ngSwitch]="block.type">
+          <h2 *ngSwitchCase="'heading'" [class.h3]="asHeading(block).level === 3" [class.h4]="asHeading(block).level === 4">{{ asHeading(block).text }}</h2>
+
+          <p class="content-paragraph" *ngSwitchCase="'paragraph'"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: asParagraph(block).text }"></ng-container></p>
+
+          <ul class="content-list" *ngSwitchCase="'list'" [class.check]="asList(block).style === 'check'">
+            <li *ngFor="let item of asList(block).items"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: item }"></ng-container></li>
+          </ul>
+
+          <section class="definition" *ngSwitchCase="'definition'">
+            <h3>{{ asDefinition(block).term }}</h3>
+            <p class="script" *ngIf="asDefinition(block).sanskrit">{{ asDefinition(block).sanskrit }}</p>
+            <p class="transliteration" *ngIf="asDefinition(block).transliteration">{{ asDefinition(block).transliteration }}</p>
+            <p><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: asDefinition(block).meaning }"></ng-container></p>
+            <small *ngIf="asDefinition(block).context">{{ asDefinition(block).context }}</small>
+          </section>
+
+          <section class="formula" *ngSwitchCase="'formula'">
+            <strong>{{ asFormula(block).expression }}</strong>
+            <p><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: asFormula(block).explanation }"></ng-container></p>
+            <small *ngIf="asFormula(block).workedExample">{{ asFormula(block).workedExample }}</small>
+          </section>
+
+          <figure class="diagram" *ngSwitchCase="'diagram'">
+              <img
+    class="diagram-image"
+    [src]="asDiagram(block).assetPath"
+    [alt]="asDiagram(block).altText"
+    loading="lazy"
+  />
+            <figcaption>{{ asDiagram(block).caption }}</figcaption>
+          </figure>
+
+          <section class="table-block" *ngSwitchCase="'table'">
+            <h3>{{ asTable(block).caption }}</h3>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th *ngFor="let column of asTable(block).columns">{{ column }}</th></tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of asTable(block).rows">
+                    <td *ngFor="let cell of row">{{ formatCell(cell) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note" *ngIf="asTable(block).note">{{ asTable(block).note }}</p>
+          </section>
+
+          <section class="example" *ngSwitchCase="'example'">
+            <h3>{{ asExample(block).title }}</h3>
+            <p><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: asExample(block).scenario }"></ng-container></p>
+            <ol>
+              <li *ngFor="let step of asExample(block).steps"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: step }"></ng-container></li>
+            </ol>
+            <strong>{{ asExample(block).conclusion }}</strong>
+          </section>
+
+          <aside class="note" *ngSwitchCase="'note'" [class]="'note ' + asNote(block).style">
+            <strong>{{ asNote(block).title }}</strong>
+            <p><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: asNote(block).text }"></ng-container></p>
+          </aside>
+
+          <section class="comparison" *ngSwitchCase="'comparison'">
+            <h3>{{ asComparison(block).title }}</h3>
+            <div>
+              <article>
+                <strong>{{ asComparison(block).left.label }}</strong>
+                <ul><li *ngFor="let point of asComparison(block).left.points"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: point }"></ng-container></li></ul>
+              </article>
+              <article>
+                <strong>{{ asComparison(block).right.label }}</strong>
+                <ul><li *ngFor="let point of asComparison(block).right.points"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: point }"></ng-container></li></ul>
+              </article>
+            </div>
+          </section>
+
+          <hr *ngSwitchCase="'divider'">
+
+          <details class="shloka" *ngSwitchCase="'shloka-trigger'">
+            <summary>{{ asShloka(block).label }}</summary>
+            <p>Reference: {{ asShloka(block).shlokaId }}</p>
+          </details>
+        </ng-container>
+      </article>
+
+      <section class="support-grid">
+        <article *ngIf="session.commonMistakes.length" class="mistakes">
+          <h2>Common Mistakes</h2>
+          <div *ngFor="let item of session.commonMistakes">
+            <strong>{{ item.mistake }}</strong>
+            <p><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: item.correctUnderstanding }"></ng-container></p>
+          </div>
+        </article>
+
+        <article *ngIf="session.practicalExercise" class="exercise">
+          <h2>{{ session.practicalExercise.title }}</h2>
+          <ul><li *ngFor="let instruction of session.practicalExercise.instructions"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: instruction }"></ng-container></li></ul>
+          <p *ngIf="session.practicalExercise.expectedOutcome"><strong>Expected outcome:</strong> <ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: session.practicalExercise.expectedOutcome }"></ng-container></p>
+        </article>
+      </section>
+
+      <section class="summary-box">
+        <h2>Summary</h2>
+        <ul><li *ngFor="let item of session.sessionSummary"><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: item }"></ng-container></li></ul>
+      </section>
+
+      <section class="self-check" *ngIf="session.selfCheck" id="self-check">
+        <h2>Self Check</h2>
+        <ol>
+          <li *ngFor="let question of session.selfCheck.questions">
+            <span><ng-container *ngTemplateOutlet="glossaryText; context: { $implicit: question.question }"></ng-container></span>
+            <details>
+              <summary>Show answer</summary>
+              <p>{{ formatCell(question.answer) }}</p>
+              <small>{{ question.explanation }}</small>
+            </details>
+          </li>
+        </ol>
+      </section>
+
+      <footer class="lesson-footer">
+        <button type="button" (click)="goToAdjacent(-1)" [disabled]="!previousSession">Previous Session</button>
+        <button type="button" (click)="goToAdjacent(1)" [disabled]="!nextSession">Next Session</button>
+      </footer>
+    </main>
+
+    <aside class="page-toc">
+      <h2>On this page</h2>
+      <a *ngFor="let item of session.tableOfContents" [href]="'#' + item.sectionId">{{ item.title }}</a>
+      <a href="#self-check">Self Check</a>
+    </aside>
+
+    <button type="button" class="glossary-dismiss" *ngIf="activeGlossaryEntry" (click)="closeGlossary()" aria-label="Close glossary"></button>
+    <aside class="glossary-panel" *ngIf="activeGlossaryEntry" role="tooltip" [style.left.px]="glossaryTooltipLeft" [style.top.px]="glossaryTooltipTop" aria-labelledby="glossary-title">
+      <button type="button" class="glossary-close" (click)="closeGlossary()" aria-label="Close glossary">x</button>
+      <p class="glossary-eyebrow">Glossary</p>
+      <h2 id="glossary-title">{{ glossaryTerm(activeGlossaryEntry, resolvedLanguage) }}</h2>
+      <p class="transliteration" *ngIf="activeGlossaryEntry.transliteration">{{ activeGlossaryEntry.transliteration }}</p>
+      <p class="glossary-definition">{{ glossaryDefinition(activeGlossaryEntry, resolvedLanguage) }}</p>
+
+      <div class="glossary-languages">
+        <article *ngFor="let language of languages" [class.hidden]="language.code === resolvedLanguage">
+          <strong>{{ language.label }}</strong>
+          <span>{{ glossaryTerm(activeGlossaryEntry, language.code) }}</span>
+          <p>{{ glossaryDefinition(activeGlossaryEntry, language.code) }}</p>
+        </article>
+      </div>
+    </aside>
+  </ng-container>
+
+  <ng-template #glossaryText let-text>
+    <ng-container *ngFor="let segment of renderGlossaryText(text)">
+      <button
+        *ngIf="segment.entry; else plainText"
+        type="button"
+        class="glossary-term"
+        (click)="openGlossary(segment.entry, $event)">
+        {{ segment.text }}
+      </button>
+      <ng-template #plainText>{{ segment.text }}</ng-template>
+    </ng-container>
+  </ng-template>
+</section>
+

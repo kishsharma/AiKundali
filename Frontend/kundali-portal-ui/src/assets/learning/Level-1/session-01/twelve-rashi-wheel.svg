@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+<title id="title">Twelve Rashi Division with Zodiac Symbols</title>
+<desc id="desc">A zodiac wheel divided into twelve equal thirty-degree sectors, starting with Mesha at zero degrees at the top and increasing counter-clockwise. Each sector includes its zodiac symbol and name.</desc>
+<rect width="800" height="800" fill="white"/>
+<circle cx="400" cy="400" r="300" fill="none" stroke="#1f2937" stroke-width="4"/>
+<circle cx="400" cy="400" r="175" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+<line x1="400.00" y1="225.00" x2="400.00" y2="100.00" stroke="#64748b" stroke-width="2"/>
+<line x1="312.50" y1="248.45" x2="250.00" y2="140.19" stroke="#64748b" stroke-width="2"/>
+<line x1="248.45" y1="312.50" x2="140.19" y2="250.00" stroke="#64748b" stroke-width="2"/>
+<line x1="225.00" y1="400.00" x2="100.00" y2="400.00" stroke="#64748b" stroke-width="2"/>
+<line x1="248.45" y1="487.50" x2="140.19" y2="550.00" stroke="#64748b" stroke-width="2"/>
+<line x1="312.50" y1="551.55" x2="250.00" y2="659.81" stroke="#64748b" stroke-width="2"/>
+<line x1="400.00" y1="575.00" x2="400.00" y2="700.00" stroke="#64748b" stroke-width="2"/>
+<line x1="487.50" y1="551.55" x2="550.00" y2="659.81" stroke="#64748b" stroke-width="2"/>
+<line x1="551.55" y1="487.50" x2="659.81" y2="550.00" stroke="#64748b" stroke-width="2"/>
+<line x1="575.00" y1="400.00" x2="700.00" y2="400.00" stroke="#64748b" stroke-width="2"/>
+<line x1="551.55" y1="312.50" x2="659.81" y2="250.00" stroke="#64748b" stroke-width="2"/>
+<line x1="487.50" y1="248.45" x2="550.00" y2="140.19" stroke="#64748b" stroke-width="2"/>
+<text x="340.99" y="169.77" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♈</text>
+<text x="335.30" y="176.52" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Mesha</text>
+<text x="238.78" y="228.78" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♉</text>
+<text x="223.22" y="241.22" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Vrishabha</text>
+<text x="179.77" y="330.99" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♊</text>
+<text x="158.52" y="353.30" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Mithuna</text>
+<text x="179.77" y="449.01" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♋</text>
+<text x="158.52" y="482.70" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Karka</text>
+<text x="238.78" y="551.22" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♌</text>
+<text x="223.22" y="594.78" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Simha</text>
+<text x="340.99" y="610.23" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♍</text>
+<text x="335.30" y="659.48" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Kanya</text>
+<text x="459.01" y="610.23" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♎</text>
+<text x="464.70" y="659.48" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Tula</text>
+<text x="561.22" y="551.22" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♏</text>
+<text x="576.78" y="594.78" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Vrischika</text>
+<text x="620.23" y="449.01" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♐</text>
+<text x="641.48" y="482.70" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Dhanu</text>
+<text x="620.23" y="330.99" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♑</text>
+<text x="641.48" y="353.30" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Makara</text>
+<text x="561.22" y="228.78" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♒</text>
+<text x="576.78" y="241.22" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Kumbha</text>
+<text x="459.01" y="169.77" font-family="Segoe UI Symbol, Noto Sans Symbols, Arial Unicode MS, sans-serif" font-size="31" fill="#111827" text-anchor="middle" dominant-baseline="middle">♓</text>
+<text x="464.70" y="176.52" font-family="Arial, sans-serif" font-size="16" fill="#4b5563" text-anchor="middle" dominant-baseline="middle">Meena</text>
+<text x="400" y="55" font-family="Arial, sans-serif" font-size="24" fill="#111827" text-anchor="middle">0° / 360°</text>
+<text x="58" y="408" font-family="Arial, sans-serif" font-size="24" fill="#111827" text-anchor="middle">90°</text>
+<text x="400" y="760" font-family="Arial, sans-serif" font-size="24" fill="#111827" text-anchor="middle">180°</text>
+<text x="742" y="408" font-family="Arial, sans-serif" font-size="24" fill="#111827" text-anchor="middle">270°</text>
+<text x="400" y="392" font-family="Arial, sans-serif" font-size="28" fill="#111827" text-anchor="middle">12 Rashis</text>
+<text x="400" y="425" font-family="Arial, sans-serif" font-size="22" fill="#4b5563" text-anchor="middle">Each sector = 30°</text>
+<path d="M 610 180 A 300 300 0 0 0 210 205" fill="none" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+<polygon points="208,205 228,198 220,219" fill="#64748b"/>
+</svg>

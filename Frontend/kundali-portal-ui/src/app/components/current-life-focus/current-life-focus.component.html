@@ -1,0 +1,234 @@
+<app-section-card [title]="'currentLifeFocus.title' | transloco" class="full-row current-life-focus-shell">
+  <section class="current-life-focus" [attr.aria-busy]="isBusy">
+    <div class="focus-intro">
+      <p>{{ 'currentLifeFocus.supportingText' | transloco }}</p>
+      <button
+        type="button"
+        class="primary-focus-action"
+        (click)="analyse()"
+        [disabled]="isBusy || !savePayload"
+        [attr.aria-label]="'currentLifeFocus.analyseButton' | transloco">
+        <span class="button-spinner" *ngIf="state === 'loadingTop'" aria-hidden="true"></span>
+        {{ state === 'loadingTop' ? ('currentLifeFocus.savingAndAnalysing' | transloco) : ('currentLifeFocus.analyseButton' | transloco) }}
+      </button>
+    </div>
+
+    <div class="state-panel" *ngIf="state === 'loadingTop'" aria-live="polite">
+      <span class="soft-loader" aria-hidden="true"></span>
+      <strong>{{ 'currentLifeFocus.loadingTop' | transloco }}</strong>
+    </div>
+
+    <div class="state-panel error" *ngIf="state === 'error'" role="alert">
+      <strong>{{ 'currentLifeFocus.errorTitle' | transloco }}</strong>
+      <p>{{ errorMessage }}</p>
+      <button type="button" class="secondary-action" (click)="retry()" [disabled]="isBusy">
+        {{ 'currentLifeFocus.retry' | transloco }}
+      </button>
+    </div>
+
+    <div class="state-panel quiet" *ngIf="state === 'noStrongActivation'">
+      <strong>{{ 'currentLifeFocus.noStrongTitle' | transloco }}</strong>
+      <p>{{ 'currentLifeFocus.noStrongText' | transloco }}</p>
+      <button type="button" class="secondary-action" (click)="retry()" [disabled]="isBusy">
+        {{ 'currentLifeFocus.retry' | transloco }}
+      </button>
+    </div>
+
+    <ng-container *ngIf="state === 'topLoaded' || state === 'noStrongActivation' || state === 'noneSelected' || state === 'otherConcern'">
+      <div class="area-grid" *ngIf="areas.length">
+        <article
+          class="area-card"
+          *ngFor="let area of areas; trackBy: trackArea"
+          [class.selected]="selectedAreaKey === area.key">
+          <div class="area-card-header">
+            <h4>{{ area.title }}</h4>
+            <span class="score-chip" *ngIf="areaScore(area) !== undefined">{{ areaScore(area) | number: '1.0-0' }}</span>
+          </div>
+
+          <div class="area-badges" aria-label="Activation and tone">
+            <span class="level-pill" [ngClass]="activationClass(area.activationLevel)">
+              {{ area.activationLevel }} {{ 'currentLifeFocus.activationSuffix' | transloco }}
+            </span>
+            <span class="tone-pill" [ngClass]="toneClass(areaTone(area))">
+              {{ areaTone(area) }}
+            </span>
+          </div>
+
+          <ul class="reason-list" *ngIf="areaReasons(area).length">
+            <li *ngFor="let reason of areaReasons(area).slice(0, 3); trackBy: trackText">{{ reason }}</li>
+          </ul>
+
+          <div class="house-row" *ngIf="areaHouses(area).length">
+            <span>{{ 'currentLifeFocus.activatedHouses' | transloco }}</span>
+            <strong>{{ areaHouses(area).join(', ') }}</strong>
+          </div>
+
+          <button
+            type="button"
+            class="select-area-action"
+            (click)="selectArea(area)"
+            [disabled]="isBusy"
+            [attr.aria-label]="('currentLifeFocus.selectArea' | transloco) + ': ' + area.title">
+            {{ 'currentLifeFocus.selectArea' | transloco }}
+          </button>
+        </article>
+      </div>
+
+      <div class="match-question" *ngIf="areas.length">
+        <strong>{{ prompt || ('currentLifeFocus.topQuestion' | transloco) }}</strong>
+        <div class="question-actions">
+          <button type="button" class="secondary-action" (click)="selectNone()" [disabled]="isBusy">
+            {{ 'currentLifeFocus.noneOfThese' | transloco }}
+          </button>
+          <button type="button" class="secondary-action" (click)="selectOther()" [disabled]="isBusy">
+            {{ 'currentLifeFocus.anotherConcern' | transloco }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="state-panel quiet" *ngIf="state === 'noneSelected'">
+      <strong>{{ 'currentLifeFocus.noneSelectedTitle' | transloco }}</strong>
+      <p>{{ 'currentLifeFocus.noneSelectedText' | transloco }}</p>
+    </div>
+
+    <div class="state-panel quiet" *ngIf="state === 'otherConcern'">
+      <strong>{{ 'currentLifeFocus.otherConcernTitle' | transloco }}</strong>
+      <p>{{ 'currentLifeFocus.otherConcernText' | transloco }}</p>
+    </div>
+
+    <div class="state-panel" *ngIf="state === 'loadingFocus'" aria-live="polite">
+      <span class="soft-loader" aria-hidden="true"></span>
+      <strong>{{ 'currentLifeFocus.loadingFocus' | transloco }}</strong>
+    </div>
+
+    <article class="focused-panel" *ngIf="state === 'focusLoaded' && focusedResponse as focused">
+      <header class="focused-header">
+        <div>
+          <span>{{ 'currentLifeFocus.focusedLabel' | transloco }}</span>
+          <h4>{{ focused.title }}</h4>
+        </div>
+        <div class="area-badges">
+          <span class="level-pill" [ngClass]="activationClass(focused.activationLevel)">{{ focused.activationLevel }}</span>
+          <span class="tone-pill" [ngClass]="toneClass(focusedTone(focused))">{{ focusedTone(focused) }}</span>
+        </div>
+      </header>
+
+      <section class="decision-guidance" *ngIf="focused.decisionGuidance as decision">
+        <div class="decision-head">
+          <span>{{ decision.questionType }}</span>
+          <strong>{{ decision.verdictLabel }}</strong>
+        </div>
+        <p>{{ decision.recommendation }}</p>
+        <p class="decision-why">{{ decision.why }}</p>
+        <div class="decision-columns">
+          <div *ngIf="decision.suitableFor.length">
+            <h5>Suitable direction</h5>
+            <ul>
+              <li *ngFor="let item of decision.suitableFor; trackBy: trackText">{{ item }}</li>
+            </ul>
+          </div>
+          <div *ngIf="decision.cautions.length">
+            <h5>Cautions</h5>
+            <ul>
+              <li *ngFor="let item of decision.cautions; trackBy: trackText">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+        <p class="decision-approach"><strong>Best approach:</strong> {{ decision.bestApproach }}</p>
+      </section>
+      <section class="narrative-panel" *ngIf="focused.narrative as narrative">
+        <div class="narrative-main">
+          <div class="narrative-step narrative-verdict">
+            <span>{{ 'currentLifeFocus.narrativeVerdict' | transloco }}</span>
+            <p>{{ narrative.verdict }}</p>
+          </div>
+          <div class="narrative-step">
+            <span>{{ 'currentLifeFocus.narrativeCurrentSituation' | transloco }}</span>
+            <p>{{ narrative.currentSituation }}</p>
+          </div>
+          <div class="narrative-step">
+            <span>{{ 'currentLifeFocus.narrativeReason' | transloco }}</span>
+            <p>{{ narrative.astrologicalReason }}</p>
+          </div>
+          <div class="narrative-step">
+            <span>{{ 'currentLifeFocus.narrativeFutureChange' | transloco }}</span>
+            <p>{{ narrative.futureChange }}</p>
+          </div>
+          <div class="narrative-step">
+            <span>{{ 'currentLifeFocus.narrativeImportantPeriods' | transloco }}</span>
+            <p>{{ narrative.importantPeriods }}</p>
+          </div>
+          <div class="narrative-step narrative-outcome">
+            <span>{{ 'currentLifeFocus.narrativeExpectedOutcome' | transloco }}</span>
+            <p>{{ narrative.expectedOutcome }}</p>
+          </div>
+        </div>
+
+        <div class="narrative-evidence" *ngIf="narrative.evidence.length">
+          <h5>{{ 'currentLifeFocus.narrativeEvidence' | transloco }}</h5>
+          <ul>
+            <li *ngFor="let item of narrative.evidence; trackBy: trackText">{{ item }}</li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="focused-summary" *ngIf="!focused.narrative && focused.summary">{{ focused.summary }}</p>
+
+      <div class="focused-grid">
+        <section *ngIf="focused.possibleExperiences.length">
+          <h5>{{ 'currentLifeFocus.possibleExperiences' | transloco }}</h5>
+          <ul>
+            <li *ngFor="let item of focused.possibleExperiences; trackBy: trackText">{{ item }}</li>
+          </ul>
+        </section>
+
+        <section *ngIf="focused.supportiveFactors.length">
+          <h5>{{ 'currentLifeFocus.supportiveFactors' | transloco }}</h5>
+          <ul>
+            <li *ngFor="let item of focused.supportiveFactors; trackBy: trackText">{{ item }}</li>
+          </ul>
+        </section>
+
+        <section *ngIf="focused.pressureFactors.length">
+          <h5>{{ 'currentLifeFocus.pressureFactors' | transloco }}</h5>
+          <ul>
+            <li *ngFor="let item of focused.pressureFactors; trackBy: trackText">{{ item }}</li>
+          </ul>
+        </section>
+
+        <section *ngIf="focusedHouseLabels(focused).length">
+          <h5>{{ 'currentLifeFocus.activatedHouses' | transloco }}</h5>
+          <div class="house-chip-list">
+            <span *ngFor="let house of focusedHouseLabels(focused)">{{ 'currentLifeFocus.housePrefix' | transloco }} {{ house }}</span>
+          </div>
+        </section>
+      </div>
+
+      <section class="calculation-basis" *ngIf="focused.calculationBasis?.length">
+        <h5>Calculation basis</h5>
+        <ul>
+          <li *ngFor="let item of focused.calculationBasis; trackBy: trackText">{{ item }}</li>
+        </ul>
+      </section>
+      <div class="concern-panel" *ngIf="focusedConcernOptions(focused).length">
+        <strong>{{ focused.followUpQuestion || ('currentLifeFocus.followUpQuestion' | transloco) }}</strong>
+        <div class="concern-options" role="group" [attr.aria-label]="'currentLifeFocus.specificConcernOptions' | transloco">
+          <button
+            type="button"
+            *ngFor="let option of focusedConcernOptions(focused); trackBy: trackConcern"
+            class="concern-chip"
+            [class.active]="selectedConcernKey === option.key"
+            (click)="selectSpecificConcern(option)"
+            [disabled]="isBusy">
+            {{ concernTitle(option) }}
+          </button>
+        </div>
+      </div>
+    </article>
+  </section>
+</app-section-card>
+
+
+
+

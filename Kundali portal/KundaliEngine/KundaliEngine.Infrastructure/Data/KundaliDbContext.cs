@@ -20,6 +20,10 @@ public class KundaliDbContext : DbContext
 
     public DbSet<KundaliReport> KundaliReports => Set<KundaliReport>();
 
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+
+    public DbSet<CommunicationLog> CommunicationLogs => Set<CommunicationLog>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -27,4 +31,3 @@ public class KundaliDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(KundaliDbContext).Assembly);
     }
 }
-

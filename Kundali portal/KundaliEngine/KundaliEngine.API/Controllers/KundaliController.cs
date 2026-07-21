@@ -19,6 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using KundaliEngine.API.Helper_functions;
 using KundaliEngine.API.Services.Recommendations;
+using KundaliEngine.API.Services.AdvancedStrength;
+using KundaliEngine.API.Services.Audit;
+using KundaliEngine.API.Services.YogaDoshaActivation;
 using System.Text.Json;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +52,10 @@ namespace KundaliEngine.API.Controllers
         private readonly IEphemerisProvider _ephemerisProvider;
         private readonly RemediesRecommendationService _remediesRecommendationService;
         private readonly SudarshanChakraService _sudarshanChakraService;
+        private readonly YogaDoshaActivationService _yogaDoshaActivationService;
+        private readonly AdvancedStrengthTableService _advancedStrengthTableService;
         private readonly KundaliDbContext _dbContext;
+        private readonly IAuditLogService _auditLogService;
         public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService, 
             HouseScoreService houseScoreService, DashaService dashaService,
             OverallKundaliScoreService overallScoreService,
@@ -63,7 +69,10 @@ namespace KundaliEngine.API.Controllers
             IEphemerisProvider ephemerisProvider,
             RemediesRecommendationService remediesRecommendationService,
             SudarshanChakraService sudarshanChakraService,
-            KundaliDbContext dbContext
+            YogaDoshaActivationService yogaDoshaActivationService,
+            AdvancedStrengthTableService advancedStrengthTableService,
+            KundaliDbContext dbContext,
+            IAuditLogService auditLogService
             )
         {
             _chartService = chartService;
@@ -82,7 +91,10 @@ namespace KundaliEngine.API.Controllers
             _ephemerisProvider = ephemerisProvider;
             _remediesRecommendationService = remediesRecommendationService;
             _sudarshanChakraService = sudarshanChakraService;
+            _yogaDoshaActivationService = yogaDoshaActivationService;
+            _advancedStrengthTableService = advancedStrengthTableService;
             _dbContext = dbContext;
+            _auditLogService = auditLogService;
         }
         [Authorize]
         [HttpPost("generate")]
@@ -218,6 +230,42 @@ namespace KundaliEngine.API.Controllers
                 Occupants = h.Occupants.Select(o => Enum.Parse<Planet>(o)).ToList()
             }).ToList();
 
+            var mahadashaTimeline = _dashaService.GenerateMahadashaTimelineForYears(
+                birthDasha.Planet,
+                birthDasha.RemainingYears,
+                request.BirthDateTime,
+                120);
+
+            var activationTimeline = mahadashaTimeline
+                .Select(mahadasha => new MahadashaActivationPeriod
+                {
+                    Planet = mahadasha.Planet,
+                    StartDate = mahadasha.StartDate,
+                    EndDate = mahadasha.EndDate,
+                    Antardashas = _dashaService.GenerateAntardashaForTimelinePeriod(
+                        mahadasha,
+                        birthDasha.Planet,
+                        birthDasha.RemainingYears)
+                })
+                .ToList();
+
+            var mahadashaPeriodDtos = activationTimeline
+                .Select(mahadasha => new MahadashaPeriodDto
+                {
+                    Planet = mahadasha.Planet.ToString(),
+                    Start = mahadasha.StartDate,
+                    End = mahadasha.EndDate,
+                    Antardashas = mahadasha.Antardashas
+                        .Select(antardasha => new AntardashaPeriodDto
+                        {
+                            SubPlanet = antardasha.SubPlanet.ToString(),
+                            StartDate = antardasha.StartDate,
+                            EndDate = antardasha.EndDate
+                        })
+                        .ToList()
+                })
+                .ToList();
+
             // Detect yogas
             var detectedYogas = _yogaDetectionService.DetectYogas(planets, houseDomainDtos);
 
@@ -245,7 +293,14 @@ namespace KundaliEngine.API.Controllers
                     Strength = item.Match.Strength,
                     InvolvedPlanets = item.Match.InvolvedPlanets,
                     InvolvedHouses = item.Match.InvolvedHouses,
-                    Reason = item.Match.Reason
+                    Reason = item.Match.Reason,
+                    ActivationPeriods = _yogaDoshaActivationService.CalculateActivationPeriods(
+                        item.Meta!.Key,
+                        item.Meta.Name,
+                        "Yoga",
+                        item.Match.InvolvedPlanets,
+                        activationTimeline,
+                        currentUtc)
                 })
                 .ToList();
 
@@ -270,7 +325,14 @@ namespace KundaliEngine.API.Controllers
                         })
                         .ToList() ?? new(),
                     Remedies = item.Meta?.Remedies ?? new(),
-                    References = item.Meta?.References ?? new()
+                    References = item.Meta?.References ?? new(),
+                    ActivationPeriods = _yogaDoshaActivationService.CalculateActivationPeriods(
+                        item.Match.Key,
+                        item.Meta?.Name ?? item.Match.Key,
+                        "Dosha",
+                        item.Match.InvolvedPlanets,
+                        activationTimeline,
+                        currentUtc)
                 })
                 .ToList();
 
@@ -312,10 +374,12 @@ namespace KundaliEngine.API.Controllers
                 NakshatraInsight = nakshatraInsight,
                 TransitInsight = transitInsight,
                 RemediesRecommendation = remediesRecommendation,
+                MahadashaPeriods = mahadashaPeriodDtos,
                 Yogas = yogas,
                 Doshas = doshas,
                 D9Chart = d9Chart,
-                SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra)
+                SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra),
+                AdvancedStrengthTables = _advancedStrengthTableService.Build(planets, houseDtos, aspectResult)
             };
 
             return Ok(response);
@@ -368,6 +432,15 @@ namespace KundaliEngine.API.Controllers
 
             _dbContext.Kundalis.Add(kundali);
             await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "KundaliCreated",
+                Category = "DataChange",
+                EntityType = "Kundali",
+                EntityId = kundali.Id.ToString(),
+                Description = $"Kundali saved for {kundali.FullName}.",
+                Status = "Success"
+            });
 
             return CreatedAtAction(nameof(GetById), new { id = kundali.Id }, MapSavedKundaliDetail(kundali));
         }
@@ -423,6 +496,44 @@ namespace KundaliEngine.API.Controllers
             return Ok(MapSavedKundaliDetail(kundali));
         }
 
+
+        [Authorize]
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var kundali = await _dbContext.Kundalis
+                .FirstOrDefaultAsync(k => k.Id == id && k.UserId == userId.Value);
+
+            if (kundali == null)
+            {
+                return NotFound();
+            }
+
+            var reports = await _dbContext.KundaliReports
+                .Where(report => report.KundaliId == id)
+                .ToListAsync();
+
+            _dbContext.KundaliReports.RemoveRange(reports);
+            _dbContext.Kundalis.Remove(kundali);
+            await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "KundaliDeleted",
+                Category = "DataChange",
+                EntityType = "Kundali",
+                EntityId = id.ToString(),
+                Description = $"Kundali deleted for {kundali.FullName}.",
+                Status = "Success"
+            });
+
+            return NoContent();
+        }
         private Guid? GetCurrentUserId()
         {
             var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -976,6 +1087,11 @@ namespace KundaliEngine.API.Controllers
 
     }
 }
+
+
+
+
+
 
 
 

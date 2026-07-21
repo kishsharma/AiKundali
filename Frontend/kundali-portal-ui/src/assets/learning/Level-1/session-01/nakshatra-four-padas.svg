@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1000 420"
+     role="img"
+     aria-labelledby="title desc">
+
+  <title id="title">One Nakshatra Divided into Four Padas</title>
+  <desc id="desc">
+    A single nakshatra spanning thirteen degrees and twenty arcminutes,
+    divided into four equal padas of three degrees and twenty arcminutes each.
+  </desc>
+
+  <rect width="1000" height="420" fill="white"/>
+
+  <!-- Main nakshatra band -->
+  <rect x="100" y="140" width="800" height="150"
+        fill="#f8fafc"
+        stroke="#1f2937"
+        stroke-width="4"/>
+
+  <!-- Pada divisions -->
+  <line x1="300" y1="140" x2="300" y2="290"
+        stroke="#64748b"
+        stroke-width="3"/>
+  <line x1="500" y1="140" x2="500" y2="290"
+        stroke="#64748b"
+        stroke-width="3"/>
+  <line x1="700" y1="140" x2="700" y2="290"
+        stroke="#64748b"
+        stroke-width="3"/>
+
+  <!-- Top title -->
+  <text x="500" y="60"
+        font-family="Arial, sans-serif"
+        font-size="32"
+        fill="#111827"
+        text-anchor="middle">One Nakshatra = 13°20′</text>
+
+  <!-- Pada labels -->
+  <text x="200" y="205"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Pada 1</text>
+  <text x="400" y="205"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Pada 2</text>
+  <text x="600" y="205"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Pada 3</text>
+  <text x="800" y="205"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Pada 4</text>
+
+  <!-- Pada sizes -->
+  <text x="200" y="245"
+        font-family="Arial, sans-serif"
+        font-size="22"
+        fill="#4b5563"
+        text-anchor="middle">3°20′</text>
+  <text x="400" y="245"
+        font-family="Arial, sans-serif"
+        font-size="22"
+        fill="#4b5563"
+        text-anchor="middle">3°20′</text>
+  <text x="600" y="245"
+        font-family="Arial, sans-serif"
+        font-size="22"
+        fill="#4b5563"
+        text-anchor="middle">3°20′</text>
+  <text x="800" y="245"
+        font-family="Arial, sans-serif"
+        font-size="22"
+        fill="#4b5563"
+        text-anchor="middle">3°20′</text>
+
+  <!-- Boundary labels -->
+  <text x="100" y="325"
+        font-family="Arial, sans-serif"
+        font-size="20"
+        fill="#475569"
+        text-anchor="middle">0°00′</text>
+  <text x="300" y="325"
+        font-family="Arial, sans-serif"
+        font-size="20"
+        fill="#475569"
+        text-anchor="middle">3°20′</text>
+  <text x="500" y="325"
+        font-family="Arial, sans-serif"
+        font-size="20"
+        fill="#475569"
+        text-anchor="middle">6°40′</text>
+  <text x="700" y="325"
+        font-family="Arial, sans-serif"
+        font-size="20"
+        fill="#475569"
+        text-anchor="middle">10°00′</text>
+  <text x="900" y="325"
+        font-family="Arial, sans-serif"
+        font-size="20"
+        fill="#475569"
+        text-anchor="middle">13°20′</text>
+
+  <!-- Direction arrow -->
+  <line x1="135" y1="365" x2="865" y2="365"
+        stroke="#64748b"
+        stroke-width="3"
+        stroke-linecap="round"/>
+  <polygon points="865,365 845,355 845,375" fill="#64748b"/>
+
+  <text x="500" y="405"
+        font-family="Arial, sans-serif"
+        font-size="20"
+        fill="#4b5563"
+        text-anchor="middle">Progression within the Nakshatra</text>
+</svg>

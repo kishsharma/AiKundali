@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
@@ -63,6 +63,10 @@ toggleUserMenu(): void {
 
   this.isUserMenuOpen = !this.isUserMenuOpen;
   console.log('user drodpwnclicked',true);
+}
+
+toggleAppMenu(): void {
+  window.dispatchEvent(new CustomEvent('app-menu-toggle'));
 }
 
 logout(): void {

@@ -388,6 +388,126 @@ export class CompatibilityComponent {
     this.cdr.detectChanges();
   }
 
+  private getPdfImageData(canvas: HTMLCanvasElement): string {
+    return canvas.toDataURL('image/jpeg', 0.96);
+  }
+
+  private getPdfElementSize(element: HTMLElement): { width: number; height: number } {
+    const rect = element.getBoundingClientRect();
+    const width = Math.ceil(Math.max(element.scrollWidth, element.offsetWidth, rect.width));
+    const height = Math.ceil(Math.max(element.scrollHeight, element.offsetHeight, rect.height));
+
+    return { width, height };
+  }
+
+  private isPositiveFinite(value: number): boolean {
+    return Number.isFinite(value) && value > 0;
+  }
+
+  private applyHtml2CanvasSafeStyles(clonedDocument: Document): void {
+    const style = clonedDocument.createElement('style');
+    style.textContent = `
+      :root, body, body.compatibility-pdf-mode, body.compatibility-pdf-mode * {
+        --theme-bg: #ffffff !important;
+        --theme-surface: #ffffff !important;
+        --theme-surface-2: #ffffff !important;
+        --theme-input-bg: #ffffff !important;
+        --theme-text: #000000 !important;
+        --theme-text-muted: #333333 !important;
+        --theme-line: #d9deee !important;
+        --theme-line-soft: #e6e9f4 !important;
+        --theme-accent: #8a6a1f !important;
+        --theme-info: #1d4ed8 !important;
+        --theme-success: #166534 !important;
+        --theme-warning: #92400e !important;
+        --theme-danger: #991b1b !important;
+        --theme-shadow: transparent !important;
+      }
+
+      body.compatibility-pdf-mode *,
+      body.compatibility-pdf-mode *::before,
+      body.compatibility-pdf-mode *::after {
+        color: #000000 !important;
+        background-color: transparent !important;
+        background-image: none !important;
+        border-color: #d9deee !important;
+        outline-color: #d9deee !important;
+        text-decoration-color: #000000 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+      }
+
+      body.compatibility-pdf-mode,
+      body.compatibility-pdf-mode app-root,
+      body.compatibility-pdf-mode .compatibility-page,
+      body.compatibility-pdf-mode .report-shell {
+        background-color: #ffffff !important;
+      }
+
+      body.compatibility-pdf-mode svg,
+      body.compatibility-pdf-mode svg * {
+        background-color: transparent !important;
+        color: #000000 !important;
+        fill: #ffffff !important;
+        stroke: #000000 !important;
+      }
+
+      body.compatibility-pdf-mode svg text,
+      body.compatibility-pdf-mode svg tspan {
+        fill: #000000 !important;
+        stroke: none !important;
+      }
+    `;
+    clonedDocument.head.appendChild(style);
+  }
+
+  private sanitizeCssColorFunctions(value: string): string {
+    return value
+      .replace(/color-mix\([^;]*(?:\)[^;]*)?\)/gi, '#ffffff')
+      .replace(/oklab\([^)]*\)/gi, '#000000')
+      .replace(/oklch\([^)]*\)/gi, '#000000')
+      .replace(/lab\([^)]*\)/gi, '#000000')
+      .replace(/lch\([^)]*\)/gi, '#000000')
+      .replace(/color\([^)]*\)/gi, '#000000');
+  }
+
+  private sanitizePdfClone(clonedDocument: Document): void {
+    this.applyHtml2CanvasSafeStyles(clonedDocument);
+    const unsupportedColorPattern = /(color-mix|oklab|oklch|lab\(|lch\(|color\()/i;
+
+    clonedDocument.querySelectorAll<HTMLElement | SVGElement>('*').forEach((node) => {
+      const inlineStyle = node.getAttribute('style');
+      if (inlineStyle && unsupportedColorPattern.test(inlineStyle)) {
+        node.setAttribute('style', this.sanitizeCssColorFunctions(inlineStyle));
+      }
+
+      const style = node.style;
+      const tagName = node.tagName.toLowerCase();
+      const isSvgPaintNode = ['svg', 'path', 'polygon', 'line', 'circle', 'rect', 'text', 'tspan', 'g'].includes(tagName);
+
+      style.setProperty('color', '#000000', 'important');
+      style.setProperty('background-image', 'none', 'important');
+      style.setProperty('box-shadow', 'none', 'important');
+      style.setProperty('text-shadow', 'none', 'important');
+      style.setProperty('outline-color', '#d9deee', 'important');
+      style.setProperty('border-color', '#d9deee', 'important');
+      style.setProperty('border-top-color', '#d9deee', 'important');
+      style.setProperty('border-right-color', '#d9deee', 'important');
+      style.setProperty('border-bottom-color', '#d9deee', 'important');
+      style.setProperty('border-left-color', '#d9deee', 'important');
+      style.setProperty('text-decoration-color', '#000000', 'important');
+      style.setProperty('caret-color', '#000000', 'important');
+      style.setProperty('background-color', node === clonedDocument.body || tagName === 'app-root' ? '#ffffff' : 'transparent', 'important');
+
+      if (isSvgPaintNode) {
+        style.setProperty('stroke', '#000000', 'important');
+        style.setProperty('fill', tagName === 'text' || tagName === 'tspan' ? '#000000' : '#ffffff', 'important');
+      }
+    });
+
+    clonedDocument.body.style.setProperty('background-color', '#ffffff', 'important');
+    clonedDocument.body.style.setProperty('color', '#000000', 'important');
+  }
   private async addElementToPdf(
     pdf: jsPDF,
     element: HTMLElement,
@@ -397,26 +517,46 @@ export class CompatibilityComponent {
     pageHeightUsed: number,
     spacing: number
   ): Promise<number> {
+    const elementSize = this.getPdfElementSize(element);
+    let currentPageHeight = this.isPositiveFinite(pageHeightUsed) ? pageHeightUsed : 0;
+
+    if (!this.isPositiveFinite(elementSize.width) || !this.isPositiveFinite(elementSize.height)) {
+      return currentPageHeight;
+    }
+
     const canvas = await html2canvas(element, {
       scale: 2,
       backgroundColor: '#ffffff',
       useCORS: true,
       logging: false,
-      windowWidth: element.scrollWidth,
-      width: element.scrollWidth,
-      height: element.scrollHeight,
+      windowWidth: elementSize.width,
+      width: elementSize.width,
+      height: elementSize.height,
+      onclone: (clonedDocument: Document) => this.sanitizePdfClone(clonedDocument)
     });
 
     const usableWidth = pdfWidth - margin * 2;
     const contentHeight = pageHeight - margin * 2;
+
+    if (!this.isPositiveFinite(usableWidth) || !this.isPositiveFinite(contentHeight) || !this.isPositiveFinite(canvas.width) || !this.isPositiveFinite(canvas.height)) {
+      return currentPageHeight;
+    }
+
     const renderedHeight = (canvas.height * usableWidth) / canvas.width;
-    let currentPageHeight = pageHeightUsed;
+
+    if (!this.isPositiveFinite(renderedHeight)) {
+      return currentPageHeight;
+    }
 
     if (renderedHeight > contentHeight) {
       let startY = 0;
       while (startY < canvas.height) {
         const remainingHeight = canvas.height - startY;
         const sliceHeight = Math.min(remainingHeight, Math.ceil((contentHeight * canvas.width) / usableWidth));
+
+        if (!this.isPositiveFinite(sliceHeight)) {
+          break;
+        }
 
         if (currentPageHeight > 0) {
           pdf.addPage();
@@ -432,9 +572,16 @@ export class CompatibilityComponent {
           break;
         }
 
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, canvas.width, sliceHeight);
         context.drawImage(canvas, 0, startY, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
         const sliceHeightMm = (sliceHeight * usableWidth) / canvas.width;
-        pdf.addImage(sliceCanvas.toDataURL('image/png'), 'PNG', margin, margin + currentPageHeight, usableWidth, sliceHeightMm);
+
+        if (!this.isPositiveFinite(sliceHeightMm)) {
+          break;
+        }
+
+        pdf.addImage(this.getPdfImageData(sliceCanvas), 'JPEG', margin, margin + currentPageHeight, usableWidth, sliceHeightMm);
 
         currentPageHeight = sliceHeightMm;
         startY += sliceHeight;
@@ -448,7 +595,7 @@ export class CompatibilityComponent {
       currentPageHeight = 0;
     }
 
-    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', margin, margin + currentPageHeight, usableWidth, renderedHeight);
+    pdf.addImage(this.getPdfImageData(canvas), 'JPEG', margin, margin + currentPageHeight, usableWidth, renderedHeight);
 
     return currentPageHeight + renderedHeight + spacing;
   }

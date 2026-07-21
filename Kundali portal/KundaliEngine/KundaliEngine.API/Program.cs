@@ -1,7 +1,15 @@
 using KundaliEngine.API.Security;
-using KundaliEngine.API.Services.Recommendations;
+using KundaliEngine.API.Services.AdvancedStrength;
+using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.Auth;
+using KundaliEngine.API.Services.CurrentLifeFocus;
+using KundaliEngine.API.Services.Learning;
 using KundaliEngine.API.Services.Muhurtha;
+using KundaliEngine.API.Services.Recommendations;
+using KundaliEngine.API.Services.ReportPdf;
+using KundaliEngine.API.Services.ReportPdf.Html;
+using KundaliEngine.API.Services.ReportShare;
+using KundaliEngine.API.Services.YogaDoshaActivation;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Compatibility;
@@ -15,6 +23,7 @@ using KundaliEngine.Infrastructure;
 using KundaliEngine.KnowledgeBase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -42,6 +51,8 @@ builder.Services.AddSingleton<RemediesRecommendationService>();
 builder.Services.AddSingleton<CompatibilityScoreService>();
 builder.Services.AddSingleton<CompatibilityDoshaAnalysisService>();
 builder.Services.AddSingleton<SudarshanChakraService>();
+builder.Services.AddSingleton<YogaDoshaActivationService>();
+builder.Services.AddSingleton<AdvancedStrengthTableService>();
 builder.Services.AddSingleton<AstrologyKnowledgeService>();
 builder.Services.AddSingleton<IYogaRule, GajakesariYogaRule>();
 builder.Services.AddSingleton<IYogaRule, BudhaAdityaYogaRule>();
@@ -112,12 +123,35 @@ builder.Services.AddSingleton<IMuhurthaCandidateGenerator, MuhurthaCandidateGene
 builder.Services.AddSingleton<IMuhurthaScoringService, MuhurthaScoringService>();
 builder.Services.AddSingleton<IMuhurthaRecommendationService, MuhurthaRecommendationService>();
 builder.Services.AddSingleton<IMuhurthaService, MuhurthaService>();
+builder.Services.AddSingleton(_ =>
+{
+    var currentLifeFocusPath = Path.Combine(AppContext.BaseDirectory, "Data", "CurrentLifeFocus");
+    return new CurrentLifeFocusMetadataService(currentLifeFocusPath);
+});
+builder.Services.AddSingleton<IHouseActivationScorer, HouseActivationScorer>();
+builder.Services.AddSingleton<ILifeAreaMapper, LifeAreaMapper>();
+builder.Services.AddSingleton<ICurrentLifeFocusAnalysisStore, CurrentLifeFocusAnalysisStore>();
+builder.Services.AddScoped<ICurrentLifeFocusService, CurrentLifeFocusService>();
+builder.Services.AddSingleton<IFocusedLifeAreaNarrativeBuilder, FocusedLifeAreaNarrativeBuilder>();
+builder.Services.AddScoped<IFocusedLifeAreaAnalysisService, FocusedLifeAreaAnalysisService>();
+builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSection("ReportShare:Smtp"));
+builder.Services.AddSingleton<IReportHtmlTemplateService, ReportHtmlTemplateService>();
+builder.Services.AddSingleton<IHtmlReportPdfRenderer, ChromeHtmlReportPdfRenderer>();
+builder.Services.AddScoped<IReportPdfService, ReportPdfService>();
+builder.Services.AddScoped<IReportShareEmailService, ReportShareEmailService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+builder.Services.AddScoped<ICommunicationLogService, CommunicationLogService>();
+builder.Services.AddSingleton<ILearningContentService, LearningContentService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
+});
 
 //JWT Authentication Configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -127,6 +161,33 @@ if (string.IsNullOrWhiteSpace(jwtKey))
 {
     throw new InvalidOperationException("JWT key is missing in appsettings.json");
 }
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("HoraLifeFrontend", policy =>
+    {
+        policy
+            .SetIsOriginAllowed(origin =>
+            {
+                if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    return false;
+
+                var isLocalhost =
+                    uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase) ||
+                    uri.Host.Equals("127.0.0.1");
+
+                var isHoraLife =
+                    origin.Equals("https://horalife.in", StringComparison.OrdinalIgnoreCase) ||
+                    origin.Equals("https://www.horalife.in", StringComparison.OrdinalIgnoreCase) ||
+                    origin.Equals("http://horalife.in", StringComparison.OrdinalIgnoreCase) ||
+                    origin.Equals("http://www.horalife.in", StringComparison.OrdinalIgnoreCase);
+
+                return isLocalhost || isHoraLife;
+            })
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -149,7 +210,33 @@ builder.Services.AddAuthentication(options =>
         )
     };
 });
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your JWT token."
+    });
 
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 builder.Services.AddAuthorization();
 
 
@@ -162,8 +249,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 app.UseHttpsRedirection();
+app.UseCors("HoraLifeFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -171,4 +260,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
 

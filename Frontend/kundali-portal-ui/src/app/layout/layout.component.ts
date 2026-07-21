@@ -1,5 +1,5 @@
 // Main Layout Shell Component
-import { Component, signal } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
@@ -53,7 +53,7 @@ import { SidebarComponent } from './sidebar.component';
       overflow-y: auto;
       overflow-x: hidden;
       padding: 0;
-      margin-left: 250px;
+      margin-left: 240px;
       transition: all 300ms ease;
     }
 
@@ -70,6 +70,9 @@ import { SidebarComponent } from './sidebar.component';
 
     @media (max-width: 768px) {
       .content {
+        margin-left: 0;
+        width: 100%;
+
         &.sidebar-open {
           pointer-events: none;
           opacity: 0.7;
@@ -146,5 +149,12 @@ export class LayoutComponent {
 
   toggleCompactSidebar(): void {
     this.compactSidebar.set(!this.compactSidebar());
+  }
+
+  @HostListener('window:app-menu-toggle')
+  toggleMobileSidebar(): void {
+    if (this.isMobileView()) {
+      this.toggleSidebar.set(!this.toggleSidebar());
+    }
   }
 }
