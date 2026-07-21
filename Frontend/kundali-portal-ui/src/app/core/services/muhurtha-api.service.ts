@@ -1,7 +1,8 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { BaseApiService } from './base-api.service';
+import { apiEndpoints } from '../../config/api-endpoints';
 
 export interface MuhurthaLocation {
   name: string;
@@ -102,7 +103,7 @@ export interface MuhurthaResponse {
 
 @Injectable({ providedIn: 'root' })
 export class MuhurthaApiService extends BaseApiService {
-  private endpoint = 'Muhurtha';
+  private endpoint = apiEndpoints.muhurtha;
 
   find(request: FindMuhurthaRequest): Observable<MuhurthaResponse> {
     return this.http

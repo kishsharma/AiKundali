@@ -1,36 +1,23 @@
 .pdf-mode {
-
   background: #ffffff !important;
   color: #000000 !important;
-
 }
-
-/* HIDE FORM */
-
 .pdf-mode .kundali-layout .form-grid,
 .pdf-mode .toolbar,
 .pdf-mode .download-btn,
 .pdf-mode .pdf-btn,
-.pdf-mode .pdf-loader {
-
+.pdf-mode .pdf-mode-picker,
+.pdf-mode .pdf-loader,
+.pdf-mode .report-quick-links {
   display: none !important;
-
 }
-
-/* REMOVE DARK THEME */
-
 .pdf-mode .dashboard-card,
 .pdf-mode .section-card {
-
   background: #ffffff !important;
   color: #000000 !important;
   border: 1px solid #cccccc !important;
   box-shadow: none !important;
-
 }
-
-/* COMPACT PDF LAYOUT */
-
 .pdf-mode .section-card,
 .pdf-mode .card,
 .pdf-mode .chart-tabs,
@@ -39,17 +26,14 @@
   page-break-inside: avoid;
   break-inside: avoid;
 }
-
 .pdf-mode .section-card {
   padding: 0.35rem 0.45rem !important;
   margin-bottom: 0.25rem !important;
 }
-
 .pdf-mode .card-title {
   font-size: 12px !important;
   margin-bottom: 0.25rem !important;
 }
-
 .pdf-mode .detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -57,11 +41,9 @@
   margin-top: 0.2rem;
   margin-bottom: 0.25rem;
 }
-
 .pdf-mode .detail-grid > .section-card {
   margin-bottom: 0;
 }
-
 .pdf-mode .chart-with-house-details {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -69,35 +51,29 @@
   margin-top: 0.2rem;
   align-items: start;
 }
-
 .pdf-mode .division-tabs,
 .pdf-mode .screen-house-details {
   display: none !important;
 }
-
 .pdf-mode .pdf-d9-chart-card {
   display: block !important;
 }
-
 .pdf-mode .chart-wrapper,
 .pdf-mode .pdf-d9-chart-card .card {
   min-height: 0 !important;
   padding: 0.18rem !important;
   overflow: visible !important;
 }
-
 .pdf-mode .chart-title {
   margin-bottom: 0.2rem !important;
   font-size: 11px !important;
 }
-
 .pdf-mode .left,
 .pdf-mode .right,
 .pdf-mode .house-details-card-container {
   min-width: 0 !important;
   overflow: visible !important;
 }
-
 .pdf-mode app-north-indian-chart,
 .pdf-mode app-south-indian-chart,
 .pdf-mode app-western-chart {
@@ -107,7 +83,6 @@
   margin: 0 auto !important;
   overflow: visible !important;
 }
-
 .pdf-mode app-north-indian-chart svg,
 .pdf-mode app-western-chart svg,
 .pdf-mode app-south-indian-chart .south-chart {
@@ -117,7 +92,6 @@
   aspect-ratio: 1 / 1 !important;
   overflow: visible !important;
 }
-
 :host ::ng-deep .pdf-mode app-north-indian-chart svg,
 :host ::ng-deep .pdf-mode app-western-chart svg,
 :host ::ng-deep .pdf-mode app-south-indian-chart .south-chart {
@@ -127,57 +101,46 @@
   aspect-ratio: 1 / 1 !important;
   overflow: visible !important;
 }
-
 .pdf-mode .sudarshan-pdf-section .card {
   padding: 0.28rem 0.35rem !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .card-header {
   margin-bottom: 0.2rem !important;
   padding-bottom: 0.18rem !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .sudarshan-chart {
   gap: 0.18rem !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .chart-stage {
   width: min(100%, 940px) !important;
   padding: 0 !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .sudarshan-layout.clean {
   grid-template-columns: minmax(170px, 205px) 430px minmax(170px, 205px) !important;
   gap: 18px !important;
   padding: 12px 6px 8px !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-zone {
-  width: 430px !important;
+  width: 620px !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-center,
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-center svg {
   width: 410px !important;
   height: 410px !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .chakra-legend {
   gap: 0.18rem !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .legend-item {
   min-height: 16px !important;
   padding: 0 5px !important;
   font-size: 8px !important;
   font-weight: 600 !important;
 }
-
 :host ::ng-deep .pdf-mode .sudarshan-pdf-section .legend-item i {
   width: 6px !important;
   height: 6px !important;
 }
-
 .pdf-mode .card-content,
 .pdf-mode .card-header,
 .pdf-mode .yoga-item,
@@ -186,43 +149,31 @@
   padding-top: 0.22rem !important;
   padding-bottom: 0.22rem !important;
 }
-
 .pdf-mode .yoga-item,
 .pdf-mode .planet-table-wrapper,
 .pdf-mode .house-details-card-container {
   margin-bottom: 0.2rem;
 }
-
 .pdf-mode .planet-table th,
 .pdf-mode .planet-table td {
   font-size: 9px;
   line-height: 1.2;
 }
-
 .pdf-mode .report-author-block {
   gap: 3px;
   margin-top: 0.22rem;
   margin-bottom: 0.22rem;
   padding: 0.18rem 0;
 }
-
 .pdf-mode .planet-icon {
   color: var(--planet-color) !important;
   border-color: #d9deee !important;
   background: #ffffff !important;
   box-shadow: none !important;
 }
-
-/* SVG */
-
 .pdf-mode svg {
-
   background: #ffffff !important;
-
 }
-
-/* TEXT */
-
 .pdf-mode h1,
 .pdf-mode h2,
 .pdf-mode h3,
@@ -230,11 +181,8 @@
 .pdf-mode p,
 .pdf-mode span,
 .pdf-mode td {
-
   color: #000000 !important;
-
 }
-
 .pdf-mode .report-author-block {
   display: flex;
   flex-direction: column;
@@ -244,14 +192,12 @@
   margin-bottom: 0.35rem;
   padding: 0.25rem 0;
 }
-
 .pdf-mode .report-author-name {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.2px;
   line-height: 1.2;
 }
-
 .pdf-mode .report-author-role,
 .pdf-mode .report-author-contact,
 .pdf-mode .report-generated-on {
@@ -261,34 +207,28 @@
   line-height: 1.35;
   font-weight: 600;
 }
-
 .pdf-mode .report-author-contact {
   margin-top: 0.08rem;
   border-top: none;
 }
-
 .pdf-mode .brand-left {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
 }
-
 .pdf-mode .brand-left-details {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
 }
-
 .pdf-mode .brand-left-details h2 {
   margin: 0;
   font-size: 11px;
   font-weight: 700;
 }
-
 .pdf-mode .brand-left-details > span {
   font-size: 8.5px;
 }
-
 .pdf-mode .person-details-block {
   display: flex;
   flex-wrap: wrap;
@@ -298,13 +238,1152 @@
   padding-top: 0.2rem;
   border-top: 0.5px solid #d9d9d9;
 }
-
 .pdf-mode .person-detail-value {
   font-size: 9px;
   font-weight: 600;
   line-height: 1.35;
 }
-
 .pdf-mode .person-detail-value strong {
   font-weight: 700;
 }
+.pdf-mode-print-bw,
+.pdf-mode-print-bw * {
+  color: #000000 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+.pdf-mode-print-bw {
+  background: #ffffff !important;
+}
+.pdf-mode-print-bw .chandra-rashi-watermark,
+.pdf-mode-print-bw .cosmic-export-orbit,
+.pdf-mode-print-bw .orbit-ring,
+.pdf-mode-print-bw .orbit-core {
+  display: none !important;
+}
+.pdf-mode-print-bw .section-card,
+.pdf-mode-print-bw .dashboard-card,
+.pdf-mode-print-bw .card,
+.pdf-mode-print-bw .report-header,
+.pdf-mode-print-bw .report-footer,
+.pdf-mode-print-bw .yoga-item,
+.pdf-mode-print-bw .dosha-item,
+.pdf-mode-print-bw .impact-panel,
+.pdf-mode-print-bw .impact-area,
+.pdf-mode-print-bw .sudarshan-analysis-card,
+.pdf-mode-print-bw .sudarshan-score-block,
+.pdf-mode-print-bw .sudarshan-house-emphasis,
+.pdf-mode-print-bw .planet-table-wrapper {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+  border-radius: 0 !important;
+}
+.pdf-mode-print-bw .card-header,
+.pdf-mode-print-bw .premium-header,
+.pdf-mode-print-bw .header-top-section,
+.pdf-mode-print-bw .header-bottom-section,
+.pdf-mode-print-bw .person-details-block,
+.pdf-mode-print-bw .yoga-header,
+.pdf-mode-print-bw .dosha-header,
+.pdf-mode-print-bw .impact-panel-header,
+.pdf-mode-print-bw .sudarshan-house-emphasis li {
+  border-color: #000000 !important;
+  background: #ffffff !important;
+}
+.pdf-mode-print-bw table,
+.pdf-mode-print-bw .planet-table,
+.pdf-mode-print-bw .antardasha-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border: 1px solid #000000 !important;
+  background: #ffffff !important;
+}
+.pdf-mode-print-bw th,
+.pdf-mode-print-bw td,
+.pdf-mode-print-bw .planet-table th,
+.pdf-mode-print-bw .planet-table td,
+.pdf-mode-print-bw .antardasha-table th,
+.pdf-mode-print-bw .antardasha-table td {
+  border: 1px solid #000000 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+.pdf-mode-print-bw th,
+.pdf-mode-print-bw .planet-table th,
+.pdf-mode-print-bw .antardasha-table th {
+  background: #eeeeee !important;
+  font-weight: 800 !important;
+}
+.pdf-mode-print-bw .badge,
+.pdf-mode-print-bw .strength-pill,
+.pdf-mode-print-bw .aspect-pill,
+.pdf-mode-print-bw .meta-chip,
+.pdf-mode-print-bw .category-chip,
+.pdf-mode-print-bw .yoga-strength,
+.pdf-mode-print-bw .dosha-severity,
+.pdf-mode-print-bw .activation-label,
+.pdf-mode-print-bw .activation-level,
+.pdf-mode-print-bw .tone-pill,
+.pdf-mode-print-bw .status,
+.pdf-mode-print-bw .planet-icon,
+.pdf-mode-print-bw .impact-icon {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+  color: #000000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.pdf-mode-print-bw svg,
+.pdf-mode-print-bw svg *,
+.pdf-mode-print-bw app-north-indian-chart svg,
+.pdf-mode-print-bw app-western-chart svg,
+.pdf-mode-print-bw app-south-indian-chart .south-chart,
+.pdf-mode-print-bw app-south-indian-chart .south-chart * {
+  color: #000000 !important;
+  stroke: #000000 !important;
+  border-color: #000000 !important;
+  background: #ffffff !important;
+}
+.pdf-mode-print-bw svg text,
+.pdf-mode-print-bw svg tspan {
+  fill: #000000 !important;
+  stroke: none !important;
+}
+.pdf-mode-print-bw svg path,
+.pdf-mode-print-bw svg line,
+.pdf-mode-print-bw svg polygon,
+.pdf-mode-print-bw svg circle,
+.pdf-mode-print-bw svg rect {
+  stroke: #000000 !important;
+}
+.pdf-mode-print-bw .brand-logo,
+.pdf-mode-print-bw .branding-logo {
+  filter: grayscale(1) contrast(1.15) !important;
+}
+:host ::ng-deep .pdf-mode-print-bw .score-wrapper,
+:host ::ng-deep .pdf-mode-print-bw .score-row,
+:host ::ng-deep .pdf-mode-print-bw .score-details,
+:host ::ng-deep .pdf-mode-print-bw .house-card,
+:host ::ng-deep .pdf-mode-print-bw .metadata-card,
+:host ::ng-deep .pdf-mode-print-bw .metadata-card-header,
+:host ::ng-deep .pdf-mode-print-bw .metadata-row,
+:host ::ng-deep .pdf-mode-print-bw .transit-insight,
+:host ::ng-deep .pdf-mode-print-bw .transit-chart-panel,
+:host ::ng-deep .pdf-mode-print-bw .transit-table-panel,
+:host ::ng-deep .pdf-mode-print-bw .transit-row,
+:host ::ng-deep .pdf-mode-print-bw .remedies-recommendation,
+:host ::ng-deep .pdf-mode-print-bw .remedy-hero,
+:host ::ng-deep .pdf-mode-print-bw .compact-panel,
+:host ::ng-deep .pdf-mode-print-bw .category-card,
+:host ::ng-deep .pdf-mode-print-bw .detail-card,
+:host ::ng-deep .pdf-mode-print-bw .avoid-list article,
+:host ::ng-deep .pdf-mode-print-bw .wearing-grid span,
+:host ::ng-deep .pdf-mode-print-bw .score-box,
+:host ::ng-deep .pdf-mode-print-bw .current-focus-shell,
+:host ::ng-deep .pdf-mode-print-bw .focus-card,
+:host ::ng-deep .pdf-mode-print-bw .focused-panel {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #000000 !important;
+}
+:host ::ng-deep .pdf-mode-print-bw .house-number,
+:host ::ng-deep .pdf-mode-print-bw .score,
+:host ::ng-deep .pdf-mode-print-bw .status,
+:host ::ng-deep .pdf-mode-print-bw .score-chip,
+:host ::ng-deep .pdf-mode-print-bw .level-pill,
+:host ::ng-deep .pdf-mode-print-bw .tone-pill,
+:host ::ng-deep .pdf-mode-print-bw .planet-cell i,
+:host ::ng-deep .pdf-mode-print-bw .dasha-links i {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+  border-radius: 0 !important;
+  color: #000000 !important;
+}
+:host ::ng-deep .pdf-mode-print-bw .score-details li::before,
+:host ::ng-deep .pdf-mode-print-bw .category-card li::before,
+:host ::ng-deep .pdf-mode-print-bw .detail-card li::before {
+  color: #000000 !important;
+}
+.pdf-mode-mobile#kundali-report,
+.pdf-mode-mobile #kundali-report,
+#kundali-report.pdf-mode-mobile {
+  width: 620px !important;
+  max-width: 620px !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+}
+#kundali-report.pdf-mode-mobile > *,
+.pdf-mode-mobile #kundali-report > * {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+#kundali-report.pdf-mode-mobile .report-header,
+#kundali-report.pdf-mode-mobile .report-footer,
+#kundali-report.pdf-mode-mobile .section-card,
+#kundali-report.pdf-mode-mobile .card,
+#kundali-report.pdf-mode-mobile .dashboard-card,
+#kundali-report.pdf-mode-mobile app-section-card,
+#kundali-report.pdf-mode-mobile .detail-grid,
+#kundali-report.pdf-mode-mobile .results-sections,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+#kundali-report.pdf-mode-mobile .premium-header,
+#kundali-report.pdf-mode-mobile .header-top-section,
+#kundali-report.pdf-mode-mobile .header-bottom-section,
+#kundali-report.pdf-mode-mobile .person-details-block {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0.35rem !important;
+  text-align: left !important;
+}
+#kundali-report.pdf-mode-mobile .brand-section,
+#kundali-report.pdf-mode-mobile .astrologer-section {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+#kundali-report.pdf-mode-mobile .brand-logo,
+#kundali-report.pdf-mode-mobile .branding-logo {
+  max-width: 52px !important;
+  max-height: 52px !important;
+}
+#kundali-report.pdf-mode-mobile .chart-with-house-details,
+#kundali-report.pdf-mode-mobile .detail-grid,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid,
+#kundali-report.pdf-mode-mobile .results-sections > .detail-grid,
+#kundali-report.pdf-mode-mobile .impact-grid,
+#kundali-report.pdf-mode-mobile .sudarshan-analysis-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0.5rem !important;
+}
+#kundali-report.pdf-mode-mobile .left,
+#kundali-report.pdf-mode-mobile .right,
+#kundali-report.pdf-mode-mobile .chart-wrapper,
+#kundali-report.pdf-mode-mobile .chart-surface,
+#kundali-report.pdf-mode-mobile .pdf-d9-chart-card,
+#kundali-report.pdf-mode-mobile .house-details-card-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+#kundali-report.pdf-mode-mobile app-north-indian-chart,
+#kundali-report.pdf-mode-mobile app-south-indian-chart,
+#kundali-report.pdf-mode-mobile app-western-chart,
+#kundali-report.pdf-mode-mobile app-north-indian-chart svg,
+#kundali-report.pdf-mode-mobile app-western-chart svg,
+#kundali-report.pdf-mode-mobile app-south-indian-chart .south-chart {
+  width: 100% !important;
+  max-width: 360px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table-wrapper {
+  width: 100% !important;
+  overflow: visible !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th,
+#kundali-report.pdf-mode-mobile .planet-table td {
+  padding: 4px 3px !important;
+  font-size: 8.5px !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+#kundali-report.pdf-mode-mobile .planet-cell {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  gap: 2px !important;
+  align-items: center !important;
+}
+#kundali-report.pdf-mode-mobile .planet-icon,
+#kundali-report.pdf-mode-mobile .badge,
+#kundali-report.pdf-mode-mobile .strength-pill,
+#kundali-report.pdf-mode-mobile .aspect-pill,
+#kundali-report.pdf-mode-mobile .meta-chip,
+#kundali-report.pdf-mode-mobile .tone-pill {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 2px 4px !important;
+  font-size: 8px !important;
+  white-space: normal !important;
+}
+#kundali-report.pdf-mode-mobile .card-title,
+#kundali-report.pdf-mode-mobile .chart-title,
+#kundali-report.pdf-mode-mobile h1,
+#kundali-report.pdf-mode-mobile h2,
+#kundali-report.pdf-mode-mobile h3,
+#kundali-report.pdf-mode-mobile h4 {
+  overflow-wrap: anywhere !important;
+}
+#kundali-report.pdf-mode-mobile,
+#kundali-report.pdf-mode-mobile * {
+  color: #20140b !important;
+  border-color: #ead7ae !important;
+}
+#kundali-report.pdf-mode-mobile .section-card,
+#kundali-report.pdf-mode-mobile .card,
+#kundali-report.pdf-mode-mobile .dashboard-card,
+#kundali-report.pdf-mode-mobile .yoga-item,
+#kundali-report.pdf-mode-mobile .dosha-item,
+#kundali-report.pdf-mode-mobile .impact-area,
+#kundali-report.pdf-mode-mobile .impact-panel,
+#kundali-report.pdf-mode-mobile .sudarshan-analysis-card,
+#kundali-report.pdf-mode-mobile .sudarshan-house-emphasis,
+#kundali-report.pdf-mode-mobile .planet-table-wrapper {
+  background: #ffffff !important;
+  border: 1px solid #ead7ae !important;
+  box-shadow: none !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+#kundali-report.pdf-mode-mobile .report-header,
+#kundali-report.pdf-mode-mobile .report-footer,
+#kundali-report.pdf-mode-mobile .planet-table th,
+#kundali-report.pdf-mode-mobile .antardasha-table th,
+#kundali-report.pdf-mode-mobile .card-header {
+  background: #fff3d6 !important;
+  color: #3a250f !important;
+  border-color: #d8b46b !important;
+}
+#kundali-report.pdf-mode-mobile .brand-name,
+#kundali-report.pdf-mode-mobile .astrologer-name,
+#kundali-report.pdf-mode-mobile .card-title,
+#kundali-report.pdf-mode-mobile .chart-title,
+#kundali-report.pdf-mode-mobile h1,
+#kundali-report.pdf-mode-mobile h2,
+#kundali-report.pdf-mode-mobile h3,
+#kundali-report.pdf-mode-mobile h4,
+#kundali-report.pdf-mode-mobile strong {
+  color: #3a250f !important;
+}
+#kundali-report.pdf-mode-mobile .badge,
+#kundali-report.pdf-mode-mobile .strength-pill,
+#kundali-report.pdf-mode-mobile .aspect-pill,
+#kundali-report.pdf-mode-mobile .meta-chip,
+#kundali-report.pdf-mode-mobile .tone-pill,
+#kundali-report.pdf-mode-mobile .status,
+#kundali-report.pdf-mode-mobile .activation-level,
+#kundali-report.pdf-mode-mobile .yoga-strength,
+#kundali-report.pdf-mode-mobile .dosha-severity {
+  background: #fff3d6 !important;
+  color: #7a4f0f !important;
+  border: 1px solid #d8b46b !important;
+}
+#kundali-report.pdf-mode-mobile .planet-icon,
+#kundali-report.pdf-mode-mobile .impact-icon {
+  background: #fff7ed !important;
+  color: #b98218 !important;
+  border-color: #d8b46b !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table td,
+#kundali-report.pdf-mode-mobile .antardasha-table td {
+  background: #ffffff !important;
+  color: #20140b !important;
+  border-color: #ead7ae !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .score-wrapper,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .score-row,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .score-details,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .house-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .metadata-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .transit-chart-panel,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .transit-table-panel,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .transit-row,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .remedy-hero,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .compact-panel,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .category-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .detail-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .focus-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .focused-panel {
+  background: #ffffff !important;
+  border-color: #ead7ae !important;
+  box-shadow: none !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .sudarshan-layout.clean {
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+  padding: 8px 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .sudarshan-text-panel {
+  display: none !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-zone,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chart-stage {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-center,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-center svg {
+  width: 420px !important;
+  height: 420px !important;
+  max-width: 420px !important;
+  max-height: 420px !important;
+  margin: 0 auto !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .planet-label {
+  fill: #5a421f !important;
+  font-size: 6.5px !important;
+  font-weight: 500 !important;
+  opacity: 0.86 !important;
+  text-shadow: none !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .house-number {
+  fill: #7a4f0f !important;
+  font-size: 7px !important;
+  font-weight: 600 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-sector.lagna-ring {
+  fill: #fff3d6 !important;
+  stroke: #d8b46b !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-sector.moon-ring {
+  fill: #eef5ff !important;
+  stroke: #93b4e8 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-sector.sun-ring {
+  fill: #fff0e6 !important;
+  stroke: #e2a26d !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-legend {
+  grid-template-columns: 1fr !important;
+  gap: 4px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .legend-item {
+  background: #fffaf0 !important;
+  color: #5a421f !important;
+  border-color: #ead7ae !important;
+  font-size: 8px !important;
+}
+#kundali-report.pdf-mode-mobile .section-card,
+#kundali-report.pdf-mode-mobile .card,
+#kundali-report.pdf-mode-mobile .dashboard-card {
+  padding: 0.28rem 0.36rem !important;
+  margin-bottom: 0.18rem !important;
+}
+#kundali-report.pdf-mode-mobile .card-header,
+#kundali-report.pdf-mode-mobile .card-content,
+#kundali-report.pdf-mode-mobile .card-body {
+  padding: 0.2rem 0.25rem !important;
+}
+#kundali-report.pdf-mode-mobile .card-title,
+#kundali-report.pdf-mode-mobile .chart-title {
+  margin-bottom: 0.16rem !important;
+  font-size: 11px !important;
+  line-height: 1.18 !important;
+}
+#kundali-report.pdf-mode-mobile p,
+#kundali-report.pdf-mode-mobile span,
+#kundali-report.pdf-mode-mobile li,
+#kundali-report.pdf-mode-mobile td,
+#kundali-report.pdf-mode-mobile th {
+  font-size: 8.5px !important;
+  line-height: 1.2 !important;
+}
+#kundali-report.pdf-mode-mobile .detail-grid,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid,
+#kundali-report.pdf-mode-mobile .impact-grid,
+#kundali-report.pdf-mode-mobile .sudarshan-analysis-grid {
+  gap: 0.22rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .panchang-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .metadata-insights,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .score-wrapper,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .house-grid,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .remedies-recommendation,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .current-focus-shell {
+  margin-top: 0 !important;
+  padding: 0.28rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  overflow: visible !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-item {
+  gap: 0.28rem !important;
+  padding: 0.28rem !important;
+  min-height: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-icon {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  font-size: 10px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content span {
+  margin-bottom: 1px !important;
+  font-size: 6.5px !important;
+  line-height: 1.1 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content strong,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content .summary-lord {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  font-size: 8.5px !important;
+  line-height: 1.15 !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th,
+#kundali-report.pdf-mode-mobile .planet-table td {
+  padding: 2px 2px !important;
+  font-size: 7px !important;
+  line-height: 1.12 !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(5),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(5) {
+  width: 7% !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(6),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(6) {
+  width: 16% !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(8),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(8) {
+  width: 18% !important;
+}
+#kundali-report.pdf-mode-mobile .planet-name,
+#kundali-report.pdf-mode-mobile .planet-cell,
+#kundali-report.pdf-mode-mobile .aspect-pill,
+#kundali-report.pdf-mode-mobile .strength-pill {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+#kundali-report.pdf-mode-mobile .yoga-item,
+#kundali-report.pdf-mode-mobile .dosha-item,
+#kundali-report.pdf-mode-mobile .impact-panel,
+#kundali-report.pdf-mode-mobile .impact-area,
+#kundali-report.pdf-mode-mobile .sudarshan-analysis-card,
+#kundali-report.pdf-mode-mobile .sudarshan-house-emphasis li {
+  padding: 0.26rem 0.32rem !important;
+  margin-bottom: 0.14rem !important;
+}
+#kundali-report.pdf-mode-mobile .activation-inline,
+#kundali-report.pdf-mode-mobile .activation-summary,
+#kundali-report.pdf-mode-mobile .activation-facts,
+#kundali-report.pdf-mode-mobile .yoga-meta,
+#kundali-report.pdf-mode-mobile .dosha-meta {
+  gap: 3px 5px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-north-indian-chart .planet-text,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-western-chart .planet-text,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-western-chart .sign-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-north-indian-chart .planet,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-north-indian-chart .house-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-western-chart .house-label {
+  fill: #3a250f !important;
+  stroke: #fffaf0 !important;
+  stroke-width: 1.4px !important;
+  paint-order: stroke !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-south-indian-chart .planet-list,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-south-indian-chart .planet-token,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-south-indian-chart .sign-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-south-indian-chart .house-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-south-indian-chart .sign-number {
+  color: #3a250f !important;
+  font-size: 8px !important;
+  line-height: 1.05 !important;
+  font-weight: 700 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-south-indian-chart .chart-cell {
+  padding: 0.18rem !important;
+  gap: 0.05rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .planet-label {
+  fill: #60461d !important;
+  font-size: 6px !important;
+  font-weight: 500 !important;
+  opacity: 0.7 !important;
+}
+#kundali-report.pdf-mode-mobile,
+.pdf-mode-mobile #kundali-report,
+.pdf-mode-mobile#kundali-report {
+  width: 680px !important;
+  max-width: 680px !important;
+}
+#kundali-report.pdf-mode-mobile *,
+#kundali-report.pdf-mode-mobile *::before,
+#kundali-report.pdf-mode-mobile *::after {
+  box-sizing: border-box !important;
+}
+#kundali-report.pdf-mode-mobile .section-card,
+#kundali-report.pdf-mode-mobile .card,
+#kundali-report.pdf-mode-mobile .dashboard-card,
+#kundali-report.pdf-mode-mobile .planet-table-wrapper,
+#kundali-report.pdf-mode-mobile .yoga-item,
+#kundali-report.pdf-mode-mobile .dosha-item,
+#kundali-report.pdf-mode-mobile .impact-panel,
+#kundali-report.pdf-mode-mobile .impact-area {
+  padding: 0.18rem 0.24rem !important;
+  margin: 0 0 0.12rem !important;
+  border-radius: 6px !important;
+}
+#kundali-report.pdf-mode-mobile .card-header,
+#kundali-report.pdf-mode-mobile .card-content,
+#kundali-report.pdf-mode-mobile .card-body {
+  padding: 0.14rem 0.18rem !important;
+  margin: 0 !important;
+}
+#kundali-report.pdf-mode-mobile .card-title,
+#kundali-report.pdf-mode-mobile .chart-title,
+#kundali-report.pdf-mode-mobile h1,
+#kundali-report.pdf-mode-mobile h2,
+#kundali-report.pdf-mode-mobile h3,
+#kundali-report.pdf-mode-mobile h4 {
+  margin: 0 0 0.12rem !important;
+  line-height: 1.12 !important;
+}
+#kundali-report.pdf-mode-mobile p,
+#kundali-report.pdf-mode-mobile li,
+#kundali-report.pdf-mode-mobile span,
+#kundali-report.pdf-mode-mobile strong,
+#kundali-report.pdf-mode-mobile small,
+#kundali-report.pdf-mode-mobile td,
+#kundali-report.pdf-mode-mobile th,
+#kundali-report.pdf-mode-mobile .person-detail-value,
+#kundali-report.pdf-mode-mobile .intro-muted,
+#kundali-report.pdf-mode-mobile .intro-name,
+#kundali-report.pdf-mode-mobile .intro-date,
+#kundali-report.pdf-mode-mobile .intro-time,
+#kundali-report.pdf-mode-mobile .intro-place {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+#kundali-report.pdf-mode-mobile .premium-header,
+#kundali-report.pdf-mode-mobile .header-top-section,
+#kundali-report.pdf-mode-mobile .header-bottom-section,
+#kundali-report.pdf-mode-mobile .person-details-block {
+  gap: 0.16rem !important;
+  padding: 0.18rem 0.24rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .panchang-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .metadata-insights,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .score-wrapper,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .house-grid,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .remedies-recommendation,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .current-focus-shell {
+  padding: 0.16rem !important;
+  margin: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.12rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-item {
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  gap: 0.14rem !important;
+  padding: 0.16rem !important;
+  align-items: start !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-icon {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  font-size: 8px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content span,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content strong,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content .summary-lord {
+  min-width: 0 !important;
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content span {
+  font-size: 6px !important;
+  line-height: 1.05 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content strong,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content .summary-lord {
+  font-size: 7.8px !important;
+  line-height: 1.08 !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table,
+#kundali-report.pdf-mode-mobile .antardasha-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  table-layout: fixed !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th,
+#kundali-report.pdf-mode-mobile .planet-table td,
+#kundali-report.pdf-mode-mobile .antardasha-table th,
+#kundali-report.pdf-mode-mobile .antardasha-table td {
+  padding: 1.5px 1.5px !important;
+  font-size: 6.6px !important;
+  line-height: 1.08 !important;
+  vertical-align: top !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(1),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(1) { width: 14% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(2),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(2) { width: 10% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(3),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(3) { width: 13% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(4),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(4) { width: 10% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(5),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(5) { width: 7% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(6),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(6) { width: 15% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(7),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(7) { width: 11% !important; }
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(8),
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(8) { width: 20% !important; }
+#kundali-report.pdf-mode-mobile .planet-cell,
+#kundali-report.pdf-mode-mobile .planet-name,
+#kundali-report.pdf-mode-mobile .planet-icon,
+#kundali-report.pdf-mode-mobile .badge,
+#kundali-report.pdf-mode-mobile .strength-pill,
+#kundali-report.pdf-mode-mobile .aspect-pill,
+#kundali-report.pdf-mode-mobile .meta-chip,
+#kundali-report.pdf-mode-mobile .tone-pill,
+#kundali-report.pdf-mode-mobile .status,
+#kundali-report.pdf-mode-mobile .activation-level {
+  min-width: 0 !important;
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.05 !important;
+}
+#kundali-report.pdf-mode-mobile .planet-cell {
+  display: block !important;
+}
+#kundali-report.pdf-mode-mobile .planet-icon,
+#kundali-report.pdf-mode-mobile .badge,
+#kundali-report.pdf-mode-mobile .strength-pill,
+#kundali-report.pdf-mode-mobile .aspect-pill,
+#kundali-report.pdf-mode-mobile .meta-chip,
+#kundali-report.pdf-mode-mobile .tone-pill,
+#kundali-report.pdf-mode-mobile .status,
+#kundali-report.pdf-mode-mobile .activation-level {
+  display: inline-block !important;
+  padding: 1px 2px !important;
+  border-radius: 4px !important;
+  font-size: 6.5px !important;
+}
+#kundali-report.pdf-mode-mobile .chart-with-house-details {
+  gap: 0.18rem !important;
+}
+#kundali-report.pdf-mode-mobile app-north-indian-chart,
+#kundali-report.pdf-mode-mobile app-south-indian-chart,
+#kundali-report.pdf-mode-mobile app-western-chart,
+#kundali-report.pdf-mode-mobile app-north-indian-chart svg,
+#kundali-report.pdf-mode-mobile app-western-chart svg,
+#kundali-report.pdf-mode-mobile app-south-indian-chart .south-chart {
+  max-width: 340px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-north-indian-chart .planet-text,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-western-chart .planet-text,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-western-chart .sign-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-north-indian-chart .planet,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-north-indian-chart .house-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-western-chart .house-label {
+  fill: #2f1d0b !important;
+  stroke: #fffaf0 !important;
+  stroke-width: 1px !important;
+  paint-order: stroke !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-center,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .chakra-center svg {
+  width: 400px !important;
+  height: 400px !important;
+  max-width: 400px !important;
+  max-height: 400px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .planet-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .planet-label.lagna-ring,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .planet-label.moon-ring,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .planet-label.sun-ring {
+  fill: #3a250f !important;
+  stroke: #fffaf0 !important;
+  stroke-width: 0.75px !important;
+  paint-order: stroke !important;
+  font-size: 5.4px !important;
+  font-weight: 650 !important;
+  opacity: 0.92 !important;
+  letter-spacing: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .house-number {
+  fill: #6b450d !important;
+  stroke: #fffaf0 !important;
+  stroke-width: 0.55px !important;
+  paint-order: stroke !important;
+  font-size: 6.4px !important;
+  font-weight: 700 !important;
+}
+#kundali-report.pdf-mode-mobile,
+.pdf-mode-mobile #kundali-report,
+.pdf-mode-mobile#kundali-report {
+  width: 600px !important;
+  max-width: 600px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content span {
+  font-size: 6.6px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content strong,
+:host ::ng-deep #kundali-report.pdf-mode-mobile .kundali-summary-content .summary-lord {
+  font-size: 8.6px !important;
+  line-height: 1.12 !important;
+}
+#kundali-report.pdf-mode-mobile app-section-card.full-row .planet-table-wrapper {
+  padding: 0 !important;
+  border-width: 1px !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th,
+#kundali-report.pdf-mode-mobile .planet-table td {
+  padding: 0.75px 1px !important;
+  font-size: 8px !important;
+  line-height: 1.08 !important;
+  vertical-align: middle !important;
+  border-width: 1px !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table th {
+  font-size: 7.4px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(1),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(1) { width: 13% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(2),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(2) { width: 12% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(3),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(3) { width: 7% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(4),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(4) { width: 11% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(5),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(5) { width: 6% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(6),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(6) { width: 18% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(7),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(7) { width: 15% !important; }
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(8),
+#kundali-report.pdf-mode-mobile .planet-table th:nth-child(8) { width: 18% !important; }
+#kundali-report.pdf-mode-mobile .kundaliscore-grid app-section-card,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid .section-card {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+#kundali-report.pdf-mode-mobile .kundaliscore-grid .card-title,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid h2,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid h3,
+#kundali-report.pdf-mode-mobile .kundaliscore-grid h4,
+#kundali-report.pdf-mode-mobile app-section-card.full-row .card-title {
+  font-size: 9.5px !important;
+  line-height: 1.08 !important;
+  margin-bottom: 0.08rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-wrapper {
+  padding: 0.12rem !important;
+  border-radius: 5px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-body {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0.12rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.08rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 2px !important;
+  align-items: center !important;
+  min-height: 0 !important;
+  padding: 0.12rem 0.16rem !important;
+  border-radius: 4px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-label-group {
+  gap: 2px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-label-group span {
+  font-size: 6.1px !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-row strong {
+  font-size: 13px !important;
+  line-height: 0.95 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .info-icon-btn,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-tooltip {
+  display: none !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-summary {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.08rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-details {
+  gap: 0.06rem !important;
+  padding: 0.12rem 0.16rem !important;
+  border-radius: 4px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-details h4 {
+  font-size: 8.2px !important;
+  line-height: 1.05 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-score-card .score-details li {
+  margin-bottom: 0.04rem !important;
+  padding-left: 7px !important;
+  font-size: 6.4px !important;
+  line-height: 1.12 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-card {
+  padding: 0.16rem !important;
+  margin: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  border-radius: 5px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-item {
+  gap: 0.14rem !important;
+  padding: 0.14rem !important;
+  min-height: 0 !important;
+  align-items: flex-start !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-icon {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  font-size: 8px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-content span {
+  margin-bottom: 1px !important;
+  font-size: 6.3px !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-content strong {
+  font-size: 8.4px !important;
+  line-height: 1.12 !important;
+  font-weight: 650 !important;
+}
+#kundali-report.pdf-mode-mobile #pdfHeader,
+#kundali-report.pdf-mode-mobile .premium-header {
+  padding: 0.12rem 0.2rem !important;
+  margin-bottom: 0.08rem !important;
+}
+#kundali-report.pdf-mode-mobile .header-top-section,
+#kundali-report.pdf-mode-mobile .header-bottom-section,
+#kundali-report.pdf-mode-mobile .person-details-block {
+  gap: 0.08rem !important;
+  padding: 0.08rem 0.12rem !important;
+}
+#kundali-report.pdf-mode-mobile .brand-logo,
+#kundali-report.pdf-mode-mobile .branding-logo {
+  max-width: 34px !important;
+  max-height: 34px !important;
+}
+#kundali-report.pdf-mode-mobile .brand-name,
+#kundali-report.pdf-mode-mobile .astrologer-name {
+  font-size: 10px !important;
+  line-height: 1.05 !important;
+  margin: 0 !important;
+}
+#kundali-report.pdf-mode-mobile .brand-tagline,
+#kundali-report.pdf-mode-mobile .astrologer-title,
+#kundali-report.pdf-mode-mobile .astrologer-contact,
+#kundali-report.pdf-mode-mobile .person-detail-value,
+#kundali-report.pdf-mode-mobile .intro-muted,
+#kundali-report.pdf-mode-mobile .intro-name,
+#kundali-report.pdf-mode-mobile .intro-date,
+#kundali-report.pdf-mode-mobile .intro-time,
+#kundali-report.pdf-mode-mobile .intro-place {
+  font-size: 7px !important;
+  line-height: 1.08 !important;
+}
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .section-card,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .card {
+  padding: 0.14rem 0.18rem !important;
+  margin-bottom: 0.1rem !important;
+}
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .card-header,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .card-content,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .card-body {
+  padding: 0.1rem 0.14rem !important;
+}
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .chart-with-house-details {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.12rem !important;
+  align-items: start !important;
+}
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .chart-wrapper,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .pdf-d9-chart-card,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .chart-surface {
+  padding: 0.08rem !important;
+  min-height: 0 !important;
+}
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type .chart-title {
+  font-size: 8px !important;
+  line-height: 1.05 !important;
+  margin-bottom: 0.06rem !important;
+}
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type app-north-indian-chart,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type app-south-indian-chart,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type app-western-chart,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type app-north-indian-chart svg,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type app-western-chart svg,
+#kundali-report.pdf-mode-mobile > app-section-card:first-of-type app-south-indian-chart .south-chart {
+  max-width: 225px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-summary .kundali-summary-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-panchang-card .panchang-card,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-insights {
+  margin-top: 0.08rem !important;
+  margin-bottom: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-insights {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.08rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-card {
+  border-radius: 5px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-card-header {
+  padding: 0.12rem 0.16rem !important;
+  gap: 0.12rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-row {
+  grid-template-columns: minmax(58px, 0.42fr) minmax(0, 1fr) !important;
+  gap: 0.12rem !important;
+  padding: 0.1rem 0.16rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-label,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-value,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-card-header span,
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-card-header strong {
+  font-size: 6.8px !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .metadata-icon {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  font-size: 7px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-kundali-metadata-insights .color-swatch {
+  width: 9px !important;
+  height: 9px !important;
+  min-width: 9px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .house-overview-wrapper {
+  padding: 0.08rem !important;
+  margin: 0 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .house-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.08rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .house-card {
+  min-height: 0 !important;
+  padding: 0.12rem 0.16rem !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .top-row {
+  margin-bottom: 0.06rem !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .house-number {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  font-size: 7px !important;
+  line-height: 15px !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .score {
+  font-size: 12px !important;
+  line-height: 0.95 !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .house-name {
+  font-size: 7px !important;
+  line-height: 1.05 !important;
+  margin-bottom: 0.05rem !important;
+  overflow-wrap: anywhere !important;
+}
+:host ::ng-deep #kundali-report.pdf-mode-mobile app-house-score-overview .status {
+  padding: 0 2px !important;
+  border-radius: 3px !important;
+  font-size: 6.2px !important;
+  line-height: 1.05 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+
+.pdf-mode .chart-control-bar,.pdf-mode .chart-style-selector,.pdf-mode .chart-pin-button,.pdf-mode .division-tabs{display:none!important}
+#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .chart-with-house-details{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.12rem!important}
+#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .left,#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .right,#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .chart-wrapper,#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .house-details-card-container,#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .pdf-d9-chart-card{display:block!important;visibility:visible!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;overflow:visible!important}
+#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .screen-house-details{display:none!important}
+:host ::ng-deep #kundali-report.pdf-mode-mobile>app-section-card:first-of-type .pdf-d9-chart-card>.card,:host ::ng-deep #kundali-report.pdf-mode-mobile>app-section-card:first-of-type .pdf-d9-chart-card .card,:host ::ng-deep #kundali-report.pdf-mode-mobile>app-section-card:first-of-type .pdf-d9-chart-card .card-body,:host ::ng-deep #kundali-report.pdf-mode-mobile>app-section-card:first-of-type .pdf-d9-chart-card .card-content{display:block!important;visibility:visible!important;padding:.08rem!important;margin:0!important;min-height:0!important;overflow:visible!important}
+#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .chart-surface,#kundali-report.pdf-mode-mobile>app-section-card:first-of-type .chart-surface-d9{display:block!important;visibility:visible!important;padding:.06rem!important;min-height:0!important}
+
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(1),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(1){width:16%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(2),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(2){width:11%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(3),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(3){width:6%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(4),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(4){width:10%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(5),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(5){width:5%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(6),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(6){width:17%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(7),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(7){width:14%!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(8),#kundali-report.pdf-mode-mobile .planet-table th:nth-child(8){width:21%!important}
+#kundali-report.pdf-mode-mobile .planet-table .planet-cell{display:block!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important}
+#kundali-report.pdf-mode-mobile .planet-table .planet-icon{display:none!important}
+#kundali-report.pdf-mode-mobile .planet-table .planet-name{display:block!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;font-size:7.6px!important;line-height:1.05!important}
+#kundali-report.pdf-mode-mobile .planet-table td:nth-child(1){white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important}
+

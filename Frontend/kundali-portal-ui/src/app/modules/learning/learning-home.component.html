@@ -1,0 +1,46 @@
+<section class="learning-home">
+  <!-- <div class="state" *ngIf="loading">Loading Jyotish Study...</div> -->
+  <div class="state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+
+  <ng-container *ngIf="!loading && !errorMessage && level">
+    <header class="level-header">
+      <div>
+        <p class="eyebrow">Learning by HoraLife</p>
+        <h1>{{ level.title }}</h1>
+        <p class="subtitle">{{ level.subtitle }}</p>
+        <p class="description">{{ level.description }}</p>
+      </div>
+      <div class="level-stats" aria-label="Level details">
+        <span><strong>{{ level.sessionCount }}</strong> sessions</span>
+        <span><strong>{{ level.estimatedHours }}</strong> hours</span>
+        <span><strong>{{ level.languages.supported.length }}</strong> languages</span>
+      </div>
+    </header>
+
+    <section class="outcome-band">
+      <h2>Learning outcome</h2>
+      <p>{{ level.learningOutcome }}</p>
+    </section>
+
+    <section class="session-list" aria-label="Level sessions">
+      <div class="section-heading">
+        <h2>Level 1 Sessions</h2>
+        <p>{{ level.recommendedPace?.note }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="session-row"
+        *ngFor="let session of level.sessions"
+        [class.locked]="!isSessionAvailable(session)"
+        (click)="openSession(session)">
+        <span class="session-number">{{ session.sessionNumber }}</span>
+        <span class="session-copy">
+          <strong>{{ session.title }}</strong>
+          <small>{{ session.estimatedMinutes }} min � {{ session.difficulty }}</small>
+        </span>
+        <span class="status">{{ isSessionAvailable(session) ? 'Open' : 'Planned' }}</span>
+      </button>
+    </section>
+  </ng-container>
+</section>

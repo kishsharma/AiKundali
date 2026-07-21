@@ -1,0 +1,15 @@
+<svg width="700" height="220" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <!-- HoraLife — SVG Master, Full Color, Horizontal Lockup -->
+  <!-- Navy #0E2240 · Gold #B8924A · Moon Grey #C2C8D1 -->
+  <g transform="translate(105,110)">
+    <g transform="translate(-3.29,0)">
+      <circle cx="0" cy="0" r="48" fill="none" stroke="#0E2240" stroke-width="2.304"/>
+      <line x1="-53.779" y1="-15.483" x2="60.36" y2="4.643" stroke="#0E2240" stroke-width="2.304" stroke-linecap="round"/>
+      <circle cx="-45.885" cy="-14.091" r="2.88" fill="#FFFFFF" stroke="#0E2240" stroke-width="1.382"/>
+      <circle cx="42.353" cy="-10.95" r="2.88" fill="#C2C8D1"/>
+      <circle cx="47.937" cy="2.453" r="8.64" fill="#B8924A"/>
+    </g>
+    <text x="150" y="4" font-family="Georgia, 'Times New Roman', serif" font-size="46" letter-spacing="1" fill="#0E2240">HoraLife</text>
+    <text x="150" y="32" font-family="Helvetica, Arial, sans-serif" font-size="12" letter-spacing="3.7" fill="#6B6B6B">VEDIC ASTROLOGY INTELLIGENCE</text>
+  </g>
+</svg>

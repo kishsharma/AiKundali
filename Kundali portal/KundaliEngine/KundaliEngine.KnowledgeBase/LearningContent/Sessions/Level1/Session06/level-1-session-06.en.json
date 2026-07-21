@@ -1,0 +1,645 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "f8a59a37-7c0a-5a4d-a15a-d4a0b37be3b4",
+  "levelCode": "level-1",
+  "sessionNumber": 6,
+  "slug": "nakshatra-and-pada",
+  "language": "en",
+  "title": "Nakshatra and Pada",
+  "subtitle": "Understanding the twenty-seven lunar mansions and their four quarters",
+  "summary": "This session introduces Nakshatra as the Moon's position within twenty-seven equal divisions of the zodiac. Students learn that each Nakshatra spans 13°20′, each Pada spans 3°20′, how to calculate the running Nakshatra and Pada from sidereal longitude, the sequence of the twenty-seven Nakshatras, and why Nakshatra is important in Panchang and birth-chart interpretation.",
+  "estimatedMinutes": 75,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define Nakshatra as one of twenty-seven equal divisions of the zodiac.",
+    "Explain why each Nakshatra spans 13°20′.",
+    "Explain why each Nakshatra contains four Padas of 3°20′ each.",
+    "Name the twenty-seven Nakshatras in sequence.",
+    "Calculate the running Nakshatra from sidereal longitude.",
+    "Calculate the Pada within a Nakshatra.",
+    "Distinguish Nakshatra from Rashi.",
+    "Understand the foundation-level role of Janma Nakshatra."
+  ],
+  "prerequisites": [
+    "Completion of Session 5: Vara and Weekday Lords.",
+    "Basic understanding of the 360° zodiac and sidereal longitude."
+  ],
+  "keyTerms": [
+    {
+      "term": "Nakshatra",
+      "sanskrit": "नक्षत्र",
+      "transliteration": "nakṣatra",
+      "meaning": "One of twenty-seven equal lunar mansions dividing the 360° zodiac.",
+      "note": "Each Nakshatra spans 13°20′."
+    },
+    {
+      "term": "Pada",
+      "sanskrit": "पाद",
+      "transliteration": "pāda",
+      "meaning": "One of the four equal quarters of a Nakshatra.",
+      "note": "Each Pada spans 3°20′."
+    },
+    {
+      "term": "Janma Nakshatra",
+      "sanskrit": "जन्म नक्षत्र",
+      "transliteration": "janma nakṣatra",
+      "meaning": "The Nakshatra occupied by the Moon at birth.",
+      "note": "It is used in naming traditions, Dasha calculation and several interpretive systems."
+    },
+    {
+      "term": "Nakshatra lord",
+      "sanskrit": "नक्षत्र स्वामी",
+      "transliteration": "nakṣatra svāmī",
+      "meaning": "The planetary ruler assigned to a Nakshatra.",
+      "note": "The nine rulers repeat through the twenty-seven Nakshatras."
+    },
+    {
+      "term": "Sidereal longitude",
+      "sanskrit": "निरयन दीर्घांश",
+      "transliteration": "nirayana dīrghāṃśa",
+      "meaning": "Longitude measured in a sidereal zodiac after applying an Ayanamsha.",
+      "note": "Nakshatra calculation uses the chosen sidereal framework."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-nakshatra",
+      "title": "What Is a Nakshatra?",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "twenty-seven-sequence",
+      "title": "The Twenty-Seven Nakshatras",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "nakshatra-and-pada",
+      "title": "Nakshatra and Its Four Padas",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "calculate-nakshatra",
+      "title": "How to Calculate the Running Nakshatra",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "calculate-pada",
+      "title": "How to Calculate the Pada",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "nakshatra-and-rashi",
+      "title": "Nakshatra and Rashi Are Different Grids",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "janma-nakshatra",
+      "title": "Janma Nakshatra at Foundation Level",
+      "estimatedMinutes": 12
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-nakshatra",
+      "title": "What Is a Nakshatra?",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Nakshatra is the twenty-seven-part division of the zodiac used to track the Moon's position against the sidereal sky. Because the Moon moves relatively quickly, its Nakshatra usually changes approximately once per day, though the exact duration varies."
+        },
+        {
+          "type": "formula",
+          "expression": "One Nakshatra = 360° ÷ 27 = 13°20′",
+          "explanation": "The full zodiac is divided into twenty-seven equal lunar mansions.",
+          "workedExample": "Ashwini spans 0°00′ to 13°20′ of the chosen sidereal zodiac."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session06-twenty-seven-nakshatra-wheel",
+          "assetPath": "assets/study/level-1/session-06/twenty-seven-nakshatra-wheel.svg",
+          "altText": "A simple monochrome zodiac wheel divided into twenty-seven equal Nakshatra sectors.",
+          "caption": "The 360° zodiac is divided into twenty-seven equal Nakshatras.",
+          "purpose": "Show the complete Nakshatra grid as a uniform division of the zodiac.",
+          "annotations": [
+            "360° zodiac",
+            "27 Nakshatras",
+            "13°20′ each"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Nakshatra is based on longitude",
+          "text": "For Panchang calculation, the running Nakshatra is identified from the Moon's sidereal longitude."
+        }
+      ]
+    },
+    {
+      "id": "twenty-seven-sequence",
+      "title": "The Twenty-Seven Nakshatras",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "The twenty-seven Nakshatras in order",
+          "columns": [
+            "Number",
+            "Nakshatra",
+            "Traditional lord"
+          ],
+          "rows": [
+            [
+              "1",
+              "Ashwini",
+              "Ketu"
+            ],
+            [
+              "2",
+              "Bharani",
+              "Venus"
+            ],
+            [
+              "3",
+              "Krittika",
+              "Sun"
+            ],
+            [
+              "4",
+              "Rohini",
+              "Moon"
+            ],
+            [
+              "5",
+              "Mrigashira",
+              "Mars"
+            ],
+            [
+              "6",
+              "Ardra",
+              "Rahu"
+            ],
+            [
+              "7",
+              "Punarvasu",
+              "Jupiter"
+            ],
+            [
+              "8",
+              "Pushya",
+              "Saturn"
+            ],
+            [
+              "9",
+              "Ashlesha",
+              "Mercury"
+            ],
+            [
+              "10",
+              "Magha",
+              "Ketu"
+            ],
+            [
+              "11",
+              "Purva Phalguni",
+              "Venus"
+            ],
+            [
+              "12",
+              "Uttara Phalguni",
+              "Sun"
+            ],
+            [
+              "13",
+              "Hasta",
+              "Moon"
+            ],
+            [
+              "14",
+              "Chitra",
+              "Mars"
+            ],
+            [
+              "15",
+              "Swati",
+              "Rahu"
+            ],
+            [
+              "16",
+              "Vishakha",
+              "Jupiter"
+            ],
+            [
+              "17",
+              "Anuradha",
+              "Saturn"
+            ],
+            [
+              "18",
+              "Jyeshtha",
+              "Mercury"
+            ],
+            [
+              "19",
+              "Mula",
+              "Ketu"
+            ],
+            [
+              "20",
+              "Purva Ashadha",
+              "Venus"
+            ],
+            [
+              "21",
+              "Uttara Ashadha",
+              "Sun"
+            ],
+            [
+              "22",
+              "Shravana",
+              "Moon"
+            ],
+            [
+              "23",
+              "Dhanishtha",
+              "Mars"
+            ],
+            [
+              "24",
+              "Shatabhisha",
+              "Rahu"
+            ],
+            [
+              "25",
+              "Purva Bhadrapada",
+              "Jupiter"
+            ],
+            [
+              "26",
+              "Uttara Bhadrapada",
+              "Saturn"
+            ],
+            [
+              "27",
+              "Revati",
+              "Mercury"
+            ]
+          ],
+          "note": "The nine planetary lords repeat three times through the twenty-seven Nakshatras."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Sequence matters",
+          "text": "The Nakshatra order is fixed and is used directly in Dasha calculation and several later rules."
+        }
+      ]
+    },
+    {
+      "id": "nakshatra-and-pada",
+      "title": "Nakshatra and Its Four Padas",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "One Pada = 13°20′ ÷ 4 = 3°20′",
+          "explanation": "Each Nakshatra is divided into four equal quarters.",
+          "workedExample": "The first Pada of Ashwini spans 0°00′ to 3°20′."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session06-nakshatra-four-padas",
+          "assetPath": "assets/study/level-1/session-06/nakshatra-four-padas.svg",
+          "altText": "A single Nakshatra arc divided into four equal Padas of 3°20′ each.",
+          "caption": "Every Nakshatra contains four equal Padas.",
+          "purpose": "Connect Nakshatra span to Pada calculation.",
+          "annotations": [
+            "Pada 1",
+            "Pada 2",
+            "Pada 3",
+            "Pada 4",
+            "3°20′ each"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Four Padas per Nakshatra",
+          "text": "Twenty-seven Nakshatras multiplied by four Padas gives 108 Padas across the zodiac."
+        }
+      ]
+    },
+    {
+      "id": "calculate-nakshatra",
+      "title": "How to Calculate the Running Nakshatra",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Nakshatra index = floor(Moon sidereal longitude ÷ 13°20′) + 1",
+          "explanation": "The index runs from 1 to 27.",
+          "workedExample": "A Moon longitude of 45° lies in the fourth Nakshatra, Rohini."
+        },
+        {
+          "type": "example",
+          "title": "Find the running Nakshatra",
+          "scenario": "The Moon's sidereal longitude is 212°.",
+          "steps": [
+            "Convert one Nakshatra to decimal degrees: 13°20′ = 13.333...°.",
+            "212° ÷ 13.333...° = 15 complete sectors with remainder.",
+            "Add 1 to obtain Nakshatra index 16.",
+            "The sixteenth Nakshatra is Vishakha."
+          ],
+          "conclusion": "The running Nakshatra is Vishakha."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Use the correct zodiac framework",
+          "text": "Do not mix tropical longitude with a sidereal Nakshatra table. Use the selected Ayanamsha consistently."
+        }
+      ]
+    },
+    {
+      "id": "calculate-pada",
+      "title": "How to Calculate the Pada",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Position within Nakshatra = Moon longitude mod 13°20′",
+          "explanation": "This gives the Moon's distance from the beginning of the current Nakshatra.",
+          "workedExample": "If the remainder is 7°10′, the Moon lies in the third Pada."
+        },
+        {
+          "type": "formula",
+          "expression": "Pada index = floor(Position within Nakshatra ÷ 3°20′) + 1",
+          "explanation": "The result runs from 1 to 4.",
+          "workedExample": "7°10′ ÷ 3°20′ gives two complete Pada intervals, so the Pada index is 3."
+        },
+        {
+          "type": "example",
+          "title": "Nakshatra and Pada together",
+          "scenario": "The Moon is at 18°10′ of the sidereal zodiac.",
+          "steps": [
+            "Ashwini ends at 13°20′, so the Moon is in Bharani.",
+            "Position within Bharani = 18°10′ − 13°20′ = 4°50′.",
+            "Pada 1 covers 0°00′–3°20′ within Bharani.",
+            "4°50′ lies in Pada 2."
+          ],
+          "conclusion": "The Moon is in Bharani, Pada 2."
+        }
+      ]
+    },
+    {
+      "id": "nakshatra-and-rashi",
+      "title": "Nakshatra and Rashi Are Different Grids",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Two divisions of the same zodiac",
+          "left": {
+            "label": "Rashi grid",
+            "points": [
+              "Twelve equal signs.",
+              "Each Rashi spans 30°.",
+              "Used for sign placement and house-based interpretation."
+            ]
+          },
+          "right": {
+            "label": "Nakshatra grid",
+            "points": [
+              "Twenty-seven equal lunar mansions.",
+              "Each Nakshatra spans 13°20′.",
+              "Used in Panchang, Dasha and lunar-based interpretation."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session06-rashi-nakshatra-overlap",
+          "assetPath": "assets/study/level-1/session-06/rashi-nakshatra-overlap.svg",
+          "altText": "Two aligned horizontal scales showing twelve Rashis and twenty-seven Nakshatras across the same 360° zodiac.",
+          "caption": "Rashi and Nakshatra are different grids placed over the same zodiac.",
+          "purpose": "Prevent the common mistake of treating one Nakshatra as equal to one Rashi.",
+          "annotations": [
+            "12 Rashis",
+            "27 Nakshatras",
+            "Same 360° zodiac"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Their boundaries do not always match",
+          "text": "Some Nakshatras lie entirely within one Rashi, while others cross a Rashi boundary."
+        }
+      ]
+    },
+    {
+      "id": "janma-nakshatra",
+      "title": "Janma Nakshatra at Foundation Level",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Janma Nakshatra is the Nakshatra occupied by the Moon at birth. It is widely used in naming traditions, Vimshottari Dasha starting calculations, compatibility systems and several interpretive frameworks."
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Identify the Moon's sidereal longitude.",
+            "Find the Nakshatra index.",
+            "Find the Pada.",
+            "Note the Nakshatra lord.",
+            "Use the remaining arc within the Nakshatra for later Dasha-balance calculation."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Do not reduce a person to one Nakshatra",
+          "text": "Janma Nakshatra is important, but complete interpretation requires the full chart, planetary strength, houses, aspects and Dasha context."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming one Nakshatra equals one Rashi.",
+      "whyItIsWrong": "A Rashi spans 30°, while a Nakshatra spans 13°20′.",
+      "correctUnderstanding": "Treat them as two different divisions of the same zodiac."
+    },
+    {
+      "mistake": "Using tropical longitude directly for a sidereal Nakshatra table.",
+      "whyItIsWrong": "Nakshatra calculation depends on the selected sidereal framework.",
+      "correctUnderstanding": "Apply the chosen Ayanamsha consistently."
+    },
+    {
+      "mistake": "Forgetting to add 1 after taking the floor value.",
+      "whyItIsWrong": "The mathematical quotient starts from zero, while Nakshatra numbering starts from one.",
+      "correctUnderstanding": "Use floor(longitude ÷ 13°20′) + 1."
+    },
+    {
+      "mistake": "Treating Pada as a separate Nakshatra.",
+      "whyItIsWrong": "A Pada is one quarter of the current Nakshatra.",
+      "correctUnderstanding": "Each Nakshatra contains four Padas."
+    },
+    {
+      "mistake": "Making a full personality judgement from Janma Nakshatra alone.",
+      "whyItIsWrong": "Nakshatra is one part of a complete chart.",
+      "correctUnderstanding": "Use it together with the full Kundali and timing context."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Calculate Nakshatra and Pada",
+    "instructions": [
+      "Write the twenty-seven Nakshatras in sequence.",
+      "Write the span of one Nakshatra and one Pada.",
+      "Calculate the Nakshatra for Moon longitude 86°.",
+      "Calculate the Pada for the same longitude.",
+      "Identify the Nakshatra lord.",
+      "Draw one Nakshatra divided into four equal Padas.",
+      "Explain in one sentence how Nakshatra differs from Rashi."
+    ],
+    "expectedOutcome": "The student can identify the running Nakshatra and Pada from sidereal longitude, recall the twenty-seven-Nakshatra sequence and distinguish the Nakshatra grid from the Rashi grid.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "The zodiac is divided into twenty-seven Nakshatras.",
+    "Each Nakshatra spans 13°20′.",
+    "Each Nakshatra contains four Padas of 3°20′ each.",
+    "There are 108 Padas across the zodiac.",
+    "The running Nakshatra is calculated from the Moon's sidereal longitude.",
+    "The Pada is calculated from the Moon's position within the current Nakshatra.",
+    "Rashi and Nakshatra are different grids over the same 360° zodiac.",
+    "The twenty-seven Nakshatras follow a fixed sequence.",
+    "Janma Nakshatra is the Moon's Nakshatra at birth.",
+    "Complete interpretation should not rely on Nakshatra alone."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "How many Nakshatras divide the zodiac?",
+        "options": [
+          "12",
+          "24",
+          "27",
+          "30"
+        ],
+        "answer": "27",
+        "explanation": "The traditional Nakshatra grid divides 360° into twenty-seven equal parts."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "What is the span of one Nakshatra?",
+        "options": [
+          "3°20′",
+          "12°",
+          "13°20′",
+          "30°"
+        ],
+        "answer": "13°20′",
+        "explanation": "360° divided by 27 equals 13°20′."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "What is the span of one Pada?",
+        "options": [
+          "1°",
+          "3°20′",
+          "6°40′",
+          "13°20′"
+        ],
+        "answer": "3°20′",
+        "explanation": "Each Nakshatra is divided into four equal Padas."
+      },
+      {
+        "id": "q4",
+        "type": "true-false",
+        "question": "One Nakshatra is equal to one Rashi.",
+        "answer": false,
+        "explanation": "A Nakshatra spans 13°20′ and a Rashi spans 30°."
+      },
+      {
+        "id": "q5",
+        "type": "short-answer",
+        "question": "What is Janma Nakshatra?",
+        "answer": "The Nakshatra occupied by the Moon at birth.",
+        "explanation": "It is calculated from the Moon's sidereal longitude at birth."
+      },
+      {
+        "id": "q6",
+        "type": "single-choice",
+        "question": "Which Nakshatra follows Rohini?",
+        "options": [
+          "Krittika",
+          "Mrigashira",
+          "Ardra",
+          "Punarvasu"
+        ],
+        "answer": "Mrigashira",
+        "explanation": "The sequence is Krittika, Rohini, Mrigashira and Ardra."
+      },
+      {
+        "id": "q7",
+        "type": "true-false",
+        "question": "There are 108 Padas across the twenty-seven Nakshatras.",
+        "answer": true,
+        "explanation": "27 multiplied by 4 equals 108."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why must the selected Ayanamsha be used consistently?",
+        "answer": "Because changing the sidereal reference can change the calculated Nakshatra near a boundary.",
+        "explanation": "Nakshatra depends on sidereal longitude."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "The Surya Siddhanta",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical framework for sidereal longitude, lunar motion and divisions used in calendar calculation.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-21",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used as a work-level astronomical reference. No verse-specific quotation is made."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "The Surya Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess; edited by Phanindralal Gangooly",
+      "note": "For the traditional mathematical astronomy underlying sidereal longitude and lunar calendar calculations.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-21",
+    "reviewNotes": "Nakshatra and Pada spans, sequence, calculation formulas and Rashi comparison were checked for internal consistency. Interpretation is limited to foundation-level identification and calculation. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

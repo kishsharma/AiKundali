@@ -1,0 +1,647 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "b44c43de-2896-5fce-a9f5-19c13cc8857b",
+  "levelCode": "level-1",
+  "sessionNumber": 3,
+  "slug": "introduction-to-panchang",
+  "language": "en",
+  "title": "Introduction to Panchang",
+  "subtitle": "Understanding the five limbs of the traditional Jyotish calendar",
+  "summary": "This session introduces Panchang as a location-sensitive astronomical calendar built from five principal limbs: Tithi, Vara, Nakshatra, Yoga and Karana. Students learn what each limb measures, how the five values describe different dimensions of a moment, why Panchang values may change during a civil day, and how to read a basic daily Panchang without making premature Muhurta judgements.",
+  "estimatedMinutes": 65,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Explain the meaning and purpose of Panchang.",
+    "Name the five limbs: Tithi, Vara, Nakshatra, Yoga and Karana.",
+    "Identify the astronomical basis of each Panchang limb.",
+    "Understand why Panchang values can change within the same civil date.",
+    "Explain why sunrise and geographic location matter in Panchang calculation.",
+    "Read a basic daily Panchang entry in a disciplined sequence.",
+    "Distinguish Panchang identification from advanced Muhurta interpretation."
+  ],
+  "prerequisites": [
+    "Completion of Session 2: Earth, Sun, Moon and Time.",
+    "Basic understanding of geocentric longitude, local time and the Sun–Moon angular relationship."
+  ],
+  "keyTerms": [
+    {
+      "term": "Panchang",
+      "sanskrit": "पञ्चाङ्ग",
+      "transliteration": "pañcāṅga",
+      "meaning": "A traditional calendar framework composed of five principal limbs.",
+      "note": "The five limbs are Tithi, Vara, Nakshatra, Yoga and Karana."
+    },
+    {
+      "term": "Tithi",
+      "sanskrit": "तिथि",
+      "transliteration": "tithi",
+      "meaning": "A lunar day defined by each twelve-degree increase in the angular separation between the Moon and Sun.",
+      "note": "Thirty Tithis form one complete lunar phase cycle."
+    },
+    {
+      "term": "Vara",
+      "sanskrit": "वार",
+      "transliteration": "vāra",
+      "meaning": "The weekday associated with the seven traditional planetary day lords.",
+      "note": "The weekday is commonly considered from one local sunrise to the next in traditional Panchang use."
+    },
+    {
+      "term": "Nakshatra",
+      "sanskrit": "नक्षत्र",
+      "transliteration": "nakṣatra",
+      "meaning": "One of the twenty-seven equal divisions of the zodiac used to identify the Moon's stellar position.",
+      "note": "Each Nakshatra spans 13°20′."
+    },
+    {
+      "term": "Yoga",
+      "sanskrit": "योग",
+      "transliteration": "yoga",
+      "meaning": "One of twenty-seven Panchang divisions calculated from the combined longitudes of the Sun and Moon.",
+      "note": "Panchang Yoga is different from planetary combinations such as Raja Yoga."
+    },
+    {
+      "term": "Karana",
+      "sanskrit": "करण",
+      "transliteration": "karaṇa",
+      "meaning": "Half of a Tithi, corresponding to six degrees of Sun–Moon angular separation.",
+      "note": "There are eleven named Karanas arranged through the lunar month."
+    },
+    {
+      "term": "Sunrise reference",
+      "sanskrit": "सूर्योदय",
+      "transliteration": "sūryodaya",
+      "meaning": "The local sunrise used as an important boundary in traditional daily Panchang presentation.",
+      "note": "A value present at sunrise may be treated as the day's principal value in some traditional contexts, while transition times must still be shown."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-panchang",
+      "title": "What Is Panchang?",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "five-limbs-overview",
+      "title": "The Five Limbs at a Glance",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "astronomical-basis",
+      "title": "Astronomical Basis of the Five Limbs",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "civil-day-and-sunrise",
+      "title": "Civil Date, Sunrise and Panchang Day",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "values-change-during-day",
+      "title": "Why Panchang Values Change During the Day",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "reading-daily-panchang",
+      "title": "How to Read a Basic Daily Panchang",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "scope-and-limits",
+      "title": "Scope and Limits at Foundation Level",
+      "estimatedMinutes": 8
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-panchang",
+      "title": "What Is Panchang?",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The word Panchang literally means 'five limbs'. It is a structured description of time based on the positions and motions of the Sun and Moon together with the weekday cycle. A Panchang does more than display a calendar date: it describes the astronomical quality and transitions occurring at a particular place and time."
+        },
+        {
+          "type": "definition",
+          "term": "Panchang",
+          "sanskrit": "पञ्चाङ्ग",
+          "transliteration": "pañcāṅga",
+          "meaning": "A five-limbed calendar system containing Tithi, Vara, Nakshatra, Yoga and Karana.",
+          "context": "It is used in daily religious observance, festival determination, vrata, Muhurta and traditional time reckoning."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session03-five-limbs-panchang",
+          "assetPath": "assets/study/level-1/session-03/five-limbs-panchang.svg",
+          "altText": "Panchang at the centre connected to five simple branches labelled Tithi, Vara, Nakshatra, Yoga and Karana.",
+          "caption": "Panchang describes a moment through five connected limbs.",
+          "purpose": "Introduce the complete Panchang structure before studying each limb separately.",
+          "annotations": [
+            "Tithi",
+            "Vara",
+            "Nakshatra",
+            "Yoga",
+            "Karana"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Panchang is location-sensitive",
+          "text": "The same clock moment may have different sunrise, sunset and local day boundaries at different locations. Panchang should therefore be calculated for the selected place."
+        }
+      ]
+    },
+    {
+      "id": "five-limbs-overview",
+      "title": "The Five Limbs at a Glance",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "The five limbs of Panchang",
+          "columns": [
+            "Limb",
+            "What it primarily describes",
+            "Main basis"
+          ],
+          "rows": [
+            [
+              "Tithi",
+              "Lunar phase segment",
+              "Moon–Sun angular separation"
+            ],
+            [
+              "Vara",
+              "Weekday",
+              "Seven-day planetary weekday cycle"
+            ],
+            [
+              "Nakshatra",
+              "Moon's stellar division",
+              "Moon's zodiacal longitude"
+            ],
+            [
+              "Yoga",
+              "Combined solar-lunar division",
+              "Sum of Sun and Moon longitudes"
+            ],
+            [
+              "Karana",
+              "Half-Tithi segment",
+              "Six-degree Moon–Sun separation"
+            ]
+          ],
+          "note": "Each limb measures a different feature of the same moment."
+        },
+        {
+          "type": "paragraph",
+          "text": "The five limbs should not be treated as five names for the same calculation. Tithi and Karana are based on angular separation. Nakshatra is based on the Moon's longitude. Yoga is based on the sum of the Sun's and Moon's longitudes. Vara follows the weekday cycle and local day convention."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Panchang Yoga is a separate concept",
+          "text": "The twenty-seven Panchang Yogas are calendar divisions. They are not the same as Kundali Yogas such as Gajakesari Yoga, Dhana Yoga or Raja Yoga."
+        }
+      ]
+    },
+    {
+      "id": "astronomical-basis",
+      "title": "Astronomical Basis of the Five Limbs",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Tithi number = floor(normalised Moon–Sun separation ÷ 12°) + 1",
+          "explanation": "A complete 360° phase cycle is divided into thirty equal parts of twelve degrees each.",
+          "workedExample": "If the Moon is 50° ahead of the Sun, 50° ÷ 12° gives four complete divisions, so the running Tithi is the fifth."
+        },
+        {
+          "type": "formula",
+          "expression": "Karana position = floor(normalised Moon–Sun separation ÷ 6°) + 1",
+          "explanation": "Each Tithi contains two six-degree Karana portions.",
+          "workedExample": "A separation of 50° has crossed eight complete six-degree portions and is in the ninth Karana position of the lunar cycle."
+        },
+        {
+          "type": "formula",
+          "expression": "Nakshatra number = floor(Moon longitude ÷ 13°20′) + 1",
+          "explanation": "The 360° zodiac is divided into twenty-seven equal Nakshatra sectors.",
+          "workedExample": "A Moon longitude of 40° lies in the fourth Nakshatra sector."
+        },
+        {
+          "type": "formula",
+          "expression": "Panchang Yoga number = floor(normalised (Sun longitude + Moon longitude) ÷ 13°20′) + 1",
+          "explanation": "The combined longitude is reduced to the 0°–360° circle and divided into twenty-seven equal Yoga sectors.",
+          "workedExample": "Sun 40° plus Moon 100° gives 140°, which falls in the eleventh Yoga sector."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session03-panchang-calculation-basis",
+          "assetPath": "assets/study/level-1/session-03/panchang-calculation-basis.svg",
+          "altText": "A simple flow diagram linking Sun longitude and Moon longitude to Tithi, Karana, Nakshatra and Yoga calculations.",
+          "caption": "Most Panchang limbs arise directly from solar and lunar longitudes.",
+          "purpose": "Show which astronomical inputs feed each Panchang limb.",
+          "annotations": [
+            "Sun longitude",
+            "Moon longitude",
+            "Angular difference",
+            "Longitude sum"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "civil-day-and-sunrise",
+      "title": "Civil Date, Sunrise and Panchang Day",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Two ways of grouping a day",
+          "left": {
+            "label": "Civil date",
+            "points": [
+              "Usually begins at midnight.",
+              "Used by modern clocks and legal calendars.",
+              "Same date label may cover time before and after sunrise."
+            ]
+          },
+          "right": {
+            "label": "Traditional Panchang day",
+            "points": [
+              "Often organised around local sunrise.",
+              "Weekday and religious observance may use the sunrise boundary.",
+              "Transition times inside the day still remain important."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": "A Panchang page may be printed under a civil date while reporting the Tithi, Nakshatra, Yoga and Karana present at local sunrise and the exact time when each ends. This is why a value labelled for a date may not remain active for the full midnight-to-midnight period."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session03-midnight-sunrise-timeline",
+          "assetPath": "assets/study/level-1/session-03/midnight-sunrise-timeline.svg",
+          "altText": "A horizontal timeline marking midnight, local sunrise, midday, sunset and the next midnight.",
+          "caption": "Civil date begins at midnight, while traditional daily Panchang use gives special importance to local sunrise.",
+          "purpose": "Separate civil and sunrise-based day boundaries.",
+          "annotations": [
+            "Midnight",
+            "Sunrise",
+            "Midday",
+            "Sunset",
+            "Next midnight"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Always show location with sunrise",
+          "text": "Sunrise is not a single universal clock time. It must be computed for the specified latitude, longitude and date."
+        }
+      ]
+    },
+    {
+      "id": "values-change-during-day",
+      "title": "Why Panchang Values Change During the Day",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Sun and Moon continue moving after sunrise. Their longitudes and angular relationship therefore change continuously. A Tithi may end in the morning, a Nakshatra in the afternoon, a Yoga in the evening and a Karana several times during the same day."
+        },
+        {
+          "type": "example",
+          "title": "A daily Panchang with transitions",
+          "scenario": "At sunrise, Dashami Tithi and Rohini Nakshatra are active.",
+          "steps": [
+            "Dashami ends at 10:42.",
+            "Ekadashi begins immediately after 10:42.",
+            "Rohini continues until 15:18.",
+            "Mrigashira begins immediately after 15:18."
+          ],
+          "conclusion": "The civil date contains more than one Tithi or Nakshatra, so end times must be read before selecting an observance or activity."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not read only the first name",
+          "text": "A daily Panchang must be read together with transition times. The value present at sunrise may end shortly afterward."
+        }
+      ]
+    },
+    {
+      "id": "reading-daily-panchang",
+      "title": "How to Read a Basic Daily Panchang",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Confirm the location and time zone.",
+            "Read local sunrise and sunset.",
+            "Identify the Vara for the local day.",
+            "Read the Tithi and its ending time.",
+            "Read the Nakshatra and its ending time.",
+            "Read the Yoga and its ending time.",
+            "Read the running Karana and transition time.",
+            "Check whether any value changes before the intended activity."
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "Sample basic Panchang reading",
+          "columns": [
+            "Field",
+            "Sample value",
+            "How to read it"
+          ],
+          "rows": [
+            [
+              "Location",
+              "Bengaluru",
+              "All times are local to Bengaluru"
+            ],
+            [
+              "Sunrise",
+              "06:12",
+              "Traditional day reference begins here"
+            ],
+            [
+              "Vara",
+              "Thursday",
+              "Weekday lord is Jupiter"
+            ],
+            [
+              "Tithi",
+              "Shukla Ekadashi until 14:35",
+              "Dvadashi begins after 14:35"
+            ],
+            [
+              "Nakshatra",
+              "Anuradha until 18:10",
+              "Jyeshtha begins after 18:10"
+            ],
+            [
+              "Yoga",
+              "Siddhi until 11:50",
+              "Next Yoga begins after 11:50"
+            ],
+            [
+              "Karana",
+              "Vanija until 14:35",
+              "Next Karana follows immediately"
+            ]
+          ],
+          "note": "The sample is instructional and not a real Panchang for a specific date."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Read values as intervals",
+          "text": "A Panchang value is active from its beginning until its ending time. The end time is as important as the value name."
+        }
+      ]
+    },
+    {
+      "id": "scope-and-limits",
+      "title": "Scope and Limits at Foundation Level",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "At foundation level, the goal is to identify the five limbs correctly, understand their astronomical basis and read their transition times. Judging whether a time is auspicious requires additional factors such as the purpose of the activity, Tara Bala, Chandra Bala, Lagna, planetary conditions, prohibited periods and regional tradition."
+        },
+        {
+          "type": "comparison",
+          "title": "Identification versus interpretation",
+          "left": {
+            "label": "Foundation identification",
+            "points": [
+              "What Tithi is active?",
+              "Which Nakshatra is active?",
+              "When does each value end?",
+              "Which location and sunrise are used?"
+            ]
+          },
+          "right": {
+            "label": "Advanced interpretation",
+            "points": [
+              "Is the combination suitable for a particular activity?",
+              "What exceptions or prohibitions apply?",
+              "Which Lagna and planetary strengths support the event?",
+              "Which regional or textual tradition is being followed?"
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Do not declare a Muhurta from one limb",
+          "text": "No single Tithi, Nakshatra or Yoga should be used alone to declare a time universally auspicious or inauspicious."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Treating Panchang as only a list of festival dates.",
+      "whyItIsWrong": "Panchang is a five-limbed astronomical calendar framework with continuously changing values.",
+      "correctUnderstanding": "Read Panchang as a structured description of local time using Tithi, Vara, Nakshatra, Yoga and Karana."
+    },
+    {
+      "mistake": "Confusing Panchang Yoga with Kundali Yoga.",
+      "whyItIsWrong": "Panchang Yoga is calculated from the sum of Sun and Moon longitudes, while Kundali Yogas are planetary configurations.",
+      "correctUnderstanding": "Keep the two meanings of Yoga separate according to context."
+    },
+    {
+      "mistake": "Assuming one Tithi lasts from midnight to midnight.",
+      "whyItIsWrong": "Tithi is based on a twelve-degree angular interval and may begin or end at any clock time.",
+      "correctUnderstanding": "Always read the Tithi ending time."
+    },
+    {
+      "mistake": "Using Panchang from another city without checking location.",
+      "whyItIsWrong": "Sunrise, sunset and local time boundaries differ by location.",
+      "correctUnderstanding": "Use Panchang calculated for the intended place."
+    },
+    {
+      "mistake": "Choosing a Muhurta from only a favourable-sounding Nakshatra or Tithi.",
+      "whyItIsWrong": "Muhurta evaluation requires several additional factors and the purpose of the activity.",
+      "correctUnderstanding": "At this level, identify and read the limbs without making unsupported final judgements."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Read a five-limb Panchang entry",
+    "instructions": [
+      "Write the five limbs of Panchang from memory.",
+      "For each limb, write its primary astronomical or calendrical basis.",
+      "Take a sample daily Panchang and note the location and sunrise.",
+      "Record the Tithi, Nakshatra, Yoga and Karana with their end times.",
+      "Mark any values that change before noon and before sunset.",
+      "Write one sentence explaining why the entry cannot be used for another city without verification."
+    ],
+    "expectedOutcome": "The student can identify all five Panchang limbs, explain their basic calculation basis and read a daily entry together with its location, sunrise and transition times.",
+    "estimatedMinutes": 10
+  },
+  "sessionSummary": [
+    "Panchang means a calendar with five limbs.",
+    "The five limbs are Tithi, Vara, Nakshatra, Yoga and Karana.",
+    "Tithi and Karana arise from the angular separation between Moon and Sun.",
+    "Nakshatra is based on the Moon's zodiacal longitude.",
+    "Panchang Yoga is based on the combined longitudes of the Sun and Moon.",
+    "Traditional daily Panchang presentation gives special importance to local sunrise.",
+    "Panchang values can change at any time during the civil day.",
+    "A basic Panchang must be read with location, sunrise and transition times.",
+    "Foundation-level identification should not be confused with complete Muhurta judgement."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "What does the word Panchang indicate?",
+        "options": [
+          "Five limbs",
+          "Nine planets",
+          "Twelve houses",
+          "Twenty-seven stars"
+        ],
+        "answer": "Five limbs",
+        "explanation": "Panchang is formed from pancha, five, and anga, limb."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which list contains all five Panchang limbs?",
+        "options": [
+          "Tithi, Vara, Nakshatra, Yoga, Karana",
+          "Lagna, Rashi, Bhava, Dasha, Yoga",
+          "Sun, Moon, Mars, Mercury, Jupiter",
+          "Dharma, Artha, Kama, Moksha, Lagna"
+        ],
+        "answer": "Tithi, Vara, Nakshatra, Yoga, Karana",
+        "explanation": "These are the five traditional limbs."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "Which limb is mainly based on the Moon's zodiacal longitude?",
+        "options": [
+          "Nakshatra",
+          "Vara",
+          "Karana",
+          "Tithi"
+        ],
+        "answer": "Nakshatra",
+        "explanation": "The Moon's longitude determines which 13°20′ Nakshatra sector it occupies."
+      },
+      {
+        "id": "q4",
+        "type": "true-false",
+        "question": "A Tithi must always begin at midnight.",
+        "answer": false,
+        "explanation": "A Tithi begins when the Sun–Moon separation crosses a twelve-degree boundary."
+      },
+      {
+        "id": "q5",
+        "type": "short-answer",
+        "question": "Why should the ending time of a Panchang value be read?",
+        "answer": "Because Tithi, Nakshatra, Yoga and Karana may change during the civil day, so the value present at sunrise may not remain active later.",
+        "explanation": "Panchang values are intervals, not fixed midnight-to-midnight labels."
+      },
+      {
+        "id": "q6",
+        "type": "single-choice",
+        "question": "What is the basic angular size of one Karana portion?",
+        "options": [
+          "6°",
+          "12°",
+          "13°20′",
+          "30°"
+        ],
+        "answer": "6°",
+        "explanation": "A Karana is half of a twelve-degree Tithi."
+      },
+      {
+        "id": "q7",
+        "type": "true-false",
+        "question": "Panchang Yoga and Raja Yoga are the same type of calculation.",
+        "answer": false,
+        "explanation": "Panchang Yoga is a calendrical division; Raja Yoga is a planetary configuration in a Kundali."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why is location required when reading Panchang?",
+        "answer": "Because local sunrise, sunset and time boundaries depend on latitude, longitude and date.",
+        "explanation": "A Panchang should be calculated for the intended location."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "The Surya Siddhanta",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical foundations for solar and lunar longitude, time reckoning and calendar computation.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-20",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used only as a work-level astronomical reference. No verse-specific quotation is made."
+    },
+    {
+      "sourceId": "muhurta-chintamani",
+      "editionId": "generic-reference",
+      "title": "Muhurta Chintamani",
+      "author": "Traditional Jyotisha text",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional context for Panchang limbs and their use in Muhurta.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-20",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Included only as a general traditional reference. No edition-specific or verse-specific claim is quoted. The linked archive is retained as a general classical-reference access point, not as a verified edition of Muhurta Chintamani."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "The Surya Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess; edited by Phanindralal Gangooly",
+      "note": "For the traditional mathematical astronomy behind solar and lunar calendar calculations.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    },
+    {
+      "title": "Muhurta Chintamani",
+      "type": "classical-text",
+      "author": "Traditional Jyotisha text",
+      "note": "For later study of how Panchang factors are used with other rules in Muhurta. Use a verified edition before adding chapter, verse or page citations.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-20",
+    "reviewNotes": "The five limbs and their calculation bases were checked for internal consistency. The session intentionally limits interpretation and does not declare Muhurta from a single Panchang limb. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

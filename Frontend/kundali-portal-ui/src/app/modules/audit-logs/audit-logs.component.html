@@ -1,0 +1,134 @@
+<section class="audit-logs-page">
+  <app-page-header
+    title="Audit Logs"
+    subtitle="Review user activity, admin changes, exports, and communication delivery"
+    [breadcrumbs]="[
+      { label: 'Home', routerLink: '/' },
+      { label: 'Audit Logs', active: true }
+    ]">
+  </app-page-header>
+
+  <div class="status-banner loading" *ngIf="loading">Loading logs...</div>
+  <div class="status-banner error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <section class="logs-panel">
+    <div class="tabs" role="tablist" aria-label="Log type">
+      <button type="button" [class.active]="activeTab === 'audit'" (click)="setTab('audit')">Audit Logs</button>
+      <button type="button" [class.active]="activeTab === 'communication'" (click)="setTab('communication')">Communication Logs</button>
+    </div>
+
+    <form class="filters" (ngSubmit)="applyFilters()">
+      <label>
+        <span>From</span>
+        <input type="date" name="dateFrom" [(ngModel)]="filters.dateFrom" />
+      </label>
+      <label>
+        <span>To</span>
+        <input type="date" name="dateTo" [(ngModel)]="filters.dateTo" />
+      </label>
+      <label>
+        <span>Status</span>
+        <select name="status" [(ngModel)]="filters.status">
+          <option *ngFor="let status of statuses" [value]="status">{{ status || 'All' }}</option>
+        </select>
+      </label>
+
+      <ng-container *ngIf="activeTab === 'audit'; else communicationFilters">
+        <label>
+          <span>Action</span>
+          <select name="action" [(ngModel)]="filters.action">
+            <option *ngFor="let action of auditActions" [value]="action">{{ action || 'All' }}</option>
+          </select>
+        </label>
+        <label>
+          <span>Category</span>
+          <select name="category" [(ngModel)]="filters.category">
+            <option *ngFor="let category of auditCategories" [value]="category">{{ category || 'All' }}</option>
+          </select>
+        </label>
+        <label>
+          <span>Entity</span>
+          <input type="text" name="entityType" [(ngModel)]="filters.entityType" placeholder="User, Kundali, Report" />
+        </label>
+      </ng-container>
+
+      <ng-template #communicationFilters>
+        <label>
+          <span>Channel</span>
+          <select name="channel" [(ngModel)]="filters.channel">
+            <option *ngFor="let channel of communicationChannels" [value]="channel">{{ channel || 'All' }}</option>
+          </select>
+        </label>
+        <label>
+          <span>Type</span>
+          <select name="messageType" [(ngModel)]="filters.messageType">
+            <option *ngFor="let type of communicationTypes" [value]="type">{{ type || 'All' }}</option>
+          </select>
+        </label>
+        <label>
+          <span>Recipient</span>
+          <input type="search" name="recipient" [(ngModel)]="filters.recipient" placeholder="Email or mobile" />
+        </label>
+      </ng-template>
+
+      <div class="filter-actions">
+        <button type="submit" class="primary-btn" [disabled]="loading">Apply</button>
+        <button type="button" class="secondary-btn" (click)="resetFilters()" [disabled]="loading">Reset</button>
+      </div>
+    </form>
+
+    <div class="summary-row">
+      <span>{{ firstItem }}-{{ lastItem }} of {{ total }}</span>
+      <button type="button" class="secondary-btn" (click)="loadLogs()" [disabled]="loading">
+        {{ loading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && activeTab === 'audit' && auditLogs.length === 0">No audit logs found.</div>
+    <div class="empty-state" *ngIf="!loading && activeTab === 'communication' && communicationLogs.length === 0">No communication logs found.</div>
+
+    <div class="logs-table audit-table" *ngIf="activeTab === 'audit' && auditLogs.length > 0">
+      <div class="table-head">
+        <span>Time</span>
+        <span>Action</span>
+        <span>User</span>
+        <span>Entity</span>
+        <span>Status</span>
+        <span>Description</span>
+      </div>
+      <div class="table-row" *ngFor="let log of auditLogs; trackBy: trackById">
+        <span class="muted">{{ formatDate(log.createdAt) }}</span>
+        <strong>{{ log.action }}</strong>
+        <span class="muted">{{ log.userName || log.userId || '-' }}</span>
+        <span class="muted">{{ log.entityType || '-' }}<small *ngIf="log.entityId">{{ log.entityId }}</small></span>
+        <span class="status-pill" [class.failed]="log.status === 'Failed'">{{ log.status }}</span>
+        <span class="muted wrap">{{ log.failureReason || log.description || '-' }}</span>
+      </div>
+    </div>
+
+    <div class="logs-table communication-table" *ngIf="activeTab === 'communication' && communicationLogs.length > 0">
+      <div class="table-head">
+        <span>Time</span>
+        <span>Channel</span>
+        <span>Recipient</span>
+        <span>Type</span>
+        <span>Status</span>
+        <span>Details</span>
+      </div>
+      <div class="table-row" *ngFor="let log of communicationLogs; trackBy: trackById">
+        <span class="muted">{{ formatDate(log.createdAt) }}</span>
+        <strong>{{ log.channel }}</strong>
+        <span class="muted">{{ log.recipientEmail || log.recipientMobile || '-' }}</span>
+        <span class="muted">{{ log.messageType }}<small *ngIf="log.templateName">{{ log.templateName }}</small></span>
+        <span class="status-pill" [class.failed]="log.status === 'Failed'" [class.queued]="log.status === 'Queued'">{{ log.status }}</span>
+        <span class="muted wrap">{{ log.failureReason || log.subject || log.providerMessageId || log.provider || '-' }}</span>
+      </div>
+    </div>
+
+    <div class="pagination" *ngIf="total > pageSize">
+      <button type="button" class="secondary-btn" (click)="previousPage()" [disabled]="!canGoPrevious">Previous</button>
+      <span>Page {{ page }}</span>
+      <button type="button" class="secondary-btn" (click)="nextPage()" [disabled]="!canGoNext">Next</button>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,48 @@
+﻿@page {
+  size: A4;
+  margin: 12mm 10mm 13mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.35;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.report-block,
+.chart-panel,
+.compact-table,
+.score-strip {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  vertical-align: top;
+}
+

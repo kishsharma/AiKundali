@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 900 650"
+     role="img"
+     aria-labelledby="title desc">
+
+  <title id="title">Ecliptic and Zodiac Belt</title>
+  <desc id="desc">
+    A simple educational diagram showing the Sun's apparent annual path as the ecliptic
+    and a narrow zodiac belt surrounding that path.
+  </desc>
+
+  <rect width="900" height="650" fill="white"/>
+
+  <!-- Zodiac belt -->
+  <ellipse cx="450" cy="330" rx="330" ry="145"
+           fill="none"
+           stroke="#cbd5e1"
+           stroke-width="34"
+           opacity="0.9"/>
+
+  <!-- Ecliptic path -->
+  <ellipse cx="450" cy="330" rx="330" ry="145"
+           fill="none"
+           stroke="#1f2937"
+           stroke-width="4"/>
+
+  <!-- Sun on apparent path -->
+  <circle cx="720" cy="247" r="28"
+          fill="#f8fafc"
+          stroke="#1f2937"
+          stroke-width="4"/>
+
+  <!-- Direction arrow -->
+  <path d="M 690 235 C 620 170, 500 150, 390 165"
+        fill="none"
+        stroke="#64748b"
+        stroke-width="4"
+        stroke-linecap="round"/>
+
+  <polygon points="390,165 411,156 406,177"
+           fill="#64748b"/>
+
+  <!-- Earth -->
+  <circle cx="450" cy="330" r="52"
+          fill="#e2e8f0"
+          stroke="#1f2937"
+          stroke-width="4"/>
+
+  <!-- Labels -->
+  <text x="450" y="340"
+        font-family="Arial, sans-serif"
+        font-size="24"
+        fill="#111827"
+        text-anchor="middle">Earth</text>
+
+  <text x="720" y="205"
+        font-family="Arial, sans-serif"
+        font-size="25"
+        fill="#111827"
+        text-anchor="middle">Sun</text>
+
+  <text x="450" y="125"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Zodiac belt</text>
+
+  <line x1="450" y1="138" x2="450" y2="172"
+        stroke="#64748b"
+        stroke-width="2"/>
+
+  <text x="450" y="535"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Ecliptic</text>
+
+  <line x1="450" y1="500" x2="450" y2="466"
+        stroke="#64748b"
+        stroke-width="2"/>
+
+  <text x="450" y="590"
+        font-family="Arial, sans-serif"
+        font-size="22"
+        fill="#4b5563"
+        text-anchor="middle">The Sun appears to move along the ecliptic through the zodiac</text>
+</svg>

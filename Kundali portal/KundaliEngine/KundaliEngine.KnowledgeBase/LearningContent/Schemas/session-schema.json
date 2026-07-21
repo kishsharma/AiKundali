@@ -1,0 +1,998 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://horalife.in/schemas/jyotish-session.schema.json",
+  "title": "Learning by HoraLife — Jyotish Session",
+  "description": "Schema for one multilingual, reference-backed Jyotish learning session rendered by the HoraLife study module.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "levelCode",
+    "sessionNumber",
+    "slug",
+    "language",
+    "title",
+    "summary",
+    "estimatedMinutes",
+    "difficulty",
+    "learningObjectives",
+    "prerequisites",
+    "keyTerms",
+    "tableOfContents",
+    "sections",
+    "commonMistakes",
+    "practicalExercise",
+    "sessionSummary",
+    "selfCheck",
+    "references",
+    "shlokaReferences",
+    "furtherReading",
+    "contentReview",
+    "status"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "levelCode": {
+      "type": "string",
+      "enum": [
+        "level-1",
+        "level-2"
+      ]
+    },
+    "sessionNumber": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 15
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "en",
+        "hi",
+        "kn"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 40
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 45,
+      "maximum": 90
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "foundation",
+        "intermediate",
+        "advanced"
+      ]
+    },
+    "learningObjectives": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "keyTerms": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/$defs/keyTerm"
+      }
+    },
+    "tableOfContents": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/tocItem"
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/section"
+      }
+    },
+    "commonMistakes": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/commonMistake"
+      }
+    },
+    "practicalExercise": {
+      "$ref": "#/$defs/practicalExercise"
+    },
+    "sessionSummary": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "selfCheck": {
+      "$ref": "#/$defs/selfCheck"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    },
+    "shlokaReferences": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/shlokaReference"
+      }
+    },
+    "furtherReading": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/furtherReading"
+      }
+    },
+    "contentReview": {
+      "$ref": "#/$defs/contentReview"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "review",
+        "approved",
+        "published"
+      ]
+    }
+  },
+  "$defs": {
+    "keyTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "term",
+        "meaning"
+      ],
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "sanskrit": {
+          "type": "string"
+        },
+        "transliteration": {
+          "type": "string"
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "tocItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sectionId",
+        "title",
+        "estimatedMinutes"
+      ],
+      "properties": {
+        "sectionId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "estimatedMinutes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "estimatedMinutes",
+        "blocks"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "estimatedMinutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/headingBlock"
+              },
+              {
+                "$ref": "#/$defs/paragraphBlock"
+              },
+              {
+                "$ref": "#/$defs/listBlock"
+              },
+              {
+                "$ref": "#/$defs/definitionBlock"
+              },
+              {
+                "$ref": "#/$defs/formulaBlock"
+              },
+              {
+                "$ref": "#/$defs/diagramBlock"
+              },
+              {
+                "$ref": "#/$defs/tableBlock"
+              },
+              {
+                "$ref": "#/$defs/exampleBlock"
+              },
+              {
+                "$ref": "#/$defs/noteBlock"
+              },
+              {
+                "$ref": "#/$defs/comparisonBlock"
+              },
+              {
+                "$ref": "#/$defs/dividerBlock"
+              },
+              {
+                "$ref": "#/$defs/shlokaTriggerBlock"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "headingBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "level",
+        "text"
+      ],
+      "properties": {
+        "type": {
+          "const": "heading"
+        },
+        "level": {
+          "type": "integer",
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "paragraphBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "text"
+      ],
+      "properties": {
+        "type": {
+          "const": "paragraph"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "listBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "style",
+        "items"
+      ],
+      "properties": {
+        "type": {
+          "const": "list"
+        },
+        "style": {
+          "type": "string",
+          "enum": [
+            "bullet",
+            "numbered",
+            "check"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "definitionBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "term",
+        "meaning"
+      ],
+      "properties": {
+        "type": {
+          "const": "definition"
+        },
+        "term": {
+          "type": "string"
+        },
+        "sanskrit": {
+          "type": "string"
+        },
+        "transliteration": {
+          "type": "string"
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        }
+      }
+    },
+    "formulaBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "expression",
+        "explanation"
+      ],
+      "properties": {
+        "type": {
+          "const": "formula"
+        },
+        "expression": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "workedExample": {
+          "type": "string"
+        }
+      }
+    },
+    "diagramBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "assetId",
+        "altText",
+        "caption",
+        "purpose"
+      ],
+      "properties": {
+        "type": {
+          "const": "diagram"
+        },
+        "assetId": {
+          "type": "string"
+        },
+        "assetPath": {
+          "type": "string"
+        },
+        "altText": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "annotations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tableBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "caption",
+        "columns",
+        "rows"
+      ],
+      "properties": {
+        "type": {
+          "const": "table"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "exampleBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "title",
+        "scenario",
+        "steps",
+        "conclusion"
+      ],
+      "properties": {
+        "type": {
+          "const": "example"
+        },
+        "title": {
+          "type": "string"
+        },
+        "scenario": {
+          "type": "string"
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "conclusion": {
+          "type": "string"
+        }
+      }
+    },
+    "noteBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "style",
+        "title",
+        "text"
+      ],
+      "properties": {
+        "type": {
+          "const": "note"
+        },
+        "style": {
+          "type": "string",
+          "enum": [
+            "important",
+            "remember",
+            "caution",
+            "tradition",
+            "modern-context"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "comparisonBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "title",
+        "left",
+        "right"
+      ],
+      "properties": {
+        "type": {
+          "const": "comparison"
+        },
+        "title": {
+          "type": "string"
+        },
+        "left": {
+          "$ref": "#/$defs/comparisonSide"
+        },
+        "right": {
+          "$ref": "#/$defs/comparisonSide"
+        }
+      }
+    },
+    "comparisonSide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "points"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "points": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dividerBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "divider"
+        }
+      }
+    },
+    "shlokaTriggerBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "shlokaId",
+        "label",
+        "displayMode"
+      ],
+      "properties": {
+        "type": {
+          "const": "shloka-trigger"
+        },
+        "shlokaId": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string",
+          "default": "om"
+        },
+        "displayMode": {
+          "type": "string",
+          "const": "collapsed"
+        }
+      }
+    },
+    "commonMistake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mistake",
+        "whyItIsWrong",
+        "correctUnderstanding"
+      ],
+      "properties": {
+        "mistake": {
+          "type": "string"
+        },
+        "whyItIsWrong": {
+          "type": "string"
+        },
+        "correctUnderstanding": {
+          "type": "string"
+        }
+      }
+    },
+    "practicalExercise": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "instructions",
+        "expectedOutcome"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "instructions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "expectedOutcome": {
+          "type": "string"
+        },
+        "estimatedMinutes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "selfCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "questions",
+        "passingScorePercent"
+      ],
+      "properties": {
+        "questions": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "$ref": "#/$defs/question"
+          }
+        },
+        "passingScorePercent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "question",
+        "answer",
+        "explanation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "single-choice",
+            "multiple-choice",
+            "true-false",
+            "short-answer"
+          ]
+        },
+        "question": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "answer": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "explanation": {
+          "type": "string"
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceId",
+        "editionId",
+        "title",
+        "supports",
+        "verificationStatus"
+      ],
+      "properties": {
+        "sourceId": {
+          "type": "string"
+        },
+        "editionId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "chapterTitle": {
+          "type": "string"
+        },
+        "chapterNumberAsPrinted": {
+          "type": "string"
+        },
+        "verseNumberAsPrinted": {
+          "type": "string"
+        },
+        "pageNumber": {
+          "type": "string"
+        },
+        "supports": {
+          "type": "string"
+        },
+        "quotationType": {
+          "type": "string",
+          "enum": [
+            "none",
+            "short-quote",
+            "paraphrase"
+          ]
+        },
+        "verificationStatus": {
+          "type": "string",
+          "enum": [
+            "unverified",
+            "single-edition-verified",
+            "cross-edition-verified",
+            "editor-reviewed"
+          ]
+        },
+        "verifiedOn": {
+          "type": "string",
+          "format": "date"
+        },
+        "verifiedBy": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "shlokaReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "displayMode",
+        "label",
+        "icon",
+        "sanskrit",
+        "transliteration",
+        "literalMeaning",
+        "learnerMeaning",
+        "sourceCitation",
+        "relevance",
+        "verificationStatus"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayMode": {
+          "type": "string",
+          "const": "collapsed"
+        },
+        "label": {
+          "type": "string",
+          "const": "Classical Reference"
+        },
+        "icon": {
+          "type": "string",
+          "const": "om"
+        },
+        "sanskrit": {
+          "type": "string"
+        },
+        "transliteration": {
+          "type": "string"
+        },
+        "literalMeaning": {
+          "type": "string"
+        },
+        "learnerMeaning": {
+          "type": "string"
+        },
+        "sourceCitation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "editionId",
+            "title"
+          ],
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            },
+            "editionId": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "chapterTitle": {
+              "type": "string"
+            },
+            "chapterNumberAsPrinted": {
+              "type": "string"
+            },
+            "verseNumberAsPrinted": {
+              "type": "string"
+            },
+            "pageNumber": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "relevance": {
+          "type": "string"
+        },
+        "verificationStatus": {
+          "type": "string",
+          "enum": [
+            "unverified",
+            "single-edition-verified",
+            "cross-edition-verified",
+            "editor-reviewed"
+          ]
+        }
+      }
+    },
+    "furtherReading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "type",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "classical-text",
+            "modern-book",
+            "article",
+            "reference-page"
+          ]
+        },
+        "author": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "contentReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authenticityChecked",
+        "referencesChecked",
+        "languageReviewed",
+        "reviewNotes"
+      ],
+      "properties": {
+        "authenticityChecked": {
+          "type": "boolean"
+        },
+        "referencesChecked": {
+          "type": "boolean"
+        },
+        "languageReviewed": {
+          "type": "boolean"
+        },
+        "reviewedBy": {
+          "type": "string"
+        },
+        "reviewedOn": {
+          "type": "string",
+          "format": "date"
+        },
+        "reviewNotes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

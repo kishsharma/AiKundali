@@ -1,0 +1,635 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "2d7a1b78-4d75-5ef8-9f18-4a899f6d7ef2",
+  "levelCode": "level-1",
+  "sessionNumber": 7,
+  "slug": "yoga-in-panchang",
+  "language": "en",
+  "title": "Yoga in Panchang",
+  "subtitle": "Understanding the twenty-seven Nitya Yogas formed from Sun and Moon longitudes",
+  "summary": "This session introduces Yoga as one of the five limbs of Panchang. Students learn that Nitya Yoga is calculated from the sum of the sidereal longitudes of the Sun and Moon, that the full 360° cycle is divided into twenty-seven equal parts of 13°20′ each, how to calculate the running Yoga, and why Yoga should be read together with the other Panchang limbs rather than used alone.",
+  "estimatedMinutes": 70,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define Nitya Yoga as a Panchang limb.",
+    "Explain how Sun and Moon longitudes are combined to calculate Yoga.",
+    "Explain why each Yoga spans 13°20′.",
+    "Name the twenty-seven Nitya Yogas in sequence.",
+    "Calculate the running Yoga from sidereal longitudes.",
+    "Normalise a longitude sum greater than 360°.",
+    "Distinguish Panchang Yoga from horoscope Yoga.",
+    "Understand the limits of using Yoga alone for judgement."
+  ],
+  "prerequisites": [
+    "Completion of Session 6: Nakshatra and Pada.",
+    "Basic understanding of sidereal longitude, angular addition and normalising angles to 0°–360°."
+  ],
+  "keyTerms": [
+    {
+      "term": "Nitya Yoga",
+      "sanskrit": "नित्य योग",
+      "transliteration": "nitya yoga",
+      "meaning": "One of twenty-seven daily Panchang Yogas calculated from the combined sidereal longitudes of the Sun and Moon.",
+      "note": "Each Nitya Yoga spans 13°20′."
+    },
+    {
+      "term": "Longitude sum",
+      "sanskrit": "दीर्घांश योग",
+      "transliteration": "dīrghāṃśa yoga",
+      "meaning": "The sum of the sidereal longitudes of the Sun and Moon.",
+      "note": "If the sum is 360° or more, subtract 360°."
+    },
+    {
+      "term": "Normalisation",
+      "sanskrit": "सामान्यीकरण",
+      "transliteration": "sāmānyīkaraṇa",
+      "meaning": "Bringing an angle into the standard 0°–360° range.",
+      "note": "This is necessary before identifying the Yoga index."
+    },
+    {
+      "term": "Yoga index",
+      "sanskrit": "योग क्रमांक",
+      "transliteration": "yoga kramāṅka",
+      "meaning": "The numbered position of the running Yoga from 1 to 27.",
+      "note": "It is derived by dividing the normalised longitude sum by 13°20′."
+    },
+    {
+      "term": "Horoscope Yoga",
+      "sanskrit": "कुंडली योग",
+      "transliteration": "kuṇḍalī yoga",
+      "meaning": "A planetary combination in a birth chart formed through placement, lordship, conjunction or aspect.",
+      "note": "This is different from the daily Nitya Yoga of Panchang."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-yoga",
+      "title": "What Is Nitya Yoga?",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "twenty-seven-yogas",
+      "title": "The Twenty-Seven Nitya Yogas",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "calculation-basis",
+      "title": "Calculation Basis",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "calculate-running-yoga",
+      "title": "How to Calculate the Running Yoga",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "yoga-duration",
+      "title": "Why Yoga Duration Varies",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "panchang-vs-horoscope-yoga",
+      "title": "Panchang Yoga and Horoscope Yoga",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "reading-yoga-entry",
+      "title": "How to Read a Yoga Entry",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-yoga",
+      "title": "What Is Nitya Yoga?",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Nitya Yoga is one of the five limbs of Panchang. It is determined by adding the sidereal longitudes of the Sun and Moon and locating the result within one of twenty-seven equal divisions of the zodiacal circle."
+        },
+        {
+          "type": "formula",
+          "expression": "One Yoga = 360° ÷ 27 = 13°20′",
+          "explanation": "The complete longitude-sum cycle is divided into twenty-seven equal Yoga segments.",
+          "workedExample": "A normalised sum from 0°00′ to less than 13°20′ belongs to Vishkambha, the first Yoga."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session07-sun-moon-longitude-sum",
+          "assetPath": "assets/study/level-1/session-07/sun-moon-longitude-sum.svg",
+          "altText": "A simple flow diagram showing Sun longitude and Moon longitude being added to produce the Panchang Yoga.",
+          "caption": "Nitya Yoga is based on the sum of Sun and Moon sidereal longitudes.",
+          "purpose": "Show the basic inputs and result of the Yoga calculation.",
+          "annotations": [
+            "Sun longitude",
+            "Moon longitude",
+            "Longitude sum",
+            "Nitya Yoga"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Yoga uses addition",
+          "text": "Tithi uses the Moon–Sun difference, while Nitya Yoga uses the Sun–Moon sum."
+        }
+      ]
+    },
+    {
+      "id": "twenty-seven-yogas",
+      "title": "The Twenty-Seven Nitya Yogas",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "The twenty-seven Nitya Yogas in order",
+          "columns": [
+            "Number",
+            "Yoga"
+          ],
+          "rows": [
+            [
+              "1",
+              "Vishkambha"
+            ],
+            [
+              "2",
+              "Priti"
+            ],
+            [
+              "3",
+              "Ayushman"
+            ],
+            [
+              "4",
+              "Saubhagya"
+            ],
+            [
+              "5",
+              "Shobhana"
+            ],
+            [
+              "6",
+              "Atiganda"
+            ],
+            [
+              "7",
+              "Sukarma"
+            ],
+            [
+              "8",
+              "Dhriti"
+            ],
+            [
+              "9",
+              "Shula"
+            ],
+            [
+              "10",
+              "Ganda"
+            ],
+            [
+              "11",
+              "Vriddhi"
+            ],
+            [
+              "12",
+              "Dhruva"
+            ],
+            [
+              "13",
+              "Vyaghata"
+            ],
+            [
+              "14",
+              "Harshana"
+            ],
+            [
+              "15",
+              "Vajra"
+            ],
+            [
+              "16",
+              "Siddhi"
+            ],
+            [
+              "17",
+              "Vyatipata"
+            ],
+            [
+              "18",
+              "Variyana"
+            ],
+            [
+              "19",
+              "Parigha"
+            ],
+            [
+              "20",
+              "Shiva"
+            ],
+            [
+              "21",
+              "Siddha"
+            ],
+            [
+              "22",
+              "Sadhya"
+            ],
+            [
+              "23",
+              "Shubha"
+            ],
+            [
+              "24",
+              "Shukla"
+            ],
+            [
+              "25",
+              "Brahma"
+            ],
+            [
+              "26",
+              "Indra"
+            ],
+            [
+              "27",
+              "Vaidhriti"
+            ]
+          ],
+          "note": "The sequence is fixed and repeats after Vaidhriti."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Names should be read with timing",
+          "text": "A Yoga may end during the civil day, so its ending time is part of the Panchang entry."
+        }
+      ]
+    },
+    {
+      "id": "calculation-basis",
+      "title": "Calculation Basis",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Raw sum = Sun sidereal longitude + Moon sidereal longitude",
+          "explanation": "Both values must use the same sidereal zodiac and Ayanamsha.",
+          "workedExample": "Sun 120° and Moon 210° give a raw sum of 330°."
+        },
+        {
+          "type": "formula",
+          "expression": "Normalised sum = Raw sum mod 360°",
+          "explanation": "If the raw sum is 360° or more, subtract 360° until it lies within 0°–360°.",
+          "workedExample": "Sun 250° plus Moon 180° equals 430°. Normalised sum = 70°."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session07-yoga-normalisation",
+          "assetPath": "assets/study/level-1/session-07/yoga-normalisation.svg",
+          "altText": "A simple number-line style diagram showing a raw longitude sum above 360 degrees being reduced into the 0 to 360 degree range.",
+          "caption": "The Sun–Moon longitude sum must be normalised before identifying the Yoga.",
+          "purpose": "Explain why 360° is subtracted from large sums.",
+          "annotations": [
+            "Raw sum",
+            "Subtract 360°",
+            "Normalised sum"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calculate-running-yoga",
+      "title": "How to Calculate the Running Yoga",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Yoga index = floor(Normalised sum ÷ 13°20′) + 1",
+          "explanation": "The result runs from 1 to 27.",
+          "workedExample": "A normalised sum of 70° gives Yoga index 6, Atiganda."
+        },
+        {
+          "type": "example",
+          "title": "Calculate a Yoga",
+          "scenario": "Sun sidereal longitude is 100° and Moon sidereal longitude is 268°.",
+          "steps": [
+            "Raw sum = 100° + 268° = 368°.",
+            "Normalise by subtracting 360°: 8°.",
+            "8° lies within the first 13°20′ segment.",
+            "Yoga index = 1."
+          ],
+          "conclusion": "The running Yoga is Vishkambha."
+        },
+        {
+          "type": "example",
+          "title": "A second example",
+          "scenario": "Sun sidereal longitude is 145° and Moon sidereal longitude is 100°.",
+          "steps": [
+            "Raw sum = 245°.",
+            "No normalisation is required because the sum is below 360°.",
+            "245° ÷ 13°20′ gives eighteen complete segments with remainder.",
+            "Yoga index = 19."
+          ],
+          "conclusion": "The running Yoga is Parigha."
+        }
+      ]
+    },
+    {
+      "id": "yoga-duration",
+      "title": "Why Yoga Duration Varies",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Each Yoga spans the same angular measure of 13°20′, but its clock duration is not fixed. The Sun and Moon move at changing apparent speeds, so their combined longitude reaches the next Yoga boundary at a variable time."
+        },
+        {
+          "type": "formula",
+          "expression": "Approximate Yoga duration = 13°20′ ÷ combined daily motion of Sun and Moon",
+          "explanation": "A faster combined motion produces a shorter Yoga duration, while slower motion produces a longer duration.",
+          "workedExample": "The exact duration must be calculated from ephemeris positions rather than assumed to be twenty-four hours."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Yoga can change during the day",
+          "text": "Always read the Yoga ending time in a daily Panchang."
+        }
+      ]
+    },
+    {
+      "id": "panchang-vs-horoscope-yoga",
+      "title": "Panchang Yoga and Horoscope Yoga",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Two meanings of Yoga",
+          "left": {
+            "label": "Panchang Nitya Yoga",
+            "points": [
+              "Calculated from Sun and Moon longitude sum.",
+              "One of twenty-seven daily Yogas.",
+              "Changes with time.",
+              "Used as one Panchang limb."
+            ]
+          },
+          "right": {
+            "label": "Horoscope Yoga",
+            "points": [
+              "Formed by planetary placement and relationships.",
+              "Examples include Raja Yoga and Dhana Yoga.",
+              "Belongs to the birth or event chart.",
+              "Requires chart-specific rules."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session07-panchang-vs-horoscope-yoga",
+          "assetPath": "assets/study/level-1/session-07/panchang-vs-horoscope-yoga.svg",
+          "altText": "A simple comparison diagram distinguishing daily Panchang Yoga from planetary combinations in a horoscope.",
+          "caption": "Panchang Yoga and horoscope Yoga are different concepts.",
+          "purpose": "Prevent confusion between two common meanings of the word Yoga.",
+          "annotations": [
+            "Daily calculation",
+            "Sun + Moon",
+            "Chart combination",
+            "Planetary relationships"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reading-yoga-entry",
+      "title": "How to Read a Yoga Entry",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Sample Yoga entry",
+          "columns": [
+            "Printed item",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Yoga: Siddhi until 14:25",
+              "Siddhi Yoga remains active until 14:25 local time"
+            ],
+            [
+              "Then Vyatipata",
+              "Vyatipata begins immediately after 14:25"
+            ],
+            [
+              "Sunrise: 06:14",
+              "Siddhi is the Yoga present at sunrise"
+            ],
+            [
+              "Location: Bengaluru",
+              "The transition time applies to Bengaluru"
+            ]
+          ],
+          "note": "This is an instructional sample and not a real Panchang for a specific date."
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Confirm the location.",
+            "Read the Yoga present at sunrise.",
+            "Read its ending time.",
+            "Identify the next Yoga.",
+            "Check whether the intended activity occurs before or after the transition.",
+            "Combine Yoga with Tithi, Vara, Nakshatra and Karana."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Yoga is one supporting factor",
+          "text": "A complete Panchang or Muhurta judgement should not be based on Nitya Yoga alone."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Subtracting Sun longitude from Moon longitude to calculate Yoga.",
+      "whyItIsWrong": "That difference is used for Tithi, not Nitya Yoga.",
+      "correctUnderstanding": "Add Sun and Moon sidereal longitudes."
+    },
+    {
+      "mistake": "Forgetting to normalise a sum above 360°.",
+      "whyItIsWrong": "The Yoga index must be found within the 0°–360° cycle.",
+      "correctUnderstanding": "Use the longitude sum modulo 360°."
+    },
+    {
+      "mistake": "Confusing Panchang Yoga with horoscope Yoga.",
+      "whyItIsWrong": "They are calculated through different rules and serve different purposes.",
+      "correctUnderstanding": "Nitya Yoga is a daily Panchang value; horoscope Yoga is a chart combination."
+    },
+    {
+      "mistake": "Assuming Yoga lasts exactly twenty-four hours.",
+      "whyItIsWrong": "Its duration depends on changing Sun and Moon motion.",
+      "correctUnderstanding": "Use the calculated ending time."
+    },
+    {
+      "mistake": "Using Yoga alone to declare an activity auspicious.",
+      "whyItIsWrong": "Yoga is only one of the five Panchang limbs.",
+      "correctUnderstanding": "Read it with Tithi, Vara, Nakshatra, Karana and the purpose of the activity."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Calculate the running Nitya Yoga",
+    "instructions": [
+      "Write the formula for the Sun–Moon longitude sum.",
+      "Calculate the raw sum for Sun 280° and Moon 150°.",
+      "Normalise the result into the 0°–360° range.",
+      "Calculate the Yoga index.",
+      "Identify the Yoga name from the sequence.",
+      "Write one sentence distinguishing Panchang Yoga from horoscope Yoga.",
+      "Explain why the Yoga ending time must be read."
+    ],
+    "expectedOutcome": "The student can calculate the running Nitya Yoga from sidereal Sun and Moon longitudes, normalise the result, identify the Yoga name and distinguish Panchang Yoga from horoscope Yoga.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "Nitya Yoga is one of the five limbs of Panchang.",
+    "It is calculated from the sum of Sun and Moon sidereal longitudes.",
+    "The longitude sum is normalised into the 0°–360° range.",
+    "The full cycle is divided into twenty-seven Yogas.",
+    "Each Yoga spans 13°20′.",
+    "The Yoga index is calculated from the normalised sum.",
+    "Yoga duration varies because Sun and Moon motion varies.",
+    "The Yoga ending time is part of the daily Panchang entry.",
+    "Panchang Yoga is different from horoscope Yoga.",
+    "Nitya Yoga should not be used alone for complete judgement."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "Which operation is used to calculate Nitya Yoga?",
+        "options": [
+          "Moon minus Sun",
+          "Sun plus Moon",
+          "Moon divided by Sun",
+          "Sun minus Moon"
+        ],
+        "answer": "Sun plus Moon",
+        "explanation": "Nitya Yoga is calculated from the sum of the sidereal longitudes of the Sun and Moon."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "How many Nitya Yogas are there?",
+        "options": [
+          "12",
+          "15",
+          "27",
+          "30"
+        ],
+        "answer": "27",
+        "explanation": "The 360° longitude-sum cycle is divided into twenty-seven equal parts."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "What is the span of one Nitya Yoga?",
+        "options": [
+          "3°20′",
+          "12°",
+          "13°20′",
+          "30°"
+        ],
+        "answer": "13°20′",
+        "explanation": "360° divided by 27 equals 13°20′."
+      },
+      {
+        "id": "q4",
+        "type": "short-answer",
+        "question": "What should be done if the Sun–Moon longitude sum is 430°?",
+        "answer": "Subtract 360° to obtain a normalised sum of 70°.",
+        "explanation": "Yoga calculation uses a normalised 0°–360° value."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "Panchang Yoga and horoscope Yoga are the same concept.",
+        "answer": false,
+        "explanation": "Panchang Yoga is a daily longitude-sum value, while horoscope Yoga is a planetary combination."
+      },
+      {
+        "id": "q6",
+        "type": "single-choice",
+        "question": "Which Yoga follows Siddhi?",
+        "options": [
+          "Vyatipata",
+          "Variyana",
+          "Vajra",
+          "Shiva"
+        ],
+        "answer": "Vyatipata",
+        "explanation": "Siddhi is number 16 and Vyatipata is number 17."
+      },
+      {
+        "id": "q7",
+        "type": "true-false",
+        "question": "Every Nitya Yoga lasts exactly twenty-four hours.",
+        "answer": false,
+        "explanation": "Its duration changes with the combined motion of the Sun and Moon."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should Yoga not be used alone for complete Muhurta judgement?",
+        "answer": "Because it is only one Panchang limb and must be combined with Tithi, Vara, Nakshatra, Karana and other relevant factors.",
+        "explanation": "Complete judgement requires multiple factors."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "The Surya Siddhanta",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical framework for solar and lunar longitude used in calendar calculation.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-21",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used as a work-level astronomical reference. No verse-specific quotation is made."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "The Surya Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess; edited by Phanindralal Gangooly",
+      "note": "For the traditional mathematical astronomy underlying Sun and Moon longitude calculations.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-21",
+    "reviewNotes": "The twenty-seven Yoga sequence, longitude-sum formula, normalisation rule and distinction from horoscope Yoga were checked for internal consistency. Interpretation is intentionally limited to foundation-level identification and reading. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

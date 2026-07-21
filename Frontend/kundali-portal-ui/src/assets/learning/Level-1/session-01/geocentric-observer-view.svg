@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 900 700"
+     role="img"
+     aria-labelledby="title desc">
+
+  <title id="title">Earth-Centred Observational View</title>
+  <desc id="desc">
+    A simple educational diagram with Earth at the centre and apparent directions
+    toward the Sun, Moon, and a planet as seen by an observer on Earth.
+  </desc>
+
+  <rect width="900" height="700" fill="white"/>
+
+  <!-- Reference circle -->
+  <circle cx="450" cy="350" r="250"
+          fill="none"
+          stroke="#cbd5e1"
+          stroke-width="3"/>
+
+  <!-- Earth -->
+  <circle cx="450" cy="350" r="64"
+          fill="#e2e8f0"
+          stroke="#1f2937"
+          stroke-width="4"/>
+
+  <!-- Observer -->
+  <circle cx="450" cy="286" r="7" fill="#1f2937"/>
+  <line x1="450" y1="293" x2="450" y2="318"
+        stroke="#1f2937"
+        stroke-width="4"/>
+  <line x1="450" y1="302" x2="437" y2="313"
+        stroke="#1f2937"
+        stroke-width="4"/>
+  <line x1="450" y1="302" x2="463" y2="313"
+        stroke="#1f2937"
+        stroke-width="4"/>
+
+  <!-- Sun -->
+  <circle cx="675" cy="235" r="36"
+          fill="#f8fafc"
+          stroke="#1f2937"
+          stroke-width="4"/>
+  <line x1="450" y1="350" x2="675" y2="235"
+        stroke="#64748b"
+        stroke-width="3"/>
+  <text x="675" y="190"
+        font-family="Arial, sans-serif"
+        font-size="26"
+        fill="#111827"
+        text-anchor="middle">Sun</text>
+
+  <!-- Moon -->
+  <circle cx="245" cy="210" r="28"
+          fill="#f8fafc"
+          stroke="#1f2937"
+          stroke-width="4"/>
+  <line x1="450" y1="350" x2="245" y2="210"
+        stroke="#64748b"
+        stroke-width="3"/>
+  <text x="245" y="165"
+        font-family="Arial, sans-serif"
+        font-size="26"
+        fill="#111827"
+        text-anchor="middle">Moon</text>
+
+  <!-- Planet -->
+  <circle cx="690" cy="505" r="24"
+          fill="#f8fafc"
+          stroke="#1f2937"
+          stroke-width="4"/>
+  <line x1="450" y1="350" x2="690" y2="505"
+        stroke="#64748b"
+        stroke-width="3"/>
+  <text x="690" y="555"
+        font-family="Arial, sans-serif"
+        font-size="26"
+        fill="#111827"
+        text-anchor="middle">Planet</text>
+
+  <!-- Apparent direction arrows -->
+  <polygon points="672,233 650,232 660,250" fill="#64748b"/>
+  <polygon points="248,212 270,214 258,231" fill="#64748b"/>
+  <polygon points="687,503 666,497 674,518" fill="#64748b"/>
+
+  <!-- Labels -->
+  <text x="450" y="430"
+        font-family="Arial, sans-serif"
+        font-size="28"
+        fill="#111827"
+        text-anchor="middle">Earth</text>
+
+  <text x="450" y="270"
+        font-family="Arial, sans-serif"
+        font-size="22"
+        fill="#4b5563"
+        text-anchor="middle">Observer</text>
+
+  <text x="450" y="630"
+        font-family="Arial, sans-serif"
+        font-size="24"
+        fill="#4b5563"
+        text-anchor="middle">Apparent sky directions measured from Earth</text>
+</svg>

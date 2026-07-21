@@ -125,7 +125,7 @@
 
 @media (max-width: 576px) {
   .kundali-summary-card {
-    padding: 0.6rem;
+    padding: 0.45rem;
   }
 
   .kundali-summary-grid {
@@ -133,7 +133,50 @@
   }
 
   .kundali-summary-item {
+    gap: 0.45rem;
+    min-height: 34px;
     border-right: none !important;
-    padding: 0.7rem;
+    padding: 0.38rem 0.5rem;
+  }
+
+  .kundali-summary-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    font-size: 12px;
+  }
+
+  .kundali-summary-content {
+    display: grid;
+    grid-template-columns: minmax(86px, 0.46fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2px 8px;
+    width: 100%;
+  }
+
+  .kundali-summary-content span {
+    margin-bottom: 0;
+    font-size: 8.5px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .kundali-summary-content strong {
+    justify-self: end;
+    max-width: 100%;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: right;
+  }
+
+  .kundali-summary-content .summary-lord {
+    grid-column: 2;
+    justify-self: end;
+    max-width: 100%;
+    margin-top: 0;
+    font-size: 9.5px;
+    line-height: 1.15;
+    text-align: right;
   }
 }
+

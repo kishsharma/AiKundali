@@ -1,4 +1,4 @@
-﻿using KundaliEngine.API.DTOs.Auth;
+using KundaliEngine.API.DTOs.Auth;
 using KundaliEngine.API.Security;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Infrastructure.Data;
@@ -73,7 +73,7 @@ namespace KundaliEngine.API.Services.Auth
 
             if (!user.IsActive)
             {
-                throw new UnauthorizedAccessException("User account is inactive.");
+                throw new UnauthorizedAccessException("Your login has been disabled. Please contact administrator.");
             }
 
             if (string.IsNullOrWhiteSpace(user.PasswordHash))
@@ -143,3 +143,4 @@ namespace KundaliEngine.API.Services.Auth
         }
     }
 }
+

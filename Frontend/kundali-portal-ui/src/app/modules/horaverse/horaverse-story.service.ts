@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
+import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 import { HoraverseScene, HoraverseSession } from './horaverse-models';
 
 @Injectable({ providedIn: 'root' })
 export class HoraverseStoryService {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly termTranslation: ApiTermTranslationService
+  ) {}
+
   buildScenes(session: HoraverseSession): HoraverseScene[] {
     const report = session.report ?? {};
     const summary = report.summary ?? {};
@@ -11,70 +18,130 @@ export class HoraverseStoryService {
     const scores = report.scores ?? {};
     const currentDasha = report.currentDasha ?? {};
     const birth = session.birthProfile;
+    const panchang = report.panchang ?? {};
     const moon = this.findPlanet(planets, 'Moon');
     const saturn = this.findPlanet(planets, 'Saturn');
     const focusHouse = this.findHouse(houses, moon?.house);
+    const moonSign = this.translateSign(moon?.sign ?? summary.moonSign);
+    const ascendant = this.translateSign(summary.ascendant);
     const saturnLine = saturn
-      ? `Saturn sits in house ${saturn.house ?? 'unknown'}, carrying ${this.cleanStrength(saturn.detailedStrength)} pressure.`
-      : 'Saturn is quiet in this report, so Kaala keeps the shadow line soft.';
+      ? this.t('horaverse.kaala.saturnLine', {
+          house: saturn.house ?? this.t('horaverse.common.unknown'),
+          strength: this.cleanStrength(saturn.detailedStrength)
+        })
+      : this.t('horaverse.kaala.saturnQuiet');
 
     return [
       {
         kind: 'awakening',
-        kicker: 'The awakening',
-        title: `You were born at ${birth.birthTime || 'a precise moment'}.`,
+        kicker: this.t('horaverse.awakening.kicker'),
+        title: this.t('horaverse.awakening.title', {
+          name: birth.name || this.t('horaverse.awakening.thisChart')
+        }),
         accent: '#f7bf63',
         lines: [
-          `${birth.name || 'This chart'} entered through ${birth.birthPlace || 'one place on earth'}.`,
-          `Kaala does not predict your life. It listens to the pattern that began moving then.`,
-          `The first signal is small, but it is not empty.`
+          this.t('horaverse.awakening.line1', {
+            name: birth.name || this.t('horaverse.awakening.thisChart'),
+            date: this.formatBirthDate(birth.birthDate),
+            time: birth.birthTime || this.t('horaverse.awakening.preciseMoment')
+          }),
+          this.t('horaverse.awakening.line2', {
+            place: birth.birthPlace || this.t('horaverse.awakening.onePlace'),
+            latitude: this.formatCoordinate(birth.latitude, this.t('horaverse.awakening.latitude')),
+            longitude: this.formatCoordinate(birth.longitude, this.t('horaverse.awakening.longitude'))
+          }),
+          this.t('horaverse.awakening.line3', {
+            panchang: this.formatPanchangDetails(panchang, moon)
+          })
         ]
       },
       {
         kind: 'solar-ring',
-        kicker: 'The birth of your Hora',
-        title: `${summary.ascendant || 'The ascendant'} rises. The ring forms.`,
+        kicker: this.t('horaverse.solarRing.kicker'),
+        title: this.t('horaverse.solarRing.title', { ascendant: ascendant || this.t('horaverse.solarRing.ascendantFallback') }),
         accent: '#54f0d7',
         lines: [
-          `Each house opens in a 30 degree chamber, and every planet keeps its exact longitude.`,
-          `Your Moon is in ${moon?.sign ?? summary.moonSign ?? 'its sign'}, house ${moon?.house ?? 'unknown'}.`,
-          `Your chart shows ${scores.overall ?? 'a'} overall pattern with growth at ${scores.growth ?? 'unknown'} and challenge at ${scores.challenge ?? 'unknown'}.`
+          this.t('horaverse.solarRing.line1'),
+          this.t('horaverse.solarRing.line2', {
+            sign: moonSign || this.t('horaverse.solarRing.signFallback'),
+            house: moon?.house ?? this.t('horaverse.common.unknown')
+          }),
+          this.t('horaverse.solarRing.line3', {
+            overall: scores.overall ?? this.t('horaverse.common.a'),
+            growth: scores.growth ?? this.t('horaverse.common.unknown'),
+            challenge: scores.challenge ?? this.t('horaverse.common.unknown')
+          })
         ]
       },
       {
         kind: 'kaala',
-        kicker: 'Meet Kaala',
-        title: 'I am Kaala.',
+        kicker: this.t('horaverse.kaala.kicker'),
+        title: this.t('horaverse.kaala.title'),
         accent: '#c890ff',
         lines: [
-          'I do not read your mind. I read the pressure marks left by timing, repetition, and choice.',
-          `Your current Mahadasha is ${currentDasha.mahadasha ?? summary.currentMahadasha ?? 'still unfolding'}.`,
-          `Your Antardasha is ${currentDasha.antardasha ?? summary.currentAntardasha ?? 'the smaller current inside it'}.`
+          this.t('horaverse.kaala.line1'),
+          this.t('horaverse.kaala.line2', {
+            mahadasha: this.translatePlanet(currentDasha.mahadasha ?? summary.currentMahadasha) || this.t('horaverse.kaala.stillUnfolding')
+          }),
+          this.t('horaverse.kaala.line3', {
+            antardasha: this.translatePlanet(currentDasha.antardasha ?? summary.currentAntardasha) || this.t('horaverse.kaala.smallerCurrent')
+          })
         ]
       },
       {
         kind: 'inner-focus',
-        kicker: 'The inner room',
-        title: `Moon in ${moon?.sign ?? summary.moonSign ?? 'focus'}`,
+        kicker: this.t('horaverse.innerFocus.kicker'),
+        title: this.t('horaverse.innerFocus.title', { moonSign: moonSign || this.t('horaverse.innerFocus.focusFallback') }),
         accent: '#62e9ff',
         focusPlanet: 'Moon',
         lines: [
-          `This pattern often appears when the mind keeps arranging conversations after they are over.`,
-          `House ${moon?.house ?? 'unknown'} is active here${focusHouse?.houseName ? ` - ${focusHouse.houseName}` : ''}.`,
-          `${moon?.nakshatra ? `The Moon sits in ${moon.nakshatra}, pada ${moon.pada ?? '?'}.` : 'The Moon becomes the first doorway into the story.'}`,
+          this.t('horaverse.innerFocus.line1'),
+          this.t('horaverse.innerFocus.line2', {
+            house: moon?.house ?? this.t('horaverse.common.unknown'),
+            houseName: focusHouse?.houseName ? ` - ${focusHouse.houseName}` : ''
+          }),
+          moon?.nakshatra
+            ? this.t('horaverse.innerFocus.nakshatraLine', {
+                nakshatra: this.translateNakshatra(moon.nakshatra),
+                pada: moon.pada ?? '?'
+              })
+            : this.t('horaverse.innerFocus.moonDoorway'),
           saturnLine
         ]
       },
       {
         kind: 'door-ahead',
-        kicker: 'The door ahead',
-        title: 'What is unfolding now',
+        kicker: this.t('horaverse.doorAhead.kicker'),
+        title: this.t('horaverse.doorAhead.title'),
         accent: '#67f5bf',
         lines: this.buildDoorAheadLines(session, scores, currentDasha)
       }
     ];
   }
 
+  private houseMeaning(house: number | string | null | undefined): string {
+    const houseNumber = Number(house);
+    if (!Number.isFinite(houseNumber)) {
+      return this.t('horaverse.houseMeaning.unknown');
+    }
+
+    return this.t(`horaverse.houseMeaning.${houseNumber}`);
+  }
+
+  private scoreDirection(scores: any): string {
+    const growth = Number(scores?.growth ?? 0);
+    const challenge = Number(scores?.challenge ?? 0);
+
+    if (growth >= challenge + 15) {
+      return this.t('horaverse.solarRing.directionGrowth');
+    }
+
+    if (challenge >= growth + 15) {
+      return this.t('horaverse.solarRing.directionChallenge');
+    }
+
+    return this.t('horaverse.solarRing.directionBalanced');
+  }
   private buildDoorAheadLines(session: HoraverseSession, scores: any, currentDasha: any): string[] {
     const strengths = this.toList(scores.dominantStrengths);
     const weaknesses = this.toList(scores.dominantWeaknesses);
@@ -83,15 +150,17 @@ export class HoraverseStoryService {
 
     return [
       strengths[0]
-        ? `Your strongest support says: ${strengths[0]}`
-        : 'A supportive window is present, but it asks for quieter attention than force.',
+        ? this.t('horaverse.doorAhead.strongestSupport', { value: strengths[0] })
+        : this.t('horaverse.doorAhead.supportiveWindow'),
       weaknesses[0]
-        ? `The friction point says: ${weaknesses[0]}`
-        : 'The difficult part is not a wall. It is a place where energy needs better timing.',
+        ? this.t('horaverse.doorAhead.frictionPoint', { value: weaknesses[0] })
+        : this.t('horaverse.doorAhead.difficultPart'),
       factors[0]
-        ? `Kaala notices this repeating clue: ${factors[0]}`
-        : `This ${currentDasha?.mahadasha ?? session.report?.summary?.currentMahadasha ?? 'current'} period asks you to spend energy more selectively.`,
-      dashaWindow ? `This cycle is active from ${dashaWindow}.` : 'The next door opens through attention, not hurry.'
+        ? this.t('horaverse.doorAhead.repeatingClue', { value: factors[0] })
+        : this.t('horaverse.doorAhead.currentPeriod', {
+            period: this.translatePlanet(currentDasha?.mahadasha ?? session.report?.summary?.currentMahadasha) || this.t('horaverse.doorAhead.currentFallback')
+          }),
+      dashaWindow ? this.t('horaverse.doorAhead.cycleActive', { window: dashaWindow }) : this.t('horaverse.doorAhead.nextDoor')
     ];
   }
 
@@ -111,16 +180,61 @@ export class HoraverseStoryService {
   }
 
   private cleanStrength(value: any): string {
-    const strength = String(value ?? 'quiet');
+    const strength = String(value ?? this.t('horaverse.common.quiet'));
     return strength.replace(/^strength\./, '').replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 
+  private formatBirthDate(value: string | Date | null | undefined): string {
+    if (!value) {
+      return this.t('horaverse.awakening.birthDateFallback');
+    }
+
+    return this.formatDate(value);
+  }
+
+  private formatCoordinate(value: string | number | null | undefined, label: string): string {
+    const numericValue = Number(value);
+
+    if (!Number.isFinite(numericValue)) {
+      return `${label} ${this.t('horaverse.common.unknown')}`;
+    }
+
+    return `${label} ${numericValue.toFixed(4)}`;
+  }
+
+  private formatPanchangDetails(panchang: any, moon: any): string {
+    const nakshatra = this.translateNakshatra(panchang?.nakshatra ?? moon?.nakshatra) || this.t('horaverse.common.unknown');
+    const pada = panchang?.pada ?? moon?.pada;
+    const maas = this.cleanText(panchang?.maas);
+    const paksha = this.cleanText(panchang?.paksha);
+    const tithi = this.cleanText(panchang?.tithi);
+    const yoga = this.cleanText(panchang?.yoga);
+    const karana = this.cleanText(panchang?.karana);
+    const vara = this.cleanText(panchang?.vaar ?? panchang?.vara);
+    const parts = [
+      maas ? this.t('horaverse.awakening.panchangMaas', { maas, paksha }) : '',
+      tithi ? this.t('horaverse.awakening.panchangTithi', { tithi }) : '',
+      this.t('horaverse.awakening.panchangNakshatra', {
+        nakshatra,
+        pada: pada ?? this.t('horaverse.common.unknown')
+      }),
+      yoga ? this.t('horaverse.awakening.panchangYoga', { yoga }) : '',
+      karana ? this.t('horaverse.awakening.panchangKarana', { karana }) : '',
+      vara ? this.t('horaverse.awakening.panchangVara', { vara }) : ''
+    ].filter(Boolean);
+
+    return parts.join(this.t('horaverse.awakening.detailSeparator'));
+  }
+
+  private cleanText(value: unknown): string {
+    return String(value ?? '').trim();
+  }
   private formatWindow(start: string | Date | null | undefined, end: string | Date | null | undefined): string {
     if (!start || !end) {
       return '';
     }
 
-    return `${this.formatDate(start)} to ${this.formatDate(end)}`;
+    return `${this.formatDate(start)} ${this.t('horaverse.common.to')} ${this.formatDate(end)}`;
   }
 
   private formatDate(value: string | Date): string {
@@ -130,10 +244,58 @@ export class HoraverseStoryService {
       return String(value);
     }
 
-    return date.toLocaleDateString('en-GB', {
+    return date.toLocaleDateString(this.localeForActiveLang(), {
       day: '2-digit',
       month: 'short',
       year: 'numeric'
     });
+  }
+
+  private translatePlanet(value: unknown): string {
+    return this.termTranslation.translatePlanet(value);
+  }
+
+  private translateSign(value: unknown): string {
+    return this.termTranslation.translateSign(value);
+  }
+
+  private translateNakshatra(value: unknown): string {
+    return this.termTranslation.translateNakshatra(value);
+  }
+  private t(key: string, params?: Record<string, unknown>): string {
+    const exactValue = this.lookupExactTranslation(key);
+    if (exactValue !== undefined) {
+      return this.interpolate(exactValue, params);
+    }
+
+    if (key.startsWith('horaverse.')) {
+      return '';
+    }
+
+    return this.translocoService.translate(key, params);
+  }
+
+  private lookupExactTranslation(key: string): string | undefined {
+    try {
+      const lang = this.translocoService.getActiveLang();
+      const translations = this.translocoService.getTranslation(lang) as Record<string, unknown>;
+      const value = translations?.[key];
+      return typeof value === 'string' ? value : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
+  private interpolate(value: string, params?: Record<string, unknown>): string {
+    if (!params) {
+      return value;
+    }
+
+    return value.replace(/{{\s*(\w+)\s*}}/g, (_, paramKey: string) => String(params[paramKey] ?? ''));
+  }
+
+  private localeForActiveLang(): string {
+    const lang = this.translocoService.getActiveLang();
+    return lang === 'hi' ? 'hi-IN' : lang === 'kn' ? 'kn-IN' : 'en-GB';
   }
 }

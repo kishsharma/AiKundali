@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
 import { GenerateKundaliRequest } from './kundali-api.service';
-import { environment } from '../../config/environment/environment';
+import { apiEndpoints } from '../../config/api-endpoints';
 import { MahadashaAnalysis } from '../../features/mahadasha/models/mahadasha.model';
 
 export interface DashaPeriod {
@@ -40,7 +40,7 @@ export interface MahadashaPeriodDto {
   providedIn: 'root',
 })
 export class DashaApiService extends BaseApiService {
-  private endpoint = `${environment.apiBaseUrl}/${environment.apiEndpoints.dasha}`;
+  private endpoint = apiEndpoints.dasha;
 
   /**
    * Get Dasha analysis for a Kundali
@@ -72,13 +72,14 @@ export class DashaApiService extends BaseApiService {
    * Get compact Maha Dasha period data used by the Kundali report table.
    */
   getMahadashaPeriods(payload: GenerateKundaliRequest): Observable<MahadashaPeriodDto[]> {
-    return this.http.post<MahadashaPeriodDto[]>(`${this.endpoint}/mahadasha-periods`, payload);
+    return this.http.post<MahadashaPeriodDto[]>(`${this.apiUrl}/${this.endpoint}/mahadasha-periods`, payload);
   }
 
   /**
    * Get enhanced Maha Dasha analysis used by the dedicated Dasha page.
    */
   getMahadashaAnalysis(payload: GenerateKundaliRequest): Observable<MahadashaAnalysis> {
-    return this.http.post<MahadashaAnalysis>(`${this.endpoint}/mahadasha-analysis`, payload);
+    return this.http.post<MahadashaAnalysis>(`${this.apiUrl}/${this.endpoint}/mahadasha-analysis`, payload);
   }
 }
+

@@ -93,7 +93,7 @@
 
 @media (max-width: 576px) {
   .panchang-card {
-    padding: 0.6rem;
+    padding: 0.45rem;
   }
 
   .panchang-grid {
@@ -101,6 +101,44 @@
   }
 
   .panchang-item {
+    gap: 0.45rem;
+    min-height: 34px;
     border-right: none !important;
+    padding: 0.38rem 0.5rem;
+  }
+
+  .panchang-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    font-size: 12px;
+  }
+
+  .panchang-content {
+    display: grid;
+    grid-template-columns: minmax(86px, 0.46fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2px 8px;
+    width: 100%;
+  }
+
+  .panchang-content span {
+    margin-bottom: 0;
+    font-size: 8.5px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .panchang-content strong {
+    justify-self: end;
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: normal;
   }
 }
+

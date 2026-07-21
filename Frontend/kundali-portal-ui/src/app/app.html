@@ -1,6 +1,15 @@
 <!-- Application Root -->
 <div class="root-shell" [class.public-shell]="isPublicLanding">
   <header class="app-topbar" [class.hidden]="!showAppTopbar">
+    <button
+      type="button"
+      class="mobile-menu-toggle"
+      *ngIf="showAppTopbar"
+      (click)="toggleAppMenu()"
+      aria-label="Open menu"
+      title="Open menu">
+      <span></span>
+    </button>
     <div class="app-brand" aria-label="HoraLife">
       <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" fill="none">
         <path class="mark-outline" d="M20 2 L38 20 L20 38 L2 20 Z" />

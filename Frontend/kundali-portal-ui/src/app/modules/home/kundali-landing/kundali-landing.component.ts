@@ -1,12 +1,14 @@
-﻿import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-kundali-landing',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './kundali-landing.component.html',
   styleUrl: './kundali-landing.component.scss',
 })
-export class KundaliLandingComponent implements AfterViewInit {
+export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
   private readonly zodiacSymbols = [
     '♈', '♉', '♊', '♋', '♌', '♍',
     '♎', '♏', '♐', '♑', '♒', '♓',
@@ -26,11 +28,14 @@ export class KundaliLandingComponent implements AfterViewInit {
 
   private readonly saturnGlyph = '<svg style="display:block;width:1em;height:1em;overflow:visible" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><ellipse cx="32" cy="36" rx="29" ry="8.5" fill="none" stroke="currentColor" stroke-width="2.2" transform="rotate(-12 32 36)"/><circle cx="32" cy="28" r="13" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>';
 
+  private astrologerScrollTimer?: ReturnType<typeof window.setInterval>;
+
   constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
   ngAfterViewInit(): void {
     this.scatter('deva-hero', 10);
     this.scatter('deva-process', 6);
+    this.scatter('deva-astrologers', 7);
     this.scatter('deva-eval', 8);
     this.scatter('deva-preview', 7);
     this.scatter('deva-milan', 7);
@@ -38,6 +43,52 @@ export class KundaliLandingComponent implements AfterViewInit {
     this.scatter('deva-cta', 7);
     this.scatter('deva-footer', 4);
     this.scatterStars();
+    this.startAstrologerAutoScroll();
+  }
+
+  ngOnDestroy(): void {
+    if (this.astrologerScrollTimer) {
+      window.clearInterval(this.astrologerScrollTimer);
+    }
+  }
+
+  scrollAstrologers(direction: number): void {
+    const scroller = this.elementRef.nativeElement.querySelector<HTMLElement>('.astrologer-scroll');
+    const card = scroller?.querySelector<HTMLElement>('.astrologer-review');
+
+    if (!scroller || !card) {
+      return;
+    }
+
+    const gap = 18;
+    const step = card.offsetWidth + gap;
+    const nextLeft = scroller.scrollLeft + direction * step;
+    const maxLeft = scroller.scrollWidth - scroller.clientWidth;
+
+    if (direction > 0 && nextLeft >= maxLeft - 4) {
+      scroller.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (direction < 0 && nextLeft <= 0) {
+      scroller.scrollTo({ left: maxLeft, behavior: 'smooth' });
+      return;
+    }
+
+    scroller.scrollBy({
+      left: direction * step,
+      behavior: 'smooth',
+    });
+  }
+
+  private startAstrologerAutoScroll(): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    this.astrologerScrollTimer = window.setInterval(() => {
+      this.scrollAstrologers(1);
+    }, 4200);
   }
 
   private scatter(id: string, count: number): void {

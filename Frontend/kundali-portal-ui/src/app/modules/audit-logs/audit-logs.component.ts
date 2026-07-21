@@ -1,0 +1,204 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PageHeaderComponent } from '../../shared/components/page-header.component';
+import {
+  AuditLogItem,
+  AuditLogsService,
+  CommunicationLogItem,
+  LogPage,
+  LogQuery
+} from '../../core/services/audit-logs.service';
+
+type LogTab = 'audit' | 'communication';
+
+@Component({
+  selector: 'app-audit-logs',
+  standalone: true,
+  imports: [CommonModule, FormsModule, PageHeaderComponent],
+  templateUrl: './audit-logs.component.html',
+  styleUrl: './audit-logs.component.scss'
+})
+export class AuditLogsComponent implements OnInit {
+  private readonly auditLogsService = inject(AuditLogsService);
+
+  activeTab: LogTab = 'audit';
+  loading = false;
+  errorMessage = '';
+
+  auditLogs: AuditLogItem[] = [];
+  communicationLogs: CommunicationLogItem[] = [];
+  total = 0;
+  page = 1;
+  pageSize = 25;
+
+  filters = {
+    dateFrom: '',
+    dateTo: '',
+    action: '',
+    category: '',
+    entityType: '',
+    channel: '',
+    status: '',
+    messageType: '',
+    recipient: ''
+  };
+
+  readonly auditActions = [
+    '',
+    'LoginSuccess',
+    'LoginFailed',
+    'UserRegistered',
+    'PasswordChanged',
+    'KundaliCreated',
+    'KundaliDeleted',
+    'PdfExported',
+    'UserActiveStatusChanged'
+  ];
+
+  readonly auditCategories = ['', 'Authentication', 'Security', 'DataChange', 'Export', 'AdminAction'];
+  readonly communicationChannels = ['', 'Email', 'WhatsApp', 'SMS'];
+  readonly communicationTypes = ['', 'OTP', 'Report', 'Receipt', 'Reminder', 'General'];
+  readonly statuses = ['', 'Success', 'Failed', 'Sent', 'Queued'];
+
+  ngOnInit(): void {
+    this.loadLogs();
+  }
+
+  get firstItem(): number {
+    return this.total === 0 ? 0 : (this.page - 1) * this.pageSize + 1;
+  }
+
+  get lastItem(): number {
+    return Math.min(this.page * this.pageSize, this.total);
+  }
+
+  get canGoPrevious(): boolean {
+    return this.page > 1 && !this.loading;
+  }
+
+  get canGoNext(): boolean {
+    return this.page * this.pageSize < this.total && !this.loading;
+  }
+
+  setTab(tab: LogTab): void {
+    if (this.activeTab === tab) {
+      return;
+    }
+
+    this.activeTab = tab;
+    this.page = 1;
+    this.errorMessage = '';
+    this.loadLogs();
+  }
+
+  applyFilters(): void {
+    this.page = 1;
+    this.loadLogs();
+  }
+
+  resetFilters(): void {
+    this.filters = {
+      dateFrom: '',
+      dateTo: '',
+      action: '',
+      category: '',
+      entityType: '',
+      channel: '',
+      status: '',
+      messageType: '',
+      recipient: ''
+    };
+    this.page = 1;
+    this.loadLogs();
+  }
+
+  previousPage(): void {
+    if (this.canGoPrevious) {
+      this.page -= 1;
+      this.loadLogs();
+    }
+  }
+
+  nextPage(): void {
+    if (this.canGoNext) {
+      this.page += 1;
+      this.loadLogs();
+    }
+  }
+
+  loadLogs(): void {
+    this.loading = true;
+    this.errorMessage = '';
+
+    const query = this.buildQuery();
+
+    if (this.activeTab === 'audit') {
+      this.auditLogsService.getAuditLogs(query).subscribe({
+        next: (page: LogPage<AuditLogItem>) => this.handlePage(page),
+        error: (error: any) => this.handleLoadError(error)
+      });
+      return;
+    }
+
+    this.auditLogsService.getCommunicationLogs(query).subscribe({
+      next: (page: LogPage<CommunicationLogItem>) => this.handlePage(page),
+      error: (error: any) => this.handleLoadError(error)
+    });
+  }
+
+  formatDate(value: string): string {
+    if (!value) {
+      return '-';
+    }
+
+    return new Date(value).toLocaleString();
+  }
+
+  trackById(_: number, item: AuditLogItem | CommunicationLogItem): string {
+    return item.id;
+  }
+
+  private handleLoadError(error: any): void {
+    this.errorMessage = error?.error?.message || error?.message || 'Unable to load logs.';
+    this.loading = false;
+  }
+
+  private handlePage(page: LogPage<AuditLogItem> | LogPage<CommunicationLogItem>): void {
+    this.total = page?.total ?? 0;
+    this.page = page?.page ?? this.page;
+    this.pageSize = page?.pageSize ?? this.pageSize;
+
+    if (this.activeTab === 'audit') {
+      this.auditLogs = (page?.items ?? []) as AuditLogItem[];
+    } else {
+      this.communicationLogs = (page?.items ?? []) as CommunicationLogItem[];
+    }
+
+    this.loading = false;
+  }
+
+  private buildQuery(): LogQuery {
+    const query: LogQuery = {
+      dateFrom: this.filters.dateFrom ? `${this.filters.dateFrom}T00:00:00Z` : undefined,
+      dateTo: this.filters.dateTo ? `${this.filters.dateTo}T23:59:59Z` : undefined,
+      status: this.filters.status,
+      page: this.page,
+      pageSize: this.pageSize
+    };
+
+    if (this.activeTab === 'audit') {
+      query.action = this.filters.action;
+      query.category = this.filters.category;
+      query.entityType = this.filters.entityType;
+    } else {
+      query.channel = this.filters.channel;
+      query.messageType = this.filters.messageType;
+      query.recipient = this.filters.recipient;
+    }
+
+    return query;
+  }
+}
+
+

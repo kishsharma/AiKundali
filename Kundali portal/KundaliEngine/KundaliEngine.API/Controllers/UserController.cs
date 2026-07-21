@@ -1,6 +1,10 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
+using KundaliEngine.API.DTOs.User;
+using KundaliEngine.API.Services.Audit;
+using KundaliEngine.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KundaliEngine.API.Controllers
 {
@@ -9,6 +13,34 @@ namespace KundaliEngine.API.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
+        private readonly KundaliDbContext _dbContext;
+        private readonly IAuditLogService _auditLogService;
+
+        public UserController(KundaliDbContext dbContext, IAuditLogService auditLogService)
+        {
+            _dbContext = dbContext;
+            _auditLogService = auditLogService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserLoginControlDto>>> GetUsers()
+        {
+            var users = await _dbContext.Users
+                .AsNoTracking()
+                .OrderBy(x => x.FullName)
+                .Select(x => new UserLoginControlDto
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+                    IsActive = x.IsActive
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
         [HttpGet("me")]
         public IActionResult Me()
         {
@@ -23,6 +55,44 @@ namespace KundaliEngine.API.Controllers
                 fullName,
                 email,
                 role
+            });
+        }
+
+        [HttpPatch("{id:guid}/active")]
+        public async Task<IActionResult> UpdateActiveStatus(Guid id, UpdateUserActiveStatusRequest request)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    message = "User was not found."
+                });
+            }
+
+            var oldStatus = user.IsActive;
+            user.IsActive = request.IsActive;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "UserActiveStatusChanged",
+                Category = "AdminAction",
+                EntityType = "User",
+                EntityId = user.Id.ToString(),
+                Description = $"User active status changed from {oldStatus} to {user.IsActive} for {user.Email}.",
+                Status = "Success"
+            });
+
+            return Ok(new UserLoginControlDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                IsActive = user.IsActive
             });
         }
     }

@@ -4,6 +4,7 @@ import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { CompatibilityResponse } from '../../shared/models/compatibility.model';
+import { apiEndpoints } from '../../config/api-endpoints';
 
 export interface MatchRequestPerson {
   name: string;
@@ -32,7 +33,7 @@ export interface CompatibilityDimension {
   providedIn: 'root',
 })
 export class CompatibilityApiService extends BaseApiService {
-  private endpoint = 'Compatibility';
+  private endpoint = apiEndpoints.compatibility;
 
   /**
    * Analyze compatibility between two full birth profiles.

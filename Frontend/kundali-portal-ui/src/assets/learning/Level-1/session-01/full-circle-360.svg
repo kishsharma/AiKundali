@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+<title id="title">Complete 360 Degree Zodiac Circle</title>
+<desc id="desc">A zodiac reference circle with zero and three hundred sixty degrees at the top. The values increase counter-clockwise: ninety degrees at the left, one hundred eighty degrees at the bottom, and two hundred seventy degrees at the right.</desc>
+
+<rect width="800" height="800" fill="white"/>
+
+<circle cx="400" cy="390" r="280" fill="none" stroke="#1f2937" stroke-width="4"/>
+
+<line x1="400" y1="110" x2="400" y2="670" stroke="#cbd5e1" stroke-width="2"/>
+<line x1="120" y1="390" x2="680" y2="390" stroke="#cbd5e1" stroke-width="2"/>
+
+<circle cx="400" cy="390" r="7" fill="#1f2937"/>
+
+<line x1="400" y1="110" x2="400" y2="80" stroke="#1f2937" stroke-width="4"/>
+<line x1="120" y1="390" x2="90" y2="390" stroke="#1f2937" stroke-width="4"/>
+<line x1="400" y1="670" x2="400" y2="700" stroke="#1f2937" stroke-width="4"/>
+<line x1="680" y1="390" x2="710" y2="390" stroke="#1f2937" stroke-width="4"/>
+
+<!-- Counter-clockwise arrow -->
+<path d="M 618 210 A 280 280 0 0 0 190 245"
+      fill="none" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+<polygon points="188,245 208,237 201,258" fill="#64748b"/>
+
+<text x="400" y="44" font-family="Arial, sans-serif" font-size="30"
+      fill="#111827" text-anchor="middle">0° / 360°</text>
+<text x="400" y="76" font-family="Arial, sans-serif" font-size="20"
+      fill="#4b5563" text-anchor="middle">Mesha begins</text>
+
+<text x="58" y="400" font-family="Arial, sans-serif" font-size="28"
+      fill="#111827" text-anchor="middle">90°</text>
+
+<text x="400" y="748" font-family="Arial, sans-serif" font-size="28"
+      fill="#111827" text-anchor="middle">180°</text>
+
+<text x="742" y="400" font-family="Arial, sans-serif" font-size="28"
+      fill="#111827" text-anchor="middle">270°</text>
+
+<text x="400" y="786" font-family="Arial, sans-serif" font-size="22"
+      fill="#4b5563" text-anchor="middle">Zodiac longitude increases counter-clockwise</text>
+</svg>

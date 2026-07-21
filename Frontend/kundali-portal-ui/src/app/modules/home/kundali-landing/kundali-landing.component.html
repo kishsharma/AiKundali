@@ -19,12 +19,16 @@
     </div>
     <nav class="nav-links">
       <a href="#process">Method</a>
+      <a href="#astrologers">Astrologers</a>
       <a href="#evaluators">Evaluators</a>
       <a href="#preview">Sample Report</a>
       <a href="#milan">Compatibility</a>
       <a href="#philosophy">Sources</a>
     </nav>
-    <a href="#get-score" class="nav-cta">Get Your Life</a>
+    <div class="nav-actions">
+      <a routerLink="/login" class="nav-login">Login</a>
+      <a href="#get-score" class="nav-cta">Get Your Life</a>
+    </div>
   </div>
 </header>
 
@@ -145,6 +149,52 @@
         <h3>Score</h3>
         <p>Facts roll up into a house-wise and overall <span class="brand-hora">Hora</span>Life, weighted by classical rule.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="astrologer-validation" id="astrologers">
+  <div class="deva-field" id="deva-astrologers"></div>
+  <div class="wrap" style="position:relative; z-index:1;">
+    <div class="section-head validation-head">
+      <span class="eyebrow">Astrologer validation</span>
+      <h2>What practicing jyotish readers feel.</h2>
+      <p>Short review notes from astrologer-style validation: what feels reliable, where the report helps, and why the scoring is easier to trust.</p>
+    </div>
+
+    <div class="astrologer-scroll-shell">
+      <button class="scroll-nav scroll-nav-left" type="button" aria-label="Scroll astrologer reviews left" (click)="scrollAstrologers(-1)">
+        <span aria-hidden="true">&#8249;</span>
+      </button>
+      <div class="astrologer-scroll" aria-label="Scrollable astrologer validation notes">
+        <article class="astrologer-review">
+          <img src="assets/astrologers/astro-vedic-scholar.png" alt="Senior astrologer reviewing HoraLife kundali scoring">
+          <div class="review-copy">
+            <span>Senior Jyotish Scholar</span>
+            <h3>Feels transparent.</h3>
+            <p>"I can see the reason behind every positive and negative point. The report does not hide the graha condition behind a single score."</p>
+          </div>
+        </article>
+        <article class="astrologer-review">
+          <img src="assets/astrologers/astro-kundali-acharya.png" alt="Traditional astrologer validating kundali chart interpretation">
+          <div class="review-copy">
+            <span>Kundali Acharya</span>
+            <h3>Feels classically grounded.</h3>
+            <p>House lord strength, benefic support and dosha cancellation are checked together before the final reading.</p>
+          </div>
+        </article>
+        <article class="astrologer-review">
+          <img src="assets/astrologers/astro-consultant.png" alt="Astrology consultant using a digital horoscope report">
+          <div class="review-copy">
+            <span>Report Consultant</span>
+            <h3>Feels easy to explain.</h3>
+            <p>A seeker can understand whether a result is strong, cautious or timing-dependent without needing technical astrology first.</p>
+          </div>
+        </article>
+      </div>
+      <button class="scroll-nav scroll-nav-right" type="button" aria-label="Scroll astrologer reviews right" (click)="scrollAstrologers(1)">
+        <span aria-hidden="true">&#8250;</span>
+      </button>
     </div>
   </div>
 </section>
@@ -378,6 +428,7 @@
       </div>
       <div class="foot-links">
         <a href="#process">Method</a>
+        <a href="#astrologers">Astrologers</a>
         <a href="#evaluators">Evaluators</a>
         <a href="#preview">Sample Report</a>
         <a href="#milan">Compatibility</a>

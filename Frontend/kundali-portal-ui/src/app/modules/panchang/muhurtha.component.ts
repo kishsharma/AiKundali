@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { SectionCardComponent } from '../../shared/components/section-card.component';
-import { FindMuhurthaRequest, MuhurthaApiService, MuhurthaRecommendation, MuhurthaResponse } from '../../core/services/muhurtha-api.service';
+import { FindMuhurthaRequest, MuhurthaApiService, MuhurthaRecommendation, MuhurthaResponse, MuhurthaRuleResult } from '../../core/services/muhurtha-api.service';
 import { LocationService } from '../../core/services/location.service';
 
 interface Option {
@@ -176,7 +176,16 @@ interface PanchangDayGroup {
                       <span>{{ muhurthaCategory(slot) }}</span>
                       <small><b>Lagna:</b> {{ timingName(slot, 'lagna') }} <b>Chandra:</b> {{ timingName(slot, 'chandraRashi') }}</small>
                     </div>
-                    <span class="panchang-slot-score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }} {{ verdictLabel(slot.verdict) }}</span>
+                    <div class="slot-rule-actions">
+                      <span class="panchang-slot-score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }} {{ verdictLabel(slot.verdict) }}</span>
+                      <div class="rule-info-wrap">
+                        <button type="button" class="rule-info-btn" title="Rules used" (click)="toggleRuleInfo(slot)">i</button>
+                        <div class="rule-info-popover" *ngIf="isRuleInfoOpen(slot)">
+                          <strong>Rules used</strong>
+                          <ul><li *ngFor="let item of ruleInfoItems(slot)">{{ item }}</li></ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -202,6 +211,7 @@ interface PanchangDayGroup {
                         <th>Lagna</th>
                         <th>Category</th>
                         <th>Score</th>
+                        <th>Rules</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -216,6 +226,15 @@ interface PanchangDayGroup {
                         <td><span class="table-value">{{ timingName(slot, 'lagna') }}</span><small>{{ timingWindow(slot, 'lagna') }}</small></td>
                         <td>{{ muhurthaCategory(slot) }}</td>
                         <td><span class="table-score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }}</span></td>
+                        <td>
+                          <div class="rule-info-wrap table-rule-info">
+                            <button type="button" class="rule-info-btn" title="Rules used" (click)="toggleRuleInfo(slot)">i</button>
+                            <div class="rule-info-popover" *ngIf="isRuleInfoOpen(slot)">
+                              <strong>Rules used</strong>
+                              <ul><li *ngFor="let item of ruleInfoItems(slot)">{{ item }}</li></ul>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -227,7 +246,16 @@ interface PanchangDayGroup {
                   <article class="slot-card" *ngFor="let slot of visibleSlots()">
                     <div class="slot-head">
                       <div class="slot-main"><code class="slot-id" [title]="slot.slotId">{{ shortSlotId(slot) }}</code><div class="date-line"><strong>{{ formatDate(slot.startTime) }}</strong><span class="time-pill">{{ formatTime(slot.startTime) }} - {{ formatTime(slot.endTime) }}</span></div><span class="hindu-date">{{ hinduDateLabel(slot) }}</span></div>
-                      <div class="score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }}<small>{{ verdictLabel(slot.verdict) }}</small></div>
+                      <div class="card-actions">
+                        <div class="score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }}<small>{{ verdictLabel(slot.verdict) }}</small></div>
+                        <div class="rule-info-wrap">
+                          <button type="button" class="rule-info-btn" title="Rules used" (click)="toggleRuleInfo(slot)">i</button>
+                          <div class="rule-info-popover" *ngIf="isRuleInfoOpen(slot)">
+                            <strong>Rules used</strong>
+                            <ul><li *ngFor="let item of ruleInfoItems(slot)">{{ item }}</li></ul>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="notes" *ngIf="slot.strengths.length || slot.warnings.length">
@@ -288,6 +316,15 @@ interface PanchangDayGroup {
     .response-summary span, .facts span { padding: 0.35rem 0.6rem; border-radius: 999px; background: #f0edf4; color: #4d345e; font-size: 0.78rem; font-weight: 560; }
     .response-summary .year-context { background: #fff8e1; color: #6f4e00; }
     .unsupported { margin-bottom: 1rem; padding: 0.75rem; border-radius: 0.5rem; background: #fff8e1; color: #6f4e00; }
+    .card-actions, .slot-rule-actions { display: inline-flex; align-items: flex-start; gap: 0.35rem; justify-self: end; }
+    .rule-info-wrap { position: relative; display: inline-flex; align-items: center; }
+    .rule-info-btn { display: inline-flex; align-items: center; justify-content: center; width: 1.35rem; height: 1.35rem; min-width: 1.35rem; padding: 0; border: 1px solid #d8c3e8; border-radius: 999px; background: #fff; color: #5a2d78; font-size: 0.72rem; font-weight: 900; line-height: 1; }
+    .rule-info-btn:hover, .rule-info-btn:focus { background: #f7f0fb; color: #3d155b; box-shadow: 0 0 0 2px rgba(126, 59, 168, 0.12); }
+    .rule-info-popover { position: absolute; z-index: 30; top: calc(100% + 0.35rem); right: 0; width: min(260px, 78vw); padding: 0.55rem 0.65rem; border: 1px solid #ded7e5; border-radius: 0.45rem; background: #fff; color: #333; box-shadow: 0 14px 32px rgba(32, 24, 40, 0.18); text-align: left; }
+    .rule-info-popover strong { display: block; margin-bottom: 0.35rem; color: #4d345e; font-size: 0.74rem; }
+    .rule-info-popover ul { display: grid; gap: 0.24rem; margin: 0; padding-left: 1rem; }
+    .rule-info-popover li { color: #424242; font-size: 0.72rem; line-height: 1.3; }
+    .table-rule-info .rule-info-popover { left: auto; right: 0; }
     .panchang-view { display: grid; gap: 0.85rem; }
     .panchang-range-strip { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; padding: 0.65rem 0.8rem; border: 1px solid #e7d3a1; border-radius: 0.35rem; background: #fffaf0; color: #6f3b16; font-size: 0.82rem; font-weight: 560; }
     .panchang-day { border: 1px solid #e2c98d; border-radius: 0.35rem; background: #fffdf8; box-shadow: inset 0 2px 0 #9b2335; overflow: hidden; }
@@ -447,6 +484,7 @@ export class MuhurthaComponent implements OnInit {
   birthLocationResults: any[] = [];
   timezoneResults: string[] = [];
   birthTimezoneResults: string[] = [];
+  activeRuleSlotId = signal<string | null>(null);
   readonly timezoneOptions = this.buildTimezoneOptions();
 
   readonly eventTypes: Option[] = [
@@ -593,6 +631,36 @@ export class MuhurthaComponent implements OnInit {
       { label: 'Karana', value: this.timingName(slot, 'karana'), window: this.timingWindow(slot, 'karana') },
       { label: 'Chandra', value: this.timingName(slot, 'chandraRashi'), window: this.timingWindow(slot, 'chandraRashi') },
     ];
+  }
+
+  toggleRuleInfo(slot: MuhurthaRecommendation): void {
+    const slotId = slot.slotId || slot.startTime;
+    this.activeRuleSlotId.set(this.activeRuleSlotId() === slotId ? null : slotId);
+  }
+
+  isRuleInfoOpen(slot: MuhurthaRecommendation): boolean {
+    return this.activeRuleSlotId() === (slot.slotId || slot.startTime);
+  }
+
+  ruleInfoItems(slot: MuhurthaRecommendation): string[] {
+    const items = (slot.ruleResults || [])
+      .filter((rule) => String(rule.status).toLowerCase() !== 'skipped')
+      .sort((left, right) => Math.abs(right.scoreImpact || 0) - Math.abs(left.scoreImpact || 0))
+      .slice(0, 6)
+      .map((rule) => this.ruleInfoText(rule));
+
+    return items.length ? items : ['Base Muhurtha score applied'];
+  }
+
+  private ruleInfoText(rule: MuhurthaRuleResult): string {
+    const name = this.formatRuleName(rule.ruleKey || 'Rule');
+    const value = rule.metadata?.['value'] || rule.metadata?.['moonSign'] || '';
+    const score = rule.scoreImpact ? ` (${this.signedScore(rule.scoreImpact)})` : '';
+    if (value) {
+      return `${name}: ${value}${score}`;
+    }
+
+    return `${name}${score}`;
   }
   setQualityFilter(value: string): void {
     this.form.patchValue({ resultQuality: value });
@@ -969,6 +1037,7 @@ export class MuhurthaComponent implements OnInit {
   private toDateInput(date: Date): string { return date.toISOString().slice(0, 10); }
   private addDays(date: Date, days: number): Date { const next = new Date(date); next.setDate(next.getDate() + days); return next; }
 }
+
 
 
 

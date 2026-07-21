@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { apiEndpoints } from '../../config/api-endpoints';
+import { environment } from '../../config/environment/environment';
 import { AuthResponse, ChangePasswordRequest, LoginRequest, RegisterRequest } from './auth.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = 'https://localhost:7245/api/auth';
+  private readonly apiUrl = `${environment.apiBaseUrl}/${apiEndpoints.auth}`;
+  private readonly userApiUrl = `${environment.apiBaseUrl}/${apiEndpoints.user}`;
 
   private readonly tokenKey = 'kundali_token';
   private readonly userKey = 'kundali_user';
@@ -57,6 +60,6 @@ export class AuthService {
   }
 
   getMe() {
-  return this.http.get<any>('https://localhost:7245/api/user/me');
-}
+    return this.http.get<any>(`${this.userApiUrl}/me`);
+  }
 }
