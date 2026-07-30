@@ -1,0 +1,131 @@
+.toast-stack {
+  position: fixed;
+  top: calc(18px + env(safe-area-inset-top, 0px));
+  right: calc(22px + env(safe-area-inset-right, 0px));
+  z-index: 3000;
+  display: grid;
+  gap: 12px;
+  width: min(360px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 14px 16px 14px 16px;
+  color: #151923;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(34, 29, 35, 0.12);
+  border-left: 4px solid #465169;
+  border-radius: 9px;
+  box-shadow: 0 14px 34px rgba(20, 16, 24, 0.18);
+  pointer-events: auto;
+}
+
+.toast-card--success {
+  border-left-color: #26734d;
+}
+
+.toast-card--error {
+  border-left-color: #c94833;
+}
+
+.toast-card--warning {
+  border-left-color: #c9822b;
+}
+
+.toast-card--info {
+  border-left-color: #315f9f;
+}
+
+.toast-close {
+  position: absolute;
+  top: -10px;
+  left: -9px;
+  display: inline-grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  padding: 0;
+  font: 700 12px/1 Arial, sans-serif;
+  color: #25212a;
+  background: #ffffff;
+  border: 1px solid rgba(34, 29, 35, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(20, 16, 24, 0.18);
+  cursor: pointer;
+}
+
+.toast-close:hover,
+.toast-close:focus-visible {
+  background: #f8f5f1;
+  outline: none;
+}
+
+.toast-icon {
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  color: #ffffff;
+  background: #1f2430;
+  border-radius: 50%;
+}
+
+.toast-card--success .toast-icon {
+  background: #26734d;
+}
+
+.toast-card--error .toast-icon {
+  background: #c94833;
+}
+
+.toast-card--warning .toast-icon {
+  background: #c9822b;
+}
+
+.toast-card--info .toast-icon {
+  background: #315f9f;
+}
+
+.toast-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.toast-icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.toast-content {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font: 600 0.88rem/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.toast-content strong {
+  color: #0f1522;
+  font-size: 0.78rem;
+}
+
+.toast-content span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .toast-stack {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    left: calc(12px + env(safe-area-inset-left, 0px));
+    width: auto;
+  }
+}

@@ -1,9 +1,19 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { apiEndpoints } from '../../config/api-endpoints';
 import { environment } from '../../config/environment/environment';
-import { AuthResponse, ChangePasswordRequest, LoginRequest, RegisterRequest } from './auth.models';
+import {
+  AuthResponse,
+  ChangePasswordRequest,
+  CompleteOtpRegistrationRequest,
+  LoginRequest,
+  OtpChallengeResponse,
+  RegisterRequest,
+  StartEmailOtpRequest,
+  VerifyEmailOtpRequest,
+  VerifyRegistrationOtpResponse
+} from './auth.models';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +42,32 @@ export class AuthService {
       );
   }
 
+  startOtpLogin(request: StartEmailOtpRequest): Observable<OtpChallengeResponse> {
+    return this.http.post<OtpChallengeResponse>(`${this.apiUrl}/otp/start-login`, request);
+  }
+
+  verifyOtpLogin(request: VerifyEmailOtpRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/otp/verify-login`, request)
+      .pipe(
+        tap(response => this.saveSession(response))
+      );
+  }
+
+  startOtpRegistration(request: StartEmailOtpRequest): Observable<OtpChallengeResponse> {
+    return this.http.post<OtpChallengeResponse>(`${this.apiUrl}/otp/start-registration`, request);
+  }
+
+  verifyOtpRegistration(request: VerifyEmailOtpRequest): Observable<VerifyRegistrationOtpResponse> {
+    return this.http.post<VerifyRegistrationOtpResponse>(`${this.apiUrl}/otp/verify-registration`, request);
+  }
+
+  completeOtpRegistration(request: CompleteOtpRegistrationRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/otp/complete-registration`, request)
+      .pipe(
+        tap(response => this.saveSession(response))
+      );
+  }
+
   changePassword(request: ChangePasswordRequest): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`${this.apiUrl}/change-password`, request);
   }
@@ -55,6 +91,10 @@ export class AuthService {
   }
 
   logout(): void {
+    this.clearSession();
+  }
+
+  clearSession(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
   }

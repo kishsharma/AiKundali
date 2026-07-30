@@ -1,4 +1,4 @@
-﻿import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { KundaliService } from './kundali.service';
@@ -32,24 +32,38 @@ import { HouseScoreOverview } from "../../components/house-score-overview/house-
 import { KundaliMetadataInsightsComponent } from "../../components/kundali-metadata-insights/kundali-metadata-insights.component";
 import { TransitInsightComponent } from "../../components/transit-insight/transit-insight.component";
 import { CurrentLifeFocusComponent } from "../../components/current-life-focus/current-life-focus.component";
+import { mapDhruvaKundaliContext } from '../../shared/components/dhruva-assistant/dhruva-kundali-context.mapper';
+import { DhruvaKundaliContextService } from '../../shared/components/dhruva-assistant/dhruva-kundali-context.service';
 import { RemediesRecommendationComponent } from "../../components/remedies-recommendation/remedies-recommendation.component";
 import {
   AstrologerBrandingSetting,
   AstrologerBrandingSettingsService
 } from '../../core/services/astrologer-branding-settings.service';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { NotificationService } from '../../shared/services/notification.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 type KundaliPdfMode = 'desktop' | 'mobile' | 'print-bw' | 'corporate';
 
-const KUNDALI_PDF_MODE_CLASSES: Record<KundaliPdfMode, string> = {
-  desktop: 'pdf-mode-desktop',
-  mobile: 'pdf-mode-mobile',
-  'print-bw': 'pdf-mode-print-bw',
-  corporate: 'pdf-mode-desktop'
-};
+interface ActivationGroupedItem {
+  item: any;
+  index: number;
+  activation: any;
+}
 
-const KUNDALI_PDF_CAPTURE_STYLE_ID = 'kundali-pdf-html2canvas-safe-style';
+interface NatalGroupedItem {
+  item: any;
+  index: number;
+}
+
+interface ActivationPeriodGroup {
+  title: string;
+  period: string;
+  dasha: string;
+  trigger: string;
+  isCurrent: boolean;
+  items: ActivationGroupedItem[];
+}
+
 
 @Component({
   selector: 'app-kundali',
@@ -86,8 +100,11 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   private dashaApiService = inject(DashaApiService);
   private locationService = inject(LocationService);
   private latestKundaliStorage = inject(LatestKundaliStorageService);
+  private dhruvaKundaliContext = inject(DhruvaKundaliContextService);
   private apiTerms = inject(ApiTermTranslationService);
   private brandingSettingsService = inject(AstrologerBrandingSettingsService);
+  private readonly notifications = inject(NotificationService);
+  private readonly themeService = inject(ThemeService);
   private route = inject(ActivatedRoute);
   locationResults: any[] = [];
   kundaliResponse: any = null;
@@ -100,9 +117,15 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   savedKundaliId: string | null = null;
   currentLifeFocusResetKey = 0;
   saveMessage = '';
+  saveFailed = false;
+  generationMessage = '';
+  generationFailed = false;
+  pdfDownloadMessage = '';
+  pdfDownloadFailed = false;
   shareEmail = '';
   shareEmailTouched = false;
   shareMessage = '';
+  shareFailed = false;
   shareSending = false;
   selectedEmailPdfMode: KundaliPdfMode = 'corporate';
   shareWhatsAppNumber = '';
@@ -114,7 +137,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   displayPersonName = '';
   janmaStoryLines: string[] = [];
   displayedJanmaStoryLines: string[] = [];
-  isJanmaStoryRailCollapsed = false;
+  isJanmaStoryRailCollapsed = true;
   janmaStoryHighlightTerms: Array<{ value: string; type: string }> = [];
   private janmaStoryTimers: ReturnType<typeof setTimeout>[] = [];
   readonly kundaliPreparationSteps = [
@@ -131,6 +154,33 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   doshas: any[] = [];
   openYogaIndex: number | null = null;
   openDoshaIndex: number | null = null;
+
+  get hasReportStatus(): boolean {
+    return !!(this.saveMessage || this.generationMessage || this.pdfDownloadMessage || this.shareMessage);
+  }
+  get currentYogaActivationGroups(): ActivationPeriodGroup[] {
+    return this.buildActivationPeriodGroups(this.yogas, 'current', 'Current Yoga Activation');
+  }
+
+  get upcomingYogaActivationGroups(): ActivationPeriodGroup[] {
+    return this.buildActivationPeriodGroups(this.yogas, 'upcoming', 'Upcoming Yoga Activation');
+  }
+
+  get natalYogaItems(): NatalGroupedItem[] {
+    return this.getNatalOnlyItems(this.yogas);
+  }
+
+  get currentDoshaActivationGroups(): ActivationPeriodGroup[] {
+    return this.buildActivationPeriodGroups(this.doshas, 'current', 'Current Dosha Activation');
+  }
+
+  get upcomingDoshaActivationGroups(): ActivationPeriodGroup[] {
+    return this.buildActivationPeriodGroups(this.doshas, 'upcoming', 'Upcoming Dosha Activation');
+  }
+
+  get natalDoshaItems(): NatalGroupedItem[] {
+    return this.getNatalOnlyItems(this.doshas);
+  }
   selectedHouseData: any;
   activeChartType: 'north' | 'south' | 'western' = 'north';
   activeDivisionalChart: 'd1' | 'd9' = 'd1';
@@ -164,45 +214,45 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   ];
 
   private readonly planetGlyphMap: Record<string, string> = {
-    Sun: '☉',
-    Moon: '☾',
-    Mars: '♂',
-    Mercury: '☿',
-    Jupiter: '♃',
-    Venus: '♀',
-    Saturn: '♄',
-    Rahu: '☊',
-    Ketu: '☋'
+    Sun: '\u2609',
+    Moon: '\u263E',
+    Mars: '\u2642',
+    Mercury: '\u263F',
+    Jupiter: '\u2643',
+    Venus: '\u2640',
+    Saturn: '\u2644',
+    Rahu: 'Ra',
+    Ketu: 'Ke'
   };
   private readonly rashiWatermarkMap: Record<string, { symbol: string; indianName: string; englishName: string }> = {
-    aries: { symbol: '🐏', indianName: 'Mesha', englishName: 'Aries' },
-    mesha: { symbol: '🐏', indianName: 'Mesha', englishName: 'Aries' },
-    taurus: { symbol: '🐂', indianName: 'Vrishabha', englishName: 'Taurus' },
-    vrishabha: { symbol: '🐂', indianName: 'Vrishabha', englishName: 'Taurus' },
-    gemini: { symbol: '👥', indianName: 'Mithuna', englishName: 'Gemini' },
-    mithuna: { symbol: '👥', indianName: 'Mithuna', englishName: 'Gemini' },
-    cancer: { symbol: '🦀', indianName: 'Karka', englishName: 'Cancer' },
-    karka: { symbol: '🦀', indianName: 'Karka', englishName: 'Cancer' },
-    karkataka: { symbol: '🦀', indianName: 'Karka', englishName: 'Cancer' },
-    leo: { symbol: '🦁', indianName: 'Simha', englishName: 'Leo' },
-    simha: { symbol: '🦁', indianName: 'Simha', englishName: 'Leo' },
-    sinh: { symbol: '🦁', indianName: 'Simha', englishName: 'Leo' },
-    virgo: { symbol: '🌾', indianName: 'Kanya', englishName: 'Virgo' },
-    kanya: { symbol: '🌾', indianName: 'Kanya', englishName: 'Virgo' },
-    libra: { symbol: '⚖', indianName: 'Tula', englishName: 'Libra' },
-    tula: { symbol: '⚖', indianName: 'Tula', englishName: 'Libra' },
-    scorpio: { symbol: '🦂', indianName: 'Vrischika', englishName: 'Scorpio' },
-    vrischika: { symbol: '🦂', indianName: 'Vrischika', englishName: 'Scorpio' },
-    vrishchika: { symbol: '🦂', indianName: 'Vrischika', englishName: 'Scorpio' },
-    sagittarius: { symbol: '🏹', indianName: 'Dhanu', englishName: 'Sagittarius' },
-    dhanu: { symbol: '🏹', indianName: 'Dhanu', englishName: 'Sagittarius' },
-    capricorn: { symbol: '🐐', indianName: 'Makara', englishName: 'Capricorn' },
-    makara: { symbol: '🐐', indianName: 'Makara', englishName: 'Capricorn' },
-    aquarius: { symbol: '🏺', indianName: 'Kumbha', englishName: 'Aquarius' },
-    kumbha: { symbol: '🏺', indianName: 'Kumbha', englishName: 'Aquarius' },
-    pisces: { symbol: '🐟🐟', indianName: 'Meena', englishName: 'Pisces' },
-    meena: { symbol: '🐟🐟', indianName: 'Meena', englishName: 'Pisces' },
-    meen: { symbol: '🐟🐟', indianName: 'Meena', englishName: 'Pisces' }
+    aries: { symbol: 'ðŸ', indianName: 'Mesha', englishName: 'Aries' },
+    mesha: { symbol: 'ðŸ', indianName: 'Mesha', englishName: 'Aries' },
+    taurus: { symbol: 'ðŸ‚', indianName: 'Vrishabha', englishName: 'Taurus' },
+    vrishabha: { symbol: 'ðŸ‚', indianName: 'Vrishabha', englishName: 'Taurus' },
+    gemini: { symbol: 'ðŸ‘¥', indianName: 'Mithuna', englishName: 'Gemini' },
+    mithuna: { symbol: 'ðŸ‘¥', indianName: 'Mithuna', englishName: 'Gemini' },
+    cancer: { symbol: 'ðŸ¦€', indianName: 'Karka', englishName: 'Cancer' },
+    karka: { symbol: 'ðŸ¦€', indianName: 'Karka', englishName: 'Cancer' },
+    karkataka: { symbol: 'ðŸ¦€', indianName: 'Karka', englishName: 'Cancer' },
+    leo: { symbol: 'ðŸ¦', indianName: 'Simha', englishName: 'Leo' },
+    simha: { symbol: 'ðŸ¦', indianName: 'Simha', englishName: 'Leo' },
+    sinh: { symbol: 'ðŸ¦', indianName: 'Simha', englishName: 'Leo' },
+    virgo: { symbol: 'ðŸŒ¾', indianName: 'Kanya', englishName: 'Virgo' },
+    kanya: { symbol: 'ðŸŒ¾', indianName: 'Kanya', englishName: 'Virgo' },
+    libra: { symbol: 'âš–', indianName: 'Tula', englishName: 'Libra' },
+    tula: { symbol: 'âš–', indianName: 'Tula', englishName: 'Libra' },
+    scorpio: { symbol: 'ðŸ¦‚', indianName: 'Vrischika', englishName: 'Scorpio' },
+    vrischika: { symbol: 'ðŸ¦‚', indianName: 'Vrischika', englishName: 'Scorpio' },
+    vrishchika: { symbol: 'ðŸ¦‚', indianName: 'Vrischika', englishName: 'Scorpio' },
+    sagittarius: { symbol: 'ðŸ¹', indianName: 'Dhanu', englishName: 'Sagittarius' },
+    dhanu: { symbol: 'ðŸ¹', indianName: 'Dhanu', englishName: 'Sagittarius' },
+    capricorn: { symbol: 'ðŸ', indianName: 'Makara', englishName: 'Capricorn' },
+    makara: { symbol: 'ðŸ', indianName: 'Makara', englishName: 'Capricorn' },
+    aquarius: { symbol: 'ðŸº', indianName: 'Kumbha', englishName: 'Aquarius' },
+    kumbha: { symbol: 'ðŸº', indianName: 'Kumbha', englishName: 'Aquarius' },
+    pisces: { symbol: 'ðŸŸðŸŸ', indianName: 'Meena', englishName: 'Pisces' },
+    meena: { symbol: 'ðŸŸðŸŸ', indianName: 'Meena', englishName: 'Pisces' },
+    meen: { symbol: 'ðŸŸðŸŸ', indianName: 'Meena', englishName: 'Pisces' }
   };
 
   ngOnInit(): void {
@@ -267,24 +317,34 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return !!this.activeBranding?.showOnPdfReport;
   }
 
+  get showReportBranding(): boolean {
+    return this.showChartBranding || this.showPdfBranding;
+  }
+
   get reportLogoUrl(): string {
-    return this.showPdfBranding ? this.activeBranding?.logoUrl || 'assets/logo.png' : 'assets/logo.png';
+    return this.showReportBranding ? this.activeBranding?.logoUrl || 'assets/logo.png' : 'assets/logo.png';
   }
 
   get reportAstrologerName(): string {
-    return this.showPdfBranding
+    return this.showReportBranding
       ? this.activeBranding?.astrologerName || this.translocoService.translate('kundali.reportAuthorName')
       : this.translocoService.translate('kundali.reportAuthorName');
   }
 
   get reportAstrologerDesignation(): string {
-    return this.showPdfBranding
+    return this.showReportBranding
       ? this.activeBranding?.designation || this.translocoService.translate('kundali.reportAuthorRole')
       : this.translocoService.translate('kundali.reportAuthorRole');
   }
 
+
+  get reportBrandLogoSrc(): string {
+    return this.themeService.mode() === 'dark'
+      ? 'assets/brand/horalife/horalife-icon-white.svg'
+      : 'assets/brand/horalife/horalife-icon-color.svg';
+  }
   get reportAstrologerContact(): string {
-    if (!this.showPdfBranding || !this.activeBranding) {
+    if (!this.showReportBranding || !this.activeBranding) {
       return this.translocoService.translate('kundali.reportAuthorContact');
     }
 
@@ -356,7 +416,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   onCurrentLifeFocusSaved(kundaliId: string): void {
     this.savedKundaliId = kundaliId;
-    this.saveMessage = 'Kundali saved for Current Life Focus.';
+    this.saveFailed = false;
+    this.notifications.success('Kundali saved for Current Life Focus.');
     window.dispatchEvent(new CustomEvent('kundali-saved'));
     this.cdr.detectChanges();
   }
@@ -365,23 +426,42 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     if (!this.kundaliResponse || this.savingKundali) { return; }
     this.savingKundali = true;
     this.saveMessage = '';
+    this.saveFailed = false;
     const payload = { ...this.buildKundaliPayload(), chartData: this.kundaliResponse };
     this.kundaliService.saveKundali(payload).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? saved?.kundaliId ?? this.savedKundaliId;
-        this.saveMessage = 'Kundali saved.';
+        this.saveFailed = false;
+        this.notifications.success('Kundali saved.');
         this.savingKundali = false;
         window.dispatchEvent(new CustomEvent('kundali-saved'));
         this.cdr.detectChanges();
       },
-      error: () => {
-        this.saveMessage = 'Unable to save Kundali.';
+      error: (error) => {
+        const message = this.getSaveErrorMessage(error);
+        this.saveFailed = true;
+        this.notifications.error(message);
         this.savingKundali = false;
         this.cdr.detectChanges();
       }
     });
   }
 
+  private getSaveErrorMessage(error: any): string {
+    if (typeof error?.error === 'string' && error.error.trim()) {
+      return error.error;
+    }
+
+    if (typeof error?.error?.message === 'string' && error.error.message.trim()) {
+      return error.error.message;
+    }
+
+    if (error?.status === 409) {
+      return 'Saved Kundali limit reached. Please delete an old Kundali or ask admin to increase your limit.';
+    }
+
+    return 'Unable to save Kundali.';
+  }
   get isShareEmailValid(): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.shareEmail.trim());
   }
@@ -477,13 +557,15 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   async sendReportByEmail(): Promise<void> {
     this.shareEmailTouched = true;
     this.shareMessage = '';
+    this.shareFailed = false;
 
     if (!this.isShareEmailValid || this.shareSending) {
       return;
     }
 
     if (!this.kundaliResponse) {
-      this.shareMessage = 'Generate a report before sharing.';
+      this.shareFailed = true;
+      this.notifications.warning('Generate a report before sharing.');
       return;
     }
 
@@ -516,10 +598,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
         message
       }));
 
-      this.shareMessage = 'Report email sent.';
+      this.shareFailed = false;
+      this.notifications.success('Report email submitted for delivery.');
     } catch (error) {
       console.error('Report share email error:', error);
-      this.shareMessage = 'Unable to send report email.';
+      this.shareFailed = true;
+      this.notifications.error(await this.resolveReportEmailError(error));
     } finally {
       this.shareSending = false;
       setTimeout(() => {
@@ -530,13 +614,110 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     }
   }
 
-  private blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(String(reader.result).split(',')[1] ?? '');
-      reader.onerror = () => reject(reader.error ?? new Error('Unable to read report PDF.'));
-      reader.readAsDataURL(blob);
-    });
+  private async resolveReportEmailError(error: unknown): Promise<string> {
+    const fallbackMessage = 'Unable to send report email right now.';
+    const errorName = error && typeof error === 'object' && 'name' in error ? String(error.name) : '';
+
+    if (errorName === 'TimeoutError') {
+      return 'Report email is taking longer than expected. Please try again in a moment.';
+    }
+
+    if (!error || typeof error !== 'object') {
+      return fallbackMessage;
+    }
+
+    const status = 'status' in error ? Number((error as { status?: unknown }).status) : 0;
+    const responseError = 'error' in error ? (error as { error?: unknown }).error : null;
+    const backendMessage = await this.extractReportErrorMessage(responseError);
+
+    if (backendMessage) {
+      return backendMessage;
+    }
+
+    switch (status) {
+      case 0:
+        return 'Unable to reach the report email service. Check the API connection and try again.';
+      case 400:
+        return 'The report email request is incomplete. Please check the email address and try again.';
+      case 401:
+      case 403:
+        return 'Please sign in again before sending the report email.';
+      case 413:
+        return 'The report PDF is too large to send by email. Please download it instead.';
+      case 429:
+        return this.buildReportRateLimitMessage(error);
+      case 502:
+        return 'The email provider could not send the report right now. Please verify SMTP settings or try again later.';
+      case 503:
+        return 'Report email service is not configured yet.';
+      case 504:
+        return 'Report email timed out while contacting the email server. Please try again.';
+      default:
+        return fallbackMessage;
+    }
+  }
+  private buildReportRateLimitMessage(error: unknown): string {
+    return 'Too many report requests. Please wait ' + this.formatRetryAfter(error) + ' and try again.';
+  }
+
+  private formatRetryAfter(error: unknown): string {
+    const retryAfterSeconds = this.getRetryAfterSeconds(error);
+
+    if (!retryAfterSeconds) {
+      return 'a few minutes';
+    }
+
+    if (retryAfterSeconds < 60) {
+      return `${retryAfterSeconds} second${retryAfterSeconds === 1 ? '' : 's'}`;
+    }
+
+    const minutes = Math.ceil(retryAfterSeconds / 60);
+    return `${minutes} minute${minutes === 1 ? '' : 's'}`;
+  }
+
+  private getRetryAfterSeconds(error: unknown): number | null {
+    if (!error || typeof error !== 'object' || !('headers' in error)) {
+      return null;
+    }
+
+    const headers = (error as { headers?: { get?: (name: string) => string | null } }).headers;
+    const retryAfter = headers?.get?.('Retry-After');
+    const seconds = Number(retryAfter);
+
+    return Number.isFinite(seconds) && seconds > 0 ? Math.ceil(seconds) : null;
+  }
+
+  private async extractReportErrorMessage(responseError: unknown): Promise<string> {
+    if (!responseError) {
+      return '';
+    }
+
+    if (responseError instanceof Blob) {
+      const message = await this.readReportErrorBlob(responseError, '');
+      return message;
+    }
+
+    if (typeof responseError === 'string') {
+      return responseError.trim();
+    }
+
+    if (typeof responseError === 'object') {
+      const candidate = responseError as { message?: unknown; title?: unknown; errors?: unknown };
+      const message = String(candidate.message || candidate.title || '').trim();
+
+      if (message) {
+        return message;
+      }
+
+      if (candidate.errors && typeof candidate.errors === 'object') {
+        const firstError = Object.values(candidate.errors as Record<string, unknown>)[0];
+        if (Array.isArray(firstError) && firstError.length) {
+          return String(firstError[0]);
+        }
+      }
+    }
+
+    return '';
   }
 
   toggleChartPin(): void { this.isChartPinned = !this.isChartPinned; }
@@ -576,7 +757,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   formatBirthDate(value: string | null | undefined): string {
     if (!value) {
-      return '—';
+      return 'â€”';
     }
 
     const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -631,7 +812,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   getPlanetGlyph(planet: string | null | undefined): string {
-    return this.planetGlyphMap[planet ?? ''] ?? '•';
+    return this.planetGlyphMap[planet ?? ''] ?? '\u2022';
   }
 
   getPlanetSupportStatus(planet: any): 'supportive' | 'neutral' | 'challenging' {
@@ -759,11 +940,16 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   generateKundali(): void {
     this.showChart = false;
+    this.dhruvaKundaliContext.clearContext();
     this.selectedHouseData = null;
     this.activeDivisionalChart = 'd1';
     this.currentLifeFocusResetKey++;
+    this.generationMessage = '';
+    this.generationFailed = false;
     if (this.kundaliForm.invalid) {
       this.kundaliForm.markAllAsTouched();
+      this.generationFailed = true;
+      this.notifications.warning('Please complete the required birth details before generating the Kundali.');
       return;
     }
 
@@ -774,6 +960,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
         next: (response) => {
           console.log('Generated:', response);
           this.kundaliResponse = response;
+          this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(response));
           console.log(response);
 console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.planets = response.planets;
@@ -792,8 +979,10 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.showChart = true;
           this.savedKundaliId = null;
           this.saveMessage = '';
+          this.notifications.success('Kundali generated.');
+          this.generationFailed = false;
           this.latestKundaliStorage.save(payload);
-          this.startJanmaStory(response);
+          this.prepareJanmaStory(response);
           this.setDefaultHouseSelection();
           this.cdr.detectChanges();
           console.log('houseScoreslog'  , this.houseScores);
@@ -804,33 +993,99 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
             next: (mahaResponse) => {
               console.log('Mahadasha periods:', mahaResponse);
               this.mahadashaPeriods = mahaResponse;
-              this.startJanmaStory(response);
+              this.prepareJanmaStory(response);
               this.loading = false;
               this.cdr.detectChanges();
               console.log('Mahadasha periods:', this.mahadashaPeriods);
             },
             error: (error) => {
               console.error('Mahadasha periods error:', error);
+              this.generationFailed = true;
+              this.notifications.warning('Kundali generated, but the Dasha timeline could not be loaded right now.');
               this.loading = false;
               this.cdr.detectChanges();
             }
           });
         },
         error: (error) => {
-          console.error(error);
-          this.showChart = false;
-          this.selectedHouseData = null;
-          setTimeout(() => {
-  this.loading = false;
-});
+          console.error('Kundali generation error:', error);
+          this.resetGeneratedKundaliState();
+          this.generationFailed = true;
+          this.resolveKundaliGenerationError(error).then(message => {
+            this.notifications.error(message);
+            this.loading = false;
+            this.cdr.detectChanges();
+          });
         }
       });
+  }
+  private resetGeneratedKundaliState(): void {
+    this.kundaliResponse = null;
+    this.planets = [];
+    this.d1Planets = [];
+    this.d1Houses = [];
+    this.summary = null;
+    this.d1Ascendant = '';
+    this.d9Chart = null;
+    this.scores = [];
+    this.yogas = [];
+    this.doshas = [];
+    this.houseScores = [];
+    this.mahadashaPeriods = [];
+    this.openYogaIndex = null;
+    this.openDoshaIndex = null;
+    this.showChart = false;
+    this.selectedHouseData = null;
+    this.savedKundaliId = null;
+    this.dhruvaKundaliContext.clearContext();
+  }
+
+  private async resolveKundaliGenerationError(error: unknown): Promise<string> {
+    const fallbackMessage = 'Unable to generate Kundali right now.';
+    const errorName = error && typeof error === 'object' && 'name' in error ? String(error.name) : '';
+
+    if (errorName === 'TimeoutError') {
+      return 'Kundali generation is taking longer than expected. Please try again in a moment.';
+    }
+
+    if (!error || typeof error !== 'object') {
+      return fallbackMessage;
+    }
+
+    const status = 'status' in error ? Number((error as { status?: unknown }).status) : 0;
+    const responseError = 'error' in error ? (error as { error?: unknown }).error : null;
+    const backendMessage = await this.extractReportErrorMessage(responseError);
+
+    if (backendMessage) {
+      return backendMessage;
+    }
+
+    switch (status) {
+      case 0:
+        return 'Unable to reach the Kundali service. Check the API connection and try again.';
+      case 400:
+        return 'The birth details could not be processed. Please check date, time, place, and coordinates.';
+      case 401:
+      case 403:
+        return 'Please sign in again before generating the Kundali.';
+      case 429:
+        return 'Too many Kundali generation requests. Please wait ' + this.formatRetryAfter(error) + ' and try again.';
+      case 500:
+        return 'The Kundali service hit an internal error. Please try again after a moment.';
+      case 502:
+      case 503:
+      case 504:
+        return 'The Kundali service is temporarily unavailable. Please try again shortly.';
+      default:
+        return fallbackMessage;
+    }
   }
 
   private loadSavedKundali(id: string): void {
     this.loadingSavedKundali = true;
     this.loading = true;
     this.showChart = false;
+    this.dhruvaKundaliContext.clearContext();
     this.selectedHouseData = null;
     this.activeDivisionalChart = 'd1';
     this.saveMessage = '';
@@ -838,11 +1093,12 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.kundaliService.getSavedKundali(id).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? id;
+        this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(saved));
         this.patchFormFromSavedKundali(saved);
         this.applyKundaliResponse(saved?.chartData ?? null);
         this.mahadashaPeriods = saved?.chartData?.mahadashaPeriods ?? [];
         this.latestKundaliStorage.save(this.buildKundaliPayload());
-        this.startJanmaStory(this.kundaliResponse);
+        this.prepareJanmaStory(this.kundaliResponse);
         this.loadingSavedKundali = false;
         this.loading = false;
         this.cdr.detectChanges();
@@ -852,7 +1108,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         this.loadingSavedKundali = false;
         this.loading = false;
         this.showChart = false;
-        this.saveMessage = 'Unable to open saved Kundali.';
+        this.notifications.error('Unable to open saved Kundali.');
         this.cdr.detectChanges();
       }
     });
@@ -876,12 +1132,14 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   private applyKundaliResponse(response: any): void {
     if (!response) {
       this.kundaliResponse = null;
+      this.dhruvaKundaliContext.clearContext();
       this.showChart = false;
       return;
     }
 
     this.currentLifeFocusResetKey++;
     this.kundaliResponse = response;
+    this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({ kundaliId: this.savedKundaliId, chartData: response }));
     this.planets = response.planets ?? [];
     this.d1Planets = response.planets ?? [];
     this.d1Houses = response.houses ?? [];
@@ -1062,6 +1320,44 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     return this.getCurrentActivation(item) ?? this.getNextActivation(item);
   }
 
+  private buildActivationPeriodGroups(items: any[], mode: 'current' | 'upcoming', title: string): ActivationPeriodGroup[] {
+    const groups = new Map<string, ActivationPeriodGroup>();
+
+    items.forEach((item, index) => {
+      const activation = mode === 'current' ? this.getCurrentActivation(item) : this.getNextActivation(item);
+
+      if (!activation) {
+        return;
+      }
+
+      const period = this.formatActivationPeriod(activation);
+      const dasha = this.formatActivationDashaPeriod(activation);
+      const trigger = this.formatActivationTrigger(activation);
+      const key = [mode, period, dasha, trigger].join('|');
+
+      if (!groups.has(key)) {
+        groups.set(key, {
+          title,
+          period,
+          dasha,
+          trigger,
+          isCurrent: mode === 'current',
+          items: []
+        });
+      }
+
+      groups.get(key)?.items.push({ item, index, activation });
+    });
+
+    return Array.from(groups.values());
+  }
+
+  private getNatalOnlyItems(items: any[]): NatalGroupedItem[] {
+    return items
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => !this.hasActivationPeriod(item));
+  }
+
   formatActivationDate(value: string | Date | null | undefined): string {
     if (!value) {
       return '';
@@ -1088,7 +1384,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     const startDate = activation.startDate ?? activation.StartDate;
     const endDate = activation.endDate ?? activation.EndDate;
 
-    return `${this.formatActivationDate(startDate)} - ${this.formatActivationDate(endDate)}`;
+    return `${this.formatActivationDate(startDate)} to ${this.formatActivationDate(endDate)}`;
   }
 
   formatActivationDashaPeriod(activation: any): string {
@@ -1138,7 +1434,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   formatActivationSentence(item: any, activation: any): string {
     const status = this.getActivationStatusLabel(item).toLowerCase();
     const level = this.getActivationLevel(activation).toLowerCase();
-    const period = this.formatActivationPeriod(activation).replace(' - ', ' to ');
+    const period = this.formatActivationPeriod(activation);
     const dasha = this.formatActivationDashaSentence(activation);
     const trigger = this.formatActivationTrigger(activation);
     const timingPhrase = status === 'active now' ? 'is occurring' : 'may occur';
@@ -1216,21 +1512,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     };
   }
 
-  private getPdfImageData(canvas: HTMLCanvasElement): string {
-    return canvas.toDataURL('image/jpeg', 0.96);
-  }
-
-  private getPdfElementSize(element: HTMLElement): { width: number; height: number } {
-    const rect = element.getBoundingClientRect();
-    const width = Math.ceil(Math.max(element.scrollWidth, element.offsetWidth, rect.width));
-    const height = Math.ceil(Math.max(element.scrollHeight, element.offsetHeight, rect.height));
-
-    return { width, height };
-  }
-
-  private isPositiveFinite(value: number): boolean {
-    return Number.isFinite(value) && value > 0;
-  }
 
   private getPdfFilename(mode: KundaliPdfMode): string {
     const name = this.slugifyPdfFilenamePart(this.kundaliForm.value.fullName || 'kundali-report');
@@ -1247,468 +1528,78 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '') || 'kundali-report';
   }
-private async addElementToPdf(
-    pdf: jsPDF,
-    element: HTMLElement,
-    pdfWidth: number,
-    pageHeight: number,
-    margin: number = 8,
-    pageHeightUsed: number = 0,
-    spacing: number = 6,
-    mode: KundaliPdfMode = 'desktop'
-  ): Promise<number> {
-    const elementSize = this.getPdfElementSize(element);
-    let currentPageHeight = this.isPositiveFinite(pageHeightUsed) ? pageHeightUsed : 0;
-
-    if (!this.isPositiveFinite(elementSize.width) || !this.isPositiveFinite(elementSize.height)) {
-      return currentPageHeight;
-    }
-
-    const canvas = await html2canvas(element, {
-      scale: 2,
-      backgroundColor: '#ffffff',
-      useCORS: true,
-      logging: false,
-      windowWidth: elementSize.width,
-      width: elementSize.width,
-      height: elementSize.height,
-      onclone: (clonedDocument: Document) => this.sanitizePdfClone(clonedDocument, mode)
-    });
-
-    const usableWidth = pdfWidth - margin * 2;
-    const imgWidth = canvas.width;
-    const imgHeight = canvas.height;
-    const contentHeight = pageHeight - margin * 2;
-
-    if (
-      !this.isPositiveFinite(usableWidth) ||
-      !this.isPositiveFinite(imgWidth) ||
-      !this.isPositiveFinite(imgHeight) ||
-      !this.isPositiveFinite(contentHeight)
-    ) {
-      return currentPageHeight;
-    }
-
-    const renderedHeight = (imgHeight * usableWidth) / imgWidth;
-
-    if (!this.isPositiveFinite(renderedHeight)) {
-      return currentPageHeight;
-    }
-
-    if (renderedHeight > contentHeight) {
-      let startY = 0;
-      while (startY < imgHeight) {
-        const remainingHeight = imgHeight - startY;
-        const sliceHeight = Math.min(remainingHeight, Math.ceil((contentHeight * imgWidth) / usableWidth));
-
-        if (!this.isPositiveFinite(sliceHeight)) {
-          break;
-        }
-
-        if (currentPageHeight > 0) {
-          pdf.addPage();
-          currentPageHeight = 0;
-        }
-
-        const sliceCanvas = document.createElement('canvas');
-        sliceCanvas.width = imgWidth;
-        sliceCanvas.height = sliceHeight;
-        const ctx = sliceCanvas.getContext('2d');
-
-        if (!ctx) {
-          break;
-        }
-
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, imgWidth, sliceHeight);
-        ctx.drawImage(canvas, 0, startY, imgWidth, sliceHeight, 0, 0, imgWidth, sliceHeight);
-
-        const sliceHeightPx = (sliceHeight * usableWidth) / imgWidth;
-        
-        if (!this.isPositiveFinite(sliceHeightPx)) {
-          break;
-        }
-
-        pdf.addImage(this.getPdfImageData(sliceCanvas), 'JPEG', margin, margin + currentPageHeight, usableWidth, sliceHeightPx);
-
-        currentPageHeight = sliceHeightPx;
-        startY += sliceHeight;
-      }
-
-      return currentPageHeight;
-    }
-
-    if (currentPageHeight + renderedHeight + spacing > contentHeight) {
-      pdf.addPage();
-      currentPageHeight = 0;
-    }
-
-    pdf.addImage(
-      this.getPdfImageData(canvas),
-      'JPEG',
-      margin,
-      margin + currentPageHeight,
-      usableWidth,
-      renderedHeight
-    );
-
-    return currentPageHeight + renderedHeight + spacing;
-  }
-
-  private applyHtml2CanvasSafeStyles(clonedDocument: Document, mode: KundaliPdfMode): void {
-    const isMobile = mode === 'mobile';
-    const isPrint = mode === 'print-bw';
-    const textColor = isMobile ? '#20140b' : '#000000';
-    const mutedColor = isMobile ? '#6d5a3f' : '#333333';
-    const lineColor = isPrint ? '#000000' : (isMobile ? '#ead7ae' : '#d9deee');
-    const surfaceColor = isMobile ? '#ffffff' : '#ffffff';
-    const softSurfaceColor = isMobile ? '#fff3d6' : '#ffffff';
-    const accentColor = isMobile ? '#b98218' : '#8a6a1f';
-    const svgTextColor = isMobile ? '#3a250f' : '#000000';
-    const svgStrokeColor = isPrint ? '#000000' : (isMobile ? '#9a6a16' : '#8a6a1f');
-    const svgFillColor = isMobile ? '#fffaf0' : '#ffffff';
-    const style = clonedDocument.createElement('style');
-    style.textContent = `
-      :root,
-      body,
-      body.pdf-mode,
-      body.pdf-mode * {
-        --theme-bg: ${surfaceColor} !important;
-        --theme-surface: ${surfaceColor} !important;
-        --theme-surface-2: ${softSurfaceColor} !important;
-        --theme-surface-soft: ${softSurfaceColor} !important;
-        --theme-input-bg: ${surfaceColor} !important;
-        --theme-text: ${textColor} !important;
-        --theme-text-muted: ${mutedColor} !important;
-        --theme-line: ${lineColor} !important;
-        --theme-line-soft: ${lineColor} !important;
-        --theme-accent: ${accentColor} !important;
-        --theme-accent-soft: ${softSurfaceColor} !important;
-        --theme-info: #2563eb !important;
-        --theme-success: #15803d !important;
-        --theme-warning: #b45309 !important;
-        --theme-danger: #b91c1c !important;
-        --theme-shadow: transparent !important;
-        --theme-copper: ${accentColor} !important;
-        --brass: ${accentColor} !important;
-        --brass-soft: ${softSurfaceColor} !important;
-        --parchment: ${textColor} !important;
-        --parchment-dim: ${mutedColor} !important;
-        --ink: ${surfaceColor} !important;
-        --ink-2: ${surfaceColor} !important;
-        --ink-3: ${softSurfaceColor} !important;
-        --line: ${lineColor} !important;
-        --line-soft: ${lineColor} !important;
-        --planet-color: ${textColor} !important;
-      }
-
-      body.pdf-mode *,
-      body.pdf-mode *::before,
-      body.pdf-mode *::after {
-        color: ${textColor} !important;
-        border-color: ${lineColor} !important;
-        outline-color: ${lineColor} !important;
-        text-decoration-color: ${textColor} !important;
-        text-shadow: none !important;
-        box-shadow: none !important;
-        background-image: none !important;
-      }
-
-      body.pdf-mode,
-      body.pdf-mode app-root,
-      body.pdf-mode #kundali-report {
-        background-color: ${surfaceColor} !important;
-      }
-
-      body.pdf-mode svg,
-      body.pdf-mode svg * {
-        background-color: transparent !important;
-        color: ${svgTextColor} !important;
-        fill: ${svgFillColor} !important;
-        stroke: ${svgStrokeColor} !important;
-      }
-
-      body.pdf-mode svg text,
-      body.pdf-mode svg tspan {
-        fill: ${svgTextColor} !important;
-        stroke: none !important;
-      }
-    `;
-    clonedDocument.head.appendChild(style);
-  }
-
-  private sanitizeCssColorFunctions(value: string): string {
-    return value
-      .replace(/color-mix\([^;]*(?:\)[^;]*)?\)/gi, '#ffffff')
-      .replace(/oklab\([^)]*\)/gi, '#000000')
-      .replace(/oklch\([^)]*\)/gi, '#000000')
-      .replace(/lab\([^)]*\)/gi, '#000000')
-      .replace(/lch\([^)]*\)/gi, '#000000')
-      .replace(/color\([^)]*\)/gi, '#000000');
-  }
-
-  private forceMobilePdfChartCloneLayout(clonedDocument: Document): void {
-    const report = clonedDocument.getElementById('kundali-report');
-    const chartSection = report?.querySelector('app-section-card');
-    const chartGrid = chartSection?.querySelector<HTMLElement>('.chart-with-house-details');
-    const left = chartSection?.querySelector<HTMLElement>('.left');
-    const right = chartSection?.querySelector<HTMLElement>('.right');
-    const d9Card = chartSection?.querySelector<HTMLElement>('.pdf-d9-chart-card');
-    const screenHouseDetails = chartSection?.querySelector<HTMLElement>('.screen-house-details');
-    const controls = chartSection?.querySelectorAll<HTMLElement>('.chart-control-bar, .chart-style-selector, .chart-pin-button, .division-tabs');
-
-    controls?.forEach(control => control.style.setProperty('display', 'none', 'important'));
-    screenHouseDetails?.style.setProperty('display', 'none', 'important');
-
-    if (chartGrid) {
-      chartGrid.style.setProperty('display', 'grid', 'important');
-      chartGrid.style.setProperty('grid-template-columns', 'repeat(2, minmax(0, 1fr))', 'important');
-      chartGrid.style.setProperty('gap', '0.12rem', 'important');
-      chartGrid.style.setProperty('align-items', 'start', 'important');
-      chartGrid.style.setProperty('overflow', 'visible', 'important');
-    }
-
-    [left, right, d9Card].forEach(node => {
-      if (!node) { return; }
-      node.style.setProperty('display', 'block', 'important');
-      node.style.setProperty('visibility', 'visible', 'important');
-      node.style.setProperty('width', '100%', 'important');
-      node.style.setProperty('max-width', '100%', 'important');
-      node.style.setProperty('min-width', '0', 'important');
-      node.style.setProperty('min-height', '0', 'important');
-      node.style.setProperty('overflow', 'visible', 'important');
-    });
-
-    d9Card?.querySelectorAll<HTMLElement>('.card, .card-body, .card-content, .chart-surface, .chart-surface-d9')
-      .forEach(node => {
-        node.style.setProperty('display', 'block', 'important');
-        node.style.setProperty('visibility', 'visible', 'important');
-        node.style.setProperty('padding', '0.08rem', 'important');
-        node.style.setProperty('margin', '0', 'important');
-        node.style.setProperty('min-height', '0', 'important');
-        node.style.setProperty('overflow', 'visible', 'important');
-      });
-  }
-
-  private sanitizePdfClone(clonedDocument: Document, mode: KundaliPdfMode): void {
-    this.applyHtml2CanvasSafeStyles(clonedDocument, mode);
-
-    if (mode === 'mobile') {
-      this.forceMobilePdfChartCloneLayout(clonedDocument);
-    }
-
-    const isMobile = mode === 'mobile';
-    const isPrint = mode === 'print-bw';
-    const textColor = isMobile ? '#20140b' : '#000000';
-    const lineColor = isPrint ? '#000000' : (isMobile ? '#ead7ae' : '#d9deee');
-    const rootBackground = isMobile ? '#fff7ed' : '#ffffff';
-    const svgFillColor = isMobile ? '#fffaf0' : '#ffffff';
-    const svgStrokeColor = isPrint ? '#000000' : (isMobile ? '#9a6a16' : '#000000');
-    const svgTextColor = isMobile ? '#3a250f' : '#000000';
-
-    const unsupportedColorPattern = /(color-mix|oklab|oklch|lab\(|lch\(|color\()/i;
-
-    clonedDocument.querySelectorAll<HTMLElement | SVGElement>('*').forEach((node) => {
-      const inlineStyle = node.getAttribute('style');
-      if (inlineStyle && unsupportedColorPattern.test(inlineStyle)) {
-        node.setAttribute('style', this.sanitizeCssColorFunctions(inlineStyle));
-      }
-
-      const style = node.style;
-      const tagName = node.tagName.toLowerCase();
-      const isSvgPaintNode = ['svg', 'path', 'polygon', 'line', 'circle', 'rect', 'text', 'tspan', 'g'].includes(tagName);
-
-      style.setProperty('color', textColor, 'important');
-      style.setProperty('background-image', 'none', 'important');
-      style.setProperty('box-shadow', 'none', 'important');
-      style.setProperty('text-shadow', 'none', 'important');
-      style.setProperty('outline-color', lineColor, 'important');
-      style.setProperty('border-color', lineColor, 'important');
-      style.setProperty('border-top-color', lineColor, 'important');
-      style.setProperty('border-right-color', lineColor, 'important');
-      style.setProperty('border-bottom-color', lineColor, 'important');
-      style.setProperty('border-left-color', lineColor, 'important');
-      style.setProperty('text-decoration-color', textColor, 'important');
-      style.setProperty('caret-color', textColor, 'important');
-
-      if (node === clonedDocument.body || tagName === 'app-root') {
-        style.setProperty('background-color', rootBackground, 'important');
-      } else if (isPrint) {
-        style.setProperty('background-color', 'transparent', 'important');
-      }
-
-      if (isSvgPaintNode) {
-        style.setProperty('stroke', tagName === 'text' || tagName === 'tspan' ? 'none' : svgStrokeColor, 'important');
-        style.setProperty('fill', tagName === 'text' || tagName === 'tspan' ? svgTextColor : svgFillColor, 'important');
-      }
-    });
-
-    clonedDocument.body.style.setProperty('background-color', rootBackground, 'important');
-    clonedDocument.body.style.setProperty('color', textColor, 'important');
-  }
-
-  private getHtml2CanvasSafeCss(): string {
-    return [
-      'html body.pdf-mode, html body.pdf-mode app-root, html body.pdf-mode #kundali-report { background-color: #ffffff !important; color: #000000 !important; }',
-      'html body.pdf-mode #kundali-report, html body.pdf-mode #kundali-report * { --theme-bg: #ffffff !important; --theme-surface: #ffffff !important; --theme-surface-2: #ffffff !important; --theme-surface-soft: #ffffff !important; --theme-input-bg: #ffffff !important; --theme-text: #000000 !important; --theme-text-muted: #333333 !important; --theme-line: #d9deee !important; --theme-line-soft: #e6e9f4 !important; --theme-accent: #8a6a1f !important; --theme-accent-soft: #e7d8a8 !important; --theme-info: #1d4ed8 !important; --theme-success: #166534 !important; --theme-warning: #92400e !important; --theme-danger: #991b1b !important; --theme-shadow: transparent !important; --theme-copper: #9a5b35 !important; --brass: #8a6a1f !important; --brass-soft: #e7d8a8 !important; --parchment: #000000 !important; --parchment-dim: #333333 !important; --ink: #ffffff !important; --ink-2: #ffffff !important; --ink-3: #ffffff !important; --line: #d9deee !important; --line-soft: #e6e9f4 !important; --planet-color: #000000 !important; color: #000000 !important; background-color: transparent !important; background-image: none !important; border-color: #d9deee !important; outline-color: #d9deee !important; text-decoration-color: #000000 !important; text-shadow: none !important; box-shadow: none !important; }',
-      'html body.pdf-mode #kundali-report, html body.pdf-mode #kundali-report .report-header, html body.pdf-mode #kundali-report .report-footer, html body.pdf-mode #kundali-report .section-card, html body.pdf-mode #kundali-report .card, html body.pdf-mode #kundali-report .planet-table, html body.pdf-mode #kundali-report .planet-table-wrapper { background-color: #ffffff !important; }',
-      'html body.pdf-mode #kundali-report *::before, html body.pdf-mode #kundali-report *::after { color: #000000 !important; background-color: transparent !important; background-image: none !important; border-color: #d9deee !important; outline-color: #d9deee !important; text-decoration-color: #000000 !important; text-shadow: none !important; box-shadow: none !important; }',
-      'html body.pdf-mode #kundali-report svg, html body.pdf-mode #kundali-report svg * { background-color: transparent !important; color: #000000 !important; fill: #ffffff !important; stroke: #000000 !important; }',
-      'html body.pdf-mode #kundali-report svg text, html body.pdf-mode #kundali-report svg tspan { fill: #000000 !important; stroke: none !important; }',
-      'html body.pdf-mode-mobile #kundali-report, html body.pdf-mode-mobile #kundali-report * { --theme-bg: #fff7ed !important; --theme-surface: #ffffff !important; --theme-surface-2: #fff8e7 !important; --theme-surface-soft: #fff3d6 !important; --theme-input-bg: #fffaf0 !important; --theme-text: #20140b !important; --theme-text-muted: #6d5a3f !important; --theme-line: #ead7ae !important; --theme-line-soft: #f3e6c9 !important; --theme-accent: #b98218 !important; --theme-accent-soft: #f3db9b !important; --theme-info: #2563eb !important; --theme-success: #15803d !important; --theme-warning: #b45309 !important; --theme-danger: #b91c1c !important; --theme-shadow: transparent !important; --theme-copper: #b86b3f !important; --brass: #b98218 !important; --brass-soft: #f3db9b !important; --parchment: #20140b !important; --parchment-dim: #6d5a3f !important; --ink: #fffaf0 !important; --ink-2: #ffffff !important; --ink-3: #fff8e7 !important; --line: #ead7ae !important; --line-soft: #f3e6c9 !important; color: #20140b !important; border-color: #ead7ae !important; }',
-      'html body.pdf-mode-mobile #kundali-report .section-card, html body.pdf-mode-mobile #kundali-report .card, html body.pdf-mode-mobile #kundali-report .dashboard-card, html body.pdf-mode-mobile #kundali-report .planet-table-wrapper, html body.pdf-mode-mobile #kundali-report .yoga-item, html body.pdf-mode-mobile #kundali-report .dosha-item, html body.pdf-mode-mobile #kundali-report .score-wrapper, html body.pdf-mode-mobile #kundali-report .house-card, html body.pdf-mode-mobile #kundali-report .metadata-card { background-color: #ffffff !important; color: #20140b !important; border-color: #ead7ae !important; }',
-      'html body.pdf-mode-mobile #kundali-report .report-header, html body.pdf-mode-mobile #kundali-report .report-footer, html body.pdf-mode-mobile #kundali-report .planet-table th, html body.pdf-mode-mobile #kundali-report .antardasha-table th { background-color: #fff3d6 !important; color: #3a250f !important; border-color: #d8b46b !important; }',
-      'html body.pdf-mode-mobile #kundali-report .badge, html body.pdf-mode-mobile #kundali-report .strength-pill, html body.pdf-mode-mobile #kundali-report .aspect-pill, html body.pdf-mode-mobile #kundali-report .meta-chip, html body.pdf-mode-mobile #kundali-report .tone-pill, html body.pdf-mode-mobile #kundali-report .status, html body.pdf-mode-mobile #kundali-report .activation-level { background-color: #fff3d6 !important; color: #7a4f0f !important; border-color: #d8b46b !important; }',
-      'html body.pdf-mode-mobile #kundali-report .planet-icon { background-color: #fff7ed !important; color: #b98218 !important; border-color: #d8b46b !important; }',
-      'html body.pdf-mode-mobile #kundali-report svg, html body.pdf-mode-mobile #kundali-report svg * { color: #7a4f0f !important; fill: #fffaf0 !important; stroke: #9a6a16 !important; }',
-      'html body.pdf-mode-mobile #kundali-report svg text, html body.pdf-mode-mobile #kundali-report svg tspan { fill: #4b3a22 !important; stroke: none !important; }',
-      'html body.pdf-mode-print-bw #kundali-report, html body.pdf-mode-print-bw #kundali-report * { color: #000000 !important; background-image: none !important; box-shadow: none !important; text-shadow: none !important; border-color: #000000 !important; }',
-      'html body.pdf-mode-print-bw #kundali-report svg, html body.pdf-mode-print-bw #kundali-report svg * { color: #000000 !important; fill: #ffffff !important; stroke: #000000 !important; }',
-      'html body.pdf-mode-print-bw #kundali-report svg text, html body.pdf-mode-print-bw #kundali-report svg tspan { fill: #000000 !important; stroke: none !important; }'
-    ].join('\n');
-  }
-
-  private applyPdfCaptureSafeStyles(targetDocument: Document): void {
-    if (targetDocument.getElementById(KUNDALI_PDF_CAPTURE_STYLE_ID)) {
-      return;
-    }
-
-    const style = targetDocument.createElement('style');
-    style.id = KUNDALI_PDF_CAPTURE_STYLE_ID;
-    style.textContent = this.getHtml2CanvasSafeCss();
-    targetDocument.head.appendChild(style);
-  }
-
-  private clearPdfCaptureSafeStyles(targetDocument: Document): void {
-    targetDocument.getElementById(KUNDALI_PDF_CAPTURE_STYLE_ID)?.remove();
-  }
-  private applyPdfMode(report: HTMLElement, mode: KundaliPdfMode): void {
-    const modeClass = KUNDALI_PDF_MODE_CLASSES[mode];
-
-    this.applyPdfCaptureSafeStyles(document);
-    document.body.classList.add('pdf-mode', 'kundali-layout', modeClass);
-    report.classList.add('pdf-mode', modeClass);
-    report.setAttribute('data-pdf-mode', mode);
-    document.body.setAttribute('data-pdf-mode', mode);
-  }
-
-  private clearPdfMode(report: HTMLElement): void {
-    const modeClasses = Object.values(KUNDALI_PDF_MODE_CLASSES);
-
-    document.body.classList.remove('pdf-mode', 'kundali-layout', ...modeClasses);
-    report.classList.remove('pdf-mode', ...modeClasses);
-    report.removeAttribute('data-pdf-mode');
-    document.body.removeAttribute('data-pdf-mode');
-    this.clearPdfCaptureSafeStyles(document);
-  }
-
-  private async buildReportPdf(mode: KundaliPdfMode = 'desktop'): Promise<{ pdf: jsPDF; fileName: string }> {
-    const report = document.getElementById('kundali-report');
-
-    if (!report) {
-      throw new Error('Kundali report is not available.');
-    }
-
-    try {
-      this.applyPdfMode(report, mode);
-      document.getElementById('divtabs')?.classList.add('displaynone');
-
-      await new Promise(resolve => setTimeout(resolve, 400));
-
-      const pdf = new jsPDF({
-        orientation: 'p',
-        unit: 'mm',
-        format: 'a4',
-        compress: true
-      });
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      const elementsToRender: HTMLElement[] = [];
-      const header = document.getElementById('pdfHeader');
-      if (header) {
-        elementsToRender.push(header);
-      }
-
-      const chartSection = document.querySelector('#kundali-report > app-section-card') as HTMLElement | null;
-      if (chartSection) {
-        elementsToRender.push(chartSection);
-      }
-
-      const detailGrid = document.querySelector('#kundali-report > .detail-grid') as HTMLElement | null;
-      if (detailGrid) {
-        if (mode === 'mobile') {
-          detailGrid.querySelectorAll<HTMLElement>(':scope > app-section-card').forEach(section => elementsToRender.push(section));
-        } else {
-          elementsToRender.push(detailGrid);
-        }
-      }
-
-      const yogaSection = document.getElementById('yogaSection');
-      if (yogaSection) {
-        elementsToRender.push(yogaSection);
-      }
-
-      const doshaSection = document.getElementById('doshaSection');
-      if (doshaSection) {
-        elementsToRender.push(doshaSection);
-      }
-
-      const planetPositionsSection = document.querySelector('#kundali-report > .results-sections > app-section-card.full-row') as HTMLElement | null;
-      if (planetPositionsSection) {
-        elementsToRender.push(planetPositionsSection);
-      }
-      const kundaliscore = document.querySelector('#kundali-report > .results-sections > .kundaliscore-grid') as HTMLElement | null;
-      if (kundaliscore) {
-        if (mode === 'mobile') {
-          kundaliscore.querySelectorAll<HTMLElement>(':scope > app-section-card').forEach(section => elementsToRender.push(section));
-        } else {
-          elementsToRender.push(kundaliscore);
-        }
-      }
-
-      const lowerDetailCards = document.querySelectorAll<HTMLElement>(
-        '#kundali-report > .results-sections > .detail-grid > app-section-card'
-      );
-      lowerDetailCards.forEach(section => elementsToRender.push(section));
-
-      const footer = document.getElementById('pdfFooter');
-      if (footer) {
-        elementsToRender.push(footer);
-      }
-
-      let pageHeightUsed = 0;
-      for (const element of elementsToRender) {
-        pageHeightUsed = await this.addElementToPdf(pdf, element, pdfWidth, pdfHeight, mode === 'mobile' ? 3 : 5, pageHeightUsed, mode === 'mobile' ? 0.8 : 3, mode);
-      }
-
-      return { pdf, fileName: this.getPdfFilename(mode) };
-    }
-    finally {
-      document.getElementById('divtabs')?.classList.remove('displaynone');
-      this.clearPdfMode(report);
-      this.cdr.detectChanges();
-    }
-  }
 
   async downloadPdf(mode: KundaliPdfMode = 'desktop'): Promise<void> {
     if (!this.kundaliResponse) {
       return;
     }
 
+    this.pdfDownloadMessage = '';
+    this.pdfDownloadFailed = false;
     this.exportingPdf = true;
 
     try {
       const fileName = this.getPdfFilename(mode);
       const pdfBlob = await firstValueFrom(this.kundaliService.generateReportPdf(this.buildReportPdfPayload(mode)));
       this.saveBlob(pdfBlob, fileName);
+      this.notifications.success('Report PDF downloaded.');
+    } catch (error) {
+      console.error('Report PDF download error:', error);
+      this.pdfDownloadFailed = true;
+      this.notifications.error(await this.resolveReportDownloadError(error));
     }
     finally {
       setTimeout(() => {
         this.exportingPdf = false;
         this.cdr.detectChanges();
       }, 150);
+    }
+  }
+
+  private async resolveReportDownloadError(error: unknown): Promise<string> {
+    const fallbackMessage = 'Unable to download the report PDF right now.';
+    const errorName = error && typeof error === 'object' && 'name' in error ? String(error.name) : '';
+
+    if (errorName === 'TimeoutError') {
+      return 'Report PDF generation is taking longer than expected. Please try again in a moment.';
+    }
+
+    if (error && typeof error === 'object') {
+      const status = 'status' in error ? Number((error as { status?: unknown }).status) : 0;
+
+      if (status === 429) {
+        return this.buildReportRateLimitMessage(error);
+      }
+
+      if (!('error' in error)) {
+        return fallbackMessage;
+      }
+
+      const responseError = (error as { error?: unknown }).error;
+
+      if (responseError instanceof Blob) {
+        return await this.readReportErrorBlob(responseError, fallbackMessage);
+      }
+
+      if (responseError && typeof responseError === 'object' && 'message' in responseError) {
+        return String((responseError as { message?: unknown }).message || fallbackMessage);
+      }
+    }
+
+    return fallbackMessage;
+  }
+
+  private async readReportErrorBlob(errorBlob: Blob, fallbackMessage: string): Promise<string> {
+    if (!errorBlob.size) {
+      return fallbackMessage;
+    }
+
+    try {
+      const text = await errorBlob.text();
+      const parsed = JSON.parse(text) as { message?: unknown; title?: unknown };
+      return String(parsed.message || parsed.title || fallbackMessage);
+    } catch {
+      return fallbackMessage;
     }
   }
 
@@ -1748,14 +1639,30 @@ private async addElementToPdf(
     window.URL.revokeObjectURL(url);
   }
 
-  private startJanmaStory(response?: any): void {
-    const lines = this.buildJanmaStoryLines(response ?? this.kundaliResponse);
+  private prepareJanmaStory(response?: any): void {
+    const storyResponse = response ?? this.kundaliResponse;
+    const lines = this.buildJanmaStoryLines(storyResponse);
     this.clearJanmaStoryTimers();
     this.displayPersonName = this.formatPersonName(this.kundaliForm.value.fullName);
     this.janmaStoryLines = lines;
     this.displayedJanmaStoryLines = lines.map(() => '');
-    this.janmaStoryHighlightTerms = this.buildJanmaStoryHighlightTerms(response ?? this.kundaliResponse);
-    this.typeJanmaStoryLine(lines, 0, 0);
+    this.janmaStoryHighlightTerms = this.buildJanmaStoryHighlightTerms(storyResponse);
+    this.isJanmaStoryRailCollapsed = true;
+  }
+
+  private startJanmaStory(response?: any): void {
+    if (!this.janmaStoryLines.length) {
+      this.prepareJanmaStory(response);
+    }
+
+    this.clearJanmaStoryTimers();
+    this.displayedJanmaStoryLines = this.janmaStoryLines.map(() => '');
+    this.typeJanmaStoryLine(this.janmaStoryLines, 0, 0);
+  }
+
+  private resetActiveJanmaStoryPresentation(): void {
+    this.clearJanmaStoryTimers();
+    this.displayedJanmaStoryLines = this.janmaStoryLines.map(() => '');
   }
 
   private clearJanmaStoryTimers(): void {
@@ -1786,6 +1693,13 @@ private async addElementToPdf(
 
   toggleJanmaStoryRail(): void {
     this.isJanmaStoryRailCollapsed = !this.isJanmaStoryRailCollapsed;
+
+    if (this.isJanmaStoryRailCollapsed) {
+      this.resetActiveJanmaStoryPresentation();
+      return;
+    }
+
+    this.startJanmaStory(this.kundaliResponse);
   }
 
   shouldShowStoryStar(storyIndex: number, line: string): boolean {
@@ -2023,6 +1937,31 @@ private async addElementToPdf(
     return [mahaName && `${mahaName} Mahadasha`, antarName && `${antarName} Antardasha`].filter(Boolean).join(' and ');
   }
 
+  getSudarshanAreaDefinition(area: string | null | undefined): string {
+    const normalized = (area ?? '').toLowerCase();
+
+    if (normalized.includes('kendra')) {
+      return 'Core life stability and support.';
+    }
+
+    if (normalized.includes('trikona')) {
+      return 'Fortune, dharma and opportunity.';
+    }
+
+    if (normalized.includes('upachaya')) {
+      return 'Growth through effort over time.';
+    }
+
+    if (normalized.includes('dusthana')) {
+      return 'Pressure areas needing care.';
+    }
+
+    if (normalized.includes('planet')) {
+      return 'Planet themes behind timing.';
+    }
+
+    return 'Repeated chart emphasis.';
+  }
   getTopSudarshanHouses(sudarshan: any): any[] {
     return [...(sudarshan?.houseEmphasis ?? [])].sort((a: any, b: any) => Number(b?.score ?? 0) - Number(a?.score ?? 0)).slice(0, 3);
   }
@@ -2069,8 +2008,4 @@ private async addElementToPdf(
     }
   }
 }
-
-
-
-
 

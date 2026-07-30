@@ -1,0 +1,36 @@
+{
+  "analysisRunId": "run-001",
+  "ruleSetVersion": "starter-v1",
+  "overall": {
+    "score": 0,
+    "confidence": 0,
+    "status": "NeedsConfirmation"
+  },
+  "ruleResults": [
+    {
+      "ruleId": "DEMO-RULE-001",
+      "ruleVersion": "1.0",
+      "name": "Example rule contract only",
+      "category": "RoomPlacement",
+      "status": "NotEvaluated",
+      "severity": "Info",
+      "scoreImpact": 0,
+      "summary": "Production rule logic must come from HoraLife-approved Vastu rules.",
+      "affectedSpaceIds": [],
+      "evidence": [
+        {
+          "type": "Geometry",
+          "message": "Explain exactly what geometry, direction, room or object caused the result.",
+          "geometryRefs": [],
+          "confidence": 0
+        }
+      ],
+      "checkNext": [],
+      "remedyIds": [],
+      "source": {
+        "referenceStatus": "PendingExpertApproval",
+        "reference": null
+      }
+    }
+  ]
+}

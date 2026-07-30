@@ -34,7 +34,8 @@ namespace KundaliEngine.API.Controllers
                     FullName = x.FullName,
                     Email = x.Email,
                     PhoneNumber = x.PhoneNumber,
-                    IsActive = x.IsActive
+                    IsActive = x.IsActive,
+                    KundaliSaveLimit = x.KundaliSaveLimit
                 })
                 .ToListAsync();
 
@@ -58,6 +59,52 @@ namespace KundaliEngine.API.Controllers
             });
         }
 
+        [HttpPatch("{id:guid}/kundali-save-limit")]
+        public async Task<IActionResult> UpdateKundaliSaveLimit(Guid id, UpdateUserKundaliSaveLimitRequest request)
+        {
+            if (request.KundaliSaveLimit < 0 || request.KundaliSaveLimit > 1000)
+            {
+                return BadRequest(new
+                {
+                    message = "Kundali save limit must be between 0 and 1000."
+                });
+            }
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    message = "User was not found."
+                });
+            }
+
+            var oldLimit = user.KundaliSaveLimit;
+            user.KundaliSaveLimit = request.KundaliSaveLimit;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "UserKundaliSaveLimitChanged",
+                Category = "AdminAction",
+                EntityType = "User",
+                EntityId = user.Id.ToString(),
+                Description = $"User Kundali save limit changed from {oldLimit} to {user.KundaliSaveLimit} for {user.Email}.",
+                Status = "Success"
+            });
+
+            return Ok(new UserLoginControlDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                IsActive = user.IsActive,
+                KundaliSaveLimit = user.KundaliSaveLimit
+            });
+        }
         [HttpPatch("{id:guid}/active")]
         public async Task<IActionResult> UpdateActiveStatus(Guid id, UpdateUserActiveStatusRequest request)
         {
@@ -92,7 +139,8 @@ namespace KundaliEngine.API.Controllers
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                KundaliSaveLimit = user.KundaliSaveLimit
             });
         }
     }

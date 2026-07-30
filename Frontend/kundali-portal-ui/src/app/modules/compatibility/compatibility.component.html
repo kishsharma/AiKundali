@@ -1,12 +1,66 @@
 <app-page-header
-
-
+  [title]="'compatibility.title' | transloco"
   legacycompatibility="yes"
+  [showActions]="showReport"
   [breadcrumbs]="[
     { label: ('menu.home' | transloco), routerLink: '/' },
     { label: ('compatibility.title' | transloco), active: true }
-  ]"
-></app-page-header>
+  ]">
+  <div page-actions class="compatibility-actions" *ngIf="showReport" aria-label="Compatibility report actions">
+    <button
+      type="button"
+      class="report-action-btn save-action"
+      (click)="saveCompatibility()"
+      [disabled]="savingCompatibility || loading || !result"
+      [attr.aria-label]="savingCompatibility ? 'Saving compatibility' : (savedCompatibilityId ? 'Save compatibility again' : 'Save compatibility')"
+      title="Save Compatibility">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 3h12l2 2v16H5z"></path>
+        <path d="M8 3v6h8V3"></path>
+        <path d="M8 17h8"></path>
+      </svg>
+      <span>{{ savingCompatibility ? 'Saving' : (savedCompatibilityId ? 'Save Again' : 'Save') }}</span>
+    </button>
+    <button type="button" class="report-action-btn" (click)="downloadPdf()" [disabled]="exportingPdf" title="Download PDF">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+      <span>{{ exportingPdf ? 'Preparing' : 'PDF' }}</span>
+    </button>
+    <details #emailSharePicker class="share-email-picker" (toggle)="onReportPickerToggle($event)">
+      <summary
+        class="report-action-btn share-action email-share-action"
+        aria-label="Share compatibility report by email"
+        title="Share report by email">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>
+        <span>Email</span>
+      </summary>
+
+      <form class="share-email-panel share-panel" (submit)="$event.preventDefault(); sendCompatibilityReportByEmail()" novalidate>
+        <label class="share-email-field share-field">
+          <span>Email</span>
+          <input
+            type="email"
+            name="compatibilityShareEmail"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="name@example.com"
+            [value]="shareEmail"
+            (input)="onShareEmailInput($any($event.target).value)"
+            (blur)="shareEmailTouched = true"
+            [attr.aria-invalid]="showShareEmailError"
+            aria-describedby="compatibilityShareEmailFeedback" />
+        </label>
+        <button type="submit" class="share-send-btn" [disabled]="shareSending || exportingPdf">{{ shareSending ? 'Sending' : 'Send' }}</button>
+        <small id="compatibilityShareEmailFeedback" class="share-email-feedback share-feedback" [class.error]="showShareEmailError">
+          {{ showShareEmailError ? 'Enter a valid email address.' : '' }}
+        </small>
+      </form>
+    </details>
+    <button type="button" class="report-action-btn" (click)="shareCompatibilityOnWhatsApp()" title="Share on WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4a8 8 0 0 0-6.95 11.97L4 20l4.16-1.02A8 8 0 1 0 12 4z"></path><path d="M9.3 8.8c.2-.45.42-.48.72-.48h.52c.17 0 .4.06.6.44.22.47.72 1.62.78 1.75.06.14.1.3.02.48-.1.2-.16.32-.32.5l-.22.24c-.12.13-.25.28-.1.55.16.28.7 1.15 1.5 1.86 1.04.92 1.9 1.2 2.18 1.34.28.14.45.12.62-.08.18-.2.72-.84.92-1.14.2-.3.38-.24.64-.14.26.1 1.66.78 1.94.92.28.14.48.22.54.34.06.12.06.7-.16 1.36-.22.66-1.28 1.25-1.78 1.3-.46.04-1.04.06-1.68-.1-.38-.1-.88-.28-1.52-.56-2.68-1.15-4.42-3.82-4.56-4-.14-.18-1.08-1.44-1.08-2.74 0-1.3.68-1.94.92-2.2z"></path></svg>
+      <span>WhatsApp</span>
+    </button>
+  </div>
+</app-page-header>
 
 <div class="compatibility-page">
   <section class="input-panel">
@@ -59,41 +113,61 @@
         </div>
       </div>
     </form>
-
-    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
   </section>
 
   <section id="compatibility-report" class="report-shell"  *ngIf="showReport">
-    <div class="report-toolbar">
-      <button type="button" class="ghost-btn"></button>
-      <h1></h1>
-      <div class="toolbar-actions">
-        <button type="button" class="outline-btn" (click)="downloadPdf()" [disabled]="exportingPdf">
-          {{ (exportingPdf ? 'compatibility.preparingPdf' : 'compatibility.downloadPdf') | transloco }}
-        </button>
+    <div class="compatibility-report-intro premium-report-header">
+      <div class="compatibility-header-top">
+        <div class="compatibility-brand-lockup">
+          <img [src]="reportBrandLogoSrc" class="compatibility-brand-logo" alt="HoraLife logo">
+          <div class="compatibility-brand-copy">
+            <h1><span>Hora</span><span>Life</span></h1>
+            <small>Precision Vedic Astrology</small>
+          </div>
+        </div>
+        <div class="compatibility-header-deity" aria-hidden="true">
+          <img class="compatibility-ganesh compatibility-ganesh-light" src="assets/brand/horalife/ganesh-compatibility-light-clean.png" alt="">
+          <img class="compatibility-ganesh compatibility-ganesh-dark" src="assets/brand/horalife/ganesh-compatibility-dark-clean.png" alt="">
+        </div>
+        <div class="report-pandit-block">
+          <span class="report-kicker">Prepared by</span>
+          <h3>{{ 'kundali.reportAuthorName' | transloco }}</h3>
+          <span>{{ 'kundali.reportAuthorRole' | transloco }}</span>
+          <p>{{ 'kundali.reportAuthorContact' | transloco }}</p>
+        </div>
+      </div>
 
-      </div>
-    </div>
-
-    <div class="compatibility-report-intro">
-      <div>
-        <h2>{{ 'kundali.brandName' | transloco }}</h2>
-        <p>{{ 'kundali.brandTagline' | transloco }}</p>
-      </div>
-      <div class="report-pandit-block">
-        <h3>{{ 'kundali.reportAuthorName' | transloco }}</h3>
-        <span>{{ 'kundali.reportAuthorRole' | transloco }}</span>
-        <p>{{ 'kundali.reportAuthorContact' | transloco }}</p>
-      </div>
       <p class="compatibility-owner-statement">
-        {{ 'compatibility.reportOwnerPrefix' | transloco }} <strong>{{ boy.name }}</strong> {{ 'compatibility.reportOwnerAnd' | transloco }} <strong>{{ girl.name }}</strong>,
-        {{ 'compatibility.reportOwnerSuffix' | transloco }}
+        <span>Compatibility report for</span>
+        <strong>{{ boy.name }}</strong>
+        <span>&amp;</span>
+        <strong>{{ girl.name }}</strong>
       </p>
-    </div>
 
+      <div class="report-devotional-divider" aria-hidden="true">
+        <svg viewBox="0 0 760 88" xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false">
+          <line x1="-900" y1="56" x2="309" y2="56" class="lotus-divider__line" />
+          <line x1="451" y1="56" x2="1650" y2="56" class="lotus-divider__line" />
+          <rect x="25.5" y="51.5" width="9" height="9" rx="0.8" transform="rotate(45 30 56)" class="lotus-divider__diamond" />
+          <rect x="725.5" y="51.5" width="9" height="9" rx="0.8" transform="rotate(45 730 56)" class="lotus-divider__diamond" />
+          <path d="M282 56 C294 56 301 52 307 45 C304 52 309 56 318 56" class="lotus-divider__flourish" />
+          <path d="M478 56 C466 56 459 52 453 45 C456 52 451 56 442 56" class="lotus-divider__flourish" />
+          <g class="lotus-divider__lotus">
+            <path d="M380 56 C366 43 368 23 380 8 C392 23 394 43 380 56 Z" />
+            <path d="M378 57 C361 49 351 34 355 18 C370 25 379 40 378 57 Z" />
+            <path d="M382 57 C399 49 409 34 405 18 C390 25 381 40 382 57 Z" />
+            <path d="M373 59 C351 57 335 45 333 29 C351 31 367 42 373 59 Z" />
+            <path d="M387 59 C409 57 425 45 427 29 C409 31 393 42 387 59 Z" />
+            <path d="M368 62 C343 66 322 58 312 44 C329 40 349 45 362 54 C365 56 367 59 368 62 Z" />
+            <path d="M392 62 C417 66 438 58 448 44 C431 40 411 45 398 54 C395 56 393 59 392 62 Z" />
+            <path d="M379 63 C361 67 346 63 336 53 C350 51 366 55 379 63 Z" />
+            <path d="M381 63 C399 67 414 63 424 53 C410 51 394 55 381 63 Z" />
+          </g>
+        </svg>
+      </div>
+    </div>
     <div class="hero-report">
       <article class="profile-card profile-card--boy">
-        <div class="avatar avatar--boy">{{ boy.name.charAt(0) }}</div>
         <div class="profile-content">
           <span class="role-badge boy-badge">{{ 'compatibility.boy' | transloco }}</span>
           <h2>{{ boy.name }}</h2>
@@ -127,7 +201,6 @@
             <div><dt>{{ 'compatibility.birthPlace' | transloco }}</dt><dd>{{ girl.birthPlace }}</dd></div>
           </dl>
         </div>
-        <div class="avatar avatar--girl">{{ girl.name.charAt(0) }}</div>
       </article>
     </div>
 
@@ -190,11 +263,10 @@
       <h2>{{ 'compatibility.doshaAnalysisTitle' | transloco }}</h2>
       <div class="dosha-summary" *ngIf="result?.doshaAnalysis as doshaSummary">
         <strong>{{ 'compatibility.overallDoshaScore' | transloco }}: {{ doshaSummary.overallDoshaScore }} / 100</strong>
-        <span class="status-pill">{{ doshaSummary.overallDoshaStatus }}</span>
+        <span class="status-pill">{{ translateCompatibilityTerm(doshaSummary.overallDoshaStatus) }}</span>
       </div>
       <div class="dosha-grid" *ngIf="doshas.length; else noCompatibilityDoshas">
         <article class="dosha-card" *ngFor="let dosha of doshas" [class]="'tone-' + dosha.tone">
-          <div class="dosha-mark">{{ dosha.name.charAt(0) }}</div>
           <div>
             <div class="dosha-card-header">
               <h3>{{ dosha.name }}</h3>
@@ -241,35 +313,29 @@
     <section class="report-section chart-section">
       <h2>{{ 'compatibility.chartComparisonTitle' | transloco }}</h2>
       <div class="chart-comparison">
-        <h3>{{ 'compatibility.boyKundali' | transloco }}</h3>
-        <div class="kundali-placeholder boy-chart">
-          <!-- <span>Me</span><span>Ve</span><span>Sa</span><span>Ju</span><span>Mo</span><span>Ra</span> -->
-
-
-           <div>
-
-              <app-north-indian-chart  [planets]="personAplanetPositions"
-                [ascendant]="personAchart?.ascendantSignAndNumber" [housesData]="personAhouses"
-                ></app-north-indian-chart>
-
-              <!-- <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="planets"
-                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
-                (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
-
-              <app-western-chart *ngIf="activeChartType === 'western'" [planets]="planets"
-                [ascendant]="summary?.ascendant" [housesData]="kundaliResponse?.houses"
-                (houseSelected)="selectedHouseData = $event"></app-western-chart> -->
-                </div>
-
+        <div class="chart-person-panel boy-chart-panel">
+          <h3>{{ 'compatibility.boyKundali' | transloco }}</h3>
+          <div class="kundali-placeholder boy-chart">
+            <app-north-indian-chart
+              [planets]="personAplanetPositions"
+              [ascendant]="personAchart?.ascendantSignAndNumber"
+              [housesData]="personAhouses">
+            </app-north-indian-chart>
+          </div>
         </div>
+
         <strong class="vs-badge">{{ 'compatibility.vs' | transloco }}</strong>
-        <div class="kundali-placeholder girl-chart">
 
-                        <app-north-indian-chart  [planets]="personBplanetPositions"
-                [ascendant]="personBchart?.ascendantSignAndNumber" [housesData]="personBhouses"
-                ></app-north-indian-chart>
+        <div class="chart-person-panel girl-chart-panel">
+          <h3>{{ 'compatibility.girlKundali' | transloco }}</h3>
+          <div class="kundali-placeholder girl-chart">
+            <app-north-indian-chart
+              [planets]="personBplanetPositions"
+              [ascendant]="personBchart?.ascendantSignAndNumber"
+              [housesData]="personBhouses">
+            </app-north-indian-chart>
+          </div>
         </div>
-        <h3>{{ 'compatibility.girlKundali' | transloco }}</h3>
       </div>
     </section>
 
@@ -329,3 +395,5 @@
     <p>{{ 'compatibility.pdfLoaderText' | transloco }}</p>
   </div>
 </div>
+
+

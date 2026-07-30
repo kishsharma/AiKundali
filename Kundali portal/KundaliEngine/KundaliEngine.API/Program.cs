@@ -1,8 +1,12 @@
+﻿using HoraLife.Store.Application.DependencyInjection;
+using HoraLife.Store.Infrastructure.DependencyInjection;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.AdvancedStrength;
 using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.Auth;
 using KundaliEngine.API.Services.CurrentLifeFocus;
+using KundaliEngine.API.Services.Dashboard;
+using KundaliEngine.API.Services.Email;
 using KundaliEngine.API.Services.Learning;
 using KundaliEngine.API.Services.Muhurtha;
 using KundaliEngine.API.Services.Recommendations;
@@ -22,13 +26,18 @@ using KundaliEngine.Astrology.Services.SudarshanChakra;
 using KundaliEngine.Infrastructure;
 using KundaliEngine.KnowledgeBase.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
-
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllers()
@@ -138,16 +147,26 @@ builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSect
 builder.Services.AddSingleton<IReportHtmlTemplateService, ReportHtmlTemplateService>();
 builder.Services.AddSingleton<IHtmlReportPdfRenderer, ChromeHtmlReportPdfRenderer>();
 builder.Services.AddScoped<IReportPdfService, ReportPdfService>();
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddScoped<IReportShareEmailService, ReportShareEmailService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<ICommunicationLogService, CommunicationLogService>();
 builder.Services.AddSingleton<ILearningContentService, LearningContentService>();
+builder.Services.AddScoped<IDashboardSummaryService, DashboardSummaryService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthOtpService, AuthOtpService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddStoreApplication();
+builder.Services.AddStoreInfrastructure(builder.Configuration);
+
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
@@ -162,6 +181,51 @@ if (string.IsNullOrWhiteSpace(jwtKey))
     throw new InvalidOperationException("JWT key is missing in appsettings.json");
 }
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = (context, _) =>
+    {
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+        {
+            context.HttpContext.Response.Headers.RetryAfter = Math.Ceiling(retryAfter.TotalSeconds).ToString(CultureInfo.InvariantCulture);
+        }
+
+        return ValueTask.CompletedTask;
+    };
+    options.AddPolicy("AuthOtp", httpContext =>
+    {
+        var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var forwardedFor = httpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        var partitionKey = string.IsNullOrWhiteSpace(forwardedFor) ? $"ip:{remoteIp}" : $"ip:{forwardedFor}";
+
+        return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(5),
+            QueueLimit = 0,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    });
+    options.AddPolicy("ReportShare", httpContext =>
+    {
+        var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var partitionKey = string.IsNullOrWhiteSpace(userId)
+            ? $"ip:{httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown"}"
+            : $"user:{userId}";
+
+        return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 2,
+            Window = TimeSpan.FromMinutes(5),
+            QueueLimit = 0,
+           
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    });
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("HoraLifeFrontend", policy =>
@@ -255,11 +319,14 @@ app.UseCors("HoraLifeFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 
 app.MapControllers();
 
 app.Run();
+
+
 
 
 

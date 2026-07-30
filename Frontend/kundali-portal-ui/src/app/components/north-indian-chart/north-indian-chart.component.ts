@@ -42,8 +42,8 @@ zodiacNumbers: number[] = [];
   };
 
   ngOnChanges(changes: SimpleChanges): void {
-console.log('CHILD INPUT:', this.planets);
-    if (changes['planets']) {
+
+    if (changes['planets'] || changes['housesData'] || changes['ascendant']) {
 
       this.mapPlanetsToHouses();
 
@@ -79,12 +79,8 @@ console.log('CHILD INPUT:', this.planets);
 
     this.planets.forEach((planet: any) => {
 
-      const house = planet.house;
-
-console.log('Mapping Planet:', planet, 'to House:', house,'planetname:',planet.planetName);
-
+      const house = this.getPlanetHouse(planet);
       if (this.housePlanets[house]) {
-console.log('Adding Planet:', planet.planetName, 'to House:', house);
 this.housePlanets[house].push(planet);
 
         //this.housePlanets[house].push(shortNames[planet.planet]);
@@ -92,9 +88,6 @@ this.housePlanets[house].push(planet);
       }
 
     });
-
-    console.log(this.housePlanets);
-
   }
 
   getPlanets(house: number): string {
@@ -103,6 +96,87 @@ this.housePlanets[house].push(planet);
 
   }
 
+  private getPlanetHouse(planet: any): number {
+    const rawHouse = planet?.house ?? planet?.House ?? planet?.houseNumber ?? planet?.HouseNumber;
+    const explicitHouse = this.getHouseNumber(rawHouse);
+
+    if (explicitHouse >= 1 && explicitHouse <= 12) {
+      return explicitHouse;
+    }
+
+    const planetSign = this.getSignNumber(planet?.sign ?? planet?.Sign);
+    const ascendantSign = this.getSignNumber(this.ascendant);
+
+    if (!planetSign || !ascendantSign) {
+      return 0;
+    }
+
+    return (((planetSign - ascendantSign + 12) % 12) + 1);
+  }
+
+
+  private getHouseNumber(value: number | string | null | undefined): number {
+    if (value === null || value === undefined || value === '') {
+      return 0;
+    }
+
+    const numeric = Number(value);
+    if (Number.isFinite(numeric) && numeric >= 1 && numeric <= 12) {
+      return numeric;
+    }
+
+    const houses: Record<string, number> = {
+      first: 1,
+      second: 2,
+      third: 3,
+      fourth: 4,
+      fifth: 5,
+      sixth: 6,
+      seventh: 7,
+      eighth: 8,
+      ninth: 9,
+      tenth: 10,
+      eleventh: 11,
+      twelfth: 12,
+    };
+
+    return houses[String(value).trim().toLowerCase()] ?? 0;
+  }
+  private getSignNumber(value: number | string | null | undefined): number {
+    if (value === null || value === undefined || value === '') {
+      return 0;
+    }
+
+    if (typeof value === 'number') {
+      return value >= 1 && value <= 12 ? value : 0;
+    }
+
+    const normalized = value.trim();
+    const leadingNumber = normalized.match(/^\d+/)?.[0];
+    const numeric = Number(leadingNumber ?? normalized);
+
+    if (Number.isFinite(numeric) && numeric >= 1 && numeric <= 12) {
+      return numeric;
+    }
+
+    const signName = normalized.replace(/^\d+\s*-\s*/, '').replace(/[^a-z]/gi, '').toLowerCase();
+    const signs: Record<string, number> = {
+      aries: 1,
+      taurus: 2,
+      gemini: 3,
+      cancer: 4,
+      leo: 5,
+      virgo: 6,
+      libra: 7,
+      scorpio: 8,
+      sagittarius: 9,
+      capricorn: 10,
+      aquarius: 11,
+      pisces: 12,
+    };
+
+    return signs[signName] ?? 0;
+  }
   getPlanetShortName(planet: any): string {
     const planetName = this.getPlanetName(planet);
     if (!planetName) {
@@ -172,11 +246,36 @@ this.housePlanets[house].push(planet);
       return planet;
     }
 
-    return typeof planet.planet === 'number'
-      ? planet.planetName
-      : planet.planet;
+    const rawPlanet = planet.planet ?? planet.Planet;
+    const name = planet.planetName ?? planet.PlanetName;
+
+    if (name) {
+      return name;
+    }
+
+    if (typeof rawPlanet === 'number') {
+      return this.getPlanetNameFromNumber(rawPlanet);
+    }
+
+    return rawPlanet ?? '';
   }
 
+
+  private getPlanetNameFromNumber(value: number): string {
+    const planets: Record<number, string> = {
+      0: 'Sun',
+      1: 'Moon',
+      2: 'Mercury',
+      3: 'Venus',
+      4: 'Mars',
+      5: 'Jupiter',
+      6: 'Saturn',
+      7: 'Rahu',
+      8: 'Ketu',
+    };
+
+    return planets[value] ?? '';
+  }
   private translatePlanetName(planet: string | null | undefined): string {
     if (!planet) {
       return '';
@@ -225,34 +324,31 @@ selectHouse(house: number): void {
     );
 
   this.selectedHouseData = houseData;
-
-  console.log(this.selectedHouseData);
-
   this.houseSelected.emit(houseData);
 
 }
   
 planetPositions: any = {
 
-  1: { x: 240, y: 190 },
+  1: { x: 230, y: 155 },
 
   2: { x: 140, y: 100 },
 
   3: { x: 70, y: 160 },
 
-  4: { x: 150, y: 250 },
+  4: { x: 116, y: 226 },
 
   5: { x: 70, y: 350 },
 
   6: { x: 140, y: 430 },
 
-  7: { x: 240, y: 320 },
+  7: { x: 230, y: 370 },
 
   8: { x: 340, y: 430 },
 
   9: { x: 390, y: 350 },
 
-  10: { x: 300, y: 250 },
+  10: { x: 342, y: 226 },
 
   11: { x: 390, y: 140 },
 
@@ -261,7 +357,71 @@ planetPositions: any = {
 };
 
 
+private readonly centerSafePlanetOffsets: Record<number, Array<{ x: number; y: number }>> = {
+
+  1: [
+    { x: 0, y: 0 },
+    { x: 18, y: 0 },
+    { x: 36, y: 0 },
+    { x: 0, y: 19 },
+    { x: 18, y: 19 },
+    { x: 36, y: 19 }
+  ],
+
+  4: [
+    { x: 0, y: -32 },
+    { x: 0, y: 32 },
+    { x: 28, y: -48 },
+    { x: 28, y: 48 },
+    { x: 56, y: -64 },
+    { x: 56, y: 64 }
+  ],
+
+  7: [
+    { x: 0, y: 0 },
+    { x: 18, y: 0 },
+    { x: 36, y: 0 },
+    { x: 0, y: -19 },
+    { x: 18, y: -19 },
+    { x: 36, y: -19 }
+  ],
+
+  10: [
+    { x: 0, y: -32 },
+    { x: 0, y: 32 },
+    { x: -28, y: -48 },
+    { x: -28, y: 48 },
+    { x: -56, y: -64 },
+    { x: -56, y: 64 }
+  ]
+
+};
+
+private getCenterSafePlanetPosition(house: number, index: number): { x: number; y: number } | null {
+
+  const basePosition = this.planetPositions[house];
+  const offsets = this.centerSafePlanetOffsets[house];
+
+  if (!basePosition || !offsets?.length) {
+    return null;
+  }
+
+  const offset = offsets[index % offsets.length];
+  const rowOffset = Math.floor(index / offsets.length) * 14;
+
+  return {
+    x: basePosition.x + offset.x,
+    y: basePosition.y + offset.y + rowOffset
+  };
+}
+
 getPlanetX(house: number, index: number): number {
+
+  const centerSafePosition = this.getCenterSafePlanetPosition(house, index);
+
+  if (centerSafePosition) {
+    return centerSafePosition.x;
+  }
 
   const verticalHouses = [3, 5, 9, 11];
 
@@ -276,6 +436,12 @@ getPlanetX(house: number, index: number): number {
 
 getPlanetY(house: number, index: number): number {
 
+  const centerSafePosition = this.getCenterSafePlanetPosition(house, index);
+
+  if (centerSafePosition) {
+    return centerSafePosition.y;
+  }
+
   const verticalHouses = [3, 5, 9, 11];
 
   if (verticalHouses.includes(house)) {
@@ -286,7 +452,6 @@ getPlanetY(house: number, index: number): number {
 
   return this.planetPositions[house]?.y || 0;
 }
-
 generateZodiacSequence(): void {
 
   if (!this.ascendant) {
@@ -341,7 +506,7 @@ zodiacLabelPositions: any = {
 
   11: { x: 370, y: 160 },
 
-  12: { x: 335, y: 125 }
+  12: { x: 340, y: 128 }
 
 };
 

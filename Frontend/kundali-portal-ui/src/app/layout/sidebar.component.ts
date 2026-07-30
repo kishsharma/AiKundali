@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AstrologyIconComponent } from '../shared/components/astrology-icon.component';
 import { KundaliService } from '../modules/kundali/kundali.service';
 import { AuthService } from '../core/auth/auth.service';
+import { CompatibilityApiService, SavedCompatibilityListItem } from '../core/services/compatibility-api.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -48,7 +49,7 @@ export interface NavItem {
           <h3 class="nav-section-title">Main</h3>
           <ul class="nav-list">
             <li class="nav-item">
-              <a routerLink="/app/dashboard" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/app/dashboard" routerLinkActive="active" data-dhruva-tour="dashboard" data-tour-id="portal-dashboard" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="8" rx="1.5"></rect>
@@ -61,7 +62,7 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item nav-parent">
-              <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-dhruva-tour="create-kundali" data-tour-id="portal-create-kundali">
                 <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">Kundali</span>
               </a>
@@ -78,7 +79,7 @@ export interface NavItem {
                     class="saved-toggle"
                     (click)="toggleSavedKundalis($event)"
                     [attr.aria-expanded]="savedKundalisOpen"
-                    aria-controls="saved-kundali-list">
+                    aria-controls="saved-kundali-list" data-dhruva-tour="saved-kundalis" data-tour-id="portal-saved-kundalis">
                     <span>Saved Kundali</span>
                     <span class="saved-count">{{ savedKundalis.length }}</span>
                     <svg class="saved-chevron" [class.open]="savedKundalisOpen" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -119,11 +120,52 @@ export interface NavItem {
                 <span class="nav-label">Website Home</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a routerLink="/app/compatibility" routerLinkActive="active" (click)="onClose.emit()">
+            <li class="nav-item nav-parent">
+              <a routerLink="/app/compatibility" routerLinkActive="active" data-dhruva-tour="compatibility" data-tour-id="portal-compatibility" [routerLinkActiveOptions]="{ exact: true }">
                 <app-astrology-icon name="compatibility" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">Compatibility</span>
               </a>
+              <ul class="nav-sublist" *ngIf="!compact">
+                <li>
+                  <a routerLink="/app/compatibility" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                    <span class="nav-dot"></span>
+                    <span class="nav-label">Create New</span>
+                  </a>
+                </li>
+                <li class="saved-group">
+                  <button
+                    type="button"
+                    class="saved-toggle"
+                    (click)="toggleSavedMatches($event)"
+                    [attr.aria-expanded]="savedMatchesOpen"
+                    aria-controls="saved-match-list">
+                    <span>Saved Matches</span>
+                    <span class="saved-count">{{ savedMatches.length }}</span>
+                    <svg class="saved-chevron" [class.open]="savedMatchesOpen" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                  <div id="saved-match-list" class="saved-list" *ngIf="savedMatchesOpen">
+                    <div class="saved-row" *ngFor="let item of savedMatches" [class.deleting]="deletingCompatibilityIds.has(item.id)" [attr.aria-busy]="deletingCompatibilityIds.has(item.id)">
+                      <a [routerLink]="['/app/compatibility/saved', item.id]" routerLinkActive="active" (click)="onClose.emit()" [title]="item.displayName || (item.personAName + ' & ' + item.personBName)">
+                        <span class="nav-dot saved match"></span>
+                        <span class="nav-label">{{ deletingCompatibilityIds.has(item.id) ? 'Deleting...' : (item.displayName || (item.personAName + ' & ' + item.personBName)) }}</span>
+                      </a>
+                      <button
+                        type="button"
+                        class="saved-delete-btn"
+                        (click)="deleteSavedCompatibility(item, $event)"
+                        [disabled]="deletingCompatibilityIds.has(item.id)"
+                        [attr.aria-label]="'Delete saved match ' + (item.displayName || item.personAName + ' and ' + item.personBName)"
+                        [title]="deletingCompatibilityIds.has(item.id) ? 'Deleting...' : 'Delete saved match'">
+                        {{ deletingCompatibilityIds.has(item.id) ? 'Deleting...' : 'X' }}
+                      </button>
+                    </div>
+                    <span class="saved-status" *ngIf="compatibilityDeleteStatusMessage">{{ compatibilityDeleteStatusMessage }}</span>
+                    <span class="saved-empty" *ngIf="!savedMatches.length">No saved matches</span>
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -138,7 +180,7 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/app/panchang/muhurtha" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/app/panchang/muhurtha" routerLinkActive="active" data-dhruva-tour="muhurtha" data-tour-id="portal-muhurtha" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="8.5"></circle>
@@ -153,7 +195,7 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/app/learning" routerLinkActive="active" (click)="onClose.emit()">
+              <a routerLink="/app/learning" routerLinkActive="active" data-dhruva-tour="learning" data-tour-id="portal-learning" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -255,9 +297,9 @@ export interface NavItem {
       top: 76px;
       display: flex;
       flex-direction: column;
-      z-index: 99;
+      z-index: 110;
       overflow: hidden;
-      transition: all 300ms ease;
+      transition: width 260ms ease, box-shadow 260ms ease, transform 260ms ease;
 
       &.compact {
         width: 80px;
@@ -454,6 +496,10 @@ export interface NavItem {
       background: #7E3BA8;
     }
 
+    .nav-dot.saved.match {
+      background: var(--theme-accent, #D85F36);
+    }
+
     .saved-group {
       display: grid;
       gap: 0.1rem;
@@ -637,7 +683,11 @@ export interface NavItem {
       border-right-color: var(--theme-line);
       background: var(--theme-surface);
       color: var(--theme-text);
-      box-shadow: 10px 0 34px var(--theme-shadow);
+      box-shadow: 14px 0 36px var(--theme-shadow);
+    }
+
+    .sidebar:not(.compact) {
+      box-shadow: 18px 0 44px color-mix(in srgb, var(--theme-shadow) 78%, transparent);
     }
 
     .collapse-btn,
@@ -736,16 +786,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Output() onToggleCompact = new EventEmitter<void>();
 
   savedKundalisOpen = false;
+  savedMatchesOpen = false;
   navItems: NavItem[] = [];
   savedKundalis: any[] = [];
+  savedMatches: SavedCompatibilityListItem[] = [];
   deletingKundaliIds = new Set<string>();
+  deletingCompatibilityIds = new Set<string>();
   deleteStatusMessage = '';
+  compatibilityDeleteStatusMessage = '';
   private savedKundaliRefreshSub?: Subscription;
 
-  constructor(private kundaliService: KundaliService, private router: Router, private authService: AuthService) {}
+  constructor(private kundaliService: KundaliService, private compatibilityApi: CompatibilityApiService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadSavedKundalis();
+    this.loadSavedCompatibilities();
     this.savedKundaliRefreshSub = this.kundaliService.savedKundaliChanged$.subscribe(() => {
       this.loadSavedKundalis();
     });
@@ -760,10 +815,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.loadSavedKundalis();
   }
 
+  @HostListener('window:compatibility-saved')
+  onCompatibilitySaved(): void {
+    this.loadSavedCompatibilities();
+  }
+
   toggleSavedKundalis(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.savedKundalisOpen = !this.savedKundalisOpen;
+  }
+
+  toggleSavedMatches(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.savedMatchesOpen = !this.savedMatchesOpen;
   }
 
   deleteSavedKundali(item: any, event: MouseEvent): void {
@@ -818,6 +884,59 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteSavedCompatibility(item: SavedCompatibilityListItem, event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const id = item?.id;
+    if (!id || this.deletingCompatibilityIds.has(id)) {
+      return;
+    }
+
+    const label = item.displayName || `${item.personAName} & ${item.personBName}`;
+    if (!window.confirm(`Delete saved match "${label}"?`)) {
+      return;
+    }
+
+    this.compatibilityDeleteStatusMessage = 'Deleting...';
+    this.deletingCompatibilityIds.add(id);
+    this.compatibilityApi.deleteCompatibilityAnalysis(id).pipe(
+      finalize(() => this.deletingCompatibilityIds.delete(id))
+    ).subscribe({
+      next: () => {
+        this.compatibilityDeleteStatusMessage = '';
+        this.savedMatches = this.savedMatches.filter(saved => saved.id !== id);
+        this.loadSavedCompatibilities();
+
+        if (this.router.url.includes(`/app/compatibility/saved/${id}`)) {
+          this.router.navigate(['/app/compatibility']);
+        }
+      },
+      error: (error) => {
+        console.error('Saved compatibility delete error:', error);
+        this.compatibilityDeleteStatusMessage = error?.name === 'TimeoutError'
+          ? 'Delete failed: backend did not respond.'
+          : 'Delete failed. Please try again.';
+        this.loadSavedCompatibilities();
+      }
+    });
+  }
+
+  private loadSavedCompatibilities(): void {
+    this.compatibilityApi.getCompatibilityHistory().subscribe({
+      next: (items) => {
+        this.savedMatches = Array.isArray(items) ? items : [];
+        if (this.router.url.includes('/app/compatibility/saved/')) {
+          this.savedMatchesOpen = true;
+        }
+      },
+      error: (error) => {
+        console.error('Saved compatibility menu load error:', error);
+        this.savedMatches = [];
+      }
+    });
+  }
+
   toggleCompact(): void {
     this.onToggleCompact.emit();
   }
@@ -828,6 +947,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 }
+
+
 
 
 

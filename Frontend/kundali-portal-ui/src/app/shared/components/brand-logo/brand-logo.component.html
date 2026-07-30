@@ -1,0 +1,14 @@
+<img
+  *ngIf="isFull"
+  class="brand-logo brand-logo--full"
+  [src]="logoSrc"
+  alt="HoraLife"
+/>
+
+<span *ngIf="!isFull" class="brand-logo brand-logo--lockup" [class.brand-logo--icon-only]="variant === 'icon'">
+  <img class="brand-logo__mark" [src]="logoSrc" alt="" aria-hidden="true" />
+  <span class="brand-logo__copy" *ngIf="isIconText">
+    <span class="brand-logo__name"><span class="brand-logo__hora">Hora</span><span class="brand-logo__life">Life</span></span>
+    <small *ngIf="showDescriptor">Precision Vedic Astrology</small>
+  </span>
+</span>

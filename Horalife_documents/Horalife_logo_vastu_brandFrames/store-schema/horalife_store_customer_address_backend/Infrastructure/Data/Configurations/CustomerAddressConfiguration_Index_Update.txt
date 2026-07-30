@@ -1,0 +1,22 @@
+In the existing CustomerAddressConfiguration, replace:
+
+builder.HasIndex(x => new
+{
+    x.UserId,
+    x.AddressType,
+    x.IsDefault
+});
+
+with:
+
+builder.HasIndex(x => new
+    {
+        x.UserId,
+        x.AddressType
+    })
+    .IsUnique()
+    .HasDatabaseName(
+        "ux_customer_addresses_user_type_default")
+    .HasFilter("\"is_default\" = TRUE");
+
+This enforces one default address per user per address type.

@@ -11,5 +11,7 @@ namespace KundaliEngine.API.DTOs.User
         public string? PhoneNumber { get; set; }
 
         public bool IsActive { get; set; }
+
+        public int KundaliSaveLimit { get; set; }
     }
 }

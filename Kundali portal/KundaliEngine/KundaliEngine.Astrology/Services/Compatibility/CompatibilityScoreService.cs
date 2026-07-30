@@ -251,8 +251,8 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                 LagnaLordComponent(personA.Chart, personB.Chart, "Lagna lord mutual growth capacity"),
                 HouseLordComponent(personA.Chart, personB.Chart, HouseNumber.Tenth, "10th lord execution strength"),
                 HouseLordComponent(personA.Chart, personB.Chart, HouseNumber.Eleventh, "11th lord gains support"),
-                RajaYogaComponent(personA.Chart, personB.Chart, "Raja Yoga growth signal"),
-                DhanaYogaComponent(personA.Chart, personB.Chart, "Dhana Yoga shared prosperity signal"),
+                // Generic Raja/Dhana yogas are individual prosperity/status signals.
+                // Keep compatibility focused on shared relationship dynamics instead.
                 MutualBeneficInfluenceComponent(personA.Chart, personB.Chart, "Mutual benefic influences")
             };
 
@@ -420,20 +420,6 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             return ScoreComponentInput.Available(label, AverageScores(planetScores.ToArray()), $"7th house aspects: {seventhA.Detail}; {seventhB.Detail}");
         }
 
-        private ScoreComponentInput RajaYogaComponent(KundaliChart chartA, KundaliChart chartB, string label)
-        {
-            var a = RajaYogaScore(chartA);
-            var b = RajaYogaScore(chartB);
-            return ScoreComponentInput.Available(label, AverageScores(a.Score, b.Score), $"{a.Detail}; {b.Detail}");
-        }
-
-        private ScoreComponentInput DhanaYogaComponent(KundaliChart chartA, KundaliChart chartB, string label)
-        {
-            var a = DhanaYogaScore(chartA);
-            var b = DhanaYogaScore(chartB);
-            return ScoreComponentInput.Available(label, AverageScores(a.Score, b.Score), $"{a.Detail}; {b.Detail}");
-        }
-
         private ScoreComponentInput MutualBeneficInfluenceComponent(KundaliChart chartA, KundaliChart chartB, string label)
         {
             var a = BeneficInfluenceScore(chartA, KendraHouses.Concat(TrikonaHouses).Distinct());
@@ -575,67 +561,6 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             if (fromMoon && moon != null) sources.Add($"{HouseFrom(moon.House, mars.House)}th from Moon");
 
             return (score, $"Mars Dosha indicated {string.Join(" and ", sources)}; Mars/protection score {score}/100");
-        }
-
-        private (int Score, string Detail) RajaYogaScore(KundaliChart chart)
-        {
-            var kendraLords = KendraHouses.Select(house => HouseLord(chart, house)).Where(lord => lord.HasValue).Select(lord => lord!.Value).Distinct();
-            var trikonaLords = TrikonaHouses.Select(house => HouseLord(chart, house)).Where(lord => lord.HasValue).Select(lord => lord!.Value).Distinct();
-            var associations = new List<int>();
-
-            foreach (var kendraLord in kendraLords)
-            {
-                foreach (var trikonaLord in trikonaLords)
-                {
-                    if (kendraLord == trikonaLord)
-                    {
-                        continue;
-                    }
-
-                    var association = AssociationScore(chart, kendraLord, trikonaLord);
-                    if (association.Score.HasValue)
-                    {
-                        associations.Add(association.Score.Value);
-                    }
-                }
-            }
-
-            var housePower = AverageScores(KendraHouses.Concat(TrikonaHouses).Distinct().Select(house => HouseScore(chart, house)).ToArray());
-            if (associations.Count == 0)
-            {
-                return (housePower, $"No Kendra-Trikona lord association found; Kendra/Trikona house strength {housePower}/100");
-            }
-
-            var score = AverageScores(housePower, associations.Max());
-            return (score, $"Kendra-Trikona lord association found; Raja Yoga signal {score}/100");
-        }
-
-        private (int Score, string Detail) DhanaYogaScore(KundaliChart chart)
-        {
-            var wealthHouses = new[] { HouseNumber.Second, HouseNumber.Fifth, HouseNumber.Ninth, HouseNumber.Eleventh };
-            var lords = wealthHouses.Select(house => HouseLord(chart, house)).Where(lord => lord.HasValue).Select(lord => lord!.Value).Distinct().ToList();
-            var associations = new List<int>();
-
-            for (int i = 0; i < lords.Count; i++)
-            {
-                for (int j = i + 1; j < lords.Count; j++)
-                {
-                    var association = AssociationScore(chart, lords[i], lords[j]);
-                    if (association.Score.HasValue)
-                    {
-                        associations.Add(association.Score.Value);
-                    }
-                }
-            }
-
-            var wealthPower = AverageScores(wealthHouses.Select(house => HouseScore(chart, house)).ToArray());
-            if (associations.Count == 0)
-            {
-                return (wealthPower, $"No wealth-lord association found; Dhana houses average {wealthPower}/100");
-            }
-
-            var score = AverageScores(wealthPower, associations.Max());
-            return (score, $"Wealth-lord association found; Dhana Yoga signal {score}/100");
         }
 
         private (int Score, string Detail) BeneficInfluenceScore(KundaliChart chart, IEnumerable<HouseNumber> houses)

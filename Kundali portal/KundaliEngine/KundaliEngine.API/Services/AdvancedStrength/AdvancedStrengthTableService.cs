@@ -41,7 +41,7 @@ namespace KundaliEngine.API.Services.AdvancedStrength
         {
             return new AdvancedStrengthTableDto
             {
-                MethodNote = "Shadbala-ready strength overview and Ashtakavarga-ready house support. Current values reuse implemented dignity, Digbala, combustion, retrogression, aspect and house-score calculations; exact six-fold Shadbala and BAV/SAV bindu math can replace the estimated columns when implemented.",
+                MethodNote = "Strength overview based on current dignity, direction, combustion, retrograde, aspect and house-score checks. Shadbala and Ashtakavarga values are estimated until exact calculations are added.",
                 PlanetaryStrengths = planets.Select(planet => BuildPlanetRow(planet, aspectResult)).ToList(),
                 HouseSupport = houses.Select(BuildHouseRow).ToList()
             };
@@ -63,6 +63,8 @@ namespace KundaliEngine.API.Services.AdvancedStrength
             var drikBala = BuildDrikBala(beneficAspects, maleficAspects);
 
             return new PlanetaryStrengthRowDto
+
+
             {
                 Planet = planet.Planet.ToString(),
                 Sign = planet.Sign.ToString(),

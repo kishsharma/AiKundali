@@ -10,11 +10,12 @@
 
 :root,
 body[data-theme='dark'] {
-  --theme-bg: #0d1120;
-  --theme-bg-alt: #0d1120;
-  --theme-surface: #161b30;
-  --theme-surface-2: #1e2440;
-  --theme-surface-soft: rgba(22, 27, 48, 0.92);
+  // Previous dark surfaces for quick rollback: surface #161b30, surface-2 #1e2440, input #1e2b5a. Original near-black base was #0d1120.
+  --theme-bg: #1e2b5a;//#0d1120;
+  --theme-bg-alt: #18244d;
+  --theme-surface: #24366f;
+  --theme-surface-2: #2b417f;
+  --theme-surface-soft: rgba(36, 54, 111, 0.92);
   --theme-text: #efe6d3;
   --theme-text-muted: #c9bfa9;
   --theme-accent: #c9a24b;
@@ -24,14 +25,16 @@ body[data-theme='dark'] {
   --theme-info: #7fa6bd;
   --theme-warning: #c9a24b;
   --theme-copper: #a9764a;
-  --theme-line: rgba(201, 162, 75, 0.22);
-  --theme-line-soft: rgba(201, 162, 75, 0.12);
-  --theme-shadow: rgba(0, 0, 0, 0.30);
-  --theme-input-bg: #0d1120;
-  --theme-grid-line: rgba(201, 162, 75, 0.035);
-  --theme-grid-line-2: rgba(201, 162, 75, 0.028);
-  --theme-radius-card: 0;
-  --theme-radius-control: 0;
+  --theme-line: rgba(201, 162, 75, 0.26);
+  --theme-line-soft: rgba(201, 162, 75, 0.14);
+  --theme-shadow: rgba(5, 10, 28, 0.34);
+  --theme-input-bg: #17244d;
+  --theme-grid-line: rgba(201, 162, 75, 0.045);
+  --theme-grid-line-2: rgba(201, 162, 75, 0.034);
+  // Radius experiment: dark structural surfaces 2px, cards/controls 6px. Roll back these three tokens to 0 if needed.
+  --theme-radius-structural: 2px;
+  --theme-radius-card: 6px;
+  --theme-radius-control: 6px;
 }
 
 body[data-theme='light'] {
@@ -55,6 +58,7 @@ body[data-theme='light'] {
   --theme-input-bg: #fffdf7;
   --theme-grid-line: rgba(168, 121, 34, 0.08);
   --theme-grid-line-2: rgba(168, 121, 34, 0.06);
+  --theme-radius-structural: 8px;
   --theme-radius-card: 8px;
   --theme-radius-control: 6px;
 }
@@ -80,6 +84,7 @@ body[data-theme='hora'] {
   --theme-input-bg: #ffffff;
   --theme-grid-line: transparent;
   --theme-grid-line-2: transparent;
+  --theme-radius-structural: 8px;
   --theme-radius-card: 8px;
   --theme-radius-control: 6px;
 }
@@ -454,7 +459,7 @@ html,
 body,
 app-root {
   min-height: 100%;
-  background: var(--theme-bg, #0d1120);
+  background: var(--theme-bg, #1e2b5a);
 }
 
 body {

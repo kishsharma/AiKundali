@@ -1,0 +1,7 @@
+In the existing AddStoreApplication() method, add:
+
+services.AddScoped<IStoreCartService, StoreCartService>();
+
+Keep the existing catalogue registration:
+
+services.AddScoped<IStoreCatalogService, StoreCatalogService>();

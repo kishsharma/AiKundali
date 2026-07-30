@@ -359,6 +359,7 @@
   stroke: #000000 !important;
 }
 .pdf-mode-print-bw .brand-logo,
+.pdf-mode-print-bw .report-brand-logo,
 .pdf-mode-print-bw .branding-logo {
   filter: grayscale(1) contrast(1.15) !important;
 }
@@ -448,11 +449,13 @@
   text-align: left !important;
 }
 #kundali-report.pdf-mode-mobile .brand-section,
+#kundali-report.pdf-mode-mobile .report-brand-lockup,
 #kundali-report.pdf-mode-mobile .astrologer-section {
   justify-content: flex-start !important;
   text-align: left !important;
 }
 #kundali-report.pdf-mode-mobile .brand-logo,
+#kundali-report.pdf-mode-mobile .report-brand-logo,
 #kundali-report.pdf-mode-mobile .branding-logo {
   max-width: 52px !important;
   max-height: 52px !important;
@@ -1223,6 +1226,7 @@
   padding: 0.08rem 0.12rem !important;
 }
 #kundali-report.pdf-mode-mobile .brand-logo,
+#kundali-report.pdf-mode-mobile .report-brand-logo,
 #kundali-report.pdf-mode-mobile .branding-logo {
   max-width: 34px !important;
   max-height: 34px !important;
@@ -1387,3 +1391,25 @@
 #kundali-report.pdf-mode-mobile .planet-table .planet-name{display:block!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;font-size:7.6px!important;line-height:1.05!important}
 #kundali-report.pdf-mode-mobile .planet-table td:nth-child(1){white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important}
 
+
+#kundali-report.pdf-mode-mobile .report-prepared-by {
+  border-left: 0 !important;
+  border-top: 0 !important;
+  padding: 0.35rem 0 0 !important;
+  justify-items: start !important;
+}
+#kundali-report.pdf-mode .report-header .report-devotional-divider {
+  margin: -0.06rem 0 -0.08rem !important;
+}
+
+#kundali-report.pdf-mode .report-header .report-devotional-divider svg {
+  width: 500px !important;
+  max-width: 94% !important;
+  height: 42px !important;
+}
+
+#kundali-report.pdf-mode-mobile .report-header .report-devotional-divider svg {
+  width: 380px !important;
+  max-width: 96% !important;
+  height: 38px !important;
+}

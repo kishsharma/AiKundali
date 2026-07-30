@@ -1,0 +1,8 @@
+In the existing AddStoreInfrastructure() method, add:
+
+services.AddScoped<ICartRepository, CartRepository>();
+
+Keep the existing registrations:
+
+services.AddScoped<ICategoryRepository, CategoryRepository>();
+services.AddScoped<IProductRepository, ProductRepository>();

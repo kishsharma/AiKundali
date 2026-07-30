@@ -1,20 +1,34 @@
-import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './core/auth/auth.service';
 import { ThemeService } from './core/services/theme.service';
+import { BrandLogoComponent } from './shared/components/brand-logo/brand-logo.component';
+import { NotificationToastComponent } from './shared/components/notification-toast/notification-toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [NgIf, RouterOutlet,
-  RouterLink],
+  imports: [NgFor, NgIf, RouterOutlet,
+  RouterLink,
+  BrandLogoComponent,
+  NotificationToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 
 export class App {
+  readonly languages = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'kn', label: 'ಕನ್ನಡ' }
+  ];
+  readonly themes = [
+    { mode: 'dark', label: 'Dark', icon: '☾' },
+    { mode: 'light', label: 'Light', icon: '☀' },
+    { mode: 'hora', label: 'Hora', icon: 'H' }
+  ] as const;
   activeLanguage: string;
   isPublicLanding = true;
  isUserMenuOpen = false;
@@ -37,7 +51,7 @@ export class App {
 }
 
 get userName(): string {
-  return this.currentUser?.fullName || 'User';
+  return this.formatDisplayName(this.currentUser?.fullName || 'User');
 }
 
 get userEmail(): string {
@@ -62,7 +76,20 @@ toggleUserMenu(): void {
   }
 
   this.isUserMenuOpen = !this.isUserMenuOpen;
-  console.log('user drodpwnclicked',true);
+}
+
+handleUserMenuSpace(event: Event): void {
+  event.preventDefault();
+  this.toggleUserMenu();
+}
+
+closeUserMenu(): void {
+  this.isUserMenuOpen = false;
+}
+
+@HostListener('document:keydown.escape')
+closeUserMenuOnEscape(): void {
+  this.closeUserMenu();
 }
 
 toggleAppMenu(): void {
@@ -80,5 +107,14 @@ logout(): void {
     this.isPublicLanding = path === '' || path === '/';
     this.isUserMenuOpen = false;
   }
+  private formatDisplayName(name: string): string {
+    return name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(' ') || 'User';
+  }
 }
+
 

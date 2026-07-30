@@ -69,6 +69,19 @@ public class ReportPdfService : IReportPdfService
             }
         }
 
+        if (ShouldUseMobileHtml(request.Mode))
+        {
+            try
+            {
+                var html = _htmlTemplateService.BuildMobileFriendlyHtml(request.BirthProfile, report);
+                return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Mobile-friendly HTML report rendering failed. Falling back to manual PDF renderer.");
+            }
+        }
+
         if (ShouldUseDesktopColorHtml(request.Mode))
         {
             try
@@ -108,6 +121,13 @@ public class ReportPdfService : IReportPdfService
         return string.Equals(mode, "print-bw", StringComparison.OrdinalIgnoreCase)
             || string.Equals(mode, "black-white", StringComparison.OrdinalIgnoreCase)
             || string.Equals(mode, "black-and-white", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool ShouldUseMobileHtml(string? mode)
+    {
+        return string.Equals(mode, "mobile", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(mode, "mobile-friendly", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(mode, "mobilefriendly", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool ShouldUseDesktopColorHtml(string? mode)

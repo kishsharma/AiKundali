@@ -9,7 +9,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> entity)
     {
-        entity.ToTable("Users");
+        entity.ToTable("Users", "public");
 
         entity.HasKey(x => x.Id);
 
@@ -41,7 +41,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         entity.Property(x => x.IsActive)
             .HasDefaultValue(true);
 
+        entity.Property(x => x.KundaliSaveLimit)
+            .HasDefaultValue(5);
+
         entity.Property(x => x.CreatedAt)
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        entity.Property(x => x.EmailVerifiedAt);
+
+        entity.Property(x => x.PhoneVerifiedAt);
     }
 }
+
+

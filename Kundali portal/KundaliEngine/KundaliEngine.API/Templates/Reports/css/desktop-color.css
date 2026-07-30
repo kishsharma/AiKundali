@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --hora-bg: #f7f8fa;
   --hora-surface: #ffffff;
   --hora-surface-2: #f8fafc;
@@ -28,42 +28,84 @@ body.report-shell {
 .report-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 270px;
-  gap: 16px;
+  gap: 12px;
   border: 1px solid var(--hora-line);
   border-top: 4px solid var(--hora-accent);
   border-radius: 8px;
-  padding: 10px 14px 9px;
+  padding: 8px 12px 6px;
   background: var(--hora-surface);
 }
 
 .brand-lockup {
-  display: flex;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
   align-items: center;
-  gap: 11px;
+  gap: 10px;
 }
 
-.hora-mark {
+.brand-mark {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 1.5px solid var(--hora-accent);
-  border-radius: 8px;
-  color: var(--hora-accent);
-  font-family: Georgia, serif;
-  font-size: 24px;
-  font-weight: 700;
+  width: 46px;
+  height: 46px;
 }
 
-.brand-copy h1 {
-  color: var(--hora-text);
+.brand-mark svg {
+  width: 46px;
+  height: 46px;
+  overflow: visible;
+}
+
+.logo-orbit,
+.logo-horizon {
+  fill: none;
+  stroke: #1e2b5a;
+  stroke-width: 4.2;
+  stroke-linecap: round;
+}
+
+.logo-sun {
+  fill: #d9a441;
+  stroke: #1e2b5a;
+  stroke-width: 1.5;
+}
+
+.logo-moon {
+  fill: #c2c8d1;
+  stroke: #1e2b5a;
+  stroke-width: 0.9;
+}
+
+.logo-earth {
+  fill: #3f6fa3;
+  stroke: #c69a3a;
+  stroke-width: 2.6;
+}
+
+.brand-copy {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.brand-name {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  color: #1e2b5a;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 24px;
-  line-height: 1;
+  font-size: 21px;
   font-weight: 700;
+  line-height: 1;
 }
 
-.brand-copy span,
+.brand-name-life {
+  color: var(--hora-accent);
+}
+
+.brand-copy small,
+.brand-copy .report-tagline,
 .report-meta,
 .micro-label {
   color: var(--hora-muted);
@@ -75,7 +117,7 @@ body.report-shell {
 }
 
 .subject-line {
-  margin-top: 10px;
+  margin-top: 6px;
   color: var(--hora-muted);
   font-size: 11px;
 }
@@ -88,8 +130,8 @@ body.report-shell {
 .prepared-by {
   display: grid;
   gap: 2px;
-  border-left: 1px solid var(--hora-line);
-  padding-left: 14px;
+  border-left: 0;
+  padding-left: 12px;
   text-align: right;
 }
 
@@ -213,44 +255,84 @@ body.report-shell {
 }
 
 .north-chart {
-  width: 260px;
-  height: 260px;
+  width: 292px;
+  height: 292px;
   overflow: visible;
 }
 
-.north-chart line,
-.north-chart rect,
-.north-chart polygon {
-  fill: #ffffff;
-  stroke: var(--hora-accent);
-  stroke-width: 1.1;
+.north-chart .chart-outline {
+  fill: var(--hora-surface);
+  stroke: #C56F50;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart .chart-secondary-outline {
+  fill: none;
+  stroke: #D6A08D;
+  stroke-width: 1.35;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart .chart-line {
+  fill: none;
+  stroke: #D6A08D;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart .house {
+  fill: rgba(248, 250, 252, 0.58);
+  stroke: #D6A08D;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
 .north-chart text {
   font-family: "Segoe UI", Arial, sans-serif;
-  fill: var(--hora-text);
-  font-size: 6.1px;
-  font-weight: 800;
   text-anchor: middle;
   dominant-baseline: middle;
   paint-order: stroke;
-  stroke: #ffffff;
-  stroke-width: 1.2px;
+  stroke: var(--hora-surface);
   stroke-linejoin: round;
 }
 
 .north-chart .house-num {
-  fill: var(--hora-accent);
-  font-size: 5.5px;
+  fill: #148A50;
+  font-size: 17px;
   font-weight: 900;
-  stroke-width: 0.9px;
+  stroke-width: 3px;
 }
 
 .north-chart .planet-text {
-  fill: #111827;
+  fill: var(--hora-text);
+  font-size: 13px;
+  font-weight: 700;
+  stroke-width: 2px;
 }
 
+.north-chart .planet-text.tone-supportive,
+.north-chart .planet-text.tone-special {
+  fill: var(--hora-success);
+}
 
+.north-chart .planet-text.tone-neutral {
+  fill: var(--hora-info);
+}
+
+.north-chart .planet-text.tone-mixed {
+  fill: var(--hora-copper);
+}
+
+.north-chart .planet-text.tone-challenging {
+  fill: var(--hora-danger);
+}
 .sudarshan-large-wrap {
   display: grid;
   justify-items: center;
@@ -625,4 +707,186 @@ body.report-shell {
 .section-remedies-recommendation {
   break-before: page;
   page-break-before: always;
+}
+
+/* UI-matched report header for backend PDF/export modes. */
+.report-header.report-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  border: 1px solid var(--hora-line);
+  border-top: 0;
+  border-radius: 8px;
+  padding: 8px 14px 6px;
+  background: var(--hora-surface);
+}
+
+.report-header.report-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hora-accent), #d9a441, transparent);
+}
+
+.report-header .header-top-section {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 72px;
+}
+
+.report-header .brand-section,
+.report-header .astrologer-section {
+  min-width: 0;
+}
+
+.report-header .report-brand-lockup {
+  display: grid;
+  grid-template-columns: 57px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.report-header .report-brand-logo,
+.report-header .report-brand-logo svg {
+  width: 57px;
+  height: 57px;
+}
+
+.report-header .report-brand-copy {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.report-header .report-brand-name {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 0;
+  color: color-mix(in srgb, var(--hora-info) 58%, #d9a441);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.report-header .report-brand-name .brand-name-life {
+  color: #d9a441;
+}
+
+.report-header .report-brand-descriptor {
+  color: var(--hora-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.report-header .report-title,
+.report-header .report-tagline,
+.report-header .report-meta {
+  display: none;
+}
+
+.report-header .report-prepared-by {
+  display: grid;
+  align-content: center;
+  justify-items: end;
+  gap: 2px;
+  padding-left: 12px;
+  text-align: right;
+}
+
+.report-header .astrologer-kicker {
+  color: var(--hora-accent);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.report-header .astrologer-name {
+  color: var(--hora-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16.5px;
+  line-height: 1.05;
+}
+
+.report-header .astrologer-title,
+.report-header .astrologer-contact {
+  color: var(--hora-muted);
+  font-size: 9.2px;
+  line-height: 1.35;
+}
+
+.report-header .header-bottom-section {
+  display: grid;
+  align-items: center;
+  min-height: 32px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-header .person-details-block {
+  margin: 0;
+}
+
+.report-header .person-detail-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin: 0;
+  color: var(--hora-muted);
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.report-header .intro-name {
+  color: #d9a441;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.05;
+  text-transform: capitalize;
+}
+
+.report-header .intro-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.report-header .intro-date,
+.report-header .intro-time,
+.report-header .intro-place {
+  color: var(--hora-text);
+  font-weight: 800;
+}
+
+.report-header .intro-place {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  border: 1px solid var(--hora-line);
+  padding: 1px 6px;
+  background: var(--hora-surface-2);
+  font-size: 10px;
+}
+
+.report-header .devotional-divider {
+  margin: -6px 0 -6px;
+  padding: 0 10px;
+}
+
+.report-header .devotional-divider svg {
+  width: min(100%, 616px);
+  height: 48px;
 }

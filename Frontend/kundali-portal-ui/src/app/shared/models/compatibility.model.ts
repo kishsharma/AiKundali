@@ -26,8 +26,8 @@ export interface BirthChart {
 
   generatedAtUtc: string;
 
-  ascendantSign: number;
-ascendantSignAndNumber: string;
+  ascendantSign: number | string;
+  ascendantSignAndNumber: string;
   ascendantDegree: number;
   ascendantMinute: number;
 
@@ -55,12 +55,12 @@ export interface BirthDetails {
 
 export interface PlanetPosition {
 
-  planet: number;
+  planet: number | string;
 
   longitude: number;
   latitude: number;
 
-  sign: number;
+  sign: number | string;
 
   degreeInSign: number;
 
@@ -82,7 +82,7 @@ export interface House {
 
   houseNumber: number;
 
-  sign: number;
+  sign: number | string;
 
   occupants: number[];
 

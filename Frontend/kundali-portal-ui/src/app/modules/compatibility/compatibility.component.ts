@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import html2canvas from 'html2canvas';
@@ -7,12 +8,14 @@ import { PageHeaderComponent } from '../../shared/components/page-header.compone
 import { NorthIndianChartComponent } from '../../components/north-indian-chart/north-indian-chart.component';
 import { AstrologyIconComponent } from '../../shared/components/astrology-icon.component';
 import { ScoreDetailsModalComponent } from '../../components/score-details-modal/score-details-modal';
-import {CompatibilityApiService,MatchRequestPerson} from '../../core/services/compatibility-api.service';
+import { CompatibilityApiService, CompatibilityRequest, MatchRequestPerson, SavedCompatibilityDetail } from '../../core/services/compatibility-api.service';
 import { BirthChart, CompatibilityDoshaItem, CompatibilityResponse, CompatibilityScoreComponent } from '../../shared/models/compatibility.model';
 import { LocationService } from '../../core/services/location.service';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { NotificationService } from '../../shared/services/notification.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 interface PersonSummary {
   role: 'Boy' | 'Girl';
@@ -52,12 +55,27 @@ interface CompatibilityDoshaCard extends CompatibilityDoshaItem {
 export class CompatibilityComponent {
   private fb = inject(FormBuilder);
   private compatibilityApi = inject(CompatibilityApiService);
+  private route = inject(ActivatedRoute);
   private locationService = inject(LocationService);
   private cdr = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
+  private notifications = inject(NotificationService);
+  private readonly themeService = inject(ThemeService);
 
+  get reportBrandLogoSrc(): string {
+    return this.themeService.mode() === 'dark'
+      ? 'assets/brand/horalife/horalife-icon-white.svg'
+      : 'assets/brand/horalife/horalife-icon-color.svg';
+  }
   loading = false;
   exportingPdf = false;
+  savingCompatibility = false;
+  shareEmail = '';
+  shareEmailTouched = false;
+  shareSending = false;
+  shareFailed = false;
+  loadingSavedCompatibility = false;
+  savedCompatibilityId: string | null = null;
   showReport=false;
   errorMessage = '';
   boyLocationResults: any[] = [];
@@ -105,6 +123,13 @@ export class CompatibilityComponent {
         switchMap((value) => value && value.length >= 3 ? this.locationService.searchLocation(value) : of([]))
       )
       .subscribe((results) => this.girlLocationResults = results);
+
+    this.route.paramMap.subscribe(params => {
+      const savedId = params.get('id');
+      if (savedId) {
+        this.loadSavedCompatibility(savedId);
+      }
+    });
   }
 
   selectLocation(role: 'boy' | 'girl', place: any): void {
@@ -185,10 +210,10 @@ export class CompatibilityComponent {
 
   get kutaScores() {
     return (this.result?.ashtakoota?.scores ?? []).map((item, index) => ({
-      name: item.name,
+      name: this.translateCompatibilityTerm(item.name),
       score: item.score,
       max: item.maxScore,
-      grade: item.grade,
+      grade: this.translateCompatibilityTerm(item.grade),
       detail: item.detail,
       tone: this.kutaTones[index % this.kutaTones.length],
     }));
@@ -209,7 +234,7 @@ export class CompatibilityComponent {
     }
 
     return this.result.dimensions.map((dimension, index) => ({
-      name: dimension.name,
+      name: this.translateCompatibilityTerm(dimension.name),
       score: dimension.score,
       grade: this.getGrade(dimension.score),
       tone: fallback[index % fallback.length].tone,
@@ -223,6 +248,9 @@ export class CompatibilityComponent {
   get doshas(): CompatibilityDoshaCard[] {
     return (this.result?.doshaAnalysis?.items ?? []).map((dosha) => ({
       ...dosha,
+      name: this.translateCompatibilityTerm(dosha.name),
+      status: this.translateCompatibilityTerm(dosha.status),
+      severity: this.translateCompatibilityTerm(dosha.severity),
       factors: dosha.factors ?? [],
       remedies: dosha.remedies ?? [],
       references: dosha.references ?? [],
@@ -242,7 +270,7 @@ export class CompatibilityComponent {
       return this.t('compatibility.noActiveDoshaRemediesRequired');
     }
 
-    return `${status}. ${this.t('compatibility.suggestedRemedies')}`;
+    return `${this.translateCompatibilityTerm(status)}. ${this.t('compatibility.suggestedRemedies')}`;
   }
 
   get insights() {
@@ -279,36 +307,47 @@ export class CompatibilityComponent {
       personB: this.toPersonRequest('girl'),
     }).subscribe({
       next: (result) => {
-        this.result = result;
-        this.selectedCompatibilityAspect = null;
-        this.isCompatibilityScoreModalOpen = false;
-        this.selectedDosha = null;
-        this.isDoshaModalOpen = false;
-        this.showReport = true;
-        this.personAhouses = result?.personAchart?.houses || null;
-        // this.personAhouses = result?.personAchart?.houses?.map(h => ({
-        //   ...h, )) || [];
-        this.personBhouses = result?.personBchart?.houses || null;
-        this.personAplanetPositions = result?.personAchart?.planetPositions || null;
-        this.personBplanetPositions = result?.personBchart?.planetPositions || null;
-        this.personAchart = result?.personAchart || null;  
-        this.personBchart = result?.personBchart || null;
+        this.savedCompatibilityId = null;
+        this.applyCompatibilityResult(result);
         this.loading = false;
         this.cdr.detectChanges();
-        console.log('Compatibility Result:', result);
-        console.log('Person A Houses:', this.personAhouses);
-        console.log('Person B Houses:', this.personBhouses);
-        console.log('Person A Planet Positions:', this.personAplanetPositions);
-        console.log('Person B Planet Positions:', this.personBplanetPositions);
       },
       error: (error) => {
         this.errorMessage = error.message || this.t('compatibility.calculateError');
+        this.notifications.error(this.errorMessage);
         this.loading = false;
         this.cdr.detectChanges();
       },
     });
   }
 
+  saveCompatibility(): void {
+    if (!this.result || this.savingCompatibility) {
+      return;
+    }
+
+    this.savingCompatibility = true;
+    this.errorMessage = '';
+    this.compatibilityApi.saveCompatibility({
+      request: this.buildCompatibilityRequest(),
+      result: this.result,
+    }).subscribe({
+      next: (saved) => {
+        this.savedCompatibilityId = saved?.id ?? this.savedCompatibilityId;
+        this.savingCompatibility = false;
+        this.notifications.success('Compatibility saved.');
+        window.dispatchEvent(new CustomEvent('compatibility-saved'));
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        const message = error?.message || 'Unable to save compatibility.';
+        this.errorMessage = message;
+        this.savingCompatibility = false;
+        this.notifications.error(message);
+        this.cdr.detectChanges();
+      }
+    });
+  }
   openCompatibilityFactors(aspect: CompatibilityAspectCard): void {
     this.selectedCompatibilityAspect = aspect;
     this.isCompatibilityScoreModalOpen = true;
@@ -333,53 +372,264 @@ export class CompatibilityComponent {
     }, 300);
   }
 
-  async downloadPdf(): Promise<void> {
-    const report = document.getElementById('compatibility-report');
 
-    if (!report || !this.showReport || this.exportingPdf) {
+  get isShareEmailValid(): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.shareEmail.trim());
+  }
+
+  get showShareEmailError(): boolean {
+    return this.shareEmailTouched && !this.isShareEmailValid;
+  }
+
+  onShareEmailInput(value: string): void {
+    this.shareEmail = value;
+    this.shareEmailTouched = true;
+    this.shareFailed = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeReportPickersOnOutsideClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('.compatibility-actions')) {
+      return;
+    }
+
+    document
+      .querySelectorAll<HTMLDetailsElement>('.compatibility-actions details[open]')
+      .forEach(picker => picker.removeAttribute('open'));
+  }
+
+  onReportPickerToggle(event: Event): void {
+    const currentPicker = event.currentTarget as HTMLDetailsElement | null;
+    if (!currentPicker?.open) {
+      return;
+    }
+
+    document
+      .querySelectorAll<HTMLDetailsElement>('.compatibility-actions details[open]')
+      .forEach(picker => {
+        if (picker !== currentPicker) {
+          picker.removeAttribute('open');
+        }
+      });
+  }
+
+  async sendCompatibilityReportByEmail(): Promise<void> {
+    this.shareEmailTouched = true;
+    this.shareFailed = false;
+
+    if (!this.isShareEmailValid || this.shareSending) {
+      return;
+    }
+
+    if (!this.result || !this.showReport) {
+      this.shareFailed = true;
+      this.notifications.warning('Generate a compatibility report before sharing.');
+      return;
+    }
+
+    this.shareSending = true;
+    this.exportingPdf = true;
+
+    try {
+      const pdf = await this.buildCompatibilityPdfDocument();
+      const fileName = this.getCompatibilityPdfFileName();
+      const subject = `HoraLife Compatibility Report - ${this.boy.name} & ${this.girl.name}`;
+      const message = [
+        'Namaste,',
+        `Please find attached the compatibility PDF report for ${this.boy.name} and ${this.girl.name}.`,
+        `Overall compatibility: ${this.overallScore}% (${this.scoreLabel})`,
+        `Ashtakoota score: ${this.totalKutaScore} / 36 (${this.totalKutaLabel})`,
+        this.savedCompatibilityId ? `Saved match ID: ${this.savedCompatibilityId}` : '',
+        'Regards,\nHoraLife Precision Vedic Astrology'
+      ].filter(Boolean).join('\n\n');
+
+      await firstValueFrom(this.compatibilityApi.sendReportEmail({
+        toEmail: this.shareEmail.trim(),
+        subject,
+        message,
+        fileName,
+        mode: 'compatibility',
+        attachmentFileName: fileName,
+        attachmentContentType: 'application/pdf',
+        attachmentBase64: pdf.output('datauristring'),
+        birthProfile: this.buildCompatibilityEmailProfile(),
+        report: this.result,
+      }));
+
+      this.shareFailed = false;
+      this.notifications.success('Compatibility report email submitted for delivery.');
+      document
+        .querySelectorAll<HTMLDetailsElement>('.compatibility-actions details[open]')
+        .forEach(picker => picker.removeAttribute('open'));
+    } catch (error) {
+      console.error('Compatibility report email error:', error);
+      this.shareFailed = true;
+      this.notifications.error(await this.resolveReportEmailError(error));
+    } finally {
+      this.shareSending = false;
+      this.resetPdfExportState();
+    }
+  }
+
+  shareCompatibilityOnWhatsApp(): void {
+    if (!this.showReport) {
+      return;
+    }
+
+    const text = this.getCompatibilityShareText();
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+  }
+
+  private getCompatibilityShareText(): string {
+    return [
+      `HoraLife Compatibility Report`,
+      `${this.boy.name} & ${this.girl.name}`,
+      `Overall compatibility: ${this.overallScore}% (${this.scoreLabel})`,
+      `Ashtakoota score: ${this.totalKutaScore} / 36 (${this.totalKutaLabel})`,
+      this.result?.summary ? `Summary: ${this.result.summary}` : '',
+      '',
+      'Prepared with HoraLife Precision Vedic Astrology.'
+    ].filter(Boolean).join('\n');
+  }
+
+  private buildCompatibilityEmailProfile(): Record<string, unknown> {
+    return {
+      reportType: 'Compatibility',
+      personA: this.toPersonRequest('boy'),
+      personB: this.toPersonRequest('girl'),
+      displayName: `${this.boy.name} & ${this.girl.name}`,
+      savedCompatibilityId: this.savedCompatibilityId,
+      generatedAt: new Date().toISOString(),
+    };
+  }
+
+  private async resolveReportEmailError(error: unknown): Promise<string> {
+    const fallbackMessage = 'Unable to send compatibility report email right now.';
+    const errorName = error && typeof error === 'object' && 'name' in error ? String(error.name) : '';
+
+    if (errorName === 'TimeoutError') {
+      return 'Report email is taking longer than expected. Please try again in a moment.';
+    }
+
+    if (!error || typeof error !== 'object') {
+      return fallbackMessage;
+    }
+
+    const status = 'status' in error ? Number((error as { status?: unknown }).status) : 0;
+    const responseError = 'error' in error ? (error as { error?: unknown }).error : null;
+    const backendMessage = await this.extractReportErrorMessage(responseError);
+
+    if (backendMessage) {
+      return backendMessage;
+    }
+
+    switch (status) {
+      case 0:
+        return 'Unable to reach the report email service. Check the API connection and try again.';
+      case 400:
+        return 'The report email request is incomplete. Please check the email address and try again.';
+      case 401:
+      case 403:
+        return 'Please sign in again before sending the report email.';
+      case 413:
+        return 'The compatibility PDF is too large to send by email. Please download it instead.';
+      case 502:
+        return 'The email provider could not send the report right now. Please verify SMTP settings or try again later.';
+      case 503:
+        return 'Report email service is not configured yet.';
+      case 504:
+        return 'Report email timed out while contacting the email server. Please try again.';
+      default:
+        return fallbackMessage;
+    }
+  }
+
+  private async extractReportErrorMessage(responseError: unknown): Promise<string> {
+    if (!responseError) {
+      return '';
+    }
+
+    if (responseError instanceof Blob) {
+      try {
+        const text = await responseError.text();
+        const parsed = JSON.parse(text) as { message?: unknown; title?: unknown };
+        return String(parsed.message || parsed.title || '').trim();
+      } catch {
+        return '';
+      }
+    }
+
+    if (typeof responseError === 'string') {
+      return responseError.trim();
+    }
+
+    if (typeof responseError === 'object' && 'message' in responseError) {
+      return String((responseError as { message?: unknown }).message || '').trim();
+    }
+
+    return '';
+  }
+
+  async downloadPdf(): Promise<void> {
+    if (!this.showReport || this.exportingPdf) {
       return;
     }
 
     this.exportingPdf = true;
+    const exportWatchdog = window.setTimeout(() => this.resetPdfExportState(), 30000);
+
+    try {
+      const pdf = await this.buildCompatibilityPdfDocument();
+      pdf.save(this.getCompatibilityPdfFileName());
+      this.notifications.success('Compatibility PDF downloaded.');
+    } catch (error) {
+      console.error('Compatibility PDF export failed:', error);
+      this.errorMessage = this.t('compatibility.pdfError');
+      this.notifications.error(this.errorMessage);
+    } finally {
+      window.clearTimeout(exportWatchdog);
+      this.resetPdfExportState();
+    }
+  }
+
+  private async buildCompatibilityPdfDocument(): Promise<jsPDF> {
+    const report = document.getElementById('compatibility-report');
+
+    if (!report || !this.showReport) {
+      throw new Error('Generate a compatibility report before exporting.');
+    }
+
     this.isCompatibilityScoreModalOpen = false;
     this.isDoshaModalOpen = false;
     this.selectedCompatibilityAspect = null;
     this.selectedDosha = null;
     this.cdr.detectChanges();
-    const exportWatchdog = window.setTimeout(() => this.resetPdfExportState(), 30000);
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 350));
-      document.body.classList.add('compatibility-pdf-mode');
-      this.cdr.detectChanges();
-      await new Promise((resolve) => setTimeout(resolve, 120));
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    document.body.classList.add('compatibility-pdf-mode');
+    this.cdr.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 120));
 
-      const pdf = new jsPDF({
-        orientation: 'p',
-        unit: 'mm',
-        format: 'a4',
-        compress: true,
-      });
+    const pdf = new jsPDF({
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a4',
+      compress: true,
+    });
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const elementsToRender = Array.from(
-        report.querySelectorAll<HTMLElement>(':scope > .report-toolbar, :scope > .compatibility-report-intro, :scope > .hero-report, :scope > .report-section, :scope > .report-note')
-      );
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const elementsToRender = Array.from(
+      report.querySelectorAll<HTMLElement>(':scope > .compatibility-report-intro, :scope > .hero-report, :scope > .report-section, :scope > .report-note')
+    );
 
-      let pageHeightUsed = 0;
-      for (const element of elementsToRender) {
-        pageHeightUsed = await this.addElementToPdf(pdf, element, pdfWidth, pdfHeight, 6, pageHeightUsed, 4);
-      }
-
-      pdf.save(this.getCompatibilityPdfFileName());
-    } catch (error) {
-      console.error('Compatibility PDF export failed:', error);
-      this.errorMessage = this.t('compatibility.pdfError');
-    } finally {
-      window.clearTimeout(exportWatchdog);
-      this.resetPdfExportState();
+    let pageHeightUsed = 0;
+    for (const element of elementsToRender) {
+      pageHeightUsed = await this.addElementToPdf(pdf, element, pdfWidth, pdfHeight, 6, pageHeightUsed, 4);
     }
+
+    return pdf;
   }
 
   private resetPdfExportState(): void {
@@ -616,6 +866,89 @@ export class CompatibilityComponent {
     return slug || 'report';
   }
 
+  private loadSavedCompatibility(id: string): void {
+    this.loadingSavedCompatibility = true;
+    this.loading = true;
+    this.errorMessage = '';
+    this.cdr.detectChanges();
+
+    this.compatibilityApi.getCompatibilityAnalysis(id).subscribe({
+      next: (saved) => {
+        this.savedCompatibilityId = saved?.id ?? id;
+        this.patchFormFromSavedCompatibility(saved);
+        this.applyCompatibilityResult(saved?.result ?? null);
+        this.loadingSavedCompatibility = false;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        const message = error?.message || 'Unable to open saved compatibility.';
+        this.errorMessage = message;
+        this.loadingSavedCompatibility = false;
+        this.loading = false;
+        this.notifications.error(message);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private patchFormFromSavedCompatibility(saved: SavedCompatibilityDetail): void {
+    const personA = saved?.request?.personA;
+    const personB = saved?.request?.personB;
+
+    this.form.patchValue({
+      boyName: personA?.name ?? saved?.personAName ?? '',
+      boyBirthDate: this.toDateInput(personA?.birthDateTime ?? saved?.personADateOfBirth),
+      boyBirthTime: this.toTimeInput(personA?.birthDateTime ?? saved?.personATimeOfBirth),
+      boyBirthPlace: personA?.birthPlace ?? saved?.personABirthPlace ?? '',
+      boyLatitude: Number(personA?.latitude ?? saved?.personALatitude ?? 0),
+      boyLongitude: Number(personA?.longitude ?? saved?.personALongitude ?? 0),
+      girlName: personB?.name ?? saved?.personBName ?? '',
+      girlBirthDate: this.toDateInput(personB?.birthDateTime ?? saved?.personBDateOfBirth),
+      girlBirthTime: this.toTimeInput(personB?.birthDateTime ?? saved?.personBTimeOfBirth),
+      girlBirthPlace: personB?.birthPlace ?? saved?.personBBirthPlace ?? '',
+      girlLatitude: Number(personB?.latitude ?? saved?.personBLatitude ?? 0),
+      girlLongitude: Number(personB?.longitude ?? saved?.personBLongitude ?? 0),
+    }, { emitEvent: false });
+
+    this.boyLocationResults = [];
+    this.girlLocationResults = [];
+  }
+
+  private applyCompatibilityResult(result: CompatibilityResponse | null): void {
+    this.result = result;
+    this.selectedCompatibilityAspect = null;
+    this.isCompatibilityScoreModalOpen = false;
+    this.selectedDosha = null;
+    this.isDoshaModalOpen = false;
+    this.showReport = !!result;
+    this.personAhouses = result?.personAchart?.houses || null;
+    this.personBhouses = result?.personBchart?.houses || null;
+    this.personAplanetPositions = result?.personAchart?.planetPositions || null;
+    this.personBplanetPositions = result?.personBchart?.planetPositions || null;
+    this.personAchart = result?.personAchart || null;
+    this.personBchart = result?.personBchart || null;
+  }
+
+  private toDateInput(value: string | null | undefined): string {
+    return String(value ?? '').slice(0, 10);
+  }
+
+  private toTimeInput(value: string | null | undefined): string {
+    const text = String(value ?? '');
+    if (text.includes('T')) {
+      return text.slice(11, 16);
+    }
+    return text.slice(0, 5);
+  }
+
+  private buildCompatibilityRequest(): CompatibilityRequest {
+    return {
+      personA: this.toPersonRequest('boy'),
+      personB: this.toPersonRequest('girl'),
+    };
+  }
+
   private toPersonRequest(prefix: 'boy' | 'girl'): MatchRequestPerson {
     const value = this.form.value;
     const birthDate = value[`${prefix}BirthDate`];
@@ -633,7 +966,7 @@ export class CompatibilityComponent {
   }
 
   getMoonSign(chart: BirthChart | null): string {
-    const moon = chart?.planetPositions?.find((item) => Number(item.planet) === 1);
+    const moon = chart?.planetPositions?.find((item) => this.isMoonPlanet(item.planet));
     return this.formatSign(moon?.sign);
   }
 
@@ -642,7 +975,7 @@ export class CompatibilityComponent {
   }
 
   getAscendant(chart: BirthChart | null): string {
-    return this.formatSign(chart?.ascendantSign);
+    return this.formatSign(chart?.ascendantSign ?? chart?.ascendantSignAndNumber);
   }
 
   getNakshatraDisplay(chart: BirthChart | null): string {
@@ -657,6 +990,76 @@ export class CompatibilityComponent {
     return `${nakshatra}${padaText}${aksharaText}`;
   }
 
+  translateCompatibilityTerm(value: string | number | null | undefined): string {
+    if (value === null || value === undefined || value === '') {
+      return '?';
+    }
+
+    const raw = String(value).trim();
+    const key = this.compatibilityTermKeys[this.normalizeCompatibilityTerm(raw)];
+
+    if (!key) {
+      return raw;
+    }
+
+    const translated = this.transloco.translate(key);
+    return translated === key ? raw : translated;
+  }
+
+  private readonly compatibilityTermKeys: Record<string, string> = {
+    varna: 'compatibility.term.varna',
+    vasya: 'compatibility.term.vasya',
+    tara: 'compatibility.term.tara',
+    yoni: 'compatibility.term.yoni',
+    grahamaitri: 'compatibility.term.grahaMaitri',
+    gana: 'compatibility.term.gana',
+    bhakoot: 'compatibility.term.bhakoot',
+    nadi: 'compatibility.term.nadi',
+    excellent: 'compatibility.term.excellent',
+    average: 'compatibility.term.average',
+    challenging: 'compatibility.term.challenging',
+    good: 'compatibility.term.good',
+    strong: 'compatibility.term.strong',
+    verystrong: 'compatibility.term.veryStrong',
+    needswork: 'compatibility.term.needsWork',
+    emotionalharmony: 'compatibility.term.emotionalHarmony',
+    emotionalcompatibility: 'compatibility.emotionalCompatibility',
+    communicationcompatibility: 'compatibility.term.communicationCompatibility',
+    communication: 'compatibility.communication',
+    marriagestability: 'compatibility.marriageStability',
+    attractionromance: 'compatibility.term.attractionRomance',
+    attractionandromance: 'compatibility.term.attractionRomance',
+    physicalcompatibility: 'compatibility.physicalCompatibility',
+    spiritualcompatibility: 'compatibility.term.spiritualCompatibility',
+    spiritualalignment: 'compatibility.spiritualAlignment',
+    growthtogether: 'compatibility.term.growthTogether',
+    financialharmony: 'compatibility.financialHarmony',
+    familyharmony: 'compatibility.familyHarmony',
+    nodosha: 'compatibility.term.noDosha',
+    mangaldosha: 'compatibility.term.mangalDosha',
+    kujadosha: 'compatibility.term.mangalDosha',
+    nadidosha: 'compatibility.term.nadiDosha',
+    bhakootdosha: 'compatibility.term.bhakootDosha',
+    ganadosha: 'compatibility.term.ganaDosha',
+    grahamaitridosha: 'compatibility.term.grahaMaitriDosha',
+    chandragrahamdosha: 'compatibility.term.chandraGrahanDosha',
+    chandragrahandosha: 'compatibility.term.chandraGrahanDosha',
+    chandragrahanadosha: 'compatibility.term.chandraGrahanDosha',
+    present: 'compatibility.term.present',
+    absent: 'compatibility.term.absent',
+    low: 'compatibility.term.low',
+    medium: 'compatibility.term.medium',
+    high: 'compatibility.term.high',
+    none: 'compatibility.none',
+    both: 'compatibility.both',
+    boy: 'compatibility.boy',
+    girl: 'compatibility.girl'
+  };
+
+  private normalizeCompatibilityTerm(value: string): string {
+    return value.replace(/&/g, 'and').replace(/[^a-z0-9]/gi, '').toLowerCase();
+  }
+
   private formatDate(value: string | null | undefined): string {
     if (!value) return '—';
     const [year, month, day] = value.split('-').map(Number);
@@ -669,7 +1072,7 @@ export class CompatibilityComponent {
   }
 
   private formatSign(value: number | string | null | undefined): string {
-    const signs: Record<number, string> = {
+    const signsByNumber: Record<number, string> = {
       1: 'sign.Aries',
       2: 'sign.Taurus',
       3: 'sign.Gemini',
@@ -684,8 +1087,53 @@ export class CompatibilityComponent {
       12: 'sign.Pisces',
     };
 
-    const key = signs[Number(value)];
-    return key ? this.t(key) : '—';
+    const signsByName: Record<string, string> = {
+      aries: 'sign.Aries',
+      taurus: 'sign.Taurus',
+      gemini: 'sign.Gemini',
+      cancer: 'sign.Cancer',
+      leo: 'sign.Leo',
+      virgo: 'sign.Virgo',
+      libra: 'sign.Libra',
+      scorpio: 'sign.Scorpio',
+      sagittarius: 'sign.Sagittarius',
+      capricorn: 'sign.Capricorn',
+      aquarius: 'sign.Aquarius',
+      pisces: 'sign.Pisces',
+    };
+
+    if (value === null || value === undefined || value === '') {
+      return '—';
+    }
+
+    if (typeof value === 'number') {
+      const key = signsByNumber[value];
+      return key ? this.t(key) : '—';
+    }
+
+    const normalized = value.trim();
+    const leadingNumber = normalized.match(/^\d+/)?.[0];
+    const numberKey = leadingNumber ? signsByNumber[Number(leadingNumber)] : signsByNumber[Number(normalized)];
+
+    if (numberKey) {
+      return this.t(numberKey);
+    }
+
+    const signName = normalized
+      .replace(/^\d+\s*-\s*/, '')
+      .replace(/[^a-z]/gi, '')
+      .toLowerCase();
+    const nameKey = signsByName[signName];
+
+    return nameKey ? this.t(nameKey) : normalized;
+  }
+
+  private isMoonPlanet(value: number | string | null | undefined): boolean {
+    if (typeof value === 'number') {
+      return value === 1;
+    }
+
+    return String(value ?? '').trim().toLowerCase() === 'moon';
   }
 
   private getGrade(score: number): string {
@@ -710,3 +1158,5 @@ export class CompatibilityComponent {
     return this.transloco.translate(key, params);
   }
 }
+
+

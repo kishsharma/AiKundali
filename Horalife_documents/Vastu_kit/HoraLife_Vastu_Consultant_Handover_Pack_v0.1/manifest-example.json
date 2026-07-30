@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "project": {
+    "projectId": "sample-project-001",
+    "name": "Sample Residential Vastu Assessment",
+    "propertyType": "Residential",
+    "status": "Draft"
+  },
+  "plan": {
+    "planId": "plan-001",
+    "floor": 0,
+    "unit": "feet",
+    "overallDimensions": {
+      "length": null,
+      "width": null
+    },
+    "totalArea": null,
+    "northAngleDegrees": null,
+    "orientationSource": "UserConfirmed",
+    "confidence": null
+  },
+  "files": {
+    "sourcePlan": "files/source-plan.pdf",
+    "previewImage": "files/source-plan-preview.png",
+    "metadata": "data/plan-metadata.json",
+    "geometry": "data/geometry.json",
+    "latestAnalysis": "data/analysis-result.json",
+    "latestReport": "reports/vastu-report.pdf"
+  },
+  "spaces": [
+    {
+      "spaceId": "space-001",
+      "name": "Living Room",
+      "type": "Living",
+      "polygonRef": "geometry://polygons/space-001",
+      "area": null,
+      "dimensions": {
+        "length": null,
+        "width": null
+      },
+      "primaryDirection": null,
+      "isOptional": false,
+      "isPresent": true,
+      "confidence": null,
+      "confirmationStatus": "NeedsConfirmation"
+    }
+  ],
+  "objects": [
+    {
+      "objectId": "object-placeholder-001",
+      "type": "Entrance",
+      "spaceId": null,
+      "geometryRef": null,
+      "isPlaceholder": true,
+      "confidence": null
+    }
+  ],
+  "processing": [
+    {
+      "step": "Upload",
+      "status": "Completed"
+    },
+    {
+      "step": "Orientation",
+      "status": "NeedsConfirmation"
+    },
+    {
+      "step": "RoomAndGeometry",
+      "status": "Pending"
+    },
+    {
+      "step": "RuleAnalysis",
+      "status": "Pending"
+    },
+    {
+      "step": "Report",
+      "status": "Pending"
+    }
+  ],
+  "confirmation": {
+    "northConfirmed": false,
+    "spacesConfirmed": false,
+    "geometryConfirmed": false
+  },
+  "analysis": {
+    "latestRunId": null,
+    "ruleSetVersion": "starter-v1",
+    "resultLinks": []
+  }
+}

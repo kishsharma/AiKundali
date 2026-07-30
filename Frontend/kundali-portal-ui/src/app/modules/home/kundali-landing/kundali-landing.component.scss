@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Cinzel:wght@500;600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@500;600&family=Noto+Sans+Kannada:wght@500;600&family=Noto+Sans+Oriya:wght@500;600&display=swap');
 
 :host {
-    --ink:#0d1120;
+    --ink:#1e2b5a;//#0d1120;
     --ink-2:#161b30;
     --ink-3:#1e2440;
     --parchment:#efe6d3;
@@ -16,7 +16,7 @@
 
   *{margin:0;padding:0;box-sizing:border-box;}
 
-  :host {scroll-behavior:smooth;}
+  :host {scroll-behavior:smooth; padding-top:76px;}
 
   :host {
     display:block;
@@ -142,7 +142,7 @@
   }
   .deva-field span{
     position:absolute;
-    font-family:'Noto Sans Devanagari','Cormorant Garamond', serif;
+    font-family:'Nirmala UI','Mangal','Kokila','Kalinga','Noto Sans Devanagari','Noto Sans Oriya','Cormorant Garamond', serif;
     color:var(--brass);
     opacity:0.05;
     white-space:nowrap;
@@ -150,7 +150,7 @@
   }
   .deva-field span.glyph-saturn svg{display:block; width:1em; height:1em; overflow:visible;}
   .deva-field span.zodiac-symbol{
-    font-family:'Segoe UI Symbol','Noto Sans Symbols','Cinzel','Cormorant Garamond', serif;
+    font-family:'Segoe UI Symbol','Nirmala UI','Kalinga','Noto Sans Symbols','Cinzel','Cormorant Garamond', serif;
     font-weight:600;
     letter-spacing:0.08em;
     opacity:0.025;
@@ -159,15 +159,48 @@
 
   /* ---------- Header ---------- */
   header{
-    position:sticky; top:0; z-index:40;
-    background:rgba(13,17,32,0.96);
-    border-bottom:1px solid var(--line-soft);
+    position:fixed; top:0; left:0; right:0; z-index:40;
+    // background:rgba(13,17,32,0.48);
+    border-bottom:1px solid transparent;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    transition:background .24s ease, border-color .24s ease, box-shadow .24s ease;
+  }
+  header.is-scrolled{
+    background:rgba(13,17,32,0.92);
+    border-bottom-color:var(--line-soft);
+    box-shadow:0 12px 34px rgba(0,0,0,0.22);
   }
   .nav{
     display:flex; align-items:center; justify-content:space-between;
     height:76px;
+    transition:height .24s ease;
   }
-  .brand{display:flex; align-items:center; gap:12px;}
+  header.is-scrolled .nav{height:64px;}
+  header.is-scrolled .brand{
+    --brand-logo-mark-size: 45px;
+    --brand-logo-name-size: 30px;
+    --brand-logo-descriptor-size: 10px;
+  }
+  .brand{
+    --brand-logo-mark-size: 45px;
+    --brand-logo-name-size: 30px;
+    --brand-logo-descriptor-size: 10px;
+    --brand-logo-name-color: var(--brass);
+    --brand-logo-hora-color: var(--brass);
+    --brand-logo-life-color: var(--parchment-dim);
+    --brand-logo-life-border: 1px solid var(--line);
+    --brand-logo-life-padding: 3px 7px;
+    --brand-logo-life-font: 'Cinzel', serif;
+    --brand-logo-life-size: 15px;
+    --brand-logo-life-weight: 600;
+    --brand-logo-life-spacing: 0.1em;
+    --brand-logo-life-transform: uppercase;
+    --brand-logo-descriptor-color: var(--brass);
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
   .brand-mark{width:30px;height:30px;flex-shrink:0;}
   .brand-text{display:flex; flex-direction:column; line-height:1.1;}
   .brand-text .name{display:flex; align-items:baseline; gap:7px;}
@@ -185,9 +218,9 @@
     border:1px solid var(--line);
     padding:3px 7px;
   }
-  .brand-hora{color:var(--sindoor); font-weight:700;}
+  .brand-hora{color:var(--brass); font-weight:700;}
   .brand-text .deva{
-    font-family:'Noto Sans Devanagari', serif;
+    font-family:'Nirmala UI','Mangal','Kokila','Kalinga','Noto Sans Devanagari','Noto Sans Oriya', serif;
     font-size:16px;
     font-weight:600;
     color:var(--brass);
@@ -201,23 +234,27 @@
     transition:color .2s ease;
   }
   .nav-links a:hover{color:var(--brass);}
-  .nav-actions{display:flex; align-items:center; gap:14px;}
+  .nav-actions{display:flex; align-items:center; gap:10px;}
   .nav-login{
-    font-size:14px;
-    color:var(--parchment-dim);
-    padding:8px 0;
-    transition:color .2s ease;
-  }
-  .nav-login:hover{color:var(--brass);}
-  .nav-cta{
-    font-family:'Cinzel', serif;
-    font-size:12px; letter-spacing:0.1em;
-    padding:11px 22px;
-    border:1px solid var(--brass-soft);
-    color:var(--brass);
-    transition:all .2s ease;
-  }
-  .nav-cta:hover{background:var(--brass); color:var(--ink);}
+  font-size:13px;
+  font-weight:700;
+  color:var(--parchment-dim);
+  padding:9px 14px;
+  border:1px solid var(--line-soft);
+  background:rgba(255,255,255,.02);
+  transition:all .2s ease;
+}
+.nav-login:hover{border-color:var(--brass-soft); color:var(--brass); background:rgba(184,146,74,.08);}
+.nav-cta{
+  font-family:'Cinzel', serif;
+  font-size:11px; letter-spacing:0.08em;
+  padding:10px 16px;
+  border:1px solid var(--brass-soft);
+  color:var(--brass);
+  background:transparent;
+  transition:all .2s ease;
+}
+.nav-cta:hover{border-color:var(--brass); background:rgba(184,146,74,.08); color:var(--brass);}
 
   .nav-toggle{display:none;}
 
@@ -235,7 +272,7 @@
   }
   .shloka-strip blockquote{
     margin:0;
-    font-family:'Noto Sans Devanagari','Cormorant Garamond', serif;
+    font-family:'Nirmala UI','Mangal','Kokila','Kalinga','Noto Sans Devanagari','Noto Sans Oriya','Cormorant Garamond', serif;
     color:var(--brass);
     font-size:18px;
     font-weight:600;
@@ -559,10 +596,44 @@
     display:flex; flex-direction:column;
   }
   .eval-card .glyph{
-    font-family:'Cormorant Garamond', serif; font-style:italic;
-    font-size:28px; color:var(--brass); margin-bottom:10px;
+    position:relative;
+    width:34px;
+    height:34px;
+    margin-bottom:12px;
+    color:var(--brass);
+    border:1px solid rgba(201,162,75,0.58);
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, rgba(201,162,75,0.18), rgba(201,162,75,0.04) 62%, transparent 64%);
+    box-shadow:0 0 0 1px rgba(201,162,75,0.08) inset;
   }
-  .eval-card .sanskrit{font-family:'Noto Sans Devanagari', serif; font-size:13px; color:var(--brass-soft); margin-bottom:4px;}
+  .eval-card .glyph::before,
+  .eval-card .glyph::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+  }
+  .eval-card .glyph::before{
+    width:12px;
+    height:12px;
+    border:1.5px solid currentColor;
+    border-radius:50%;
+  }
+  .eval-card .glyph::after{
+    background:currentColor;
+  }
+  .glyph-strength::after{width:2px; height:24px; opacity:.82;}
+  .glyph-combustion::before{width:14px; height:14px; box-shadow:0 0 0 5px rgba(184,65,47,0.16); border-color:var(--sindoor);}
+  .glyph-combustion::after{width:22px; height:2px; background:var(--sindoor); transform:translate(-50%,-50%) rotate(-24deg);}
+  .glyph-retrograde::after{width:18px; height:18px; border:1.5px solid currentColor; border-left-color:transparent; border-bottom-color:transparent; border-radius:50%; background:transparent; transform:translate(-50%,-50%) rotate(-36deg);}
+  .glyph-shadbala::before{width:17px; height:17px; border-radius:4px; transform:translate(-50%,-50%) rotate(45deg);}
+  .glyph-shadbala::after{width:5px; height:5px; border-radius:50%; box-shadow:-9px 0 0 currentColor, 9px 0 0 currentColor, 0 -9px 0 currentColor, 0 9px 0 currentColor;}
+  .glyph-bhava::before{width:18px; height:18px; border-radius:3px; transform:translate(-50%,-50%) rotate(45deg);}
+  .glyph-bhava::after{width:22px; height:1.5px; box-shadow:0 -7px 0 rgba(201,162,75,0.55), 0 7px 0 rgba(201,162,75,0.55);}
+  .glyph-aspects::before{width:20px; height:20px; border-style:dashed;}
+  .glyph-aspects::after{width:22px; height:1.5px; transform:translate(-50%,-50%) rotate(32deg);}
+  .eval-card .sanskrit{font-family:'Nirmala UI','Mangal','Kokila','Kalinga','Noto Sans Devanagari','Noto Sans Oriya', serif; font-size:13px; color:var(--brass-soft); margin-bottom:4px;}
   .eval-card h3{font-size:19px; font-weight:600; color:var(--parchment); margin-bottom:10px;}
   .eval-card p{font-size:14px; color:var(--parchment-dim); flex-grow:1;}
   .eval-card .metric{
@@ -659,7 +730,7 @@
     color:var(--brass);
   }
   .gender-symbol{
-    font-family:'Segoe UI Symbol','Noto Sans Symbols','Cormorant Garamond', serif;
+    font-family:'Segoe UI Symbol','Nirmala UI','Kalinga','Noto Sans Symbols','Cormorant Garamond', serif;
     font-size:40px;
     line-height:1;
   }
@@ -708,17 +779,90 @@
 
   /* ---------- Philosophy ---------- */
   .philosophy{
-    background:var(--ink-3);
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(90deg, var(--ink-3), color-mix(in srgb, var(--ink-3) 92%, #1e2b5a));
     border-bottom:1px solid var(--line-soft);
-    text-align:center;
   }
-  .philosophy .wrap{max-width:760px;}
-  .philosophy h2{font-size:34px; margin-bottom:22px;}
-  .philosophy p{color:var(--parchment-dim); font-size:16.5px; margin-bottom:28px;}
+  .philosophy::after{
+    content:"";
+    position:absolute;
+    inset:auto -12% -22% auto;
+    width:420px;
+    height:420px;
+    background:radial-gradient(circle, rgba(184,146,74,.13), transparent 64%);
+    pointer-events:none;
+  }
+  .philosophy-grid{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:minmax(260px, .82fr) minmax(420px, 1fr);
+    align-items:center;
+    gap:72px;
+  }
+  .philosophy-art{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:360px;
+  }
+  .philosophy-art img{
+    width:min(420px, 36vw);
+    min-width:280px;
+    opacity:.28;
+    filter:saturate(.72) contrast(.88);
+    mix-blend-mode:screen;
+  }
+  .philosophy-copy{
+    max-width:640px;
+    text-align:left;
+  }
+  .philosophy-copy .eyebrow{
+    justify-content:flex-start;
+    color:var(--brass);
+  }
+  .philosophy h2{
+    max-width:620px;
+    margin:22px 0 20px;
+    color:var(--parchment);
+    font-size:clamp(38px, 5vw, 62px);
+    line-height:1.05;
+  }
+  .philosophy p{
+    max-width:620px;
+    color:var(--parchment-dim);
+    font-size:16px;
+    line-height:1.75;
+  }
+  .philosophy-lede{
+    margin-bottom:18px;
+    color:var(--parchment) !important;
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-size:24px !important;
+    line-height:1.45 !important;
+  }
   .refs{
-    display:flex; justify-content:center; gap:28px; flex-wrap:wrap;
-    font-family:'Cinzel', serif; font-size:11.5px; letter-spacing:0.06em;
+    display:flex;
+    align-items:center;
+    gap:14px 18px;
+    flex-wrap:wrap;
+    margin-top:28px;
+    font-family:'Cinzel', serif;
     color:var(--brass-soft);
+  }
+  .refs strong{
+    flex-basis:100%;
+    color:var(--brass);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+  }
+  .refs span{
+    font-size:12px;
+    letter-spacing:.04em;
   }
 
   /* ---------- CTA / form ---------- */
@@ -752,7 +896,7 @@
   /* ---------- Footer ---------- */
   footer{padding:42px 0 32px; position:relative;}
   .foot-grid{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;}
-  .foot-tagline{font-family:'Noto Sans Devanagari', serif; font-size:14px; color:var(--brass-soft);}
+  .foot-tagline{font-family:'Nirmala UI','Mangal','Kokila','Kalinga','Noto Sans Devanagari','Noto Sans Oriya', serif; font-size:14px; color:var(--brass-soft);}
   .foot-tagline .en{display:block; font-family:'Work Sans', sans-serif; font-size:12px; color:var(--parchment-dim); margin-top:4px;}
   .foot-links{display:flex; gap:28px; font-size:13px; color:var(--parchment-dim);}
   .foot-links a:hover{color:var(--brass);}
@@ -764,6 +908,9 @@
   .foot-soon .dot{width:5px;height:5px;border-radius:50%;background:var(--sindoor); display:inline-block;}
 
   @media (max-width:640px){
+    :host{padding-top:64px;}
+    header .nav{height:64px;}
+    header.is-scrolled .nav{height:58px;}
     .wrap{padding:0 20px;}
     .north-star{
       top:92px;
@@ -776,8 +923,9 @@
     .ray-horizontal{width:30px;}
     .north-star-label{display:none;}
     .nav-links{display:none;}
-    .nav-actions{gap:12px;}
-    .nav-login{font-size:13px;}
+    .nav-actions{gap:8px;}
+    .nav-login{font-size:12px; padding:8px 12px;}
+    .nav-cta{font-size:10px; padding:10px 14px;}
     .shloka-strip{padding:14px 0;}
     .shloka-strip blockquote{font-size:15px;}
     .moving-saturn{
@@ -791,4 +939,9 @@
     section{padding:48px 0;}
     .section-head h2{font-size:28px;}
   }
+
+
+
+
+
 

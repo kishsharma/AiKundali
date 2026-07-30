@@ -1,0 +1,29 @@
+<section class="toast-stack" aria-label="Application notifications">
+  <article
+    class="toast-card"
+    *ngFor="let notification of notifications$ | async"
+    [ngClass]="'toast-card--' + notification.type"
+    [attr.role]="getAriaRole(notification)"
+    [attr.aria-live]="notification.type === 'error' || notification.type === 'warning' ? 'assertive' : 'polite'"
+  >
+    <button
+      type="button"
+      class="toast-close"
+      (click)="dismiss(notification.id)"
+      aria-label="Close notification"
+    >
+      <span aria-hidden="true">x</span>
+    </button>
+
+    <span class="toast-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path [attr.d]="getIconPath(notification.type)"></path>
+      </svg>
+    </span>
+
+    <span class="toast-content">
+      <strong *ngIf="notification.title">{{ notification.title }}</strong>
+      <span>{{ notification.message }}</span>
+    </span>
+  </article>
+</section>

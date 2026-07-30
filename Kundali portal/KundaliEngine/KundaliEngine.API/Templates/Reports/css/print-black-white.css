@@ -1,4 +1,4 @@
-﻿@page {
+@page {
   size: A4;
   margin: 18mm 10mm 18mm;
 }
@@ -86,38 +86,67 @@ body.report-shell {
 .print-bw-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 245px;
-  gap: 16px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 8px;
   border: 1px solid var(--print-line-dark) !important;
   border-radius: 6px;
-  padding: 14px 16px;
+  padding: 9px 12px 7px;
   background: #fff !important;
 }
 
 .print-bw-report .brand-lockup {
-  display: flex;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
   gap: 11px;
-  align-items: flex-start;
 }
 
-.print-bw-report .hora-mark {
+.print-bw-report .brand-mark,
+.print-bw-report .brand-mark svg {
+  width: 46px;
+  height: 46px;
+}
+
+.print-bw-report .logo-orbit,
+.print-bw-report .logo-horizon,
+.print-bw-report .logo-sun,
+.print-bw-report .logo-moon,
+.print-bw-report .logo-earth {
+  fill: #fff !important;
+  stroke: #111827 !important;
+}
+
+.print-bw-report .logo-sun,
+.print-bw-report .logo-moon,
+.print-bw-report .logo-earth {
+  fill: #f3f4f6 !important;
+}
+
+.print-bw-report .brand-copy {
   display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid var(--print-dark) !important;
-  border-radius: 6px;
-  background: #fff !important;
-  color: var(--print-dark) !important;
+  align-content: center;
+  gap: 2px;
+}
+
+.print-bw-report .brand-name {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  color: #000 !important;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 700;
+  line-height: 1;
+}
+
+.print-bw-report .brand-name-life {
+  color: #444 !important;
 }
 
 .print-bw-report .brand-copy h1 {
   margin: 0;
   color: #000 !important;
-  font-size: 23px;
+  font-size: 16px;
   line-height: 1.08;
   font-weight: 700;
 }
@@ -133,32 +162,32 @@ body.report-shell {
 }
 
 .print-bw-report .subject-line {
-  margin: 10px 0 0;
+  margin: 6px 0 0;
   font-size: 10px;
 }
 
 .print-bw-report .report-meta {
-  margin: 4px 0 0;
+  margin: 3px 0 0;
   font-size: 9px;
 }
 
 .print-bw-report .prepared-by {
-  border: 1px solid var(--print-line) !important;
+  border: 0 !important;
   border-radius: 6px;
-  padding: 10px 12px;
+  padding: 7px 10px;
   background: var(--print-panel) !important;
 }
 
 .print-bw-report .prepared-by strong {
   display: block;
-  margin: 4px 0 6px;
+  margin: 2px 0 4px;
   color: #000 !important;
   font-size: 11px;
 }
 
 .print-bw-report .report-section {
   margin: 0 0 9px;
-  border: 1px solid var(--print-line) !important;
+  border: 0 !important;
   border-radius: 6px;
   overflow: hidden;
   background: #fff !important;
@@ -243,7 +272,7 @@ body.report-shell {
 }
 
 .print-bw-report .score-box strong {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .print-bw-report .score-meter {
@@ -275,7 +304,7 @@ body.report-shell {
   color: #111827 !important;
   font-size: 8px;
   font-weight: 800;
-  text-align: left;
+  text-align: right;
 }
 
 .print-bw-report td {
@@ -335,7 +364,7 @@ body.report-shell {
 .print-bw-report .bhava-card p,
 .print-bw-report .bhava-card small,
 .print-bw-report .bullet-item p {
-  margin: 4px 0 0;
+  margin: 3px 0 0;
   font-size: 8px;
   line-height: 1.35;
 }
@@ -375,4 +404,137 @@ body.report-shell {
   padding: 8px 10px;
   background: #fff !important;
   color: var(--print-muted) !important;
+}
+
+.print-bw-report .devotional-divider {
+  color: #444 !important;
+  margin: -6px 0 -6px;
+}
+
+.print-bw-report .devotional-divider svg {
+  width: 500px;
+  height: 40px;
+}
+/* UI-matched report header for black-white PDF mode. */
+.print-bw-report .report-header.print-bw-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  margin-bottom: 8px;
+  border: 1px solid var(--print-line-dark) !important;
+  border-top: 0 !important;
+  border-radius: 6px;
+  padding: 8px 12px 6px;
+  background: #fff !important;
+}
+
+.print-bw-report .report-header.print-bw-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: #111827 !important;
+}
+
+.print-bw-report .report-header .header-top-section {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(245px, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 72px;
+}
+
+.print-bw-report .report-header .report-brand-lockup {
+  display: grid;
+  grid-template-columns: 57px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.print-bw-report .report-header .report-brand-logo,
+.print-bw-report .report-header .report-brand-logo svg {
+  width: 57px;
+  height: 57px;
+}
+
+.print-bw-report .report-header .report-brand-name {
+  color: #000 !important;
+  font-size: 30px;
+}
+
+.print-bw-report .report-header .report-brand-name .brand-name-life,
+.print-bw-report .report-header .intro-name {
+  color: #444 !important;
+}
+
+.print-bw-report .report-header .report-title,
+.print-bw-report .report-header .report-tagline,
+.print-bw-report .report-header .report-meta {
+  display: none !important;
+}
+
+.print-bw-report .report-header .report-prepared-by {
+  display: grid;
+  align-content: center;
+  justify-items: end;
+  gap: 2px;
+  padding: 0 0 0 12px;
+  background: transparent !important;
+  text-align: right;
+}
+
+.print-bw-report .report-header .astrologer-kicker,
+.print-bw-report .report-header .astrologer-title,
+.print-bw-report .report-header .astrologer-contact,
+.print-bw-report .report-header .person-detail-value,
+.print-bw-report .report-header .report-brand-descriptor {
+  color: var(--print-muted) !important;
+}
+
+.print-bw-report .report-header .astrologer-name {
+  color: #000 !important;
+  font-size: 16px;
+  line-height: 1.05;
+}
+
+.print-bw-report .report-header .header-bottom-section {
+  display: grid;
+  align-items: center;
+  min-height: 32px;
+  border-top: 0 !important;
+  padding-top: 0;
+}
+
+.print-bw-report .report-header .person-detail-value {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.print-bw-report .report-header .intro-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.print-bw-report .report-header .intro-date,
+.print-bw-report .report-header .intro-time,
+.print-bw-report .report-header .intro-place {
+  color: #000 !important;
+  font-weight: 800;
+}
+
+.print-bw-report .report-header .intro-place {
+  border: 1px solid var(--print-line) !important;
+  padding: 1px 6px;
+  background: var(--print-panel) !important;
+}
+
+.print-bw-report .report-header .devotional-divider {
+  margin: -6px 0 -6px;
 }

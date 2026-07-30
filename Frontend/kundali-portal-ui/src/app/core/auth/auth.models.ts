@@ -1,4 +1,4 @@
-export interface LoginRequest {
+﻿export interface LoginRequest {
   email: string;
   password: string;
 }
@@ -8,6 +8,36 @@ export interface RegisterRequest {
   email: string;
   phoneNumber?: string;
   password: string;
+}
+
+export interface StartEmailOtpRequest {
+  email: string;
+}
+
+export interface VerifyEmailOtpRequest {
+  challengeId: string;
+  email: string;
+  code: string;
+}
+
+export interface CompleteOtpRegistrationRequest {
+  registrationToken: string;
+  fullName: string;
+  phoneNumber?: string;
+}
+
+export interface OtpChallengeResponse {
+  challengeId: string;
+  expiresAt: string;
+  resendAfterSeconds: number;
+  maskedDestination: string;
+  message: string;
+}
+
+export interface VerifyRegistrationOtpResponse {
+  registrationToken: string;
+  expiresAt: string;
+  email: string;
 }
 
 export interface AuthResponse {

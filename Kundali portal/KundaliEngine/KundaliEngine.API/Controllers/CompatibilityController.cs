@@ -1,4 +1,4 @@
-﻿using KundaliEngine.API.DTOs.Requests;
+using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services;
@@ -12,8 +12,14 @@ using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 using KundaliEngine.API.Helper_functions;
 using KundaliEngine.KnowledgeBase.Services;
+using KundaliEngine.Infrastructure.Data;
+using KundaliEngine.Domain.Entities;
+using KundaliEngine.API.Services.Audit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
 
 namespace KundaliEngine.API.Controllers
 {
@@ -31,6 +37,8 @@ namespace KundaliEngine.API.Controllers
         private readonly HouseScoreService _houseScoreservice;
         private readonly NakshatraMetadataService _nakshatraMetadataService;
         private readonly IEphemerisProvider _ephemerisProvider;
+        private readonly KundaliDbContext _dbContext;
+        private readonly IAuditLogService _auditLogService;
         public CompatibilityController(
             ChartService chartService,
             PanchangService panchangService,
@@ -41,7 +49,9 @@ namespace KundaliEngine.API.Controllers
             DoshaMetadataService doshaMetadataService,
             HouseScoreService houseScoreservice,
             NakshatraMetadataService nakshatraMetadataService,
-            IEphemerisProvider ephemerisProvider)
+            IEphemerisProvider ephemerisProvider,
+            KundaliDbContext dbContext,
+            IAuditLogService auditLogService)
         {
             _chartService = chartService;
             _panchangService = panchangService;
@@ -53,6 +63,8 @@ namespace KundaliEngine.API.Controllers
             _houseScoreservice = houseScoreservice;
             _nakshatraMetadataService = nakshatraMetadataService;
             _ephemerisProvider = ephemerisProvider;
+            _dbContext = dbContext;
+            _auditLogService = auditLogService;
         }
 
         [HttpPost("match")]
@@ -96,6 +108,171 @@ namespace KundaliEngine.API.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpPost("save")]
+        public async Task<ActionResult<SavedCompatibilityDetailDto>> Save([FromBody] SaveCompatibilityRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Request is required");
+            }
+
+            if (request.Request?.PersonA == null || request.Request.PersonB == null)
+            {
+                return BadRequest("Both PersonA and PersonB are required");
+            }
+
+            if (request.Result.ValueKind is JsonValueKind.Undefined or JsonValueKind.Null)
+            {
+                return BadRequest("Compatibility result is required before saving");
+            }
+
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var personA = request.Request.PersonA;
+            var personB = request.Request.PersonB;
+
+            if (string.IsNullOrWhiteSpace(personA.Name) || string.IsNullOrWhiteSpace(personB.Name))
+            {
+                return BadRequest("Both names are required");
+            }
+
+            if (string.IsNullOrWhiteSpace(personA.BirthPlace) || string.IsNullOrWhiteSpace(personB.BirthPlace))
+            {
+                return BadRequest("Both birth places are required");
+            }
+
+            var savedCompatibility = new SavedCompatibility
+            {
+                UserId = userId.Value,
+                PersonAName = personA.Name.Trim(),
+                PersonAGender = string.IsNullOrWhiteSpace(personA.Gender) ? null : personA.Gender.Trim(),
+                PersonADateOfBirth = DateOnly.FromDateTime(personA.BirthDateTime),
+                PersonATimeOfBirth = TimeOnly.FromDateTime(personA.BirthDateTime),
+                PersonABirthPlace = personA.BirthPlace.Trim(),
+                PersonALatitude = Convert.ToDecimal(personA.Latitude),
+                PersonALongitude = Convert.ToDecimal(personA.Longitude),
+                PersonBName = personB.Name.Trim(),
+                PersonBGender = string.IsNullOrWhiteSpace(personB.Gender) ? null : personB.Gender.Trim(),
+                PersonBDateOfBirth = DateOnly.FromDateTime(personB.BirthDateTime),
+                PersonBTimeOfBirth = TimeOnly.FromDateTime(personB.BirthDateTime),
+                PersonBBirthPlace = personB.BirthPlace.Trim(),
+                PersonBLatitude = Convert.ToDecimal(personB.Latitude),
+                PersonBLongitude = Convert.ToDecimal(personB.Longitude),
+                OverallCompatibilityScore = TryGetInt(request.Result, "overallCompatibilityScore"),
+                AshtakootaScore = TryGetDecimal(request.Result, "ashtakoota", "totalScore"),
+                RequestJson = JsonSerializer.Serialize(request.Request),
+                ResultJson = request.Result.GetRawText(),
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _dbContext.SavedCompatibilities.Add(savedCompatibility);
+            await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "CompatibilitySaved",
+                Category = "DataChange",
+                EntityType = "SavedCompatibility",
+                EntityId = savedCompatibility.Id.ToString(),
+                Description = $"Compatibility saved for {savedCompatibility.PersonAName} and {savedCompatibility.PersonBName}.",
+                Status = "Success"
+            });
+
+            return CreatedAtAction(nameof(GetById), new { id = savedCompatibility.Id }, MapSavedCompatibilityDetail(savedCompatibility));
+        }
+
+        [Authorize]
+        [HttpGet("history")]
+        public async Task<ActionResult<List<SavedCompatibilityListItemDto>>> GetHistory()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var items = await _dbContext.SavedCompatibilities
+                .AsNoTracking()
+                .Where(item => item.UserId == userId.Value)
+                .OrderByDescending(item => item.CreatedAt)
+                .Select(item => new SavedCompatibilityListItemDto
+                {
+                    Id = item.Id,
+                    PersonAName = item.PersonAName,
+                    PersonADateOfBirth = item.PersonADateOfBirth,
+                    PersonABirthPlace = item.PersonABirthPlace,
+                    PersonBName = item.PersonBName,
+                    PersonBDateOfBirth = item.PersonBDateOfBirth,
+                    PersonBBirthPlace = item.PersonBBirthPlace,
+                    OverallCompatibilityScore = item.OverallCompatibilityScore,
+                    AshtakootaScore = item.AshtakootaScore,
+                    CreatedAt = item.CreatedAt,
+                    DisplayName = item.PersonAName + " & " + item.PersonBName + " - " + item.OverallCompatibilityScore + "%"
+                })
+                .ToListAsync();
+
+            return Ok(items);
+        }
+
+        [Authorize]
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<SavedCompatibilityDetailDto>> GetById(Guid id)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var savedCompatibility = await _dbContext.SavedCompatibilities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(item => item.Id == id && item.UserId == userId.Value);
+
+            if (savedCompatibility == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(MapSavedCompatibilityDetail(savedCompatibility));
+        }
+
+        [Authorize]
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var savedCompatibility = await _dbContext.SavedCompatibilities
+                .FirstOrDefaultAsync(item => item.Id == id && item.UserId == userId.Value);
+
+            if (savedCompatibility == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.SavedCompatibilities.Remove(savedCompatibility);
+            await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "CompatibilityDeleted",
+                Category = "DataChange",
+                EntityType = "SavedCompatibility",
+                EntityId = id.ToString(),
+                Description = $"Compatibility deleted for {savedCompatibility.PersonAName} and {savedCompatibility.PersonBName}.",
+                Status = "Success"
+            });
+
+            return NoContent();
+        }
         private CompatibilityProfile BuildProfile(GenerateKundaliRequest req, string name)
         {
             if (req == null)
@@ -221,6 +398,61 @@ namespace KundaliEngine.API.Controllers
             };
 
             return new CompatibilityProfile(name, kundaliChart);
+        }
+
+        private Guid? GetCurrentUserId()
+        {
+            var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Guid.TryParse(claimValue, out var userId) ? userId : null;
+        }
+
+        private static SavedCompatibilityDetailDto MapSavedCompatibilityDetail(SavedCompatibility savedCompatibility)
+        {
+            return new SavedCompatibilityDetailDto
+            {
+                Id = savedCompatibility.Id,
+                PersonAName = savedCompatibility.PersonAName,
+                PersonAGender = savedCompatibility.PersonAGender,
+                PersonADateOfBirth = savedCompatibility.PersonADateOfBirth,
+                PersonATimeOfBirth = savedCompatibility.PersonATimeOfBirth,
+                PersonABirthPlace = savedCompatibility.PersonABirthPlace,
+                PersonALatitude = savedCompatibility.PersonALatitude,
+                PersonALongitude = savedCompatibility.PersonALongitude,
+                PersonBName = savedCompatibility.PersonBName,
+                PersonBGender = savedCompatibility.PersonBGender,
+                PersonBDateOfBirth = savedCompatibility.PersonBDateOfBirth,
+                PersonBTimeOfBirth = savedCompatibility.PersonBTimeOfBirth,
+                PersonBBirthPlace = savedCompatibility.PersonBBirthPlace,
+                PersonBLatitude = savedCompatibility.PersonBLatitude,
+                PersonBLongitude = savedCompatibility.PersonBLongitude,
+                OverallCompatibilityScore = savedCompatibility.OverallCompatibilityScore,
+                AshtakootaScore = savedCompatibility.AshtakootaScore,
+                Request = JsonSerializer.Deserialize<JsonElement>(savedCompatibility.RequestJson),
+                Result = JsonSerializer.Deserialize<JsonElement>(savedCompatibility.ResultJson),
+                CreatedAt = savedCompatibility.CreatedAt
+            };
+        }
+
+        private static int TryGetInt(JsonElement element, string propertyName)
+        {
+            return element.ValueKind == JsonValueKind.Object
+                && element.TryGetProperty(propertyName, out var property)
+                && property.TryGetInt32(out var value)
+                    ? value
+                    : 0;
+        }
+
+        private static decimal? TryGetDecimal(JsonElement element, string parentPropertyName, string propertyName)
+        {
+            if (element.ValueKind != JsonValueKind.Object
+                || !element.TryGetProperty(parentPropertyName, out var parent)
+                || parent.ValueKind != JsonValueKind.Object
+                || !parent.TryGetProperty(propertyName, out var property))
+            {
+                return null;
+            }
+
+            return property.TryGetDecimal(out var value) ? value : null;
         }
     }
 }

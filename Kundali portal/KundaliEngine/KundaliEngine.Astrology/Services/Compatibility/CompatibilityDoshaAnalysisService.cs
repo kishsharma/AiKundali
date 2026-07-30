@@ -6,30 +6,25 @@ namespace KundaliEngine.Astrology.Services.Compatibility
 {
     public class CompatibilityDoshaAnalysisService
     {
+        // Compatibility intentionally uses a small relationship-facing allow-list.
+        // Broader individual Kundali findings such as Kaal Sarpa, Pitru/Pitra,
+        // Guru Chandal, Shrapit, Kemadruma, Sakata, Gandmool, Daridra and generic
+        // Raja/Dhana/spiritual/career yogas should remain in personal reports, not
+        // in match scoring.
         private static readonly string[] DoshaKeys =
         {
             "manglik",
             "chandra_grahan",
-            "kaal_sarpa",
             "surya_grahan",
-            "guru_chandal",
-            "pitra",
-            "shani",
-            "kemadruma",
-            "daridra"
+            "shani"
         };
 
         private static readonly Dictionary<string, double> DoshaWeights = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["manglik"] = 0.32,
-            ["chandra_grahan"] = 0.16,
-            ["kaal_sarpa"] = 0.16,
-            ["surya_grahan"] = 0.10,
-            ["guru_chandal"] = 0.10,
-            ["pitra"] = 0.08,
-            ["shani"] = 0.04,
-            ["kemadruma"] = 0.02,
-            ["daridra"] = 0.02
+            ["manglik"] = 0.52,
+            ["chandra_grahan"] = 0.26,
+            ["surya_grahan"] = 0.16,
+            ["shani"] = 0.06
         };
 
         public CompatibilityDoshaAnalysis Analyze(
@@ -192,7 +187,6 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             return key switch
             {
                 "manglik" => CompareManglik(personAName, personBName, personA, personB, personASeverity, personBSeverity),
-                "kaal_sarpa" => CompareKaalSarpa(personAName, personBName, personA, personB, personASeverity, personBSeverity),
                 "chandra_grahan" => CompareChandraGrahan(personAName, personBName, personA, personB, personASeverity, personBSeverity),
                 _ => CompareDefault(personAName, personBName, personA, personB, personASeverity, personBSeverity)
             };
@@ -230,40 +224,6 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                 $"{name} has Manglik Dosha while the other chart does not, so the one-sided Mars marriage pressure is counted as compatibility risk.",
                 "One-sided Manglik risk = present person's severity value.",
                 "One-sided Manglik risk");
-        }
-
-        private static DoshaComparison CompareKaalSarpa(
-            string personAName,
-            string personBName,
-            CompatibilityDoshaPersonSummary personA,
-            CompatibilityDoshaPersonSummary personB,
-            int personASeverity,
-            int personBSeverity)
-        {
-            if (!personA.IsPresent && !personB.IsPresent)
-            {
-                return NoDosha("Kaal Sarpa Dosha", "Neither chart has all non-node planets enclosed within the Rahu-Ketu axis.");
-            }
-
-            if (personA.IsPresent && personB.IsPresent)
-            {
-                var risk = ((personASeverity + personBSeverity) / 2.0) * 0.70;
-                return new DoshaComparison(
-                    "Mutual Pressure",
-                    risk,
-                    $"Both {personAName} and {personBName} have Kaal Sarpa Dosha. This creates shared Rahu-Ketu intensity rather than a one-sided mismatch.",
-                    "Mutual Kaal Sarpa risk = average severity value x 0.70.",
-                    "Mutual Rahu-Ketu pressure");
-            }
-
-            var name = personA.IsPresent ? personAName : personBName;
-            var severity = personA.IsPresent ? personASeverity : personBSeverity;
-            return new DoshaComparison(
-                "Active Dosha",
-                severity,
-                $"{name} has Kaal Sarpa Dosha, creating one-sided Rahu-Ketu pressure in compatibility.",
-                "One-sided Kaal Sarpa risk = present person's severity value.",
-                "One-sided Rahu-Ketu risk");
         }
 
         private static DoshaComparison CompareChandraGrahan(

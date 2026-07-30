@@ -24,10 +24,17 @@ namespace KundaliEngine.Domain.Entities
 
         public bool IsActive { get; set; } = true;
 
+        public int KundaliSaveLimit { get; set; } = 5;
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedAt { get; set; }
 
         public DateTime? LastLoginAt { get; set; }
+
+        public DateTime? EmailVerifiedAt { get; set; }
+
+        public DateTime? PhoneVerifiedAt { get; set; }
     }
 }
+

@@ -1,0 +1,7 @@
+<svg width="700" height="220" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(105,110)">
+    <g transform="translate(-1.399,0.000)"><circle cx="0" cy="0" r="48" fill="none" stroke="#1E2B5A" stroke-width="2.304"/><line x1="-53.779" y1="-15.483" x2="47.937" y2="2.453" stroke="#1E2B5A" stroke-width="2.304" stroke-linecap="round"/><circle cx="-45.885" cy="-14.091" r="2.880" fill="#FFFFFF" stroke="#1E2B5A" stroke-width="1.382"/><circle cx="42.353" cy="-10.950" r="2.880" fill="#C2C8D1"/><circle cx="47.937" cy="2.453" r="8.640" fill="#B8924A"/></g>
+    <text x="150" y="4" font-family="Georgia, 'Times New Roman', serif" font-size="46" letter-spacing="1" fill="#1E2B5A">HoraLife</text>
+    <text x="150" y="32" font-family="Helvetica, Arial, sans-serif" font-size="12" letter-spacing="3.7" fill="#6B6B6B">PRECISION VEDIC ASTROLOGY</text>
+  </g>
+</svg>

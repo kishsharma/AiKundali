@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
+import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/dhruva-assistant.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent],
+  imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent, DhruvaAssistantComponent],
   template: `
     <div class="app-shell">
       <!-- Top Navbar -->
@@ -26,12 +27,14 @@ import { SidebarComponent } from './sidebar.component';
         ></app-sidebar>
 
         <!-- Content Area -->
-        <main class="content" [class.sidebar-open]="toggleSidebar() && isMobileView()" [class.sidebar-collapsed]="compactSidebar() && !isMobileView()">
+        <main class="content" [class.sidebar-open]="toggleSidebar() && isMobileView()">
           <div class="content-wrapper">
             <router-outlet></router-outlet>
           </div>
         </main>
       </div>
+
+      <app-dhruva-assistant></app-dhruva-assistant>
     </div>
   `,
   styles: [`
@@ -53,12 +56,8 @@ import { SidebarComponent } from './sidebar.component';
       overflow-y: auto;
       overflow-x: hidden;
       padding: 0;
-      margin-left: 240px;
-      transition: all 300ms ease;
-    }
-
-    .content.sidebar-collapsed {
       margin-left: 80px;
+      transition: opacity 300ms ease;
     }
 
     .content-wrapper {
@@ -130,7 +129,7 @@ import { SidebarComponent } from './sidebar.component';
 })
 export class LayoutComponent {
   toggleSidebar = signal(false);
-  compactSidebar = signal(false);
+  compactSidebar = signal(true);
   isMobileView = signal(window.innerWidth < 768);
   userInitials = 'US';
 
@@ -158,3 +157,6 @@ export class LayoutComponent {
     }
   }
 }
+
+
+

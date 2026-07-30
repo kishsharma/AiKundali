@@ -1,5 +1,5 @@
 <section class="learning-home">
-  <!-- <div class="state" *ngIf="loading">Loading Jyotish Study...</div> -->
+  <div class="state" *ngIf="loading">Loading Jyotish Study...</div>
   <div class="state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
 
   <ng-container *ngIf="!loading && !errorMessage && level">

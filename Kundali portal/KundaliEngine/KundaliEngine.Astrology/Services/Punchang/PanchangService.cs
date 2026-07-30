@@ -1,4 +1,4 @@
-﻿using KundaliEngine.Astrology.Calculations;
+using KundaliEngine.Astrology.Calculations;
 using KundaliEngine.Domain.Models;
 using System;
 
@@ -87,9 +87,20 @@ namespace KundaliEngine.Astrology.Services.Panchang
         {
             string[] names = {
                 "Prathama","Dvitiya","Tritiya","Chaturthi","Panchami","Shashthi","Saptami","Ashtami","Navami","Dashami",
-                "Ekadashi","Dwadashi","Trayodashi","Chaturdashi","Purnima/Amavasya"
+                "Ekadashi","Dwadashi","Trayodashi","Chaturdashi"
             };
-            int idx = Math.Clamp(tithi - 1, 0, names.Length - 1);
+
+            if (tithi == 15)
+            {
+                return "Purnima";
+            }
+
+            if (tithi == 30)
+            {
+                return "Amavasya";
+            }
+
+            int idx = Math.Clamp(((tithi - 1) % 15), 0, names.Length - 1);
             return names[idx];
         }
 

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
+import { NotificationService } from '../../shared/services/notification.service';
 import {
   AstrologerBrandingSetting,
   AstrologerBrandingSettingsService
@@ -17,6 +18,7 @@ import {
 export class WhiteLabelSettingsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly brandingSettingsService = inject(AstrologerBrandingSettingsService);
+  private readonly notifications = inject(NotificationService);
 
   loading = false;
   saving = false;
@@ -69,6 +71,7 @@ export class WhiteLabelSettingsComponent implements OnInit {
       },
       error: (error) => {
         this.errorMessage = error.message || 'Unable to load branding settings.';
+        this.notifications.error(this.errorMessage);
         this.loading = false;
       }
     });
@@ -102,10 +105,12 @@ export class WhiteLabelSettingsComponent implements OnInit {
     this.brandingSettingsService.saveMine(this.settings as AstrologerBrandingSetting).subscribe({
       next: () => {
         this.saveMessage = 'Branding settings saved.';
+        this.notifications.success(this.saveMessage);
         this.saving = false;
       },
       error: (error) => {
         this.errorMessage = error.message || 'Unable to save branding settings.';
+        this.notifications.error(this.errorMessage);
         this.saving = false;
       }
     });
