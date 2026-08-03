@@ -1,0 +1,171 @@
+{
+  "package": "HoraLife Level 1 Session 02 to Session 08 Diagrams",
+  "sessions": [
+    {
+      "sessionNumber": 2,
+      "title": "Earth, Sun, Moon and Time",
+      "diagramCount": 5,
+      "diagrams": [
+        {
+          "assetId": "session02-earth-rotation-day-night",
+          "jsonAssetPath": "assets/study/level-1/session-02/earth-rotation-day-night.svg",
+          "zipPath": "session-02/session02-earth-rotation-day-night.svg"
+        },
+        {
+          "assetId": "session02-earth-revolution-solar-year",
+          "jsonAssetPath": "assets/study/level-1/session-02/earth-revolution-solar-year.svg",
+          "zipPath": "session-02/session02-earth-revolution-solar-year.svg"
+        },
+        {
+          "assetId": "session02-lunar-phase-cycle",
+          "jsonAssetPath": "assets/study/level-1/session-02/lunar-phase-cycle.svg",
+          "zipPath": "session-02/session02-lunar-phase-cycle.svg"
+        },
+        {
+          "assetId": "session02-sidereal-synodic-month",
+          "jsonAssetPath": "assets/study/level-1/session-02/sidereal-synodic-month.svg",
+          "zipPath": "session-02/session02-sidereal-synodic-month.svg"
+        },
+        {
+          "assetId": "session02-longitude-local-time",
+          "jsonAssetPath": "assets/study/level-1/session-02/longitude-local-time.svg",
+          "zipPath": "session-02/session02-longitude-local-time.svg"
+        }
+      ]
+    },
+    {
+      "sessionNumber": 3,
+      "title": "Introduction to Panchang",
+      "diagramCount": 3,
+      "diagrams": [
+        {
+          "assetId": "session03-five-limbs-panchang",
+          "jsonAssetPath": "assets/study/level-1/session-03/five-limbs-panchang.svg",
+          "zipPath": "session-03/session03-five-limbs-panchang.svg"
+        },
+        {
+          "assetId": "session03-panchang-calculation-basis",
+          "jsonAssetPath": "assets/study/level-1/session-03/panchang-calculation-basis.svg",
+          "zipPath": "session-03/session03-panchang-calculation-basis.svg"
+        },
+        {
+          "assetId": "session03-midnight-sunrise-timeline",
+          "jsonAssetPath": "assets/study/level-1/session-03/midnight-sunrise-timeline.svg",
+          "zipPath": "session-03/session03-midnight-sunrise-timeline.svg"
+        }
+      ]
+    },
+    {
+      "sessionNumber": 4,
+      "title": "Tithi and Paksha",
+      "diagramCount": 3,
+      "diagrams": [
+        {
+          "assetId": "session04-tithi-twelve-degree-arc",
+          "jsonAssetPath": "assets/study/level-1/session-04/tithi-twelve-degree-arc.svg",
+          "zipPath": "session-04/session04-tithi-twelve-degree-arc.svg"
+        },
+        {
+          "assetId": "session04-shukla-krishna-paksha",
+          "jsonAssetPath": "assets/study/level-1/session-04/shukla-krishna-paksha.svg",
+          "zipPath": "session-04/session04-shukla-krishna-paksha.svg"
+        },
+        {
+          "assetId": "session04-kshaya-vriddhi-tithi",
+          "jsonAssetPath": "assets/study/level-1/session-04/kshaya-vriddhi-tithi.svg",
+          "zipPath": "session-04/session04-kshaya-vriddhi-tithi.svg"
+        }
+      ]
+    },
+    {
+      "sessionNumber": 5,
+      "title": "Vara and Weekday Lords",
+      "diagramCount": 3,
+      "diagrams": [
+        {
+          "assetId": "session05-seven-weekday-lords",
+          "jsonAssetPath": "assets/study/level-1/session-05/seven-weekday-lords.svg",
+          "zipPath": "session-05/session05-seven-weekday-lords.svg"
+        },
+        {
+          "assetId": "session05-midnight-sunrise-vara",
+          "jsonAssetPath": "assets/study/level-1/session-05/midnight-sunrise-vara.svg",
+          "zipPath": "session-05/session05-midnight-sunrise-vara.svg"
+        },
+        {
+          "assetId": "session05-hora-sequence",
+          "jsonAssetPath": "assets/study/level-1/session-05/hora-sequence.svg",
+          "zipPath": "session-05/session05-hora-sequence.svg"
+        }
+      ]
+    },
+    {
+      "sessionNumber": 6,
+      "title": "Nakshatra and Pada",
+      "diagramCount": 3,
+      "diagrams": [
+        {
+          "assetId": "session06-twenty-seven-nakshatra-wheel",
+          "jsonAssetPath": "assets/study/level-1/session-06/twenty-seven-nakshatra-wheel.svg",
+          "zipPath": "session-06/session06-twenty-seven-nakshatra-wheel.svg"
+        },
+        {
+          "assetId": "session06-nakshatra-four-padas",
+          "jsonAssetPath": "assets/study/level-1/session-06/nakshatra-four-padas.svg",
+          "zipPath": "session-06/session06-nakshatra-four-padas.svg"
+        },
+        {
+          "assetId": "session06-rashi-nakshatra-overlap",
+          "jsonAssetPath": "assets/study/level-1/session-06/rashi-nakshatra-overlap.svg",
+          "zipPath": "session-06/session06-rashi-nakshatra-overlap.svg"
+        }
+      ]
+    },
+    {
+      "sessionNumber": 7,
+      "title": "Yoga in Panchang",
+      "diagramCount": 3,
+      "diagrams": [
+        {
+          "assetId": "session07-sun-moon-longitude-sum",
+          "jsonAssetPath": "assets/study/level-1/session-07/sun-moon-longitude-sum.svg",
+          "zipPath": "session-07/session07-sun-moon-longitude-sum.svg"
+        },
+        {
+          "assetId": "session07-yoga-normalisation",
+          "jsonAssetPath": "assets/study/level-1/session-07/yoga-normalisation.svg",
+          "zipPath": "session-07/session07-yoga-normalisation.svg"
+        },
+        {
+          "assetId": "session07-panchang-vs-horoscope-yoga",
+          "jsonAssetPath": "assets/study/level-1/session-07/panchang-vs-horoscope-yoga.svg",
+          "zipPath": "session-07/session07-panchang-vs-horoscope-yoga.svg"
+        }
+      ]
+    },
+    {
+      "sessionNumber": 8,
+      "title": "Karana in Panchang",
+      "diagramCount": 3,
+      "diagrams": [
+        {
+          "assetId": "session08-tithi-two-karanas",
+          "jsonAssetPath": "assets/study/level-1/session-08/tithi-two-karanas.svg",
+          "zipPath": "session-08/session08-tithi-two-karanas.svg"
+        },
+        {
+          "assetId": "session08-seven-movable-karanas",
+          "jsonAssetPath": "assets/study/level-1/session-08/seven-movable-karanas.svg",
+          "zipPath": "session-08/session08-seven-movable-karanas.svg"
+        },
+        {
+          "assetId": "session08-fixed-karanas-amavasya",
+          "jsonAssetPath": "assets/study/level-1/session-08/fixed-karanas-amavasya.svg",
+          "zipPath": "session-08/session08-fixed-karanas-amavasya.svg"
+        }
+      ]
+    }
+  ],
+  "totalDiagrams": 23,
+  "missingFiles": []
+}

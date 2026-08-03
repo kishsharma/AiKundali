@@ -62,9 +62,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.HasIndex(x => new { x.UserId, x.PlacedAt });
         builder.HasIndex(x => new { x.OrderStatus, x.PlacedAt });
 
-        builder.HasOne(x => x.Cart)
-            .WithMany(x => x.Orders)
-            .HasForeignKey(x => x.CartId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(x => x.Cart).WithMany(x => x.Orders).HasForeignKey(x => x.CartId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasIndex(x => x.CartId).IsUnique().HasDatabaseName("ux_orders_cart_id").HasFilter("cart_id IS NOT NULL");
     }
 }

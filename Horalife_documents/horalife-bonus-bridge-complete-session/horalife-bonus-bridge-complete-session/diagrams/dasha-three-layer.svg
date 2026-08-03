@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">Three Dasha Layers</title>
+  <desc id="desc">Three nested monochrome circles showing Mahadasha as the broad period, Antardasha as the active subtheme and Pratyantardasha as the focused trigger.</desc>
+
+  <rect width="960" height="620" fill="#ffffff"/>
+
+  <text x="480" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Three Dasha Layers
+  </text>
+
+  <circle cx="480" cy="320" r="210"
+          fill="#eeeeee" stroke="#444444" stroke-width="4"/>
+  <circle cx="480" cy="320" r="145"
+          fill="#d9d9d9" stroke="#444444" stroke-width="4"/>
+  <circle cx="480" cy="320" r="80"
+          fill="#bfbfbf" stroke="#444444" stroke-width="4"/>
+
+  <text x="480" y="158" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="26" font-weight="600" fill="#222222">
+    Mahadasha
+  </text>
+  <text x="480" y="190" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Broad life theme
+  </text>
+
+  <text x="480" y="265" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Antardasha
+  </text>
+  <text x="480" y="295" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Active subtheme
+  </text>
+
+  <text x="480" y="326" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#ffffff">
+    Pratyantardasha
+  </text>
+  <text x="480" y="354" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="17" fill="#ffffff">
+    Focused trigger
+  </text>
+
+  <line x1="690" y1="320" x2="825" y2="320"
+        stroke="#555555" stroke-width="3"/>
+  <text x="835" y="310" text-anchor="start"
+        font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#222222">
+    Broad period
+  </text>
+  <text x="835" y="338" text-anchor="start"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    widest scope
+  </text>
+
+  <line x1="625" y1="395" x2="790" y2="455"
+        stroke="#555555" stroke-width="3"/>
+  <text x="800" y="450" text-anchor="start"
+        font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#222222">
+    Active subtheme
+  </text>
+  <text x="800" y="478" text-anchor="start"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    narrower focus
+  </text>
+
+  <line x1="420" y1="395" x2="250" y2="470"
+        stroke="#555555" stroke-width="3"/>
+  <text x="240" y="462" text-anchor="end"
+        font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#222222">
+    Focused trigger
+  </text>
+  <text x="240" y="490" text-anchor="end"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    most specific layer
+  </text>
+
+  <rect x="180" y="535" width="600" height="52" rx="14"
+        fill="#e5e5e5" stroke="#555555" stroke-width="2.5"/>
+  <text x="480" y="568" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Each deeper Dasha layer narrows the timing and event focus.
+  </text>
+</svg>

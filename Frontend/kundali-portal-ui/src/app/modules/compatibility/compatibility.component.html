@@ -1,12 +1,12 @@
 <app-page-header
   [title]="'compatibility.title' | transloco"
-  legacycompatibility="yes"
-  [showActions]="showReport"
-  [breadcrumbs]="[
-    { label: ('menu.home' | transloco), routerLink: '/' },
-    { label: ('compatibility.title' | transloco), active: true }
-  ]">
+  [compact]="true"
+  [showActions]="showReport">
   <div page-actions class="compatibility-actions" *ngIf="showReport" aria-label="Compatibility report actions">
+    <button type="button" class="report-action-btn" (click)="editBirthDetails()" title="Edit Details">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17z"></path><path d="M13.5 6.5l4 4"></path></svg>
+      <span>Edit Details</span>
+    </button>
     <button
       type="button"
       class="report-action-btn save-action"
@@ -63,20 +63,29 @@
 </app-page-header>
 
 <div class="compatibility-page">
-  <section class="input-panel">
+  <section class="input-panel" *ngIf="showBirthDetailsForm">
     <div class="input-heading">
       <div>
         <h2>{{ 'compatibility.birthDetails' | transloco }}</h2>
         <p>{{ 'compatibility.birthDetailsHelp' | transloco }}</p>
       </div>
       <button type="button" class="primary-btn" (click)="analyzeCompatibility()" [disabled]="loading">
-        {{ (loading ? 'compatibility.calculating' : 'compatibility.generateReport') | transloco }}
+        {{ loading ? ('compatibility.calculating' | transloco) : (result ? 'Update Report' : ('compatibility.generateReport' | transloco)) }}
       </button>
     </div>
 
     <form [formGroup]="form" class="match-form">
       <div class="person-form boy-form">
-        <h3>{{ 'compatibility.boyDetails' | transloco }}</h3>
+        <div class="person-form-header">
+          <h3>{{ 'compatibility.boyDetails' | transloco }}</h3>
+          <app-saved-chart-selector
+            label="Male saved chart"
+            [hideLabel]="true"
+            placeholder="Search saved Kundali"
+            [selectedId]="selectedBoyChartId"
+            (chartSelected)="onSavedChartSelected('boy', $event)">
+          </app-saved-chart-selector>
+        </div>
         <label>{{ 'compatibility.name' | transloco }} <input formControlName="boyName" type="text" /></label>
         <label>{{ 'compatibility.date' | transloco }} <input formControlName="boyBirthDate" type="date" /></label>
         <label>{{ 'compatibility.time' | transloco }} <input formControlName="boyBirthTime" type="time" /></label>
@@ -95,7 +104,16 @@
       </div>
 
       <div class="person-form girl-form">
-        <h3>{{ 'compatibility.girlDetails' | transloco }}</h3>
+        <div class="person-form-header">
+          <h3>{{ 'compatibility.girlDetails' | transloco }}</h3>
+          <app-saved-chart-selector
+            label="Female saved chart"
+            [hideLabel]="true"
+            placeholder="Search saved Kundali"
+            [selectedId]="selectedGirlChartId"
+            (chartSelected)="onSavedChartSelected('girl', $event)">
+          </app-saved-chart-selector>
+        </div>
         <label>{{ 'compatibility.name' | transloco }} <input formControlName="girlName" type="text" /></label>
         <label>{{ 'compatibility.date' | transloco }} <input formControlName="girlBirthDate" type="date" /></label>
         <label>{{ 'compatibility.time' | transloco }} <input formControlName="girlBirthTime" type="time" /></label>

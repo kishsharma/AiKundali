@@ -1,0 +1,7 @@
+Add inside the existing AddStoreInfrastructure() method:
+
+services.AddScoped<
+    IOrderRepository,
+    OrderRepository>();
+
+Keep the existing catalogue, cart, and address repository registrations.

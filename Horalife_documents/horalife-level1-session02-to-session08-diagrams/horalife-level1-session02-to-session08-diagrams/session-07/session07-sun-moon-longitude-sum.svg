@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Sun and Moon Longitude Sum</title>
+  <desc id="desc">A simple monochrome flow diagram showing Sun longitude and Moon longitude being added, normalised, and used to identify the running Nitya Yoga.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3f3f3f"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Inputs -->
+  <rect x="85" y="120" width="220" height="82" rx="14"
+        fill="#e3e3e3" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="195" y="169" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222222">
+    Sun longitude
+  </text>
+
+  <rect x="85" y="338" width="220" height="82" rx="14"
+        fill="#d2d2d2" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="195" y="387" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222222">
+    Moon longitude
+  </text>
+
+  <!-- Addition -->
+  <circle cx="410" cy="270" r="58"
+          fill="#f0f0f0" stroke="#555555" stroke-width="3"/>
+  <text x="410" y="282" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="44" fill="#222222">+</text>
+
+  <!-- Sum box -->
+  <rect x="520" y="225" width="190" height="90" rx="14"
+        fill="#d9d9d9" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="615" y="260" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222222">
+    Longitude sum
+  </text>
+  <text x="615" y="290" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    Normalise to 0°–360°
+  </text>
+
+  <!-- Output -->
+  <rect x="760" y="225" width="135" height="90" rx="14"
+        fill="#c7c7c7" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="827.5" y="260" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Nitya
+  </text>
+  <text x="827.5" y="289" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Yoga
+  </text>
+
+  <!-- Arrows -->
+  <path d="M305 161 C350 161, 350 230, 365 244"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M305 379 C350 379, 350 310, 365 296"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="468" y1="270" x2="510" y2="270"
+        stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="710" y1="270" x2="750" y2="270"
+        stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Formula note -->
+  <text x="480" y="475" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    Yoga index = floor(normalised sum ÷ 13°20′) + 1
+  </text>
+</svg>

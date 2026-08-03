@@ -39,17 +39,6 @@
   --dhruva-message-bg: rgba(215, 183, 101, 0.08);
 }
 
-:host-context(body[data-theme='hora']) {
-  --dhruva-panel-bg: #fffdf7;
-  --dhruva-panel-header-bg: linear-gradient(135deg, #fff9f1 0%, #f9ebdc 100%);
-  --dhruva-panel-border: rgba(216, 100, 58, 0.16);
-  --dhruva-panel-shadow: rgba(112, 61, 34, 0.12);
-  --dhruva-button-bg: linear-gradient(135deg, #b95732 0%, #d8912f 100%);
-  --dhruva-soft-accent: rgba(184, 146, 74, 0.08);
-  --dhruva-message-bg: rgba(184, 146, 74, 0.07);
-  --dhruva-nebula-glow: rgba(110, 84, 190, 0.2);
-  --dhruva-nebula-blue: rgba(65, 139, 216, 0.14);
-}
 
 :host(.dhruva-tour-host-open) {
   inset: 0;

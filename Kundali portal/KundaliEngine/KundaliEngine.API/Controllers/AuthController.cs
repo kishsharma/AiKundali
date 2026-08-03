@@ -1,4 +1,4 @@
-﻿using KundaliEngine.API.DTOs.Auth;
+using KundaliEngine.API.DTOs.Auth;
 using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
@@ -106,7 +106,7 @@ namespace KundaliEngine.API.Controllers
         {
             try
             {
-                var response = await _authOtpService.StartEmailLoginAsync(request, cancellationToken);
+                var response = await _authOtpService.StartOtpLoginAsync(request, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "OtpLoginRequested",
@@ -138,7 +138,7 @@ namespace KundaliEngine.API.Controllers
         {
             try
             {
-                var response = await _authOtpService.VerifyEmailLoginAsync(request, cancellationToken);
+                var response = await _authOtpService.VerifyOtpLoginAsync(request, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "OtpLoginSuccess",
@@ -174,7 +174,7 @@ namespace KundaliEngine.API.Controllers
         {
             try
             {
-                var response = await _authOtpService.StartEmailRegistrationAsync(request, cancellationToken);
+                var response = await _authOtpService.StartOtpRegistrationAsync(request, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "OtpRegistrationRequested",
@@ -206,7 +206,7 @@ namespace KundaliEngine.API.Controllers
         {
             try
             {
-                var response = await _authOtpService.VerifyEmailRegistrationAsync(request, cancellationToken);
+                var response = await _authOtpService.VerifyOtpRegistrationAsync(request, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "OtpRegistrationVerified",

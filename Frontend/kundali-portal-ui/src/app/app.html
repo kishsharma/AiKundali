@@ -24,13 +24,14 @@
     </div>
 
     <div class="theme-selector topbar-control" aria-label="Select theme">
+      <span class="theme-mode-label">{{ themeToggleLabel }}</span>
       <button
         type="button"
-        *ngFor="let theme of themes"
-        [class.active]="themeService.mode() === theme.mode"
-        (click)="themeService.setTheme(theme.mode)"
-        [title]="theme.label + ' theme'"
-      >{{ theme.icon }}</button>
+        class="theme-toggle-button"
+        (click)="toggleTheme()"
+        [title]="themeToggleTitle"
+        [attr.aria-label]="themeToggleTitle"
+      >{{ themeToggleIcon }}</button>
     </div>
 
     <div class="topbar-right" *ngIf="showUserMenu" [class.menu-open]="isUserMenuOpen">

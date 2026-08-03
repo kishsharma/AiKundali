@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+<title id="title">North Indian Kundali Anatomy</title>
+<desc id="desc">A simple monochrome North Indian Kundali showing twelve fixed house positions and the first, fourth, seventh and tenth houses.</desc>
+<rect width="960" height="600" fill="#ffffff"/>
+<text x="480" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">North Indian Kundali Anatomy</text>
+
+<rect x="230" y="100" width="500" height="420" fill="#f3f3f3" stroke="#333333" stroke-width="4"/>
+<line x1="230" y1="100" x2="730" y2="520" stroke="#444444" stroke-width="3"/>
+<line x1="730" y1="100" x2="230" y2="520" stroke="#444444" stroke-width="3"/>
+<polygon points="480,100 730,310 480,520 230,310" fill="none" stroke="#444444" stroke-width="3"/>
+
+<polygon points="480,100 605,205 480,310 355,205" fill="#dddddd" stroke="#444444" stroke-width="2"/>
+<polygon points="230,310 355,205 480,310 355,415" fill="#e6e6e6" stroke="#444444" stroke-width="2"/>
+<polygon points="480,310 605,415 480,520 355,415" fill="#d2d2d2" stroke="#444444" stroke-width="2"/>
+<polygon points="480,310 605,205 730,310 605,415" fill="#c8c8c8" stroke="#444444" stroke-width="2"/>
+
+<g font-family="Arial, sans-serif" text-anchor="middle" fill="#222222">
+<text x="480" y="185" font-size="26" font-weight="600">1st House</text>
+<text x="325" y="318" font-size="25" font-weight="600">4th House</text>
+<text x="480" y="455" font-size="26" font-weight="600">7th House</text>
+<text x="635" y="318" font-size="25" font-weight="600">10th House</text>
+</g>
+
+<g font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#333333" text-anchor="middle">
+<text x="355" y="150">2</text><text x="280" y="225">3</text>
+<text x="280" y="405">5</text><text x="355" y="480">6</text>
+<text x="605" y="480">8</text><text x="680" y="405">9</text>
+<text x="680" y="225">11</text><text x="605" y="150">12</text>
+</g>
+
+<rect x="40" y="175" width="150" height="110" rx="14" fill="#eeeeee" stroke="#555555" stroke-width="2.5"/>
+<text x="115" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">Houses are fixed</text>
+<text x="115" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#333333">Layout never rotates</text>
+
+<rect x="770" y="335" width="150" height="110" rx="14" fill="#dddddd" stroke="#555555" stroke-width="2.5"/>
+<text x="845" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">Signs change</text>
+<text x="845" y="409" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#333333">Rashi numbers move</text>
+
+<text x="480" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" fill="#333333">Memorise the fixed house positions before reading signs or planets.</text>
+</svg>

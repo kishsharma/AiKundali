@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session06-twenty-seven-nakshatra-wheel",
-          "assetPath": "assets/study/level-1/session-06/twenty-seven-nakshatra-wheel.svg",
+          "assetPath": "assets/learning/Level-1/session-06/twenty-seven-nakshatra-wheel.svg",
           "altText": "ಇಪ್ಪತ್ತೇಳು ಸಮ ನಕ್ಷತ್ರ ವಿಭಾಗಗಳಾಗಿ ವಿಭಜಿಸಲಾದ ಸರಳ ಏಕವರ್ಣ ರಾಶಿಚಕ್ರ.",
           "caption": "360° ರಾಶಿಚಕ್ರವನ್ನು ಇಪ್ಪತ್ತೇಳು ಸಮ ನಕ್ಷತ್ರಗಳಾಗಿ ವಿಭಜಿಸಲಾಗಿದೆ.",
           "purpose": "ಪೂರ್ಣ ನಕ್ಷತ್ರ ಜಾಲವನ್ನು ರಾಶಿಚಕ್ರದ ಸಮ ವಿಭಾಗವಾಗಿ ತೋರಿಸುವುದು.",
@@ -309,7 +309,7 @@
         {
           "type": "diagram",
           "assetId": "session06-nakshatra-four-padas",
-          "assetPath": "assets/study/level-1/session-06/nakshatra-four-padas.svg",
+          "assetPath": "assets/learning/Level-1/session-06/nakshatra-four-padas.svg",
           "altText": "ಒಂದು ನಕ್ಷತ್ರದ ವೃತ್ತಖಂಡವನ್ನು 3°20′ ಅಳತೆಯ ನಾಲ್ಕು ಸಮ ಪಾದಗಳಾಗಿ ವಿಭಜಿಸಲಾಗಿದೆ.",
           "caption": "ಪ್ರತಿ ನಕ್ಷತ್ರದಲ್ಲಿ ನಾಲ್ಕು ಸಮ ಪಾದಗಳಿರುತ್ತವೆ.",
           "purpose": "ನಕ್ಷತ್ರದ ವ್ಯಾಪ್ತಿಯನ್ನು ಪಾದ ಗಣನೆಗೆ ಸಂಪರ್ಕಿಸುವುದು.",
@@ -419,7 +419,7 @@
         {
           "type": "diagram",
           "assetId": "session06-rashi-nakshatra-overlap",
-          "assetPath": "assets/study/level-1/session-06/rashi-nakshatra-overlap.svg",
+          "assetPath": "assets/learning/Level-1/session-06/rashi-nakshatra-overlap.svg",
           "altText": "ಒಂದೇ 360° ರಾಶಿಚಕ್ರದಲ್ಲಿ ಹನ್ನೆರಡು ರಾಶಿಗಳು ಮತ್ತು ಇಪ್ಪತ್ತೇಳು ನಕ್ಷತ್ರಗಳನ್ನು ತೋರಿಸುವ ಎರಡು ಸಮರೇಖಿತ ಅಡ್ಡ ಮಾಪಕಗಳು.",
           "caption": "ರಾಶಿ ಮತ್ತು ನಕ್ಷತ್ರವು ಒಂದೇ ರಾಶಿಚಕ್ರದ ಮೇಲೆ ಇರುವ ವಿಭಿನ್ನ ವಿಭಾಗಗಳು.",
           "purpose": "ಒಂದು ನಕ್ಷತ್ರವು ಒಂದು ರಾಶಿಗೆ ಸಮ ಎಂಬ ಸಾಮಾನ್ಯ ತಪ್ಪನ್ನು ತಪ್ಪಿಸುವುದು.",

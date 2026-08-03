@@ -429,6 +429,99 @@
   .section-head h2{font-size:36px; margin-top:14px;}
   .section-head p{color:var(--parchment-dim); margin-top:12px; font-size:15.5px;}
 
+
+  /* ---------- Public free-tool entry points ---------- */
+  .public-tools{
+    padding:58px 0 62px;
+    background:linear-gradient(180deg, rgba(22,27,48,0.34) 0%, rgba(30,43,90,0.08) 100%);
+    border-bottom:1px solid var(--line-soft);
+    overflow:hidden;
+  }
+  .public-tools-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:28px;
+    margin-bottom:30px;
+  }
+  .public-tools-head h2{font-size:36px; margin-top:14px;}
+  .public-tools-head p{max-width:650px; margin-top:10px; color:var(--parchment-dim); font-size:15px;}
+  .tools-all-link{
+    flex:0 0 auto;
+    color:var(--brass);
+    font-family:'Cinzel', serif;
+    font-size:11px;
+    letter-spacing:0.08em;
+    border-bottom:1px solid var(--line);
+    padding-bottom:4px;
+  }
+  .tools-all-link:hover{border-color:var(--brass);}
+  .public-tools-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:14px;
+  }
+  .public-tool-card{
+    min-height:132px;
+    display:grid;
+    grid-template-columns:52px 1fr;
+    grid-template-rows:1fr auto;
+    gap:8px 14px;
+    padding:20px;
+    border:1px solid var(--line-soft);
+    background:rgba(13,17,32,0.28);
+    box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    transition:transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .public-tool-card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(201,162,75,0.46);
+    background:rgba(201,162,75,0.055);
+  }
+  .tool-symbol{
+    grid-row:1 / span 2;
+    width:52px; height:52px;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--brass);
+    font-family:'Cormorant Garamond', serif;
+    font-size:30px;
+    background:rgba(201,162,75,0.035);
+  }
+  .tool-symbol-saturn{font-family:'Segoe UI Symbol','Cormorant Garamond',serif;}
+  .tool-symbol-mars{color:#d46a58; border-color:rgba(184,65,47,0.3);}
+  .tool-copy{display:flex; flex-direction:column; align-self:center;}
+  .tool-copy strong{font-family:'Cormorant Garamond', serif; font-size:21px; line-height:1.1; color:var(--parchment);}
+  .tool-copy small{margin-top:5px; color:var(--parchment-dim); font-size:12.5px; line-height:1.4;}
+  .tool-action{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--brass-soft); letter-spacing:0.02em;}
+  .public-tools-note{margin-top:18px; color:var(--parchment-dim); font-size:12px; display:flex; align-items:center; gap:8px;}
+  .public-tools-note .dot{width:5px;height:5px;border-radius:50%;background:var(--sindoor);flex:0 0 auto;}
+
+  .btn-secondary{
+    font-family:'Cinzel', serif;
+    font-size:11.5px;
+    letter-spacing:0.07em;
+    color:var(--brass);
+    border:1px solid var(--brass-soft);
+    padding:13px 20px;
+    display:inline-block;
+    transition:background .18s ease, transform .18s ease, border-color .18s ease;
+  }
+  .btn-secondary:hover{background:rgba(201,162,75,0.08); border-color:var(--brass); transform:translateY(-2px);}
+
+  @media (max-width:900px){
+    .public-tools-grid{grid-template-columns:repeat(2, minmax(0, 1fr));}
+  }
+  @media (max-width:640px){
+    .public-tools{padding:44px 0 48px;}
+    .public-tools-head{align-items:flex-start; flex-direction:column; margin-bottom:22px;}
+    .public-tools-head h2{font-size:28px;}
+    .public-tools-grid{grid-template-columns:1fr; gap:10px;}
+    .public-tool-card{min-height:116px; padding:17px;}
+    .tool-copy strong{font-size:20px;}
+    .hero-ctas{gap:12px;}
+  }
+
   /* ---------- Process ---------- */
   .process{border-bottom:1px solid var(--line-soft);}
   .process-row{
@@ -945,3 +1038,237 @@
 
 
 
+
+/* =========================================================
+   2026-07 Contrast and colour refinement
+   Keeps the established royal-indigo / brass identity while
+   improving readability, hierarchy and surface separation.
+   ========================================================= */
+:host {
+  --ink:#14224f;
+  --ink-2:#101a3e;
+  --ink-3:#1b2d62;
+  --parchment:#fff8e8;
+  --parchment-dim:#d8d9df;
+  --brass:#e0b84f;
+  --brass-soft:#b99a53;
+  --line:rgba(224,184,79,0.28);
+  --line-soft:rgba(224,184,79,0.15);
+  background:
+    radial-gradient(circle at 72% 8%, rgba(75,101,190,0.16), transparent 34%),
+    var(--ink);
+}
+
+header.is-scrolled {
+  background:rgba(10,17,43,0.94);
+  border-bottom-color:rgba(224,184,79,0.2);
+  box-shadow:0 12px 34px rgba(2,6,24,0.34);
+}
+
+.nav-links a,
+.nav-login,
+.shloka-strip p,
+.hero p.lede,
+.hero-note,
+.section-head p,
+.public-tools-head p,
+.public-tools-note,
+.p-step p,
+.preview-copy p,
+.milan-copy > p,
+.milan-copy li p,
+.dim-note,
+.philosophy p,
+.cta-copy p,
+.form-note,
+.foot-links,
+.foot-bottom,
+.foot-tagline .en {
+  color:var(--parchment-dim);
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 78% 36%, rgba(72,99,185,0.17), transparent 30%),
+    linear-gradient(180deg, #17285d 0%, #14224f 100%);
+}
+
+.hero h1,
+section h2,
+section h3 {
+  color:#fffaf0;
+}
+
+.hero h1 em,
+.eyebrow,
+.brand-hora,
+.tools-all-link,
+.tool-action {
+  color:#f0c963;
+}
+
+.btn-primary {
+  background:linear-gradient(135deg, #f0c963 0%, #d7a934 100%);
+  color:#111a38;
+  box-shadow:0 8px 22px rgba(4,8,29,0.2), 0 0 0 1px rgba(255,245,196,0.12) inset;
+}
+.btn-primary:hover {
+  box-shadow:0 12px 30px rgba(224,184,79,0.3), 0 0 0 1px rgba(255,255,255,0.16) inset;
+}
+
+.btn-ghost {
+  color:#e3e4e9;
+  border-color:rgba(224,184,79,0.34);
+}
+.btn-ghost:hover { color:#fffaf0; }
+
+.shloka-strip {
+  background:#122047;
+  border-bottom:1px solid rgba(224,184,79,0.1);
+}
+
+.public-tools {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(75,101,190,0.13), transparent 30%),
+    linear-gradient(180deg, #192b61 0%, #14234f 100%);
+}
+.public-tool-card,
+.eval-card,
+.astrologer-review,
+.preview-card,
+.milan-card,
+.cta-form {
+  background:rgba(255,255,255,0.045);
+  border-color:rgba(224,184,79,0.24);
+  box-shadow:0 14px 36px rgba(3,8,30,0.2), 0 1px 0 rgba(255,255,255,0.025) inset;
+}
+.public-tool-card:hover,
+.eval-card:hover,
+.astrologer-review:hover {
+  background:rgba(255,255,255,0.072);
+  border-color:rgba(240,201,99,0.54);
+  box-shadow:0 18px 40px rgba(3,8,30,0.3), 0 0 28px rgba(224,184,79,0.055);
+}
+.tool-symbol {
+  background:linear-gradient(145deg, rgba(240,201,99,0.11), rgba(255,255,255,0.025));
+  border-color:rgba(240,201,99,0.32);
+  color:#f0c963;
+}
+.tool-copy strong { color:#fffaf0; }
+.tool-copy small { color:#d8d9df; }
+
+.process {
+  background:linear-gradient(180deg, #14224f 0%, #111d45 100%);
+}
+.p-num { background:#17285a; }
+
+.astrologer-validation {
+  background:linear-gradient(180deg, #182a5d 0%, #111c42 100%);
+}
+.evaluators {
+  background:linear-gradient(180deg, #101a3e 0%, #162754 100%);
+}
+
+#preview {
+  background:linear-gradient(180deg, #172957 0%, #132149 100%);
+}
+.preview-card,
+.milan-card {
+  background:#1b2d62;
+}
+
+.milan {
+  background:linear-gradient(180deg, #101a3e 0%, #162650 100%);
+}
+
+.philosophy {
+  background:
+    radial-gradient(circle at 16% 52%, rgba(224,184,79,0.085), transparent 28%),
+    linear-gradient(100deg, #1a2d61 0%, #14234f 55%, #101b40 100%);
+}
+.philosophy-art img {
+  opacity:.36;
+  filter:saturate(.88) contrast(1.02) brightness(1.08);
+}
+
+.cta-section {
+  background:linear-gradient(180deg, #152552 0%, #101b40 100%);
+}
+.field input {
+  background:rgba(8,14,36,0.55);
+  border-color:rgba(224,184,79,0.24);
+}
+.field input::placeholder { color:#aeb5c8; }
+.field input:focus {
+  outline:none;
+  border-color:#e0b84f;
+  box-shadow:0 0 0 3px rgba(224,184,79,0.1);
+}
+
+footer {
+  background:#0c1534;
+  border-top:1px solid rgba(224,184,79,0.12);
+}
+
+@media (max-width:640px) {
+  .hero {
+    background:
+      radial-gradient(circle at 90% 16%, rgba(72,99,185,0.14), transparent 28%),
+      linear-gradient(180deg, #17285d 0%, #14224f 100%);
+  }
+}
+
+/* =========================================================
+   Evaluator section correction
+   The generic translucent-card refinement made this section
+   look washed out against the brass grid background. Keep the
+   evaluator matrix deep, clean and readable.
+   ========================================================= */
+.evaluators {
+  background:linear-gradient(180deg, #111d45 0%, #142552 100%);
+}
+
+.evaluators .section-head p {
+  color:#d8d9df;
+}
+
+.eval-grid {
+  gap:16px;
+  background:transparent;
+  border:0;
+}
+
+.eval-card {
+  background:linear-gradient(145deg, #1a2d61 0%, #172653 100%);
+  border:1px solid rgba(224,184,79,0.2);
+  border-radius:10px;
+  box-shadow:0 14px 30px rgba(3,8,30,0.22), 0 1px 0 rgba(255,255,255,0.025) inset;
+}
+
+.eval-card:hover {
+  background:linear-gradient(145deg, #20366f 0%, #1a2b5b 100%);
+  border-color:rgba(240,201,99,0.42);
+  box-shadow:0 18px 38px rgba(3,8,30,0.3), 0 0 24px rgba(224,184,79,0.045);
+  transform:translateY(-2px);
+}
+
+.eval-card .sanskrit {
+  color:#c9aa62;
+}
+
+.eval-card h3 {
+  color:#fffaf0;
+}
+
+.eval-card p,
+.eval-card .metric {
+  color:#d2d5df;
+}
+
+.eval-card .metric {
+  border-top-color:rgba(224,184,79,0.13);
+}
+
+.eval-card .metric b {
+  color:#f0c963;
+}

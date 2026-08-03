@@ -1,0 +1,7 @@
+Add inside the existing AddStoreApplication() method:
+
+services.AddScoped<
+    IStoreInventoryReservationService,
+    StoreInventoryReservationService>();
+
+Keep every existing Store application-service registration.

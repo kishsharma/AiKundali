@@ -1,11 +1,13 @@
 // Left Sidebar Component
-import { Component, HostListener, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 import { AstrologyIconComponent } from '../shared/components/astrology-icon.component';
 import { KundaliService } from '../modules/kundali/kundali.service';
 import { AuthService } from '../core/auth/auth.service';
 import { CompatibilityApiService, SavedCompatibilityListItem } from '../core/services/compatibility-api.service';
+import { ThemeService } from '../core/services/theme.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -22,7 +24,7 @@ export interface NavItem {
   standalone: true,
   imports: [CommonModule, RouterModule, AstrologyIconComponent],
   template: `
-    <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact">
+    <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact && !mobileView">
       <div class="sidebar-header">
         <button class="collapse-btn" type="button" (click)="toggleCompact()" [attr.aria-label]="compact ? 'Expand menu bar' : 'Collapse menu bar'" [title]="compact ? 'Expand menu bar' : 'Collapse menu bar'">
           <svg *ngIf="!compact" class="collapse-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -66,7 +68,7 @@ export interface NavItem {
                 <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">Kundali</span>
               </a>
-              <ul class="nav-sublist" *ngIf="!compact">
+              <ul class="nav-sublist" *ngIf="!compact || mobileView">
                 <li>
                   <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
                     <span class="nav-dot"></span>
@@ -125,7 +127,7 @@ export interface NavItem {
                 <app-astrology-icon name="compatibility" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">Compatibility</span>
               </a>
-              <ul class="nav-sublist" *ngIf="!compact">
+              <ul class="nav-sublist" *ngIf="!compact || mobileView">
                 <li>
                   <a routerLink="/app/compatibility" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
                     <span class="nav-dot"></span>
@@ -269,7 +271,71 @@ export interface NavItem {
         </div>
       </nav>
 
-      <div class="sidebar-footer">
+      <div class="mobile-account-panel" *ngIf="mobileView">
+        <div class="mobile-account-card">
+          <button
+            class="mobile-account-toggle"
+            type="button"
+            (click)="toggleMobileAccountMenu()"
+            [attr.aria-expanded]="mobileAccountMenuOpen"
+          >
+            <div class="mobile-account-header">
+              <div class="user-avatar" aria-hidden="true">{{ userInitial }}</div>
+              <div class="mobile-account-meta">
+                <strong>{{ userName }}</strong>
+                <small>{{ userEmail }}</small>
+              </div>
+            </div>
+            <span class="mobile-account-chevron" [class.open]="mobileAccountMenuOpen"></span>
+          </button>
+
+          <div class="mobile-account-panel-body" [class.open]="mobileAccountMenuOpen">
+            <div class="mobile-preferences">
+              <div class="mobile-preference-group">
+                <span class="mobile-preference-title">Language</span>
+                <div class="mobile-option-list mobile-option-list--language">
+                  <button
+                    type="button"
+                    *ngFor="let language of languages"
+                    [class.active]="activeLanguage === language.code"
+                    (click)="changeLanguage(language.code)"
+                  >{{ language.label }}</button>
+                </div>
+              </div>
+
+              <div class="mobile-preference-group">
+                <span class="mobile-preference-title">Theme</span>
+                <div class="mobile-option-list mobile-option-list--theme">
+                  <button
+                    type="button"
+                    (click)="toggleTheme()"
+                    [title]="themeToggleTitle"
+                    [attr.aria-label]="themeToggleTitle"
+                  >
+                    <span>{{ themeToggleIcon }}</span>
+                    <small>{{ themeAvailableModes }}</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mobile-account-actions">
+              <button class="logout-btn logout-btn--menu" type="button" (click)="logout()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H6.5A2.5 2.5 0 0 1 4 18.5v-13A2.5 2.5 0 0 1 6.5 3H9"></path>
+                    <path d="M15 17l5-5-5-5"></path>
+                    <path d="M20 12H9"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">Logout</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer" *ngIf="!mobileView">
         <button class="logout-btn" type="button" (click)="logout()">
           <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -623,6 +689,177 @@ export interface NavItem {
       text-overflow: ellipsis;
     }
 
+    .mobile-account-panel {
+      padding: 0 1rem 0.75rem;
+    }
+
+    .mobile-account-card {
+      border: 1px solid color-mix(in srgb, var(--theme-line) 78%, transparent);
+      border-radius: 0.7rem;
+      background: color-mix(in srgb, var(--theme-surface-2) 76%, transparent);
+      padding: 0.7rem 0.8rem;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .mobile-account-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+    }
+
+    .mobile-account-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .mobile-account-meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      gap: 0.1rem;
+    }
+
+    .mobile-account-meta strong {
+      color: var(--theme-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .mobile-account-meta small {
+      color: var(--theme-text-muted);
+      font-size: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+
+    .mobile-account-chevron {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      flex: 0 0 16px;
+      color: var(--theme-text-muted);
+      transition: transform 180ms ease;
+    }
+
+    .mobile-account-chevron::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 6px;
+      height: 6px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .mobile-account-chevron.open {
+      transform: rotate(180deg);
+    }
+
+    .mobile-account-panel-body {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 240ms ease, opacity 220ms ease, margin-top 240ms ease;
+    }
+
+    .mobile-account-panel-body.open {
+      max-height: 220px;
+      opacity: 1;
+      margin-top: 0.8rem;
+    }
+
+    .mobile-preferences {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .mobile-account-actions {
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid color-mix(in srgb, var(--theme-line) 78%, transparent);
+    }
+
+    .logout-btn--menu {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.65rem;
+      padding: 0.72rem 0.8rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.6rem;
+      background: color-mix(in srgb, var(--theme-surface-2) 78%, transparent);
+      color: var(--theme-text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .logout-btn--menu:hover {
+      background: color-mix(in srgb, var(--theme-danger) 12%, transparent);
+      border-color: color-mix(in srgb, var(--theme-danger) 30%, var(--theme-line));
+      color: var(--theme-danger);
+    }
+
+    .mobile-preference-title {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--theme-text-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .mobile-option-list {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .mobile-option-list button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 2.1rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.55rem;
+      background: var(--theme-surface);
+      color: var(--theme-text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.4rem 0.6rem;
+      cursor: pointer;
+    }
+
+    .mobile-option-list button.active {
+      border-color: var(--theme-accent);
+      background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+      color: var(--theme-accent);
+    }
+
+    .mobile-option-list--language {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mobile-option-list--theme {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .sidebar-footer {
       margin-top: auto;
       padding: 0.75rem 1rem;
@@ -779,11 +1016,43 @@ export interface NavItem {
   `],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  @Input() isOpen: boolean = false;
+  private _isOpen = false;
+  private _mobileView = false;
+
+  @Input()
+  get isOpen(): boolean {
+    return this._isOpen;
+  }
+  set isOpen(value: boolean) {
+    this._isOpen = value;
+    if (value && this.mobileView) {
+      this.mobileAccountMenuOpen = false;
+    }
+  }
+
+  @Input()
+  get mobileView(): boolean {
+    return this._mobileView;
+  }
+  set mobileView(value: boolean) {
+    this._mobileView = value;
+    if (!value) {
+      this.mobileAccountMenuOpen = false;
+    }
+  }
+
   @Input() compact: boolean = false;
-  @Input() mobileView: boolean = false;
   @Output() onClose = new EventEmitter<void>();
   @Output() onToggleCompact = new EventEmitter<void>();
+  readonly languages = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'kn', label: 'ಕನ್ನಡ' }
+  ];
+  readonly themes = [
+    { mode: 'dark', label: 'Dark', icon: '☾' },
+    { mode: 'light', label: 'Light', icon: '☼' }
+  ] as const;
 
   savedKundalisOpen = false;
   savedMatchesOpen = false;
@@ -794,9 +1063,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
   deletingCompatibilityIds = new Set<string>();
   deleteStatusMessage = '';
   compatibilityDeleteStatusMessage = '';
+  mobileAccountMenuOpen = false;
   private savedKundaliRefreshSub?: Subscription;
 
-  constructor(private kundaliService: KundaliService, private compatibilityApi: CompatibilityApiService, private router: Router, private authService: AuthService) {}
+  constructor(
+    private kundaliService: KundaliService,
+    private compatibilityApi: CompatibilityApiService,
+    private router: Router,
+    private authService: AuthService,
+    private translocoService: TranslocoService,
+    private cdr: ChangeDetectorRef,
+    public themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
     this.loadSavedKundalis();
@@ -808,6 +1086,63 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.savedKundaliRefreshSub?.unsubscribe();
+  }
+
+  get currentUser() {
+    return this.authService.getCurrentUser();
+  }
+
+  get userName(): string {
+    return this.formatDisplayName(this.currentUser?.fullName || 'User');
+  }
+
+  get userEmail(): string {
+    return this.currentUser?.email || '';
+  }
+
+  get userInitial(): string {
+    return this.userName.charAt(0).toUpperCase();
+  }
+
+  get activeLanguage(): string {
+    return this.translocoService.getActiveLang();
+  }
+
+  changeLanguage(lang: string): void {
+    this.translocoService.setActiveLang(lang);
+  }
+
+  get themeToggleIcon(): string {
+    return this.themeService.mode() === 'dark' ? '☀' : '☾';
+  }
+
+  get themeToggleLabel(): string {
+    return this.themeService.mode() === 'dark' ? 'Dark' : 'Light';
+  }
+
+  get themeAvailableModes(): string {
+    return 'Dark / Light';
+  }
+
+  get themeToggleTitle(): string {
+    return this.themeService.mode() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+  }
+
+  toggleTheme(): void {
+    this.themeService.setTheme(this.themeService.mode() === 'dark' ? 'light' : 'dark');
+  }
+
+  toggleMobileAccountMenu(): void {
+    this.mobileAccountMenuOpen = !this.mobileAccountMenuOpen;
+  }
+
+  private formatDisplayName(name: string): string {
+    return name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(' ') || 'User';
   }
 
   @HostListener('window:kundali-saved')
@@ -876,10 +1211,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         if (this.router.url.includes('/app/kundali/saved/')) {
           this.savedKundalisOpen = true;
         }
+        this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Saved kundali menu load error:', error);
         this.savedKundalis = [];
+        this.cdr.markForCheck();
       }
     });
   }
@@ -929,10 +1266,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         if (this.router.url.includes('/app/compatibility/saved/')) {
           this.savedMatchesOpen = true;
         }
+        this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Saved compatibility menu load error:', error);
         this.savedMatches = [];
+        this.cdr.markForCheck();
       }
     });
   }

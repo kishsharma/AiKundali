@@ -1,0 +1,126 @@
+{
+  "title": "Complete Kundali Prediction Reading Formula",
+  "subtitle": "The bridge from foundation chart reading to structured prediction",
+  "summary": "This Bonus Bridge Session connects Level 1 chart reading with the complete predictive workflow used in advanced Kundali analysis. Students move from chart basics to life-area houses, house lords, Karakas, strength, Yoga and Dosha activation, Dasha timing, Gochar modification, evidence separation, verdict, confidence and a clear layman explanation.",
+  "estimatedMinutes": 105,
+  "languages": [
+    "en",
+    "hi",
+    "kn"
+  ],
+  "learningObjectives": [
+    "Apply the complete Kundali prediction sequence in the correct order.",
+    "Establish natal promise before discussing timing.",
+    "Analyse the house, house lord and natural Karaka together.",
+    "Use planetary relationships, aspects and strength indicators as evidence.",
+    "Separate Yoga or Dosha existence from actual activation.",
+    "Apply Mahadasha, Antardasha and Pratyantardasha as timing layers.",
+    "Use Gochar as a modifier rather than the sole prediction source.",
+    "Produce a verdict with conditions, confidence and a layman explanation."
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "complete-formula",
+      "title": "The Complete Prediction Formula",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "natal-promise",
+      "title": "Establishing Natal Promise",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "strength-and-activation",
+      "title": "Strength, Yoga and Dosha Activation",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "dasha-timing",
+      "title": "Mahadasha, Antardasha and Pratyantardasha",
+      "estimatedMinutes": 20
+    },
+    {
+      "sectionId": "gochar-modifier",
+      "title": "Gochar as a Modifier",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "evidence-to-verdict",
+      "title": "From Evidence to Verdict",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "layman-narrative",
+      "title": "Writing the Layman Narrative",
+      "estimatedMinutes": 15
+    }
+  ],
+  "sectionCount": 7,
+  "diagramCount": 3,
+  "diagrams": [
+    {
+      "assetId": "bonus-complete-prediction-flow",
+      "jsonAssetPath": "assets/study/bonus-bridge/complete-prediction-flow.svg",
+      "zipFile": "diagrams/complete-prediction-flow.svg",
+      "caption": "Prediction is a layered sequence, not a single-rule conclusion.",
+      "purpose": "Present the complete HoraLife prediction framework.",
+      "annotations": [
+        "Natal promise",
+        "Dasha",
+        "Gochar",
+        "Evidence",
+        "Verdict",
+        "Confidence",
+        "Narrative"
+      ]
+    },
+    {
+      "assetId": "bonus-yoga-dosha-activation",
+      "jsonAssetPath": "assets/study/bonus-bridge/yoga-dosha-activation.svg",
+      "zipFile": "diagrams/yoga-dosha-activation.svg",
+      "caption": "Formation and activation are separate questions.",
+      "purpose": "Teach the difference between chart presence and current relevance.",
+      "annotations": [
+        "Formation",
+        "Strength",
+        "Dasha",
+        "Gochar",
+        "Manifestation"
+      ]
+    },
+    {
+      "assetId": "bonus-dasha-three-layer",
+      "jsonAssetPath": "assets/study/bonus-bridge/dasha-three-layer.svg",
+      "zipFile": "diagrams/dasha-three-layer.svg",
+      "caption": "Each deeper Dasha layer narrows the timing focus.",
+      "purpose": "Show the relationship between the three Dasha layers.",
+      "annotations": [
+        "Mahadasha",
+        "Antardasha",
+        "Pratyantardasha",
+        "Broad theme",
+        "Active subtheme",
+        "Focused trigger"
+      ]
+    }
+  ],
+  "commonMistakesCount": 6,
+  "selfCheckQuestionCount": 8,
+  "practicalExercise": {
+    "title": "Complete a Prediction Evidence Worksheet",
+    "instructions": [
+      "Choose one verified Kundali and one life area.",
+      "Identify main and supporting houses.",
+      "Assess the house, house lord and natural Karaka.",
+      "Record relationships, aspects and strength indicators.",
+      "Establish natal promise as strong, conditional, mixed, weak or uncertain.",
+      "Check Yoga and Dosha formation and activation.",
+      "Analyse Mahadasha, Antardasha and Pratyantardasha.",
+      "Add Gochar as support, pressure or trigger.",
+      "Separate supporting, pressure, neutral, contradictory and uncertain evidence.",
+      "Write a verdict, confidence level and five-to-seven sentence layman narrative."
+    ],
+    "expectedOutcome": "The student can transform structured chart evidence into a conditional, timed and clearly explained prediction framework.",
+    "estimatedMinutes": 30
+  }
+}

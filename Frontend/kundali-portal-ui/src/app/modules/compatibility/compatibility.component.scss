@@ -476,15 +476,27 @@
   background: #fffdfb;
 }
 
-.person-form h3,
-.person-form label:nth-child(5),
+.person-form-header,
 .coordinate-row {
   grid-column: 1 / -1;
 }
 
+.person-form-header {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
 .person-form h3 {
+  align-self: center;
   color: #5b1f0c;
   font-size: 13px;
+}
+
+.person-form-header app-saved-chart-selector {
+  grid-column: 2 / -1;
+  min-width: 0;
 }
 
 .person-form label {
@@ -1658,8 +1670,7 @@
     text-align: center;
   }
 
-  .toolbar-actions,
-  .coordinate-row {
+  .toolbar-actions {
     flex-direction: column;
   }
 
@@ -1667,13 +1678,41 @@
     text-align: center;
   }
 
-  .person-form,
   .kuta-grid,
   .aspect-grid,
   .dosha-grid,
   .insight-grid,
   .period-grid {
     grid-template-columns: 1fr;
+  }
+
+  .person-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px 10px;
+    padding: 12px;
+  }
+
+  .person-form-header {
+    grid-template-columns: 1fr;
+  }
+
+  .person-form-header app-saved-chart-selector {
+    grid-column: 1 / -1;
+  }
+
+  .person-form > label:first-of-type {
+    grid-column: 1 / -1;
+  }
+
+  .coordinate-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px 10px;
+    align-items: end;
+  }
+
+  .coordinate-row .place-field {
+    grid-column: 1 / -1;
   }
 
   .profile-card dl div {
@@ -1688,3 +1727,13 @@
 
 
 
+
+.person-form app-saved-chart-selector {
+  position: relative;
+  z-index: 18;
+  display: block;
+}
+
+.girl-form app-saved-chart-selector {
+  z-index: 17;
+}

@@ -1,4 +1,4 @@
-﻿using HoraLife.Store.Application.DependencyInjection;
+using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.AdvancedStrength;
@@ -13,6 +13,7 @@ using KundaliEngine.API.Services.Recommendations;
 using KundaliEngine.API.Services.ReportPdf;
 using KundaliEngine.API.Services.ReportPdf.Html;
 using KundaliEngine.API.Services.ReportShare;
+using KundaliEngine.API.Services.Sms;
 using KundaliEngine.API.Services.YogaDoshaActivation;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
@@ -144,10 +145,16 @@ builder.Services.AddScoped<ICurrentLifeFocusService, CurrentLifeFocusService>();
 builder.Services.AddSingleton<IFocusedLifeAreaNarrativeBuilder, FocusedLifeAreaNarrativeBuilder>();
 builder.Services.AddScoped<IFocusedLifeAreaAnalysisService, FocusedLifeAreaAnalysisService>();
 builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSection("ReportShare:Smtp"));
+builder.Services.Configure<SmsOtpOptions>(builder.Configuration.GetSection("TwoFactorSms"));
 builder.Services.AddSingleton<IReportHtmlTemplateService, ReportHtmlTemplateService>();
 builder.Services.AddSingleton<IHtmlReportPdfRenderer, ChromeHtmlReportPdfRenderer>();
 builder.Services.AddScoped<IReportPdfService, ReportPdfService>();
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+builder.Services.AddHttpClient<ISmsOtpSender, TwoFactorSmsOtpSender>((serviceProvider, client) =>
+{
+    var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<SmsOtpOptions>>().Value;
+    client.Timeout = TimeSpan.FromSeconds(Math.Max(1, options.TimeoutSeconds));
+});
 builder.Services.AddScoped<IReportShareEmailService, ReportShareEmailService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();

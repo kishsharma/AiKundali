@@ -1,6 +1,7 @@
-﻿using KundaliEngine.API.DTOs.Auth;
+using KundaliEngine.API.DTOs.Auth;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.Email;
+using KundaliEngine.API.Services.Sms;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,58 +13,67 @@ namespace KundaliEngine.API.Services.Auth;
 public sealed class AuthOtpService : IAuthOtpService
 {
     private const string EmailChannel = "Email";
+    private const string PhoneChannel = "Phone";
     private const string LoginPurpose = "Login";
     private const string RegistrationPurpose = "Registration";
     private const int OtpDigits = 6;
     private const int OtpExpiryMinutes = 10;
     private const int RegistrationTokenExpiryMinutes = 15;
-    private const int ResendCooldownSeconds = 60;
+    private const int ResendCooldownSeconds = 10;
     private const int MaxAttempts = 5;
     private const int MaxRequestsPerWindow = 4;
 
     private readonly KundaliDbContext _dbContext;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IEmailSender _emailSender;
+    private readonly ISmsOtpSender _smsOtpSender;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public AuthOtpService(
         KundaliDbContext dbContext,
         IJwtTokenGenerator jwtTokenGenerator,
         IEmailSender emailSender,
+        ISmsOtpSender smsOtpSender,
         IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dbContext;
         _jwtTokenGenerator = jwtTokenGenerator;
         _emailSender = emailSender;
+        _smsOtpSender = smsOtpSender;
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<OtpChallengeResponse> StartEmailLoginAsync(StartEmailOtpRequest request, CancellationToken cancellationToken)
+    public async Task<OtpChallengeResponse> StartOtpLoginAsync(StartEmailOtpRequest request, CancellationToken cancellationToken)
     {
-        var email = NormalizeEmail(request.Email);
-        var resendCount = await EnsureCanSendAsync(email, LoginPurpose, cancellationToken);
+        var target = ResolveOtpTarget(request);
+        var user = await FindUserByTargetAsync(target, cancellationToken);
+        if (user == null)
+        {
+            throw new InvalidOperationException(target.Channel == PhoneChannel
+                ? "Mobile number is not registered. Please create an account."
+                : "Email is not registered. Please create an account.");
+        }
 
-        var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == email, cancellationToken);
-        var shouldSend = user is { IsActive: true };
+        if (!user.IsActive)
+        {
+            throw new InvalidOperationException("Your account is inactive. Please contact support.");
+        }
+
+        var resendCount = await EnsureCanSendAsync(target.Channel, target.Destination, LoginPurpose, cancellationToken);
         var code = GenerateOtpCode();
         var now = DateTime.UtcNow;
-        var challenge = BuildChallenge(LoginPurpose, email, code, now, shouldSend ? user!.Id : null, resendCount);
+        var challenge = BuildChallenge(LoginPurpose, target.Channel, target.Destination, code, now, user.Id, resendCount);
 
         _dbContext.AuthOtpChallenges.Add(challenge);
         await _dbContext.SaveChangesAsync(cancellationToken);
+        await SendOtpAsync(target, code, "login", cancellationToken);
 
-        if (shouldSend)
-        {
-            await SendOtpEmailAsync(email, code, "login", cancellationToken);
-        }
-
-        return BuildChallengeResponse(challenge, email, "If an active account exists, a verification code has been sent.");
+        return BuildChallengeResponse(challenge, target, "Verification code sent.");
     }
-
-    public async Task<AuthResponse> VerifyEmailLoginAsync(VerifyEmailOtpRequest request, CancellationToken cancellationToken)
+    public async Task<AuthResponse> VerifyOtpLoginAsync(VerifyEmailOtpRequest request, CancellationToken cancellationToken)
     {
-        var email = NormalizeEmail(request.Email);
-        var challenge = await GetChallengeAsync(request.ChallengeId, LoginPurpose, email, cancellationToken);
+        var target = ResolveOtpTarget(request);
+        var challenge = await GetChallengeAsync(request.ChallengeId, LoginPurpose, target.Channel, target.Destination, cancellationToken);
         EnsureChallengeCanBeVerified(challenge);
 
         if (!VerifyCode(request.Code, challenge))
@@ -86,39 +96,47 @@ public sealed class AuthOtpService : IAuthOtpService
         challenge.VerifiedAt = now;
         challenge.ConsumedAt = now;
         user.LastLoginAt = now;
-        user.EmailVerifiedAt ??= now;
+        if (target.Channel == EmailChannel)
+        {
+            user.EmailVerifiedAt ??= now;
+        }
+        else
+        {
+            user.PhoneVerifiedAt ??= now;
+        }
         user.UpdatedAt = now;
 
         await _dbContext.SaveChangesAsync(cancellationToken);
         return BuildAuthResponse(user);
     }
 
-    public async Task<OtpChallengeResponse> StartEmailRegistrationAsync(StartEmailOtpRequest request, CancellationToken cancellationToken)
+    public async Task<OtpChallengeResponse> StartOtpRegistrationAsync(StartEmailOtpRequest request, CancellationToken cancellationToken)
     {
-        var email = NormalizeEmail(request.Email);
-        var existingUser = await _dbContext.Users.AnyAsync(x => x.Email.ToLower() == email, cancellationToken);
+        var target = ResolveOtpTarget(request);
+        var existingUser = await UserExistsForTargetAsync(target, cancellationToken);
         if (existingUser)
         {
-            throw new InvalidOperationException("Email already registered. Please login.");
+            throw new InvalidOperationException(target.Channel == EmailChannel
+                ? "Email already registered. Please login."
+                : "Mobile number already registered. Please login.");
         }
 
-        var resendCount = await EnsureCanSendAsync(email, RegistrationPurpose, cancellationToken);
-
+        var resendCount = await EnsureCanSendAsync(target.Channel, target.Destination, RegistrationPurpose, cancellationToken);
         var code = GenerateOtpCode();
         var now = DateTime.UtcNow;
-        var challenge = BuildChallenge(RegistrationPurpose, email, code, now, null, resendCount);
+        var challenge = BuildChallenge(RegistrationPurpose, target.Channel, target.Destination, code, now, null, resendCount);
 
         _dbContext.AuthOtpChallenges.Add(challenge);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        await SendOtpEmailAsync(email, code, "registration", cancellationToken);
+        await SendOtpAsync(target, code, "registration", cancellationToken);
 
-        return BuildChallengeResponse(challenge, email, "Verification code sent.");
+        return BuildChallengeResponse(challenge, target, "Verification code sent.");
     }
 
-    public async Task<VerifyRegistrationOtpResponse> VerifyEmailRegistrationAsync(VerifyEmailOtpRequest request, CancellationToken cancellationToken)
+    public async Task<VerifyRegistrationOtpResponse> VerifyOtpRegistrationAsync(VerifyEmailOtpRequest request, CancellationToken cancellationToken)
     {
-        var email = NormalizeEmail(request.Email);
-        var challenge = await GetChallengeAsync(request.ChallengeId, RegistrationPurpose, email, cancellationToken);
+        var target = ResolveOtpTarget(request);
+        var challenge = await GetChallengeAsync(request.ChallengeId, RegistrationPurpose, target.Channel, target.Destination, cancellationToken);
         EnsureChallengeCanBeVerified(challenge);
 
         if (!VerifyCode(request.Code, challenge))
@@ -127,10 +145,12 @@ public sealed class AuthOtpService : IAuthOtpService
             throw new UnauthorizedAccessException("Invalid or expired verification code.");
         }
 
-        var existingUser = await _dbContext.Users.AnyAsync(x => x.Email.ToLower() == email, cancellationToken);
+        var existingUser = await UserExistsForTargetAsync(target, cancellationToken);
         if (existingUser)
         {
-            throw new InvalidOperationException("Email already registered. Please login.");
+            throw new InvalidOperationException(target.Channel == EmailChannel
+                ? "Email already registered. Please login."
+                : "Mobile number already registered. Please login.");
         }
 
         var now = DateTime.UtcNow;
@@ -145,7 +165,8 @@ public sealed class AuthOtpService : IAuthOtpService
         {
             RegistrationToken = registrationToken,
             ExpiresAt = challenge.RegistrationTokenExpiresAt.Value,
-            Email = email
+            Email = target.Channel == EmailChannel ? target.Destination : null,
+            PhoneNumber = target.Channel == PhoneChannel ? target.Destination : null
         };
     }
 
@@ -153,7 +174,7 @@ public sealed class AuthOtpService : IAuthOtpService
     {
         if (!TryGetChallengeIdFromRegistrationToken(request.RegistrationToken, out var challengeId))
         {
-            throw new UnauthorizedAccessException("Registration session has expired. Please verify your email again.");
+            throw new UnauthorizedAccessException("Registration session has expired. Please verify again.");
         }
 
         var fullName = (request.FullName ?? string.Empty).Trim();
@@ -164,7 +185,6 @@ public sealed class AuthOtpService : IAuthOtpService
 
         var challenge = await _dbContext.AuthOtpChallenges
             .FirstOrDefaultAsync(x => x.Id == challengeId
-                && x.Channel == EmailChannel
                 && x.Purpose == RegistrationPurpose, cancellationToken);
 
         if (challenge == null
@@ -175,27 +195,39 @@ public sealed class AuthOtpService : IAuthOtpService
             || string.IsNullOrWhiteSpace(challenge.RegistrationTokenHash)
             || !BCrypt.Net.BCrypt.Verify(request.RegistrationToken, challenge.RegistrationTokenHash))
         {
-            throw new UnauthorizedAccessException("Registration session has expired. Please verify your email again.");
+            throw new UnauthorizedAccessException("Registration session has expired. Please verify again.");
         }
 
-        var existingUser = await _dbContext.Users.AnyAsync(x => x.Email.ToLower() == challenge.DestinationNormalized, cancellationToken);
-        if (existingUser)
+        var now = DateTime.UtcNow;
+        var email = challenge.Channel == EmailChannel
+            ? challenge.DestinationNormalized
+            : NormalizeOptionalEmail(request.Email);
+        var phoneNumber = challenge.Channel == PhoneChannel
+            ? challenge.DestinationNormalized
+            : NormalizeOptionalPhoneNumber(request.PhoneNumber);
+
+        if (!string.IsNullOrWhiteSpace(email) && await UserExistsForTargetAsync(new OtpTarget(EmailChannel, email), cancellationToken))
         {
             throw new InvalidOperationException("Email already registered. Please login.");
         }
 
-        var now = DateTime.UtcNow;
+        if (!string.IsNullOrWhiteSpace(phoneNumber) && await UserExistsForTargetAsync(new OtpTarget(PhoneChannel, phoneNumber), cancellationToken))
+        {
+            throw new InvalidOperationException("Mobile number already registered. Please login.");
+        }
+
         var user = new User
         {
             Id = Guid.NewGuid(),
             FullName = fullName,
-            Email = challenge.DestinationNormalized,
-            PhoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber) ? null : request.PhoneNumber.Trim(),
+            Email = email,
+            PhoneNumber = phoneNumber,
             PasswordHash = null,
-            AuthProvider = "EmailOtp",
+            AuthProvider = challenge.Channel == PhoneChannel ? "PhoneOtp" : "EmailOtp",
             Role = "User",
             IsActive = true,
-            EmailVerifiedAt = now,
+            EmailVerifiedAt = challenge.Channel == EmailChannel ? now : null,
+            PhoneVerifiedAt = challenge.Channel == PhoneChannel ? now : null,
             CreatedAt = now,
             LastLoginAt = now
         };
@@ -208,15 +240,15 @@ public sealed class AuthOtpService : IAuthOtpService
         return BuildAuthResponse(user);
     }
 
-    private AuthOtpChallenge BuildChallenge(string purpose, string email, string code, DateTime now, Guid? userId, int resendCount)
+    private AuthOtpChallenge BuildChallenge(string purpose, string channel, string destination, string code, DateTime now, Guid? userId, int resendCount)
     {
         var context = _httpContextAccessor.HttpContext;
         return new AuthOtpChallenge
         {
             Id = Guid.NewGuid(),
             Purpose = purpose,
-            Channel = EmailChannel,
-            DestinationNormalized = email,
+            Channel = channel,
+            DestinationNormalized = destination,
             UserId = userId,
             CodeHash = BCrypt.Net.BCrypt.HashPassword(code),
             ExpiresAt = now.AddMinutes(OtpExpiryMinutes),
@@ -228,28 +260,32 @@ public sealed class AuthOtpService : IAuthOtpService
         };
     }
 
-    private async Task<int> EnsureCanSendAsync(string email, string purpose, CancellationToken cancellationToken)
+    private async Task<int> EnsureCanSendAsync(string channel, string destination, string purpose, CancellationToken cancellationToken)
     {
-        try
-        {
-
         var now = DateTime.UtcNow;
         var recentChallenge = await _dbContext.AuthOtpChallenges
-            .Where(x => x.Channel == EmailChannel && x.Purpose == purpose && x.DestinationNormalized == email)
+            .Where(x => x.Channel == channel && x.Purpose == purpose && x.DestinationNormalized == destination)
             .OrderByDescending(x => x.LastSentAt)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (recentChallenge != null && recentChallenge.LastSentAt > now.AddSeconds(-ResendCooldownSeconds))
+        if (recentChallenge != null)
         {
-            throw new InvalidOperationException("Please wait before requesting another verification code.");
+            var lastSentAt = NormalizeOtpTimestamp(recentChallenge.LastSentAt, now);
+            var nextAllowedAt = lastSentAt.AddSeconds(ResendCooldownSeconds);
+            if (nextAllowedAt > now)
+            {
+                var remainingSeconds = Math.Max(1, (int)Math.Ceiling((nextAllowedAt - now).TotalSeconds));
+                throw new InvalidOperationException($"Please wait {remainingSeconds} seconds before requesting another verification code.");
+            }
         }
 
         var windowStart = now.AddMinutes(-OtpExpiryMinutes);
         var recentCount = await _dbContext.AuthOtpChallenges
-            .CountAsync(x => x.Channel == EmailChannel
+            .CountAsync(x => x.Channel == channel
                 && x.Purpose == purpose
-                && x.DestinationNormalized == email
-                && x.CreatedAt >= windowStart, cancellationToken);
+                && x.DestinationNormalized == destination
+                && x.CreatedAt >= windowStart
+                && x.CreatedAt <= now.AddSeconds(30), cancellationToken);
 
         if (recentCount >= MaxRequestsPerWindow)
         {
@@ -257,21 +293,31 @@ public sealed class AuthOtpService : IAuthOtpService
         }
 
         return recentCount;
-        }
-        catch(Exception ex)
-        {
-            throw new InvalidOperationException("Unable to send verification code. Please try again later.", ex);
-        }
-
     }
 
-    private async Task<AuthOtpChallenge> GetChallengeAsync(Guid challengeId, string purpose, string email, CancellationToken cancellationToken)
+    private static DateTime NormalizeOtpTimestamp(DateTime timestamp, DateTime nowUtc)
+    {
+        if (timestamp > nowUtc.AddMinutes(1))
+        {
+            var indiaOffsetTimestamp = timestamp.AddHours(-5.5);
+            if (indiaOffsetTimestamp <= nowUtc.AddMinutes(1))
+            {
+                return indiaOffsetTimestamp;
+            }
+
+            return nowUtc.AddSeconds(-ResendCooldownSeconds);
+        }
+
+        return timestamp;
+    }
+
+    private async Task<AuthOtpChallenge> GetChallengeAsync(Guid challengeId, string purpose, string channel, string destination, CancellationToken cancellationToken)
     {
         var challenge = await _dbContext.AuthOtpChallenges
             .FirstOrDefaultAsync(x => x.Id == challengeId
-                && x.Channel == EmailChannel
+                && x.Channel == channel
                 && x.Purpose == purpose
-                && x.DestinationNormalized == email, cancellationToken);
+                && x.DestinationNormalized == destination, cancellationToken);
 
         if (challenge == null)
         {
@@ -279,6 +325,35 @@ public sealed class AuthOtpService : IAuthOtpService
         }
 
         return challenge;
+    }
+
+    private async Task<User?> FindUserByTargetAsync(OtpTarget target, CancellationToken cancellationToken)
+    {
+        if (target.Channel == EmailChannel)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email != null && x.Email.ToLower() == target.Destination, cancellationToken);
+        }
+
+        var phoneUsers = await _dbContext.Users
+            .Where(x => x.PhoneNumber != null)
+            .ToListAsync(cancellationToken);
+
+        return phoneUsers.FirstOrDefault(x => TryNormalizePhoneNumber(x.PhoneNumber) == target.Destination);
+    }
+
+    private async Task<bool> UserExistsForTargetAsync(OtpTarget target, CancellationToken cancellationToken)
+    {
+        if (target.Channel == EmailChannel)
+        {
+            return await _dbContext.Users.AnyAsync(x => x.Email != null && x.Email.ToLower() == target.Destination, cancellationToken);
+        }
+
+        var phoneUsers = await _dbContext.Users
+            .Where(x => x.PhoneNumber != null)
+            .Select(x => x.PhoneNumber)
+            .ToListAsync(cancellationToken);
+
+        return phoneUsers.Any(phoneNumber => TryNormalizePhoneNumber(phoneNumber) == target.Destination);
     }
 
     private static void EnsureChallengeCanBeVerified(AuthOtpChallenge challenge)
@@ -301,6 +376,17 @@ public sealed class AuthOtpService : IAuthOtpService
         return normalizedCode.Length == OtpDigits && BCrypt.Net.BCrypt.Verify(normalizedCode, challenge.CodeHash);
     }
 
+    private async Task SendOtpAsync(OtpTarget target, string code, string purpose, CancellationToken cancellationToken)
+    {
+        if (target.Channel == PhoneChannel)
+        {
+            await _smsOtpSender.SendOtpAsync(target.Destination, code, cancellationToken);
+            return;
+        }
+
+        await SendOtpEmailAsync(target.Destination, code, purpose, cancellationToken);
+    }
+
     private async Task SendOtpEmailAsync(string email, string code, string purpose, CancellationToken cancellationToken)
     {
         await _emailSender.SendAsync(new EmailMessage
@@ -308,18 +394,18 @@ public sealed class AuthOtpService : IAuthOtpService
             ToEmail = email,
             Subject = "Your HoraLife verification code",
             TextBody = $"Your HoraLife {purpose} verification code is {code}. It is valid for {OtpExpiryMinutes} minutes. If you did not request this code, you can ignore this email.",
-             HtmlBody = BuildOtpEmailHtml(purpose, code,OtpExpiryMinutes)
+            HtmlBody = BuildOtpEmailHtml(purpose, code, OtpExpiryMinutes)
         }, cancellationToken);
     }
 
-    private static OtpChallengeResponse BuildChallengeResponse(AuthOtpChallenge challenge, string email, string message)
+    private static OtpChallengeResponse BuildChallengeResponse(AuthOtpChallenge challenge, OtpTarget target, string message)
     {
         return new OtpChallengeResponse
         {
             ChallengeId = challenge.Id,
             ExpiresAt = challenge.ExpiresAt,
             ResendAfterSeconds = ResendCooldownSeconds,
-            MaskedDestination = MaskEmail(email),
+            MaskedDestination = target.Channel == PhoneChannel ? MaskPhoneNumber(target.Destination) : MaskEmail(target.Destination),
             Message = message
         };
     }
@@ -331,12 +417,48 @@ public sealed class AuthOtpService : IAuthOtpService
             UserId = user.Id,
             FullName = user.FullName,
             Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
             Role = user.Role,
             Token = _jwtTokenGenerator.GenerateToken(user)
         };
     }
 
-    private static string NormalizeEmail(string email)
+    private static OtpTarget ResolveOtpTarget(StartEmailOtpRequest request)
+    {
+        var channel = NormalizeChannel(request.Channel, request.Email, request.PhoneNumber);
+        return channel == PhoneChannel
+            ? new OtpTarget(PhoneChannel, NormalizePhoneNumber(request.PhoneNumber))
+            : new OtpTarget(EmailChannel, NormalizeEmail(request.Email));
+    }
+
+    private static OtpTarget ResolveOtpTarget(VerifyEmailOtpRequest request)
+    {
+        var channel = NormalizeChannel(request.Channel, request.Email, request.PhoneNumber);
+        return channel == PhoneChannel
+            ? new OtpTarget(PhoneChannel, NormalizePhoneNumber(request.PhoneNumber))
+            : new OtpTarget(EmailChannel, NormalizeEmail(request.Email));
+    }
+
+    private static string NormalizeChannel(string? channel, string? email, string? phoneNumber)
+    {
+        if (string.Equals(channel, PhoneChannel, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(channel, "Mobile", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(channel, "Sms", StringComparison.OrdinalIgnoreCase))
+        {
+            return PhoneChannel;
+        }
+
+        if (string.Equals(channel, EmailChannel, StringComparison.OrdinalIgnoreCase))
+        {
+            return EmailChannel;
+        }
+
+        return !string.IsNullOrWhiteSpace(phoneNumber) && string.IsNullOrWhiteSpace(email)
+            ? PhoneChannel
+            : EmailChannel;
+    }
+
+    private static string NormalizeEmail(string? email)
     {
         var normalized = (email ?? string.Empty).Trim().ToLowerInvariant();
         if (string.IsNullOrWhiteSpace(normalized) || !normalized.Contains('@'))
@@ -345,6 +467,43 @@ public sealed class AuthOtpService : IAuthOtpService
         }
 
         return normalized;
+    }
+
+    private static string? NormalizeOptionalEmail(string? email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return null;
+        }
+
+        return NormalizeEmail(email);
+    }
+
+    private static string NormalizePhoneNumber(string? phoneNumber)
+    {
+        var normalized = TryNormalizePhoneNumber(phoneNumber);
+        if (normalized == null)
+        {
+            throw new InvalidOperationException("A valid mobile number is required.");
+        }
+
+        return normalized;
+    }
+
+    private static string? TryNormalizePhoneNumber(string? phoneNumber)
+    {
+        var normalized = new string((phoneNumber ?? string.Empty).Where(char.IsDigit).ToArray());
+        return normalized.Length is >= 10 and <= 15 ? normalized : null;
+    }
+
+    private static string? NormalizeOptionalPhoneNumber(string? phoneNumber)
+    {
+        if (string.IsNullOrWhiteSpace(phoneNumber))
+        {
+            return null;
+        }
+
+        return NormalizePhoneNumber(phoneNumber);
     }
 
     private static string GenerateOtpCode()
@@ -380,6 +539,14 @@ public sealed class AuthOtpService : IAuthOtpService
         return $"{email[0]}***{email[(atIndex - 1)..]}";
     }
 
+    private static string MaskPhoneNumber(string phoneNumber)
+    {
+        return phoneNumber.Length <= 4
+            ? "****"
+            : $"******{phoneNumber[^4..]}";
+    }
+
+    private sealed record OtpTarget(string Channel, string Destination);
     private static string BuildOtpEmailHtml(
     string purpose,
     string code,
@@ -626,7 +793,7 @@ public sealed class AuthOtpService : IAuthOtpService
                                     font-size: 12px;
                                     line-height: 1.6;
                                 ">
-                                    © {{DateTime.UtcNow.Year}} HoraLife
+                                    &copy; {{DateTime.UtcNow.Year}} HoraLife
                                     <br>
                                     Precision Vedic Astrology
                                 </p>

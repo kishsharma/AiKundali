@@ -1,0 +1,8 @@
+Add inside the existing AddStoreApplication() method:
+
+services.AddScoped<
+    IStoreOrderService,
+    StoreOrderService>();
+
+Keep the existing Cart, Address, Checkout Preview, and
+Checkout Revalidation registrations.

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Earth Revolution and the Solar Year</title>
+  <desc id="desc">A simple educational diagram showing Earth at four positions around the Sun, with its axis tilted in the same direction.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2f6fb2"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Orbit -->
+  <ellipse cx="480" cy="270" rx="310" ry="175"
+           fill="none" stroke="#9db7cf" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <!-- Orbital direction -->
+  <path d="M730 170 C790 205, 805 275, 770 335"
+        fill="none" stroke="#2f6fb2" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- Sun -->
+  <circle cx="480" cy="270" r="58" fill="#f6c945" stroke="#d9a81f" stroke-width="3"/>
+  <text x="480" y="350" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222">Sun</text>
+
+  <!-- Earth positions -->
+  <g>
+    <!-- Top -->
+    <circle cx="480" cy="95" r="34" fill="#d9ecff" stroke="#2f6fb2" stroke-width="3"/>
+    <path d="M462 87 C472 77, 488 78, 495 90 C486 97, 477 103, 465 99 Z" fill="#8bbf6a"/>
+    <line x1="467" y1="55" x2="493" y2="135" stroke="#444" stroke-width="3"/>
+    <text x="480" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#333">Earth</text>
+
+    <!-- Right -->
+    <circle cx="790" cy="270" r="34" fill="#d9ecff" stroke="#2f6fb2" stroke-width="3"/>
+    <path d="M772 262 C782 252, 798 253, 805 265 C796 272, 787 278, 775 274 Z" fill="#8bbf6a"/>
+    <line x1="777" y1="230" x2="803" y2="310" stroke="#444" stroke-width="3"/>
+
+    <!-- Bottom -->
+    <circle cx="480" cy="445" r="34" fill="#d9ecff" stroke="#2f6fb2" stroke-width="3"/>
+    <path d="M462 437 C472 427, 488 428, 495 440 C486 447, 477 453, 465 449 Z" fill="#8bbf6a"/>
+    <line x1="467" y1="405" x2="493" y2="485" stroke="#444" stroke-width="3"/>
+
+    <!-- Left -->
+    <circle cx="170" cy="270" r="34" fill="#d9ecff" stroke="#2f6fb2" stroke-width="3"/>
+    <path d="M152 262 C162 252, 178 253, 185 265 C176 272, 167 278, 155 274 Z" fill="#8bbf6a"/>
+    <line x1="157" y1="230" x2="183" y2="310" stroke="#444" stroke-width="3"/>
+  </g>
+
+  <!-- Axis tilt guide -->
+  <text x="690" y="92" font-family="Arial, sans-serif" font-size="21" fill="#333">Axis remains tilted</text>
+  <line x1="680" y1="102" x2="612" y2="130" stroke="#666" stroke-width="2"/>
+
+  <!-- Labels -->
+  <text x="480" y="515" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222">
+    One complete revolution around the Sun forms one solar year.
+  </text>
+</svg>

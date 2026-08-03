@@ -173,7 +173,7 @@
         {
           "type": "diagram",
           "assetId": "session02-earth-rotation-day-night",
-          "assetPath": "assets/study/level-1/session-02/earth-rotation-day-night.svg",
+          "assetPath": "assets/learning/Level-1/session-02/earth-rotation-day-night.svg",
           "altText": "Earth rotating from west to east with one illuminated half and one dark half, while the Sun remains to one side.",
           "caption": "Earth's rotation produces day and night and the apparent daily movement of the sky.",
           "purpose": "Connect Earth's physical rotation with the observer's daily sky experience.",
@@ -228,7 +228,7 @@
         {
           "type": "diagram",
           "assetId": "session02-earth-revolution-solar-year",
-          "assetPath": "assets/study/level-1/session-02/earth-revolution-solar-year.svg",
+          "assetPath": "assets/learning/Level-1/session-02/earth-revolution-solar-year.svg",
           "altText": "Earth shown at four positions around the Sun with a consistently tilted axis.",
           "caption": "Earth's revolution and axial tilt create the annual solar cycle and seasons.",
           "purpose": "Show the physical foundation of the year and seasonal change.",
@@ -301,7 +301,7 @@
         {
           "type": "diagram",
           "assetId": "session02-lunar-phase-cycle",
-          "assetPath": "assets/study/level-1/session-02/lunar-phase-cycle.svg",
+          "assetPath": "assets/learning/Level-1/session-02/lunar-phase-cycle.svg",
           "altText": "Earth at the centre with the Moon shown at eight positions and sunlight arriving from one side.",
           "caption": "Lunar phases arise from the changing Sun–Moon geometry as seen from Earth.",
           "purpose": "Explain the observational basis of the lunar phase cycle used in Panchang.",
@@ -375,7 +375,7 @@
         {
           "type": "diagram",
           "assetId": "session02-sidereal-synodic-month",
-          "assetPath": "assets/study/level-1/session-02/sidereal-synodic-month.svg",
+          "assetPath": "assets/learning/Level-1/session-02/sidereal-synodic-month.svg",
           "altText": "Two-stage diagram showing the Moon returning relative to stars before it again aligns with the Sun for New Moon.",
           "caption": "The Moon must travel farther than one stellar revolution to return to the same phase.",
           "purpose": "Clarify why the Nakshatra-related cycle and phase-related lunar month have different lengths.",
@@ -416,7 +416,7 @@
         {
           "type": "diagram",
           "assetId": "session02-longitude-local-time",
-          "assetPath": "assets/study/level-1/session-02/longitude-local-time.svg",
+          "assetPath": "assets/learning/Level-1/session-02/longitude-local-time.svg",
           "altText": "Earth with several longitude meridians and two locations showing different local solar times.",
           "caption": "Longitude determines when the Sun crosses the local meridian.",
           "purpose": "Connect geographic longitude with local solar time and chart calculation.",

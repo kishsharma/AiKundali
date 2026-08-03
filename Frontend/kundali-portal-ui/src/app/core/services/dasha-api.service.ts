@@ -1,4 +1,4 @@
-// Dasha API Service - specific endpoints for Dasha period analysis
+﻿// Dasha API Service - specific endpoints for Dasha period analysis
 import { Injectable } from '@angular/core';
 import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
@@ -23,10 +23,17 @@ export interface DashaAnalysis {
   analysis: string;
 }
 
+export interface PratyantardashaPeriodDto {
+  innerPlanet: string;
+  startDate: string;
+  endDate: string;
+}
+
 export interface AntardashaPeriodDto {
   subPlanet: string;
   startDate: string;
   endDate: string;
+  pratyantardashas?: PratyantardashaPeriodDto[];
 }
 
 export interface MahadashaPeriodDto {
@@ -82,4 +89,6 @@ export class DashaApiService extends BaseApiService {
     return this.http.post<MahadashaAnalysis>(`${this.apiUrl}/${this.endpoint}/mahadasha-analysis`, payload);
   }
 }
+
+
 

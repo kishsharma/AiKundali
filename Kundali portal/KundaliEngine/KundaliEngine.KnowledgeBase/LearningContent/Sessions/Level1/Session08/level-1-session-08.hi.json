@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session08-tithi-two-karanas",
-          "assetPath": "assets/study/level-1/session-08/tithi-two-karanas.svg",
+          "assetPath": "assets/learning/Level-1/session-08/tithi-two-karanas.svg",
           "altText": "एक सरल पट्टी जिसमें 12° की एक तिथि को 6° के दो करण खंडों में विभाजित दिखाया गया है।",
           "caption": "प्रत्येक तिथि में दो करण होते हैं।",
           "purpose": "करण को सीधे तिथि की संरचना से जोड़ना।",
@@ -220,7 +220,7 @@
         {
           "type": "diagram",
           "assetId": "session08-seven-movable-karanas",
-          "assetPath": "assets/study/level-1/session-08/seven-movable-karanas.svg",
+          "assetPath": "assets/learning/Level-1/session-08/seven-movable-karanas.svg",
           "altText": "सात चरणों का सरल चक्र जिसमें बव, बालव, कौलव, तैतिल, गर, वणिज और विष्टि क्रम से दिखाए गए हैं।",
           "caption": "सात चर करण निश्चित क्रम में दोहरते हैं।",
           "purpose": "विद्यार्थियों को चर करणों का क्रम याद कराने में सहायता करना।",
@@ -277,7 +277,7 @@
         {
           "type": "diagram",
           "assetId": "session08-fixed-karanas-amavasya",
-          "assetPath": "assets/study/level-1/session-08/fixed-karanas-amavasya.svg",
+          "assetPath": "assets/learning/Level-1/session-08/fixed-karanas-amavasya.svg",
           "altText": "कृष्ण चतुर्दशी, अमावस्या और शुक्ल प्रतिपदा के आसपास शकुनि, चतुष्पाद, नाग और किंस्तुघ्न को दिखाती सरल समयरेखा।",
           "caption": "चार स्थिर करण अमावस्या परिवर्तन के आसपास आते हैं।",
           "purpose": "दिखाना कि न दोहरने वाले करण कहाँ आते हैं।",

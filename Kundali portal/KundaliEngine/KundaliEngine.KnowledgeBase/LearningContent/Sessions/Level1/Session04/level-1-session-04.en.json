@@ -137,7 +137,7 @@
         {
           "type": "diagram",
           "assetId": "session04-tithi-twelve-degree-arc",
-          "assetPath": "assets/study/level-1/session-04/tithi-twelve-degree-arc.svg",
+          "assetPath": "assets/learning/Level-1/session-04/tithi-twelve-degree-arc.svg",
           "altText": "A simple circular diagram showing the Sun direction, Moon direction and a highlighted twelve-degree angular segment.",
           "caption": "Each Tithi represents twelve degrees of Moon–Sun angular separation.",
           "purpose": "Connect the definition of Tithi to a measurable angle.",
@@ -283,7 +283,7 @@
         {
           "type": "diagram",
           "assetId": "session04-shukla-krishna-paksha",
-          "assetPath": "assets/study/level-1/session-04/shukla-krishna-paksha.svg",
+          "assetPath": "assets/learning/Level-1/session-04/shukla-krishna-paksha.svg",
           "altText": "A simple lunar cycle split into a waxing half from Amavasya to Purnima and a waning half from Purnima to Amavasya.",
           "caption": "The lunar month is divided into Shukla Paksha and Krishna Paksha.",
           "purpose": "Show the two fifteen-Tithi halves of the lunar cycle.",
@@ -402,7 +402,7 @@
         {
           "type": "diagram",
           "assetId": "session04-kshaya-vriddhi-tithi",
-          "assetPath": "assets/study/level-1/session-04/kshaya-vriddhi-tithi.svg",
+          "assetPath": "assets/learning/Level-1/session-04/kshaya-vriddhi-tithi.svg",
           "altText": "Two simple timelines comparing a Tithi absent at sunrise with a Tithi present at two consecutive sunrises.",
           "caption": "Variable Tithi duration creates Kshaya and Vriddhi patterns in sunrise-based presentation.",
           "purpose": "Explain why a Tithi may look skipped or repeated in a Panchang.",

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+<title id="title">Evidence Balance</title>
+<desc id="desc">A monochrome balance showing supportive, pressure, mixed and uncertain evidence.</desc>
+<rect width="960" height="620" fill="#fff"/>
+<text x="480" y="58" text-anchor="middle" font-family="Arial" font-size="30" font-weight="600" fill="#222">Evidence Balance</text>
+<line x1="480" y1="165" x2="480" y2="420" stroke="#444" stroke-width="5"/>
+<line x1="235" y1="220" x2="725" y2="220" stroke="#444" stroke-width="5"/>
+<circle cx="480" cy="220" r="18" fill="#666"/>
+<line x1="300" y1="220" x2="245" y2="350" stroke="#555" stroke-width="3"/>
+<line x1="660" y1="220" x2="715" y2="350" stroke="#555" stroke-width="3"/>
+<path d="M145 350 Q245 430 345 350 Z" fill="#e8e8e8" stroke="#444" stroke-width="3"/>
+<path d="M615 350 Q715 430 815 350 Z" fill="#d2d2d2" stroke="#444" stroke-width="3"/>
+<text x="245" y="315" text-anchor="middle" font-family="Arial" font-size="24" font-weight="600" fill="#222">Support</text>
+<text x="245" y="345" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">Strength · Dignity</text>
+<text x="715" y="315" text-anchor="middle" font-family="Arial" font-size="24" font-weight="600" fill="#222">Pressure</text>
+<text x="715" y="345" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">Affliction · Delay</text>
+<rect x="155" y="470" width="280" height="85" rx="16" fill="#eee" stroke="#555" stroke-width="2.5"/>
+<text x="295" y="505" text-anchor="middle" font-family="Arial" font-size="23" font-weight="600" fill="#222">Mixed</text>
+<text x="295" y="535" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">Support and pressure together</text>
+<rect x="525" y="470" width="280" height="85" rx="16" fill="#ddd" stroke="#555" stroke-width="2.5"/>
+<text x="665" y="505" text-anchor="middle" font-family="Arial" font-size="23" font-weight="600" fill="#222">Uncertain</text>
+<text x="665" y="535" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">Missing or unverified evidence</text>
+<text x="480" y="595" text-anchor="middle" font-family="Arial" font-size="20" fill="#333">Separate the evidence before writing the conclusion.</text>
+</svg>

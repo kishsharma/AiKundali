@@ -318,6 +318,11 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         }
 
 
+        if (report.TransitInsight?.Planets?.Count > 0)
+        {
+            panels.Add(ChartPanel("Gochar Kundali", BuildGocharNote(report.TransitInsight), report.TransitInsight.Planets, report.TransitInsight.NatalAscendant));
+        }
+
         if (panels.Count == 0)
         {
             return;
@@ -533,6 +538,16 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
     {
         return $"<article class=\"chart-panel\"><div class=\"chart-title\">{Html(title)}<span>{Html(Trim(note, 56))}</span></div>{NorthChartSvg(planets, ascendant)}</article>";
     }
+
+    private static string BuildGocharNote(TransitInsightDto transit)
+    {
+        var date = transit.CalculatedAtUtc == default
+            ? string.Empty
+            : transit.CalculatedAtUtc.ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
+
+        return FirstNonEmpty($"{date} {transit.Place}".Trim(), transit.LocationMode, "Current transit placements");
+    }
+
     private static string SudarshanChartPanel(GenerateKundaliResponse report)
     {
         var score = report.SudarshanChakra?.OverallScore.ToString(CultureInfo.InvariantCulture) ?? "-";

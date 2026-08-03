@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Shukla Paksha and Krishna Paksha</title>
+  <desc id="desc">A simple monochrome educational diagram showing the lunar cycle divided into Shukla Paksha from Amavasya to Purnima and Krishna Paksha from Purnima to Amavasya.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3f3f3f"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Main cycle -->
+  <circle cx="480" cy="270" r="170"
+          fill="none" stroke="#b5b5b5" stroke-width="3"/>
+
+  <!-- Half-cycle guides -->
+  <path d="M310 270 A170 170 0 0 1 650 270"
+        fill="none" stroke="#6f6f6f" stroke-width="8"/>
+  <path d="M650 270 A170 170 0 0 1 310 270"
+        fill="none" stroke="#c7c7c7" stroke-width="8"/>
+
+  <!-- Direction arrows -->
+  <path d="M345 160 C405 105, 555 105, 615 160"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M615 380 C555 435, 405 435, 345 380"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Amavasya -->
+  <circle cx="310" cy="270" r="38"
+          fill="#3f3f3f" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="310" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">
+    Amavasya
+  </text>
+
+  <!-- Purnima -->
+  <circle cx="650" cy="270" r="38"
+          fill="#e0e0e0" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="650" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">
+    Purnima
+  </text>
+
+  <!-- Intermediate moon phases -->
+  <g stroke="#2f2f2f" stroke-width="2">
+    <circle cx="395" cy="123" r="24" fill="#555555"/>
+    <rect x="395" y="99" width="24" height="48" fill="#d9d9d9"/>
+
+    <circle cx="565" cy="123" r="24" fill="#d9d9d9"/>
+    <rect x="541" y="99" width="10" height="48" fill="#555555"/>
+
+    <circle cx="565" cy="417" r="24" fill="#d9d9d9"/>
+    <rect x="579" y="393" width="10" height="48" fill="#555555"/>
+
+    <circle cx="395" cy="417" r="24" fill="#555555"/>
+    <rect x="385" y="393" width="10" height="48" fill="#d9d9d9"/>
+  </g>
+
+  <!-- Labels -->
+  <text x="480" y="82" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="26" font-weight="600" fill="#222222">
+    Shukla Paksha
+  </text>
+  <text x="480" y="468" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="26" font-weight="600" fill="#222222">
+    Krishna Paksha
+  </text>
+
+  <!-- Minimal notes -->
+  <text x="480" y="115" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    Waxing Moon
+  </text>
+  <text x="480" y="438" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    Waning Moon
+  </text>
+
+  <text x="480" y="515" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Each Paksha contains fifteen Tithis.
+  </text>
+</svg>

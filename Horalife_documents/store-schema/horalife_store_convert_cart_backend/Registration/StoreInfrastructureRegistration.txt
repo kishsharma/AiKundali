@@ -1,0 +1,7 @@
+Add inside the existing AddStoreInfrastructure() method:
+
+services.AddScoped<
+    ICartConversionRepository,
+    CartConversionRepository>();
+
+Keep every existing Store repository registration.

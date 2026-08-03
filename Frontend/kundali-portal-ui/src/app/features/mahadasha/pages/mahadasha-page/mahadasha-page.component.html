@@ -3,17 +3,18 @@
   <div class="page-toolbar">
     <app-page-header
       title="Mahadasha & Antardasha Analysis"
-      description="Detailed predictions and analysis for your dasha periods"
-      [breadcrumbs]="[
-        { label: 'Home', routerLink: '/' },
-        { label: 'Kundali', routerLink: '/kundali' },
-        { label: 'Dasha Analysis' }
-      ]"
-    ></app-page-header>
-
-    <div class="toolbar-actions" aria-label="Dasha actions">
-      <button type="button" class="action-button action-button--accent">Show</button>
-    </div>
+      description=""
+      [showActions]="true">
+      <div page-actions class="dasha-header-selector" aria-label="Select saved Kundali for Dasha analysis">
+        <app-saved-chart-selector
+          label="Dasha chart"
+          [hideLabel]="true"
+          placeholder="Search saved Kundali"
+          [selectedId]="selectedChartId"
+          (chartSelected)="onSavedChartSelected($event)">
+        </app-saved-chart-selector>
+      </div>
+    </app-page-header>
   </div>
 
   <section class="surface dasha-native-card" *ngIf="analysis.birthChart as chart" aria-label="Dasha native details">
@@ -22,7 +23,8 @@
       <h2>{{ getDashaOwnerName(analysis) }}</h2>
       <p>
         Born on {{ formatBirthDateTime(chart.birthDateTime) }} at {{ chart.birthPlace || 'birthplace not available' }}.
-        This chart is running {{ analysis.summary.currentMahadasha }} Mahadasha and {{ analysis.summary.currentAntardasha }} Antardasha.
+        This chart is running {{ analysis.summary.currentMahadasha }} Mahadasha, {{ analysis.summary.currentAntardasha }} Antardasha,
+        and {{ analysis.summary.currentPratyantardasha || analysis.currentPratyantardasha.planet }} Pratyantardasha.
       </p>
     </div>
 
@@ -50,33 +52,67 @@
       <h2>Current Dasha</h2>
 
       <div class="current-row current-row--maha">
-        <div class="planet-orb" [style.--planet-color]="analysis.currentMahadasha.planetColor">
-          {{ getPlanetMark(analysis.currentMahadasha.planet) }}
-        </div>
+        <div class="planet-orb" [style.--planet-color]="analysis.currentMahadasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentMahadasha.planet)" [label]="analysis.currentMahadasha.planet" [decorative]="false"></app-astrology-icon></div>
         <div>
           <strong>{{ analysis.summary.currentMahadasha }} Mahadasha</strong>
         </div>
       </div>
 
       <div class="current-row current-row--antar">
-        <div class="planet-orb" [style.--planet-color]="analysis.currentAntardasha.planetColor">
-          {{ getPlanetMark(analysis.currentAntardasha.planet) }}
-        </div>
+        <div class="planet-orb" [style.--planet-color]="analysis.currentAntardasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentAntardasha.planet)" [label]="analysis.currentAntardasha.planet" [decorative]="false"></app-astrology-icon></div>
         <div>
           <strong>{{ analysis.summary.currentAntardasha }} Antardasha</strong>
         </div>
       </div>
 
-      <div class="remaining-block">
-        <span>Remaining Duration</span>
-        <strong>{{ analysis.summary.remainingDuration }}</strong>
-        <small>(Till {{ formatDate(analysis.currentAntardasha.endDate) }})</small>
+      <div class="current-row current-row--pratyantar" *ngIf="analysis.currentPratyantardasha.planet">
+        <div class="planet-orb" [style.--planet-color]="analysis.currentPratyantardasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentPratyantardasha.planet)" [label]="analysis.currentPratyantardasha.planet" [decorative]="false"></app-astrology-icon></div>
+        <div>
+          <strong>{{ analysis.currentPratyantardasha.planet }} Pratyantardasha</strong>
+          <span>{{ formatDate(analysis.currentPratyantardasha.startDate) }} - {{ formatDate(analysis.currentPratyantardasha.endDate) }}</span>
+        </div>
       </div>
 
-      <div class="progress-shell" aria-label="Completed percentage">
-        <span class="progress-fill" [style.width.%]="analysis.summary.completedPercentage"></span>
+      <div class="remaining-block">
+        <span>Pratyantardasha Remaining</span>
+        <strong>{{ analysis.currentPratyantardasha.remainingDuration || analysis.summary.pratyantardashaRemainingDuration || analysis.summary.remainingDuration }}</strong>
+        <small>(Till {{ formatDate(analysis.currentPratyantardasha.endDate || analysis.currentAntardasha.endDate) }})</small>
       </div>
-      <p class="muted">{{ analysis.summary.completedPercentage }}% Completed</p>
+
+      <div class="dasha-progress-stack" aria-label="Current dasha relative progress">
+        <div class="dasha-progress-row dasha-progress-row--maha">
+          <div class="dasha-progress-meta">
+            <span>Mahadasha</span>
+            <strong>{{ periodCompletedPercent(analysis.currentMahadasha.startDate, analysis.currentMahadasha.endDate) }}% done</strong>
+          </div>
+          <div class="progress-shell progress-shell--relative">
+            <span class="progress-fill" [style.width.%]="periodCompletedPercent(analysis.currentMahadasha.startDate, analysis.currentMahadasha.endDate)"></span>
+          </div>
+          <small>{{ formatRemainingUntil(analysis.currentMahadasha.endDate) }} remaining</small>
+        </div>
+
+        <div class="dasha-progress-row dasha-progress-row--antar">
+          <div class="dasha-progress-meta">
+            <span>Antardasha</span>
+            <strong>{{ periodCompletedPercent(analysis.currentAntardasha.startDate, analysis.currentAntardasha.endDate) }}% done</strong>
+          </div>
+          <div class="progress-shell progress-shell--relative">
+            <span class="progress-fill" [style.width.%]="periodCompletedPercent(analysis.currentAntardasha.startDate, analysis.currentAntardasha.endDate)"></span>
+          </div>
+          <small>{{ analysis.summary.remainingDuration || formatRemainingUntil(analysis.currentAntardasha.endDate) }} remaining</small>
+        </div>
+
+        <div class="dasha-progress-row dasha-progress-row--pratyantar" *ngIf="analysis.currentPratyantardasha.planet">
+          <div class="dasha-progress-meta">
+            <span>Pratyantardasha</span>
+            <strong>{{ periodCompletedPercent(analysis.currentPratyantardasha.startDate, analysis.currentPratyantardasha.endDate) }}% done</strong>
+          </div>
+          <div class="progress-shell progress-shell--relative">
+            <span class="progress-fill" [style.width.%]="periodCompletedPercent(analysis.currentPratyantardasha.startDate, analysis.currentPratyantardasha.endDate)"></span>
+          </div>
+          <small>{{ analysis.currentPratyantardasha.remainingDuration || analysis.summary.pratyantardashaRemainingDuration || formatRemainingUntil(analysis.currentPratyantardasha.endDate) }} remaining</small>
+        </div>
+      </div>
     </div>
 
     <div class="timeline-panel">
@@ -104,9 +140,7 @@
           (keydown.enter)="selectMahadasha(analysis, period)"
           (keydown.space)="selectMahadasha(analysis, period)"
         >
-          <div class="planet-orb planet-orb--small" [attr.data-planet]="period.planet">
-            {{ getPlanetMark(period.planet) }}
-          </div>
+          <div class="planet-orb planet-orb--small" [attr.data-planet]="period.planet"><app-astrology-icon [name]="getPlanetIconName(period.planet)" [label]="period.planet" [decorative]="false"></app-astrology-icon></div>
           <strong>{{ period.planet }}</strong>
           <span>{{ formatPeriod(period.start, period.end) }}</span>
         </article>
@@ -137,10 +171,40 @@
           (keydown.enter)="selectAntardasha(analysis, period)"
           (keydown.space)="selectAntardasha(analysis, period)"
         >
-          <strong>{{ selectedMahadasha(analysis).planet }} / {{ period.planet }}</strong>
+          <strong class="dasha-period-label"><app-astrology-icon class="period-icon" [name]="getPlanetIconName(selectedMahadasha(analysis).planet)"></app-astrology-icon><span>{{ selectedMahadasha(analysis).planet }}</span><span>/</span><app-astrology-icon class="period-icon" [name]="getPlanetIconName(period.planet)"></app-astrology-icon><span>{{ period.planet }}</span></strong>
           <span>{{ formatPeriod(period.start, period.end) }}</span>
         </article>
         <button type="button" class="nav-dot nav-dot--next" aria-label="Next antardasha" (click)="nextAntardasha(analysis)" [disabled]="!canNextAntardasha(analysis)"></button>
+      </div>
+
+      <div class="timeline-heading timeline-heading--pratyantar">
+        <div>
+          <h2>Pratyantardasha Timeline</h2>
+          <p>{{ selectedMahadasha(analysis).planet }} / {{ selectedAntardasha(analysis)?.planet || 'Antardasha' }} inner periods</p>
+        </div>
+        <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentPratyantardasha(analysis)">
+          {{ selectedMahadasha(analysis).planet }} / {{ selectedAntardasha(analysis)?.planet || 'Antar' }} / {{ selectedPratyantardasha(analysis)?.planet || 'Pratyantar' }}
+        </span>
+      </div>
+      <div class="timeline-track timeline-track--pratyantar" *ngIf="selectedPratyantardashas(analysis).length">
+        <button type="button" class="nav-dot nav-dot--prev" aria-label="Previous pratyantardasha" (click)="previousPratyantardasha()" [disabled]="!canPreviousPratyantardasha()"></button>
+        <article
+          class="pratyantar-step"
+          *ngFor="let period of visiblePratyantardashas(analysis); trackBy: trackPratyantardasha"
+          [class.is-current]="period.status === 'current'"
+          [class.is-selected]="isSelectedPratyantardasha(analysis, period)"
+          [attr.aria-current]="period.status === 'current' ? 'period' : null"
+          [attr.aria-selected]="isSelectedPratyantardasha(analysis, period)"
+          role="button"
+          tabindex="0"
+          (click)="selectPratyantardasha(analysis, period)"
+          (keydown.enter)="selectPratyantardasha(analysis, period)"
+          (keydown.space)="selectPratyantardasha(analysis, period)"
+        >
+          <strong class="dasha-period-label"><app-astrology-icon class="period-icon" [name]="getPlanetIconName(selectedAntardasha(analysis)?.planet || 'Antar')"></app-astrology-icon><span>{{ selectedAntardasha(analysis)?.planet || 'Antar' }}</span><span>/</span><app-astrology-icon class="period-icon" [name]="getPlanetIconName(period.planet)"></app-astrology-icon><span>{{ period.planet }}</span></strong>
+          <span>{{ formatDetailedPeriod(period.start, period.end) }}</span>
+        </article>
+        <button type="button" class="nav-dot nav-dot--next" aria-label="Next pratyantardasha" (click)="nextPratyantardasha(analysis)" [disabled]="!canNextPratyantardasha(analysis)"></button>
       </div>
     </div>
   </section>
@@ -163,18 +227,54 @@
     </article>
 
     <article class="surface strength-card">
-      <h2>Dasha Strength</h2>
-      <div class="gauge" [style.--score]="analysis.strength.overallStrength">
-        <div class="gauge__value">{{ analysis.strength.overallStrength }}%</div>
+      <div class="strength-card__header">
+        <h2>Dasha Strength</h2>
+        <span class="strength-info">
+          <button
+            type="button"
+            class="info-icon-btn"
+            aria-describedby="dasha-strength-tooltip"
+            aria-label="How dasha strength is calculated"
+            title="How strength is calculated">
+            i
+          </button>
+          <span class="strength-tooltip" id="dasha-strength-tooltip" role="tooltip">
+            Each level uses its active lord's natal sign strength: exalted 92, own sign 84, neutral 68, debilitated 42, nodes 62. Combust planets lose 10 points and retrograde planets lose 4 points.
+          </span>
+        </span>
       </div>
-      <strong class="result-text">{{ analysis.strength.overallResult }} Period</strong>
-
-      <dl class="strength-list">
-        <div *ngFor="let row of strengthRows">
-          <dt>{{ row.label }}</dt>
-          <dd>{{ getStrengthValue(analysis, row.value) }}</dd>
+      <div class="strength-gauge-grid">
+        <div
+          class="strength-gauge-item"
+          *ngFor="let item of getDashaStrengthLevels(analysis)"
+          [attr.data-level]="item.level">
+          <div class="gauge gauge--compact" [style.--score]="item.overallStrength">
+            <div class="gauge__value gauge__value--compact">{{ item.overallStrength }}%</div>
+          </div>
+          <strong>{{ item.level }}</strong>
+          <span>{{ item.planet }} · {{ item.overallResult }}</span>
         </div>
-      </dl>
+      </div>
+      <strong class="result-text">{{ analysis.strength.overallResult }} Mahadasha Period</strong>
+
+      <div class="strength-detail-grid" role="table" aria-label="Dasha strength details by level">
+        <div class="strength-detail-row strength-detail-row--head" role="row">
+          <span role="columnheader">Rule</span>
+          <span class="strength-detail-cell strength-detail-cell--head" *ngFor="let item of getDashaStrengthLevels(analysis)" role="columnheader">{{ item.level }}</span>
+        </div>
+        <div class="strength-detail-row" *ngFor="let row of strengthRows" [class.strength-detail-row--association]="row.value === 'associationSummary'" role="row">
+          <span role="rowheader">{{ row.label }}</span>
+          <span class="strength-detail-cell" *ngFor="let item of getDashaStrengthLevels(analysis)" role="cell">
+            <span class="strength-detail-value">{{ getLevelStrengthValue(item, row.value) }}</span>
+            <span class="association-info" *ngIf="row.value === 'associationSummary' && hasAssociationDetails(item)">
+              <button type="button" class="association-info__button" [attr.aria-label]="'Association details for ' + item.level" [attr.title]="getAssociationDetailsText(item)">i</button>
+              <span class="association-tooltip" role="tooltip">
+                <span *ngFor="let detail of item.associationDetails; trackBy: trackText">{{ detail }}</span>
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
     </article>
   </section>
 
@@ -269,13 +369,18 @@
       <div class="page-toolbar">
         <app-page-header
           title="Mahadasha & Antardasha Analysis"
-          description="Detailed predictions and analysis for your dasha periods"
-          [breadcrumbs]="[
-            { label: 'Home', routerLink: '/' },
-            { label: 'Kundali', routerLink: '/kundali' },
-            { label: 'Dasha Analysis' }
-          ]"
-        ></app-page-header>
+          description=""
+          [showActions]="true">
+          <div page-actions class="dasha-header-selector" aria-label="Select saved Kundali for Dasha analysis">
+            <app-saved-chart-selector
+              label="Dasha chart"
+              [hideLabel]="true"
+              placeholder="Search saved Kundali"
+              [selectedId]="selectedChartId"
+              (chartSelected)="onSavedChartSelected($event)">
+            </app-saved-chart-selector>
+          </div>
+        </app-page-header>
       </div>
 
       <article class="surface dasha-state-card" *ngIf="state.loading; else loadedState">
@@ -284,10 +389,10 @@
       </article>
 
       <ng-template #loadedState>
-        <article class="surface dasha-state-card" *ngIf="state.missingChart; else errorState">
-          <h2>No Kundali Selected</h2>
-          <p class="muted">Generate a Kundali first, then return here to view the enhanced Mahadasha analysis.</p>
-          <a class="action-button action-button--accent" routerLink="/app/kundali">Generate Kundali</a>
+        <article class="surface dasha-state-card dasha-select-prompt" *ngIf="state.missingChart; else errorState">
+          <h2>Select a Saved Kundali</h2>
+          <p class="muted">Use the saved Kundali dropdown in the header to load Mahadasha and Antardasha analysis.</p>
+          <a class="action-button action-button--accent" routerLink="/app/kundali">Create Kundali</a>
         </article>
       </ng-template>
 
@@ -301,6 +406,22 @@
     </section>
   </ng-template>
 </ng-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

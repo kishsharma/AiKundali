@@ -36,6 +36,7 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.updateNavScrolledState();
     this.scatter('deva-hero', 10);
+    this.scatter('deva-tools', 6);
     this.scatter('deva-process', 6);
     this.scatter('deva-astrologers', 7);
     this.scatter('deva-eval', 8);

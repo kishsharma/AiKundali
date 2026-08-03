@@ -395,7 +395,7 @@ body.report-shell {
 .print-bw-report svg tspan {
   fill: #111827 !important;
   stroke: none !important;
-}
+}`r`n`r`n.print-bw-report .north-chart .house {`r`n  fill: none !important;`r`n  stroke: none !important;`r`n}
 
 .print-document-footer {
   margin-top: 10px;

@@ -129,7 +129,7 @@ import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/
 })
 export class LayoutComponent {
   toggleSidebar = signal(false);
-  compactSidebar = signal(true);
+  compactSidebar = signal(false);
   isMobileView = signal(window.innerWidth < 768);
   userInitials = 'US';
 
@@ -147,6 +147,11 @@ export class LayoutComponent {
   }
 
   toggleCompactSidebar(): void {
+    if (this.isMobileView()) {
+      this.compactSidebar.set(false);
+      return;
+    }
+
     this.compactSidebar.set(!this.compactSidebar());
   }
 

@@ -1,4 +1,4 @@
-﻿.auth-page {
+.auth-page {
   position: relative;
   isolation: isolate;
   min-height: calc(100vh - 92px);
@@ -67,7 +67,7 @@
   margin: 0;
   color: var(--theme-text);
   font-size: 1.65rem;
-  font-weight: 900;
+
   line-height: 1.15;
   letter-spacing: 0;
 }
@@ -79,6 +79,39 @@
   line-height: 1.5;
 }
 
+.auth-option-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0 0 1rem;
+  padding: 0.25rem;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-input-bg) 84%, transparent);
+}
+
+.auth-card .auth-option-tabs button {
+  min-height: 2.35rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: calc(var(--theme-radius-control) - 3px);
+  background: transparent;
+  color: var(--theme-text-muted);
+  box-shadow: none;
+  font-size: 0.82rem;
+}
+
+.auth-card .auth-option-tabs button.active {
+  border-color: color-mix(in srgb, var(--theme-accent) 38%, var(--theme-line));
+  background: var(--theme-surface);
+  color: var(--theme-accent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--theme-shadow) 34%, transparent);
+}
+
+.auth-card .auth-option-tabs button:hover:not(:disabled) {
+  transform: none;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--theme-shadow) 34%, transparent);
+}
 .form-group {
   display: grid;
   gap: 0.45rem;
@@ -178,6 +211,58 @@
   color: var(--theme-text);
 }
 
+.otp-entry {
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.otp-hidden-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  opacity: 0.01;
+  font-size: 1rem;
+  outline: none;
+  z-index: 2;
+}
+
+.otp-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.otp-box {
+  flex: 1 1 min(3rem, 16%);
+  max-width: 3.5rem;
+  min-width: 2.4rem;
+  min-height: 3.35rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-control);
+  background: var(--theme-input-bg);
+  color: var(--theme-text);
+  font: inherit;
+  font-size: 1.15rem;
+}
+
+.otp-entry:focus-within .otp-box {
+  border-color: var(--theme-accent);
+  background: var(--theme-surface);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--theme-accent) 18%, transparent);
+}
+
+.otp-box.filled {
+  font-weight: 800;
+}
+
 .auth-card .secondary-button {
   margin-top: 0.75rem;
   border: 1px solid var(--theme-line);
@@ -233,4 +318,5 @@
     padding: 1.35rem;
   }
 }
+
 

@@ -16,6 +16,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { SavedChartSelectorComponent } from '../../shared/components/saved-chart-selector/saved-chart-selector.component';
+import { SavedChartMapperService, SavedKundaliDetail } from '../../shared/services/saved-chart-mapper.service';
 
 interface PersonSummary {
   role: 'Boy' | 'Girl';
@@ -48,7 +50,7 @@ interface CompatibilityDoshaCard extends CompatibilityDoshaItem {
 @Component({
   selector: 'app-compatibility',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe, SavedChartSelectorComponent],
   templateUrl: './compatibility.component.html',
   styleUrls: ['./compatibility.component.scss'],
 })
@@ -61,6 +63,7 @@ export class CompatibilityComponent {
   private transloco = inject(TranslocoService);
   private notifications = inject(NotificationService);
   private readonly themeService = inject(ThemeService);
+  private readonly savedChartMapper = inject(SavedChartMapperService);
 
   get reportBrandLogoSrc(): string {
     return this.themeService.mode() === 'dark'
@@ -76,7 +79,10 @@ export class CompatibilityComponent {
   shareFailed = false;
   loadingSavedCompatibility = false;
   savedCompatibilityId: string | null = null;
+  selectedBoyChartId: string | null = null;
+  selectedGirlChartId: string | null = null;
   showReport=false;
+  showBirthDetailsForm = true;
   errorMessage = '';
   boyLocationResults: any[] = [];
   girlLocationResults: any[] = [];
@@ -146,6 +152,44 @@ export class CompatibilityComponent {
     }
   }
 
+  onSavedChartSelected(role: 'boy' | 'girl', chart: SavedKundaliDetail): void {
+    const fallbackGender = role === 'boy' ? 'Male' : 'Female';
+    const person = this.savedChartMapper.toMatchPerson(chart, fallbackGender);
+
+    this.form.patchValue({
+      [`${role}Name`]: person.name,
+      [`${role}BirthDate`]: this.savedChartMapper.toDateInput(chart),
+      [`${role}BirthTime`]: this.savedChartMapper.toTimeInput(chart),
+      [`${role}BirthPlace`]: person.birthPlace,
+      [`${role}Latitude`]: person.latitude,
+      [`${role}Longitude`]: person.longitude,
+    });
+
+    if (role === 'boy') {
+      this.selectedBoyChartId = chart.id;
+      this.boyLocationResults = [];
+    } else {
+      this.selectedGirlChartId = chart.id;
+      this.girlLocationResults = [];
+    }
+
+    this.savedCompatibilityId = null;
+    this.result = null;
+    this.showReport = false;
+    this.showBirthDetailsForm = true;
+    this.personAhouses = null;
+    this.personBhouses = null;
+    this.personAplanetPositions = null;
+    this.personBplanetPositions = null;
+    this.personAchart = null;
+    this.personBchart = null;
+    this.cdr.markForCheck();
+  }
+
+  editBirthDetails(): void {
+    this.showBirthDetailsForm = true;
+    this.cdr.markForCheck();
+  }
   readonly kutaTones = ['orange', 'blue', 'purple', 'pink', 'green', 'orange', 'blue', 'purple'];
 
   get marriagePeriods() {
@@ -607,15 +651,17 @@ export class CompatibilityComponent {
     this.cdr.detectChanges();
 
     await new Promise((resolve) => setTimeout(resolve, 350));
+    await this.waitForPdfFonts();
     document.body.classList.add('compatibility-pdf-mode');
     this.cdr.detectChanges();
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    await this.waitForPdfFonts();
+    await new Promise((resolve) => setTimeout(resolve, 180));
 
     const pdf = new jsPDF({
       orientation: 'p',
       unit: 'mm',
       format: 'a4',
-      compress: true,
+      compress: false,
     });
 
     const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -639,7 +685,7 @@ export class CompatibilityComponent {
   }
 
   private getPdfImageData(canvas: HTMLCanvasElement): string {
-    return canvas.toDataURL('image/jpeg', 0.96);
+    return canvas.toDataURL('image/png');
   }
 
   private getPdfElementSize(element: HTMLElement): { width: number; height: number } {
@@ -654,57 +700,118 @@ export class CompatibilityComponent {
     return Number.isFinite(value) && value > 0;
   }
 
+  private async waitForPdfFonts(): Promise<void> {
+    const fonts = document.fonts;
+    if (!fonts) {
+      return;
+    }
+
+    try {
+      await fonts.ready;
+    } catch {
+      // Continue export with fallback fonts if the browser reports a font loading issue.
+    }
+  }
   private applyHtml2CanvasSafeStyles(clonedDocument: Document): void {
     const style = clonedDocument.createElement('style');
     style.textContent = `
-      :root, body, body.compatibility-pdf-mode, body.compatibility-pdf-mode * {
-        --theme-bg: #ffffff !important;
+      :root, body, body.compatibility-pdf-mode {
+        --theme-bg: #fffaf5 !important;
         --theme-surface: #ffffff !important;
-        --theme-surface-2: #ffffff !important;
+        --theme-surface-2: #fffaf7 !important;
         --theme-input-bg: #ffffff !important;
-        --theme-text: #000000 !important;
-        --theme-text-muted: #333333 !important;
-        --theme-line: #d9deee !important;
-        --theme-line-soft: #e6e9f4 !important;
-        --theme-accent: #8a6a1f !important;
-        --theme-info: #1d4ed8 !important;
-        --theme-success: #166534 !important;
-        --theme-warning: #92400e !important;
-        --theme-danger: #991b1b !important;
+        --theme-text: #2a170f !important;
+        --theme-text-muted: #765c4f !important;
+        --theme-line: #f0d9bf !important;
+        --theme-line-soft: #f7e9d8 !important;
+        --theme-accent: #d65f00 !important;
+        --theme-info: #2563eb !important;
+        --theme-success: #16a34a !important;
+        --theme-warning: #f28c12 !important;
+        --theme-danger: #e84d74 !important;
         --theme-shadow: transparent !important;
-      }
-
-      body.compatibility-pdf-mode *,
-      body.compatibility-pdf-mode *::before,
-      body.compatibility-pdf-mode *::after {
-        color: #000000 !important;
-        background-color: transparent !important;
-        background-image: none !important;
-        border-color: #d9deee !important;
-        outline-color: #d9deee !important;
-        text-decoration-color: #000000 !important;
-        text-shadow: none !important;
-        box-shadow: none !important;
       }
 
       body.compatibility-pdf-mode,
       body.compatibility-pdf-mode app-root,
-      body.compatibility-pdf-mode .compatibility-page,
-      body.compatibility-pdf-mode .report-shell {
-        background-color: #ffffff !important;
+      body.compatibility-pdf-mode .compatibility-page {
+        background: #fffaf5 !important;
+        color: #2a170f !important;
       }
+
+      body.compatibility-pdf-mode .report-shell,
+      body.compatibility-pdf-mode .report-section,
+      body.compatibility-pdf-mode .hero-report {
+        background: #ffffff !important;
+        color: #2a170f !important;
+        box-shadow: none !important;
+      }
+
+      body.compatibility-pdf-mode .compatibility-report-intro.premium-report-header {
+        border-top-color: #e15f3d !important;
+        background: linear-gradient(180deg, #ffffff 0%, #fffaf7 100%) !important;
+      }
+
+      body.compatibility-pdf-mode .compatibility-brand-copy h1,
+      body.compatibility-pdf-mode .input-heading h2,
+      body.compatibility-pdf-mode .report-toolbar h1,
+      body.compatibility-pdf-mode .report-section h2,
+      body.compatibility-pdf-mode .person-form h3 {
+        color: #5b1f0c !important;
+      }
+
+      body.compatibility-pdf-mode .compatibility-brand-copy h1 span:last-child,
+      body.compatibility-pdf-mode .premium-report-header .compatibility-owner-statement strong,
+      body.compatibility-pdf-mode .report-kicker {
+        color: #e15f3d !important;
+      }
+
+      body.compatibility-pdf-mode .compatibility-brand-copy small,
+      body.compatibility-pdf-mode .premium-report-header .report-pandit-block span:not(.report-kicker),
+      body.compatibility-pdf-mode .premium-report-header .report-pandit-block p,
+      body.compatibility-pdf-mode .profile-card dt,
+      body.compatibility-pdf-mode .kuta-card small,
+      body.compatibility-pdf-mode .dosha-card p,
+      body.compatibility-pdf-mode .insight-card p {
+        color: #765c4f !important;
+      }
+
+      body.compatibility-pdf-mode .profile-card,
+      body.compatibility-pdf-mode .kuta-card,
+      body.compatibility-pdf-mode .aspect-card,
+      body.compatibility-pdf-mode .dosha-card,
+      body.compatibility-pdf-mode .insight-card,
+      body.compatibility-pdf-mode .period-card,
+      body.compatibility-pdf-mode .total-score-row,
+      body.compatibility-pdf-mode .dosha-summary,
+      body.compatibility-pdf-mode .chart-comparison {
+        border-color: #f0d9bf !important;
+        color: #2a170f !important;
+        box-shadow: none !important;
+      }
+
+      body.compatibility-pdf-mode .profile-card {
+        background: linear-gradient(135deg, #fff8ec, #ffffff) !important;
+      }
+
+      body.compatibility-pdf-mode .profile-card--girl {
+        background: linear-gradient(135deg, #fff6f8, #ffffff) !important;
+      }
+
+      body.compatibility-pdf-mode .tone-orange { color: #f28c12 !important; background-color: #fff8ec !important; border-color: #f3c987 !important; }
+      body.compatibility-pdf-mode .tone-blue { color: #2563eb !important; background-color: #f6f9ff !important; border-color: #cbdcff !important; }
+      body.compatibility-pdf-mode .tone-green { color: #16a34a !important; background-color: #f5fff8 !important; border-color: #c9efd4 !important; }
+      body.compatibility-pdf-mode .tone-pink { color: #e84d74 !important; background-color: #fff6f8 !important; border-color: #ffd0dc !important; }
+      body.compatibility-pdf-mode .tone-purple { color: #8b5cf6 !important; background-color: #fbf7ff !important; border-color: #dec9ff !important; }
 
       body.compatibility-pdf-mode svg,
       body.compatibility-pdf-mode svg * {
         background-color: transparent !important;
-        color: #000000 !important;
-        fill: #ffffff !important;
-        stroke: #000000 !important;
       }
 
       body.compatibility-pdf-mode svg text,
       body.compatibility-pdf-mode svg tspan {
-        fill: #000000 !important;
+        fill: #2a170f !important;
         stroke: none !important;
       }
     `;
@@ -722,6 +829,13 @@ export class CompatibilityComponent {
   }
 
   private sanitizePdfClone(clonedDocument: Document): void {
+    clonedDocument.body.removeAttribute('data-theme');
+    clonedDocument.body.classList.remove('dark-theme', 'theme-dark');
+    clonedDocument.documentElement.classList.remove('dark-theme', 'theme-dark');
+    clonedDocument.querySelectorAll<HTMLElement>('.dark-theme, .theme-dark').forEach((node) => {
+      node.classList.remove('dark-theme', 'theme-dark');
+    });
+
     this.applyHtml2CanvasSafeStyles(clonedDocument);
     const unsupportedColorPattern = /(color-mix|oklab|oklch|lab\(|lch\(|color\()/i;
 
@@ -731,32 +845,12 @@ export class CompatibilityComponent {
         node.setAttribute('style', this.sanitizeCssColorFunctions(inlineStyle));
       }
 
-      const style = node.style;
-      const tagName = node.tagName.toLowerCase();
-      const isSvgPaintNode = ['svg', 'path', 'polygon', 'line', 'circle', 'rect', 'text', 'tspan', 'g'].includes(tagName);
-
-      style.setProperty('color', '#000000', 'important');
-      style.setProperty('background-image', 'none', 'important');
-      style.setProperty('box-shadow', 'none', 'important');
-      style.setProperty('text-shadow', 'none', 'important');
-      style.setProperty('outline-color', '#d9deee', 'important');
-      style.setProperty('border-color', '#d9deee', 'important');
-      style.setProperty('border-top-color', '#d9deee', 'important');
-      style.setProperty('border-right-color', '#d9deee', 'important');
-      style.setProperty('border-bottom-color', '#d9deee', 'important');
-      style.setProperty('border-left-color', '#d9deee', 'important');
-      style.setProperty('text-decoration-color', '#000000', 'important');
-      style.setProperty('caret-color', '#000000', 'important');
-      style.setProperty('background-color', node === clonedDocument.body || tagName === 'app-root' ? '#ffffff' : 'transparent', 'important');
-
-      if (isSvgPaintNode) {
-        style.setProperty('stroke', '#000000', 'important');
-        style.setProperty('fill', tagName === 'text' || tagName === 'tspan' ? '#000000' : '#ffffff', 'important');
-      }
+      node.style.setProperty('box-shadow', 'none', 'important');
+      node.style.setProperty('text-shadow', 'none', 'important');
     });
 
-    clonedDocument.body.style.setProperty('background-color', '#ffffff', 'important');
-    clonedDocument.body.style.setProperty('color', '#000000', 'important');
+    clonedDocument.body.style.setProperty('background-color', '#fffaf5', 'important');
+    clonedDocument.body.style.setProperty('color', '#2a170f', 'important');
   }
   private async addElementToPdf(
     pdf: jsPDF,
@@ -775,7 +869,7 @@ export class CompatibilityComponent {
     }
 
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: 4,
       backgroundColor: '#ffffff',
       useCORS: true,
       logging: false,
@@ -831,7 +925,7 @@ export class CompatibilityComponent {
           break;
         }
 
-        pdf.addImage(this.getPdfImageData(sliceCanvas), 'JPEG', margin, margin + currentPageHeight, usableWidth, sliceHeightMm);
+        pdf.addImage(this.getPdfImageData(sliceCanvas), 'PNG', margin, margin + currentPageHeight, usableWidth, sliceHeightMm);
 
         currentPageHeight = sliceHeightMm;
         startY += sliceHeight;
@@ -845,7 +939,7 @@ export class CompatibilityComponent {
       currentPageHeight = 0;
     }
 
-    pdf.addImage(this.getPdfImageData(canvas), 'JPEG', margin, margin + currentPageHeight, usableWidth, renderedHeight);
+    pdf.addImage(this.getPdfImageData(canvas), 'PNG', margin, margin + currentPageHeight, usableWidth, renderedHeight);
 
     return currentPageHeight + renderedHeight + spacing;
   }
@@ -922,6 +1016,9 @@ export class CompatibilityComponent {
     this.selectedDosha = null;
     this.isDoshaModalOpen = false;
     this.showReport = !!result;
+    if (result) {
+      this.showBirthDetailsForm = false;
+    }
     this.personAhouses = result?.personAchart?.houses || null;
     this.personBhouses = result?.personBchart?.houses || null;
     this.personAplanetPositions = result?.personAchart?.planetPositions || null;

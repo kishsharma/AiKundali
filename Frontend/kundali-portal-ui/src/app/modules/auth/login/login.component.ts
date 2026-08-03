@@ -1,12 +1,13 @@
-﻿import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { OtpChannel } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 type LoginMode = 'otp' | 'password';
-type OtpStep = 'email' | 'code';
+type OtpStep = 'contact' | 'code';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,19 @@ type OtpStep = 'email' | 'code';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   email = '';
+  phoneNumber = '';
   password = '';
   otpCode = '';
+  otpDigits = Array(6).fill('');
   challengeId = '';
   maskedDestination = '';
 
+
+  @ViewChild('otpInput') otpInput?: ElementRef<HTMLInputElement>;
+
   loginMode: LoginMode = 'otp';
-  otpStep: OtpStep = 'email';
+  otpStep: OtpStep = 'contact';
+  otpChannel: OtpChannel = 'Phone';
   resendSeconds = 0;
 
   isLoading = false;
@@ -48,22 +55,52 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.stopResendTimer();
   }
 
+  get otpContactLabel(): string {
+    return this.otpChannel === 'Phone' ? 'Mobile number' : 'Email';
+  }
+
+  get otpContactPlaceholder(): string {
+    return this.otpChannel === 'Phone' ? 'Enter your mobile number' : 'Enter your email';
+  }
+
+  get otpContactAutocomplete(): string {
+    return this.otpChannel === 'Phone' ? 'tel' : 'email';
+  }
+
+  get otpContactInputType(): string {
+    return this.otpChannel === 'Phone' ? 'tel' : 'email';
+  }
+
+  useOtpChannel(channel: OtpChannel): void {
+    if (this.otpChannel === channel) {
+      return;
+    }
+
+    this.otpChannel = channel;
+    this.errorMessage = '';
+    this.otpStep = 'contact';
+    this.challengeId = '';
+    this.maskedDestination = '';
+    this.resetOtpDigits();
+    this.stopResendTimer();
+  }
+
   sendLoginCode(): void {
     this.errorMessage = '';
-    const email = this.email.trim();
-    if (!email) {
-      this.errorMessage = 'Please enter your email.';
+    const request = this.buildOtpRequest();
+    if (!request) {
       return;
     }
 
     this.isLoading = true;
-    this.authService.startOtpLogin({ email }).subscribe({
+    this.authService.startOtpLogin(request).subscribe({
       next: (response) => {
         this.isLoading = false;
         this.challengeId = response.challengeId;
         this.maskedDestination = response.maskedDestination;
         this.otpStep = 'code';
         this.startResendTimer(response.resendAfterSeconds || 60);
+        setTimeout(() => this.focusOtpInput());
         this.notifications.success(response.message || 'Verification code sent.');
       },
       error: (error) => {
@@ -75,15 +112,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   verifyLoginCode(): void {
     this.errorMessage = '';
-    if (!this.challengeId || !this.otpCode.trim()) {
-      this.errorMessage = 'Please enter the verification code.';
+    const request = this.buildOtpRequest();
+    if (!request) {
+      return;
+    }
+
+    if (!this.challengeId || this.otpDigits.some((digit) => !digit)) {
+      this.errorMessage = 'Please enter the full 6 digit verification code.';
       return;
     }
 
     this.isLoading = true;
     this.authService.verifyOtpLogin({
+      ...request,
       challengeId: this.challengeId,
-      email: this.email.trim(),
       code: this.otpCode.trim()
     }).subscribe({
       next: () => this.finishLogin(),
@@ -126,13 +168,56 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginMode = 'otp';
   }
 
-  editEmail(): void {
-    this.otpStep = 'email';
-    this.otpCode = '';
+  editContact(): void {
+    this.otpStep = 'contact';
+    this.resetOtpDigits();
     this.challengeId = '';
     this.stopResendTimer();
   }
 
+  onOtpInput(value: string): void {
+    this.otpCode = value.replace(/\D/g, '').slice(0, 6);
+    this.syncOtpDigits();
+  }
+
+  onOtpKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && this.otpCode.length === 6) {
+      this.verifyLoginCode();
+    }
+  }
+  private buildOtpRequest(): { channel: OtpChannel; email?: string; phoneNumber?: string } | null {
+    if (this.otpChannel === 'Phone') {
+      const phoneNumber = this.phoneNumber.trim();
+      if (!phoneNumber) {
+        this.errorMessage = 'Please enter your mobile number.';
+        return null;
+      }
+
+      return { channel: 'Phone', phoneNumber };
+    }
+
+    const email = this.email.trim();
+    if (!email) {
+      this.errorMessage = 'Please enter your email.';
+      return null;
+    }
+
+    return { channel: 'Email', email };
+  }
+
+
+  private syncOtpDigits(): void {
+    this.otpDigits = Array.from({ length: 6 }, (_, index) => this.otpCode[index] || '');
+  }
+
+  private resetOtpDigits(): void {
+    this.otpCode = '';
+    this.syncOtpDigits();
+  }
+
+  focusOtpInput(): void {
+    this.otpInput?.nativeElement.focus();
+  }
   private finishLogin(): void {
     this.authService.getMe().subscribe({
       next: () => {
@@ -168,3 +253,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 }
+
+
+
+
+
+
+

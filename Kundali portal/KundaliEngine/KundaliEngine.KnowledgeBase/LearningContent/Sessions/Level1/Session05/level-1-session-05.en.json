@@ -178,7 +178,7 @@
         {
           "type": "diagram",
           "assetId": "session05-seven-weekday-lords",
-          "assetPath": "assets/study/level-1/session-05/seven-weekday-lords.svg",
+          "assetPath": "assets/learning/Level-1/session-05/seven-weekday-lords.svg",
           "altText": "A simple circular sequence of seven weekdays with each day connected to its planetary ruler.",
           "caption": "The seven weekdays form a repeating planetary cycle.",
           "purpose": "Help students memorise the weekday and planetary-lord mapping.",
@@ -239,7 +239,7 @@
         {
           "type": "diagram",
           "assetId": "session05-midnight-sunrise-vara",
-          "assetPath": "assets/study/level-1/session-05/midnight-sunrise-vara.svg",
+          "assetPath": "assets/learning/Level-1/session-05/midnight-sunrise-vara.svg",
           "altText": "A simple timeline showing civil weekday change at midnight and traditional Vara change at local sunrise.",
           "caption": "Civil weekday and sunrise-based Vara can differ before sunrise.",
           "purpose": "Show why pre-sunrise birth or event times require careful weekday interpretation.",
@@ -303,7 +303,7 @@
         {
           "type": "diagram",
           "assetId": "session05-hora-sequence",
-          "assetPath": "assets/study/level-1/session-05/hora-sequence.svg",
+          "assetPath": "assets/learning/Level-1/session-05/hora-sequence.svg",
           "altText": "A simple seven-step loop showing Saturn, Jupiter, Mars, Sun, Venus, Mercury and Moon in repeating order.",
           "caption": "The Hora sequence repeats continuously through day and night.",
           "purpose": "Provide the sequence needed to understand weekday naming.",

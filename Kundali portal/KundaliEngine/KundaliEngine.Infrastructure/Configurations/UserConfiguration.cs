@@ -1,4 +1,4 @@
-﻿
+
 using KundaliEngine.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,14 +18,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         entity.Property(x => x.Email)
-            .HasMaxLength(150)
-            .IsRequired();
+            .HasMaxLength(150);
 
         entity.HasIndex(x => x.Email)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter("\"Email\" IS NOT NULL");
 
         entity.Property(x => x.PhoneNumber)
             .HasMaxLength(20);
+
+        entity.HasIndex(x => x.PhoneNumber)
+            .IsUnique()
+            .HasFilter("\"PhoneNumber\" IS NOT NULL");
 
         entity.Property(x => x.PasswordHash)
             .HasMaxLength(500);

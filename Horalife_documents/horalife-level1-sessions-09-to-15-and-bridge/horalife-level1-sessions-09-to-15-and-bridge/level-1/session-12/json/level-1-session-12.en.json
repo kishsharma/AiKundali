@@ -1,0 +1,592 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "795ce0f8-5dd5-5658-aa55-44c24b5145ff",
+  "levelCode": "level-1",
+  "sessionNumber": 12,
+  "slug": "reading-north-indian-kundali",
+  "language": "en",
+  "title": "Reading a North Indian Kundali",
+  "subtitle": "Learning the fixed-house chart layout, Rashi numbering and a safe first reading sequence",
+  "summary": "This session teaches students how to read the structure of a North Indian Kundali without confusing houses and Rashis. Students learn that the houses remain fixed in the chart design while the Rashi numbers change according to the Lagna. The session explains how to locate the first, fourth, seventh and tenth houses, identify signs and planets in each house, trace house lords, and follow a disciplined chart-reading sequence before making any interpretation.",
+  "estimatedMinutes": 70,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Recognise the fixed-house structure of a North Indian Kundali.",
+    "Locate the first, fourth, seventh and tenth houses correctly.",
+    "Explain why house positions remain fixed while Rashi numbers change.",
+    "Read Rashi numbers from 1 to 12 in the chart.",
+    "Identify the Lagna sign and assign the remaining signs in sequence.",
+    "Identify planets placed in each house.",
+    "Trace a house to its sign, sign lord and lord placement.",
+    "Apply a basic North Indian chart-reading sequence without making premature predictions."
+  ],
+  "prerequisites": [
+    "Completion of Session 11: House Lords and Functional Nature.",
+    "Knowledge of the twelve Rashis, twelve Bhavas and sign ownership."
+  ],
+  "keyTerms": [
+    {
+      "term": "North Indian Chart",
+      "sanskrit": "उत्तर भारतीय कुण्डली",
+      "transliteration": "uttara bhāratīya kuṇḍalī",
+      "meaning": "A diamond-shaped horoscope format in which house positions remain fixed.",
+      "note": "The Rashi numbers move according to the Lagna."
+    },
+    {
+      "term": "Fixed House",
+      "sanskrit": "स्थिर भाव",
+      "transliteration": "sthira bhāva",
+      "meaning": "A chart position that always represents the same house number.",
+      "note": "For example, the top central diamond always represents the first house."
+    },
+    {
+      "term": "Rashi Number",
+      "sanskrit": "राशि संख्या",
+      "transliteration": "rāśi saṅkhyā",
+      "meaning": "The numerical label used for the twelve zodiac signs from Aries 1 to Pisces 12.",
+      "note": "The number written in a house shows the sign occupying that house."
+    },
+    {
+      "term": "Lagna Box",
+      "sanskrit": "लग्न भाव",
+      "transliteration": "lagna bhāva",
+      "meaning": "The fixed first-house position in the North Indian chart.",
+      "note": "The Rashi number written there identifies the Ascendant sign."
+    },
+    {
+      "term": "Kendra Axis",
+      "sanskrit": "केन्द्र अक्ष",
+      "transliteration": "kendra akṣa",
+      "meaning": "The visible cross formed by the first, fourth, seventh and tenth houses.",
+      "note": "These four houses are useful anchors for reading the complete layout."
+    },
+    {
+      "term": "Planet Placement",
+      "sanskrit": "ग्रह स्थिति",
+      "transliteration": "graha sthiti",
+      "meaning": "The house and sign in which a planet is shown in the chart.",
+      "note": "Read both the fixed house position and the Rashi number."
+    },
+    {
+      "term": "Chart Orientation",
+      "sanskrit": "कुण्डली दिशा",
+      "transliteration": "kuṇḍalī diśā",
+      "meaning": "The correct way to identify fixed houses and follow their sequence in the chart.",
+      "note": "Do not rotate the chart or assume the top box is the tenth house."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "chart-structure",
+      "title": "The North Indian Chart Structure",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "fixed-houses",
+      "title": "Locating the Fixed Houses",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "rashi-numbers",
+      "title": "Reading Rashi Numbers",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "lagna-sign-sequence",
+      "title": "Lagna and Sign Sequence",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "reading-planets",
+      "title": "Reading Planet Placements",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "house-lord-tracing",
+      "title": "Tracing a House Lord",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "basic-chart-reading",
+      "title": "A Basic Chart-Reading Sequence",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "chart-structure",
+      "title": "The North Indian Chart Structure",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The North Indian Kundali uses a diamond-shaped layout. The twelve geometric areas represent the twelve houses. Unlike a circular zodiac wheel, the houses do not move. The signs are written inside those fixed house positions as numbers from 1 to 12."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session12-north-indian-chart-anatomy",
+          "assetPath": "assets/study/level-1/session-12/north-indian-chart-anatomy.svg",
+          "altText": "A simple empty North Indian Kundali showing the twelve fixed house positions.",
+          "caption": "The geometric positions represent fixed houses.",
+          "purpose": "Introduce the basic anatomy of the North Indian chart.",
+          "annotations": [
+            "1st house",
+            "4th house",
+            "7th house",
+            "10th house",
+            "Fixed houses"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Houses stay fixed",
+          "text": "The shape does not rotate according to the Lagna. Only the Rashi numbers and planetary placements change."
+        }
+      ]
+    },
+    {
+      "id": "fixed-houses",
+      "title": "Locating the Fixed Houses",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Main anchor positions",
+          "columns": [
+            "House",
+            "Fixed location in the chart"
+          ],
+          "rows": [
+            [
+              "1st",
+              "Top central diamond"
+            ],
+            [
+              "4th",
+              "Left central diamond"
+            ],
+            [
+              "7th",
+              "Bottom central diamond"
+            ],
+            [
+              "10th",
+              "Right central diamond"
+            ]
+          ],
+          "note": "These four Kendra houses create the main visual cross of the chart."
+        },
+        {
+          "type": "paragraph",
+          "text": "After locating the first house, the remaining houses follow in sequence around the chart. Learn the house positions first before trying to read planets or signs."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not use page direction as house meaning",
+          "text": "The top of the page is not automatically career, and the right side is not automatically marriage. The fixed house layout must be memorised."
+        }
+      ]
+    },
+    {
+      "id": "rashi-numbers",
+      "title": "Reading Rashi Numbers",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Rashi number reference",
+          "columns": [
+            "Number",
+            "Rashi",
+            "Number",
+            "Rashi"
+          ],
+          "rows": [
+            [
+              "1",
+              "Aries",
+              "7",
+              "Libra"
+            ],
+            [
+              "2",
+              "Taurus",
+              "8",
+              "Scorpio"
+            ],
+            [
+              "3",
+              "Gemini",
+              "9",
+              "Sagittarius"
+            ],
+            [
+              "4",
+              "Cancer",
+              "10",
+              "Capricorn"
+            ],
+            [
+              "5",
+              "Leo",
+              "11",
+              "Aquarius"
+            ],
+            [
+              "6",
+              "Virgo",
+              "12",
+              "Pisces"
+            ]
+          ],
+          "note": "The number in a house identifies the sign, not the house number."
+        },
+        {
+          "type": "comparison",
+          "title": "House number and Rashi number",
+          "left": {
+            "label": "House number",
+            "points": [
+              "Comes from the fixed chart position.",
+              "Represents a life area.",
+              "Does not change in the chart design."
+            ]
+          },
+          "right": {
+            "label": "Rashi number",
+            "points": [
+              "Is written inside the house.",
+              "Identifies the zodiac sign.",
+              "Changes according to the Lagna."
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "The written number is a sign",
+          "text": "If the number 4 appears in the first house, the chart has Cancer Lagna. It does not mean that the box is the fourth house."
+        }
+      ]
+    },
+    {
+      "id": "lagna-sign-sequence",
+      "title": "Lagna and Sign Sequence",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Rashi number written in the first house identifies the Lagna sign. The next sign number moves to the second house, and the sequence continues until the twelfth house. After 12, the sequence returns to 1."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session12-lagna-sign-sequence",
+          "assetPath": "assets/study/level-1/session-12/lagna-sign-sequence.svg",
+          "altText": "A North Indian chart showing Cancer as the Lagna and the remaining Rashi numbers continuing in order through the twelve houses.",
+          "caption": "Once the Lagna sign is known, the remaining signs follow in sequence.",
+          "purpose": "Show how Rashi numbers are distributed from the Ascendant.",
+          "annotations": [
+            "Cancer Lagna",
+            "Next sign",
+            "House sequence",
+            "Rashi sequence"
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Cancer Lagna sequence",
+          "scenario": "The number 4 is written in the first house.",
+          "steps": [
+            "Number 4 means Cancer, so the Lagna is Cancer.",
+            "The second house receives number 5, Leo.",
+            "The third house receives number 6, Virgo.",
+            "The sequence continues until Gemini occupies the twelfth house."
+          ],
+          "conclusion": "The house locations remain fixed while the sign numbers follow the Lagna."
+        }
+      ]
+    },
+    {
+      "id": "reading-planets",
+      "title": "Reading Planet Placements",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A planet written inside a house occupies both that house and the Rashi number shown there. Read the fixed house first, then the sign, then the planet. This prevents confusion between sign placement and house placement."
+        },
+        {
+          "type": "example",
+          "title": "Reading a planet correctly",
+          "scenario": "Mars is written in the tenth-house position, and the Rashi number there is 1.",
+          "steps": [
+            "The fixed position identifies the tenth house.",
+            "Rashi number 1 identifies Aries.",
+            "Mars is therefore in Aries in the tenth house.",
+            "Next, assess Mars as a planet, as the lord of its houses and as an occupant of the tenth."
+          ],
+          "conclusion": "One placement contains three facts: planet, sign and house."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not read only the sign",
+          "text": "Saying 'Mars is in Aries' is incomplete if the house is ignored. Saying 'Mars is in the tenth house' is also incomplete if the sign is ignored."
+        }
+      ]
+    },
+    {
+      "id": "house-lord-tracing",
+      "title": "Tracing a House Lord",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "diagram",
+          "assetId": "session12-house-to-lord-tracing",
+          "assetPath": "assets/study/level-1/session-12/house-to-lord-tracing.svg",
+          "altText": "A simple flow showing a selected house, its Rashi number, the sign ruler and the ruler's placement elsewhere in the chart.",
+          "caption": "House → Rashi number → sign lord → lord placement.",
+          "purpose": "Connect chart layout reading with house-lord analysis.",
+          "annotations": [
+            "Selected house",
+            "Rashi",
+            "Lord",
+            "Placement"
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Tracing the seventh lord for Cancer Lagna",
+          "scenario": "For Cancer Lagna, Capricorn occupies the seventh house.",
+          "steps": [
+            "Locate the fixed seventh-house position.",
+            "Read Rashi number 10: Capricorn.",
+            "Identify Capricorn's lord: Saturn.",
+            "Locate Saturn elsewhere in the chart.",
+            "Read Saturn's house, sign, dignity and aspects."
+          ],
+          "conclusion": "The seventh-house judgement begins with Saturn's complete condition, not merely the seventh-house box."
+        }
+      ]
+    },
+    {
+      "id": "basic-chart-reading",
+      "title": "A Basic Chart-Reading Sequence",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Locate the fixed first house.",
+            "Read the Rashi number in the first house to identify the Lagna.",
+            "Confirm the sign sequence through all twelve houses.",
+            "Locate the four Kendra houses: 1, 4, 7 and 10.",
+            "List the planets with both their house and sign.",
+            "Identify the lord of the house being studied.",
+            "Locate and assess that house lord.",
+            "Check dignity, conjunctions, aspects and Dasha activation before interpretation."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Foundation-level chart scan",
+          "scenario": "A North Indian chart shows Rashi number 7 in the first house.",
+          "steps": [
+            "Identify Libra Lagna.",
+            "Assign Scorpio to the second house and continue the sequence.",
+            "Identify Venus as the Lagna lord.",
+            "Locate Venus and note its house and sign.",
+            "Locate the Moon and identify its house and sign.",
+            "Identify the house related to the question before reading its lord."
+          ],
+          "conclusion": "The first goal is accurate chart orientation and fact collection, not immediate prediction."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Facts before interpretation",
+          "text": "First record Lagna, signs, houses, planets and lords accurately. Interpretation should begin only after the chart structure is confirmed."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Treating the Rashi number written in a box as the house number.",
+      "whyItIsWrong": "House number comes from the fixed position; the written number identifies the sign.",
+      "correctUnderstanding": "Read fixed house first and Rashi number second."
+    },
+    {
+      "mistake": "Assuming the chart rotates when the Lagna changes.",
+      "whyItIsWrong": "The North Indian chart uses fixed houses.",
+      "correctUnderstanding": "Only Rashi numbers and planets change."
+    },
+    {
+      "mistake": "Starting house counting from Aries.",
+      "whyItIsWrong": "House counting begins from the fixed Lagna position.",
+      "correctUnderstanding": "Use Aries only as Rashi number 1."
+    },
+    {
+      "mistake": "Reading a planet only by sign or only by house.",
+      "whyItIsWrong": "Both sign and house contribute essential information.",
+      "correctUnderstanding": "Record planet, sign and house together."
+    },
+    {
+      "mistake": "Giving a prediction before confirming the chart orientation.",
+      "whyItIsWrong": "A house-reading error changes lordship and interpretation.",
+      "correctUnderstanding": "Verify Lagna, sign sequence and fixed houses first."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Read a North Indian Chart Layout",
+    "instructions": [
+      "Draw or print an empty North Indian Kundali.",
+      "Label the fixed houses from 1 to 12.",
+      "Mark the four Kendra positions.",
+      "Place Rashi number 4 in the first house and complete the sign sequence.",
+      "Place three sample planets in different houses.",
+      "Write each sample planet's house and sign.",
+      "Choose one house and trace its sign lord to the lord's placement."
+    ],
+    "expectedOutcome": "The student can orient a North Indian Kundali, distinguish fixed houses from changing Rashi numbers, record planetary placements accurately and trace a selected house lord.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "The North Indian Kundali uses a fixed-house diamond layout.",
+    "The top central diamond is the first house.",
+    "The left, bottom and right central diamonds are the fourth, seventh and tenth houses.",
+    "Rashi numbers identify signs, not houses.",
+    "The Rashi number in the first house identifies the Lagna.",
+    "The remaining signs follow in sequence through the twelve houses.",
+    "A planet must be read by planet, sign and house.",
+    "House-lord tracing follows house, sign, sign lord and lord placement.",
+    "Chart orientation must be verified before interpretation.",
+    "Accurate facts should be collected before making a prediction."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "What does the top central diamond represent in a North Indian chart?",
+        "options": [
+          "First house",
+          "Fourth house",
+          "Seventh house",
+          "Tenth house"
+        ],
+        "answer": "First house",
+        "explanation": "The top central diamond is the fixed Lagna or first-house position."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "What does Rashi number 4 represent?",
+        "options": [
+          "Aries",
+          "Gemini",
+          "Cancer",
+          "Leo"
+        ],
+        "answer": "Cancer",
+        "explanation": "Cancer is the fourth sign of the zodiac."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "If number 7 is written in the first house, what is the Lagna?",
+        "options": [
+          "Virgo",
+          "Libra",
+          "Scorpio",
+          "Sagittarius"
+        ],
+        "answer": "Libra",
+        "explanation": "Rashi number 7 represents Libra."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which information should be recorded for a planet placement?",
+        "options": [
+          "Planet only",
+          "Sign only",
+          "House only",
+          "Planet, sign and house"
+        ],
+        "answer": "Planet, sign and house",
+        "explanation": "All three facts are required for accurate chart reading."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "The houses rotate when the Ascendant changes in a North Indian chart.",
+        "answer": false,
+        "explanation": "The houses remain fixed; Rashi numbers and planets change."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "The number written inside a house identifies the Rashi occupying it.",
+        "answer": true,
+        "explanation": "House position is fixed, while the written number identifies the sign."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "How do you trace the lord of a selected house?",
+        "answer": "Identify the house's Rashi number, identify that sign's ruler and then locate the ruler in the chart.",
+        "explanation": "This connects the house to the condition and placement of its lord."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should chart orientation be confirmed before interpretation?",
+        "answer": "Because confusing houses and signs changes planetary placement, house lordship and the complete interpretation.",
+        "explanation": "Correct structural reading is the foundation of all later judgement."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical principles concerning Lagna, Bhavas, planetary placement and house-lord based interpretation.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-23",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "The North Indian visual layout is a chart convention rather than a verse-specific doctrine. Used as a work-level Jyotish reference; edition-specific verification is required before publication."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For classical foundations concerning Lagna, Bhavas, planets and house lords.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-23",
+    "reviewNotes": "The fixed-house North Indian chart layout, Kendra anchor positions, Rashi numbering and house-lord tracing sequence were checked for internal consistency. The session deliberately separates chart orientation from prediction. Human Jyotish SME review and visual verification of the final SVG diagrams are required before publication."
+  },
+  "status": "review"
+}

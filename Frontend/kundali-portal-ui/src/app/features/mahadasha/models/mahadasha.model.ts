@@ -20,7 +20,16 @@ export interface MahadashaPeriod {
   antardashas?: AntardashaPeriod[];
 }
 
-export interface AntardashaPeriod extends MahadashaPeriod {}
+export interface PratyantardashaPeriod {
+  planet: string;
+  start?: string;
+  end?: string;
+  status?: 'completed' | 'current' | 'upcoming' | string;
+}
+
+export interface AntardashaPeriod extends MahadashaPeriod {
+  pratyantardashas?: PratyantardashaPeriod[];
+}
 
 export interface MahadashaSummary {
   overallScore: number;
@@ -28,7 +37,9 @@ export interface MahadashaSummary {
   overallResult: string;
   currentMahadasha: string;
   currentAntardasha: string;
+  currentPratyantardasha?: string;
   remainingDuration: string;
+  pratyantardashaRemainingDuration?: string;
   completedPercentage: number;
   startDate: string;
   endDate: string;
@@ -58,11 +69,23 @@ export interface CurrentAntardasha {
   combinedEffect: string;
 }
 
+export interface CurrentPratyantardasha {
+  planet: string;
+  planetIcon: string;
+  planetColor: string;
+  nature: string;
+  startDate: string;
+  endDate: string;
+  remainingDuration: string;
+}
+
 export interface DashaTimeline {
   currentMahadashaIndex: number;
   currentAntardashaIndex: number;
+  currentPratyantardashaIndex: number;
   mahadasha: MahadashaPeriod[];
   antardasha: AntardashaPeriod[];
+  pratyantardasha: PratyantardashaPeriod[];
 }
 
 export interface LifeArea {
@@ -71,6 +94,22 @@ export interface LifeArea {
   rating: number;
   status: string;
   icon: string;
+}
+
+export interface DashaLevelStrength {
+  level: string;
+  planet: string;
+  overallStrength: number;
+  planetStrength: string;
+  placement: string;
+  sign: string;
+  aspectOnLagna?: boolean;
+  supportedByBenefics?: boolean;
+  supportedBy?: string[];
+  associationTone?: string;
+  associationSummary?: string;
+  associationDetails?: string[];
+  overallResult: string;
 }
 
 export interface DashaStrength {
@@ -82,7 +121,13 @@ export interface DashaStrength {
   aspectOnLagna: boolean;
   supportedByBenefics: boolean;
   supportedBy: string[];
+  associationTone?: string;
+  associationSummary?: string;
+  associationDetails?: string[];
   overallResult: string;
+  mahadasha?: DashaLevelStrength;
+  antardasha?: DashaLevelStrength;
+  pratyantardasha?: DashaLevelStrength;
 }
 
 export interface PredictionCategory {
@@ -141,6 +186,7 @@ export interface MahadashaAnalysis {
   birthChart: BirthChartSummary;
   currentMahadasha: CurrentMahadasha;
   currentAntardasha: CurrentAntardasha;
+  currentPratyantardasha: CurrentPratyantardasha;
   timeline: DashaTimeline;
   lifeAreas: LifeArea[];
   strength: DashaStrength;
@@ -153,6 +199,15 @@ export interface MahadashaAnalysis {
   remedies: Remedies;
   upcomingDasha: UpcomingDasha;
 }
+
+
+
+
+
+
+
+
+
 
 
 

@@ -137,7 +137,7 @@
         {
           "type": "diagram",
           "assetId": "session04-tithi-twelve-degree-arc",
-          "assetPath": "assets/study/level-1/session-04/tithi-twelve-degree-arc.svg",
+          "assetPath": "assets/learning/Level-1/session-04/tithi-twelve-degree-arc.svg",
           "altText": "ಸೂರ್ಯನ ದಿಕ್ಕು, ಚಂದ್ರನ ದಿಕ್ಕು ಮತ್ತು 12° ತಿಥಿ ಕೋಣವನ್ನು ತೋರಿಸುವ ಸರಳ ವೃತ್ತಾಕಾರ ಚಿತ್ರ.",
           "caption": "ಪ್ರತಿ ತಿಥಿಯು ಸೂರ್ಯ–ಚಂದ್ರ ಕೋಣೀಯ ಅಂತರದ 12°ವನ್ನು ಸೂಚಿಸುತ್ತದೆ.",
           "purpose": "ತಿಥಿಯ ವ್ಯಾಖ್ಯಾನವನ್ನು ಅಳೆಯಬಹುದಾದ ಕೋಣಕ್ಕೆ ಸಂಪರ್ಕಿಸುವುದು.",
@@ -283,7 +283,7 @@
         {
           "type": "diagram",
           "assetId": "session04-shukla-krishna-paksha",
-          "assetPath": "assets/study/level-1/session-04/shukla-krishna-paksha.svg",
+          "assetPath": "assets/learning/Level-1/session-04/shukla-krishna-paksha.svg",
           "altText": "ಅಮಾವಾಸ್ಯೆಯಿಂದ ಪೂರ್ಣಿಮೆಯವರೆಗೆ ಶುಕ್ಲ ಪಕ್ಷ ಮತ್ತು ಪೂರ್ಣಿಮೆಯಿಂದ ಅಮಾವಾಸ್ಯೆಯವರೆಗೆ ಕೃಷ್ಣ ಪಕ್ಷವಾಗಿ ವಿಭಜಿಸಿದ ಸರಳ ಚಂದ್ರಚಕ್ರ.",
           "caption": "ಚಾಂದ್ರಮಾಸವು ಶುಕ್ಲ ಪಕ್ಷ ಮತ್ತು ಕೃಷ್ಣ ಪಕ್ಷವಾಗಿ ವಿಭಜಿತ.",
           "purpose": "ಚಂದ್ರಚಕ್ರದ ಎರಡು 15-ತಿಥಿ ಭಾಗಗಳನ್ನು ತೋರಿಸುವುದು.",
@@ -402,7 +402,7 @@
         {
           "type": "diagram",
           "assetId": "session04-kshaya-vriddhi-tithi",
-          "assetPath": "assets/study/level-1/session-04/kshaya-vriddhi-tithi.svg",
+          "assetPath": "assets/learning/Level-1/session-04/kshaya-vriddhi-tithi.svg",
           "altText": "ಒಂದು ತಿಥಿ ಯಾವುದೇ ಸೂರ್ಯೋದಯದಲ್ಲಿ ಇಲ್ಲದಿರುವುದು ಮತ್ತು ಇನ್ನೊಂದು ತಿಥಿ ಎರಡು ಅನುಕ್ರಮ ಸೂರ್ಯೋದಯಗಳಲ್ಲಿ ಇರುವುದನ್ನು ಹೋಲಿಸುವ ಎರಡು ಸರಳ ಕಾಲರೇಖೆಗಳು.",
           "caption": "ತಿಥಿಯ ಬದಲಾಗುವ ಅವಧಿ ಸೂರ್ಯೋದಯಾಧಾರಿತ ಪ್ರದರ್ಶನದಲ್ಲಿ ಕ್ಷಯ ಮತ್ತು ವೃದ್ಧಿ ರೂಪಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
           "purpose": "ಪಂಚಾಂಗದಲ್ಲಿ ತಿಥಿ ಬಿಡಲ್ಪಟ್ಟಂತೆ ಅಥವಾ ಮರುಕಳಿಸಿದಂತೆ ಏಕೆ ಕಾಣುತ್ತದೆ ಎಂಬುದನ್ನು ವಿವರಿಸುವುದು.",

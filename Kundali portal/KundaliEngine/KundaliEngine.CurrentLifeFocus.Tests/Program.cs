@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.Services.CurrentLifeFocus;
+using KundaliEngine.Astrology.Services.Dasha;
+using KundaliEngine.Domain.Rules;
 using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
 
@@ -16,7 +18,9 @@ var tests = new List<(string Name, Action Test)>
     ("No strongly activated areas", TestNoStronglyActivatedAreas),
     ("Metadata validation", TestMetadataValidation),
     ("Deterministic repeatability", TestDeterministicRepeatability),
-    ("Invalid analysis date", TestInvalidAnalysisDate)
+    ("Invalid analysis date", TestInvalidAnalysisDate),
+    ("Pratyantardasha sequence and coverage", TestPratyantardashaSequenceAndCoverage),
+    ("Pratyantardasha birth clipping", TestPratyantardashaBirthClipping)
 };
 
 foreach (var test in tests)
@@ -128,6 +132,52 @@ static void TestInvalidAnalysisDate()
     Assert(request.AnalysisDate == default, "Invalid analysis date fixture should be default.");
 }
 
+
+static void TestPratyantardashaSequenceAndCoverage()
+{
+    var service = new DashaService();
+    var maha = new MahadashaPeriod
+    {
+        Planet = Planet.Saturn,
+        StartDate = new DateTime(2000, 1, 1),
+        EndDate = new DateTime(2019, 1, 1)
+    };
+
+    var antardashas = service.GenerateAntardashaForTimelinePeriod(maha, Planet.Ketu, 7);
+    var antar = antardashas.First(period => period.SubPlanet == Planet.Mercury);
+    var pratyantardashas = service.GeneratePratyantardashaForTimelinePeriod(maha, antar, Planet.Ketu, 7);
+    var order = DashaRules.VimshottariOrder;
+    var startIndex = order.FindIndex(item => item.Planet == antar.SubPlanet);
+
+    AssertEqual(9, pratyantardashas.Count, "Each Antardasha should contain 9 Pratyantardashas.");
+    AssertClose(antar.StartDate, pratyantardashas.First().StartDate, "Pratyantardasha should start with Antardasha start.");
+    AssertClose(antar.EndDate, pratyantardashas.Last().EndDate, "Pratyantardasha should end with Antardasha end.");
+
+    for (int i = 0; i < pratyantardashas.Count; i++)
+    {
+        AssertEqual(order[(startIndex + i) % order.Count].Planet, pratyantardashas[i].InnerPlanet, "Pratyantardasha should follow Vimshottari order from Antardasha lord.");
+
+        if (i > 0)
+        {
+            AssertClose(pratyantardashas[i - 1].EndDate, pratyantardashas[i].StartDate, "Pratyantardashas should be contiguous.");
+        }
+    }
+}
+
+static void TestPratyantardashaBirthClipping()
+{
+    var service = new DashaService();
+    var birthDate = new DateTime(2000, 1, 1);
+    var mahadashas = service.GenerateMahadashaTimelineForYears(Planet.Ketu, 3.5, birthDate, 10);
+    var birthMaha = mahadashas.First();
+    var antardashas = service.GenerateAntardashaForTimelinePeriod(birthMaha, Planet.Ketu, 3.5);
+    var firstVisibleAntar = antardashas.First();
+    var pratyantardashas = service.GeneratePratyantardashaForTimelinePeriod(birthMaha, firstVisibleAntar, Planet.Ketu, 3.5);
+
+    Assert(pratyantardashas.Count > 0, "Birth-clipped Antardasha should still include visible Pratyantardashas.");
+    AssertClose(firstVisibleAntar.StartDate, pratyantardashas.First().StartDate, "Birth-clipped Pratyantardasha should start at the visible Antardasha start.");
+    Assert(pratyantardashas.All(period => period.StartDate >= birthDate && period.EndDate <= firstVisibleAntar.EndDate), "Pratyantardashas should not leak outside the visible birth Antardasha.");
+}
 static CurrentLifeFocusSnapshot BuildSnapshot()
 {
     var config = BuildConfiguration();
@@ -226,6 +276,14 @@ static void AssertEqual<T>(T expected, T actual, string message)
     }
 }
 
+static void AssertClose(DateTime expected, DateTime actual, string message)
+{
+    if ((expected - actual).Duration() > TimeSpan.FromSeconds(1))
+    {
+        throw new InvalidOperationException($"{message} Expected '{expected:O}', got '{actual:O}'.");
+    }
+}
+
 static void AssertThrows<TException>(Action action)
     where TException : Exception
 {
@@ -287,6 +345,8 @@ public sealed class NullLogger<T> : ILogger<T>
     {
     }
 }
+
+
 
 
 

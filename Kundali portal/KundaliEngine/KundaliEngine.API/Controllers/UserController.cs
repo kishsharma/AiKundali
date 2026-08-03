@@ -48,6 +48,7 @@ namespace KundaliEngine.API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var fullName = User.FindFirstValue(ClaimTypes.Name);
             var email = User.FindFirstValue(ClaimTypes.Email);
+            var phoneNumber = User.FindFirstValue("phone_number");
             var role = User.FindFirstValue(ClaimTypes.Role);
 
             return Ok(new
@@ -55,6 +56,7 @@ namespace KundaliEngine.API.Controllers
                 userId,
                 fullName,
                 email,
+                phoneNumber,
                 role
             });
         }

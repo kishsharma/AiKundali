@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Functional Nature Balance</title>
+  <desc id="desc">A simple monochrome balance diagram showing supportive lordship, challenging lordship and mixed functional nature.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="60" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Functional Nature Balance
+  </text>
+
+  <!-- Balance beam -->
+  <line x1="210" y1="255" x2="750" y2="255"
+        stroke="#3f3f3f" stroke-width="6"/>
+
+  <!-- Supportive side -->
+  <rect x="105" y="145" width="260" height="105" rx="16"
+        fill="#e8e8e8" stroke="#444444" stroke-width="3"/>
+  <text x="235" y="185" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Supportive lordship
+  </text>
+  <text x="235" y="220" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Lagna · 5th · 9th
+  </text>
+
+  <!-- Challenging side -->
+  <rect x="595" y="145" width="260" height="105" rx="16"
+        fill="#d0d0d0" stroke="#444444" stroke-width="3"/>
+  <text x="725" y="185" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Challenging lordship
+  </text>
+  <text x="725" y="220" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    6th · 8th · 12th
+  </text>
+
+  <!-- Hanging lines -->
+  <line x1="235" y1="250" x2="235" y2="305"
+        stroke="#555555" stroke-width="3"/>
+  <line x1="725" y1="250" x2="725" y2="305"
+        stroke="#555555" stroke-width="3"/>
+
+  <!-- Pans -->
+  <path d="M145 305 Q235 365 325 305 Z"
+        fill="#eeeeee" stroke="#444444" stroke-width="3"/>
+  <path d="M635 305 Q725 365 815 305 Z"
+        fill="#d8d8d8" stroke="#444444" stroke-width="3"/>
+
+  <!-- Pivot -->
+  <polygon points="480,255 420,405 540,405"
+           fill="#c4c4c4" stroke="#333333" stroke-width="3"/>
+  <circle cx="480" cy="255" r="13"
+          fill="#555555"/>
+
+  <!-- Mixed result -->
+  <rect x="355" y="405" width="250" height="85" rx="16"
+        fill="#dddddd" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="480" y="440" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Mixed functional nature
+  </text>
+  <text x="480" y="470" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Judge by topic, strength and timing
+  </text>
+</svg>

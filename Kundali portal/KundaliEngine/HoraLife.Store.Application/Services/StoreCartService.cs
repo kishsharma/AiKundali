@@ -31,12 +31,7 @@ public sealed class StoreCartService : IStoreCartService
             : MapCart(cart);
     }
 
-    public async Task<CartOperationResult<CartDto>> AddItemAsync(
-        Guid userId,
-        Guid productId,
-        Guid? variantId,
-        int quantity,
-        CancellationToken cancellationToken = default)
+    public async Task<CartOperationResult<CartDto>> AddItemAsync( Guid userId,  Guid productId,  Guid? variantId,int quantity, CancellationToken cancellationToken = default)
     {
         var quantityValidation = ValidateQuantity(quantity);
         if (quantityValidation is not null)
@@ -66,18 +61,11 @@ public sealed class StoreCartService : IStoreCartService
         }
 
         var variant = variantResult.Value;
-        var availableQuantity = CalculateAvailableQuantity(
-            product,
-            variant);
+        var availableQuantity = CalculateAvailableQuantity(product, variant);
 
-        var cart = await _cartRepository.GetActiveByUserIdAsync(
-            userId,
-            trackChanges: true,
-            cancellationToken);
+        var cart = await _cartRepository.GetActiveByUserIdAsync(userId, trackChanges: true, cancellationToken);
 
-        var existingItem = cart?.Items.SingleOrDefault(item =>
-            item.ProductId == product.Id &&
-            item.VariantId == variant?.Id);
+        var existingItem = cart?.Items.SingleOrDefault(item =>item.ProductId == product.Id && item.VariantId == variant?.Id);
 
         var requestedTotalQuantity =
             (existingItem?.Quantity ?? 0) + quantity;
@@ -91,11 +79,7 @@ public sealed class StoreCartService : IStoreCartService
 
         var currency = product.Currency.Trim();
 
-        if (cart is not null &&
-            !string.Equals(
-                cart.Currency.Trim(),
-                currency,
-                StringComparison.OrdinalIgnoreCase))
+        if (cart is not null && !string.Equals(cart.Currency.Trim(), currency, StringComparison.OrdinalIgnoreCase))
         {
             return CartOperationResult<CartDto>.Failure(
                 CartErrorCode.CurrencyMismatch,
@@ -123,21 +107,20 @@ public sealed class StoreCartService : IStoreCartService
                 UnitPrice = unitPrice
             });
 
-            await _cartRepository.AddCartAsync(
-                cart,
-                cancellationToken);
+            await _cartRepository.AddCartAsync( cart, cancellationToken);
         }
         else if (existingItem is null)
         {
-            cart.Items.Add(new CartItem
+            var newItem = new CartItem
             {
-                Id = Guid.NewGuid(),
                 CartId = cart.Id,
                 ProductId = product.Id,
                 VariantId = variant?.Id,
                 Quantity = quantity,
                 UnitPrice = unitPrice
-            });
+            };
+
+            await _cartRepository.AddItemAsync( newItem, cancellationToken);
         }
         else
         {

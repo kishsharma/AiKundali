@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Retrograde Motion</title>
+  <desc id="desc">A simple monochrome Earth-centred diagram showing a planet's normal apparent path and a temporary retrograde loop.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="600" fill="#ffffff"/>
+
+  <text x="480" y="55" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Retrograde Motion
+  </text>
+
+  <circle cx="180" cy="310" r="58"
+          fill="#d5d5d5" stroke="#333333" stroke-width="4"/>
+  <text x="180" y="318" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Earth
+  </text>
+
+  <text x="180" y="395" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Observer's viewpoint
+  </text>
+
+  <path d="M300 310
+           C390 220, 470 220, 550 300
+           C615 365, 565 430, 500 385
+           C455 352, 480 285, 535 300
+           C640 330, 725 250, 830 300"
+        fill="none" stroke="#444444" stroke-width="5"
+        marker-end="url(#arrow)"/>
+
+  <circle cx="500" cy="385" r="32"
+          fill="#666666" stroke="#333333" stroke-width="3"/>
+  <text x="500" y="393" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" font-weight="600" fill="#ffffff">
+    Planet
+  </text>
+
+  <text x="420" y="190" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#333333">
+    Normal apparent direction
+  </text>
+
+  <text x="585" y="455" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#333333">
+    Apparent retrograde loop
+  </text>
+
+  <rect x="285" y="480" width="590" height="72" rx="15"
+        fill="#e5e5e5" stroke="#555555" stroke-width="2.5"/>
+  <text x="580" y="510" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    The planet does not literally reverse its orbit
+  </text>
+  <text x="580" y="538" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    The backward loop is an apparent effect caused by relative motion.
+  </text>
+
+  <rect x="55" y="105" width="220" height="105" rx="14"
+        fill="#eeeeee" stroke="#555555" stroke-width="2.5"/>
+  <text x="165" y="145" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">
+    Interpretation
+  </text>
+  <text x="165" y="178" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Modified expression,
+  </text>
+  <text x="165" y="202" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    not an automatic verdict
+  </text>
+</svg>

@@ -1,19 +1,36 @@
-﻿<div class="auth-page">
+<div class="auth-page">
   <div class="auth-card">
     <h1>Login to HoraLife</h1>
     <p>Access your saved kundalis, reports and personalized insights.</p>
 
     <ng-container *ngIf="loginMode === 'otp'; else passwordLogin">
-      <ng-container *ngIf="otpStep === 'email'; else otpCodeStep">
-        <div class="form-group">
-          <label>Email</label>
+      <ng-container *ngIf="otpStep === 'contact'; else otpCodeStep">
+        <div class="auth-option-tabs" role="tablist" aria-label="OTP login method">
+          <button type="button" [class.active]="otpChannel === 'Phone'" (click)="useOtpChannel('Phone')">Mobile number</button>
+          <button type="button" [class.active]="otpChannel === 'Email'" (click)="useOtpChannel('Email')">Email</button>
+        </div>
+
+        <div class="form-group" *ngIf="otpChannel === 'Phone'; else emailOtpContact">
+          <label>{{ otpContactLabel }}</label>
           <input
-            type="email"
-            [(ngModel)]="email"
-            placeholder="Enter your email"
-            autocomplete="email"
+            type="tel"
+            [(ngModel)]="phoneNumber"
+            [placeholder]="otpContactPlaceholder"
+            autocomplete="tel"
           />
         </div>
+
+        <ng-template #emailOtpContact>
+          <div class="form-group">
+            <label>{{ otpContactLabel }}</label>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              [placeholder]="otpContactPlaceholder"
+              autocomplete="email"
+            />
+          </div>
+        </ng-template>
 
         <div class="error-message" *ngIf="errorMessage">
           {{ errorMessage }}
@@ -27,19 +44,33 @@
       <ng-template #otpCodeStep>
         <div class="otp-context">
           Code sent to <strong>{{ maskedDestination }}</strong>
-          <button type="button" class="text-button" (click)="editEmail()" [disabled]="isLoading">Change</button>
+          <button type="button" class="text-button" (click)="editContact()" [disabled]="isLoading">Change</button>
         </div>
 
         <div class="form-group">
           <label>Verification code</label>
-          <input
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            [(ngModel)]="otpCode"
-            placeholder="Enter 6 digit code"
-            autocomplete="one-time-code"
-          />
+          <div class="otp-entry" (click)="focusOtpInput()">
+            <input
+              #otpInput
+              class="otp-hidden-input"
+              type="text"
+              inputmode="numeric"
+              maxlength="6"
+              [ngModel]="otpCode"
+              (ngModelChange)="onOtpInput($event)"
+              (keydown)="onOtpKeyDown($event)"
+              autocomplete="one-time-code"
+              [disabled]="isLoading"
+              aria-label="6 digit verification code"
+            />
+            <div class="otp-boxes" aria-hidden="true">
+              <span
+                *ngFor="let digit of otpDigits"
+                class="otp-box"
+                [class.filled]="digit"
+              >{{ digit }}</span>
+            </div>
+          </div>
         </div>
 
         <div class="error-message" *ngIf="errorMessage">
@@ -90,7 +121,7 @@
       </button>
 
       <button type="button" class="text-button mode-switch" (click)="useOtpLogin()">
-        Login with email code
+        Login with verification code
       </button>
     </ng-template>
 
@@ -100,3 +131,5 @@
     </div>
   </div>
 </div>
+
+

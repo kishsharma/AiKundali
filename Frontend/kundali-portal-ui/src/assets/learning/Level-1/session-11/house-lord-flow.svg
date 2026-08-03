@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">How to Find a House Lord</title>
+  <desc id="desc">A simple monochrome flow diagram showing house number, sign in the house, sign ruler and house lord.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="62" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    How to Find a House Lord
+  </text>
+
+  <rect x="60" y="190" width="185" height="120" rx="16"
+        fill="#eeeeee" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="152.5" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    House
+  </text>
+  <text x="152.5" y="275" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Example: 10th
+  </text>
+
+  <rect x="285" y="190" width="185" height="120" rx="16"
+        fill="#e2e2e2" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="377.5" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Sign
+  </text>
+  <text x="377.5" y="275" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Aries
+  </text>
+
+  <rect x="510" y="190" width="185" height="120" rx="16"
+        fill="#d5d5d5" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="602.5" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Sign ruler
+  </text>
+  <text x="602.5" y="275" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Mars
+  </text>
+
+  <rect x="735" y="190" width="165" height="120" rx="16"
+        fill="#c8c8c8" stroke="#333333" stroke-width="3"/>
+  <text x="817.5" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    House lord
+  </text>
+  <text x="817.5" y="275" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Mars
+  </text>
+
+  <line x1="245" y1="250" x2="275" y2="250"
+        stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="470" y1="250" x2="500" y2="250"
+        stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="695" y1="250" x2="725" y2="250"
+        stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <text x="480" y="390" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    Identify the sign in the house, then identify that sign's ruler.
+  </text>
+
+  <text x="480" y="455" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    For Cancer Lagna: 10th house → Aries → Mars → Mars becomes the 10th lord
+  </text>
+</svg>

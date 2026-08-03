@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Fixed Karanas Around Amavasya</title>
+  <desc id="desc">A simple monochrome timeline showing Shakuni, Chatushpada, Naga and Kimstughna across Krishna Chaturdashi, Amavasya and Shukla Pratipada.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="68" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Four Fixed Karanas
+  </text>
+
+  <!-- Tithi labels -->
+  <text x="210" y="140" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Krishna Chaturdashi
+  </text>
+  <text x="480" y="140" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Amavasya
+  </text>
+  <text x="750" y="140" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Shukla Pratipada
+  </text>
+
+  <!-- Timeline -->
+  <line x1="90" y1="250" x2="870" y2="250"
+        stroke="#3f3f3f" stroke-width="4"/>
+
+  <!-- Tithi boundaries -->
+  <line x1="330" y1="185" x2="330" y2="330"
+        stroke="#555555" stroke-width="3"/>
+  <line x1="630" y1="185" x2="630" y2="330"
+        stroke="#555555" stroke-width="3"/>
+
+  <!-- Half divisions -->
+  <line x1="180" y1="210" x2="180" y2="290"
+        stroke="#777777" stroke-width="2"/>
+  <line x1="480" y1="210" x2="480" y2="290"
+        stroke="#777777" stroke-width="2"/>
+  <line x1="750" y1="210" x2="750" y2="290"
+        stroke="#777777" stroke-width="2"/>
+
+  <!-- Fixed Karana blocks -->
+  <rect x="180" y="210" width="150" height="80"
+        fill="#dedede" stroke="#3f3f3f" stroke-width="2.5"/>
+  <text x="255" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">
+    Shakuni
+  </text>
+
+  <rect x="330" y="210" width="150" height="80"
+        fill="#d4d4d4" stroke="#3f3f3f" stroke-width="2.5"/>
+  <text x="405" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#222222">
+    Chatushpada
+  </text>
+
+  <rect x="480" y="210" width="150" height="80"
+        fill="#c9c9c9" stroke="#3f3f3f" stroke-width="2.5"/>
+  <text x="555" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">
+    Naga
+  </text>
+
+  <rect x="630" y="210" width="120" height="80"
+        fill="#bebebe" stroke="#3f3f3f" stroke-width="2.5"/>
+  <text x="690" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">
+    Kimstughna
+  </text>
+
+  <!-- Half labels -->
+  <text x="255" y="325" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="17" fill="#555555">
+    Second half
+  </text>
+  <text x="405" y="325" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="17" fill="#555555">
+    First half
+  </text>
+  <text x="555" y="325" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="17" fill="#555555">
+    Second half
+  </text>
+  <text x="690" y="325" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="17" fill="#555555">
+    First half
+  </text>
+
+  <!-- Continuation -->
+  <line x1="750" y1="250" x2="855" y2="250"
+        stroke="#3f3f3f" stroke-width="3"/>
+  <polygon points="855,250 840,242 840,258" fill="#3f3f3f"/>
+
+  <text x="805" y="285" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Then Bava
+  </text>
+
+  <text x="480" y="420" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    The fixed Karanas occur around the Amavasya transition.
+  </text>
+</svg>

@@ -1,6 +1,6 @@
 ﻿import { Injectable, signal } from '@angular/core';
 
-export type ThemeMode = 'dark' | 'light' | 'hora';
+export type ThemeMode = 'dark' | 'light';
 
 const THEME_STORAGE_KEY = 'kundali-theme';
 
@@ -15,13 +15,7 @@ export class ThemeService {
   }
 
   toggleTheme(): void {
-    const nextTheme: Record<ThemeMode, ThemeMode> = {
-      dark: 'light',
-      light: 'hora',
-      hora: 'dark',
-    };
-
-    this.setTheme(nextTheme[this.mode()]);
+    this.setTheme(this.mode() === 'dark' ? 'light' : 'dark');
   }
 
   setTheme(mode: ThemeMode, persist = true): void {
@@ -50,6 +44,6 @@ export class ThemeService {
   }
 
   private isThemeMode(value: string | null): value is ThemeMode {
-    return value === 'dark' || value === 'light' || value === 'hora';
+    return value === 'dark' || value === 'light';
   }
 }

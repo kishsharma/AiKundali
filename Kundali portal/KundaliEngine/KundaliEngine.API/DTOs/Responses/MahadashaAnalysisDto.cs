@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace KundaliEngine.API.DTOs.Responses
@@ -9,6 +9,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public BirthChartSummaryDto BirthChart { get; set; } = new();
         public CurrentMahadashaDto CurrentMahadasha { get; set; } = new();
         public CurrentAntardashaDto CurrentAntardasha { get; set; } = new();
+        public CurrentPratyantardashaDto CurrentPratyantardasha { get; set; } = new();
         public DashaTimelineDto Timeline { get; set; } = new();
         public List<LifeAreaDto> LifeAreas { get; set; } = new();
         public DashaStrengthDto Strength { get; set; } = new();
@@ -44,7 +45,9 @@ namespace KundaliEngine.API.DTOs.Responses
         public string OverallResult { get; set; } = string.Empty;
         public string CurrentMahadasha { get; set; } = string.Empty;
         public string CurrentAntardasha { get; set; } = string.Empty;
+        public string CurrentPratyantardasha { get; set; } = string.Empty;
         public string RemainingDuration { get; set; } = string.Empty;
+        public string PratyantardashaRemainingDuration { get; set; } = string.Empty;
         public int CompletedPercentage { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -76,12 +79,25 @@ namespace KundaliEngine.API.DTOs.Responses
         public string CombinedEffect { get; set; } = string.Empty;
     }
 
+    public class CurrentPratyantardashaDto
+    {
+        public string Planet { get; set; } = string.Empty;
+        public string PlanetIcon { get; set; } = string.Empty;
+        public string PlanetColor { get; set; } = string.Empty;
+        public string Nature { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string RemainingDuration { get; set; } = string.Empty;
+    }
+
     public class DashaTimelineDto
     {
         public int CurrentMahadashaIndex { get; set; }
         public int CurrentAntardashaIndex { get; set; }
+        public int CurrentPratyantardashaIndex { get; set; }
         public List<MahadashaTimelinePeriodDto> Mahadasha { get; set; } = new();
         public List<AntardashaTimelinePeriodDto> Antardasha { get; set; } = new();
+        public List<PratyantardashaTimelinePeriodDto> Pratyantardasha { get; set; } = new();
     }
 
     public class MahadashaTimelinePeriodDto
@@ -94,6 +110,11 @@ namespace KundaliEngine.API.DTOs.Responses
     }
 
     public class AntardashaTimelinePeriodDto : MahadashaTimelinePeriodDto
+    {
+        public List<PratyantardashaTimelinePeriodDto> Pratyantardashas { get; set; } = new();
+    }
+
+    public class PratyantardashaTimelinePeriodDto : MahadashaTimelinePeriodDto
     {
     }
 
@@ -116,6 +137,29 @@ namespace KundaliEngine.API.DTOs.Responses
         public bool AspectOnLagna { get; set; }
         public bool SupportedByBenefics { get; set; }
         public List<string> SupportedBy { get; set; } = new();
+        public string AssociationTone { get; set; } = "None";
+        public string AssociationSummary { get; set; } = "None";
+        public List<string> AssociationDetails { get; set; } = new();
+        public string OverallResult { get; set; } = string.Empty;
+        public DashaLevelStrengthDto Mahadasha { get; set; } = new();
+        public DashaLevelStrengthDto Antardasha { get; set; } = new();
+        public DashaLevelStrengthDto Pratyantardasha { get; set; } = new();
+    }
+
+    public class DashaLevelStrengthDto
+    {
+        public string Level { get; set; } = string.Empty;
+        public string Planet { get; set; } = string.Empty;
+        public int OverallStrength { get; set; }
+        public string PlanetStrength { get; set; } = string.Empty;
+        public string Placement { get; set; } = string.Empty;
+        public string Sign { get; set; } = string.Empty;
+        public bool AspectOnLagna { get; set; }
+        public bool SupportedByBenefics { get; set; }
+        public List<string> SupportedBy { get; set; } = new();
+        public string AssociationTone { get; set; } = "None";
+        public string AssociationSummary { get; set; } = "None";
+        public List<string> AssociationDetails { get; set; } = new();
         public string OverallResult { get; set; } = string.Empty;
     }
 
@@ -184,3 +228,11 @@ namespace KundaliEngine.API.DTOs.Responses
         public string Summary { get; set; } = string.Empty;
     }
 }
+
+
+
+
+
+
+
+

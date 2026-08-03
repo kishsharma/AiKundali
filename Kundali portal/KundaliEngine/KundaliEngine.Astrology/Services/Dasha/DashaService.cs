@@ -136,6 +136,59 @@ namespace KundaliEngine.Astrology.Services.Dasha
                 currentMahadashaYears);
         }
 
+        public List<PratyantardashaPeriod> GeneratePratyantardashaForTimelinePeriod(
+            MahadashaPeriod maha,
+            AntardashaPeriod antar,
+            Planet birthMahadashaPlanet,
+            double birthMahadashaRemainingYears)
+        {
+            if (maha.Planet != birthMahadashaPlanet)
+            {
+                double mahadashaYears = GetYears(maha.Planet);
+                double antardashaYears = mahadashaYears * GetYears(antar.SubPlanet) / VimshottariTotalYears;
+
+                return GeneratePratyantardasha(
+                    antar,
+                    antardashaYears,
+                    antar.StartDate,
+                    antar.EndDate);
+            }
+
+            double fullMahadashaYears = GetYears(maha.Planet);
+            double elapsedBeforeBirthYears = fullMahadashaYears - birthMahadashaRemainingYears;
+            DateTime fullMahadashaStart = AddDashaYears(maha.StartDate, -elapsedBeforeBirthYears);
+
+            var fullMaha = new MahadashaPeriod
+            {
+                Planet = maha.Planet,
+                StartDate = fullMahadashaStart,
+                EndDate = maha.EndDate
+            };
+
+            var fullAntar = GenerateAntardasha(
+                    fullMaha,
+                    fullMahadashaYears,
+                    fullMaha.StartDate,
+                    fullMaha.EndDate)
+                .FirstOrDefault(period =>
+                    period.MainPlanet == antar.MainPlanet
+                    && period.SubPlanet == antar.SubPlanet
+                    && period.EndDate > antar.StartDate
+                    && period.StartDate < antar.EndDate);
+
+            if (fullAntar == null)
+            {
+                return new List<PratyantardashaPeriod>();
+            }
+
+            double fullAntardashaYears = fullMahadashaYears * GetYears(fullAntar.SubPlanet) / VimshottariTotalYears;
+
+            return GeneratePratyantardasha(
+                fullAntar,
+                fullAntardashaYears,
+                antar.StartDate,
+                antar.EndDate);
+        }
         public DashaCalculationResult CalculateCurrentDasha(
             Planet birthMahadashaPlanet,
             double birthMahadashaRemainingYears,
@@ -166,12 +219,25 @@ namespace KundaliEngine.Astrology.Services.Dasha
                 .FirstOrDefault(a => currentDateUtc >= a.StartDate && currentDateUtc < a.EndDate)
                 ?? currentAntarList.First();
 
+            var currentPratyantarList = GeneratePratyantardashaForTimelinePeriod(
+                currentMaha,
+                currentAntar,
+                birthMahadashaPlanet,
+                birthMahadashaRemainingYears);
+
+            var currentPratyantar = currentPratyantarList
+                .FirstOrDefault(p => currentDateUtc >= p.StartDate && currentDateUtc < p.EndDate)
+                ?? currentPratyantarList.FirstOrDefault()
+                ?? new PratyantardashaPeriod();
+
             return new DashaCalculationResult
             {
                 MahadashaTimeline = mahadashaTimeline,
                 CurrentMahadasha = currentMaha,
                 CurrentAntardashaTimeline = currentAntarList,
-                CurrentAntardasha = currentAntar
+                CurrentAntardasha = currentAntar,
+                CurrentPratyantardashaTimeline = currentPratyantarList,
+                CurrentPratyantardasha = currentPratyantar
             };
         }
 
@@ -210,6 +276,37 @@ namespace KundaliEngine.Astrology.Services.Dasha
             return ClipAntardashas(result, calculationStart, calculationEnd);
         }
 
+        private List<PratyantardashaPeriod> GeneratePratyantardasha(
+            AntardashaPeriod antar,
+            double actualAntardashaYears,
+            DateTime calculationStart,
+            DateTime calculationEnd)
+        {
+            var result = new List<PratyantardashaPeriod>();
+            var order = DashaRules.VimshottariOrder;
+            int startIndex = order.FindIndex(d => d.Planet == antar.SubPlanet);
+            DateTime currentStart = antar.StartDate;
+
+            for (int i = 0; i < order.Count; i++)
+            {
+                var inner = order[(startIndex + i) % order.Count];
+                double durationYears = actualAntardashaYears * inner.Years / VimshottariTotalYears;
+                DateTime end = AddDashaYears(currentStart, durationYears);
+
+                result.Add(new PratyantardashaPeriod
+                {
+                    MainPlanet = antar.MainPlanet,
+                    SubPlanet = antar.SubPlanet,
+                    InnerPlanet = inner.Planet,
+                    StartDate = currentStart,
+                    EndDate = end
+                });
+
+                currentStart = end;
+            }
+
+            return ClipPratyantardashas(result, calculationStart, calculationEnd);
+        }
         public (Planet Maha, Planet Antar) GetCurrentDasha(List<MahadashaPeriod> mahaTimeline, List<AntardashaPeriod> antarTimeline, DateTime currentDate)
         {
             var currentMaha = mahaTimeline.FirstOrDefault(d => currentDate >= d.StartDate && currentDate < d.EndDate);
@@ -287,6 +384,32 @@ namespace KundaliEngine.Astrology.Services.Dasha
                 .ToList();
         }
 
+        private static List<PratyantardashaPeriod> ClipPratyantardashas(
+            IEnumerable<PratyantardashaPeriod> pratyantardashas,
+            DateTime clipStart,
+            DateTime clipEnd)
+        {
+            var clipped = pratyantardashas
+                .Where(period => period.EndDate > clipStart && period.StartDate < clipEnd)
+                .Select(period => new PratyantardashaPeriod
+                {
+                    MainPlanet = period.MainPlanet,
+                    SubPlanet = period.SubPlanet,
+                    InnerPlanet = period.InnerPlanet,
+                    StartDate = period.StartDate < clipStart ? clipStart : period.StartDate,
+                    EndDate = period.EndDate > clipEnd ? clipEnd : period.EndDate
+                })
+                .ToList();
+
+            if (clipped.Count > 0)
+            {
+                clipped[0].StartDate = clipStart;
+                clipped[^1].EndDate = clipEnd;
+            }
+
+            return clipped;
+        }
+
         private static DateTime AddDashaYears(DateTime start, double years)
         {
             int fullYears = (int)Math.Truncate(years);
@@ -304,5 +427,12 @@ namespace KundaliEngine.Astrology.Services.Dasha
         public MahadashaPeriod CurrentMahadasha { get; set; } = new();
         public List<AntardashaPeriod> CurrentAntardashaTimeline { get; set; } = new();
         public AntardashaPeriod CurrentAntardasha { get; set; } = new();
+        public List<PratyantardashaPeriod> CurrentPratyantardashaTimeline { get; set; } = new();
+        public PratyantardashaPeriod CurrentPratyantardasha { get; set; } = new();
     }
 }
+
+
+
+
+

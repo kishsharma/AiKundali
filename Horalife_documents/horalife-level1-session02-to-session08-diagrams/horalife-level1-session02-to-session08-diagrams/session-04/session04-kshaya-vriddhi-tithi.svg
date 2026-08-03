@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Kshaya and Vriddhi Tithi</title>
+  <desc id="desc">Two simple monochrome timelines comparing a Tithi absent at sunrise with a Tithi present at two consecutive sunrises.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Panel titles -->
+  <text x="250" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="27" font-weight="600" fill="#222222">
+    Kshaya Tithi
+  </text>
+  <text x="710" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="27" font-weight="600" fill="#222222">
+    Vriddhi Tithi
+  </text>
+
+  <!-- Divider -->
+  <line x1="480" y1="80" x2="480" y2="455"
+        stroke="#b5b5b5" stroke-width="2"/>
+
+  <!-- Kshaya timeline -->
+  <line x1="80" y1="250" x2="420" y2="250"
+        stroke="#3f3f3f" stroke-width="5"/>
+
+  <line x1="120" y1="205" x2="120" y2="295"
+        stroke="#2f2f2f" stroke-width="3"/>
+  <line x1="380" y1="205" x2="380" y2="295"
+        stroke="#2f2f2f" stroke-width="3"/>
+
+  <circle cx="120" cy="250" r="9" fill="#3f3f3f"/>
+  <circle cx="380" cy="250" r="9" fill="#3f3f3f"/>
+
+  <rect x="205" y="215" width="90" height="70" rx="12"
+        fill="#d2d2d2" stroke="#555555" stroke-width="3"/>
+
+  <text x="120" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">Sunrise 1</text>
+  <text x="380" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">Sunrise 2</text>
+
+  <text x="250" y="205" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">Tithi interval</text>
+  <text x="250" y="380" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#555555">
+    Begins and ends between sunrises
+  </text>
+
+  <!-- Vriddhi timeline -->
+  <line x1="540" y1="250" x2="880" y2="250"
+        stroke="#3f3f3f" stroke-width="5"/>
+
+  <line x1="580" y1="205" x2="580" y2="295"
+        stroke="#2f2f2f" stroke-width="3"/>
+  <line x1="840" y1="205" x2="840" y2="295"
+        stroke="#2f2f2f" stroke-width="3"/>
+
+  <circle cx="580" cy="250" r="9" fill="#3f3f3f"/>
+  <circle cx="840" cy="250" r="9" fill="#3f3f3f"/>
+
+  <rect x="545" y="215" width="330" height="70" rx="12"
+        fill="#c3c3c3" stroke="#555555" stroke-width="3"/>
+
+  <text x="580" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">Sunrise 1</text>
+  <text x="840" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">Sunrise 2</text>
+
+  <text x="710" y="205" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">Tithi interval</text>
+  <text x="710" y="380" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#555555">
+    Present at both sunrises
+  </text>
+
+  <!-- Footer -->
+  <text x="480" y="480" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Tithi continues normally; sunrise boundaries create the skipped or repeated appearance.
+  </text>
+</svg>

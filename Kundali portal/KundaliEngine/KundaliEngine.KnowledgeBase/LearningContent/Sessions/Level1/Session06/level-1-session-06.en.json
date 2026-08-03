@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session06-twenty-seven-nakshatra-wheel",
-          "assetPath": "assets/study/level-1/session-06/twenty-seven-nakshatra-wheel.svg",
+          "assetPath": "assets/learning/Level-1/session-06/twenty-seven-nakshatra-wheel.svg",
           "altText": "A simple monochrome zodiac wheel divided into twenty-seven equal Nakshatra sectors.",
           "caption": "The 360° zodiac is divided into twenty-seven equal Nakshatras.",
           "purpose": "Show the complete Nakshatra grid as a uniform division of the zodiac.",
@@ -309,7 +309,7 @@
         {
           "type": "diagram",
           "assetId": "session06-nakshatra-four-padas",
-          "assetPath": "assets/study/level-1/session-06/nakshatra-four-padas.svg",
+          "assetPath": "assets/learning/Level-1/session-06/nakshatra-four-padas.svg",
           "altText": "A single Nakshatra arc divided into four equal Padas of 3°20′ each.",
           "caption": "Every Nakshatra contains four equal Padas.",
           "purpose": "Connect Nakshatra span to Pada calculation.",
@@ -419,7 +419,7 @@
         {
           "type": "diagram",
           "assetId": "session06-rashi-nakshatra-overlap",
-          "assetPath": "assets/study/level-1/session-06/rashi-nakshatra-overlap.svg",
+          "assetPath": "assets/learning/Level-1/session-06/rashi-nakshatra-overlap.svg",
           "altText": "Two aligned horizontal scales showing twelve Rashis and twenty-seven Nakshatras across the same 360° zodiac.",
           "caption": "Rashi and Nakshatra are different grids placed over the same zodiac.",
           "purpose": "Prevent the common mistake of treating one Nakshatra as equal to one Rashi.",

@@ -1,5 +1,5 @@
 // Dashboard Page Component - meaningful authenticated landing page
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription, of } from 'rxjs';
@@ -565,6 +565,7 @@ interface QuickAction {
 export class DashboardComponent implements OnInit, OnDestroy {
   private readonly dashboardApi = inject(DashboardApiService);
   private readonly latestKundaliStorage = inject(LatestKundaliStorageService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly subscriptions = new Subscription();
 
   userName = 'Seeker';
@@ -678,10 +679,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.error('Dashboard summary load error:', error);
         return of(null);
       }),
-      finalize(() => this.loading.dashboard = false)
+      finalize(() => {
+        this.loading.dashboard = false;
+        this.cdr.markForCheck();
+      })
     ).subscribe((summary) => {
       if (!summary) {
         this.insightCards = this.buildFallbackInsights();
+        this.cdr.markForCheck();
         return;
       }
 
@@ -695,6 +700,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.savedKundalisCount = this.collectionStats.savedKundalis;
       this.insightCards = summary.dailyInsights?.length ? summary.dailyInsights : this.buildFallbackInsights();
       this.upcomingMuhurthas = summary.upcomingMuhurthas ?? [];
+      this.cdr.markForCheck();
     });
 
     this.subscriptions.add(sub);

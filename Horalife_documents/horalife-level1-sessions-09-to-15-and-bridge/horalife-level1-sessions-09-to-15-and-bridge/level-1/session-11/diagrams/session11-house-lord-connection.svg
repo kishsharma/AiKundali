@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">House Lord Connection</title>
+  <desc id="desc">A simple monochrome diagram showing how a house lord connects the house it owns with the house it occupies.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="60" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    House Lord Connection
+  </text>
+
+  <!-- Owned house -->
+  <rect x="90" y="185" width="240" height="150" rx="18"
+        fill="#eeeeee" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="210" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Owned house
+  </text>
+  <text x="210" y="272" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    What the planet carries
+  </text>
+  <text x="210" y="307" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#444444">
+    Example: 10th house
+  </text>
+
+  <!-- House lord -->
+  <circle cx="480" cy="260" r="78"
+          fill="#d7d7d7" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="480" y="250" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    House lord
+  </text>
+  <text x="480" y="287" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Carries the link
+  </text>
+
+  <!-- Occupied house -->
+  <rect x="630" y="185" width="240" height="150" rx="18"
+        fill="#c9c9c9" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="750" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Occupied house
+  </text>
+  <text x="750" y="272" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Where it is expressed
+  </text>
+  <text x="750" y="307" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#444444">
+    Example: 9th house
+  </text>
+
+  <!-- Arrows -->
+  <line x1="330" y1="260" x2="392" y2="260"
+        stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="558" y1="260" x2="620" y2="260"
+        stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Example connection -->
+  <rect x="230" y="395" width="500" height="85" rx="16"
+        fill="#e3e3e3" stroke="#4a4a4a" stroke-width="3"/>
+  <text x="480" y="430" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Example connection
+  </text>
+  <text x="480" y="462" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    10th lord in 9th house → Career connects with learning, mentors and dharma
+  </text>
+
+  <text x="480" y="515" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Connection shows the linked life areas; strength and timing show the outcome.
+  </text>
+</svg>

@@ -26,8 +26,7 @@ export class App {
   ];
   readonly themes = [
     { mode: 'dark', label: 'Dark', icon: '☾' },
-    { mode: 'light', label: 'Light', icon: '☀' },
-    { mode: 'hora', label: 'Hora', icon: 'H' }
+    { mode: 'light', label: 'Light', icon: '☼' }
   ] as const;
   activeLanguage: string;
   isPublicLanding = true;
@@ -81,6 +80,22 @@ toggleUserMenu(): void {
 handleUserMenuSpace(event: Event): void {
   event.preventDefault();
   this.toggleUserMenu();
+}
+
+get themeToggleIcon(): string {
+  return this.themeService.mode() === 'dark' ? '☀' : '☾';
+}
+
+get themeToggleLabel(): string {
+  return this.themeService.mode() === 'dark' ? 'Dark' : 'Light';
+}
+
+get themeToggleTitle(): string {
+  return this.themeService.mode() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+}
+
+toggleTheme(): void {
+  this.themeService.setTheme(this.themeService.mode() === 'dark' ? 'light' : 'dark');
 }
 
 closeUserMenu(): void {

@@ -1,4 +1,6 @@
-﻿export interface LoginRequest {
+export type OtpChannel = 'Phone' | 'Email';
+
+export interface LoginRequest {
   email: string;
   password: string;
 }
@@ -11,18 +13,23 @@ export interface RegisterRequest {
 }
 
 export interface StartEmailOtpRequest {
-  email: string;
+  channel?: OtpChannel;
+  email?: string;
+  phoneNumber?: string;
 }
 
 export interface VerifyEmailOtpRequest {
   challengeId: string;
-  email: string;
+  channel?: OtpChannel;
+  email?: string;
+  phoneNumber?: string;
   code: string;
 }
 
 export interface CompleteOtpRegistrationRequest {
   registrationToken: string;
   fullName: string;
+  email?: string;
   phoneNumber?: string;
 }
 
@@ -37,13 +44,15 @@ export interface OtpChallengeResponse {
 export interface VerifyRegistrationOtpResponse {
   registrationToken: string;
   expiresAt: string;
-  email: string;
+  email?: string | null;
+  phoneNumber?: string | null;
 }
 
 export interface AuthResponse {
   userId: string;
   fullName: string;
-  email: string;
+  email?: string | null;
+  phoneNumber?: string | null;
   role: string;
   token: string;
 }

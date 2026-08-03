@@ -173,7 +173,7 @@
         {
           "type": "diagram",
           "assetId": "session02-earth-rotation-day-night",
-          "assetPath": "assets/study/level-1/session-02/earth-rotation-day-night.svg",
+          "assetPath": "assets/learning/Level-1/session-02/earth-rotation-day-night.svg",
           "altText": "पृथ्वी पश्चिम से पूर्व घूम रही है; एक भाग प्रकाशित और दूसरा अंधकारमय है, तथा सूर्य एक ओर स्थिर दिखाया गया है।",
           "caption": "पृथ्वी का घूर्णन दिन-रात और आकाश की प्रतीत दैनिक गति उत्पन्न करता है।",
           "purpose": "पृथ्वी के वास्तविक घूर्णन को वेधक के दैनिक आकाशीय अनुभव से जोड़ना।",
@@ -228,7 +228,7 @@
         {
           "type": "diagram",
           "assetId": "session02-earth-revolution-solar-year",
-          "assetPath": "assets/study/level-1/session-02/earth-revolution-solar-year.svg",
+          "assetPath": "assets/learning/Level-1/session-02/earth-revolution-solar-year.svg",
           "altText": "सूर्य के चारों ओर चार स्थानों पर पृथ्वी दिखाई गई है और उसकी धुरी हर स्थान पर समान दिशा में झुकी है।",
           "caption": "पृथ्वी की परिक्रमा और धुरी का झुकाव वार्षिक सौर चक्र और ऋतुएँ बनाते हैं।",
           "purpose": "वर्ष और ऋतु परिवर्तन का भौतिक आधार दिखाना।",
@@ -301,7 +301,7 @@
         {
           "type": "diagram",
           "assetId": "session02-lunar-phase-cycle",
-          "assetPath": "assets/study/level-1/session-02/lunar-phase-cycle.svg",
+          "assetPath": "assets/learning/Level-1/session-02/lunar-phase-cycle.svg",
           "altText": "पृथ्वी केंद्र में है, चन्द्रमा आठ स्थितियों में है और सूर्यप्रकाश एक दिशा से आ रहा है।",
           "caption": "पृथ्वी से दिखाई देने वाली सूर्य-चन्द्र ज्यामिति बदलने से चन्द्र कलाएँ बनती हैं।",
           "purpose": "पंचांग में प्रयुक्त चन्द्र कला चक्र का प्रेक्षणीय आधार समझाना।",
@@ -375,7 +375,7 @@
         {
           "type": "diagram",
           "assetId": "session02-sidereal-synodic-month",
-          "assetPath": "assets/study/level-1/session-02/sidereal-synodic-month.svg",
+          "assetPath": "assets/learning/Level-1/session-02/sidereal-synodic-month.svg",
           "altText": "दो चरणों वाला चित्र जिसमें चन्द्रमा पहले तारों के सापेक्ष लौटता है और बाद में सूर्य के साथ पुनः अमावस्या संरेखण बनाता है।",
           "caption": "समान चन्द्र कला पर लौटने के लिए चन्द्रमा को एक नाक्षत्र परिक्रमा से अधिक चलना पड़ता है।",
           "purpose": "समझाना कि नक्षत्र-आधारित चक्र और चन्द्र कला-आधारित मास की अवधि अलग क्यों है।",
@@ -416,7 +416,7 @@
         {
           "type": "diagram",
           "assetId": "session02-longitude-local-time",
-          "assetPath": "assets/study/level-1/session-02/longitude-local-time.svg",
+          "assetPath": "assets/learning/Level-1/session-02/longitude-local-time.svg",
           "altText": "देशांतर रेखाओं सहित पृथ्वी और दो स्थान दिखाए गए हैं, जिनके स्थानीय सौर समय अलग हैं।",
           "caption": "देशांतर निर्धारित करता है कि सूर्य स्थानीय मध्याह्नवृत्त को कब पार करेगा।",
           "purpose": "भौगोलिक देशांतर को स्थानीय सौर समय और कुंडली गणना से जोड़ना।",

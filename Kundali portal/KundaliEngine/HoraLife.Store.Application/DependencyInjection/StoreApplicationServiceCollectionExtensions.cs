@@ -12,6 +12,13 @@ public static class StoreApplicationServiceCollectionExtensions
         services.AddScoped<IStoreCatalogService, StoreCatalogService>();
         services.AddScoped<IStoreCartService, StoreCartService>();
         services.AddScoped<IStoreAddressService, StoreAddressService>();
+        services.AddScoped<IStoreCheckoutPreviewService, StoreCheckoutPreviewService>();
+        services.AddScoped<IStoreCheckoutRevalidationService, StoreCheckoutRevalidationService>();
+        services.AddScoped<IStoreOrderService,StoreOrderService>();
+        services.AddScoped<IStoreOrderItemService, StoreOrderItemService>();
+        services.AddScoped<IStoreInventoryReservationService, StoreInventoryReservationService>();
+        services.AddScoped<IStoreCartConversionService,StoreCartConversionService>();
+
         return services;
     }
 }

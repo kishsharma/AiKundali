@@ -9,25 +9,23 @@ namespace HoraLife.Store.Infrastructure.DependencyInjection;
 
 public static class StoreDependencyInjection
 {
-    public static IServiceCollection AddStoreInfrastructure(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddStoreInfrastructure( this IServiceCollection services,  IConfiguration configuration)
     {
 
-        var connectionString =
-    configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException(
-        "Connection string 'DefaultConnection' is missing.");
+        var connectionString =  configuration.GetConnectionString("DefaultConnection")   ?? throw new InvalidOperationException( "Connection string 'DefaultConnection' is missing.");
 
 
-        services.AddDbContext<StoreDbContext>(options =>
-            options.UseNpgsql(
-                connectionString));
+        services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(connectionString));
 
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+        services.AddScoped<IInventoryReservationRepository,  InventoryReservationRepository>();
+        services.AddScoped<ICartConversionRepository,CartConversionRepository>();
+
         return services;
     }
 }

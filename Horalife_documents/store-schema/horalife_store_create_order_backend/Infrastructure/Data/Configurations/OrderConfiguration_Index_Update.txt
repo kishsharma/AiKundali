@@ -1,0 +1,9 @@
+Add this inside OrderConfiguration.Configure():
+
+builder.HasIndex(x => x.CartId)
+    .IsUnique()
+    .HasDatabaseName("ux_orders_cart_id")
+    .HasFilter("cart_id IS NOT NULL");
+
+This keeps the EF model aligned with:
+Database/ensure_unique_order_per_cart.sql

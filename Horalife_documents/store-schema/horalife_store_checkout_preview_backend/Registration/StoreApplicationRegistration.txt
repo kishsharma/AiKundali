@@ -1,0 +1,5 @@
+Add this inside the existing AddStoreApplication() method:
+
+services.AddScoped<IStoreCheckoutPreviewService, StoreCheckoutPreviewService>();
+
+Keep all existing catalogue, cart, and address registrations.

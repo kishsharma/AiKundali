@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Combustion Zone Near the Sun</title>
+  <desc id="desc">A simple monochrome diagram showing the Sun, a nearby planet within a combustion zone and another planet farther away.</desc>
+
+  <rect width="960" height="600" fill="#ffffff"/>
+
+  <text x="480" y="55" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Combustion Near the Sun
+  </text>
+
+  <circle cx="480" cy="285" r="85"
+          fill="#cfcfcf" stroke="#333333" stroke-width="4"/>
+  <text x="480" y="296" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#222222">
+    Sun
+  </text>
+
+  <circle cx="480" cy="285" r="165"
+          fill="none" stroke="#777777" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <text x="480" y="105" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#333333">
+    Combustion zone
+  </text>
+
+  <circle cx="605" cy="285" r="38"
+          fill="#666666" stroke="#333333" stroke-width="3"/>
+  <text x="605" y="278" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" font-weight="600" fill="#ffffff">
+    Near
+  </text>
+  <text x="605" y="302" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" font-weight="600" fill="#ffffff">
+    planet
+  </text>
+
+  <circle cx="805" cy="285" r="38"
+          fill="#8a8a8a" stroke="#333333" stroke-width="3"/>
+  <text x="805" y="278" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" font-weight="600" fill="#ffffff">
+    Far
+  </text>
+  <text x="805" y="302" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" font-weight="600" fill="#ffffff">
+    planet
+  </text>
+
+  <line x1="565" y1="285" x2="567" y2="285"
+        stroke="#444444" stroke-width="3"/>
+  <line x1="643" y1="285" x2="767" y2="285"
+        stroke="#555555" stroke-width="3"/>
+
+  <rect x="80" y="190" width="245" height="175" rx="16"
+        fill="#eeeeee" stroke="#555555" stroke-width="2.5"/>
+  <text x="202.5" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Read by distance
+  </text>
+  <text x="202.5" y="270" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Closer to the Sun
+  </text>
+  <text x="202.5" y="300" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    may mean stronger
+  </text>
+  <text x="202.5" y="330" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    combustion effect
+  </text>
+
+  <rect x="245" y="455" width="470" height="75" rx="15"
+        fill="#e5e5e5" stroke="#555555" stroke-width="2.5"/>
+  <text x="480" y="487" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Combustion is a condition modifier
+  </text>
+  <text x="480" y="516" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    It does not erase the planet, its lordship or all of its results.
+  </text>
+
+  <text x="480" y="575" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Apply one clearly defined combustion standard for each planet.
+  </text>
+</svg>

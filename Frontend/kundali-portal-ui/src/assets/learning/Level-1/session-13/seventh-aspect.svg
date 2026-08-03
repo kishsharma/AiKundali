@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Seventh Aspect of All Planets</title>
+  <desc id="desc">A simple monochrome North Indian Kundali showing a planet in the first house casting its seventh aspect to the opposite seventh house.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="600" fill="#ffffff"/>
+
+  <text x="480" y="55" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Seventh Aspect of All Planets
+  </text>
+
+  <rect x="230" y="100" width="500" height="420"
+        fill="#f5f5f5" stroke="#333333" stroke-width="4"/>
+
+  <line x1="230" y1="100" x2="730" y2="520"
+        stroke="#444444" stroke-width="3"/>
+  <line x1="730" y1="100" x2="230" y2="520"
+        stroke="#444444" stroke-width="3"/>
+  <polygon points="480,100 730,310 480,520 230,310"
+           fill="none" stroke="#444444" stroke-width="3"/>
+
+  <polygon points="480,100 605,205 480,310 355,205"
+           fill="#d9d9d9" stroke="#444444" stroke-width="2"/>
+  <polygon points="480,310 605,415 480,520 355,415"
+           fill="#c9c9c9" stroke="#444444" stroke-width="2"/>
+
+  <circle cx="480" cy="180" r="34"
+          fill="#666666" stroke="#333333" stroke-width="2"/>
+  <text x="480" y="188" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#ffffff">
+    Planet
+  </text>
+
+  <line x1="480" y1="220" x2="480" y2="400"
+        stroke="#444444" stroke-width="5" marker-end="url(#arrow)"/>
+
+  <text x="520" y="312" text-anchor="start"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#333333">
+    7th aspect
+  </text>
+
+  <text x="480" y="452" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Receiving House
+  </text>
+
+  <rect x="48" y="175" width="145" height="110" rx="14"
+        fill="#eeeeee" stroke="#555555" stroke-width="2.5"/>
+  <text x="120.5" y="214" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">
+    Start here
+  </text>
+  <text x="120.5" y="249" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Count planet's
+  </text>
+  <text x="120.5" y="273" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    house as 1
+  </text>
+
+  <rect x="765" y="335" width="150" height="110" rx="14"
+        fill="#dddddd" stroke="#555555" stroke-width="2.5"/>
+  <text x="840" y="374" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">
+    Opposite house
+  </text>
+  <text x="840" y="409" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    receives
+  </text>
+  <text x="840" y="433" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    the aspect
+  </text>
+
+  <text x="480" y="570" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Every planet casts a seventh aspect to the house directly opposite its position.
+  </text>
+</svg>

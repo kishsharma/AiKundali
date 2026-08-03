@@ -1,19 +1,36 @@
-﻿<div class="auth-page">
+<div class="auth-page">
   <div class="auth-card">
     <h1>Create your HoraLife account</h1>
-    <p>Verify your email first, then complete your profile.</p>
+    <p>Verify your mobile number or email first, then complete your profile.</p>
 
     <ng-container [ngSwitch]="step">
-      <ng-container *ngSwitchCase="'email'">
-        <div class="form-group">
-          <label>Email</label>
+      <ng-container *ngSwitchCase="'contact'">
+        <div class="auth-option-tabs" role="tablist" aria-label="OTP registration method">
+          <button type="button" [class.active]="otpChannel === 'Phone'" (click)="useOtpChannel('Phone')">Mobile number</button>
+          <button type="button" [class.active]="otpChannel === 'Email'" (click)="useOtpChannel('Email')">Email</button>
+        </div>
+
+        <div class="form-group" *ngIf="otpChannel === 'Phone'; else emailContact">
+          <label>{{ otpContactLabel }}</label>
           <input
-            type="email"
-            [(ngModel)]="email"
-            placeholder="Enter your email"
-            autocomplete="email"
+            type="tel"
+            [(ngModel)]="phoneNumber"
+            [placeholder]="otpContactPlaceholder"
+            autocomplete="tel"
           />
         </div>
+
+        <ng-template #emailContact>
+          <div class="form-group">
+            <label>{{ otpContactLabel }}</label>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              [placeholder]="otpContactPlaceholder"
+              autocomplete="email"
+            />
+          </div>
+        </ng-template>
 
         <div class="error-message" *ngIf="errorMessage">
           {{ errorMessage }}
@@ -27,19 +44,33 @@
       <ng-container *ngSwitchCase="'code'">
         <div class="otp-context">
           Code sent to <strong>{{ maskedDestination }}</strong>
-          <button type="button" class="text-button" (click)="editEmail()" [disabled]="isLoading">Change</button>
+          <button type="button" class="text-button" (click)="editContact()" [disabled]="isLoading">Change</button>
         </div>
 
         <div class="form-group">
           <label>Verification code</label>
-          <input
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            [(ngModel)]="otpCode"
-            placeholder="Enter 6 digit code"
-            autocomplete="one-time-code"
-          />
+          <div class="otp-entry" (click)="focusOtpInput()">
+            <input
+              #otpInput
+              class="otp-hidden-input"
+              type="text"
+              inputmode="numeric"
+              maxlength="6"
+              [ngModel]="otpCode"
+              (ngModelChange)="onOtpInput($event)"
+              (keydown)="onOtpKeyDown($event)"
+              autocomplete="one-time-code"
+              [disabled]="isLoading"
+              aria-label="6 digit verification code"
+            />
+            <div class="otp-boxes" aria-hidden="true">
+              <span
+                *ngFor="let digit of otpDigits"
+                class="otp-box"
+                [class.filled]="digit"
+              >{{ digit }}</span>
+            </div>
+          </div>
         </div>
 
         <div class="error-message" *ngIf="errorMessage">
@@ -47,7 +78,7 @@
         </div>
 
         <button type="button" (click)="verifyRegistrationCode()" [disabled]="isLoading">
-          {{ isLoading ? 'Verifying...' : 'Verify Email' }}
+          {{ isLoading ? 'Verifying...' : 'Verify ' + otpContactLabel }}
         </button>
 
         <button type="button" class="secondary-button" (click)="sendRegistrationCode()" [disabled]="isLoading || resendSeconds > 0">
@@ -57,7 +88,7 @@
 
       <ng-container *ngSwitchCase="'profile'">
         <div class="verified-note">
-          Email verified: <strong>{{ email }}</strong>
+          Verified: <strong>{{ verifiedDestination }}</strong>
         </div>
 
         <div class="form-group">
@@ -70,7 +101,17 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" *ngIf="verifiedChannel === 'Phone'">
+          <label>Email</label>
+          <input
+            type="email"
+            [(ngModel)]="email"
+            placeholder="Optional"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group" *ngIf="verifiedChannel === 'Email'">
           <label>Phone number</label>
           <input
             type="tel"
@@ -96,3 +137,6 @@
     </div>
   </div>
 </div>
+
+
+

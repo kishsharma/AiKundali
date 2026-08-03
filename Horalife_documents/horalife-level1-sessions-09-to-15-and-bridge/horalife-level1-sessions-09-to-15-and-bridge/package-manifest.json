@@ -1,0 +1,24 @@
+{
+  "package": "HoraLife Level 1 Sessions 09–15 and Bonus Bridge",
+  "contents": {
+    "level1Sessions": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "kn"
+    ],
+    "includesValidationJson": true,
+    "includesReferencedSvgDiagrams": true,
+    "bonusBridgeIncluded": true
+  },
+  "fileCount": 56,
+  "missingFiles": []
+}

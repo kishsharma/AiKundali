@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit,ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -309,23 +309,24 @@ export class LearningSessionComponent implements OnInit, OnDestroy {
     });
   }
   private loadPage(sessionGuid: string): void {
-    if (!this.level) {
-      this.learningService.getLevel('level-1').subscribe({
-        next: level => {
-          this.level = level;
-           this.cdr.markForCheck();
-          this.loadSession(sessionGuid);
-         },
-        error: error => {
-          console.error('Learning level load error:', error);
-          this.loading = false;
-          this.errorMessage = 'Unable to load Level 1 navigation.';
-        }
-      });
+    this.loadSession(sessionGuid);
+  }
+
+  private loadNavigationLevel(levelCode: string): void {
+    if (!levelCode || this.level?.code === levelCode) {
       return;
     }
 
-    this.loadSession(sessionGuid);
+    this.learningService.getLevel(levelCode).subscribe({
+      next: level => {
+        this.level = level;
+        this.manifestSession = level.sessions.find(item => item.id === this.session?.id) ?? this.manifestSession;
+        this.cdr.markForCheck();
+      },
+      error: error => {
+        console.error('Learning level navigation load error:', error);
+      }
+    });
   }
 
   private loadSession(sessionGuid: string, preserveSectionId?: string, keepCurrentSession = false): void {
@@ -369,6 +370,7 @@ export class LearningSessionComponent implements OnInit, OnDestroy {
         this.manifestSession = response.manifestSession;
         this.resolvedLanguage = response.resolvedLanguage;
         this.usedFallback = response.usedFallback;
+        this.loadNavigationLevel(response.session.levelCode);
         this.buildGlossaryMatchers();
         this.restoreSection(preserveSectionId);
 

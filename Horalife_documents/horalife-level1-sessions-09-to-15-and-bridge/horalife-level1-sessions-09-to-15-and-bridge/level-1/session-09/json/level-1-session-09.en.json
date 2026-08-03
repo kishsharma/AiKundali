@@ -1,0 +1,705 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "10228a19-9710-5ebf-bcc9-055bc0327e89",
+  "levelCode": "level-1",
+  "sessionNumber": 9,
+  "slug": "planetary-relationships-and-dignity",
+  "language": "en",
+  "title": "Planetary Relationships and Dignity",
+  "subtitle": "Understanding natural relationships, sign ownership, exaltation, debilitation and Moolatrikona",
+  "summary": "This session introduces the foundation used to judge how comfortably a planet operates in a sign. Students learn natural friendship, temporary relationship, compound relationship, sign ownership, own sign, Moolatrikona, exaltation, debilitation and neutral placement. The session also explains why dignity is important but should not be treated as the complete strength or final result of a planet.",
+  "estimatedMinutes": 75,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Explain why planetary relationships are used in chart interpretation.",
+    "Distinguish natural friendship from temporary friendship.",
+    "Understand how compound planetary relationships are formed.",
+    "Identify the signs owned by the seven classical planets.",
+    "Define own sign, Moolatrikona, exaltation and debilitation.",
+    "Recognise that dignity describes placement quality rather than complete planetary strength.",
+    "Avoid judging a planet only from one dignity label.",
+    "Apply a basic dignity-reading sequence to a sample placement."
+  ],
+  "prerequisites": [
+    "Completion of Session 8: Karana in Panchang.",
+    "Basic familiarity with the twelve Rashis and the seven classical planets."
+  ],
+  "keyTerms": [
+    {
+      "term": "Natural relationship",
+      "sanskrit": "नैसर्गिक मैत्री",
+      "transliteration": "naisargika maitrī",
+      "meaning": "The inherent friend, enemy or neutral relationship assigned between planets.",
+      "note": "It remains the same in every chart."
+    },
+    {
+      "term": "Temporary relationship",
+      "sanskrit": "तात्कालिक मैत्री",
+      "transliteration": "tātkālika maitrī",
+      "meaning": "A chart-specific relationship based on the relative house positions of two planets.",
+      "note": "It changes from chart to chart."
+    },
+    {
+      "term": "Compound relationship",
+      "sanskrit": "पञ्चधा मैत्री",
+      "transliteration": "pañcadhā maitrī",
+      "meaning": "The final fivefold relationship derived by combining natural and temporary relationships.",
+      "note": "The result may be great friend, friend, neutral, enemy or great enemy."
+    },
+    {
+      "term": "Own sign",
+      "sanskrit": "स्वक्षेत्र",
+      "transliteration": "svakṣetra",
+      "meaning": "A sign ruled by the planet occupying it.",
+      "note": "A planet generally has familiarity and authority in its own sign."
+    },
+    {
+      "term": "Moolatrikona",
+      "sanskrit": "मूलत्रिकोण",
+      "transliteration": "mūlatrikoṇa",
+      "meaning": "A special sign zone where a planet is considered strongly established in its essential nature and function.",
+      "note": "It is distinct from both exaltation and ordinary own-sign placement."
+    },
+    {
+      "term": "Exaltation",
+      "sanskrit": "उच्च",
+      "transliteration": "uccha",
+      "meaning": "A sign placement traditionally associated with a planet expressing its qualities with high functional capacity.",
+      "note": "Exaltation alone does not guarantee universally favourable results."
+    },
+    {
+      "term": "Debilitation",
+      "sanskrit": "नीच",
+      "transliteration": "nīca",
+      "meaning": "A sign placement traditionally associated with difficulty expressing the planet's natural qualities.",
+      "note": "Debilitation may be modified by cancellation, aspects, conjunctions, strength and chart context."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "why-relationships-matter",
+      "title": "Why Planetary Relationships Matter",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "natural-relationships",
+      "title": "Natural Planetary Relationships",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "temporary-and-compound",
+      "title": "Temporary and Compound Relationships",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "sign-ownership",
+      "title": "Planetary Sign Ownership",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "dignity-levels",
+      "title": "Own Sign, Moolatrikona, Exaltation and Debilitation",
+      "estimatedMinutes": 14
+    },
+    {
+      "sectionId": "dignity-is-not-complete-strength",
+      "title": "Why Dignity Is Not Complete Strength",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "basic-reading-method",
+      "title": "A Basic Reading Method",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "why-relationships-matter",
+      "title": "Why Planetary Relationships Matter",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A planet does not operate in isolation. It occupies a sign ruled by another planet, shares space or aspects with other planets and functions within a specific house. Planetary relationship helps describe whether the environment supports, tolerates or pressures the planet."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Relationship is one layer",
+          "text": "A friendly sign can support expression, but final judgement also requires house lordship, aspects, conjunctions, combustion, retrogression, strength measures and Dasha activation."
+        }
+      ]
+    },
+    {
+      "id": "natural-relationships",
+      "title": "Natural Planetary Relationships",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Natural relationships of the seven classical planets",
+          "columns": [
+            "Planet",
+            "Natural friends",
+            "Natural enemies",
+            "Natural neutrals"
+          ],
+          "rows": [
+            [
+              "Sun",
+              "Moon, Mars, Jupiter",
+              "Venus, Saturn",
+              "Mercury"
+            ],
+            [
+              "Moon",
+              "Sun, Mercury",
+              "None",
+              "Mars, Jupiter, Venus, Saturn"
+            ],
+            [
+              "Mars",
+              "Sun, Moon, Jupiter",
+              "Mercury",
+              "Venus, Saturn"
+            ],
+            [
+              "Mercury",
+              "Sun, Venus",
+              "Moon",
+              "Mars, Jupiter, Saturn"
+            ],
+            [
+              "Jupiter",
+              "Sun, Moon, Mars",
+              "Mercury, Venus",
+              "Saturn"
+            ],
+            [
+              "Venus",
+              "Mercury, Saturn",
+              "Sun, Moon",
+              "Mars, Jupiter"
+            ],
+            [
+              "Saturn",
+              "Mercury, Venus",
+              "Sun, Moon, Mars",
+              "Jupiter"
+            ]
+          ],
+          "note": "Rahu and Ketu relationships vary by tradition and should be handled through a clearly declared rule set."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session09-natural-relationship-map",
+          "assetPath": "assets/study/level-1/session-09/natural-relationship-map.svg",
+          "altText": "A simple relationship map showing planets connected as natural friends, enemies or neutrals.",
+          "caption": "Natural relationships are fixed reference relationships between planets.",
+          "purpose": "Visually distinguish friend, enemy and neutral categories.",
+          "annotations": [
+            "Friend",
+            "Enemy",
+            "Neutral",
+            "Fixed relationship"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Relationships are not always reciprocal",
+          "text": "One planet may regard another as a friend while the other regards it differently. Read each planet's relationship from its own perspective."
+        }
+      ]
+    },
+    {
+      "id": "temporary-and-compound",
+      "title": "Temporary and Compound Relationships",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Temporary relationship depends on the relative placement of planets in the chart. A commonly used Parashari rule treats planets placed in the 2nd, 3rd, 4th, 10th, 11th or 12th positions from one another as temporary friends; planets in the 1st, 5th, 6th, 7th, 8th or 9th positions are temporary enemies."
+        },
+        {
+          "type": "table",
+          "caption": "Combining natural and temporary relationships",
+          "columns": [
+            "Natural relationship",
+            "Temporary relationship",
+            "Compound result"
+          ],
+          "rows": [
+            [
+              "Friend",
+              "Friend",
+              "Great friend"
+            ],
+            [
+              "Friend",
+              "Enemy",
+              "Neutral"
+            ],
+            [
+              "Neutral",
+              "Friend",
+              "Friend"
+            ],
+            [
+              "Neutral",
+              "Enemy",
+              "Enemy"
+            ],
+            [
+              "Enemy",
+              "Friend",
+              "Neutral"
+            ],
+            [
+              "Enemy",
+              "Enemy",
+              "Great enemy"
+            ]
+          ],
+          "note": "This fivefold result is commonly called Panchadha Maitri."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session09-compound-relationship-flow",
+          "assetPath": "assets/study/level-1/session-09/compound-relationship-flow.svg",
+          "altText": "A simple flow showing natural relationship plus temporary relationship producing a fivefold compound relationship.",
+          "caption": "Compound relationship combines fixed and chart-specific relationships.",
+          "purpose": "Show the logic used to derive Panchadha Maitri.",
+          "annotations": [
+            "Natural",
+            "Temporary",
+            "Combine",
+            "Fivefold result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sign-ownership",
+      "title": "Planetary Sign Ownership",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Classical sign ownership",
+          "columns": [
+            "Planet",
+            "Owned sign or signs"
+          ],
+          "rows": [
+            [
+              "Sun",
+              "Leo"
+            ],
+            [
+              "Moon",
+              "Cancer"
+            ],
+            [
+              "Mars",
+              "Aries and Scorpio"
+            ],
+            [
+              "Mercury",
+              "Gemini and Virgo"
+            ],
+            [
+              "Jupiter",
+              "Sagittarius and Pisces"
+            ],
+            [
+              "Venus",
+              "Taurus and Libra"
+            ],
+            [
+              "Saturn",
+              "Capricorn and Aquarius"
+            ]
+          ],
+          "note": "Rahu and Ketu are not assigned universally accepted sign ownership in classical Parashari practice."
+        },
+        {
+          "type": "paragraph",
+          "text": "When a planet occupies a sign, the sign lord becomes the host of that placement. The planet's relationship with the sign lord helps describe how comfortably it can express itself there."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Own sign is not the same as own house",
+          "text": "A planet is in its own sign when it occupies a Rashi it rules. Whether that sign becomes a particular house depends on the Ascendant."
+        }
+      ]
+    },
+    {
+      "id": "dignity-levels",
+      "title": "Own Sign, Moolatrikona, Exaltation and Debilitation",
+      "estimatedMinutes": 14,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Core dignity signs",
+          "columns": [
+            "Planet",
+            "Exaltation",
+            "Debilitation",
+            "Moolatrikona"
+          ],
+          "rows": [
+            [
+              "Sun",
+              "Aries",
+              "Libra",
+              "Leo"
+            ],
+            [
+              "Moon",
+              "Taurus",
+              "Scorpio",
+              "Taurus"
+            ],
+            [
+              "Mars",
+              "Capricorn",
+              "Cancer",
+              "Aries"
+            ],
+            [
+              "Mercury",
+              "Virgo",
+              "Pisces",
+              "Virgo"
+            ],
+            [
+              "Jupiter",
+              "Cancer",
+              "Capricorn",
+              "Sagittarius"
+            ],
+            [
+              "Venus",
+              "Pisces",
+              "Virgo",
+              "Libra"
+            ],
+            [
+              "Saturn",
+              "Libra",
+              "Aries",
+              "Aquarius"
+            ]
+          ],
+          "note": "Exact degree ranges for Moolatrikona should be stored and applied separately in the calculation engine."
+        },
+        {
+          "type": "comparison",
+          "title": "How the main dignity labels differ",
+          "left": {
+            "label": "Supportive dignity",
+            "points": [
+              "Exaltation: highly capable expression.",
+              "Moolatrikona: strongly rooted functional expression.",
+              "Own sign: familiar and self-governed environment."
+            ]
+          },
+          "right": {
+            "label": "Pressured dignity",
+            "points": [
+              "Friendly sign: generally cooperative environment.",
+              "Neutral sign: mixed or ordinary comfort.",
+              "Enemy sign or debilitation: greater adjustment or difficulty."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session09-dignity-ladder",
+          "assetPath": "assets/study/level-1/session-09/dignity-ladder.svg",
+          "altText": "A simple vertical ladder showing exaltation, Moolatrikona, own sign, friendly sign, neutral sign, enemy sign and debilitation.",
+          "caption": "Dignity labels provide a first view of planetary comfort in a sign.",
+          "purpose": "Arrange the major dignity categories in a simple learning sequence.",
+          "annotations": [
+            "Exaltation",
+            "Moolatrikona",
+            "Own sign",
+            "Friendly",
+            "Neutral",
+            "Enemy",
+            "Debilitation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dignity-is-not-complete-strength",
+      "title": "Why Dignity Is Not Complete Strength",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Dignity describes the quality of a planet's sign placement, but it is not the complete measure of strength. A planet may be exalted yet combust, afflicted, weak in Shadbala or functionally difficult for a particular Ascendant. A debilitated planet may receive cancellation, benefic support, directional strength or strong Dasha activation."
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Check the sign dignity.",
+            "Check house ownership and house placement.",
+            "Check conjunctions and aspects.",
+            "Check combustion and retrogression.",
+            "Check available strength measures.",
+            "Check Yoga or Dosha participation.",
+            "Check Dasha and transit activation.",
+            "Then form the judgement."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Avoid one-word verdicts",
+          "text": "Exalted does not automatically mean good in every life area, and debilitated does not automatically mean failure."
+        }
+      ]
+    },
+    {
+      "id": "basic-reading-method",
+      "title": "A Basic Reading Method",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "example",
+          "title": "Reading Mars in Capricorn",
+          "scenario": "Mars occupies Capricorn, which is ruled by Saturn.",
+          "steps": [
+            "Identify the sign lord: Saturn.",
+            "Check natural relationship: Mars treats Saturn as neutral.",
+            "Recognise dignity: Mars is exalted in Capricorn.",
+            "Check the house occupied and houses ruled by Mars.",
+            "Check conjunctions, aspects, combustion, retrogression and strength.",
+            "Check whether Mars is activated by Dasha or transit."
+          ],
+          "conclusion": "The exaltation label is a strong starting fact, but the final result depends on the whole chart and timing."
+        },
+        {
+          "type": "table",
+          "caption": "Basic dignity reading checklist",
+          "columns": [
+            "Step",
+            "Question"
+          ],
+          "rows": [
+            [
+              "1",
+              "Which sign contains the planet?"
+            ],
+            [
+              "2",
+              "Who rules that sign?"
+            ],
+            [
+              "3",
+              "What is the planet's relationship with the sign lord?"
+            ],
+            [
+              "4",
+              "Is the planet exalted, in Moolatrikona, own, friendly, neutral, enemy or debilitated sign?"
+            ],
+            [
+              "5",
+              "Which houses does the planet rule and occupy?"
+            ],
+            [
+              "6",
+              "What modifies the placement?"
+            ],
+            [
+              "7",
+              "Is the planet active by Dasha or transit?"
+            ]
+          ],
+          "note": "This checklist is a foundation for later predictive sessions."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Treating a naturally friendly planet as beneficial in every chart.",
+      "whyItIsWrong": "Natural relationship does not replace functional lordship, house placement or affliction.",
+      "correctUnderstanding": "Use friendship as one interpretive layer."
+    },
+    {
+      "mistake": "Assuming planetary relationships are always reciprocal.",
+      "whyItIsWrong": "One planet's natural relationship toward another may differ from the reverse relationship.",
+      "correctUnderstanding": "Read the relationship from the perspective of the planet being judged."
+    },
+    {
+      "mistake": "Calling every own-sign placement Moolatrikona.",
+      "whyItIsWrong": "Moolatrikona applies to a specific sign and often a specific degree range.",
+      "correctUnderstanding": "Store and check Moolatrikona separately from own sign."
+    },
+    {
+      "mistake": "Declaring every exalted planet fully auspicious.",
+      "whyItIsWrong": "Exaltation describes sign dignity, not complete functional outcome.",
+      "correctUnderstanding": "Check lordship, house, aspects, conjunctions, strength and timing."
+    },
+    {
+      "mistake": "Declaring every debilitated planet powerless.",
+      "whyItIsWrong": "Debilitation may be modified or cancelled and the planet may have other sources of strength.",
+      "correctUnderstanding": "Evaluate the complete chart before giving a verdict."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Evaluate basic planetary dignity",
+    "instructions": [
+      "Write the signs owned by each of the seven classical planets.",
+      "Write the exaltation and debilitation sign of each planet.",
+      "Explain natural and temporary friendship in one sentence each.",
+      "Use the compound relationship table for one sample pair of planets.",
+      "Evaluate Jupiter placed in Sagittarius using the basic dignity checklist.",
+      "List three factors that can modify an exalted or debilitated placement.",
+      "Explain why dignity is not the same as complete Shadbala."
+    ],
+    "expectedOutcome": "The student can identify sign ownership and major dignity labels, distinguish natural from temporary relationship and apply a structured first-level reading without giving an oversimplified verdict.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "Planetary relationship describes how planets interact and how a planet experiences a sign lord.",
+    "Natural relationships are fixed reference relationships.",
+    "Temporary relationships depend on chart placement.",
+    "Compound relationship combines natural and temporary relationships.",
+    "The seven classical planets own the twelve Rashis.",
+    "Own sign, Moolatrikona, exaltation and debilitation are distinct dignity conditions.",
+    "Friendly, neutral and enemy signs describe the planet's relation with the sign lord.",
+    "Dignity is only one component of planetary strength.",
+    "Exaltation does not automatically guarantee favourable results.",
+    "Debilitation does not automatically mean complete weakness or failure."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "Which relationship remains fixed across charts?",
+        "options": [
+          "Temporary relationship",
+          "Natural relationship",
+          "House relationship",
+          "Transit relationship"
+        ],
+        "answer": "Natural relationship",
+        "explanation": "Natural friendship, enmity and neutrality are fixed reference relationships."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which planet owns Leo?",
+        "options": [
+          "Moon",
+          "Sun",
+          "Mars",
+          "Jupiter"
+        ],
+        "answer": "Sun",
+        "explanation": "Leo is ruled by the Sun."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "Where is Mars exalted?",
+        "options": [
+          "Aries",
+          "Cancer",
+          "Capricorn",
+          "Scorpio"
+        ],
+        "answer": "Capricorn",
+        "explanation": "Mars is traditionally exalted in Capricorn."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Where is Saturn debilitated?",
+        "options": [
+          "Aries",
+          "Libra",
+          "Capricorn",
+          "Cancer"
+        ],
+        "answer": "Aries",
+        "explanation": "Saturn is traditionally debilitated in Aries."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "Every exalted planet gives favourable results in every life area.",
+        "answer": false,
+        "explanation": "Final results depend on lordship, house placement, aspects, strength, affliction and timing."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "Moolatrikona and ordinary own-sign placement are always identical.",
+        "answer": false,
+        "explanation": "Moolatrikona is a distinct dignity condition and may apply only to a specified degree range."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "What is Panchadha Maitri?",
+        "answer": "The fivefold compound relationship obtained by combining natural and temporary planetary relationships.",
+        "explanation": "Its results are great friend, friend, neutral, enemy and great enemy."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why is dignity not equal to complete planetary strength?",
+        "answer": "Because complete strength and results also depend on house lordship, placement, aspects, conjunctions, combustion, retrogression, strength measures and timing.",
+        "explanation": "Dignity evaluates sign placement quality only."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical framework for planetary relationships, sign ownership and dignity used in Parashari Jyotisha.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-23",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "Used as a work-level reference without verse-specific quotation. Edition-specific verification is required before publication."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For classical rules concerning planetary relationships, dignity and chart interpretation.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-23",
+    "reviewNotes": "Natural relationships, temporary relationship logic, sign ownership and core dignity signs were checked for internal consistency. Exact Moolatrikona degree ranges are intentionally deferred to engine metadata and edition-specific verification. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

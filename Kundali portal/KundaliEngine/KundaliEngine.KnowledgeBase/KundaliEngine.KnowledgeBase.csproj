@@ -13,5 +13,30 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="LearningContent\Sessions\Level1\session-10\**" />
+    <Compile Remove="LearningContent\Sessions\Level1\session-11\**" />
+    <Compile Remove="LearningContent\Sessions\Level1\session-12\**" />
+    <Compile Remove="LearningContent\Sessions\Level1\session-13\**" />
+    <Compile Remove="LearningContent\Sessions\Level1\session-14\**" />
+    <Compile Remove="LearningContent\Sessions\Level1\session-15\**" />
+    <EmbeddedResource Remove="LearningContent\Sessions\Level1\session-10\**" />
+    <EmbeddedResource Remove="LearningContent\Sessions\Level1\session-11\**" />
+    <EmbeddedResource Remove="LearningContent\Sessions\Level1\session-12\**" />
+    <EmbeddedResource Remove="LearningContent\Sessions\Level1\session-13\**" />
+    <EmbeddedResource Remove="LearningContent\Sessions\Level1\session-14\**" />
+    <EmbeddedResource Remove="LearningContent\Sessions\Level1\session-15\**" />
+    <None Remove="LearningContent\Sessions\Level1\session-10\**" />
+    <None Remove="LearningContent\Sessions\Level1\session-11\**" />
+    <None Remove="LearningContent\Sessions\Level1\session-12\**" />
+    <None Remove="LearningContent\Sessions\Level1\session-13\**" />
+    <None Remove="LearningContent\Sessions\Level1\session-14\**" />
+    <None Remove="LearningContent\Sessions\Level1\session-15\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="LearningContent\Sessions\Level1\session09\json\" />
+  </ItemGroup>
+
 </Project>
 
