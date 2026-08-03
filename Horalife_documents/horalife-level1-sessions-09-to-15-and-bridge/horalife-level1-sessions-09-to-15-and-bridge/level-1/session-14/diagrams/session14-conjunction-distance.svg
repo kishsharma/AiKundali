@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600">
+<rect width="960" height="600" fill="#fff"/>
+<text x="480" y="55" text-anchor="middle" font-family="Arial" font-size="30" font-weight="600" fill="#222">Conjunction and Degree Distance</text>
+
+<rect x="70" y="120" width="360" height="350" rx="18" fill="#eee" stroke="#444" stroke-width="3"/>
+<text x="250" y="165" text-anchor="middle" font-family="Arial" font-size="26" font-weight="600" fill="#222">Close Conjunction</text>
+<line x1="125" y1="295" x2="375" y2="295" stroke="#555" stroke-width="3"/>
+<circle cx="220" cy="295" r="34" fill="#666"/>
+<circle cx="280" cy="295" r="34" fill="#888"/>
+<text x="220" y="303" text-anchor="middle" font-family="Arial" font-size="20" font-weight="600" fill="#fff">P1</text>
+<text x="280" y="303" text-anchor="middle" font-family="Arial" font-size="20" font-weight="600" fill="#fff">P2</text>
+<text x="250" y="370" text-anchor="middle" font-family="Arial" font-size="22" font-weight="600" fill="#222">Small degree separation</text>
+<text x="250" y="407" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Stronger direct interaction</text>
+
+<rect x="530" y="120" width="360" height="350" rx="18" fill="#ddd" stroke="#444" stroke-width="3"/>
+<text x="710" y="165" text-anchor="middle" font-family="Arial" font-size="26" font-weight="600" fill="#222">Wide Conjunction</text>
+<line x1="585" y1="295" x2="835" y2="295" stroke="#555" stroke-width="3"/>
+<circle cx="620" cy="295" r="34" fill="#666"/>
+<circle cx="800" cy="295" r="34" fill="#888"/>
+<text x="620" y="303" text-anchor="middle" font-family="Arial" font-size="20" font-weight="600" fill="#fff">P1</text>
+<text x="800" y="303" text-anchor="middle" font-family="Arial" font-size="20" font-weight="600" fill="#fff">P2</text>
+<text x="710" y="370" text-anchor="middle" font-family="Arial" font-size="22" font-weight="600" fill="#222">Large degree separation</text>
+<text x="710" y="407" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Weaker direct blending</text>
+
+<rect x="185" y="505" width="590" height="58" rx="14" fill="#e6e6e6" stroke="#555" stroke-width="2.5"/>
+<text x="480" y="542" text-anchor="middle" font-family="Arial" font-size="21" fill="#333">Same sign does not always mean equal interaction intensity.</text>
+</svg>

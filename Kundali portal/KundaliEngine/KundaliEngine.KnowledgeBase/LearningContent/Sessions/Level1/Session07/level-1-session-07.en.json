@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session07-sun-moon-longitude-sum",
-          "assetPath": "assets/study/level-1/session-07/sun-moon-longitude-sum.svg",
+          "assetPath": "assets/learning/Level-1/session-07/sun-moon-longitude-sum.svg",
           "altText": "A simple flow diagram showing Sun longitude and Moon longitude being added to produce the Panchang Yoga.",
           "caption": "Nitya Yoga is based on the sum of Sun and Moon sidereal longitudes.",
           "purpose": "Show the basic inputs and result of the Yoga calculation.",
@@ -288,7 +288,7 @@
         {
           "type": "diagram",
           "assetId": "session07-yoga-normalisation",
-          "assetPath": "assets/study/level-1/session-07/yoga-normalisation.svg",
+          "assetPath": "assets/learning/Level-1/session-07/yoga-normalisation.svg",
           "altText": "A simple number-line style diagram showing a raw longitude sum above 360 degrees being reduced into the 0 to 360 degree range.",
           "caption": "The Sun–Moon longitude sum must be normalised before identifying the Yoga.",
           "purpose": "Explain why 360° is subtracted from large sums.",
@@ -390,7 +390,7 @@
         {
           "type": "diagram",
           "assetId": "session07-panchang-vs-horoscope-yoga",
-          "assetPath": "assets/study/level-1/session-07/panchang-vs-horoscope-yoga.svg",
+          "assetPath": "assets/learning/Level-1/session-07/panchang-vs-horoscope-yoga.svg",
           "altText": "A simple comparison diagram distinguishing daily Panchang Yoga from planetary combinations in a horoscope.",
           "caption": "Panchang Yoga and horoscope Yoga are different concepts.",
           "purpose": "Prevent confusion between two common meanings of the word Yoga.",

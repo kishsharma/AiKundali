@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Panchang Yoga and Horoscope Yoga</title>
+  <desc id="desc">A simple monochrome comparison diagram distinguishing daily Panchang Nitya Yoga from planetary combinations in a horoscope.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Left panel -->
+  <rect x="70" y="90" width="360" height="350" rx="18"
+        fill="#e2e2e2" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="250" y="135" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="27" font-weight="600" fill="#222222">
+    Panchang Nitya Yoga
+  </text>
+
+  <circle cx="170" cy="225" r="42"
+          fill="#cfcfcf" stroke="#444444" stroke-width="3"/>
+  <text x="170" y="233" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#222222">Sun</text>
+
+  <circle cx="330" cy="225" r="42"
+          fill="#bdbdbd" stroke="#444444" stroke-width="3"/>
+  <text x="330" y="233" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#222222">Moon</text>
+
+  <text x="250" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="34" fill="#222222">+</text>
+
+  <rect x="155" y="305" width="190" height="68" rx="12"
+        fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+  <text x="250" y="333" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">
+    Daily calculation
+  </text>
+  <text x="250" y="358" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    27 changing Yogas
+  </text>
+
+  <text x="250" y="410" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    One Panchang limb
+  </text>
+
+  <!-- Right panel -->
+  <rect x="530" y="90" width="360" height="350" rx="18"
+        fill="#d0d0d0" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="710" y="135" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="27" font-weight="600" fill="#222222">
+    Horoscope Yoga
+  </text>
+
+  <!-- Chart nodes -->
+  <circle cx="630" cy="225" r="34"
+          fill="#e8e8e8" stroke="#444444" stroke-width="3"/>
+  <circle cx="710" cy="190" r="34"
+          fill="#bcbcbc" stroke="#444444" stroke-width="3"/>
+  <circle cx="790" cy="225" r="34"
+          fill="#d8d8d8" stroke="#444444" stroke-width="3"/>
+
+  <line x1="660" y1="213" x2="681" y2="202"
+        stroke="#555555" stroke-width="3"/>
+  <line x1="739" y1="202" x2="760" y2="213"
+        stroke="#555555" stroke-width="3"/>
+  <line x1="664" y1="236" x2="756" y2="236"
+        stroke="#777777" stroke-width="3"/>
+
+  <text x="710" y="282" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Planetary relationships
+  </text>
+
+  <rect x="615" y="305" width="190" height="68" rx="12"
+        fill="#efefef" stroke="#555555" stroke-width="2.5"/>
+  <text x="710" y="333" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">
+    Chart combination
+  </text>
+  <text x="710" y="358" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    Rule-based formation
+  </text>
+
+  <text x="710" y="410" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Birth or event chart
+  </text>
+
+  <!-- Divider label -->
+  <text x="480" y="270" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#555555">
+    Different
+  </text>
+
+  <!-- Footer -->
+  <text x="480" y="495" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Same word, but different calculation and purpose.
+  </text>
+</svg>

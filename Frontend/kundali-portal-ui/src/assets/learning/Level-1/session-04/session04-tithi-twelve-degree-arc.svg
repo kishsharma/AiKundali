@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Tithi as a Twelve Degree Arc</title>
+  <desc id="desc">A simple monochrome educational diagram showing Earth at the centre, a fixed Sun direction, a Moon direction, and a highlighted twelve-degree angular separation representing one Tithi.</desc>
+
+  <defs>
+    <marker id="arrowDark" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3f3f3f"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Main zodiac circle -->
+  <circle cx="480" cy="270" r="185"
+          fill="none" stroke="#b5b5b5" stroke-width="3"/>
+
+  <!-- Earth -->
+  <circle cx="480" cy="270" r="46"
+          fill="#bfbfbf" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="480" y="278" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">Earth</text>
+
+  <!-- Sun and Moon directions -->
+  <line x1="480" y1="270" x2="665" y2="270"
+        stroke="#3f3f3f" stroke-width="4" marker-end="url(#arrowDark)"/>
+  <line x1="480" y1="270" x2="661" y2="231"
+        stroke="#6f6f6f" stroke-width="4" marker-end="url(#arrowDark)"/>
+
+  <!-- Sun -->
+  <circle cx="705" cy="270" r="34"
+          fill="#d9d9d9" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="705" y="326" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#222222">Sun</text>
+
+  <!-- Moon -->
+  <circle cx="701" cy="222" r="26"
+          fill="#4a4a4a" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="701" y="182" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#222222">Moon</text>
+
+  <!-- 12 degree arc -->
+  <path d="M590 270 A110 110 0 0 0 587 247"
+        fill="none" stroke="#2f2f2f" stroke-width="6"/>
+
+  <!-- Arc boundary rays -->
+  <line x1="480" y1="270" x2="590" y2="270"
+        stroke="#8a8a8a" stroke-width="2"/>
+  <line x1="480" y1="270" x2="587" y2="247"
+        stroke="#8a8a8a" stroke-width="2"/>
+
+  <!-- Label -->
+  <text x="607" y="244" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    12°
+  </text>
+
+  <text x="480" y="485" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    One Tithi = 12° of Moon–Sun angular separation
+  </text>
+</svg>

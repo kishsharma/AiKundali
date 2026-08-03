@@ -300,8 +300,10 @@ small {
 
 .planet-step:hover,
 .antar-step:hover,
+.pratyantar-step:hover,
 .planet-step:focus-visible,
-.antar-step:focus-visible {
+.antar-step:focus-visible,
+.pratyantar-step:focus-visible {
   border-color: #c9d5f1;
   background: #fbfcff;
   transform: translateY(-1px);
@@ -373,7 +375,8 @@ small {
   background: #dbe7ff;
 }
 
-.antar-step.is-selected {
+.antar-step.is-selected,
+.pratyantar-step.is-selected {
   border-color: #37b46f;
   color: #09612f;
   background: #f2fff8;
@@ -381,7 +384,8 @@ small {
   transform: translateY(-2px);
 }
 
-.antar-step.is-selected::after {
+.antar-step.is-selected::after,
+.pratyantar-step.is-selected::after {
   content: 'Selected';
   color: #09612f;
   background: #dff8e9;
@@ -906,6 +910,7 @@ small {
 .native-facts div,
 .planet-step,
 .antar-step,
+.pratyantar-step,
 .note-card,
 .dasha-state-card {
   border-color: var(--theme-line);
@@ -936,6 +941,7 @@ small {
 .note-card p,
 .planet-step,
 .antar-step,
+.pratyantar-step,
 .phase-grid span,
 .timeline-heading p,
 .native-intro span,
@@ -971,14 +977,17 @@ small {
 
 .planet-step:hover,
 .antar-step:hover,
+.pratyantar-step:hover,
 .planet-step:focus-visible,
-.antar-step:focus-visible {
+.antar-step:focus-visible,
+.pratyantar-step:focus-visible {
   border-color: color-mix(in srgb, var(--theme-accent) 42%, transparent);
   background: color-mix(in srgb, var(--theme-surface-2) 88%, transparent);
 }
 
 .planet-step.is-selected,
-.antar-step.is-selected {
+.antar-step.is-selected,
+.pratyantar-step.is-selected {
   border-color: var(--theme-accent);
   color: var(--theme-accent);
   background: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface));
@@ -1009,4 +1018,984 @@ small {
 
 .phase-line span {
   border-color: var(--theme-surface);
+}
+
+.timeline-track--pratyantar {
+  grid-template-columns: 34px repeat(5, minmax(108px, 1fr)) 34px;
+}
+
+.pratyantar-step {
+  @extend .antar-step;
+  min-height: 96px;
+}
+
+@media (max-width: 1180px) {
+  .timeline-track--pratyantar {
+    grid-template-columns: 34px repeat(3, minmax(120px, 1fr)) 34px;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .timeline-track--pratyantar {
+    grid-template-columns: 30px repeat(2, minmax(122px, 1fr)) 30px;
+  }
+}
+
+/* Compact dasha selection controls */
+.timeline-panel {
+  gap: 12px;
+}
+
+.timeline-heading {
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--theme-surface-2, #fbfcff) 72%, transparent);
+}
+
+.timeline-heading h2 {
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.timeline-heading p {
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.timeline-badge {
+  max-width: 42%;
+  padding: 5px 8px;
+  overflow: hidden;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timeline-track {
+  gap: 8px;
+}
+
+.timeline-track--maha {
+  grid-template-columns: 28px repeat(7, minmax(58px, 1fr)) 28px;
+  padding-bottom: 10px;
+}
+
+.timeline-track--antar,
+.timeline-track--pratyantar {
+  grid-template-columns: 28px repeat(5, minmax(92px, 1fr)) 28px;
+}
+
+.nav-dot {
+  width: 26px;
+  height: 26px;
+  align-self: center;
+}
+
+.nav-dot::before {
+  width: 7px;
+  height: 7px;
+}
+
+.planet-step,
+.antar-step,
+.pratyantar-step {
+  gap: 4px;
+  min-height: 72px;
+  padding: 6px 6px 17px;
+}
+
+.planet-step strong,
+.antar-step strong,
+.pratyantar-step strong {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.planet-step span,
+.antar-step span,
+.pratyantar-step span {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.planet-step::after,
+.antar-step::after,
+.pratyantar-step::after {
+  right: 5px;
+  bottom: 4px;
+  padding: 2px 5px;
+  font-size: 8px;
+}
+
+.planet-step.is-current::before,
+.antar-step.is-current::before,
+.pratyantar-step.is-current::before {
+  top: -9px;
+  border-right-width: 7px;
+  border-left-width: 7px;
+  border-top-width: 8px;
+}
+
+.planet-orb--small {
+  width: 30px;
+  height: 30px;
+  font-size: 10px;
+}
+
+@media (max-width: 1180px) {
+  .timeline-track--maha,
+  .timeline-track--antar,
+  .timeline-track--pratyantar {
+    grid-template-columns: 28px repeat(3, minmax(104px, 1fr)) 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  .timeline-heading {
+    align-items: flex-start;
+  }
+
+  .timeline-badge {
+    max-width: 46%;
+  }
+
+  .timeline-track--maha,
+  .timeline-track--antar,
+  .timeline-track--pratyantar {
+    grid-template-columns: 26px repeat(2, minmax(112px, 1fr)) 26px;
+  }
+}
+
+.current-row--pratyantar strong {
+  color: var(--theme-info, #2563eb);
+}
+
+.current-row--pratyantar span {
+  display: block;
+  margin-top: 4px;
+  color: var(--theme-text-muted, var(--muted));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Compact planet-icon treatment for Dasha selectors and current side card. */
+.current-dasha {
+  gap: 12px;
+}
+
+.current-row {
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.current-row strong {
+  display: block;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.current-row--pratyantar span {
+  overflow: hidden;
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planet-orb {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  font-size: 20px;
+}
+
+.planet-orb app-astrology-icon {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.planet-orb--small {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  font-size: 16px;
+}
+
+.planet-step,
+.antar-step,
+.pratyantar-step {
+  min-height: 82px;
+  padding: 7px 6px 18px;
+}
+
+.planet-step strong,
+.antar-step strong,
+.pratyantar-step strong {
+  max-width: 100%;
+  font-size: 11px;
+  line-height: 1.15;
+}
+
+.planet-step span,
+.antar-step span,
+.pratyantar-step span {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.dasha-period-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.dasha-period-label span {
+  overflow: hidden;
+  min-width: 0;
+  max-width: 58px;
+  text-overflow: ellipsis;
+}
+
+.period-icon {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  color: currentColor;
+}
+
+.remaining-block {
+  gap: 5px;
+  padding-top: 12px;
+}
+
+.remaining-block span,
+.remaining-block small,
+.current-dasha .muted {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.remaining-block strong {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.dasha-progress-stack {
+  display: grid;
+  gap: 9px;
+  padding-top: 2px;
+}
+
+.dasha-progress-row {
+  --bar-color: var(--orange);
+  display: grid;
+  gap: 4px;
+}
+
+.dasha-progress-row--maha {
+  --bar-color: #d97706;
+}
+
+.dasha-progress-row--antar {
+  --bar-color: #089340;
+}
+
+.dasha-progress-row--pratyantar {
+  --bar-color: #2563eb;
+}
+
+.dasha-progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  font-size: 10px;
+  line-height: 1.15;
+}
+
+.dasha-progress-meta span {
+  overflow: hidden;
+  min-width: 0;
+  color: var(--muted);
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dasha-progress-meta strong {
+  flex: 0 0 auto;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.progress-shell--relative {
+  height: 7px;
+  background: color-mix(in srgb, var(--bar-color) 13%, #e5e8f2);
+}
+
+.dasha-progress-row .progress-fill {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--bar-color) 72%, white), var(--bar-color));
+}
+
+.dasha-progress-row small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.strength-gauge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.strength-gauge-item {
+  --gauge-color: var(--green);
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  min-width: 0;
+  text-align: center;
+}
+
+.strength-gauge-item[data-level='Mahadasha'] {
+  --gauge-color: #d97706;
+}
+
+.strength-gauge-item[data-level='Antardasha'] {
+  --gauge-color: #089340;
+}
+
+.strength-gauge-item[data-level='Pratyantardasha'] {
+  --gauge-color: #2563eb;
+}
+
+.gauge--compact {
+  width: 76px;
+  background: conic-gradient(var(--gauge-color) calc(var(--score, 0) * 1%), #e7eaf2 0);
+}
+
+.gauge__value--compact {
+  width: 54px;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.strength-gauge-item strong {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--ink);
+  font-size: 11px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.strength-gauge-item span {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .strength-gauge-grid {
+    grid-template-columns: repeat(3, minmax(72px, 1fr));
+  }
+}
+
+.strength-card__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.strength-info {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.info-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  padding: 0;
+  color: var(--blue);
+  background: transparent;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.info-icon-btn:hover,
+.info-icon-btn:focus-visible {
+  color: #fff;
+  background: var(--blue);
+  outline: none;
+}
+
+.strength-tooltip {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+  width: min(280px, 76vw);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 11px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 14px 32px rgba(16, 20, 61, 0.16);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.45;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+}
+
+.strength-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+  transform: rotate(45deg);
+}
+
+.info-icon-btn:hover + .strength-tooltip,
+.info-icon-btn:focus-visible + .strength-tooltip,
+.strength-info:hover .strength-tooltip,
+.strength-info:focus-within .strength-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.strength-detail-grid {
+  display: grid;
+  gap: 0;
+  overflow-x: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.strength-detail-row {
+  display: grid;
+  grid-template-columns: minmax(118px, 1.15fr) repeat(3, minmax(92px, 1fr));
+  gap: 10px;
+  align-items: center;
+  min-width: 430px;
+  padding: 8px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 68%, transparent);
+}
+
+.strength-detail-row:last-child {
+  border-bottom: 0;
+}
+
+.strength-detail-row--head {
+  padding-top: 0;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.strength-detail-row span {
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.strength-detail-row strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.strength-detail-row--head strong,
+.strength-detail-row--head span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .strength-detail-row {
+    grid-template-columns: minmax(112px, 1.1fr) repeat(3, minmax(86px, 1fr));
+    min-width: 392px;
+  }
+}
+
+/* Compact first viewport: keep useful Dasha data above the fold. */
+.mahadasha-page {
+  gap: 12px;
+  padding: 16px 18px 22px;
+}
+
+.page-toolbar {
+  width: 100%;
+  margin-bottom: -2px;
+}
+
+.page-toolbar app-page-header {
+  display: block;
+  width: 100%;
+}
+
+.toolbar-actions {
+  display: none;
+}
+
+.dasha-native-card.surface {
+  grid-template-columns: minmax(220px, 0.82fr) minmax(0, 1.18fr);
+  gap: 14px;
+  padding: 12px 14px;
+}
+
+.native-intro {
+  gap: 3px;
+}
+
+.native-intro span {
+  font-size: 9px;
+  letter-spacing: 0.25px;
+}
+
+.native-intro h2 {
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.native-intro p {
+  max-width: none;
+  font-size: 10.5px;
+  line-height: 1.35;
+}
+
+.native-facts {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.native-facts div {
+  min-height: 0;
+  padding: 7px 8px;
+  border-radius: 7px;
+}
+
+.native-facts dt {
+  font-size: 8.5px;
+  letter-spacing: 0.2px;
+}
+
+.native-facts dd {
+  overflow: hidden;
+  margin-top: 2px;
+  font-size: 10.5px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Remove horizontal scroll from the three-level strength details. */
+.strength-detail-grid {
+  overflow-x: visible;
+}
+
+.strength-detail-row {
+  grid-template-columns: minmax(72px, 0.7fr) repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  min-width: 0;
+  padding: 6px 0;
+}
+
+.strength-detail-row span,
+.strength-detail-row strong {
+  font-size: 9.5px;
+  line-height: 1.18;
+}
+
+.strength-detail-row strong {
+  white-space: normal;
+  word-break: normal;
+}
+
+.strength-detail-row--head strong,
+.strength-detail-row--head span {
+  font-size: 8.5px;
+}
+
+@media (max-width: 1180px) {
+  .dasha-native-card.surface {
+    grid-template-columns: 1fr;
+  }
+
+  .native-facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .mahadasha-page {
+    padding: 12px;
+  }
+
+  .dasha-native-card.surface {
+    padding: 10px;
+  }
+
+  .native-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .strength-detail-row {
+    grid-template-columns: minmax(64px, 0.7fr) repeat(3, minmax(0, 1fr));
+    min-width: 0;
+  }
+
+  .strength-detail-row span,
+  .strength-detail-row strong {
+    font-size: 8.5px;
+  }
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .page-header {
+  width: 100%;
+  margin-bottom: 0;
+  padding: 7px 12px;
+  box-shadow: none;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .header-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+  gap: 8px 16px;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .header-top {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  min-width: 0;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .header-main {
+  grid-column: 1;
+  grid-row: 1;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  min-width: 0;
+}
+:host ::ng-deep .mahadasha-page app-page-header .header-actions {
+  flex: 0 0 min(560px, 48vw);
+  justify-content: flex-end;
+  width: min(560px, 48vw);
+  min-width: 420px;
+}
+.dasha-header-selector,
+.dasha-header-selector app-saved-chart-selector {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .title-section {
+  min-width: 0;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .page-title {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .breadcrumbs {
+  min-width: 0;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .breadcrumbs ol {
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .breadcrumbs li:not(:last-child)::after {
+  margin-left: 4px;
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .breadcrumb-link,
+:host ::ng-deep .mahadasha-page app-page-header .breadcrumb-text {
+  font-size: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  :host ::ng-deep .mahadasha-page app-page-header .header-content {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  :host ::ng-deep .mahadasha-page app-page-header .header-main,
+  :host ::ng-deep .mahadasha-page app-page-header .header-top {
+    grid-column: 1;
+  }
+
+  :host ::ng-deep .mahadasha-page app-page-header .header-main {
+    grid-row: 1;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  :host ::ng-deep .mahadasha-page app-page-header .header-actions,
+  .dasha-header-selector {
+    width: 100%;
+    min-width: 0;
+  }
+
+  :host ::ng-deep .mahadasha-page app-page-header .header-top {
+    grid-row: 2;
+  }
+
+  :host ::ng-deep .mahadasha-page app-page-header .breadcrumbs ol {
+    justify-content: flex-start;
+  }
+}
+
+:host ::ng-deep .mahadasha-page app-page-header .header-description,
+:host ::ng-deep .mahadasha-page app-page-header .page-subtitle {
+  display: none;
+}
+
+/* Softer strength detail table typography. */
+.strength-detail-row span,
+.strength-detail-cell {
+  font-weight: 500;
+}
+
+.strength-detail-row > span:first-child {
+  font-weight: 600;
+}
+
+.strength-detail-cell {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 9.5px;
+  line-height: 1.18;
+  text-align: right;
+  white-space: normal;
+}
+
+.strength-detail-cell--head,
+.strength-detail-row--head > span:first-child {
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.strength-detail-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.strength-detail-value {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.association-info {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.association-info__button {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  padding: 0;
+  color: var(--blue);
+  background: transparent;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.association-info__button:hover,
+.association-info__button:focus-visible {
+  color: #fff;
+  background: var(--blue);
+  outline: none;
+}
+
+.association-tooltip {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 7px);
+  z-index: 35;
+  display: grid;
+  gap: 5px;
+  width: min(280px, 72vw);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: 0 14px 32px rgba(16, 20, 61, 0.16);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+}
+
+.association-tooltip span {
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.association-info:hover .association-tooltip,
+.association-info:focus-within .association-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/* Keep association tooltip visible above the compact table. */
+.strength-detail-grid,
+.strength-detail-row--association,
+.strength-detail-row--association .strength-detail-cell {
+  overflow: visible;
+}
+
+.strength-detail-row--association {
+  position: relative;
+  z-index: 8;
+}
+
+.strength-detail-row--association .strength-detail-cell {
+  position: relative;
+}
+
+.strength-detail-row--association .strength-detail-value {
+  overflow: hidden;
+}
+
+.association-tooltip {
+  pointer-events: none;
+}
+
+.dasha-select-prompt.surface {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: none;
+  min-height: 0;
+  padding: 10px 14px;
+}
+
+.dasha-select-prompt h2 {
+  flex: 0 0 auto;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.dasha-select-prompt p {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.dasha-select-prompt .action-button {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .dasha-select-prompt.surface {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dasha-select-prompt h2 {
+    white-space: normal;
+  }
+
+  .dasha-select-prompt .action-button {
+    width: fit-content;
+  }
 }

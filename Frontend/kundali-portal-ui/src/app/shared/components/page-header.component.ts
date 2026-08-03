@@ -14,7 +14,7 @@ export interface Breadcrumb {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="page-header">
+    <div class="page-header" [class.compact]="compact">
       <div class="header-content">
         <div class="header-top">
           <nav *ngIf="breadcrumbs && breadcrumbs.length > 0" class="breadcrumbs" aria-label="breadcrumb">
@@ -94,6 +94,24 @@ export interface Breadcrumb {
       border-bottom: 1px solid #E0E0E0;
       padding: 1.5rem 2rem;
       margin-bottom: 2rem;
+    }
+
+    .page-header.compact {
+      padding: 0.65rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-header.compact .header-content {
+      gap: 0.45rem;
+    }
+
+    .page-header.compact .header-main {
+      align-items: center;
+    }
+
+    .page-header.compact .breadcrumb-link,
+    .page-header.compact .breadcrumb-text {
+      font-size: 0.75rem;
     }
 
     .header-content {
@@ -328,6 +346,7 @@ export class PageHeaderComponent {
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() description: string = '';
+  @Input() compact: boolean = false;
   @Input() legacycompatibility: string = '';
   @Input() kundalistatement: string = '';
   @Input() breadcrumbs: Breadcrumb[] = [];

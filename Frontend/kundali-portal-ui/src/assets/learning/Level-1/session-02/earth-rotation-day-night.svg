@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Earth Rotation and Day and Night</title>
+  <desc id="desc">A simple educational diagram showing sunlight from the left, Earth with a day side and night side, and west-to-east rotation.</desc>
+
+  <defs>
+    <clipPath id="earthClip">
+      <circle cx="540" cy="270" r="150"/>
+    </clipPath>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2f6fb2"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Sun -->
+  <circle cx="120" cy="270" r="58" fill="#f6c945" stroke="#d9a81f" stroke-width="3"/>
+  <text x="120" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#222">Sun</text>
+
+  <!-- Sunlight rays -->
+  <g stroke="#e8b92d" stroke-width="5" marker-end="url(#arrow)">
+    <line x1="190" y1="205" x2="345" y2="205"/>
+    <line x1="190" y1="270" x2="345" y2="270"/>
+    <line x1="190" y1="335" x2="345" y2="335"/>
+  </g>
+  <text x="267" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#6d5712">Sunlight</text>
+
+  <!-- Earth -->
+  <circle cx="540" cy="270" r="150" fill="#d9ecff" stroke="#2f6fb2" stroke-width="4"/>
+  <rect x="540" y="120" width="150" height="300" fill="#1f2b3a" clip-path="url(#earthClip)"/>
+
+  <!-- Simple land shapes -->
+  <path d="M455 205 C480 175, 515 180, 520 205 C500 220, 492 250, 465 248 C448 235, 442 220, 455 205 Z"
+        fill="#8bbf6a"/>
+  <path d="M500 300 C525 282, 548 290, 555 315 C542 335, 520 350, 495 338 C486 323, 488 308, 500 300 Z"
+        fill="#8bbf6a"/>
+  <path d="M585 190 C612 180, 637 194, 648 215 C625 228, 605 245, 585 235 C575 220, 575 202, 585 190 Z"
+        fill="#56764a" opacity="0.8"/>
+
+  <!-- Day-night divider -->
+  <line x1="540" y1="120" x2="540" y2="420" stroke="#ffffff" stroke-width="3" stroke-dasharray="8 8"/>
+
+  <!-- Labels -->
+  <text x="470" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#17324d">Day</text>
+  <text x="610" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#ffffff">Night</text>
+
+  <!-- Axis -->
+  <line x1="500" y1="95" x2="580" y2="445" stroke="#444" stroke-width="3"/>
+  <text x="492" y="88" font-family="Arial, sans-serif" font-size="18" fill="#333">N</text>
+  <text x="579" y="466" font-family="Arial, sans-serif" font-size="18" fill="#333">S</text>
+
+  <!-- Rotation arrow -->
+  <path d="M425 115 C500 70, 610 72, 675 125" fill="none" stroke="#2f6fb2" stroke-width="5" marker-end="url(#arrow)"/>
+  <text x="550" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#2f6fb2">West to East rotation</text>
+
+  <!-- Minimal explanation -->
+  <text x="540" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#222">
+    Earth's rotation causes day and night.
+  </text>
+</svg>

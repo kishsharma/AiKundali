@@ -1,0 +1,77 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.brand-logo--full {
+  width: var(--brand-logo-width, 178px);
+  height: auto;
+}
+
+.brand-logo--lockup {
+  gap: var(--brand-logo-gap, 10px);
+  color: var(--theme-text, currentColor);
+}
+
+.brand-logo--icon-only .brand-logo__mark {
+  width: var(--brand-logo-mark-size, 34px);
+  height: var(--brand-logo-mark-size, 34px);
+}
+
+.brand-logo__mark {
+  width: var(--brand-logo-mark-size, 34px);
+  height: var(--brand-logo-mark-size, 34px);
+  flex: 0 0 var(--brand-logo-mark-size, 34px);
+}
+
+.brand-logo__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.05;
+}
+
+.brand-logo__name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  color: var(--brand-logo-name-color, var(--theme-text, currentColor));
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: var(--brand-logo-name-size, 24px);
+  font-weight: 650;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+}
+
+.brand-logo__hora {
+  color: var(--brand-logo-hora-color, currentColor);
+}
+
+.brand-logo__life {
+  border: var(--brand-logo-life-border, 0);
+  padding: var(--brand-logo-life-padding, 0);
+  color: var(--brand-logo-life-color, currentColor);
+  font-family: var(--brand-logo-life-font, inherit);
+  font-size: var(--brand-logo-life-size, 1em);
+  font-weight: var(--brand-logo-life-weight, inherit);
+  letter-spacing: var(--brand-logo-life-spacing, inherit);
+  line-height: 1;
+  text-transform: var(--brand-logo-life-transform, none);
+}
+
+.brand-logo__copy small {
+  color: var(--brand-logo-descriptor-color, var(--theme-text-muted, currentColor));
+  font-size: var(--brand-logo-descriptor-size, 9px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

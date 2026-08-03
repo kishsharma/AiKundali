@@ -1,0 +1,18 @@
+Expected existing OrderItem entity properties:
+
+Guid Id
+Guid OrderId
+Guid ProductId
+Guid? VariantId
+string ProductName
+string? VariantName
+string Sku
+decimal UnitPrice
+int Quantity
+decimal LineTotal
+bool RequiresConsultation
+DateTimeOffset CreatedAt
+DateTimeOffset UpdatedAt
+
+StoreDbContext must expose DbSet<OrderItem> OrderItems.
+Map equivalent existing property names instead of adding duplicate columns.

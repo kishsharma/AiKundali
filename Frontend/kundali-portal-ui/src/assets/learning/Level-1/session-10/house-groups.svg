@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Major House Groups</title>
+  <desc id="desc">A simple monochrome diagram listing Kendra, Trikona, Dusthana and Upachaya houses.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="56" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Major House Groups
+  </text>
+
+  <!-- Kendra -->
+  <rect x="90" y="115" width="340" height="145" rx="18"
+        fill="#eeeeee" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="260" y="158" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Kendra
+  </text>
+  <text x="260" y="202" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="29" font-weight="600" fill="#333333">
+    1 · 4 · 7 · 10
+  </text>
+  <text x="260" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#444444">
+    Structural pillars
+  </text>
+
+  <!-- Trikona -->
+  <rect x="530" y="115" width="340" height="145" rx="18"
+        fill="#e3e3e3" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="700" y="158" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Trikona
+  </text>
+  <text x="700" y="202" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="29" font-weight="600" fill="#333333">
+    1 · 5 · 9
+  </text>
+  <text x="700" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#444444">
+    Purpose and dharma
+  </text>
+
+  <!-- Dusthana -->
+  <rect x="90" y="310" width="340" height="145" rx="18"
+        fill="#d6d6d6" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="260" y="353" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Dusthana
+  </text>
+  <text x="260" y="397" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="29" font-weight="600" fill="#333333">
+    6 · 8 · 12
+  </text>
+  <text x="260" y="430" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#444444">
+    Pressure and transformation
+  </text>
+
+  <!-- Upachaya -->
+  <rect x="530" y="310" width="340" height="145" rx="18"
+        fill="#c9c9c9" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="700" y="353" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Upachaya
+  </text>
+  <text x="700" y="397" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="29" font-weight="600" fill="#333333">
+    3 · 6 · 10 · 11
+  </text>
+  <text x="700" y="430" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#444444">
+    Growth through effort
+  </text>
+
+  <!-- Footer -->
+  <text x="480" y="505" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    One house may belong to more than one group.
+  </text>
+</svg>

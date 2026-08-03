@@ -1,4 +1,4 @@
-using KundaliEngine.Domain.Entities;
+﻿using KundaliEngine.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -14,11 +14,15 @@ public class KundaliDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
 
+    public DbSet<AuthOtpChallenge> AuthOtpChallenges => Set<AuthOtpChallenge>();
+
     public DbSet<AstrologerBrandingSetting> AstrologerBrandingSettings => Set<AstrologerBrandingSetting>();
 
     public DbSet<Kundali> Kundalis => Set<Kundali>();
 
     public DbSet<KundaliReport> KundaliReports => Set<KundaliReport>();
+
+    public DbSet<SavedCompatibility> SavedCompatibilities => Set<SavedCompatibility>();
 
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
@@ -31,3 +35,4 @@ public class KundaliDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(KundaliDbContext).Assembly);
     }
 }
+

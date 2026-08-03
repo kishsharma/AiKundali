@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">One Nakshatra Divided into Four Padas</title>
+  <desc id="desc">A simple monochrome horizontal diagram showing one Nakshatra of thirteen degrees and twenty minutes divided into four equal Padas of three degrees and twenty minutes each.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Main Nakshatra bar -->
+  <rect x="120" y="210" width="720" height="120" rx="14"
+        fill="#e5e5e5" stroke="#3f3f3f" stroke-width="3"/>
+
+  <!-- Four equal divisions -->
+  <line x1="300" y1="210" x2="300" y2="330"
+        stroke="#555555" stroke-width="3"/>
+  <line x1="480" y1="210" x2="480" y2="330"
+        stroke="#555555" stroke-width="3"/>
+  <line x1="660" y1="210" x2="660" y2="330"
+        stroke="#555555" stroke-width="3"/>
+
+  <!-- Pada labels -->
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#222222">
+    <text x="210" y="266" font-size="23" font-weight="600">Pada 1</text>
+    <text x="390" y="266" font-size="23" font-weight="600">Pada 2</text>
+    <text x="570" y="266" font-size="23" font-weight="600">Pada 3</text>
+    <text x="750" y="266" font-size="23" font-weight="600">Pada 4</text>
+
+    <text x="210" y="298" font-size="18" fill="#555555">3°20′</text>
+    <text x="390" y="298" font-size="18" fill="#555555">3°20′</text>
+    <text x="570" y="298" font-size="18" fill="#555555">3°20′</text>
+    <text x="750" y="298" font-size="18" fill="#555555">3°20′</text>
+  </g>
+
+  <!-- Span markers -->
+  <line x1="120" y1="175" x2="840" y2="175"
+        stroke="#3f3f3f" stroke-width="3"/>
+  <line x1="120" y1="162" x2="120" y2="188"
+        stroke="#3f3f3f" stroke-width="3"/>
+  <line x1="840" y1="162" x2="840" y2="188"
+        stroke="#3f3f3f" stroke-width="3"/>
+
+  <text x="480" y="150" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    One Nakshatra = 13°20′
+  </text>
+
+  <!-- Boundary labels -->
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#555555" font-size="17">
+    <text x="120" y="360">0°00′</text>
+    <text x="300" y="360">3°20′</text>
+    <text x="480" y="360">6°40′</text>
+    <text x="660" y="360">10°00′</text>
+    <text x="840" y="360">13°20′</text>
+  </g>
+
+  <text x="480" y="460" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    27 Nakshatras × 4 Padas = 108 Padas
+  </text>
+</svg>

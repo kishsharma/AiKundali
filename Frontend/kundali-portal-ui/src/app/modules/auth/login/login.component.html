@@ -1,37 +1,135 @@
 <div class="auth-page">
   <div class="auth-card">
-    <h1>Login to Kundali Portal</h1>
+    <h1>Login to HoraLife</h1>
     <p>Access your saved kundalis, reports and personalized insights.</p>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input
-        type="email"
-        [(ngModel)]="email"
-        placeholder="Enter your email"
-      />
-    </div>
+    <ng-container *ngIf="loginMode === 'otp'; else passwordLogin">
+      <ng-container *ngIf="otpStep === 'contact'; else otpCodeStep">
+        <div class="auth-option-tabs" role="tablist" aria-label="OTP login method">
+          <button type="button" [class.active]="otpChannel === 'Phone'" (click)="useOtpChannel('Phone')">Mobile number</button>
+          <button type="button" [class.active]="otpChannel === 'Email'" (click)="useOtpChannel('Email')">Email</button>
+        </div>
 
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="Enter your password"
-      />
-    </div>
+        <div class="form-group" *ngIf="otpChannel === 'Phone'; else emailOtpContact">
+          <label>{{ otpContactLabel }}</label>
+          <input
+            type="tel"
+            [(ngModel)]="phoneNumber"
+            [placeholder]="otpContactPlaceholder"
+            autocomplete="tel"
+          />
+        </div>
 
-    <div class="error-message" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+        <ng-template #emailOtpContact>
+          <div class="form-group">
+            <label>{{ otpContactLabel }}</label>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              [placeholder]="otpContactPlaceholder"
+              autocomplete="email"
+            />
+          </div>
+        </ng-template>
 
-    <button type="button" (click)="login()" [disabled]="isLoading">
-      {{ isLoading ? 'Logging in...' : 'Login' }}
-    </button>
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button type="button" (click)="sendLoginCode()" [disabled]="isLoading">
+          {{ isLoading ? 'Sending code...' : 'Send Verification Code' }}
+        </button>
+      </ng-container>
+
+      <ng-template #otpCodeStep>
+        <div class="otp-context">
+          Code sent to <strong>{{ maskedDestination }}</strong>
+          <button type="button" class="text-button" (click)="editContact()" [disabled]="isLoading">Change</button>
+        </div>
+
+        <div class="form-group">
+          <label>Verification code</label>
+          <div class="otp-entry" (click)="focusOtpInput()">
+            <input
+              #otpInput
+              class="otp-hidden-input"
+              type="text"
+              inputmode="numeric"
+              maxlength="6"
+              [ngModel]="otpCode"
+              (ngModelChange)="onOtpInput($event)"
+              (keydown)="onOtpKeyDown($event)"
+              autocomplete="one-time-code"
+              [disabled]="isLoading"
+              aria-label="6 digit verification code"
+            />
+            <div class="otp-boxes" aria-hidden="true">
+              <span
+                *ngFor="let digit of otpDigits"
+                class="otp-box"
+                [class.filled]="digit"
+              >{{ digit }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button type="button" (click)="verifyLoginCode()" [disabled]="isLoading">
+          {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
+        </button>
+
+        <button type="button" class="secondary-button" (click)="sendLoginCode()" [disabled]="isLoading || resendSeconds > 0">
+          {{ resendSeconds > 0 ? 'Resend in ' + resendSeconds + 's' : 'Resend Code' }}
+        </button>
+      </ng-template>
+
+      <button type="button" class="text-button mode-switch" (click)="usePasswordLogin()">
+        Use password instead
+      </button>
+    </ng-container>
+
+    <ng-template #passwordLogin>
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="button" (click)="login()" [disabled]="isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <button type="button" class="text-button mode-switch" (click)="useOtpLogin()">
+        Login with verification code
+      </button>
+    </ng-template>
 
     <div class="auth-switch">
-      New to KundaliScore?
+      New to HoraLife?
       <a routerLink="/register">Create an account</a>
     </div>
   </div>
 </div>
+
+

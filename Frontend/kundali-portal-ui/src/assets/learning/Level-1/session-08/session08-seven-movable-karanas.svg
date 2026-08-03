@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Seven Movable Karanas</title>
+  <desc id="desc">A simple monochrome circular sequence showing the seven movable Karanas repeating from Bava through Vishti and back to Bava.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#444444"/>
+    </marker>
+  </defs>
+  <rect width="960" height="540" fill="#ffffff"/>
+  <text x="480" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">Seven Movable Karanas</text>
+  <line x1="526.9" y1="142.6" x2="550.4" y2="153.9" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="608.8" y1="227.2" x2="614.7" y2="252.7" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="593.8" y1="344.0" x2="577.5" y2="364.5" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="493.1" y1="405.1" x2="466.9" y2="405.1" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="382.5" y1="364.5" x2="366.2" y2="344.0" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="345.3" y1="252.7" x2="351.2" y2="227.2" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="409.6" y1="153.9" x2="433.1" y2="142.6" stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <circle cx="480.0" cy="120.0" r="50" fill="#e4e4e4" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="480.0" y="127.0" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Bava</text>
+  <circle cx="597.3" cy="176.5" r="50" fill="#dcdcdc" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="597.3" y="183.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Balava</text>
+  <circle cx="626.2" cy="303.4" r="50" fill="#d4d4d4" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="626.2" y="310.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Kaulava</text>
+  <circle cx="545.1" cy="405.1" r="50" fill="#cccccc" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="545.1" y="412.1" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Taitila</text>
+  <circle cx="414.9" cy="405.1" r="50" fill="#d4d4d4" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="414.9" y="412.1" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Gara</text>
+  <circle cx="333.8" cy="303.4" r="50" fill="#dcdcdc" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="333.8" y="310.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Vanija</text>
+  <circle cx="362.7" cy="176.5" r="50" fill="#e4e4e4" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="362.7" y="183.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#222222">Vishti</text>
+  <circle cx="480" cy="270" r="70" fill="#f1f1f1" stroke="#666666" stroke-width="2.5"/>
+  <text x="480" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">Repeating</text>
+  <text x="480" y="289" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">sequence</text>
+  <text x="480" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" fill="#333333">After Vishti, the sequence returns to Bava.</text>
+</svg>

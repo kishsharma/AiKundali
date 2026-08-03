@@ -1,6 +1,18 @@
 <section class="learning-home">
-  <!-- <div class="state" *ngIf="loading">Loading Jyotish Study...</div> -->
+  <div class="state" *ngIf="loading">Loading Jyotish Study...</div>
   <div class="state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+
+    <nav class="level-switcher" *ngIf="levels.length" aria-label="Learning levels">
+    <button
+      type="button"
+      *ngFor="let item of levels"
+      [class.active]="item.code === selectedLevelCode"
+      [class.locked]="!isLevelAvailable(item)"
+      (click)="selectLevel(item)">
+      <strong>{{ item.title }}</strong>
+      <small>{{ isLevelAvailable(item) ? item.status : 'planned' }}</small>
+    </button>
+  </nav>
 
   <ng-container *ngIf="!loading && !errorMessage && level">
     <header class="level-header">
@@ -24,7 +36,7 @@
 
     <section class="session-list" aria-label="Level sessions">
       <div class="section-heading">
-        <h2>Level 1 Sessions</h2>
+        <h2>{{ level.code === 'bonus-bridge' ? 'Bridge Session' : level.title + ' Sessions' }}</h2>
         <p>{{ level.recommendedPace?.note }}</p>
       </div>
 

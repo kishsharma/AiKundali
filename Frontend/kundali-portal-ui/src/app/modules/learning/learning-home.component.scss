@@ -4,6 +4,48 @@
   color: var(--theme-text, #1f1f24);
 }
 
+
+.level-switcher {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.65rem;
+}
+
+.level-switcher button {
+  display: grid;
+  gap: 0.25rem;
+  min-height: 4.25rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--theme-line, #e7e0ea);
+  border-radius: var(--theme-radius-control, 0.5rem);
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #24242a);
+  text-align: left;
+  cursor: pointer;
+}
+
+.level-switcher button.active,
+.level-switcher button:hover:not(.locked) {
+  border-color: color-mix(in srgb, var(--theme-accent, #7e3ba8) 42%, var(--theme-line, #e7e0ea));
+  background: color-mix(in srgb, var(--theme-accent, #7e3ba8) 8%, var(--theme-surface, #ffffff));
+}
+
+.level-switcher button.locked {
+  cursor: default;
+  opacity: 0.62;
+}
+
+.level-switcher strong,
+.level-switcher small {
+  overflow-wrap: anywhere;
+}
+
+.level-switcher small {
+  color: var(--theme-text-muted, #6d6472);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
 .level-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

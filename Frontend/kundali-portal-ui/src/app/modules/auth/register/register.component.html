@@ -1,60 +1,135 @@
 <div class="auth-page">
   <div class="auth-card">
-    <h1>Create your Kundali account</h1>
-    <p>Save kundalis, compare compatibility and continue your cosmic insights anytime.</p>
+    <h1>Create your HoraLife account</h1>
+    <p>Verify your mobile number or email first, then complete your profile.</p>
 
-    <div class="form-group">
-      <label>Full name</label>
-      <input
-        type="text"
-        [(ngModel)]="fullName"
-        placeholder="Enter your full name"
-      />
-    </div>
+    <ng-container [ngSwitch]="step">
+      <ng-container *ngSwitchCase="'contact'">
+        <div class="auth-option-tabs" role="tablist" aria-label="OTP registration method">
+          <button type="button" [class.active]="otpChannel === 'Phone'" (click)="useOtpChannel('Phone')">Mobile number</button>
+          <button type="button" [class.active]="otpChannel === 'Email'" (click)="useOtpChannel('Email')">Email</button>
+        </div>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input
-        type="email"
-        [(ngModel)]="email"
-        placeholder="Enter your email"
-      />
-    </div>
+        <div class="form-group" *ngIf="otpChannel === 'Phone'; else emailContact">
+          <label>{{ otpContactLabel }}</label>
+          <input
+            type="tel"
+            [(ngModel)]="phoneNumber"
+            [placeholder]="otpContactPlaceholder"
+            autocomplete="tel"
+          />
+        </div>
 
-    <div class="form-group">
-      <label>Phone number</label>
-      <input
-        type="tel"
-        [(ngModel)]="phoneNumber"
-        placeholder="Optional"
-      />
-    </div>
+        <ng-template #emailContact>
+          <div class="form-group">
+            <label>{{ otpContactLabel }}</label>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              [placeholder]="otpContactPlaceholder"
+              autocomplete="email"
+            />
+          </div>
+        </ng-template>
 
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="Create a password"
-      />
-    </div>
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
 
-    <div class="form-group">
-      <label>Confirm password</label>
-      <input
-        type="password"
-        [(ngModel)]="confirmPassword"
-        placeholder="Confirm your password"
-      />
-    </div>
+        <button type="button" (click)="sendRegistrationCode()" [disabled]="isLoading">
+          {{ isLoading ? 'Sending code...' : 'Send Verification Code' }}
+        </button>
+      </ng-container>
 
-    <div class="error-message" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+      <ng-container *ngSwitchCase="'code'">
+        <div class="otp-context">
+          Code sent to <strong>{{ maskedDestination }}</strong>
+          <button type="button" class="text-button" (click)="editContact()" [disabled]="isLoading">Change</button>
+        </div>
 
-    <button type="button" (click)="register()" [disabled]="isLoading">
-      {{ isLoading ? 'Creating account...' : 'Create Account' }}
-    </button>
+        <div class="form-group">
+          <label>Verification code</label>
+          <div class="otp-entry" (click)="focusOtpInput()">
+            <input
+              #otpInput
+              class="otp-hidden-input"
+              type="text"
+              inputmode="numeric"
+              maxlength="6"
+              [ngModel]="otpCode"
+              (ngModelChange)="onOtpInput($event)"
+              (keydown)="onOtpKeyDown($event)"
+              autocomplete="one-time-code"
+              [disabled]="isLoading"
+              aria-label="6 digit verification code"
+            />
+            <div class="otp-boxes" aria-hidden="true">
+              <span
+                *ngFor="let digit of otpDigits"
+                class="otp-box"
+                [class.filled]="digit"
+              >{{ digit }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button type="button" (click)="verifyRegistrationCode()" [disabled]="isLoading">
+          {{ isLoading ? 'Verifying...' : 'Verify ' + otpContactLabel }}
+        </button>
+
+        <button type="button" class="secondary-button" (click)="sendRegistrationCode()" [disabled]="isLoading || resendSeconds > 0">
+          {{ resendSeconds > 0 ? 'Resend in ' + resendSeconds + 's' : 'Resend Code' }}
+        </button>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'profile'">
+        <div class="verified-note">
+          Verified: <strong>{{ verifiedDestination }}</strong>
+        </div>
+
+        <div class="form-group">
+          <label>Full name</label>
+          <input
+            type="text"
+            [(ngModel)]="fullName"
+            placeholder="Enter your full name"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="form-group" *ngIf="verifiedChannel === 'Phone'">
+          <label>Email</label>
+          <input
+            type="email"
+            [(ngModel)]="email"
+            placeholder="Optional"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group" *ngIf="verifiedChannel === 'Email'">
+          <label>Phone number</label>
+          <input
+            type="tel"
+            [(ngModel)]="phoneNumber"
+            placeholder="Optional"
+            autocomplete="tel"
+          />
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button type="button" (click)="completeRegistration()" [disabled]="isLoading">
+          {{ isLoading ? 'Creating account...' : 'Complete Account' }}
+        </button>
+      </ng-container>
+    </ng-container>
 
     <div class="auth-switch">
       Already have an account?
@@ -62,3 +137,6 @@
     </div>
   </div>
 </div>
+
+
+

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Yoga Longitude Normalisation</title>
+  <desc id="desc">A simple monochrome diagram showing a raw Sun and Moon longitude sum above 360 degrees being reduced by 360 degrees to obtain a normalised value between zero and 360 degrees.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3f3f3f"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Raw sum -->
+  <rect x="90" y="195" width="220" height="110" rx="16"
+        fill="#dedede" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="200" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222222">
+    Raw sum
+  </text>
+  <text x="200" y="280" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="34" font-weight="600" fill="#222222">
+    430°
+  </text>
+
+  <!-- Subtract step -->
+  <circle cx="480" cy="250" r="72"
+          fill="#eeeeee" stroke="#555555" stroke-width="3"/>
+  <text x="480" y="239" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222222">
+    Subtract
+  </text>
+  <text x="480" y="281" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="34" font-weight="600" fill="#222222">
+    360°
+  </text>
+
+  <!-- Normalised sum -->
+  <rect x="650" y="195" width="220" height="110" rx="16"
+        fill="#c7c7c7" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="760" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222222">
+    Normalised sum
+  </text>
+  <text x="760" y="280" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="34" font-weight="600" fill="#222222">
+    70°
+  </text>
+
+  <!-- Arrows -->
+  <line x1="310" y1="250" x2="398" y2="250"
+        stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="552" y1="250" x2="640" y2="250"
+        stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Valid range bar -->
+  <line x1="180" y1="390" x2="780" y2="390"
+        stroke="#3f3f3f" stroke-width="5"/>
+  <line x1="180" y1="375" x2="180" y2="405"
+        stroke="#3f3f3f" stroke-width="3"/>
+  <line x1="780" y1="375" x2="780" y2="405"
+        stroke="#3f3f3f" stroke-width="3"/>
+
+  <circle cx="297" cy="390" r="11" fill="#3f3f3f"/>
+
+  <text x="180" y="435" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">0°</text>
+  <text x="780" y="435" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">360°</text>
+  <text x="297" y="365" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#222222">70°</text>
+
+  <text x="480" y="490" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Keep the longitude sum within the 0°–360° cycle.
+  </text>
+</svg>

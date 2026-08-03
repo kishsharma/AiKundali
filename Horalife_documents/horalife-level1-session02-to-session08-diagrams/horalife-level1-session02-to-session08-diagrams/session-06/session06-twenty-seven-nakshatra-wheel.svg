@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Twenty-Seven Nakshatra Wheel</title>
+  <desc id="desc">A simple monochrome zodiac wheel divided into twenty-seven equal Nakshatra sectors, each spanning thirteen degrees and twenty minutes.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Outer and inner circles -->
+  <circle cx="480" cy="270" r="190"
+          fill="none" stroke="#3f3f3f" stroke-width="3"/>
+  <circle cx="480" cy="270" r="92"
+          fill="#e2e2e2" stroke="#555555" stroke-width="3"/>
+
+  <!-- 27 equal divisions -->
+  <line x1="480.00" y1="178.00" x2="480.00" y2="80.00" stroke="#8a8a8a" stroke-width="1.7"/><line x1="501.22" y1="180.48" x2="523.82" y2="85.12" stroke="#8a8a8a" stroke-width="1.7"/><line x1="521.29" y1="187.79" x2="565.27" y2="100.21" stroke="#8a8a8a" stroke-width="1.7"/><line x1="539.14" y1="199.52" x2="602.13" y2="124.45" stroke="#8a8a8a" stroke-width="1.7"/><line x1="553.80" y1="215.06" x2="632.40" y2="156.54" stroke="#8a8a8a" stroke-width="1.7"/><line x1="564.48" y1="233.56" x2="654.46" y2="194.74" stroke="#8a8a8a" stroke-width="1.7"/><line x1="570.60" y1="254.02" x2="667.11" y2="237.01" stroke="#8a8a8a" stroke-width="1.7"/><line x1="571.84" y1="275.35" x2="669.68" y2="281.05" stroke="#8a8a8a" stroke-width="1.7"/><line x1="568.14" y1="296.39" x2="662.02" y2="324.49" stroke="#8a8a8a" stroke-width="1.7"/><line x1="559.67" y1="316.00" x2="644.54" y2="365.00" stroke="#8a8a8a" stroke-width="1.7"/><line x1="546.92" y1="333.13" x2="618.20" y2="400.39" stroke="#8a8a8a" stroke-width="1.7"/><line x1="530.55" y1="346.86" x2="584.41" y2="428.74" stroke="#8a8a8a" stroke-width="1.7"/><line x1="511.47" y1="356.45" x2="544.98" y2="448.54" stroke="#8a8a8a" stroke-width="1.7"/><line x1="490.68" y1="361.38" x2="502.06" y2="458.72" stroke="#8a8a8a" stroke-width="1.7"/><line x1="469.32" y1="361.38" x2="457.94" y2="458.72" stroke="#8a8a8a" stroke-width="1.7"/><line x1="448.53" y1="356.45" x2="415.02" y2="448.54" stroke="#8a8a8a" stroke-width="1.7"/><line x1="429.45" y1="346.86" x2="375.59" y2="428.74" stroke="#8a8a8a" stroke-width="1.7"/><line x1="413.08" y1="333.13" x2="341.80" y2="400.39" stroke="#8a8a8a" stroke-width="1.7"/><line x1="400.33" y1="316.00" x2="315.46" y2="365.00" stroke="#8a8a8a" stroke-width="1.7"/><line x1="391.86" y1="296.39" x2="297.98" y2="324.49" stroke="#8a8a8a" stroke-width="1.7"/><line x1="388.16" y1="275.35" x2="290.32" y2="281.05" stroke="#8a8a8a" stroke-width="1.7"/><line x1="389.40" y1="254.02" x2="292.89" y2="237.01" stroke="#8a8a8a" stroke-width="1.7"/><line x1="395.52" y1="233.56" x2="305.54" y2="194.74" stroke="#8a8a8a" stroke-width="1.7"/><line x1="406.20" y1="215.06" x2="327.60" y2="156.54" stroke="#8a8a8a" stroke-width="1.7"/><line x1="420.86" y1="199.52" x2="357.87" y2="124.45" stroke="#8a8a8a" stroke-width="1.7"/><line x1="438.71" y1="187.79" x2="394.73" y2="100.21" stroke="#8a8a8a" stroke-width="1.7"/><line x1="458.78" y1="180.48" x2="436.18" y2="85.12" stroke="#8a8a8a" stroke-width="1.7"/>
+
+  <!-- Minimal sector references -->
+  <text x="496.83" y="130.98" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#333333">1</text><text x="613.14" y="332.43" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#333333">9</text><text x="363.69" y="361.59" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#333333">18</text><text x="463.17" y="130.98" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#333333">27</text>
+
+  <!-- Center label -->
+  <text x="480" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="27" font-weight="600" fill="#222222">
+    27
+  </text>
+  <text x="480" y="290" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    Nakshatras
+  </text>
+
+  <!-- Essential labels -->
+  <text x="480" y="46" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    360° Zodiac
+  </text>
+
+  <text x="480" y="505" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Each Nakshatra = 13°20′
+  </text>
+</svg>

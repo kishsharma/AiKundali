@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Panchang Calculation Basis</title>
+  <desc id="desc">A simple monochrome flow diagram showing how Sun longitude and Moon longitude produce Tithi, Karana, Nakshatra and Yoga.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3f3f3f"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Inputs -->
+  <rect x="90" y="115" width="220" height="82" rx="14"
+        fill="#e3e3e3" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="200" y="165" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" fill="#222222">
+    Sun longitude
+  </text>
+
+  <rect x="90" y="340" width="220" height="82" rx="14"
+        fill="#d2d2d2" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="200" y="390" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" fill="#222222">
+    Moon longitude
+  </text>
+
+  <!-- Operations -->
+  <rect x="380" y="120" width="210" height="78" rx="14"
+        fill="#f0f0f0" stroke="#555555" stroke-width="3"/>
+  <text x="485" y="151" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">
+    Moon − Sun
+  </text>
+  <text x="485" y="178" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    Angular difference
+  </text>
+
+  <rect x="380" y="340" width="210" height="78" rx="14"
+        fill="#f0f0f0" stroke="#555555" stroke-width="3"/>
+  <text x="485" y="371" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#222222">
+    Sun + Moon
+  </text>
+  <text x="485" y="398" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">
+    Longitude sum
+  </text>
+
+  <!-- Outputs -->
+  <rect x="685" y="72" width="180" height="64" rx="12"
+        fill="#d8d8d8" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="775" y="112" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222222">Tithi</text>
+
+  <rect x="685" y="168" width="180" height="64" rx="12"
+        fill="#e6e6e6" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="775" y="208" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222222">Karana</text>
+
+  <rect x="685" y="300" width="180" height="64" rx="12"
+        fill="#d8d8d8" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="775" y="340" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222222">Nakshatra</text>
+
+  <rect x="685" y="396" width="180" height="64" rx="12"
+        fill="#e6e6e6" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="775" y="436" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#222222">Yoga</text>
+
+  <!-- Arrows from inputs -->
+  <path d="M310 156 H370" fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M310 381 H370" fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Cross input links -->
+  <path d="M310 156 C345 156, 345 355, 370 379"
+        fill="none" stroke="#8a8a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M310 381 C345 381, 345 182, 370 160"
+        fill="none" stroke="#8a8a8a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Operation to outputs -->
+  <path d="M590 155 C630 155, 640 104, 675 104"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M590 163 C635 163, 645 200, 675 200"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <path d="M310 381 C475 381, 560 332, 675 332"
+        fill="none" stroke="#777777" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <path d="M590 379 C630 379, 640 428, 675 428"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Minimal footer -->
+  <text x="480" y="505" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Panchang limbs use different combinations of Sun and Moon longitude.
+  </text>
+</svg>

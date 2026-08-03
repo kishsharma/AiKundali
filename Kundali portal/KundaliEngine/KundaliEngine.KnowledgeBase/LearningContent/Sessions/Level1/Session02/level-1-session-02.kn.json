@@ -173,7 +173,7 @@
         {
           "type": "diagram",
           "assetId": "session02-earth-rotation-day-night",
-          "assetPath": "assets/study/level-1/session-02/earth-rotation-day-night.svg",
+          "assetPath": "assets/learning/Level-1/session-02/earth-rotation-day-night.svg",
           "altText": "ಭೂಮಿ ಪಶ್ಚಿಮದಿಂದ ಪೂರ್ವಕ್ಕೆ ತಿರುಗುತ್ತಿದೆ; ಒಂದು ಭಾಗ ಬೆಳಕಿನಲ್ಲಿ ಮತ್ತು ಇನ್ನೊಂದು ಭಾಗ ಕತ್ತಲಿನಲ್ಲಿ, ಸೂರ್ಯನು ಒಂದು ಬದಿಯಲ್ಲಿ ತೋರಿಸಲಾಗಿದೆ.",
           "caption": "ಭೂಮಿಯ ಭ್ರಮಣವು ಹಗಲು-ರಾತ್ರಿ ಮತ್ತು ಆಕಾಶದ ಪ್ರತ್ಯಕ್ಷ ದಿನಚಲನವನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
           "purpose": "ಭೂಮಿಯ ನಿಜವಾದ ಭ್ರಮಣವನ್ನು ವೀಕ್ಷಕರ ದೈನಂದಿನ ಆಕಾಶಾನುಭವಕ್ಕೆ ಸಂಪರ್ಕಿಸುವುದು.",
@@ -228,7 +228,7 @@
         {
           "type": "diagram",
           "assetId": "session02-earth-revolution-solar-year",
-          "assetPath": "assets/study/level-1/session-02/earth-revolution-solar-year.svg",
+          "assetPath": "assets/learning/Level-1/session-02/earth-revolution-solar-year.svg",
           "altText": "ಸೂರ್ಯನ ಸುತ್ತ ನಾಲ್ಕು ಸ್ಥಾನಗಳಲ್ಲಿ ಭೂಮಿಯನ್ನು ತೋರಿಸಲಾಗಿದೆ ಮತ್ತು ಪ್ರತಿಯೊಂದು ಸ್ಥಾನದಲ್ಲೂ ಅಕ್ಷ ಒಂದೇ ದಿಕ್ಕಿಗೆ ವಾಲಿದೆ.",
           "caption": "ಭೂಮಿಯ ಪರಿಕ್ರಮಣ ಮತ್ತು ಅಕ್ಷವಾಲುವಿಕೆ ವಾರ್ಷಿಕ ಸೌರಚಕ್ರ ಮತ್ತು ಋತುಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
           "purpose": "ವರ್ಷ ಮತ್ತು ಋತುಬದಲಾವಣೆಯ ಭೌತಿಕ ಆಧಾರವನ್ನು ತೋರಿಸುವುದು.",
@@ -301,7 +301,7 @@
         {
           "type": "diagram",
           "assetId": "session02-lunar-phase-cycle",
-          "assetPath": "assets/study/level-1/session-02/lunar-phase-cycle.svg",
+          "assetPath": "assets/learning/Level-1/session-02/lunar-phase-cycle.svg",
           "altText": "ಭೂಮಿ ಮಧ್ಯದಲ್ಲಿ, ಚಂದ್ರನು ಎಂಟು ಸ್ಥಾನಗಳಲ್ಲಿ ಮತ್ತು ಸೂರ್ಯಪ್ರಕಾಶವು ಒಂದು ದಿಕ್ಕಿನಿಂದ ಬರುತ್ತಿರುವಂತೆ ತೋರಿಸಲಾಗಿದೆ.",
           "caption": "ಭೂಮಿಯಿಂದ ಕಾಣುವ ಸೂರ್ಯ-ಚಂದ್ರ ಜ್ಯಾಮಿತಿ ಬದಲಾಗುವುದರಿಂದ ಚಂದ್ರಕಲೆಗಳು ಉಂಟಾಗುತ್ತವೆ.",
           "purpose": "ಪಂಚಾಂಗದಲ್ಲಿ ಬಳಸುವ ಚಂದ್ರಕಲೆ ಚಕ್ರದ ವೀಕ್ಷಣಾತ್ಮಕ ಆಧಾರವನ್ನು ವಿವರಿಸುವುದು.",
@@ -375,7 +375,7 @@
         {
           "type": "diagram",
           "assetId": "session02-sidereal-synodic-month",
-          "assetPath": "assets/study/level-1/session-02/sidereal-synodic-month.svg",
+          "assetPath": "assets/learning/Level-1/session-02/sidereal-synodic-month.svg",
           "altText": "ಎರಡು ಹಂತಗಳ ಚಿತ್ರದಲ್ಲಿ ಚಂದ್ರನು ಮೊದಲು ನಕ್ಷತ್ರಗಳ ಸಂಬಂಧದಲ್ಲಿ ಮರಳಿ, ನಂತರ ಸೂರ್ಯನೊಂದಿಗೆ ಮತ್ತೆ ಅಮಾವಾಸ್ಯೆಯ ಸರಿಹೊಂದಿಕೆಯನ್ನು ಸಾಧಿಸುತ್ತಾನೆ.",
           "caption": "ಅದೇ ಚಂದ್ರಕಲೆಗೆ ಮರಳಲು ಚಂದ್ರನು ಒಂದು ನಕ್ಷತ್ರ ಪರಿಕ್ರಮಣಕ್ಕಿಂತ ಹೆಚ್ಚು ಸಾಗಬೇಕು.",
           "purpose": "ನಕ್ಷತ್ರಾಧಾರಿತ ಚಕ್ರ ಮತ್ತು ಚಂದ್ರಕಲೆ ಆಧಾರಿತ ಮಾಸದ ಅವಧಿಗಳು ಏಕೆ ವಿಭಿನ್ನವೆಂಬುದನ್ನು ತಿಳಿಸುವುದು.",
@@ -416,7 +416,7 @@
         {
           "type": "diagram",
           "assetId": "session02-longitude-local-time",
-          "assetPath": "assets/study/level-1/session-02/longitude-local-time.svg",
+          "assetPath": "assets/learning/Level-1/session-02/longitude-local-time.svg",
           "altText": "ರೇಖಾಂಶ ರೇಖೆಗಳಿರುವ ಭೂಮಿ ಮತ್ತು ವಿಭಿನ್ನ ಸ್ಥಳೀಯ ಸೌರಕಾಲ ಹೊಂದಿರುವ ಎರಡು ಸ್ಥಳಗಳನ್ನು ತೋರಿಸಲಾಗಿದೆ.",
           "caption": "ಸೂರ್ಯನು ಸ್ಥಳೀಯ ಮಧ್ಯಾಹ್ನ ವೃತ್ತವನ್ನು ಯಾವಾಗ ದಾಟುತ್ತಾನೆ ಎಂಬುದನ್ನು ರೇಖಾಂಶ ನಿರ್ಧರಿಸುತ್ತದೆ.",
           "purpose": "ಭೌಗೋಳಿಕ ರೇಖಾಂಶವನ್ನು ಸ್ಥಳೀಯ ಸೌರಕಾಲ ಮತ್ತು ಕುಂಡಲಿ ಗಣನೆಗೆ ಸಂಪರ್ಕಿಸುವುದು.",

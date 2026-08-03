@@ -132,7 +132,7 @@
         {
           "type": "diagram",
           "assetId": "session03-five-limbs-panchang",
-          "assetPath": "assets/study/level-1/session-03/five-limbs-panchang.svg",
+          "assetPath": "assets/learning/Level-1/session-03/five-limbs-panchang.svg",
           "altText": "मध्य में पंचांग और उससे जुड़े पाँच सरल भाग—तिथि, वार, नक्षत्र, योग और करण।",
           "caption": "पंचांग किसी क्षण को पाँच जुड़े हुए अंगों से वर्णित करता है।",
           "purpose": "प्रत्येक अंग को अलग-अलग पढ़ने से पहले पंचांग की संपूर्ण संरचना प्रस्तुत करना।",
@@ -238,7 +238,7 @@
         {
           "type": "diagram",
           "assetId": "session03-panchang-calculation-basis",
-          "assetPath": "assets/study/level-1/session-03/panchang-calculation-basis.svg",
+          "assetPath": "assets/learning/Level-1/session-03/panchang-calculation-basis.svg",
           "altText": "सूर्य और चन्द्र दीर्घांश से तिथि, करण, नक्षत्र और योग की गणना दिखाने वाला सरल प्रवाह चित्र।",
           "caption": "अधिकांश पंचांग अंग सीधे सूर्य और चन्द्र दीर्घांश से बनते हैं।",
           "purpose": "यह दिखाना कि कौन-से खगोलीय इनपुट किस पंचांग अंग को निर्धारित करते हैं।",
@@ -283,7 +283,7 @@
         {
           "type": "diagram",
           "assetId": "session03-midnight-sunrise-timeline",
-          "assetPath": "assets/study/level-1/session-03/midnight-sunrise-timeline.svg",
+          "assetPath": "assets/learning/Level-1/session-03/midnight-sunrise-timeline.svg",
           "altText": "एक क्षैतिज समयरेखा जिसमें मध्यरात्रि, स्थानीय सूर्योदय, दोपहर, सूर्यास्त और अगली मध्यरात्रि अंकित हैं।",
           "caption": "नागरिक तिथि मध्यरात्रि से शुरू होती है, जबकि पारंपरिक पंचांग में स्थानीय सूर्योदय को विशेष महत्त्व दिया जाता है।",
           "purpose": "नागरिक और सूर्योदय-आधारित दिन-सीमाओं को अलग करना।",

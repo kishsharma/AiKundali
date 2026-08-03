@@ -60,7 +60,7 @@ public sealed class LearningContentService : ILearningContentService
         }
 
         var requestedLanguage = ResolveRequestedLanguage(language, match.Level.Languages.Default);
-        var sessionPath = BuildSessionPath(match.Level.Code, match.Session.SessionNumber, requestedLanguage);
+        var sessionPath = ResolveSessionPath(match.Level.Code, match.Session.SessionNumber, requestedLanguage);
         var resolvedLanguage = requestedLanguage;
         var usedFallback = false;
 
@@ -70,7 +70,7 @@ public sealed class LearningContentService : ILearningContentService
                 "Learning session {SessionGuid} language {Language} was missing. Falling back to English.",
                 sessionGuid,
                 requestedLanguage);
-            sessionPath = BuildSessionPath(match.Level.Code, match.Session.SessionNumber, "en");
+            sessionPath = ResolveSessionPath(match.Level.Code, match.Session.SessionNumber, "en");
             resolvedLanguage = "en";
             usedFallback = true;
         }
@@ -162,7 +162,8 @@ public sealed class LearningContentService : ILearningContentService
             }
 
             _cachedManifests = manifests
-                .OrderBy(level => level.Code, StringComparer.OrdinalIgnoreCase)
+                .OrderBy(level => GetLevelSortOrder(level.Code))
+                .ThenBy(level => level.Code, StringComparer.OrdinalIgnoreCase)
                 .ToList();
             return _cachedManifests;
         }
@@ -193,12 +194,27 @@ public sealed class LearningContentService : ILearningContentService
         }
     }
 
-    private string BuildSessionPath(string levelCode, int sessionNumber, string language)
+    private string ResolveSessionPath(string levelCode, int sessionNumber, string language)
     {
         var levelFolder = ToPascalFolder(levelCode);
-        var sessionFolder = $"Session{sessionNumber:00}";
         var fileName = $"{levelCode}-session-{sessionNumber:00}.{language}.json";
-        return Path.Combine(_contentRoot, "Sessions", levelFolder, sessionFolder, fileName);
+        var sessionRoot = Path.Combine(_contentRoot, "Sessions", levelFolder);
+        var candidateFolders = new[]
+        {
+            $"Session{sessionNumber:00}",
+            $"session-{sessionNumber:00}"
+        };
+
+        foreach (var sessionFolder in candidateFolders)
+        {
+            var candidatePath = Path.Combine(sessionRoot, sessionFolder, fileName);
+            if (File.Exists(candidatePath))
+            {
+                return candidatePath;
+            }
+        }
+
+        return Path.Combine(sessionRoot, candidateFolders[0], fileName);
     }
 
     private static string ResolveRequestedLanguage(string? language, string defaultLanguage)
@@ -211,6 +227,18 @@ public sealed class LearningContentService : ILearningContentService
     {
         var parts = levelCode.Split('-', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         return string.Concat(parts.Select(part => char.ToUpperInvariant(part[0]) + part[1..]));
+    }
+
+
+    private static int GetLevelSortOrder(string levelCode)
+    {
+        return levelCode.ToLowerInvariant() switch
+        {
+            "level-1" => 1,
+            "bonus-bridge" => 2,
+            "level-2" => 3,
+            _ => 100
+        };
     }
 
     private static LearningLevelSummary ToSummary(LearningLevelManifest manifest)

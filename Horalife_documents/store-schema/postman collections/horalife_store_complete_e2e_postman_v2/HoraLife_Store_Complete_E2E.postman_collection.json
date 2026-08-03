@@ -1,0 +1,1691 @@
+{
+  "info": {
+    "_postman_id": "022eef53-f35f-474a-9fd3-af615d8f0f10",
+    "name": "HoraLife Store - Complete E2E Order Flow",
+    "description": "Complete authenticated Store backend flow with success, expected-failure, cleanup and final summary tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test(\"Response time below 5 seconds\",()=>pm.expect(pm.response.responseTime).to.be.below(5000));"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "productSlug",
+      "value": "blue-sapphire-neelam"
+    },
+    {
+      "key": "productId",
+      "value": "1d02cae6-b652-465d-9ce2-d6568982edd6"
+    },
+    {
+      "key": "variantId",
+      "value": "5d78efc8-0d0b-4f3b-843e-61e3c963ca5c"
+    },
+    {
+      "key": "variantSku",
+      "value": "HL-GEM-BSAP-5CT"
+    },
+    {
+      "key": "testQuantity",
+      "value": "1"
+    },
+    {
+      "key": "customerName",
+      "value": "Kishore Sharma"
+    },
+    {
+      "key": "customerPhone",
+      "value": "9876543210"
+    },
+    {
+      "key": "runId",
+      "value": ""
+    },
+    {
+      "key": "runStartedAt",
+      "value": ""
+    },
+    {
+      "key": "shippingAddressId",
+      "value": ""
+    },
+    {
+      "key": "billingAddressId",
+      "value": ""
+    },
+    {
+      "key": "cartId",
+      "value": ""
+    },
+    {
+      "key": "cartItemId",
+      "value": ""
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "orderNumber",
+      "value": ""
+    },
+    {
+      "key": "convertedCartId",
+      "value": ""
+    },
+    {
+      "key": "newCartId",
+      "value": ""
+    },
+    {
+      "key": "previewGrandTotal",
+      "value": ""
+    },
+    {
+      "key": "e2eSummary",
+      "value": ""
+    },
+    {
+      "key": "authStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "catalogueStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "cartStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "addressStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "previewStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "revalidationStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "orderStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "orderItemsStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "inventoryStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "conversionStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "postConversionStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "negativeStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "cleanupStatus",
+      "value": "NOT_RUN"
+    },
+    {
+      "key": "e2eOverallStatus",
+      "value": "NOT_RUN"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Authentication",
+      "item": [
+        {
+          "name": "Login and Save JWT",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/{{authLoginPath}}",
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{{loginRequestBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const now = new Date();",
+                  "pm.collectionVariables.set('runId', String(now.getTime()));",
+                  "pm.collectionVariables.set('runStartedAt', now.toISOString());",
+                  "['shippingAddressId','billingAddressId','cartId','cartItemId','orderId','orderNumber','convertedCartId','newCartId'].forEach(k => pm.collectionVariables.set(k, ''));",
+                  "['authStatus','catalogueStatus','cartStatus','addressStatus','previewStatus','revalidationStatus','orderStatus','orderItemsStatus','inventoryStatus','conversionStatus','postConversionStatus','negativeStatus','cleanupStatus'].forEach(k => pm.collectionVariables.set(k, 'NOT_RUN'));",
+                  "",
+                  "const field = pm.variables.get('loginIdentifierField') || 'email';",
+                  "const identifier = pm.variables.get('loginIdentifier');",
+                  "const password = pm.variables.get('loginPassword');",
+                  "if (!identifier) throw new Error('Set loginIdentifier in the selected environment.');",
+                  "if (!password) throw new Error('Set loginPassword in the selected environment.');",
+                  "",
+                  "const loginBody = { [field]: identifier, password };",
+                  "pm.variables.set('loginRequestBody', JSON.stringify(loginBody));",
+                  "",
+                  "const baseUrl = String(pm.variables.get('baseUrl') || '').replace(/\\/+$/, '');",
+                  "const loginPath = String(pm.variables.get('authLoginPath') || '').replace(/^\\/+/, '');",
+                  "console.log('Login URL:', `${baseUrl}/${loginPath}`);",
+                  "console.log('Login body:', loginBody);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login returns 200', function () { pm.response.to.have.status(200); });",
+                  "",
+                  "let body = {};",
+                  "const responseText = pm.response.text();",
+                  "if (responseText && responseText.trim()) {",
+                  "    try { body = JSON.parse(responseText); }",
+                  "    catch (error) { console.error('Login response is not valid JSON:', responseText); }",
+                  "}",
+                  "",
+                  "const token = body.accessToken || body.token || body.jwtToken || body.jwt ||",
+                  "    (body.data && (body.data.accessToken || body.data.token || body.data.jwtToken));",
+                  "",
+                  "pm.test('JWT is present in login response', function () {",
+                  "    pm.expect(token, 'JWT token').to.be.a('string').and.not.empty;",
+                  "});",
+                  "",
+                  "if (token) {",
+                  "    pm.collectionVariables.set('accessToken', token);",
+                  "    try { pm.environment.set('accessToken', token); } catch (e) {}",
+                  "}",
+                  "",
+                  "pm.collectionVariables.set('authStatus', pm.response.code === 200 && !!token ? 'PASS' : 'FAIL');"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 - Catalogue",
+      "item": [
+        {
+          "name": "Get Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "categories"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Categories 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "products"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Products 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Test Product and Capture IDs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/products/{{productSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "products",
+                "{{productSlug}}"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Product detail 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json(),p=b.product||b.data||b;",
+                  "const pid=p.id||p.productId||pm.collectionVariables.get(\"productId\");",
+                  "const vs=p.variants||b.variants||[], sku=pm.collectionVariables.get(\"variantSku\");",
+                  "const v=vs.find(x=>x.sku===sku)||vs.find(x=>x.isActive!==false)||vs[0];",
+                  "const vid=(v&&(v.id||v.variantId))||pm.collectionVariables.get(\"variantId\");",
+                  "if(pid)pm.collectionVariables.set(\"productId\",pid);",
+                  "if(vid)pm.collectionVariables.set(\"variantId\",vid);",
+                  "pm.test(\"Product ID available\",()=>pm.expect(pm.collectionVariables.get(\"productId\")).not.empty);",
+                  "pm.test(\"Variant ID available\",()=>pm.expect(pm.collectionVariables.get(\"variantId\")).not.empty);",
+                  "pm.collectionVariables.set(\"catalogueStatus\",pm.response.code===200&&pid&&vid?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 - Cart Setup",
+      "item": [
+        {
+          "name": "Clear Existing Active Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Clear cart succeeds or cart absent\",()=>pm.expect(pm.response.code).to.be.oneOf([200,204,404]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Cart Is Empty",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Get cart 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"No active cart\",()=>{pm.expect(b.id).to.eql(null);pm.expect(b.items).to.be.an(\"array\").that.is.empty});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Product to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\":\"{{productId}}\",\n  \"variantId\":\"{{variantId}}\",\n  \"quantity\":{{testQuantity}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Add item succeeds\",()=>pm.expect(pm.response.code).to.be.oneOf([200,201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Active Cart and Capture IDs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Get active cart 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Active cart exists\",()=>pm.expect(b.id).to.exist);",
+                  "pm.test(\"Cart contains item\",()=>pm.expect(b.items).to.be.an(\"array\").that.is.not.empty);",
+                  "if(b.id)pm.collectionVariables.set(\"cartId\",b.id);",
+                  "if(b.items&&b.items.length){pm.collectionVariables.set(\"cartItemId\",b.items[0].id||\"\");}",
+                  "pm.collectionVariables.set(\"cartStatus\",pm.response.code===200&&b.id&&b.items&&b.items.length?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Customer Addresses",
+      "item": [
+        {
+          "name": "Create Shipping Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "addresses"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"addressType\":\"shipping\",\"fullName\":\"{{customerName}}\",\"phone\":\"{{customerPhone}}\",\n \"addressLine1\":\"HoraLife E2E Shipping {{runId}}\",\"addressLine2\":\"Postman automated test\",\n \"city\":\"Bengaluru\",\"state\":\"Karnataka\",\"postalCode\":\"560077\",\"countryCode\":\"IN\",\"isDefault\":false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Shipping address created\",()=>pm.expect(pm.response.code).to.be.oneOf([200,201]));",
+                  "const b=pm.response.json(); if(b.id)pm.collectionVariables.set(\"shippingAddressId\",b.id);",
+                  "pm.test(\"Type shipping\",()=>pm.expect(String(b.addressType).toLowerCase()).to.eql(\"shipping\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Billing Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "addresses"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"addressType\":\"billing\",\"fullName\":\"{{customerName}}\",\"phone\":\"{{customerPhone}}\",\n \"addressLine1\":\"HoraLife E2E Billing {{runId}}\",\"addressLine2\":\"Postman automated test\",\n \"city\":\"Bidar\",\"state\":\"Karnataka\",\"postalCode\":\"585401\",\"countryCode\":\"IN\",\"isDefault\":false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Billing address created\",()=>pm.expect(pm.response.code).to.be.oneOf([200,201]));",
+                  "const b=pm.response.json(); if(b.id)pm.collectionVariables.set(\"billingAddressId\",b.id);",
+                  "pm.test(\"Type billing\",()=>pm.expect(String(b.addressType).toLowerCase()).to.eql(\"billing\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Addresses and Verify",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "addresses"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Addresses 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json(),s=pm.collectionVariables.get(\"shippingAddressId\"),d=pm.collectionVariables.get(\"billingAddressId\");",
+                  "const ok=b.some(x=>x.id===s)&&b.some(x=>x.id===d);",
+                  "pm.test(\"Created addresses returned\",()=>pm.expect(ok).to.eql(true));",
+                  "pm.collectionVariables.set(\"addressStatus\",ok?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 - Checkout Preview",
+      "item": [
+        {
+          "name": "Preview - Shipping as Billing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"shippingAddressId\":\"{{shippingAddressId}}\",\"billingAddressId\":null,\"useShippingAsBilling\":true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preview 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Same billing\",()=>{pm.expect(b.billingSameAsShipping).to.eql(true);pm.expect(b.shippingAddress.id).to.eql(b.billingAddress.id)});",
+                  "pm.test(\"Can checkout\",()=>pm.expect(b.canCheckout).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Preview - Separate Billing Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"shippingAddressId\":\"{{shippingAddressId}}\",\"billingAddressId\":\"{{billingAddressId}}\",\"useShippingAsBilling\":false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preview 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Separate billing\",()=>{pm.expect(b.billingSameAsShipping).to.eql(false);pm.expect(b.billingAddress.id).to.eql(pm.collectionVariables.get(\"billingAddressId\"))});",
+                  "pm.test(\"Totals correct\",()=>pm.expect(b.grandTotal).to.eql(b.subtotal+b.shippingCharge-b.discountAmount+b.taxAmount));",
+                  "pm.test(\"Can checkout\",()=>pm.expect(b.canCheckout).to.eql(true));",
+                  "pm.collectionVariables.set(\"previewGrandTotal\",String(b.grandTotal));",
+                  "pm.collectionVariables.set(\"previewStatus\",pm.response.code===200&&b.canCheckout&&!b.billingSameAsShipping?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 - Revalidate Price and Stock",
+      "item": [
+        {
+          "name": "Revalidate Active Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/revalidate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "revalidate"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Revalidate 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Cart valid\",()=>pm.expect(b.isValid).to.eql(true));",
+                  "pm.test(\"No new preview\",()=>pm.expect(b.requiresNewPreview).to.eql(false));",
+                  "pm.test(\"No cart price update\",()=>pm.expect(b.cartPricesUpdated).to.eql(false));",
+                  "pm.collectionVariables.set(\"revalidationStatus\",pm.response.code===200&&b.isValid?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 - Create Order",
+      "item": [
+        {
+          "name": "Create Order Header",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"shippingAddressId\":\"{{shippingAddressId}}\",\"billingAddressId\":\"{{billingAddressId}}\",\n \"useShippingAsBilling\":false,\"notes\":\"HoraLife E2E {{runId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Order 201\",()=>pm.response.to.have.status(201));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Pending statuses\",()=>{pm.expect(b.orderStatus).to.eql(\"pending\");pm.expect(b.paymentStatus).to.eql(\"pending\")});",
+                  "pm.test(\"Items not yet created\",()=>pm.expect(b.orderItemsCreated).to.eql(false));",
+                  "pm.test(\"Total matches preview\",()=>pm.expect(Number(b.totalAmount)).to.eql(Number(pm.collectionVariables.get(\"previewGrandTotal\"))));",
+                  "if(b.orderId)pm.collectionVariables.set(\"orderId\",b.orderId);",
+                  "if(b.orderNumber!==undefined)pm.collectionVariables.set(\"orderNumber\",String(b.orderNumber));",
+                  "pm.collectionVariables.set(\"orderStatus\",pm.response.code===201&&b.orderId&&!b.orderItemsCreated?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Duplicate Order Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"shippingAddressId\":\"{{shippingAddressId}}\",\"billingAddressId\":\"{{billingAddressId}}\",\n \"useShippingAsBilling\":false,\"notes\":\"HoraLife E2E {{runId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Duplicate order 409\",()=>pm.response.to.have.status(409));",
+                  "const b=pm.response.json(); pm.test(\"OrderAlreadyExists\",()=>pm.expect(b.code).to.eql(\"OrderAlreadyExists\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07 - Create Order Items",
+      "item": [
+        {
+          "name": "Create Order Item Snapshots",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders/{{orderId}}/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders",
+                "{{orderId}}",
+                "items"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Order items 201\",()=>pm.response.to.have.status(201));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Items created\",()=>pm.expect(b.orderItemsCreated).to.eql(true));",
+                  "pm.test(\"Totals match\",()=>{pm.expect(b.totalsMatch).to.eql(true);pm.expect(b.itemsSubtotal).to.eql(b.orderSubtotal)});",
+                  "pm.test(\"productId spelling correct\",()=>{pm.expect(b.items[0]).to.have.property(\"productId\");pm.expect(b.items[0]).not.to.have.property(\"roductId\")});",
+                  "pm.collectionVariables.set(\"orderItemsStatus\",pm.response.code===201&&b.orderItemsCreated&&b.totalsMatch?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Duplicate Order Items Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders/{{orderId}}/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders",
+                "{{orderId}}",
+                "items"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Duplicate items 409\",()=>pm.response.to.have.status(409));",
+                  "const b=pm.response.json();pm.test(\"Already exists reason\",()=>pm.expect((b.title||\"\")+\" \"+(b.detail||\"\")).to.match(/already exist/i));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08 - Reserve Inventory Transactionally",
+      "item": [
+        {
+          "name": "Reserve Inventory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders/{{orderId}}/inventory/reserve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders",
+                "{{orderId}}",
+                "inventory",
+                "reserve"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Reserve 201\",()=>pm.response.to.have.status(201));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Reserved not deducted\",()=>{pm.expect(b.inventoryReserved).to.eql(true);pm.expect(b.stockQuantityDeducted).to.eql(false)});",
+                  "pm.test(\"Reserved quantity correct\",()=>pm.expect(b.totalReservedQuantity).to.eql(Number(pm.collectionVariables.get(\"testQuantity\"))));",
+                  "pm.test(\"Availability reduced\",()=>{const x=b.items[0];pm.expect(x.availableQuantityAfter).to.eql(x.availableQuantityBefore-x.reservedQuantity)});",
+                  "pm.collectionVariables.set(\"inventoryStatus\",pm.response.code===201&&b.inventoryReserved&&!b.stockQuantityDeducted?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Duplicate Reservation Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders/{{orderId}}/inventory/reserve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders",
+                "{{orderId}}",
+                "inventory",
+                "reserve"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Duplicate reserve 409\",()=>pm.response.to.have.status(409));",
+                  "const b=pm.response.json();pm.test(\"Already reserved reason\",()=>pm.expect((b.title||\"\")+\" \"+(b.detail||\"\")).to.match(/already reserved/i));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "09 - Convert Cart",
+      "item": [
+        {
+          "name": "Convert Source Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders/{{orderId}}/cart/convert",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders",
+                "{{orderId}}",
+                "cart",
+                "convert"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Convert 200\",()=>pm.response.to.have.status(200));",
+                  "const b=pm.response.json();",
+                  "pm.test(\"Active to converted\",()=>{pm.expect(b.previousCartStatus).to.eql(\"active\");pm.expect(b.currentCartStatus).to.eql(\"converted\");pm.expect(b.cartConverted).to.eql(true)});",
+                  "pm.test(\"Reservation confirmed\",()=>pm.expect(b.inventoryReserved).to.eql(true));",
+                  "pm.test(\"No new cart yet\",()=>pm.expect(b.newActiveCartCreated).to.eql(false));",
+                  "pm.collectionVariables.set(\"convertedCartId\",b.cartId);",
+                  "pm.collectionVariables.set(\"conversionStatus\",pm.response.code===200&&b.cartConverted&&b.currentCartStatus===\"converted\"?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Duplicate Conversion Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/orders/{{orderId}}/cart/convert",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "orders",
+                "{{orderId}}",
+                "cart",
+                "convert"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Duplicate convert 409\",()=>pm.response.to.have.status(409));",
+                  "const b=pm.response.json();pm.test(\"Already converted reason\",()=>pm.expect((b.title||\"\")+\" \"+(b.detail||\"\")).to.match(/already converted/i));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "10 - Post-Conversion Behaviour",
+      "item": [
+        {
+          "name": "Verify No Active Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Cart 200\",()=>pm.response.to.have.status(200));const b=pm.response.json();",
+                  "pm.test(\"No active cart\",()=>{pm.expect(b.id).to.eql(null);pm.expect(b.items).to.be.an(\"array\").that.is.empty});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Product After Conversion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\":\"{{productId}}\",\"variantId\":\"{{variantId}}\",\"quantity\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Add creates fresh cart\",()=>pm.expect(pm.response.code).to.be.oneOf([200,201]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Fresh Active Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Cart 200\",()=>pm.response.to.have.status(200));const b=pm.response.json(),old=pm.collectionVariables.get(\"convertedCartId\");",
+                  "pm.test(\"New active cart differs\",()=>{pm.expect(b.id).to.exist;pm.expect(b.id).not.to.eql(old);pm.expect(b.items).to.be.an(\"array\").that.is.not.empty});",
+                  "if(b.id)pm.collectionVariables.set(\"newCartId\",b.id);",
+                  "pm.collectionVariables.set(\"postConversionStatus\",pm.response.code===200&&b.id&&b.id!==old?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Clear Fresh Active Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Fresh cart cleanup succeeds\",()=>pm.expect(pm.response.code).to.be.oneOf([200,204]));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "11 - Negative and Security Checks",
+      "item": [
+        {
+          "name": "Invalid Shipping Address Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"shippingAddressId\":\"00000000-0000-0000-0000-000000000001\",\"billingAddressId\":null,\"useShippingAsBilling\":true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Invalid shipping 404\",()=>pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Invalid Billing Address Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"shippingAddressId\":\"{{shippingAddressId}}\",\"billingAddressId\":\"00000000-0000-0000-0000-000000000001\",\"useShippingAsBilling\":false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Invalid billing 404\",()=>pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unauthorized Revalidation Must Fail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/revalidate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "revalidate"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Unauthorized 401\",()=>pm.response.to.have.status(401));",
+                  "pm.collectionVariables.set(\"negativeStatus\",pm.response.code===401?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "12 - Cleanup and Final Summary",
+      "item": [
+        {
+          "name": "Delete Test Shipping Address",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/addresses/{{shippingAddressId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "addresses",
+                "{{shippingAddressId}}"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Shipping cleanup\",()=>pm.expect(pm.response.code).to.be.oneOf([204,404]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Test Billing Address",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/addresses/{{billingAddressId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "addresses",
+                "{{billingAddressId}}"
+              ]
+            },
+            "description": ""
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Billing cleanup\",()=>pm.expect(pm.response.code).to.be.oneOf([204,404]));",
+                  "pm.collectionVariables.set(\"cleanupStatus\",[204,404].includes(pm.response.code)?\"PASS\":\"FAIL\");"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Final E2E Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": "Inspect e2eOverallStatus and e2eSummary collection variables or Postman Console."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Final cart endpoint 200\",()=>pm.response.to.have.status(200));",
+                  "const checks=[",
+                  " [\"Authentication\",\"authStatus\"],[\"Catalogue\",\"catalogueStatus\"],[\"Cart setup\",\"cartStatus\"],",
+                  " [\"Addresses\",\"addressStatus\"],[\"Checkout preview\",\"previewStatus\"],[\"Revalidation\",\"revalidationStatus\"],",
+                  " [\"Create order\",\"orderStatus\"],[\"Create order items\",\"orderItemsStatus\"],[\"Inventory reservation\",\"inventoryStatus\"],",
+                  " [\"Cart conversion\",\"conversionStatus\"],[\"Post-conversion cart\",\"postConversionStatus\"],",
+                  " [\"Negative/security\",\"negativeStatus\"],[\"Cleanup\",\"cleanupStatus\"]",
+                  "];",
+                  "const results=checks.map(([name,key])=>({name,status:pm.collectionVariables.get(key)||\"NOT_RUN\"}));",
+                  "const failed=results.filter(x=>x.status!==\"PASS\");",
+                  "const s={runId:pm.collectionVariables.get(\"runId\"),startedAt:pm.collectionVariables.get(\"runStartedAt\"),",
+                  " finishedAt:new Date().toISOString(),cartId:pm.collectionVariables.get(\"cartId\"),",
+                  " orderId:pm.collectionVariables.get(\"orderId\"),orderNumber:pm.collectionVariables.get(\"orderNumber\"),",
+                  " overall:failed.length?\"FAIL\":\"PASS\",results,failedSteps:failed.map(x=>x.name)};",
+                  "pm.collectionVariables.set(\"e2eOverallStatus\",s.overall);",
+                  "pm.collectionVariables.set(\"e2eSummary\",JSON.stringify(s,null,2));",
+                  "console.log(\"HORALIFE STORE E2E SUMMARY\\n\"+JSON.stringify(s,null,2));",
+                  "results.forEach(x=>pm.test(`${x.name}: ${x.status}`,()=>pm.expect(x.status).to.eql(\"PASS\")));",
+                  "pm.test(\"Overall E2E flow passed\",()=>pm.expect(s.overall).to.eql(\"PASS\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

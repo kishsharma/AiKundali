@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Natural Planetary Relationship Map</title>
+  <desc id="desc">A simple monochrome diagram showing the Sun at the center with example natural friend, neutral and enemy relationship groups around it.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#555555"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="62" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Natural Planetary Relationships
+  </text>
+
+  <!-- Center planet -->
+  <circle cx="480" cy="270" r="72"
+          fill="#d8d8d8" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="480" y="278" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#222222">
+    Sun
+  </text>
+
+  <!-- Friend group -->
+  <rect x="90" y="145" width="220" height="120" rx="16"
+        fill="#e8e8e8" stroke="#4a4a4a" stroke-width="3"/>
+  <text x="200" y="182" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Natural friends
+  </text>
+  <text x="200" y="220" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Moon · Mars · Jupiter
+  </text>
+
+  <!-- Neutral group -->
+  <rect x="650" y="145" width="220" height="120" rx="16"
+        fill="#dddddd" stroke="#4a4a4a" stroke-width="3"/>
+  <text x="760" y="182" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Natural neutral
+  </text>
+  <text x="760" y="220" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Mercury
+  </text>
+
+  <!-- Enemy group -->
+  <rect x="370" y="390" width="220" height="100" rx="16"
+        fill="#c8c8c8" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="480" y="427" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Natural enemies
+  </text>
+  <text x="480" y="463" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Venus · Saturn
+  </text>
+
+  <!-- Connections -->
+  <line x1="310" y1="205" x2="406" y2="247"
+        stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="650" y1="205" x2="554" y2="247"
+        stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="480" y1="342" x2="480" y2="382"
+        stroke="#555555" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <text x="480" y="520" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Read each relationship from the perspective of the planet being judged.
+  </text>
+</svg>

@@ -1,0 +1,11 @@
+Add this inside the existing AddStoreApplication() method:
+
+services.AddScoped<
+    IStoreCheckoutRevalidationService,
+    StoreCheckoutRevalidationService>();
+
+One-line equivalent:
+
+services.AddScoped<IStoreCheckoutRevalidationService, StoreCheckoutRevalidationService>();
+
+Keep all existing catalogue, cart, address, and Checkout Preview registrations.

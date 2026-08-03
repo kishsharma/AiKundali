@@ -1,0 +1,25 @@
+{
+  "package": "HoraLife Complete Bonus Bridge Session",
+  "sessionTitle": "Complete Kundali Prediction Reading Formula",
+  "languages": [
+    "en",
+    "hi",
+    "kn"
+  ],
+  "includesCompleteContentAndTables": true,
+  "includesReferencedSvgDiagrams": true,
+  "diagramCount": 3,
+  "packagedFileCount": 11,
+  "files": [
+    "diagrams/complete-prediction-flow.svg",
+    "diagrams/dasha-three-layer.svg",
+    "diagrams/yoga-dosha-activation.svg",
+    "documentation/README.md",
+    "documentation/bonus-bridge-multilingual-validation-report.md",
+    "documentation/bridge-session-overview.json",
+    "json/bonus-bridge-multilingual-validation-report.json",
+    "json/bonus-bridge-session.en.json",
+    "json/bonus-bridge-session.hi.json",
+    "json/bonus-bridge-session.kn.json"
+  ]
+}

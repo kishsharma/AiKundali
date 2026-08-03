@@ -1,0 +1,8 @@
+Add this registration inside the existing AddStoreApplication() method:
+
+services.AddScoped<IStoreAddressService, StoreAddressService>();
+
+Keep the existing registrations, including:
+
+services.AddScoped<IStoreCatalogService, StoreCatalogService>();
+services.AddScoped<IStoreCartService, StoreCartService>();

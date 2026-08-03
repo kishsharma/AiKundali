@@ -1,0 +1,719 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "6bd7f940-0a64-5eb3-b03f-f2b3d5372699",
+  "levelCode": "level-1",
+  "sessionNumber": 15,
+  "slug": "foundation-kundali-reading-framework",
+  "language": "en",
+  "title": "Foundation-Level Kundali Reading Framework",
+  "subtitle": "Bringing Level 1 concepts together into a disciplined chart-reading sequence",
+  "summary": "This final Level 1 session combines the complete foundation workflow for reading a Kundali. Students learn to confirm chart structure, identify Lagna, signs, houses, planets and house lords, assess dignity, functional nature, conjunctions, aspects, combustion and retrogression, separate supportive and pressure factors, and produce a structured observation without jumping into advanced prediction. The session includes a guided chart-reading worksheet, a sample chart exercise and a final Level 1 assessment.",
+  "estimatedMinutes": 90,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Apply the complete Level 1 Kundali-reading sequence in the correct order.",
+    "Confirm chart orientation, Lagna, house-sign mapping and planetary placements.",
+    "Identify house lords and trace them to their placements.",
+    "Assess planetary dignity, functional nature, conjunctions and aspects.",
+    "Record combustion and retrogression as condition modifiers.",
+    "Separate supportive, pressure, mixed and uncertain evidence.",
+    "Avoid premature event prediction before timing analysis.",
+    "Produce a structured foundation-level chart observation."
+  ],
+  "prerequisites": [
+    "Completion of Level 1 Sessions 1–14.",
+    "Ability to read a North Indian Kundali and identify planets, Rashis, Bhavas and house lords."
+  ],
+  "keyTerms": [
+    {
+      "term": "Chart Orientation",
+      "sanskrit": "कुण्डली दिशा",
+      "transliteration": "kuṇḍalī diśā",
+      "meaning": "The correct identification of fixed houses, Lagna and sign sequence.",
+      "note": "Every later judgement depends on correct orientation."
+    },
+    {
+      "term": "Chart Fact",
+      "sanskrit": "कुण्डली तथ्य",
+      "transliteration": "kuṇḍalī tathya",
+      "meaning": "A directly observable placement or condition in the chart.",
+      "note": "Examples include Lagna, planet, house, sign, dignity and aspect."
+    },
+    {
+      "term": "Supporting Factor",
+      "sanskrit": "सहायक कारक",
+      "transliteration": "sahāyaka kāraka",
+      "meaning": "A chart indication that strengthens or supports a life-area promise.",
+      "note": "Support must be relevant to the selected house or planet."
+    },
+    {
+      "term": "Pressure Factor",
+      "sanskrit": "दबाव कारक",
+      "transliteration": "dabāva kāraka",
+      "meaning": "A chart indication that creates challenge, delay, conflict or weakness.",
+      "note": "Pressure does not automatically mean denial."
+    },
+    {
+      "term": "Mixed Evidence",
+      "sanskrit": "मिश्र संकेत",
+      "transliteration": "miśra saṅketa",
+      "meaning": "A combination of supportive and challenging factors.",
+      "note": "Most real charts contain mixed evidence."
+    },
+    {
+      "term": "Foundation Observation",
+      "sanskrit": "आधारभूत अवलोकन",
+      "transliteration": "ādhārabhūta avalokana",
+      "meaning": "A structured statement based on chart facts without advanced timing or event prediction.",
+      "note": "It states tendencies, strengths, pressures and areas requiring deeper analysis."
+    },
+    {
+      "term": "Prediction Discipline",
+      "sanskrit": "फलादेश अनुशासन",
+      "transliteration": "phalādeśa anuśāsana",
+      "meaning": "The practice of delaying conclusions until evidence, strength and timing are properly assessed.",
+      "note": "Level 1 ends with disciplined observation, not complete prediction."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "reading-order",
+      "title": "The Complete Reading Order",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "chart-facts",
+      "title": "Collecting Chart Facts",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "planet-and-lord-analysis",
+      "title": "Planet and House-Lord Analysis",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "condition-analysis",
+      "title": "Dignity, Conjunctions, Aspects and Conditions",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "evidence-separation",
+      "title": "Separating Supporting and Pressure Factors",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "sample-chart-workflow",
+      "title": "Guided Sample Chart Workflow",
+      "estimatedMinutes": 20
+    },
+    {
+      "sectionId": "foundation-conclusion",
+      "title": "Writing the Foundation Conclusion",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "reading-order",
+      "title": "The Complete Reading Order",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "diagram",
+          "assetId": "session15-foundation-reading-flow",
+          "assetPath": "assets/learning/Level-1/session-15/foundation-reading-flow.svg",
+          "altText": "A simple flow showing chart orientation, placements, house lords, dignity, aspects, evidence separation and foundation conclusion.",
+          "caption": "Follow the same order every time.",
+          "purpose": "Provide the complete Level 1 Kundali-reading sequence.",
+          "annotations": [
+            "Orientation",
+            "Placements",
+            "House lords",
+            "Conditions",
+            "Evidence",
+            "Conclusion"
+          ]
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Confirm birth details and chart orientation.",
+            "Identify the Lagna and complete the sign sequence.",
+            "Record every planet by sign, house and degree.",
+            "Identify the house related to the question or study area.",
+            "Identify that house's sign and house lord.",
+            "Locate and assess the house lord.",
+            "Assess the natural Karaka where relevant.",
+            "Check dignity, functional nature, conjunctions and aspects.",
+            "Record combustion and retrogression as modifiers.",
+            "Separate supportive, pressure, mixed and uncertain evidence.",
+            "Write a foundation observation without event timing."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Use the same order consistently",
+          "text": "A fixed reading order reduces missed factors, contradictory statements and premature conclusions."
+        }
+      ]
+    },
+    {
+      "id": "chart-facts",
+      "title": "Collecting Chart Facts",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Foundation chart-fact worksheet",
+          "columns": [
+            "Fact",
+            "What to record"
+          ],
+          "rows": [
+            [
+              "Lagna",
+              "Rashi, degree and Lagna lord"
+            ],
+            [
+              "Planet placement",
+              "Planet, house, sign and degree"
+            ],
+            [
+              "House sign",
+              "Rashi number and sign name"
+            ],
+            [
+              "House lord",
+              "Planet owning the house"
+            ],
+            [
+              "Lord placement",
+              "House, sign and degree of the lord"
+            ],
+            [
+              "Dignity",
+              "Own, exalted, friendly, neutral, enemy or debilitated"
+            ],
+            [
+              "Conjunction",
+              "Planets together and degree distance"
+            ],
+            [
+              "Aspect",
+              "Aspect giver, receiver and aspect type"
+            ],
+            [
+              "Condition",
+              "Combust, retrograde or other relevant state"
+            ]
+          ],
+          "note": "Record facts before interpretation."
+        },
+        {
+          "type": "comparison",
+          "title": "Fact and interpretation",
+          "left": {
+            "label": "Chart fact",
+            "points": [
+              "Mars is in Capricorn in the tenth house.",
+              "Mars is exalted.",
+              "Mars aspects the first house.",
+              "Mars owns the fourth and eleventh houses."
+            ]
+          },
+          "right": {
+            "label": "Interpretation",
+            "points": [
+              "Strong drive may influence career matters.",
+              "Action may affect identity and self-direction.",
+              "Property and gains may connect with profession.",
+              "Final result still requires timing and full evidence."
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not mix fact and conclusion",
+          "text": "Write observable chart facts first. Add interpretation only after the relevant factors are collected."
+        }
+      ]
+    },
+    {
+      "id": "planet-and-lord-analysis",
+      "title": "Planet and House-Lord Analysis",
+      "estimatedMinutes": 15,
+      "blocks": [
+        {
+          "type": "diagram",
+          "assetId": "session15-house-analysis-triangle",
+          "assetPath": "assets/learning/Level-1/session-15/house-analysis-triangle.svg",
+          "altText": "A simple triangle connecting the house, its lord and the natural Karaka.",
+          "caption": "Read the house, house lord and Karaka together.",
+          "purpose": "Show the three foundation components of life-area analysis.",
+          "annotations": [
+            "House",
+            "House lord",
+            "Karaka",
+            "Combined evidence"
+          ]
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Study the selected house and the sign occupying it.",
+            "Record planets placed in the house.",
+            "Record aspects received by the house.",
+            "Identify the house lord.",
+            "Locate the house lord by house, sign and degree.",
+            "Assess the lord's dignity and functional role.",
+            "Check conjunctions and aspects affecting the lord.",
+            "Identify the natural Karaka for the subject.",
+            "Assess the Karaka's placement and condition.",
+            "Compare the house, lord and Karaka before writing an observation."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Career foundation analysis",
+          "scenario": "The tenth house is being studied.",
+          "steps": [
+            "Read the tenth house sign and any planets placed there.",
+            "Identify and locate the tenth lord.",
+            "Assess the tenth lord's dignity, house and aspects.",
+            "Assess the Sun, Saturn and other relevant career significators according to the chosen framework.",
+            "Separate direct support from pressure.",
+            "Do not give a career-event date at Level 1."
+          ],
+          "conclusion": "The house, house lord and Karaka together form the foundation of life-area analysis."
+        }
+      ]
+    },
+    {
+      "id": "condition-analysis",
+      "title": "Dignity, Conjunctions, Aspects and Conditions",
+      "estimatedMinutes": 15,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Planet condition checklist",
+          "columns": [
+            "Layer",
+            "Questions"
+          ],
+          "rows": [
+            [
+              "Dignity",
+              "Is the planet exalted, own-sign, friendly, neutral, enemy-sign or debilitated?"
+            ],
+            [
+              "House placement",
+              "Is the planet in Kendra, Trikona, Dusthana, Upachaya or another important house?"
+            ],
+            [
+              "Functional nature",
+              "Which houses does it own for the Lagna?"
+            ],
+            [
+              "Conjunction",
+              "Which planets are together and how close are they by degree?"
+            ],
+            [
+              "Aspects",
+              "What does the planet give and receive?"
+            ],
+            [
+              "Combustion",
+              "How close is the planet to the Sun under the selected standard?"
+            ],
+            [
+              "Retrogression",
+              "Is the planet retrograde and how might expression be modified?"
+            ],
+            [
+              "Activation",
+              "Is the planet currently relevant by Dasha?"
+            ]
+          ],
+          "note": "Level 1 identifies these layers; Level 2 develops deeper strength and timing analysis."
+        },
+        {
+          "type": "example",
+          "title": "Layered planet reading",
+          "scenario": "A house lord is exalted but combust and receives a challenging aspect.",
+          "steps": [
+            "Record exaltation as a supportive dignity factor.",
+            "Record combustion as a modifying pressure factor.",
+            "Record the challenging aspect separately.",
+            "Check whether supportive aspects or conjunctions exist.",
+            "Do not reduce the planet to one label.",
+            "Write the result as mixed evidence."
+          ],
+          "conclusion": "A planet may be strong in one layer and pressured in another."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Avoid single-factor judgement",
+          "text": "Exaltation does not guarantee easy results, and debilitation does not automatically mean total failure."
+        }
+      ]
+    },
+    {
+      "id": "evidence-separation",
+      "title": "Separating Supporting and Pressure Factors",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "diagram",
+          "assetId": "session15-evidence-balance",
+          "assetPath": "assets/learning/Level-1/session-15/evidence-balance.svg",
+          "altText": "A simple balance showing supportive factors, pressure factors, mixed factors and uncertain factors.",
+          "caption": "Separate evidence before forming a conclusion.",
+          "purpose": "Teach balanced chart observation.",
+          "annotations": [
+            "Support",
+            "Pressure",
+            "Mixed",
+            "Uncertain"
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "Evidence categories",
+          "columns": [
+            "Category",
+            "Examples"
+          ],
+          "rows": [
+            [
+              "Supporting",
+              "Strong house lord, good dignity, supportive aspect, relevant Kendra or Trikona connection"
+            ],
+            [
+              "Pressure",
+              "Weak dignity, combustion pressure, difficult conjunction, repeated challenging aspects"
+            ],
+            [
+              "Mixed",
+              "Strong dignity with affliction, supportive lordship in a difficult house, multiple contradictory factors"
+            ],
+            [
+              "Uncertain",
+              "Missing birth-time confidence, disputed rule, unverified calculation standard, unclear timing"
+            ]
+          ],
+          "note": "Uncertainty should be stated rather than hidden."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Pressure is not denial",
+          "text": "A pressure factor may show effort, delay, conflict, internalisation or complexity. Denial requires stronger and repeated evidence."
+        }
+      ]
+    },
+    {
+      "id": "sample-chart-workflow",
+      "title": "Guided Sample Chart Workflow",
+      "estimatedMinutes": 20,
+      "blocks": [
+        {
+          "type": "example",
+          "title": "Sample foundation reading",
+          "scenario": "A North Indian chart has Capricorn Lagna. Mars is in Capricorn in the first house, Venus is in Libra in the tenth house, Saturn is in Scorpio in the eleventh house and Jupiter is in Aquarius in the second house.",
+          "steps": [
+            "Confirm Capricorn Lagna and identify Saturn as Lagna lord.",
+            "Record Mars in Capricorn in the first house and note exalted dignity.",
+            "Record Venus in Libra in the tenth house and note own-sign dignity.",
+            "Record Saturn in Scorpio in the eleventh house.",
+            "Record Jupiter in Aquarius in the second house.",
+            "Identify the tenth house as Libra and Venus as the tenth lord.",
+            "Note that Venus occupies its own tenth house.",
+            "Identify supportive career factors: strong tenth lord and direct tenth-house occupation.",
+            "Identify pressure or mixed factors only after checking conjunctions, aspects, combustion and retrogression.",
+            "Write a foundation observation without predicting a job date or promotion period."
+          ],
+          "conclusion": "The chart shows a strong structural career foundation, but timing and final prediction require Dasha and transit analysis."
+        },
+        {
+          "type": "table",
+          "caption": "Sample evidence worksheet",
+          "columns": [
+            "Item",
+            "Observation",
+            "Category"
+          ],
+          "rows": [
+            [
+              "Lagna",
+              "Capricorn Lagna; Saturn is Lagna lord",
+              "Fact"
+            ],
+            [
+              "Mars",
+              "Exalted in Capricorn in the first house",
+              "Supporting or mixed after full review"
+            ],
+            [
+              "Tenth house",
+              "Libra occupies the tenth house",
+              "Fact"
+            ],
+            [
+              "Tenth lord",
+              "Venus in own sign in the tenth house",
+              "Supporting"
+            ],
+            [
+              "Saturn",
+              "Lagna lord placed in the eleventh house",
+              "Potential support for gains after full review"
+            ],
+            [
+              "Timing",
+              "Dasha and transit not yet assessed",
+              "Uncertain"
+            ]
+          ],
+          "note": "The worksheet separates facts, evidence and missing timing layers."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not overclaim from a sample",
+          "text": "The sample is for reading method only. A real chart requires exact degrees, aspects, conjunctions, divisional support, strength and timing."
+        }
+      ]
+    },
+    {
+      "id": "foundation-conclusion",
+      "title": "Writing the Foundation Conclusion",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "State the life area or planet being examined.",
+            "List the strongest supporting factors.",
+            "List the strongest pressure factors.",
+            "Mention mixed or contradictory evidence.",
+            "State any uncertainty or missing information.",
+            "Describe the likely tendency without event certainty.",
+            "Avoid dates, guarantees and fear-based language.",
+            "State that deeper prediction requires Dasha, transit and advanced strength analysis."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Foundation conclusion format",
+          "scenario": "Career indicators show both strength and pressure.",
+          "steps": [
+            "Start with the strongest chart fact.",
+            "Explain the main supporting factor.",
+            "Explain the main pressure factor.",
+            "State the overall tendency as strong, conditional, mixed or weak.",
+            "Mention that timing is not yet assessed."
+          ],
+          "conclusion": "Example: 'The chart has a structurally supportive career foundation through a strong tenth lord, but some pressure factors may affect ease or consistency. Timing cannot be concluded until Dasha and transit are examined.'"
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Level 1 completion point",
+          "text": "After this session, the learner should be able to read chart structure and produce a disciplined observation. The Bonus Bridge Session will introduce the complete prediction formula before Level 2."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Starting interpretation before confirming the chart orientation.",
+      "whyItIsWrong": "A house-sign error changes lordship, dignity and the full reading.",
+      "correctUnderstanding": "Confirm Lagna and fixed houses first."
+    },
+    {
+      "mistake": "Reading only the house and ignoring the house lord.",
+      "whyItIsWrong": "The lord carries the house agenda into another part of the chart.",
+      "correctUnderstanding": "Read the house, lord and Karaka together."
+    },
+    {
+      "mistake": "Using one strong factor as a final verdict.",
+      "whyItIsWrong": "Other pressures, contradictions and timing may modify the result.",
+      "correctUnderstanding": "Separate all relevant evidence."
+    },
+    {
+      "mistake": "Calling pressure a complete denial.",
+      "whyItIsWrong": "Pressure may indicate effort, delay or complexity rather than absence.",
+      "correctUnderstanding": "Use proportionate and conditional language."
+    },
+    {
+      "mistake": "Giving event dates without Dasha or transit analysis.",
+      "whyItIsWrong": "Level 1 establishes structure, not full timing.",
+      "correctUnderstanding": "Delay timing claims until the advanced framework is applied."
+    },
+    {
+      "mistake": "Hiding uncertainty.",
+      "whyItIsWrong": "Unknown birth-time accuracy, disputed rules or missing calculations reduce confidence.",
+      "correctUnderstanding": "Label uncertainty clearly."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Complete a Foundation Kundali Reading Worksheet",
+    "instructions": [
+      "Choose one verified sample North Indian Kundali.",
+      "Confirm Lagna, fixed houses and Rashi sequence.",
+      "Record every planet by sign, house and degree.",
+      "Choose one life area such as career, marriage or finance.",
+      "Record the selected house, its lord and the relevant Karaka.",
+      "Assess dignity, functional nature, conjunctions and aspects.",
+      "Record combustion and retrogression where applicable.",
+      "Separate supportive, pressure, mixed and uncertain evidence.",
+      "Write a five-to-seven sentence foundation observation.",
+      "Do not include event dates or guarantees."
+    ],
+    "expectedOutcome": "The student can independently complete a structured Level 1 chart reading and produce a balanced foundation observation ready for the Bonus Bridge prediction session.",
+    "estimatedMinutes": 25
+  },
+  "sessionSummary": [
+    "A consistent reading order reduces errors and premature conclusions.",
+    "Chart facts must be recorded before interpretation.",
+    "Correct orientation, Lagna and house-sign mapping are essential.",
+    "Every planet should be recorded by sign, house and degree.",
+    "A life area should be read through its house, house lord and Karaka.",
+    "Dignity, functional nature, conjunctions and aspects must be combined.",
+    "Combustion and retrogression are condition modifiers.",
+    "Supportive, pressure, mixed and uncertain evidence should be separated.",
+    "Pressure does not automatically mean denial.",
+    "A foundation observation describes tendencies without event timing.",
+    "Dasha, transit and advanced strength analysis belong to the next stage.",
+    "The Bonus Bridge Session connects Level 1 chart reading with the complete prediction formula."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "What should be confirmed first in a Kundali reading?",
+        "options": [
+          "Event timing",
+          "Chart orientation and Lagna",
+          "Remedy",
+          "Transit only"
+        ],
+        "answer": "Chart orientation and Lagna",
+        "explanation": "All later house and lordship analysis depends on correct orientation."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which three components form the foundation of life-area analysis?",
+        "options": [
+          "House, house lord and Karaka",
+          "Sun, Moon and Lagna only",
+          "Dasha, transit and remedy",
+          "Yoga, Dosha and gemstone"
+        ],
+        "answer": "House, house lord and Karaka",
+        "explanation": "These three create the basic structural evidence for a selected life area."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "How should combustion and retrogression be used at Level 1?",
+        "options": [
+          "As final verdicts",
+          "As condition modifiers",
+          "As guaranteed denial",
+          "They should be ignored"
+        ],
+        "answer": "As condition modifiers",
+        "explanation": "They modify planetary expression but do not replace full chart analysis."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which category should contain an unverified birth time?",
+        "options": [
+          "Supporting",
+          "Pressure",
+          "Uncertain",
+          "Yoga"
+        ],
+        "answer": "Uncertain",
+        "explanation": "Birth-time uncertainty reduces confidence and should be stated clearly."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "A strong tenth lord alone is enough to predict a promotion date.",
+        "answer": false,
+        "explanation": "Event timing requires Dasha, transit and additional evidence."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "Pressure factors always indicate complete denial.",
+        "answer": false,
+        "explanation": "Pressure may show effort, delay, conflict or complexity."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "What should a foundation conclusion contain?",
+        "answer": "The selected life area, main supporting factors, main pressure factors, mixed or uncertain evidence, overall tendency and a note that timing requires deeper analysis.",
+        "explanation": "The conclusion should be balanced, evidence-based and non-absolute."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should chart facts and interpretation be written separately?",
+        "answer": "Because separating observable facts from judgement reduces confusion, unsupported claims and contradictory conclusions.",
+        "explanation": "Facts provide the evidence base for later interpretation."
+      }
+    ],
+    "passingScorePercent": 75
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical foundations concerning Lagna, Bhavas, planetary placement, lordship, dignity, aspects and chart judgement.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-26",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "Work-level reference only. The session is a structured synthesis of Level 1 concepts; edition-specific chapter and verse verification is required before publication."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For classical foundations concerning Lagna, Bhavas, planetary conditions and judgement.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-26",
+    "reviewNotes": "This session synthesises Level 1 concepts into a consistent observation framework and deliberately avoids event timing. Human Jyotish SME review, sample-chart verification and diagram review are required before publication."
+  },
+  "status": "review"
+}

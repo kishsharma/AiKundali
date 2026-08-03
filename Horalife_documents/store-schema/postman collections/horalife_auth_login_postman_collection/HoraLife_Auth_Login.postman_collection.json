@@ -1,0 +1,213 @@
+{
+  "info": {
+    "_postman_id": "a3f388df-8ee7-46bb-8b43-b6c0d55f83c2",
+    "name": "HoraLife Auth Login",
+    "description": "Configurable HoraLife login collection that saves JWT to accessToken.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "authLoginPath",
+      "value": "/api/auth/login"
+    },
+    {
+      "key": "loginIdentifierField",
+      "value": "username"
+    },
+    {
+      "key": "loginIdentifier",
+      "value": "demo"
+    },
+    {
+      "key": "loginPassword",
+      "value": ""
+    },
+    {
+      "key": "loginRequestJson",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Login and Save JWT",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const field = pm.collectionVariables.get('loginIdentifierField') || 'username';",
+              "const identifier = pm.collectionVariables.get('loginIdentifier');",
+              "const password = pm.collectionVariables.get('loginPassword');",
+              "if (!identifier) throw new Error('Set loginIdentifier.');",
+              "if (!password) throw new Error('Set loginPassword.');",
+              "const payload = {};",
+              "payload[field] = identifier;",
+              "payload.password = password;",
+              "pm.variables.set('loginRequestJson', JSON.stringify(payload, null, 2));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Login returned success', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "const body = pm.response.json();",
+              "const candidates = [",
+              "  body.accessToken, body.access_token, body.token, body.jwt,",
+              "  body.data && body.data.accessToken,",
+              "  body.data && body.data.access_token,",
+              "  body.data && body.data.token,",
+              "  body.result && body.result.accessToken,",
+              "  body.result && body.result.access_token,",
+              "  body.result && body.result.token",
+              "];",
+              "const token = candidates.find(v => typeof v === 'string' && v.length > 20);",
+              "pm.test('JWT exists', function () {",
+              "  pm.expect(token).to.be.a('string').and.not.empty;",
+              "});",
+              "if (token) {",
+              "  pm.environment.set('accessToken', token);",
+              "  pm.collectionVariables.set('accessToken', token);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{loginRequestJson}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}{{authLoginPath}}"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Verify JWT - Get Store Cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('JWT is accepted', function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/store/cart"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Invalid Login - 401",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const field = pm.collectionVariables.get('loginIdentifierField') || 'username';",
+              "const payload = {};",
+              "payload[field] = pm.collectionVariables.get('loginIdentifier') || 'demo';",
+              "payload.password = 'definitely-wrong-password';",
+              "pm.variables.set('invalidLoginRequestJson', JSON.stringify(payload, null, 2));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Invalid login is rejected', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([400, 401]);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{invalidLoginRequestJson}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}{{authLoginPath}}"
+      },
+      "response": []
+    }
+  ]
+}

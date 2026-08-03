@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session07-sun-moon-longitude-sum",
-          "assetPath": "assets/study/level-1/session-07/sun-moon-longitude-sum.svg",
+          "assetPath": "assets/learning/Level-1/session-07/sun-moon-longitude-sum.svg",
           "altText": "सरल प्रवाहचित्र जिसमें सूर्य दीर्घांश और चन्द्र दीर्घांश जोड़कर पंचांग योग बनते दिखाए गए हैं।",
           "caption": "नित्य योग सूर्य और चन्द्रमा के निरयन दीर्घांशों के योग पर आधारित है।",
           "purpose": "योग गणना के मूल इनपुट और परिणाम दिखाना।",
@@ -288,7 +288,7 @@
         {
           "type": "diagram",
           "assetId": "session07-yoga-normalisation",
-          "assetPath": "assets/study/level-1/session-07/yoga-normalisation.svg",
+          "assetPath": "assets/learning/Level-1/session-07/yoga-normalisation.svg",
           "altText": "सरल संख्या-रेखा जिसमें 360° से अधिक प्रारंभिक योग को घटाकर 0° से 360° सीमा में लाया गया है।",
           "caption": "योग पहचानने से पहले सूर्य–चन्द्र दीर्घांश योग को सामान्यीकृत करना आवश्यक है।",
           "purpose": "समझाना कि बड़े योग से 360° क्यों घटाया जाता है।",
@@ -390,7 +390,7 @@
         {
           "type": "diagram",
           "assetId": "session07-panchang-vs-horoscope-yoga",
-          "assetPath": "assets/study/level-1/session-07/panchang-vs-horoscope-yoga.svg",
+          "assetPath": "assets/learning/Level-1/session-07/panchang-vs-horoscope-yoga.svg",
           "altText": "सरल तुलना चित्र जो दैनिक पंचांग योग और कुंडली के ग्रह-संयोजन योगों में अंतर दिखाता है।",
           "caption": "पंचांग योग और कुंडली योग अलग अवधारणाएँ हैं।",
           "purpose": "योग शब्द के दो सामान्य अर्थों में भ्रम रोकना।",

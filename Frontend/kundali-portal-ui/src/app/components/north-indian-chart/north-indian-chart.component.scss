@@ -22,30 +22,63 @@
 
 .chart-outline {
   fill: var(--theme-input-bg);
-  stroke: var(--theme-accent);
+  stroke: #C56F50;
   stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.chart-secondary-outline {
+  fill: none;
+  stroke: color-mix(in srgb, #D6A08D 56%, var(--theme-input-bg));
+  stroke-width: 1.15;
+  stroke-linejoin: round;
+}
+.chart-inner-diamond {
+  fill: none;
+  stroke: #8f6f64;
+  stroke-width: 1.15;
+  stroke-linejoin: round;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.chart-line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-muted-line {
+  stroke: color-mix(in srgb, #D6A08D 48%, var(--theme-input-bg));
+  stroke-width: 1.05;
+  opacity: 0.72;
+}
+
+.chart-axis-line {
+  display: none;
 }
 
 
 .house {
   fill: color-mix(in srgb, var(--theme-surface) 72%, transparent);
-  stroke: var(--theme-accent);
-  stroke-width: 2;
+  stroke: color-mix(in srgb, #D6A08D 46%, var(--theme-input-bg));
+  stroke-width: 1.05;
+  stroke-linejoin: round;
+  stroke-linecap: round;
   cursor: pointer;
   transition: fill 0.3s ease;
 }
 .house:hover {
-  fill: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+  fill: color-mix(in srgb, #D6A08D 10%, transparent);
 }
 
 .house.active {
-  fill: color-mix(in srgb, var(--theme-accent) 18%, transparent);
+  fill: color-mix(in srgb, #D6A08D 14%, transparent);
 }
 
 .house-label {
   font-size: 1.1rem;
   font-weight: 900;
-  fill: var(--theme-success);
+  fill: #148A50;
   paint-order: stroke;
   stroke: var(--theme-input-bg);
   stroke-width: 2.5px;

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -9,6 +9,7 @@ namespace KundaliEngine.API.Services.ReportPdf.Html;
 public interface IReportHtmlTemplateService
 {
     string BuildDesktopColorHtml(JsonElement birthProfile, GenerateKundaliResponse report);
+    string BuildMobileFriendlyHtml(JsonElement birthProfile, GenerateKundaliResponse report);
     string BuildCorporateHtml(JsonElement birthProfile, GenerateKundaliResponse report);
     string BuildPrintBlackWhiteHtml(JsonElement birthProfile, GenerateKundaliResponse report);
 }
@@ -33,6 +34,16 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
             .Replace("{{Body}}", body, StringComparison.Ordinal);
     }
 
+    public string BuildMobileFriendlyHtml(JsonElement birthProfile, GenerateKundaliResponse report)
+    {
+        var template = ReadTemplate("kundali-report.html");
+        var styles = ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css") + Environment.NewLine + ReadCss("mobile-friendly.css");
+        var body = BuildMobileFriendlyBody(birthProfile, report);
+        return template
+            .Replace("{{Title}}", Html("HoraLife Mobile Friendly Kundali Report"), StringComparison.Ordinal)
+            .Replace("{{Styles}}", styles, StringComparison.Ordinal)
+            .Replace("{{Body}}", body, StringComparison.Ordinal);
+    }
     public string BuildCorporateHtml(JsonElement birthProfile, GenerateKundaliResponse report)
     {
         var template = ReadTemplate("kundali-report.html");
@@ -54,7 +65,14 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
             .Replace("{{Styles}}", styles, StringComparison.Ordinal)
             .Replace("{{Body}}", body, StringComparison.Ordinal);
     }
-    private string BuildBody(JsonElement birthProfile, GenerateKundaliResponse report)
+    private string BuildMobileFriendlyBody(JsonElement birthProfile, GenerateKundaliResponse report)
+    {
+        var body = BuildBody(birthProfile, report, useLegacyHeader: true);
+        return body
+            .Replace("<main class=\"report-page\">", "<main class=\"report-page mobile-friendly-report\">", StringComparison.Ordinal)
+            .Replace("<span>Desktop color theme</span>", "<span>Mobile friendly theme</span>", StringComparison.Ordinal);
+    }
+    private string BuildBody(JsonElement birthProfile, GenerateKundaliResponse report, bool useLegacyHeader = false)
     {
         var name = ValueOrDash(GetString(birthProfile, "fullName", "name") ?? report.Summary?.Name);
         var birthDate = ValueOrDash(GetString(birthProfile, "birthDate", "dateOfBirth"));
@@ -69,14 +87,9 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
 
         var html = new StringBuilder();
         html.AppendLine("<main class=\"report-page\">");
-        html.AppendLine("<header class=\"report-hero\">");
-        html.AppendLine("<div>");
-        html.AppendLine("<div class=\"brand-lockup\"><div class=\"hora-mark\">H</div><div class=\"brand-copy\"><h1>HoraLife Kundali Report</h1><span>Explainable Vedic Astrology</span></div></div>");
-        html.AppendLine($"<p class=\"subject-line\">Prepared for <strong>{Html(name)}</strong> - {Html(birthDate)} - {Html(birthPlace)}</p>");
-        html.AppendLine($"<p class=\"report-meta\">Generated {Html(generatedOn)}</p>");
-        html.AppendLine("</div>");
-        html.AppendLine($"<aside class=\"prepared-by\"><span>Prepared by</span><strong>{Html(astrologerName)} <em>{Html(astrologerDesignation)}</em></strong><span>{Html(astrologerAddress)}</span><span>{Html(astrologerContact)}</span></aside>");
-        html.AppendLine("</header>");
+        html.AppendLine(useLegacyHeader
+            ? BuildLegacyReportHeader("report-hero", "HoraLife Kundali Report", "Explainable Vedic Astrology", name, birthDate, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact)
+            : BuildReportHeader("report-hero", "HoraLife Kundali Report", "Explainable Vedic Astrology", name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact));
 
         AppendSection(html, "Birth Profile", $"<div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>");
         AppendCoreIdentity(html, report);
@@ -113,14 +126,7 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         html.AppendLine("<main class=\"report-page print-bw-report\">");
         html.AppendLine($"<div class=\"print-running-header\"><span>HoraLife Kundali Report</span><strong>{Html(name)}</strong><span>{Html(generatedOn)}</span></div>");
         html.AppendLine("<div class=\"print-running-footer\"><span>Confidential - print copy</span><span>Generated by HoraLife</span><span class=\"page-counter\">Page </span></div>");
-        html.AppendLine("<header class=\"report-hero print-bw-hero\">");
-        html.AppendLine("<div>");
-        html.AppendLine("<div class=\"brand-lockup\"><div class=\"hora-mark\">H</div><div class=\"brand-copy\"><h1>HoraLife Kundali Report</h1><span>Minimalist black and white print format</span></div></div>");
-        html.AppendLine($"<p class=\"subject-line\">Prepared for <strong>{Html(name)}</strong> - {Html(birthDate)} - {Html(birthPlace)}</p>");
-        html.AppendLine($"<p class=\"report-meta\">Generated {Html(generatedOn)}</p>");
-        html.AppendLine("</div>");
-        html.AppendLine($"<aside class=\"prepared-by\"><span>Prepared by</span><strong>{Html(astrologerName)} <em>{Html(astrologerDesignation)}</em></strong><span>{Html(astrologerAddress)}</span><span>{Html(astrologerContact)}</span></aside>");
-        html.AppendLine("</header>");
+        html.AppendLine(BuildReportHeader("report-hero print-bw-hero", "HoraLife Kundali Report", "Minimalist black and white print format", name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact));
 
         AppendSection(html, "Birth Profile", $"<div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>");
         AppendCoreIdentity(html, report);
@@ -157,14 +163,7 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         html.AppendLine("<main class=\"report-page corporate-report\">");
         html.AppendLine($"<div class=\"running-header\"><span>Personal Vedic Astrology Advisory Report</span><strong>{Html(name)}</strong><span>{Html(generatedOn)}</span></div>");
         html.AppendLine("<div class=\"running-footer\"><span>Confidential advisory report</span><span>Generated by HoraLife</span><span class=\"page-counter\">Page </span></div>");
-        html.AppendLine("<header class=\"report-hero corporate-hero\">");
-        html.AppendLine("<div>");
-        html.AppendLine("<div class=\"brand-lockup\"><div class=\"hora-mark\">H</div><div class=\"brand-copy\"><h1>Personal Vedic Astrology Advisory Report</h1><span>A structured analysis of birth profile, planetary indicators, life themes, timing cycles, and practical guidance.</span></div></div>");
-        html.AppendLine($"<p class=\"subject-line\">Prepared for <strong>{Html(name)}</strong> - {Html(birthDate)} - {Html(birthPlace)}</p>");
-        html.AppendLine($"<p class=\"report-meta\">Generated {Html(generatedOn)}</p>");
-        html.AppendLine("</div>");
-        html.AppendLine($"<aside class=\"prepared-by\"><span>Prepared by</span><strong>{Html(astrologerName)} <em>{Html(astrologerDesignation)}</em></strong><span>{Html(astrologerAddress)}</span><span>{Html(astrologerContact)}</span></aside>");
-        html.AppendLine("</header>");
+        html.AppendLine(BuildReportHeader("report-hero corporate-hero", "Personal Vedic Astrology Advisory Report", "Structured birth profile, planetary indicators, timing cycles, and practical guidance", name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact));
 
         AppendSection(html, "Executive Summary", BuildCorporateExecutiveSummary(report));
         AppendSection(html, "Birth Profile", $"<p class=\"report-text\">The birth profile establishes the reference point for all subsequent chart interpretation.</p><div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>");
@@ -310,14 +309,19 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         var panels = new List<string>();
         if (report.Planets?.Count > 0)
         {
-            panels.Add(ChartPanel("D1 Lagna Kundali", "Natal placements", BuildPlanetHouseCells(report.Planets)));
+            panels.Add(ChartPanel("D1 Lagna Kundali", "Natal placements", report.Planets, report.Summary?.Ascendant));
         }
 
         if (report.D9Chart?.Planets?.Count > 0)
         {
-            panels.Add(ChartPanel("D9 Navamsa Kundali", FirstNonEmpty(report.D9Chart.Description, report.D9Chart.Ascendant), BuildPlanetHouseCells(report.D9Chart.Planets)));
+            panels.Add(ChartPanel("D9 Navamsa Kundali", FirstNonEmpty(report.D9Chart.Description, report.D9Chart.Ascendant), report.D9Chart.Planets, report.D9Chart.Ascendant));
         }
 
+
+        if (report.TransitInsight?.Planets?.Count > 0)
+        {
+            panels.Add(ChartPanel("Gochar Kundali", BuildGocharNote(report.TransitInsight), report.TransitInsight.Planets, report.TransitInsight.NatalAscendant));
+        }
 
         if (panels.Count == 0)
         {
@@ -461,6 +465,68 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         AppendSection(html, "Transit Insight", $"<div class=\"grid-2\">{Fact("Place", ValueOrDash(transit.Place))}{Fact("Natal Ascendant", ValueOrDash(transit.NatalAscendant))}</div><div style=\"height:8px\"></div><table class=\"compact-table\"><thead><tr><th>Planet</th><th>Sign</th><th>House</th><th>Focus</th><th>Hint</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
     }
 
+    private static string DevotionalDivider()
+    {
+        return """
+<div class="devotional-divider" aria-hidden="true"><svg viewBox="0 0 760 88" xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false"><line x1="-900" y1="56" x2="309" y2="56" class="lotus-divider__line"/><line x1="451" y1="56" x2="1650" y2="56" class="lotus-divider__line"/><rect x="25.5" y="51.5" width="9" height="9" rx="0.8" transform="rotate(45 30 56)" class="lotus-divider__diamond"/><rect x="725.5" y="51.5" width="9" height="9" rx="0.8" transform="rotate(45 730 56)" class="lotus-divider__diamond"/><path d="M282 56 C294 56 301 52 307 45 C304 52 309 56 318 56" class="lotus-divider__flourish"/><path d="M478 56 C466 56 459 52 453 45 C456 52 451 56 442 56" class="lotus-divider__flourish"/><g class="lotus-divider__lotus"><path d="M380 56 C366 43 368 23 380 8 C392 23 394 43 380 56 Z"/><path d="M378 57 C361 49 351 34 355 18 C370 25 379 40 378 57 Z"/><path d="M382 57 C399 49 409 34 405 18 C390 25 381 40 382 57 Z"/><path d="M373 59 C351 57 335 45 333 29 C351 31 367 42 373 59 Z"/><path d="M387 59 C409 57 425 45 427 29 C409 31 393 42 387 59 Z"/><path d="M368 62 C343 66 322 58 312 44 C329 40 349 45 362 54 C365 56 367 59 368 62 Z"/><path d="M392 62 C417 66 438 58 448 44 C431 40 411 45 398 54 C395 56 393 59 392 62 Z"/><path d="M379 63 C361 67 346 63 336 53 C350 51 366 55 379 63 Z"/><path d="M381 63 C399 67 414 63 424 53 C410 51 394 55 381 63 Z"/></g></svg></div>
+""";
+    }
+    private static string BuildReportHeader(
+        string headerClass,
+        string reportTitle,
+        string reportTagline,
+        string name,
+        string birthDate,
+        string birthTime,
+        string birthPlace,
+        string generatedOn,
+        string astrologerName,
+        string astrologerDesignation,
+        string astrologerAddress,
+        string astrologerContact)
+    {
+        return $"<header class=\"{Html(headerClass)} report-header premium-header\">" +
+            "<div class=\"header-top-section\">" +
+            $"<div class=\"brand-section report-brand-lockup\">{BrandLockup(reportTitle, reportTagline)}</div>" +
+            $"<div class=\"astrologer-section report-prepared-by\">{PreparedBy(astrologerName, astrologerDesignation, astrologerAddress, astrologerContact)}</div>" +
+            "</div>" +
+            "<div class=\"header-bottom-section\"><div class=\"person-details-block\">" +
+            $"<p class=\"person-detail-value\"><span class=\"intro-muted\">Prepared for</span><strong class=\"intro-name\">{Html(name)}</strong><span class=\"intro-break\"></span><span class=\"intro-muted\">Born on</span><strong class=\"intro-date\">{Html(birthDate)}</strong><span class=\"intro-muted\">at</span><strong class=\"intro-time\">{Html(birthTime)}</strong><span class=\"intro-muted\">in</span><strong class=\"intro-place\">{Html(birthPlace)}</strong></p>" +
+            $"<p class=\"report-meta\">Generated {Html(generatedOn)}</p>" +
+            "</div></div>" +
+            DevotionalDivider() +
+            "</header>";
+    }
+
+    private static string BuildLegacyReportHeader(
+        string headerClass,
+        string reportTitle,
+        string reportTagline,
+        string name,
+        string birthDate,
+        string birthPlace,
+        string generatedOn,
+        string astrologerName,
+        string astrologerDesignation,
+        string astrologerAddress,
+        string astrologerContact)
+    {
+        return $"<header class=\"{Html(headerClass)}\"><div class=\"report-hero-main\"><div class=\"brand-lockup\">{BrandLockup(reportTitle, reportTagline)}</div><p class=\"subject-line\">Prepared for <strong>{Html(name)}</strong> - {Html(birthDate)} - {Html(birthPlace)}</p><p class=\"report-meta\">Generated {Html(generatedOn)}</p></div><aside class=\"prepared-by\">{PreparedBy(astrologerName, astrologerDesignation, astrologerAddress, astrologerContact)}</aside>{DevotionalDivider()}</header>";
+    }
+
+    private static string PreparedBy(string astrologerName, string astrologerDesignation, string astrologerAddress, string astrologerContact)
+    {
+        return $"<span class=\"prepared-label astrologer-kicker\">Prepared by</span><strong class=\"prepared-name astrologer-name\">{Html(astrologerName)}</strong><span class=\"prepared-title astrologer-title\">{Html(astrologerDesignation)}</span><span class=\"prepared-detail astrologer-contact\">{Html(astrologerContact)}</span><span class=\"prepared-detail astrologer-contact\">{Html(astrologerAddress)}</span>";
+    }
+
+    private static string BrandLockup(string reportTitle, string reportTagline)
+    {
+        return $"<span class=\"brand-mark report-brand-logo\">{HoraLifeLogoSvg()}</span><div class=\"brand-copy report-brand-copy\"><div class=\"brand-name report-brand-name\"><span class=\"brand-name-hora\">Hora</span><span class=\"brand-name-life\">Life</span></div><small class=\"report-brand-descriptor\">Precision Vedic Astrology</small><span class=\"report-title\">{Html(reportTitle)}</span><span class=\"report-tagline\">{Html(reportTagline)}</span></div>";
+    }
+    private static string HoraLifeLogoSvg()
+    {
+        return "<svg viewBox=\"-58 -58 116 122\" role=\"img\" aria-label=\"HoraLife logo\"><circle class=\"logo-orbit\" cx=\"-1.4\" cy=\"0\" r=\"48\"/><line class=\"logo-horizon\" x1=\"-55.2\" y1=\"-15.5\" x2=\"46.5\" y2=\"2.45\"/><circle class=\"logo-sun\" cx=\"-47.3\" cy=\"-14.1\" r=\"5.4\"/><circle class=\"logo-moon\" cx=\"33\" cy=\"-16.95\" r=\"4.5\"/><circle class=\"logo-earth\" cx=\"46.5\" cy=\"2.45\" r=\"11\"/></svg>";
+    }
     private static void AppendSection(StringBuilder html, string title, string body)
     {
         html.AppendLine($"<section class=\"report-section {SectionClass(title)}\"><h2 class=\"section-title\">{Html(title)}</h2><div class=\"section-body\">{body}</div></section>");
@@ -468,9 +534,18 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
 
     private static string SectionClass(string title) => "section-" + new string(title.ToLowerInvariant().Select(ch => char.IsLetterOrDigit(ch) ? ch : '-').ToArray()).Trim('-');
 
-    private static string ChartPanel(string title, string note, string[] houses)
+    private static string ChartPanel(string title, string note, IEnumerable<PlanetDto>? planets, string? ascendant)
     {
-        return $"<article class=\"chart-panel\"><div class=\"chart-title\">{Html(title)}<span>{Html(Trim(note, 56))}</span></div>{NorthChartSvg(houses)}</article>";
+        return $"<article class=\"chart-panel\"><div class=\"chart-title\">{Html(title)}<span>{Html(Trim(note, 56))}</span></div>{NorthChartSvg(planets, ascendant)}</article>";
+    }
+
+    private static string BuildGocharNote(TransitInsightDto transit)
+    {
+        var date = transit.CalculatedAtUtc == default
+            ? string.Empty
+            : transit.CalculatedAtUtc.ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
+
+        return FirstNonEmpty($"{date} {transit.Place}".Trim(), transit.LocationMode, "Current transit placements");
     }
 
     private static string SudarshanChartPanel(GenerateKundaliResponse report)
@@ -480,36 +555,139 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         return $"<article class=\"chart-panel sudarshan-panel\"><div class=\"chart-title\">Sudarshan Chakra<span>Overall score {Html(score)}</span></div>{SudarshanChakraSvg(report.Planets, report.Summary?.Ascendant)}{HouseLegend(houses)}</article>";
     }
 
-    private static string NorthChartSvg(string[] houses)
+    private static string NorthChartSvg(IEnumerable<PlanetDto>? planets, string? ascendant)
     {
-        var h = houses.Concat(Enumerable.Repeat("-", 12)).Take(12).Select(v => Trim(v, 20)).ToArray();
+        var planetGroups = (planets ?? Enumerable.Empty<PlanetDto>())
+            .Where(p => p.House >= 1 && p.House <= 12)
+            .GroupBy(p => p.House)
+            .ToDictionary(g => g.Key, g => g.Take(6).ToList());
+        var zodiacNumbers = ZodiacSequence(ascendant);
         var planetPos = new[]
         {
-            (75d, 59d), (44d, 31d), (22d, 50d), (47d, 78d),
-            (22d, 109d), (44d, 134d), (75d, 100d), (106d, 134d),
-            (122d, 109d), (94d, 78d), (122d, 44d), (103d, 31d)
+            (230d, 155d), (140d, 100d), (70d, 160d), (116d, 226d),
+            (70d, 350d), (140d, 430d), (230d, 370d), (340d, 430d),
+            (390d, 350d), (342d, 226d), (390d, 140d), (330d, 100d)
         };
         var numberPos = new[]
         {
-            (75d, 69d), (44d, 40d), (34d, 47d), (63d, 82d),
-            (34d, 112d), (42d, 119d), (75d, 91d), (108d, 119d),
-            (116d, 112d), (88d, 79d), (116d, 51d), (105d, 39d)
+            (240d, 220d), (140d, 128d), (110d, 150d), (201d, 260d),
+            (110d, 360d), (136d, 380d), (240d, 290d), (345d, 380d),
+            (370d, 360d), (280d, 250d), (370d, 160d), (340d, 128d)
         };
 
         var sb = new StringBuilder();
-        sb.Append("<svg class=\"north-chart\" viewBox=\"0 0 156 156\" role=\"img\" aria-label=\"Kundali chart\"><rect x=\"1\" y=\"1\" width=\"154\" height=\"154\"/><line x1=\"1\" y1=\"1\" x2=\"155\" y2=\"155\"/><line x1=\"155\" y1=\"1\" x2=\"1\" y2=\"155\"/><line x1=\"78\" y1=\"1\" x2=\"155\" y2=\"78\"/><line x1=\"155\" y1=\"78\" x2=\"78\" y2=\"155\"/><line x1=\"78\" y1=\"155\" x2=\"1\" y2=\"78\"/><line x1=\"1\" y1=\"78\" x2=\"78\" y2=\"1\"/>");
+        sb.Append("<svg class=\"north-chart\" viewBox=\"35 35 430 430\" preserveAspectRatio=\"xMidYMid meet\" shape-rendering=\"geometricPrecision\" text-rendering=\"geometricPrecision\" role=\"img\" aria-label=\"Kundali chart\">");
+        sb.Append("<rect x=\"40\" y=\"40\" width=\"420\" height=\"420\" rx=\"2\" ry=\"2\" class=\"chart-outline\"/>");
+        sb.Append("<polygon points=\"250,40 460,250 250,460 40,250\" class=\"chart-secondary-outline\"/>");
+        sb.Append("<path d=\"M 250 182 Q 250 180 252 182 L 318 248 Q 320 250 318 252 L 252 318 Q 250 320 248 318 L 182 252 Q 180 250 182 248 L 248 182 Q 250 180 250 182 Z\" class=\"chart-outline center-diamond\"/>");
+        sb.Append("<line x1=\"250\" y1=\"40\" x2=\"250\" y2=\"460\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"40\" y1=\"250\" x2=\"460\" y2=\"250\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"145\" y1=\"145\" x2=\"41\" y2=\"41\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"355\" y1=\"145\" x2=\"459\" y2=\"41\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"355\" y1=\"355\" x2=\"459\" y2=\"459\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"145\" y1=\"355\" x2=\"41\" y2=\"459\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"145\" y1=\"145\" x2=\"250\" y2=\"40\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"355\" y1=\"145\" x2=\"250\" y2=\"40\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"355\" y1=\"355\" x2=\"460\" y2=\"250\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"355\" y1=\"355\" x2=\"250\" y2=\"460\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"145\" y1=\"355\" x2=\"250\" y2=\"460\" class=\"chart-line\"/>");
+        sb.Append("<line x1=\"145\" y1=\"145\" x2=\"40\" y2=\"250\" class=\"chart-line\"/>");
+        sb.Append("<polygon points=\"250,40 355,145 250,250 145,145\" class=\"house\"/>");
+        sb.Append("<polygon points=\"145,145 250,40 41,41\" class=\"house\"/>");
+        sb.Append("<polygon points=\"41,41 145,145 40,250\" class=\"house\"/>");
+        sb.Append("<polygon points=\"145,145 250,250 145,355 40,250\" class=\"house\"/>");
+        sb.Append("<polygon points=\"40,250 145,355 41,459\" class=\"house\"/>");
+        sb.Append("<polygon points=\"145,355 250,460 41,459\" class=\"house\"/>");
+        sb.Append("<polygon points=\"250,250 355,355 250,460 145,355\" class=\"house\"/>");
+        sb.Append("<polygon points=\"355,355 250,460 459,459\" class=\"house\"/>");
+        sb.Append("<polygon points=\"460,250 355,355 459,459\" class=\"house\"/>");
+        sb.Append("<polygon points=\"355,145 460,250 355,355 250,250\" class=\"house\"/>");
+        sb.Append("<polygon points=\"355,145 459,41 460,250\" class=\"house\"/>");
+        sb.Append("<polygon points=\"250,40 459,41 355,145\" class=\"house\"/>");
+
         for (var i = 0; i < 12; i++)
         {
-            sb.Append($"<text class=\"house-num\" x=\"{Fmt(numberPos[i].Item1)}\" y=\"{Fmt(numberPos[i].Item2)}\">{i + 1}</text>");
-            if (h[i] != "-")
+            sb.Append($"<text class=\"house-num\" x=\"{Fmt(numberPos[i].Item1)}\" y=\"{Fmt(numberPos[i].Item2)}\">{zodiacNumbers[i]}</text>");
+            if (planetGroups.TryGetValue(i + 1, out var housePlanets))
             {
-                sb.Append(MultiLineText("planet-text", planetPos[i].Item1, planetPos[i].Item2, h[i], 3, 7.2));
+                sb.Append(PlanetLabelsForHouse(i + 1, planetPos[i].Item1, planetPos[i].Item2, housePlanets));
             }
         }
+
         sb.Append("</svg>");
         return sb.ToString();
     }
 
+    private static string PlanetLabelsForHouse(int house, double x, double y, IReadOnlyList<PlanetDto> planets)
+    {
+        if (planets.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        var verticalHouses = new HashSet<int> { 3, 5, 9, 11 };
+        var centerSafeOffsets = CenterSafePlanetOffsets(house);
+        var sb = new StringBuilder();
+        for (var i = 0; i < planets.Count; i++)
+        {
+            var px = x;
+            var py = y;
+            if (centerSafeOffsets.Length > 0)
+            {
+                var offset = centerSafeOffsets[i % centerSafeOffsets.Length];
+                px += offset.X;
+                py += offset.Y + Math.Floor((double)i / centerSafeOffsets.Length) * 14d;
+            }
+            else if (verticalHouses.Contains(house))
+            {
+                py += i * 18d;
+            }
+            else
+            {
+                px += i * 18d;
+            }
+
+            var planet = planets[i];
+            sb.Append($"<text class=\"planet-text {ChartPlanetToneClass(planet)}\" x=\"{Fmt(px)}\" y=\"{Fmt(py)}\">{Html(PlanetShortName(planet))}</text>");
+        }
+
+        return sb.ToString();
+    }
+
+    private static int[] ZodiacSequence(string? ascendant)
+    {
+        var start = SignNumber(ascendant) ?? 1;
+        return Enumerable.Range(0, 12).Select(i => ((start + i - 1) % 12) + 1).ToArray();
+    }
+
+    private static string ChartPlanetToneClass(PlanetDto planet)
+    {
+        var tone = FirstNonEmpty(planet.ConditionTone, planet.DetailedStrength).ToLowerInvariant();
+        if (tone.Contains("challenging") || tone.Contains("weak") || tone.Contains("enemy") || tone.Contains("debilitated") || planet.IsCombust)
+        {
+            return "tone-challenging";
+        }
+
+        if (tone.Contains("supportive") || tone.Contains("own") || tone.Contains("exalted") || tone.Contains("friendly"))
+        {
+            return "tone-supportive";
+        }
+
+        if (tone.Contains("mixed"))
+        {
+            return "tone-mixed";
+        }
+
+        return planet.IsRetrograde ? "tone-special" : "tone-neutral";
+    }
+
+    private static (double X, double Y)[] CenterSafePlanetOffsets(int house) => house switch
+    {
+        1 or 7 => new[] { (0d, 0d), (18d, 0d), (36d, 0d), (0d, house == 1 ? 19d : -19d), (18d, house == 1 ? 19d : -19d), (36d, house == 1 ? 19d : -19d) },
+        4 => new[] { (0d, -32d), (0d, 32d), (28d, -48d), (28d, 48d), (56d, -64d), (56d, 64d) },
+        10 => new[] { (0d, -32d), (0d, 32d), (-28d, -48d), (-28d, 48d), (-56d, -64d), (-56d, 64d) },
+        _ => Array.Empty<(double X, double Y)>()
+    };
     private static string SudarshanChakraSvg(IEnumerable<PlanetDto>? planets, string? ascendant)
     {
         var planetList = planets?.ToList() ?? new List<PlanetDto>();

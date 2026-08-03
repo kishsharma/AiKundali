@@ -65,6 +65,11 @@ export const routes: Routes = [
         data: { title: 'Generate Kundali' },
       },
       {
+        path: 'compatibility/saved/:id',
+        component: CompatibilityComponent,
+        data: { title: 'Saved Compatibility' },
+      },
+      {
         path: 'compatibility',
         component: CompatibilityComponent,
         data: { title: 'Compatibility Analysis' },

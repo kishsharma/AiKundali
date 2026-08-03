@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session08-tithi-two-karanas",
-          "assetPath": "assets/study/level-1/session-08/tithi-two-karanas.svg",
+          "assetPath": "assets/learning/Level-1/session-08/tithi-two-karanas.svg",
           "altText": "A simple bar showing one twelve-degree Tithi divided into two six-degree Karana intervals.",
           "caption": "Each Tithi contains two Karanas.",
           "purpose": "Connect Karana directly to the Tithi structure.",
@@ -220,7 +220,7 @@
         {
           "type": "diagram",
           "assetId": "session08-seven-movable-karanas",
-          "assetPath": "assets/study/level-1/session-08/seven-movable-karanas.svg",
+          "assetPath": "assets/learning/Level-1/session-08/seven-movable-karanas.svg",
           "altText": "A simple seven-step loop showing Bava, Balava, Kaulava, Taitila, Gara, Vanija and Vishti.",
           "caption": "The seven movable Karanas repeat in a fixed cycle.",
           "purpose": "Help students memorise the movable Karana sequence.",
@@ -277,7 +277,7 @@
         {
           "type": "diagram",
           "assetId": "session08-fixed-karanas-amavasya",
-          "assetPath": "assets/study/level-1/session-08/fixed-karanas-amavasya.svg",
+          "assetPath": "assets/learning/Level-1/session-08/fixed-karanas-amavasya.svg",
           "altText": "A simple timeline around Krishna Chaturdashi, Amavasya and Shukla Pratipada showing Shakuni, Chatushpada, Naga and Kimstughna.",
           "caption": "The four fixed Karanas occur around the Amavasya transition.",
           "purpose": "Show where the non-repeating Karanas occur.",

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Compound Planetary Relationship Flow</title>
+  <desc id="desc">A simple monochrome flow diagram showing natural relationship and temporary relationship combining to produce a fivefold compound relationship.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="64" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Compound Planetary Relationship
+  </text>
+
+  <!-- Inputs -->
+  <rect x="85" y="155" width="250" height="110" rx="16"
+        fill="#e3e3e3" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="210" y="198" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Natural relationship
+  </text>
+  <text x="210" y="235" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#444444">
+    Fixed reference
+  </text>
+
+  <rect x="85" y="325" width="250" height="110" rx="16"
+        fill="#d5d5d5" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="210" y="368" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Temporary relationship
+  </text>
+  <text x="210" y="405" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#444444">
+    Chart-specific
+  </text>
+
+  <!-- Combine -->
+  <circle cx="480" cy="295" r="70"
+          fill="#eeeeee" stroke="#555555" stroke-width="3"/>
+  <text x="480" y="286" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Combine
+  </text>
+  <text x="480" y="320" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" fill="#222222">+</text>
+
+  <!-- Output -->
+  <rect x="635" y="205" width="245" height="180" rx="18"
+        fill="#c8c8c8" stroke="#333333" stroke-width="3"/>
+  <text x="757.5" y="248" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    Panchadha Maitri
+  </text>
+  <text x="757.5" y="287" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Great friend
+  </text>
+  <text x="757.5" y="316" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Friend · Neutral
+  </text>
+  <text x="757.5" y="345" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="20" fill="#333333">
+    Enemy · Great enemy
+  </text>
+
+  <!-- Arrows -->
+  <path d="M335 210 C390 210, 410 245, 420 260"
+        fill="none" stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M335 380 C390 380, 410 345, 420 330"
+        fill="none" stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="550" y1="295" x2="625" y2="295"
+        stroke="#444444" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Example footer -->
+  <text x="480" y="490" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Example: Natural friend + temporary enemy = Neutral
+  </text>
+</svg>

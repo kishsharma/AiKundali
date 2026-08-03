@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Lunar Phase Cycle</title>
+  <desc id="desc">A simple monochrome educational diagram showing Earth at the centre, the Moon at eight positions, and sunlight arriving from the left.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3f3f3f"/>
+    </marker>
+    <clipPath id="moon1"><circle cx="480" cy="92" r="27"/></clipPath>
+    <clipPath id="moon2"><circle cx="650" cy="145" r="27"/></clipPath>
+    <clipPath id="moon3"><circle cx="720" cy="270" r="27"/></clipPath>
+    <clipPath id="moon4"><circle cx="650" cy="395" r="27"/></clipPath>
+    <clipPath id="moon5"><circle cx="480" cy="448" r="27"/></clipPath>
+    <clipPath id="moon6"><circle cx="310" cy="395" r="27"/></clipPath>
+    <clipPath id="moon7"><circle cx="240" cy="270" r="27"/></clipPath>
+    <clipPath id="moon8"><circle cx="310" cy="145" r="27"/></clipPath>
+  </defs>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Sun -->
+  <circle cx="92" cy="270" r="48" fill="#d9d9d9" stroke="#2f2f2f" stroke-width="3"/>
+  <text x="92" y="338" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222222">Sun</text>
+
+  <!-- Sunlight -->
+  <g stroke="#8a8a8a" stroke-width="4" marker-end="url(#arrow)">
+    <line x1="150" y1="210" x2="205" y2="210"/>
+    <line x1="150" y1="270" x2="205" y2="270"/>
+    <line x1="150" y1="330" x2="205" y2="330"/>
+  </g>
+  <text x="180" y="185" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#555555">Sunlight</text>
+
+  <!-- Moon orbit -->
+  <circle cx="480" cy="270" r="185"
+          fill="none" stroke="#a8a8a8" stroke-width="3" stroke-dasharray="8 8"/>
+
+  <!-- Earth -->
+  <circle cx="480" cy="270" r="58" fill="#bfbfbf" stroke="#2f2f2f" stroke-width="3"/>
+  <path d="M455 252 C466 238, 487 239, 500 252 C490 267, 470 276, 452 269 Z"
+        fill="#6f6f6f"/>
+  <path d="M490 286 C505 278, 520 286, 522 300 C509 309, 495 311, 485 302 Z"
+        fill="#6f6f6f"/>
+  <text x="480" y="355" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#222222">Earth</text>
+
+  <!-- Moon positions -->
+  <g stroke="#2f2f2f" stroke-width="2">
+    <!-- New Moon -->
+    <circle cx="240" cy="270" r="27" fill="#3f3f3f"/>
+    <!-- Waxing Crescent -->
+    <circle cx="310" cy="145" r="27" fill="#3f3f3f"/>
+    <rect x="310" y="118" width="27" height="54" fill="#d9d9d9" clip-path="url(#moon8)"/>
+    <!-- First Quarter -->
+    <circle cx="480" cy="92" r="27" fill="#3f3f3f"/>
+    <rect x="480" y="65" width="27" height="54" fill="#d9d9d9" clip-path="url(#moon1)"/>
+    <!-- Waxing Gibbous -->
+    <circle cx="650" cy="145" r="27" fill="#d9d9d9"/>
+    <rect x="623" y="118" width="10" height="54" fill="#3f3f3f" clip-path="url(#moon2)"/>
+    <!-- Full Moon -->
+    <circle cx="720" cy="270" r="27" fill="#d9d9d9"/>
+    <!-- Waning Gibbous -->
+    <circle cx="650" cy="395" r="27" fill="#d9d9d9"/>
+    <rect x="667" y="368" width="10" height="54" fill="#3f3f3f" clip-path="url(#moon4)"/>
+    <!-- Last Quarter -->
+    <circle cx="480" cy="448" r="27" fill="#d9d9d9"/>
+    <rect x="453" y="421" width="27" height="54" fill="#3f3f3f" clip-path="url(#moon5)"/>
+    <!-- Waning Crescent -->
+    <circle cx="310" cy="395" r="27" fill="#3f3f3f"/>
+    <rect x="300" y="368" width="10" height="54" fill="#d9d9d9" clip-path="url(#moon6)"/>
+  </g>
+
+  <!-- Orbit direction -->
+  <path d="M340 108 C415 58, 545 58, 620 108"
+        fill="none" stroke="#3f3f3f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Key labels only -->
+  <text x="205" y="275" text-anchor="end"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">New Moon</text>
+  <text x="755" y="275"
+        font-family="Arial, sans-serif" font-size="19" fill="#222222">Full Moon</text>
+  <text x="480" y="52" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#222222">First Quarter</text>
+  <text x="480" y="505" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#222222">Last Quarter</text>
+</svg>

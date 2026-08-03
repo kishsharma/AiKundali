@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Foundation Kundali Reading Flow</title>
+  <desc id="desc">A simple monochrome left-to-right flow showing orientation, placements, house lords, conditions, evidence and conclusion.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="520" fill="#ffffff"/>
+
+  <text x="600" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Foundation Kundali Reading Flow
+  </text>
+
+  <!-- Step 1 -->
+  <rect x="35" y="175" width="160" height="130" rx="16"
+        fill="#eeeeee" stroke="#444444" stroke-width="3"/>
+  <text x="115" y="222" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Orientation
+  </text>
+  <text x="115" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Lagna · Houses
+  </text>
+  <text x="115" y="284" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Sign sequence
+  </text>
+
+  <!-- Step 2 -->
+  <rect x="235" y="175" width="160" height="130" rx="16"
+        fill="#e5e5e5" stroke="#444444" stroke-width="3"/>
+  <text x="315" y="222" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Placements
+  </text>
+  <text x="315" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Planet · House
+  </text>
+  <text x="315" y="284" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Sign · Degree
+  </text>
+
+  <!-- Step 3 -->
+  <rect x="435" y="175" width="160" height="130" rx="16"
+        fill="#dddddd" stroke="#444444" stroke-width="3"/>
+  <text x="515" y="222" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    House Lords
+  </text>
+  <text x="515" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Identify
+  </text>
+  <text x="515" y="284" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Locate · Assess
+  </text>
+
+  <!-- Step 4 -->
+  <rect x="635" y="175" width="160" height="130" rx="16"
+        fill="#d4d4d4" stroke="#444444" stroke-width="3"/>
+  <text x="715" y="222" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Conditions
+  </text>
+  <text x="715" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Dignity · Aspect
+  </text>
+  <text x="715" y="284" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Conjunction
+  </text>
+
+  <!-- Step 5 -->
+  <rect x="835" y="175" width="160" height="130" rx="16"
+        fill="#cccccc" stroke="#444444" stroke-width="3"/>
+  <text x="915" y="222" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Evidence
+  </text>
+  <text x="915" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Support · Pressure
+  </text>
+  <text x="915" y="284" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Mixed · Uncertain
+  </text>
+
+  <!-- Step 6 -->
+  <rect x="1035" y="175" width="130" height="130" rx="16"
+        fill="#c2c2c2" stroke="#444444" stroke-width="3"/>
+  <text x="1100" y="222" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Conclusion
+  </text>
+  <text x="1100" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Balanced
+  </text>
+  <text x="1100" y="284" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Observation
+  </text>
+
+  <!-- Arrows -->
+  <line x1="195" y1="240" x2="225" y2="240" stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="395" y1="240" x2="425" y2="240" stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="595" y1="240" x2="625" y2="240" stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="795" y1="240" x2="825" y2="240" stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="995" y1="240" x2="1025" y2="240" stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="260" y="385" width="680" height="70" rx="15"
+        fill="#e8e8e8" stroke="#555555" stroke-width="2.5"/>
+  <text x="600" y="417" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Record facts first. Interpret only after all relevant layers are checked.
+  </text>
+  <text x="600" y="445" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Level 1 ends with a disciplined observation—not event timing.
+  </text>
+</svg>

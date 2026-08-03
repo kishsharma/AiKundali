@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">Cancer Lagna Sign Sequence</title>
+  <desc id="desc">A simple monochrome North Indian Kundali showing Cancer as Lagna and the Rashi numbers continuing in sequence through all twelve fixed houses.</desc>
+
+  <rect width="960" height="620" fill="#ffffff"/>
+
+  <text x="480" y="52" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Cancer Lagna: Rashi Sequence
+  </text>
+
+  <rect x="230" y="95" width="500" height="430"
+        fill="#f5f5f5" stroke="#333333" stroke-width="4"/>
+
+  <line x1="230" y1="95" x2="730" y2="525"
+        stroke="#444444" stroke-width="3"/>
+  <line x1="730" y1="95" x2="230" y2="525"
+        stroke="#444444" stroke-width="3"/>
+  <polygon points="480,95 730,310 480,525 230,310"
+           fill="none" stroke="#444444" stroke-width="3"/>
+
+  <polygon points="480,95 605,202.5 480,310 355,202.5"
+           fill="#d8d8d8" stroke="#444444" stroke-width="2"/>
+
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#222222" font-weight="600">
+    <text x="480" y="175" font-size="31">4</text>
+    <text x="355" y="145" font-size="25">5</text>
+    <text x="282" y="225" font-size="25">6</text>
+    <text x="318" y="318" font-size="25">7</text>
+    <text x="282" y="410" font-size="25">8</text>
+    <text x="355" y="482" font-size="25">9</text>
+    <text x="480" y="455" font-size="25">10</text>
+    <text x="605" y="482" font-size="25">11</text>
+    <text x="678" y="410" font-size="25">12</text>
+    <text x="642" y="318" font-size="25">1</text>
+    <text x="678" y="225" font-size="25">2</text>
+    <text x="605" y="145" font-size="25">3</text>
+  </g>
+
+  <text x="480" y="213" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#333333">
+    Cancer Lagna
+  </text>
+
+  <rect x="45" y="155" width="150" height="125" rx="14"
+        fill="#eeeeee" stroke="#555555" stroke-width="2.5"/>
+  <text x="120" y="193" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">
+    Fixed houses
+  </text>
+  <text x="120" y="227" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Do not move
+  </text>
+  <text x="120" y="258" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    with Lagna
+  </text>
+
+  <rect x="765" y="330" width="150" height="125" rx="14"
+        fill="#dddddd" stroke="#555555" stroke-width="2.5"/>
+  <text x="840" y="368" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#222222">
+    Rashi numbers
+  </text>
+  <text x="840" y="402" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Follow Lagna
+  </text>
+  <text x="840" y="433" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    in sequence
+  </text>
+
+  <text x="480" y="582" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    4 in the first house means Cancer Lagna; then follow 5, 6, 7 … 12, 1, 2, 3.
+  </text>
+</svg>

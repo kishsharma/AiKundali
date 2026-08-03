@@ -1,6 +1,5 @@
-using System.Net;
-using System.Net.Mail;
-using KundaliEngine.API.DTOs.Requests;
+﻿using KundaliEngine.API.DTOs.Requests;
+using KundaliEngine.API.Services.Email;
 using KundaliEngine.API.Services.ReportPdf;
 using Microsoft.Extensions.Options;
 
@@ -10,20 +9,20 @@ public class ReportShareEmailService : IReportShareEmailService
 {
     private readonly ReportShareSmtpOptions _options;
     private readonly IReportPdfService _reportPdfService;
+    private readonly IEmailSender _emailSender;
 
     public ReportShareEmailService(
         IOptions<ReportShareSmtpOptions> options,
-        IReportPdfService reportPdfService)
+        IReportPdfService reportPdfService,
+        IEmailSender emailSender)
     {
         _options = options.Value;
         _reportPdfService = reportPdfService;
+        _emailSender = emailSender;
     }
 
     public async Task SendReportEmailAsync(SendReportEmailRequest request, CancellationToken cancellationToken)
     {
-        var smtpPassword = GetSmtpPassword();
-        EnsureConfigured(smtpPassword);
-
         var (attachmentBytes, attachmentFileName, attachmentContentType) = BuildAttachment(request);
         if (attachmentBytes.Length == 0)
         {
@@ -35,40 +34,24 @@ public class ReportShareEmailService : IReportShareEmailService
             throw new InvalidOperationException("Report attachment is too large to email.");
         }
 
-        using var message = new MailMessage
+        var reportFormatLabel = GetReportFormatLabel(request.Mode);
+        await _emailSender.SendAsync(new EmailMessage
         {
-            From = new MailAddress(GetFromEmail(), _options.FromName),
-            Subject = string.IsNullOrWhiteSpace(request.Subject) ? "Kundali report" : request.Subject.Trim(),
-            Body = string.IsNullOrWhiteSpace(request.Message)
-                ? "Please find the Kundali report attached."
+            ToEmail = request.ToEmail.Trim(),
+            Subject = string.IsNullOrWhiteSpace(request.Subject) ? $"{reportFormatLabel} for {GetReportName(request)}" : request.Subject.Trim(),
+            TextBody = string.IsNullOrWhiteSpace(request.Message)
+                ? $"Please find the {reportFormatLabel} attached."
                 : request.Message.Trim(),
-            IsBodyHtml = false
-        };
-
-        message.To.Add(new MailAddress(request.ToEmail.Trim()));
-
-        var attachmentStream = new MemoryStream(attachmentBytes);
-        var attachment = new Attachment(
-            attachmentStream,
-            SanitizeAttachmentFileName(attachmentFileName),
-            attachmentContentType);
-        message.Attachments.Add(attachment);
-
-        var timeoutSeconds = Math.Clamp(_options.TimeoutSeconds, 5, 120);
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(TimeSpan.FromSeconds(timeoutSeconds));
-
-        using var client = new SmtpClient(_options.Host, _options.Port)
-        {
-            DeliveryMethod = SmtpDeliveryMethod.Network,
-            EnableSsl = _options.EnableSsl,
-            UseDefaultCredentials = false,
-            Credentials = new NetworkCredential(_options.UserName, smtpPassword),
-            Timeout = timeoutSeconds * 1000
-        };
-
-        using var registration = timeoutCts.Token.Register(client.SendAsyncCancel);
-        await client.SendMailAsync(message, timeoutCts.Token);
+            Attachments = new[]
+            {
+                new EmailAttachment
+                {
+                    Bytes = attachmentBytes,
+                    FileName = SanitizeAttachmentFileName(attachmentFileName),
+                    ContentType = attachmentContentType
+                }
+            }
+        }, cancellationToken);
     }
 
     private (byte[] Bytes, string FileName, string ContentType) BuildAttachment(SendReportEmailRequest request)
@@ -95,34 +78,6 @@ public class ReportShareEmailService : IReportShareEmailService
             "application/pdf");
     }
 
-    private void EnsureConfigured(string smtpPassword)
-    {
-        if (string.IsNullOrWhiteSpace(_options.Host)
-            || string.IsNullOrWhiteSpace(_options.UserName)
-            || string.IsNullOrWhiteSpace(smtpPassword))
-        {
-            throw new ReportShareConfigurationException("Report email SMTP settings are not configured.");
-        }
-    }
-
-    private string GetSmtpPassword()
-    {
-        if (!string.IsNullOrWhiteSpace(_options.EncryptedPassword))
-        {
-            var key = Environment.GetEnvironmentVariable(_options.PasswordKeyEnvironmentVariable);
-            return EncryptedSecretProtector.Decrypt(_options.EncryptedPassword, key ?? string.Empty);
-        }
-
-        return _options.Password;
-    }
-
-    private string GetFromEmail()
-    {
-        return string.IsNullOrWhiteSpace(_options.FromEmail)
-            ? _options.UserName
-            : _options.FromEmail;
-    }
-
     private static byte[] DecodeAttachment(string attachmentBase64)
     {
         var value = attachmentBase64.Trim();
@@ -140,6 +95,37 @@ public class ReportShareEmailService : IReportShareEmailService
         {
             throw new InvalidOperationException("Report attachment is not valid base64.", ex);
         }
+    }
+
+    private static string GetReportFormatLabel(string? mode)
+    {
+        return (mode ?? string.Empty).Trim().ToLowerInvariant() switch
+        {
+            "corporate" or "corporate-advisory" => "Personal Vedic Astrology Advisory Report",
+            "mobile" or "mobile-friendly" or "mobilefriendly" => "Mobile Friendly Kundali Report",
+            "print-bw" or "black-white" or "black-and-white" => "Black & White Kundali Report",
+            _ => "Kundali Report"
+        };
+    }
+
+    private static string GetReportName(SendReportEmailRequest request)
+    {
+        if (request.BirthProfile.ValueKind == System.Text.Json.JsonValueKind.Object)
+        {
+            foreach (var propertyName in new[] { "fullName", "name" })
+            {
+                if (request.BirthProfile.TryGetProperty(propertyName, out var value))
+                {
+                    var text = value.ValueKind == System.Text.Json.JsonValueKind.String ? value.GetString() : value.ToString();
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        return text.Trim();
+                    }
+                }
+            }
+        }
+
+        return "Kundali";
     }
 
     private static string? FirstNonEmpty(params string?[] values)

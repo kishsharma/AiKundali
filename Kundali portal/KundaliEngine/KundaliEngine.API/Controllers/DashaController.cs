@@ -72,7 +72,7 @@ namespace KundaliEngine.API.Controllers
                             m,
                             birthDasha.Planet,
                             birthDasha.RemainingYears)
-                        .Select(a => new AntardashaPeriodDto { SubPlanet = a.SubPlanet.ToString(), StartDate = a.StartDate, EndDate = a.EndDate })
+                        .Select(a => BuildAntardashaPeriodDto(m, a, birthDasha.Planet, birthDasha.RemainingYears))
                         .ToList()
                 }).ToList();
 
@@ -122,15 +122,33 @@ namespace KundaliEngine.API.Controllers
                     .FirstOrDefault(a => nowUtc >= a.StartDate && nowUtc < a.EndDate)
                     ?? antardashaTimeline.First();
 
+                var pratyantardashaTimeline = _dashaService.GeneratePratyantardashaForTimelinePeriod(
+                    currentMaha,
+                    currentAntar,
+                    birthDasha.Planet,
+                    birthDasha.RemainingYears);
+
+                var currentPratyantar = pratyantardashaTimeline
+                    .FirstOrDefault(p => nowUtc >= p.StartDate && nowUtc < p.EndDate)
+                    ?? pratyantardashaTimeline.FirstOrDefault();
+
                 int currentMahaIndex = mahadashaTimeline.FindIndex(m => m == currentMaha);
                 int currentAntarIndex = antardashaTimeline.FindIndex(a => a == currentAntar);
+                int currentPratyantarIndex = currentPratyantar == null
+                    ? 0
+                    : Math.Max(0, pratyantardashaTimeline.FindIndex(p => p == currentPratyantar));
                 var mahaPosition = planets.FirstOrDefault(p => p.Planet == currentMaha.Planet);
                 var strength = mahaPosition == null
                     ? PlanetStrength.Neutral
                     : _planetStrengthService.GetStrength(mahaPosition.Planet, mahaPosition.Sign);
+                var mahadashaStrength = BuildDashaLevelStrength("Mahadasha", currentMaha.Planet, planets);
+                var antardashaStrength = BuildDashaLevelStrength("Antardasha", currentAntar.SubPlanet, planets);
+                var pratyantardashaStrength = currentPratyantar == null
+                    ? new DashaLevelStrengthDto { Level = "Pratyantardasha" }
+                    : BuildDashaLevelStrength("Pratyantardasha", currentPratyantar.InnerPlanet, planets);
 
-                int overallStrength = StrengthToScore(strength, mahaPosition);
-                string overallResult = ScoreToResult(overallStrength);
+                int overallStrength = mahadashaStrength.OverallStrength;
+                string overallResult = mahadashaStrength.OverallResult;
                 var upcomingMaha = mahadashaTimeline.Skip(currentMahaIndex + 1).FirstOrDefault();
 
                 var analysis = new MahadashaAnalysisDto
@@ -142,7 +160,9 @@ namespace KundaliEngine.API.Controllers
                         OverallResult = overallResult,
                         CurrentMahadasha = currentMaha.Planet.ToString(),
                         CurrentAntardasha = currentAntar.SubPlanet.ToString(),
+                        CurrentPratyantardasha = currentPratyantar?.InnerPlanet.ToString() ?? string.Empty,
                         RemainingDuration = FormatDuration(nowUtc, currentAntar.EndDate),
+                        PratyantardashaRemainingDuration = currentPratyantar == null ? string.Empty : FormatDuration(nowUtc, currentPratyantar.EndDate),
                         CompletedPercentage = CompletedPercent(currentMaha.StartDate, currentMaha.EndDate, nowUtc),
                         StartDate = currentMaha.StartDate,
                         EndDate = currentMaha.EndDate
@@ -186,10 +206,23 @@ namespace KundaliEngine.API.Controllers
                         Description = $"{currentAntar.SubPlanet} Antardasha {_predictionService.GetDashaPrediction(currentAntar.SubPlanet)}",
                         CombinedEffect = _predictionService.GetCombinedDashaPrediction(currentMaha.Planet, currentAntar.SubPlanet)
                     },
+                    CurrentPratyantardasha = currentPratyantar == null
+                        ? new CurrentPratyantardashaDto()
+                        : new CurrentPratyantardashaDto
+                        {
+                            Planet = currentPratyantar.InnerPlanet.ToString(),
+                            PlanetIcon = currentPratyantar.InnerPlanet.ToString().ToLowerInvariant(),
+                            PlanetColor = PlanetColor(currentPratyantar.InnerPlanet),
+                            Nature = PlanetNature(currentPratyantar.InnerPlanet),
+                            StartDate = currentPratyantar.StartDate,
+                            EndDate = currentPratyantar.EndDate,
+                            RemainingDuration = FormatDuration(nowUtc, currentPratyantar.EndDate)
+                        },
                     Timeline = new DashaTimelineDto
                     {
                         CurrentMahadashaIndex = currentMahaIndex,
                         CurrentAntardashaIndex = currentAntarIndex,
+                        CurrentPratyantardashaIndex = currentPratyantarIndex,
                         Mahadasha = mahadashaTimeline
                             .Select(m => new MahadashaTimelinePeriodDto
                             {
@@ -201,23 +234,30 @@ namespace KundaliEngine.API.Controllers
                                         m,
                                         birthDasha.Planet,
                                         birthDasha.RemainingYears)
-                                    .Select(a => new AntardashaTimelinePeriodDto
-                                    {
-                                        Planet = a.SubPlanet.ToString(),
-                                        Start = a.StartDate.ToString("yyyy-MM", CultureInfo.InvariantCulture),
-                                        End = a.EndDate.ToString("yyyy-MM", CultureInfo.InvariantCulture),
-                                        Status = PeriodStatus(a.StartDate, a.EndDate, nowUtc)
-                                    })
+                                    .Select(a => BuildAntardashaTimelinePeriodDto(
+                                        m,
+                                        a,
+                                        birthDasha.Planet,
+                                        birthDasha.RemainingYears,
+                                        nowUtc))
                                     .ToList()
                             })
                             .ToList(),
                         Antardasha = antardashaTimeline
-                            .Select(a => new AntardashaTimelinePeriodDto
+                            .Select(a => BuildAntardashaTimelinePeriodDto(
+                                currentMaha,
+                                a,
+                                birthDasha.Planet,
+                                birthDasha.RemainingYears,
+                                nowUtc))
+                            .ToList(),
+                        Pratyantardasha = pratyantardashaTimeline
+                            .Select(p => new PratyantardashaTimelinePeriodDto
                             {
-                                Planet = a.SubPlanet.ToString(),
-                                Start = a.StartDate.ToString("yyyy-MM", CultureInfo.InvariantCulture),
-                                End = a.EndDate.ToString("yyyy-MM", CultureInfo.InvariantCulture),
-                                Status = PeriodStatus(a.StartDate, a.EndDate, nowUtc)
+                                Planet = p.InnerPlanet.ToString(),
+                                Start = p.StartDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                                End = p.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                                Status = PeriodStatus(p.StartDate, p.EndDate, nowUtc)
                             })
                             .ToList()
                     },
@@ -227,12 +267,18 @@ namespace KundaliEngine.API.Controllers
                         OverallStrength = overallStrength,
                         Planet = currentMaha.Planet.ToString(),
                         PlanetStrength = StrengthLabel(strength),
-                        Placement = mahaPosition == null ? "Chart placement unavailable" : $"{(int)mahaPosition.House} House",
+                        Placement = mahaPosition == null ? "Chart placement unavailable" : FormatHousePlacement(mahaPosition.House),
                         Sign = mahaPosition?.Sign.ToString() ?? string.Empty,
                         AspectOnLagna = mahaPosition?.House == HouseNumber.Fifth || mahaPosition?.House == HouseNumber.Seventh || mahaPosition?.House == HouseNumber.Ninth,
-                        SupportedByBenefics = IsBenefic(currentAntar.SubPlanet),
-                        SupportedBy = IsBenefic(currentAntar.SubPlanet) ? new List<string> { currentAntar.SubPlanet.ToString() } : new List<string>(),
-                        OverallResult = overallResult
+                        SupportedByBenefics = mahadashaStrength.SupportedByBenefics,
+                        SupportedBy = mahadashaStrength.SupportedBy,
+                        AssociationTone = mahadashaStrength.AssociationTone,
+                        AssociationSummary = mahadashaStrength.AssociationSummary,
+                        AssociationDetails = mahadashaStrength.AssociationDetails,
+                        OverallResult = overallResult,
+                        Mahadasha = mahadashaStrength,
+                        Antardasha = antardashaStrength,
+                        Pratyantardasha = pratyantardashaStrength
                     },
                     PositiveInfluences = BuildPositiveInfluences(currentMaha.Planet, currentAntar.SubPlanet, mahaPosition, overallResult),
                     Challenges = BuildChallenges(currentMaha.Planet, currentAntar.SubPlanet),
@@ -279,6 +325,60 @@ namespace KundaliEngine.API.Controllers
             }
         }
 
+        private AntardashaPeriodDto BuildAntardashaPeriodDto(
+            MahadashaPeriod maha,
+            AntardashaPeriod antar,
+            Planet birthMahadashaPlanet,
+            double birthMahadashaRemainingYears)
+        {
+            return new AntardashaPeriodDto
+            {
+                SubPlanet = antar.SubPlanet.ToString(),
+                StartDate = antar.StartDate,
+                EndDate = antar.EndDate,
+                Pratyantardashas = _dashaService.GeneratePratyantardashaForTimelinePeriod(
+                        maha,
+                        antar,
+                        birthMahadashaPlanet,
+                        birthMahadashaRemainingYears)
+                    .Select(p => new PratyantardashaPeriodDto
+                    {
+                        InnerPlanet = p.InnerPlanet.ToString(),
+                        StartDate = p.StartDate,
+                        EndDate = p.EndDate
+                    })
+                    .ToList()
+            };
+        }
+
+        private AntardashaTimelinePeriodDto BuildAntardashaTimelinePeriodDto(
+            MahadashaPeriod maha,
+            AntardashaPeriod antar,
+            Planet birthMahadashaPlanet,
+            double birthMahadashaRemainingYears,
+            DateTime nowUtc)
+        {
+            return new AntardashaTimelinePeriodDto
+            {
+                Planet = antar.SubPlanet.ToString(),
+                Start = antar.StartDate.ToString("yyyy-MM", CultureInfo.InvariantCulture),
+                End = antar.EndDate.ToString("yyyy-MM", CultureInfo.InvariantCulture),
+                Status = PeriodStatus(antar.StartDate, antar.EndDate, nowUtc),
+                Pratyantardashas = _dashaService.GeneratePratyantardashaForTimelinePeriod(
+                        maha,
+                        antar,
+                        birthMahadashaPlanet,
+                        birthMahadashaRemainingYears)
+                    .Select(p => new PratyantardashaTimelinePeriodDto
+                    {
+                        Planet = p.InnerPlanet.ToString(),
+                        Start = p.StartDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                        End = p.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                        Status = PeriodStatus(p.StartDate, p.EndDate, nowUtc)
+                    })
+                    .ToList()
+            };
+        }
         private ZodiacSign CalculateAscendantSign(DateTime birthUtc, double latitude, double longitude)
         {
             var location = new GeoLocation(latitude, longitude);
@@ -394,6 +494,145 @@ namespace KundaliEngine.API.Controllers
             };
         }
 
+        private DashaLevelStrengthDto BuildDashaLevelStrength(string level, Planet planet, IReadOnlyCollection<PlanetPosition> planets)
+        {
+            var position = planets.FirstOrDefault(p => p.Planet == planet);
+            var strength = position == null
+                ? PlanetStrength.Neutral
+                : _planetStrengthService.GetStrength(position.Planet, position.Sign);
+            int score = StrengthToScore(strength, position);
+            var association = BuildPlanetaryAssociation(planet, planets);
+
+            return new DashaLevelStrengthDto
+            {
+                Level = level,
+                Planet = planet.ToString(),
+                OverallStrength = score,
+                PlanetStrength = StrengthLabel(strength),
+                Placement = position == null ? "Chart placement unavailable" : FormatHousePlacement(position.House),
+                Sign = position?.Sign.ToString() ?? string.Empty,
+                AspectOnLagna = position?.House == HouseNumber.Fifth || position?.House == HouseNumber.Seventh || position?.House == HouseNumber.Ninth,
+                SupportedByBenefics = association.Tone is "Benefic" or "Mixed",
+                SupportedBy = association.BeneficPlanets,
+                AssociationTone = association.Tone,
+                AssociationSummary = association.Summary,
+                AssociationDetails = association.Details,
+                OverallResult = ScoreToResult(score)
+            };
+        }
+
+        private static DashaAssociationResult BuildPlanetaryAssociation(Planet targetPlanet, IReadOnlyCollection<PlanetPosition> planets)
+        {
+            var target = planets.FirstOrDefault(p => p.Planet == targetPlanet);
+
+            if (target == null)
+            {
+                return new DashaAssociationResult("None", "None", new List<string>(), new List<string>());
+            }
+
+            var beneficHits = new List<string>();
+            var maleficHits = new List<string>();
+            var details = new List<string>();
+
+            foreach (var source in planets.Where(p => p.Planet != targetPlanet))
+            {
+                var associationType = AssociationType(source, target);
+
+                if (associationType == null)
+                {
+                    continue;
+                }
+
+                var hit = $"{source.Planet} {associationType}";
+                var detail = associationType == "Conjunction"
+                    ? $"{source.Planet} is conjunct {targetPlanet} in the {(int)target.House} house."
+                    : $"{source.Planet} aspects {targetPlanet} from the {(int)source.House} house to the {(int)target.House} house.";
+
+                if (IsBenefic(source.Planet))
+                {
+                    beneficHits.Add(hit);
+                    details.Add($"Benefic: {detail}");
+                }
+                else
+                {
+                    maleficHits.Add(hit);
+                    details.Add($"Malefic: {detail}");
+                }
+            }
+
+            var tone = (beneficHits.Count, maleficHits.Count) switch
+            {
+                (> 0, > 0) => "Mixed",
+                (> 0, 0) => "Benefic",
+                (0, > 0) => "Malefic",
+                _ => "None"
+            };
+
+            var summary = tone switch
+            {
+                "Benefic" => beneficHits.Count == 1 ? $"Benefic: {beneficHits[0]}" : "Benefic: Multiple",
+                "Malefic" => maleficHits.Count == 1 ? $"Malefic: {maleficHits[0]}" : "Malefic: Multiple",
+                "Mixed" => $"Mixed: {FirstPlanetName(beneficHits)} + {FirstPlanetName(maleficHits)}",
+                _ => "None"
+            };
+
+            return new DashaAssociationResult(tone, summary, details, beneficHits.Select(FirstPlanetName).Distinct().ToList());
+        }
+
+        private static string? AssociationType(PlanetPosition source, PlanetPosition target)
+        {
+            if (source.House == target.House)
+            {
+                return "Conjunction";
+            }
+
+            return AspectOffsets(source.Planet).Contains(HouseDistance(source.House, target.House))
+                ? "Aspect"
+                : null;
+        }
+
+        private static int HouseDistance(HouseNumber from, HouseNumber to)
+        {
+            return (((int)to - (int)from + 12) % 12) + 1;
+        }
+
+        private static string FormatHousePlacement(HouseNumber house)
+        {
+            var number = (int)house;
+            var suffix = number switch
+            {
+                1 => "st",
+                2 => "nd",
+                3 => "rd",
+                _ => "th"
+            };
+
+            return $"{number}{suffix} House";
+        }
+
+        private static IReadOnlyCollection<int> AspectOffsets(Planet planet)
+        {
+            return planet switch
+            {
+                Planet.Jupiter => new[] { 5, 7, 9 },
+                Planet.Mars => new[] { 4, 7, 8 },
+                Planet.Saturn => new[] { 3, 7, 10 },
+                Planet.Rahu or Planet.Ketu => new[] { 5, 7, 9 },
+                _ => new[] { 7 }
+            };
+        }
+
+        private static string FirstPlanetName(string hit)
+        {
+            return hit.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? hit;
+        }
+
+        private static string FirstPlanetName(IEnumerable<string> hits)
+        {
+            return hits.Select(FirstPlanetName).FirstOrDefault() ?? string.Empty;
+        }
+
+        private sealed record DashaAssociationResult(string Tone, string Summary, List<string> Details, List<string> BeneficPlanets);
         private static int StrengthToScore(PlanetStrength strength, PlanetPosition? position)
         {
             int score = strength switch
@@ -590,6 +829,16 @@ namespace KundaliEngine.API.Controllers
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

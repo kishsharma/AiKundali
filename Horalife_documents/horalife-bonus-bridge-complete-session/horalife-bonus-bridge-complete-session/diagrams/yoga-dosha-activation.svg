@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" role="img" aria-labelledby="title desc">
+  <title id="title">Yoga and Dosha Activation</title>
+  <desc id="desc">A simple monochrome flow from formation to strength, Dasha activation, Gochar support and manifested result.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#444444"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="560" fill="#ffffff"/>
+
+  <text x="550" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Yoga and Dosha Activation
+  </text>
+
+  <rect x="45" y="185" width="170" height="130" rx="17"
+        fill="#eeeeee" stroke="#444444" stroke-width="3"/>
+  <text x="130" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Formation
+  </text>
+  <text x="130" y="265" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Exact rule exists
+  </text>
+  <text x="130" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    in the chart
+  </text>
+
+  <rect x="265" y="185" width="170" height="130" rx="17"
+        fill="#e4e4e4" stroke="#444444" stroke-width="3"/>
+  <text x="350" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Strength
+  </text>
+  <text x="350" y="265" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Dignity · House
+  </text>
+  <text x="350" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Support · Pressure
+  </text>
+
+  <rect x="485" y="185" width="170" height="130" rx="17"
+        fill="#dadada" stroke="#444444" stroke-width="3"/>
+  <text x="570" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Dasha
+  </text>
+  <text x="570" y="265" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Current period
+  </text>
+  <text x="570" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    activates the link
+  </text>
+
+  <rect x="705" y="185" width="170" height="130" rx="17"
+        fill="#d0d0d0" stroke="#444444" stroke-width="3"/>
+  <text x="790" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Gochar
+  </text>
+  <text x="790" y="265" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Supports · Delays
+  </text>
+  <text x="790" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    or triggers
+  </text>
+
+  <rect x="925" y="185" width="130" height="130" rx="17"
+        fill="#c5c5c5" stroke="#444444" stroke-width="3"/>
+  <text x="990" y="230" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Result
+  </text>
+  <text x="990" y="265" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Manifested
+  </text>
+  <text x="990" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    expression
+  </text>
+
+  <line x1="215" y1="250" x2="255" y2="250"
+        stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="435" y1="250" x2="475" y2="250"
+        stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="655" y1="250" x2="695" y2="250"
+        stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="875" y1="250" x2="915" y2="250"
+        stroke="#444444" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="160" y="395" width="780" height="82" rx="16"
+        fill="#e7e7e7" stroke="#555555" stroke-width="2.5"/>
+  <text x="550" y="430" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Formation does not mean constant activation
+  </text>
+  <text x="550" y="462" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Check strength, Dasha relevance and Gochar support before judging manifestation.
+  </text>
+
+  <text x="550" y="530" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="19" fill="#333333">
+    Presence, strength and timing are three separate questions.
+  </text>
+</svg>

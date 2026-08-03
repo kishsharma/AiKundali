@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session06-twenty-seven-nakshatra-wheel",
-          "assetPath": "assets/study/level-1/session-06/twenty-seven-nakshatra-wheel.svg",
+          "assetPath": "assets/learning/Level-1/session-06/twenty-seven-nakshatra-wheel.svg",
           "altText": "27 समान नक्षत्र भागों में विभाजित सरल एकरंगी राशि चक्र।",
           "caption": "360° राशि चक्र 27 समान नक्षत्रों में विभाजित होता है।",
           "purpose": "नक्षत्र ग्रिड को राशि चक्र के समान विभाजन के रूप में दिखाना।",
@@ -309,7 +309,7 @@
         {
           "type": "diagram",
           "assetId": "session06-nakshatra-four-padas",
-          "assetPath": "assets/study/level-1/session-06/nakshatra-four-padas.svg",
+          "assetPath": "assets/learning/Level-1/session-06/nakshatra-four-padas.svg",
           "altText": "एक नक्षत्र चाप जिसे 3°20′ के चार समान पादों में बाँटा गया है।",
           "caption": "प्रत्येक नक्षत्र में चार समान पाद होते हैं।",
           "purpose": "नक्षत्र विस्तार को पाद गणना से जोड़ना।",
@@ -419,7 +419,7 @@
         {
           "type": "diagram",
           "assetId": "session06-rashi-nakshatra-overlap",
-          "assetPath": "assets/study/level-1/session-06/rashi-nakshatra-overlap.svg",
+          "assetPath": "assets/learning/Level-1/session-06/rashi-nakshatra-overlap.svg",
           "altText": "एक ही 360° राशि चक्र पर 12 राशियों और 27 नक्षत्रों की दो समानांतर पट्टियाँ।",
           "caption": "राशि और नक्षत्र एक ही राशि चक्र पर रखे गए अलग-अलग ग्रिड हैं।",
           "purpose": "एक नक्षत्र को एक राशि के बराबर मानने की सामान्य भूल रोकना।",

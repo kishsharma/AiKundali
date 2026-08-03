@@ -10,6 +10,7 @@ export interface UserLoginControlUser {
   email: string;
   phoneNumber?: string | null;
   isActive: boolean;
+  kundaliSaveLimit: number;
 }
 
 @Injectable({
@@ -25,5 +26,9 @@ export class UserLoginControlService {
 
   updateActiveStatus(id: string, isActive: boolean): Observable<UserLoginControlUser> {
     return this.http.patch<UserLoginControlUser>(`${this.apiUrl}/${id}/active`, { isActive });
+  }
+
+  updateKundaliSaveLimit(id: string, kundaliSaveLimit: number): Observable<UserLoginControlUser> {
+    return this.http.patch<UserLoginControlUser>(`${this.apiUrl}/${id}/kundali-save-limit`, { kundaliSaveLimit });
   }
 }

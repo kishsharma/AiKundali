@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
+import { NotificationService } from '../../shared/services/notification.service';
 import {
   AuditLogItem,
   AuditLogsService,
@@ -21,6 +22,7 @@ type LogTab = 'audit' | 'communication';
 })
 export class AuditLogsComponent implements OnInit {
   private readonly auditLogsService = inject(AuditLogsService);
+  private readonly notifications = inject(NotificationService);
 
   activeTab: LogTab = 'audit';
   loading = false;
@@ -60,7 +62,7 @@ export class AuditLogsComponent implements OnInit {
   readonly communicationChannels = ['', 'Email', 'WhatsApp', 'SMS'];
   readonly communicationTypes = ['', 'OTP', 'Report', 'Receipt', 'Reminder', 'General'];
   readonly statuses = ['', 'Success', 'Failed', 'Sent', 'Queued'];
-
+  private readonly cdr = inject(ChangeDetectorRef);
   ngOnInit(): void {
     this.loadLogs();
   }
@@ -136,6 +138,7 @@ export class AuditLogsComponent implements OnInit {
     if (this.activeTab === 'audit') {
       this.auditLogsService.getAuditLogs(query).subscribe({
         next: (page: LogPage<AuditLogItem>) => this.handlePage(page),
+        
         error: (error: any) => this.handleLoadError(error)
       });
       return;
@@ -161,7 +164,9 @@ export class AuditLogsComponent implements OnInit {
 
   private handleLoadError(error: any): void {
     this.errorMessage = error?.error?.message || error?.message || 'Unable to load logs.';
+    this.notifications.error(this.errorMessage);
     this.loading = false;
+    this.cdr.detectChanges();
   }
 
   private handlePage(page: LogPage<AuditLogItem> | LogPage<CommunicationLogItem>): void {
@@ -176,6 +181,7 @@ export class AuditLogsComponent implements OnInit {
     }
 
     this.loading = false;
+    this.cdr.detectChanges();
   }
 
   private buildQuery(): LogQuery {

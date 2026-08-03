@@ -1,0 +1,132 @@
+@page {
+  size: A4;
+  margin: 13mm 9mm 14mm;
+}
+
+.report-page.mobile-friendly-report {
+  gap: 9px;
+  font-size: 12px;
+}
+
+.mobile-friendly-report .report-hero {
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 8px 10px 6px;
+}
+
+.mobile-friendly-report .prepared-by {
+  border-left: 0;
+  border-top: 0;
+  padding: 4px 0 0;
+  text-align: left;
+}
+
+
+.mobile-friendly-report .brand-copy span,
+.mobile-friendly-report .report-meta,
+.mobile-friendly-report .micro-label {
+  letter-spacing: 0.02em;
+}
+
+.mobile-friendly-report .section-title {
+  min-height: 34px;
+  font-size: 12px;
+}
+
+.mobile-friendly-report .section-body {
+  padding: 11px;
+}
+
+.mobile-friendly-report .grid-2,
+.mobile-friendly-report .grid-3,
+.mobile-friendly-report .grid-4,
+.mobile-friendly-report .charts-grid,
+.mobile-friendly-report .score-strip,
+.mobile-friendly-report .two-col-report,
+.mobile-friendly-report .dasha-grid,
+.mobile-friendly-report .insight-grid {
+  grid-template-columns: 1fr;
+}
+
+.mobile-friendly-report .bhava-score-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mobile-friendly-report .fact {
+  min-height: 42px;
+}
+
+.mobile-friendly-report .fact span,
+.mobile-friendly-report .score-box span {
+  font-size: 9px;
+}
+
+.mobile-friendly-report .fact strong,
+.mobile-friendly-report .prepared-by strong {
+  font-size: 12px;
+}
+
+.mobile-friendly-report .report-text {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.mobile-friendly-report .north-chart {
+  width: 228px;
+  height: 228px;
+}
+
+.mobile-friendly-report .sudarshan-chart-svg {
+  width: 280px;
+  height: 280px;
+}
+
+.mobile-friendly-report .sudarshan-large-wrap .sudarshan-chart-svg {
+  width: 330px;
+  height: 330px;
+}
+
+.mobile-friendly-report .compact-table th {
+  font-size: 8.8px;
+}
+
+.mobile-friendly-report .compact-table td {
+  font-size: 9px;
+  line-height: 1.32;
+}
+
+.mobile-friendly-report .section-kundali-charts,
+.mobile-friendly-report .section-planet-positions-house-highlights,
+.mobile-friendly-report .section-mahadasha-antardasha,
+.mobile-friendly-report .section-sudarshan-chakra,
+.mobile-friendly-report .section-remedies-recommendation {
+  break-before: auto;
+  page-break-before: auto;
+}
+.mobile-friendly-report .brand-lockup {
+  grid-template-columns: 46px minmax(0, 1fr);
+}
+
+.mobile-friendly-report .brand-mark,
+.mobile-friendly-report .brand-mark svg {
+  width: 46px;
+  height: 46px;
+}
+
+.mobile-friendly-report .brand-name {
+  font-size: 20px;
+}
+
+.mobile-friendly-report .brand-copy h1 {
+  font-size: 17px;
+  line-height: 1.08;
+}
+.mobile-friendly-report .devotional-divider {
+  margin: 0 0 -1px;
+}
+
+.mobile-friendly-report .devotional-divider svg {
+  width: 380px;
+  max-width: 96%;
+  height: 38px;
+}

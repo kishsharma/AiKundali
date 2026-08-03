@@ -1,0 +1,458 @@
+{
+  "info": {
+    "_postman_id": "1d72797a-d6de-4b6e-86fd-9a05cc650cc4",
+    "name": "HoraLife Store Cart",
+    "description": "Authenticated HoraLife Store cart API tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "productId",
+      "value": "a811382e-1f63-45c3-b79a-fcbca72e7ee3"
+    },
+    {
+      "key": "variantId",
+      "value": "4886bf69-2eb6-447d-8b8b-c7e2794847e5"
+    },
+    {
+      "key": "cartId",
+      "value": ""
+    },
+    {
+      "key": "cartItemId",
+      "value": ""
+    },
+    {
+      "key": "addQuantity",
+      "value": "1"
+    },
+    {
+      "key": "updateQuantity",
+      "value": "3"
+    },
+    {
+      "key": "insufficientQuantity",
+      "value": "99"
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Response time is below 3000 ms', function () {",
+          "  pm.expect(pm.response.responseTime).to.be.below(3000);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Add Cart Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items"
+              ]
+            },
+            "description": "Adds a product variant and stores cartId/cartItemId automatically.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": {{addQuantity}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "pm.test('Cart response is valid', function () {",
+                  "  pm.expect(body).to.have.property('id');",
+                  "  pm.expect(body).to.have.property('currency', 'INR');",
+                  "  pm.expect(body).to.have.property('items').that.is.an('array');",
+                  "});",
+                  "const productId = pm.collectionVariables.get('productId');",
+                  "const variantId = pm.collectionVariables.get('variantId');",
+                  "const item = body.items.find(x => x.productId === productId && x.variantId === variantId);",
+                  "pm.test('Added item exists', function () { pm.expect(item).to.exist; });",
+                  "if (body.id) pm.collectionVariables.set('cartId', body.id);",
+                  "if (item && item.id) pm.collectionVariables.set('cartItemId', item.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": "Returns the authenticated user's active cart."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "pm.test('Cart structure is valid', function () {",
+                  "  pm.expect(body).to.have.property('currency');",
+                  "  pm.expect(body).to.have.property('totalQuantity');",
+                  "  pm.expect(body).to.have.property('subtotal');",
+                  "  pm.expect(body).to.have.property('items').that.is.an('array');",
+                  "});",
+                  "const item = body.items.find(x => x.productId === pm.collectionVariables.get('productId') && x.variantId === pm.collectionVariables.get('variantId'));",
+                  "if (body.id) pm.collectionVariables.set('cartId', body.id);",
+                  "if (item && item.id) pm.collectionVariables.set('cartItemId', item.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Same Variant Again",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items"
+              ]
+            },
+            "description": "Adds the same variant again; existing item quantity should increase.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "const productId = pm.collectionVariables.get('productId');",
+                  "const variantId = pm.collectionVariables.get('variantId');",
+                  "const matches = body.items.filter(x => x.productId === productId && x.variantId === variantId);",
+                  "pm.test('No duplicate cart item is created', function () { pm.expect(matches.length).to.eql(1); });",
+                  "pm.test('Quantity increased', function () { pm.expect(matches[0].quantity).to.be.above(1); });",
+                  "if (matches.length === 1) pm.collectionVariables.set('cartItemId', matches[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items/{{cartItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items",
+                "{{cartItemId}}"
+              ]
+            },
+            "description": "Updates the current cart item quantity.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": {{updateQuantity}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "const item = body.items.find(x => x.id === pm.collectionVariables.get('cartItemId'));",
+                  "const expected = Number(pm.collectionVariables.get('updateQuantity'));",
+                  "pm.test('Quantity updated', function () { pm.expect(item).to.exist; pm.expect(item.quantity).to.eql(expected); });",
+                  "pm.test('Line total is correct', function () { pm.expect(item.lineTotal).to.eql(item.unitPrice * item.quantity); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Insufficient Stock - 409",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items/{{cartItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items",
+                "{{cartItemId}}"
+              ]
+            },
+            "description": "Negative stock test. Increase insufficientQuantity if needed.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": {{insufficientQuantity}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 409', function () { pm.response.to.have.status(409); });",
+                  "const body = pm.response.json();",
+                  "pm.test('Problem details indicate stock conflict', function () {",
+                  "  pm.expect(body).to.have.property('status', 409);",
+                  "  pm.expect(body).to.have.property('title');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remove Cart Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart/items/{{cartItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart",
+                "items",
+                "{{cartItemId}}"
+              ]
+            },
+            "description": "Removes the selected cart item."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 204', function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": "Clears all items from the active cart."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 204', function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unauthorized Cart Access - 401",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": "Intentionally disables bearer authentication.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

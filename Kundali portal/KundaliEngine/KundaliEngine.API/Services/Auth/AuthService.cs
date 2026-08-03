@@ -24,7 +24,7 @@ namespace KundaliEngine.API.Services.Auth
             var email = request.Email.Trim().ToLower();
 
             var existingUser = await _dbContext.Users
-                .AnyAsync(x => x.Email.ToLower() == email);
+                .AnyAsync(x => x.Email != null && x.Email.ToLower() == email);
 
             if (existingUser)
             {
@@ -54,6 +54,7 @@ namespace KundaliEngine.API.Services.Auth
                 UserId = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
                 Role = user.Role,
                 Token = token
             };
@@ -64,7 +65,7 @@ namespace KundaliEngine.API.Services.Auth
             var email = request.Email.Trim().ToLower();
 
             var user = await _dbContext.Users
-                .FirstOrDefaultAsync(x => x.Email.ToLower() == email);
+                .FirstOrDefaultAsync(x => x.Email != null && x.Email.ToLower() == email);
 
             if (user == null)
             {
@@ -101,6 +102,7 @@ namespace KundaliEngine.API.Services.Auth
                 UserId = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
                 Role = user.Role,
                 Token = token
             };

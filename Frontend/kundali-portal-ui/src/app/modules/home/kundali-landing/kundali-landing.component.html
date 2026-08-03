@@ -1,23 +1,16 @@
-﻿<div class="north-star" aria-hidden="true">
+<div class="north-star" aria-hidden="true">
   <span class="north-star-core"></span>
   <span class="north-star-ray ray-vertical"></span>
   <span class="north-star-ray ray-horizontal"></span>
   <span class="north-star-label">N</span>
 </div>
-<header>
+<header [class.is-scrolled]="isNavScrolled">
   <div class="wrap nav">
     <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-        <path d="M20 2 L38 20 L20 38 L2 20 Z" stroke="#c9a24b" stroke-width="1.2"/>
-        <path d="M20 2 L38 20 M38 20 L20 38 M20 38 L2 20 M2 20 L20 2" stroke="#c9a24b" stroke-width="0.6" opacity="0.5"/>
-        <circle cx="20" cy="20" r="2.4" fill="#c9a24b"/>
-      </svg>
-      <div class="brand-text">
-        <span class="name"><span class="brand-word-hora">Hora</span><span class="brand-word-score">Life</span></span>
-        <span class="deva">ज्योतिषं प्रकाशते</span>
-      </div>
+      <app-brand-logo variant="iconText" tone="white"></app-brand-logo>
     </div>
     <nav class="nav-links">
+      <a href="#public-tools">Free Tools</a>
       <a href="#process">Method</a>
       <a href="#astrologers">Astrologers</a>
       <a href="#evaluators">Evaluators</a>
@@ -27,7 +20,7 @@
     </nav>
     <div class="nav-actions">
       <a routerLink="/login" class="nav-login">Login</a>
-      <a href="#get-score" class="nav-cta">Get Your Life</a>
+      <a href="#get-score" class="nav-cta">Create Hora</a>
     </div>
   </div>
 </header>
@@ -59,6 +52,7 @@
       <p class="lede">Every planet's strength, every combustion, every yoga and dosha — traced back to the classical rule that produced it, not hidden behind a generic star rating.</p>
       <div class="hero-ctas">
         <a href="#get-score" class="btn-primary">Generate My Kundali</a>
+        <a href="#public-tools" class="btn-secondary">Explore Free Tools</a>
         <a href="#preview" class="btn-ghost">See a sample report</a>
       </div>
       <div class="hero-note"><span class="dot"></span> Built on Bṛhat Parāśara Horā Śāstra, Jaimini Sūtras &amp; Phaladeepika</div>
@@ -116,6 +110,58 @@
           <span class="val">Exalted · +22</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Public discovery hooks: lightweight placeholders that can be wired to dedicated routes later. -->
+<section class="public-tools" id="public-tools" aria-labelledby="public-tools-title">
+  <div class="deva-field" id="deva-tools"></div>
+  <div class="wrap" style="position:relative; z-index:1;">
+    <div class="public-tools-head">
+      <div>
+        <span class="eyebrow">Free Vedic Tools</span>
+        <h2 id="public-tools-title">What would you like to check?</h2>
+        <p>Begin with a focused answer. Your birth details can later be reused for a complete HoraLife Kundali.</p>
+      </div>
+      <a href="#get-score" class="tools-all-link" aria-label="View all free tools">View all free tools <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="public-tools-grid">
+      <a href="#get-score" class="public-tool-card" aria-label="Check Shani Sade Sati">
+        <span class="tool-symbol tool-symbol-saturn" aria-hidden="true">♄</span>
+        <span class="tool-copy"><strong>Shani Sade Sati</strong><small>Check your current Saturn phase</small></span>
+        <span class="tool-action">Free check →</span>
+      </a>
+      <a href="#get-score" class="public-tool-card" aria-label="Find Moon Sign">
+        <span class="tool-symbol" aria-hidden="true">☾</span>
+        <span class="tool-copy"><strong>Moon Sign</strong><small>Discover your Janma Rashi</small></span>
+        <span class="tool-action">Find now →</span>
+      </a>
+      <a href="#get-score" class="public-tool-card" aria-label="Find Birth Nakshatra">
+        <span class="tool-symbol" aria-hidden="true">✦</span>
+        <span class="tool-copy"><strong>Birth Nakshatra</strong><small>Find Nakshatra and Pada</small></span>
+        <span class="tool-action">Find now →</span>
+      </a>
+      <a href="#get-score" class="public-tool-card" aria-label="Check Current Mahadasha">
+        <span class="tool-symbol" aria-hidden="true">◷</span>
+        <span class="tool-copy"><strong>Current Mahadasha</strong><small>See your active planetary period</small></span>
+        <span class="tool-action">Free check →</span>
+      </a>
+      <a href="#get-score" class="public-tool-card" aria-label="Check Mangal Dosha">
+        <span class="tool-symbol tool-symbol-mars" aria-hidden="true">♂</span>
+        <span class="tool-copy"><strong>Mangal Dosha</strong><small>Review presence and cancellation</small></span>
+        <span class="tool-action">Free check →</span>
+      </a>
+      <a href="#milan" class="public-tool-card" aria-label="Check Kundali Matching">
+        <span class="tool-symbol" aria-hidden="true">◇</span>
+        <span class="tool-copy"><strong>Kundali Matching</strong><small>Go beyond a single Guna score</small></span>
+        <span class="tool-action">Check match →</span>
+      </a>
+    </div>
+
+    <div class="public-tools-note">
+      <span class="dot"></span> Public entry points are ready as placeholders; dedicated calculators can be connected progressively without changing this layout.
     </div>
   </div>
 </section>
@@ -209,42 +255,42 @@
     </div>
     <div class="eval-grid">
       <div class="eval-card">
-        <div class="glyph">Bl</div>
+        <div class="glyph glyph-strength" aria-hidden="true"></div>
         <div class="sanskrit">ग्रह बल</div>
         <h3>Planet Strength</h3>
         <p>Own sign, exaltation, debilitation and enemy placement, weighed against classical dignity rules.</p>
         <div class="metric">Jupiter in Sagittarius — <b>own sign, +18</b></div>
       </div>
       <div class="eval-card">
-        <div class="glyph">Cb</div>
+        <div class="glyph glyph-combustion" aria-hidden="true"></div>
         <div class="sanskrit">अस्त</div>
         <h3>Combustion</h3>
         <p>Proximity to the Sun and the degree at which a planet is weakened or fully combust.</p>
         <div class="metric">Mercury at 4° from Sun — <b>combust, −11</b></div>
       </div>
       <div class="eval-card">
-        <div class="glyph">Rt</div>
+        <div class="glyph glyph-retrograde" aria-hidden="true"></div>
         <div class="sanskrit">वक्री</div>
         <h3>Retrograde</h3>
         <p>Apparent backward motion and its traditional effect on a planet's expression and timing.</p>
         <div class="metric">Saturn retrograde in H10 — <b>intensified, +7</b></div>
       </div>
       <div class="eval-card">
-        <div class="glyph">Sb</div>
+        <div class="glyph glyph-shadbala" aria-hidden="true"></div>
         <div class="sanskrit">षड्बल</div>
         <h3>Shadbala</h3>
         <p>A simplified six-fold strength model — positional, temporal, directional, motional, natural and aspectual.</p>
         <div class="metric">Venus composite Shadbala — <b>62 / 100</b></div>
       </div>
       <div class="eval-card">
-        <div class="glyph">Bb</div>
+        <div class="glyph glyph-bhava" aria-hidden="true"></div>
         <div class="sanskrit">भाव बल</div>
         <h3>Bhava Strength</h3>
         <p>House-level strength from its lord's condition, occupants and the aspects it receives.</p>
         <div class="metric">7th house, lord in H1 — <b>strong, +15</b></div>
       </div>
       <div class="eval-card">
-        <div class="glyph">Dr</div>
+        <div class="glyph glyph-aspects" aria-hidden="true"></div>
         <div class="sanskrit">दृष्टि</div>
         <h3>Aspects</h3>
         <p>Full and partial graha drishti mapped across houses, including special aspects unique to Mars, Jupiter and Saturn.</p>
@@ -371,15 +417,22 @@
 
 <section class="philosophy" id="philosophy">
   <div class="deva-field" id="deva-philosophy"></div>
-  <div class="wrap" style="position:relative; z-index:1;">
-    <span class="eyebrow" style="justify-content:center;">Where the rules come from</span>
-    <h2 style="margin-top:18px;">We don't invent astrology. We structure it.</h2>
-    <p>Every evaluator implements a documented classical principle. Where texts differ, we say so — a <span class="brand-hora">Hora</span>Life report shows its working rather than asking for faith in a single hidden model.</p>
-    <div class="refs">
-      <span>Bṛhat Parāśara Horā Śāstra</span>
-      <span>Jaimini Sūtras</span>
-      <span>Phaladeepika</span>
-      <span>Saravali</span>
+  <div class="wrap philosophy-grid">
+    <div class="philosophy-art" aria-hidden="true">
+      <img src="assets/brand/horalife/horalife-wabisabi-guardian.svg" alt="">
+    </div>
+    <div class="philosophy-copy">
+      <span class="eyebrow">Our guiding philosophy</span>
+      <h2>Guardian of Timeless Vedic Wisdom</h2>
+      <p class="philosophy-lede"><span class="brand-hora">Hora</span>Life preserves authentic Jyotisha principles, explains them responsibly, and makes them accessible through thoughtful modern technology.</p>
+      <p>We don't invent astrology. We structure it. Every evaluator implements a documented classical principle, and where texts differ, we say so.</p>
+      <div class="refs" aria-label="Classical foundations">
+        <strong>Classical foundations</strong>
+        <span>Brihat Parashara Hora Shastra</span>
+        <span>Jaimini Sutras</span>
+        <span>Phaladeepika</span>
+        <span>Saravali</span>
+      </div>
     </div>
   </div>
 </section>
@@ -389,7 +442,7 @@
   <div class="wrap cta-grid" style="position:relative; z-index:1;">
     <div class="cta-copy">
       <span class="eyebrow">Janma Vivara · जन्म विवरण</span>
-      <h2>Get your Life's <span class="brand-hora">Hora</span>.</h2>
+      <h2>Create your Life's <span class="brand-hora">Hora</span>.</h2>
       <p>Enter your birth details once. Get a scored, explained chart you can actually read — and come back to as your dashas unfold.</p>
       <div class="hero-note"><span class="dot"></span> No predictions without a cited rule behind them.</div>
     </div>
@@ -427,6 +480,7 @@
         <span class="en">The strength and weakness of the planets — measured, not guessed.</span>
       </div>
       <div class="foot-links">
+        <a href="#public-tools">Free Tools</a>
         <a href="#process">Method</a>
         <a href="#astrologers">Astrologers</a>
         <a href="#evaluators">Evaluators</a>
@@ -442,3 +496,6 @@
     </div>
   </div>
 </footer>
+
+
+

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">House, House Lord and Karaka</title>
+  <desc id="desc">A simple monochrome triangle connecting the selected house, its lord and the natural Karaka, leading to combined evidence.</desc>
+
+  <rect width="960" height="620" fill="#ffffff"/>
+
+  <text x="480" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    House Analysis Triangle
+  </text>
+
+  <!-- Triangle lines -->
+  <line x1="480" y1="150" x2="245" y2="410"
+        stroke="#555555" stroke-width="4"/>
+  <line x1="480" y1="150" x2="715" y2="410"
+        stroke="#555555" stroke-width="4"/>
+  <line x1="245" y1="410" x2="715" y2="410"
+        stroke="#555555" stroke-width="4"/>
+
+  <!-- House -->
+  <circle cx="480" cy="150" r="72"
+          fill="#dddddd" stroke="#333333" stroke-width="4"/>
+  <text x="480" y="144" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="25" font-weight="600" fill="#222222">
+    House
+  </text>
+  <text x="480" y="176" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Sign · Planets · Aspects
+  </text>
+
+  <!-- House lord -->
+  <circle cx="245" cy="410" r="78"
+          fill="#eeeeee" stroke="#333333" stroke-width="4"/>
+  <text x="245" y="400" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    House Lord
+  </text>
+  <text x="245" y="432" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Placement · Dignity
+  </text>
+
+  <!-- Karaka -->
+  <circle cx="715" cy="410" r="78"
+          fill="#cccccc" stroke="#333333" stroke-width="4"/>
+  <text x="715" y="400" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Karaka
+  </text>
+  <text x="715" y="432" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="18" fill="#333333">
+    Placement · Condition
+  </text>
+
+  <!-- Center -->
+  <circle cx="480" cy="330" r="62"
+          fill="#666666" stroke="#333333" stroke-width="4"/>
+  <text x="480" y="320" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#ffffff">
+    Combined
+  </text>
+  <text x="480" y="348" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="#ffffff">
+    Evidence
+  </text>
+
+  <line x1="480" y1="222" x2="480" y2="266"
+        stroke="#444444" stroke-width="3"/>
+  <line x1="307" y1="374" x2="420" y2="340"
+        stroke="#444444" stroke-width="3"/>
+  <line x1="653" y1="374" x2="540" y2="340"
+        stroke="#444444" stroke-width="3"/>
+
+  <rect x="185" y="535" width="590" height="55" rx="14"
+        fill="#e5e5e5" stroke="#555555" stroke-width="2.5"/>
+  <text x="480" y="570" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Read all three together before forming a life-area observation.
+  </text>
+</svg>

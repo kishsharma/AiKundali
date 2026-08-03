@@ -137,7 +137,7 @@
         {
           "type": "diagram",
           "assetId": "session04-tithi-twelve-degree-arc",
-          "assetPath": "assets/study/level-1/session-04/tithi-twelve-degree-arc.svg",
+          "assetPath": "assets/learning/Level-1/session-04/tithi-twelve-degree-arc.svg",
           "altText": "सरल वृत्तीय चित्र जिसमें सूर्य की दिशा, चन्द्रमा की दिशा और 12° का उजागर कोणीय भाग दिखाया गया है।",
           "caption": "प्रत्येक तिथि सूर्य–चन्द्र कोणीय अंतर के 12° को दर्शाती है।",
           "purpose": "तिथि की परिभाषा को मापने योग्य कोण से जोड़ना।",
@@ -283,7 +283,7 @@
         {
           "type": "diagram",
           "assetId": "session04-shukla-krishna-paksha",
-          "assetPath": "assets/study/level-1/session-04/shukla-krishna-paksha.svg",
+          "assetPath": "assets/learning/Level-1/session-04/shukla-krishna-paksha.svg",
           "altText": "सरल चन्द्र चक्र जो अमावस्या से पूर्णिमा तक शुक्ल पक्ष और पूर्णिमा से अमावस्या तक कृष्ण पक्ष में विभाजित है।",
           "caption": "चन्द्र मास शुक्ल पक्ष और कृष्ण पक्ष में विभाजित होता है।",
           "purpose": "चन्द्र चक्र के दो 15-तिथि वाले भाग दिखाना।",
@@ -402,7 +402,7 @@
         {
           "type": "diagram",
           "assetId": "session04-kshaya-vriddhi-tithi",
-          "assetPath": "assets/study/level-1/session-04/kshaya-vriddhi-tithi.svg",
+          "assetPath": "assets/learning/Level-1/session-04/kshaya-vriddhi-tithi.svg",
           "altText": "दो सरल समयरेखाएँ—एक तिथि जो किसी सूर्योदय पर उपस्थित नहीं और एक तिथि जो लगातार दो सूर्योदयों पर उपस्थित है।",
           "caption": "तिथि की बदलती अवधि सूर्योदय-आधारित प्रस्तुति में क्षय और वृद्धि का रूप बनाती है।",
           "purpose": "समझाना कि पंचांग में तिथि छोड़ी या दोहराई हुई क्यों दिख सकती है।",

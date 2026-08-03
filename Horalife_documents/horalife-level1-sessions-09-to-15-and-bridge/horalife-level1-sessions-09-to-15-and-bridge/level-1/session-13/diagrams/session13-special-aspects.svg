@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620">
+<rect width="960" height="620" fill="#fff"/>
+<text x="480" y="55" text-anchor="middle" font-family="Arial" font-size="30" font-weight="600" fill="#222">Special Aspects</text>
+
+<rect x="55" y="120" width="250" height="370" rx="18" fill="#eee" stroke="#444" stroke-width="3"/>
+<text x="180" y="165" text-anchor="middle" font-family="Arial" font-size="27" font-weight="600" fill="#222">Mars</text>
+<circle cx="180" cy="230" r="42" fill="#666"/>
+<text x="180" y="238" text-anchor="middle" font-family="Arial" font-size="21" font-weight="600" fill="#fff">Planet</text>
+<text x="180" y="370" text-anchor="middle" font-family="Arial" font-size="26" font-weight="600" fill="#222">4 · 7 · 8</text>
+<text x="180" y="414" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Fourth, Seventh,</text>
+<text x="180" y="442" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Eighth aspects</text>
+
+<rect x="355" y="120" width="250" height="370" rx="18" fill="#ddd" stroke="#444" stroke-width="3"/>
+<text x="480" y="165" text-anchor="middle" font-family="Arial" font-size="27" font-weight="600" fill="#222">Jupiter</text>
+<circle cx="480" cy="230" r="42" fill="#666"/>
+<text x="480" y="238" text-anchor="middle" font-family="Arial" font-size="21" font-weight="600" fill="#fff">Planet</text>
+<text x="480" y="370" text-anchor="middle" font-family="Arial" font-size="26" font-weight="600" fill="#222">5 · 7 · 9</text>
+<text x="480" y="414" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Fifth, Seventh,</text>
+<text x="480" y="442" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Ninth aspects</text>
+
+<rect x="655" y="120" width="250" height="370" rx="18" fill="#ccc" stroke="#444" stroke-width="3"/>
+<text x="780" y="165" text-anchor="middle" font-family="Arial" font-size="27" font-weight="600" fill="#222">Saturn</text>
+<circle cx="780" cy="230" r="42" fill="#666"/>
+<text x="780" y="238" text-anchor="middle" font-family="Arial" font-size="21" font-weight="600" fill="#fff">Planet</text>
+<text x="780" y="370" text-anchor="middle" font-family="Arial" font-size="26" font-weight="600" fill="#222">3 · 7 · 10</text>
+<text x="780" y="414" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Third, Seventh,</text>
+<text x="780" y="442" text-anchor="middle" font-family="Arial" font-size="19" fill="#333">Tenth aspects</text>
+
+<rect x="200" y="525" width="560" height="58" rx="14" fill="#e5e5e5" stroke="#555" stroke-width="2.5"/>
+<text x="480" y="562" text-anchor="middle" font-family="Arial" font-size="21" fill="#333">Count every aspect from the house occupied by the planet.</text>
+</svg>

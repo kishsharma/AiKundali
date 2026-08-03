@@ -4,11 +4,15 @@ using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.ReportPdf;
 using KundaliEngine.API.Services.ReportShare;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KundaliEngine.API.Controllers;
 
 [ApiController]
+[Authorize]
+[EnableRateLimiting("ReportShare")]
 [Route("api/[controller]")]
 public class ReportShareController : ControllerBase
 {

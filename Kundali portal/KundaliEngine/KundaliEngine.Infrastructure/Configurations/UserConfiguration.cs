@@ -1,4 +1,4 @@
-﻿
+
 using KundaliEngine.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -9,7 +9,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> entity)
     {
-        entity.ToTable("Users");
+        entity.ToTable("Users", "public");
 
         entity.HasKey(x => x.Id);
 
@@ -18,14 +18,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         entity.Property(x => x.Email)
-            .HasMaxLength(150)
-            .IsRequired();
+            .HasMaxLength(150);
 
         entity.HasIndex(x => x.Email)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter("\"Email\" IS NOT NULL");
 
         entity.Property(x => x.PhoneNumber)
             .HasMaxLength(20);
+
+        entity.HasIndex(x => x.PhoneNumber)
+            .IsUnique()
+            .HasFilter("\"PhoneNumber\" IS NOT NULL");
 
         entity.Property(x => x.PasswordHash)
             .HasMaxLength(500);
@@ -41,7 +45,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         entity.Property(x => x.IsActive)
             .HasDefaultValue(true);
 
+        entity.Property(x => x.KundaliSaveLimit)
+            .HasDefaultValue(5);
+
         entity.Property(x => x.CreatedAt)
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        entity.Property(x => x.EmailVerifiedAt);
+
+        entity.Property(x => x.PhoneVerifiedAt);
     }
 }
+
+

@@ -1,11 +1,11 @@
-﻿<section class="learning-reader">
+<section class="learning-reader">
   <div class="state" *ngIf="loading && !session">Loading session...</div>
   <div class="state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
 
   <ng-container *ngIf="!loading && !errorMessage && session">
     <aside class="course-nav" *ngIf="level">
       <div class="course-card">
-        <p class="level-label">Level 1</p>
+        <p class="level-label">{{ level.code === 'bonus-bridge' ? 'Bridge' : level.code }}</p>
         <h2>{{ level.title }}</h2>
         <div class="progress-label"><span>Progress</span><strong>3%</strong></div>
         <div class="progress-track"><span></span></div>

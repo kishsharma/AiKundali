@@ -1,0 +1,515 @@
+{
+  "info": {
+    "_postman_id": "b7b1439d-77bf-4f3b-a787-3c60ac6e8589",
+    "name": "HoraLife Store Checkout Preview",
+    "description": "Postman collection for HoraLife Store canonical Step 2: Checkout Preview.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "cartId",
+      "value": ""
+    },
+    {
+      "key": "shippingAddressId",
+      "value": ""
+    },
+    {
+      "key": "billingAddressId",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Response time is below 3000 ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+          "});"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Checkout Preview",
+      "description": "Run in order. Ensure the user has a non-empty cart and at least one Shipping address.",
+      "item": [
+        {
+          "name": "Precheck - Get Active Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "cart"
+              ]
+            },
+            "description": "Confirms that the authenticated user has a non-empty active cart before generating a checkout preview."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Active cart exists', function () {",
+                  "    pm.expect(body.id).to.exist;",
+                  "});",
+                  "",
+                  "pm.test('Cart contains at least one item', function () {",
+                  "    pm.expect(body.items).to.be.an('array').that.is.not.empty;",
+                  "});",
+                  "",
+                  "if (body.id) {",
+                  "    pm.collectionVariables.set('cartId', body.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Precheck - Get Addresses and Capture IDs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "addresses"
+              ]
+            },
+            "description": "Captures the default Shipping and Billing address IDs. If no default exists, it captures the first address of that type."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Address response is an array', function () {",
+                  "    pm.expect(body).to.be.an('array');",
+                  "});",
+                  "",
+                  "const shipping =",
+                  "    body.find(x => x.addressType === 'shipping' && x.isDefault) ||",
+                  "    body.find(x => x.addressType === 'shipping');",
+                  "",
+                  "const billing =",
+                  "    body.find(x => x.addressType === 'billing' && x.isDefault) ||",
+                  "    body.find(x => x.addressType === 'billing');",
+                  "",
+                  "pm.test('At least one Shipping address exists', function () {",
+                  "    pm.expect(shipping).to.exist;",
+                  "});",
+                  "",
+                  "if (shipping) {",
+                  "    pm.collectionVariables.set('shippingAddressId', shipping.id);",
+                  "}",
+                  "",
+                  "if (billing) {",
+                  "    pm.collectionVariables.set('billingAddressId', billing.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Checkout Preview - Shipping as Billing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "Generates a preview using the selected Shipping address as Billing.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippingAddressId\": \"{{shippingAddressId}}\",\n  \"billingAddressId\": null,\n  \"useShippingAsBilling\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Preview structure is valid', function () {",
+                  "    pm.expect(body).to.have.property('cartId');",
+                  "    pm.expect(body).to.have.property('currency', 'INR');",
+                  "    pm.expect(body).to.have.property('shippingAddress');",
+                  "    pm.expect(body).to.have.property('billingAddress');",
+                  "    pm.expect(body).to.have.property('items').that.is.an('array');",
+                  "    pm.expect(body).to.have.property('subtotal');",
+                  "    pm.expect(body).to.have.property('shippingCharge');",
+                  "    pm.expect(body).to.have.property('grandTotal');",
+                  "    pm.expect(body).to.have.property('canCheckout');",
+                  "});",
+                  "",
+                  "pm.test('Shipping is used as Billing', function () {",
+                  "    pm.expect(body.billingSameAsShipping).to.eql(true);",
+                  "    pm.expect(body.shippingAddress.id)",
+                  "      .to.eql(body.billingAddress.id);",
+                  "});",
+                  "",
+                  "pm.test('Grand total calculation is correct', function () {",
+                  "    const expected =",
+                  "        body.subtotal +",
+                  "        body.shippingCharge -",
+                  "        body.discountAmount +",
+                  "        body.taxAmount;",
+                  "",
+                  "    pm.expect(body.grandTotal).to.eql(expected);",
+                  "});",
+                  "",
+                  "pm.test('Delivery estimate is valid', function () {",
+                  "    pm.expect(body.estimatedDeliveryMinDays).to.be.above(0);",
+                  "    pm.expect(body.estimatedDeliveryMaxDays)",
+                  "      .to.be.at.least(body.estimatedDeliveryMinDays);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Checkout Preview - Separate Billing Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "Uses separate Shipping and Billing addresses. Run only when billingAddressId has been captured or set manually.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippingAddressId\": \"{{shippingAddressId}}\",\n  \"billingAddressId\": \"{{billingAddressId}}\",\n  \"useShippingAsBilling\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const billingAddressId =",
+                  "    pm.collectionVariables.get('billingAddressId');",
+                  "",
+                  "if (!billingAddressId) {",
+                  "    throw new Error(",
+                  "      'billingAddressId is empty. Create a Billing address first.'",
+                  "    );",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Separate Billing address is used', function () {",
+                  "    pm.expect(body.billingSameAsShipping).to.eql(false);",
+                  "    pm.expect(body.shippingAddress.id)",
+                  "      .to.eql(pm.collectionVariables.get('shippingAddressId'));",
+                  "    pm.expect(body.billingAddress.id)",
+                  "      .to.eql(pm.collectionVariables.get('billingAddressId'));",
+                  "});",
+                  "",
+                  "pm.test('Preview can calculate totals', function () {",
+                  "    pm.expect(body.subtotal).to.be.a('number');",
+                  "    pm.expect(body.grandTotal).to.be.a('number');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Invalid Shipping Address - 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "Negative test for an unknown Shipping address.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippingAddressId\": \"00000000-0000-0000-0000-000000000001\",\n  \"billingAddressId\": null,\n  \"useShippingAsBilling\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Problem details identify Shipping address', function () {",
+                  "    pm.expect(body).to.have.property('status', 404);",
+                  "    pm.expect(body).to.have.property('title');",
+                  "    pm.expect(body.title.toLowerCase()).to.include('shipping');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Invalid Billing Address - 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "Negative test for an unknown Billing address.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippingAddressId\": \"{{shippingAddressId}}\",\n  \"billingAddressId\": \"00000000-0000-0000-0000-000000000001\",\n  \"useShippingAsBilling\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Problem details identify Billing address', function () {",
+                  "    pm.expect(body).to.have.property('status', 404);",
+                  "    pm.expect(body).to.have.property('title');",
+                  "    pm.expect(body.title.toLowerCase()).to.include('billing');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unauthorized Checkout Preview - 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/store/checkout/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "checkout",
+                "preview"
+              ]
+            },
+            "description": "Intentionally disables bearer authentication.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippingAddressId\": \"{{shippingAddressId}}\",\n  \"billingAddressId\": null,\n  \"useShippingAsBilling\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 401', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

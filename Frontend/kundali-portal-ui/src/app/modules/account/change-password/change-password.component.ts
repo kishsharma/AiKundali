@@ -4,6 +4,7 @@ import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Va
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header.component';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-change-password',
@@ -15,6 +16,7 @@ import { PageHeaderComponent } from '../../../shared/components/page-header.comp
 export class ChangePasswordComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly notifications = inject(NotificationService);
 
   saving = false;
   successMessage = '';
@@ -60,11 +62,13 @@ export class ChangePasswordComponent {
     }).subscribe({
       next: (response) => {
         this.successMessage = response.message || 'Password changed successfully.';
+        this.notifications.success(this.successMessage);
         this.passwordForm.reset();
         this.saving = false;
       },
       error: (error) => {
         this.errorMessage = error?.error?.message || error?.message || 'Unable to change password.';
+        this.notifications.error(this.errorMessage);
         this.saving = false;
       }
     });

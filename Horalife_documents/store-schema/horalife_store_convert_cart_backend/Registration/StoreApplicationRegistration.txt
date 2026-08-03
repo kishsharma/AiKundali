@@ -1,0 +1,7 @@
+Add inside the existing AddStoreApplication() method:
+
+services.AddScoped<
+    IStoreCartConversionService,
+    StoreCartConversionService>();
+
+Keep every existing Store application-service registration.

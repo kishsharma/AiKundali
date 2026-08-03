@@ -132,7 +132,7 @@
         {
           "type": "diagram",
           "assetId": "session03-five-limbs-panchang",
-          "assetPath": "assets/study/level-1/session-03/five-limbs-panchang.svg",
+          "assetPath": "assets/learning/Level-1/session-03/five-limbs-panchang.svg",
           "altText": "Panchang at the centre connected to five simple branches labelled Tithi, Vara, Nakshatra, Yoga and Karana.",
           "caption": "Panchang describes a moment through five connected limbs.",
           "purpose": "Introduce the complete Panchang structure before studying each limb separately.",
@@ -238,7 +238,7 @@
         {
           "type": "diagram",
           "assetId": "session03-panchang-calculation-basis",
-          "assetPath": "assets/study/level-1/session-03/panchang-calculation-basis.svg",
+          "assetPath": "assets/learning/Level-1/session-03/panchang-calculation-basis.svg",
           "altText": "A simple flow diagram linking Sun longitude and Moon longitude to Tithi, Karana, Nakshatra and Yoga calculations.",
           "caption": "Most Panchang limbs arise directly from solar and lunar longitudes.",
           "purpose": "Show which astronomical inputs feed each Panchang limb.",
@@ -283,7 +283,7 @@
         {
           "type": "diagram",
           "assetId": "session03-midnight-sunrise-timeline",
-          "assetPath": "assets/study/level-1/session-03/midnight-sunrise-timeline.svg",
+          "assetPath": "assets/learning/Level-1/session-03/midnight-sunrise-timeline.svg",
           "altText": "A horizontal timeline marking midnight, local sunrise, midday, sunset and the next midnight.",
           "caption": "Civil date begins at midnight, while traditional daily Panchang use gives special importance to local sunrise.",
           "purpose": "Separate civil and sunrise-based day boundaries.",

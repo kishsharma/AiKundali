@@ -3,10 +3,12 @@
 
 // Environment configuration - Development
 // This file will be replaced during production build
-
+let apiVmBaseUrl = 'https://api.horalife.in/api'
+let localApiBaseUrl='https://localhost:7245/api'
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://localhost:7245/api',
+  apiBaseUrl: localApiBaseUrl,
+    
   apiTimeout: 30000, // milliseconds
   apiEndpoints: {
     kundali: {
@@ -21,6 +23,7 @@ export const environment = {
     panchang: 'Panchang',
     dasha: 'Dasha',
   },
+
   features: {
     dashboard: true,
     kundali: true,

@@ -117,7 +117,7 @@
         {
           "type": "diagram",
           "assetId": "session07-sun-moon-longitude-sum",
-          "assetPath": "assets/study/level-1/session-07/sun-moon-longitude-sum.svg",
+          "assetPath": "assets/learning/Level-1/session-07/sun-moon-longitude-sum.svg",
           "altText": "ಸೂರ್ಯ ದೀರ್ಘಾಂಶ ಮತ್ತು ಚಂದ್ರ ದೀರ್ಘಾಂಶಗಳನ್ನು ಸೇರಿಸಿ ಪಂಚಾಂಗ ಯೋಗ ಪಡೆಯುವುದನ್ನು ತೋರಿಸುವ ಸರಳ ಪ್ರವಾಹಚಿತ್ರ.",
           "caption": "ನಿತ್ಯಯೋಗವು ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರರ ನಿರಯನ ದೀರ್ಘಾಂಶಗಳ ಮೊತ್ತದ ಮೇಲೆ ಆಧಾರಿತ.",
           "purpose": "ಯೋಗ ಗಣನೆಯ ಮೂಲ ಇನ್‌ಪುಟ್‌ಗಳು ಮತ್ತು ಫಲಿತಾಂಶ ತೋರಿಸುವುದು.",
@@ -288,7 +288,7 @@
         {
           "type": "diagram",
           "assetId": "session07-yoga-normalisation",
-          "assetPath": "assets/study/level-1/session-07/yoga-normalisation.svg",
+          "assetPath": "assets/learning/Level-1/session-07/yoga-normalisation.svg",
           "altText": "360°ಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಮೂಲ ದೀರ್ಘಾಂಶ ಮೊತ್ತವನ್ನು 0°ರಿಂದ 360° ವ್ಯಾಪ್ತಿಗೆ ಕಡಿತಗೊಳಿಸುವ ಸರಳ ಸಂಖ್ಯಾರೆಖೆ.",
           "caption": "ಯೋಗ ಗುರುತಿಸುವ ಮೊದಲು ಸೂರ್ಯ–ಚಂದ್ರ ದೀರ್ಘಾಂಶ ಮೊತ್ತವನ್ನು ಸಾಮಾನ್ಯೀಕರಿಸಬೇಕು.",
           "purpose": "ದೊಡ್ಡ ಮೊತ್ತದಿಂದ 360° ಏಕೆ ಕಡಿತಗೊಳಿಸಬೇಕು ಎಂಬುದನ್ನು ವಿವರಿಸುವುದು.",
@@ -390,7 +390,7 @@
         {
           "type": "diagram",
           "assetId": "session07-panchang-vs-horoscope-yoga",
-          "assetPath": "assets/study/level-1/session-07/panchang-vs-horoscope-yoga.svg",
+          "assetPath": "assets/learning/Level-1/session-07/panchang-vs-horoscope-yoga.svg",
           "altText": "ದೈನಂದಿನ ಪಂಚಾಂಗ ಯೋಗ ಮತ್ತು ಜಾತಕದ ಗ್ರಹಸಂಯೋಜನೆ ಯೋಗಗಳ ನಡುವಿನ ವ್ಯತ್ಯಾಸ ತೋರಿಸುವ ಸರಳ ಹೋಲಿಕೆ ಚಿತ್ರ.",
           "caption": "ಪಂಚಾಂಗ ಯೋಗ ಮತ್ತು ಜಾತಕ ಯೋಗ ವಿಭಿನ್ನ ಪರಿಕಲ್ಪನೆಗಳು.",
           "purpose": "ಯೋಗ ಎಂಬ ಪದದ ಎರಡು ಸಾಮಾನ್ಯ ಅರ್ಥಗಳ ಗೊಂದಲ ತಪ್ಪಿಸುವುದು.",

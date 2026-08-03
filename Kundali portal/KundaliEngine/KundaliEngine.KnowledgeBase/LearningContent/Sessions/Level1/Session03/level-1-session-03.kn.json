@@ -132,7 +132,7 @@
         {
           "type": "diagram",
           "assetId": "session03-five-limbs-panchang",
-          "assetPath": "assets/study/level-1/session-03/five-limbs-panchang.svg",
+          "assetPath": "assets/learning/Level-1/session-03/five-limbs-panchang.svg",
           "altText": "ಮಧ್ಯದಲ್ಲಿ ಪಂಚಾಂಗ ಮತ್ತು ಅದಕ್ಕೆ ಸಂಪರ್ಕಿಸಿದ ಐದು ಸರಳ ಅಂಗಗಳು—ತಿಥಿ, ವಾರ, ನಕ್ಷತ್ರ, ಯೋಗ ಮತ್ತು ಕರಣ.",
           "caption": "ಪಂಚಾಂಗವು ಒಂದು ಕ್ಷಣವನ್ನು ಐದು ಪರಸ್ಪರ ಸಂಬಂಧಿತ ಅಂಗಗಳ ಮೂಲಕ ವಿವರಿಸುತ್ತದೆ.",
           "purpose": "ಪ್ರತಿ ಅಂಗವನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಓದುವ ಮೊದಲು ಪಂಚಾಂಗದ ಪೂರ್ಣ ರಚನೆಯನ್ನು ಪರಿಚಯಿಸುವುದು.",
@@ -238,7 +238,7 @@
         {
           "type": "diagram",
           "assetId": "session03-panchang-calculation-basis",
-          "assetPath": "assets/study/level-1/session-03/panchang-calculation-basis.svg",
+          "assetPath": "assets/learning/Level-1/session-03/panchang-calculation-basis.svg",
           "altText": "ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರ ದೀರ್ಘಾಂಶಗಳಿಂದ ತಿಥಿ, ಕರಣ, ನಕ್ಷತ್ರ ಮತ್ತು ಯೋಗ ಗಣನೆಗೆ ಸಂಪರ್ಕಿಸುವ ಸರಳ ಪ್ರವಾಹಚಿತ್ರ.",
           "caption": "ಬಹುತೇಕ ಪಂಚಾಂಗ ಅಂಗಗಳು ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರರ ದೀರ್ಘಾಂಶಗಳಿಂದ ನೇರವಾಗಿ ಉಂಟಾಗುತ್ತವೆ.",
           "purpose": "ಯಾವ ಖಗೋಳೀಯ ಇನ್‌ಪುಟ್ ಯಾವ ಪಂಚಾಂಗ ಅಂಗವನ್ನು ನಿರ್ಧರಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ತೋರಿಸುವುದು.",
@@ -283,7 +283,7 @@
         {
           "type": "diagram",
           "assetId": "session03-midnight-sunrise-timeline",
-          "assetPath": "assets/study/level-1/session-03/midnight-sunrise-timeline.svg",
+          "assetPath": "assets/learning/Level-1/session-03/midnight-sunrise-timeline.svg",
           "altText": "ಮಧ್ಯರಾತ್ರಿ, ಸ್ಥಳೀಯ ಸೂರ್ಯೋದಯ, ಮಧ್ಯಾಹ್ನ, ಸೂರ್ಯಾಸ್ತ ಮತ್ತು ಮುಂದಿನ ಮಧ್ಯರಾತ್ರಿಯನ್ನು ಗುರುತಿಸಿದ ಸಮತಲ ಕಾಲರೇಖೆ.",
           "caption": "ನಾಗರಿಕ ದಿನಾಂಕ ಮಧ್ಯರಾತ್ರಿಯಲ್ಲಿ ಆರಂಭವಾಗುತ್ತದೆ; ಪಾರಂಪರಿಕ ಪಂಚಾಂಗದಲ್ಲಿ ಸ್ಥಳೀಯ ಸೂರ್ಯೋದಯಕ್ಕೆ ವಿಶೇಷ ಮಹತ್ವ.",
           "purpose": "ನಾಗರಿಕ ಮತ್ತು ಸೂರ್ಯೋದಯಾಧಾರಿತ ದಿನಗಡಿಗಳನ್ನು ಬೇರ್ಪಡಿಸುವುದು.",

@@ -1,0 +1,9 @@
+Add this registration inside the existing AddStoreInfrastructure() method:
+
+services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
+
+Keep the existing registrations, including:
+
+services.AddScoped<ICategoryRepository, CategoryRepository>();
+services.AddScoped<IProductRepository, ProductRepository>();
+services.AddScoped<ICartRepository, CartRepository>();

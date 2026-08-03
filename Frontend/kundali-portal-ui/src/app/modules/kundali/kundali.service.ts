@@ -33,13 +33,13 @@ export class KundaliService {
 
   sendReportEmail(payload: any): Observable<any> {
     return this.http.post<any>(this.reportShareUrl, payload).pipe(
-      timeout(60000)
+      timeout(180000)
     );
   }
 
   generateReportPdf(payload: any): Observable<Blob> {
     return this.http.post(this.reportPdfUrl, payload, { responseType: 'blob' }).pipe(
-      timeout(60000)
+      timeout(180000)
     );
   }
 

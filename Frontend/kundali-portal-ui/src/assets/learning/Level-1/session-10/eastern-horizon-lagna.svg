@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Eastern Horizon and Lagna</title>
+  <desc id="desc">A simple monochrome diagram showing the eastern horizon, a rising zodiac sign and the Lagna point.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <text x="480" y="58" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    Eastern Horizon and Lagna
+  </text>
+
+  <!-- Sky and ground -->
+  <rect x="90" y="110" width="780" height="240" rx="18"
+        fill="#eeeeee" stroke="#444444" stroke-width="3"/>
+  <rect x="90" y="350" width="780" height="95"
+        fill="#d3d3d3" stroke="#444444" stroke-width="3"/>
+
+  <!-- Horizon -->
+  <line x1="90" y1="350" x2="870" y2="350"
+        stroke="#333333" stroke-width="4"/>
+  <text x="480" y="380" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Horizon
+  </text>
+
+  <!-- East label -->
+  <text x="145" y="325" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    East
+  </text>
+
+  <!-- Rising arc -->
+  <path d="M180 350 Q285 210 410 165"
+        fill="none" stroke="#555555" stroke-width="4" stroke-dasharray="10 8"/>
+
+  <!-- Rising sign -->
+  <circle cx="410" cy="165" r="54"
+          fill="#d9d9d9" stroke="#3f3f3f" stroke-width="3"/>
+  <text x="410" y="158" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    Rising
+  </text>
+  <text x="410" y="188" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="23" font-weight="600" fill="#222222">
+    sign
+  </text>
+
+  <!-- Lagna marker -->
+  <line x1="410" y1="219" x2="410" y2="320"
+        stroke="#444444" stroke-width="3"/>
+  <circle cx="410" cy="350" r="12"
+          fill="#555555"/>
+  <text x="445" y="340"
+        font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#222222">
+    Lagna point
+  </text>
+
+  <!-- Time and place note -->
+  <rect x="585" y="165" width="220" height="120" rx="14"
+        fill="#e2e2e2" stroke="#4a4a4a" stroke-width="3"/>
+  <text x="695" y="205" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#222222">
+    Depends on
+  </text>
+  <text x="695" y="240" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Birth time
+  </text>
+  <text x="695" y="270" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    Birth place
+  </text>
+
+  <!-- Footer -->
+  <text x="480" y="500" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">
+    The sign rising in the east becomes the first house.
+  </text>
+</svg>

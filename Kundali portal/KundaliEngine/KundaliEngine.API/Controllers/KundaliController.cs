@@ -415,6 +415,27 @@ namespace KundaliEngine.API.Controllers
                 return Unauthorized();
             }
 
+            var user = await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == userId.Value);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var savedKundaliCount = await _dbContext.Kundalis
+                .CountAsync(k => k.UserId == userId.Value);
+
+            if (savedKundaliCount >= user.KundaliSaveLimit)
+            {
+                return Conflict(new
+                {
+                    message = $"Saved Kundali limit reached. This user can save up to {user.KundaliSaveLimit} Kundalis.",
+                    savedCount = savedKundaliCount,
+                    kundaliSaveLimit = user.KundaliSaveLimit
+                });
+            }
             var kundali = new Kundali
             {
                 UserId = userId.Value,
@@ -1087,6 +1108,9 @@ namespace KundaliEngine.API.Controllers
 
     }
 }
+
+
+
 
 
 

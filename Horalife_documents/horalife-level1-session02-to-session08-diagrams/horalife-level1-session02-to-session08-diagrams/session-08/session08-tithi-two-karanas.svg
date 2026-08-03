@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">One Tithi Divided into Two Karanas</title>
+  <desc id="desc">A simple monochrome bar showing one twelve-degree Tithi divided into two equal six-degree Karana intervals.</desc>
+
+  <rect width="960" height="540" fill="#ffffff"/>
+
+  <!-- Main title -->
+  <text x="480" y="90" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="30" font-weight="600" fill="#222222">
+    One Tithi = Two Karanas
+  </text>
+
+  <!-- Tithi bar -->
+  <rect x="120" y="190" width="720" height="150"
+        fill="#e6e6e6" stroke="#3f3f3f" stroke-width="3"/>
+
+  <!-- Split -->
+  <line x1="480" y1="190" x2="480" y2="340"
+        stroke="#3f3f3f" stroke-width="3"/>
+
+  <!-- Labels -->
+  <text x="300" y="245" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="26" font-weight="600" fill="#222222">
+    Karana 1
+  </text>
+  <text x="300" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#444444">
+    6°
+  </text>
+
+  <text x="660" y="245" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="26" font-weight="600" fill="#222222">
+    Karana 2
+  </text>
+  <text x="660" y="292" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="24" fill="#444444">
+    6°
+  </text>
+
+  <!-- Degree markers -->
+  <line x1="120" y1="355" x2="120" y2="385"
+        stroke="#3f3f3f" stroke-width="3"/>
+  <line x1="480" y1="355" x2="480" y2="385"
+        stroke="#3f3f3f" stroke-width="3"/>
+  <line x1="840" y1="355" x2="840" y2="385"
+        stroke="#3f3f3f" stroke-width="3"/>
+
+  <text x="120" y="420" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">0°</text>
+  <text x="480" y="420" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">6°</text>
+  <text x="840" y="420" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="21" fill="#333333">12°</text>
+
+  <!-- Footer -->
+  <text x="480" y="485" text-anchor="middle"
+        font-family="Arial, sans-serif" font-size="22" fill="#333333">
+    Each Karana covers half of a Tithi.
+  </text>
+</svg>

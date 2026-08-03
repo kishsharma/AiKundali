@@ -1,39 +1,42 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BrandLogoComponent } from '../../../shared/components/brand-logo/brand-logo.component';
 
 @Component({
   selector: 'app-kundali-landing',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BrandLogoComponent],
   templateUrl: './kundali-landing.component.html',
   styleUrl: './kundali-landing.component.scss',
 })
 export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
   private readonly zodiacSymbols = [
-    '♈', '♉', '♊', '♋', '♌', '♍',
-    '♎', '♏', '♐', '♑', '♒', '♓',
+    '\u2648', '\u2649', '\u264A', '\u264B', '\u264C', '\u264D',
+    '\u264E', '\u264F', '\u2650', '\u2651', '\u2652', '\u2653',
   ];
-
   private readonly words = [
-    'ग्रह', 'होरा', 'कुण्डली', 'जन्म', 'दृष्टि', 'राशि', 'भाव', 'नक्षत्र',
-    'सूर्य', 'चन्द्र', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि', 'राहु', 'केतु',
-    'मेष', 'वृषभ', 'मिथुन', 'कर्क', 'सिंह', 'कन्या', 'तुला', 'वृश्चिक', 'धनु', 'मकर', 'कुम्भ', 'मीन',
-    'ಗ್ರಹ', 'ಹೋರಾ', 'ಕುಂಡಲಿ', 'ಜನ್ಮ', 'ದೃಷ್ಟಿ', 'ರಾಶಿ', 'ಭವ', 'ನಕ್ಷತ್ರ',
-    'ಸೂರ್ಯ', 'ಚಂದ್ರ', 'ಮಂಗಳ', 'ಬುಧ', 'ಗುರು', 'ಶುಕ್ರ', 'ಶನಿ', 'ರಾಹು', 'ಕೇತು',
-    'ಮೇಷ', 'ವೃಷಭ', 'ಮಿಥುನ', 'ಕರ್ಕ', 'ಸಿಂಹ', 'ಕನ್ಯಾ', 'ತುಲಾ', 'ವೃಶ್ಚಿಕ', 'ಧನು', 'ಮಕರ', 'ಕುಂಭ', 'ಮೀನ',
-    'ଗ୍ରହ', 'ହୋରା', 'କୁଣ୍ଡଳୀ', 'ଜନ୍ମ', 'ଦୃଷ୍ଟି', 'ରାଶି', 'ଭାବ', 'ନକ୍ଷତ୍ର',
-    'ସୂର୍ଯ୍ୟ', 'ଚନ୍ଦ୍ର', 'ମଙ୍ଗଳ', 'ବୁଧ', 'ଗୁରୁ', 'ଶୁକ୍ର', 'ଶନି', 'ରାହୁ', 'କେତୁ',
-    'ମେଷ', 'ବୃଷଭ', 'ମିଥୁନ', 'କର୍କଟ', 'ସିଂହ', 'କନ୍ୟା', 'ତୁଳା', 'ବୃଶ୍ଚିକ', 'ଧନୁ', 'ମକର', 'କୁମ୍ଭ', 'ମୀନ',
+    '\u0917\u094d\u0930\u0939', '\u0939\u094b\u0930\u093e', '\u0915\u0941\u0923\u094d\u0921\u0932\u0940', '\u091c\u0928\u094d\u092e', '\u0926\u0943\u0937\u094d\u091f\u093f', '\u0930\u093e\u0936\u093f', '\u092d\u093e\u0935', '\u0928\u0915\u094d\u0937\u0924\u094d\u0930',
+    '\u0938\u0942\u0930\u094d\u092f', '\u091a\u0928\u094d\u0926\u094d\u0930', '\u092e\u0902\u0917\u0932', '\u092c\u0941\u0927', '\u0917\u0941\u0930\u0941', '\u0936\u0941\u0915\u094d\u0930', '\u0936\u0928\u093f', '\u0930\u093e\u0939\u0941', '\u0915\u0947\u0924\u0941',
+    '\u0b17\u0b4d\u0b30\u0b39', '\u0b39\u0b4b\u0b30\u0b3e', '\u0b15\u0b41\u0b23\u0b4d\u0b21\u0b33\u0b40', '\u0b1c\u0b28\u0b4d\u0b2e', '\u0b26\u0b43\u0b37\u0b4d\u0b1f\u0b3f', '\u0b30\u0b3e\u0b36\u0b3f', '\u0b2d\u0b3e\u0b2c', '\u0b28\u0b15\u0b4d\u0b37\u0b24\u0b4d\u0b30',
+    '\u0b38\u0b42\u0b30\u0b4d\u0b2f', '\u0b1a\u0b28\u0b4d\u0b26\u0b4d\u0b30', '\u0b2e\u0b19\u0b4d\u0b17\u0b33', '\u0b2c\u0b41\u0b27', '\u0b17\u0b41\u0b30\u0b41', '\u0b36\u0b41\u0b15\u0b4d\u0b30', '\u0b36\u0b28\u0b3f', '\u0b30\u0b3e\u0b39\u0b41', '\u0b15\u0b47\u0b24\u0b41',
+    '\u0c97\u0ccd\u0cb0\u0cb9', '\u0cb9\u0ccb\u0cb0\u0cbe', '\u0c95\u0cc1\u0c82\u0ca1\u0cb2\u0cbf', '\u0c9c\u0ca8\u0ccd\u0cae', '\u0ca6\u0cc3\u0cb7\u0ccd\u0c9f\u0cbf', '\u0cb0\u0cbe\u0cb6\u0cbf', '\u0cad\u0cbe\u0cb5', '\u0ca8\u0c95\u0ccd\u0cb7\u0ca4\u0ccd\u0cb0',
+    '\u0cb8\u0cc2\u0cb0\u0ccd\u0caf', '\u0c9a\u0c82\u0ca6\u0ccd\u0cb0', '\u0cae\u0c82\u0c97\u0cb3', '\u0cac\u0cc1\u0ca7', '\u0c97\u0cc1\u0cb0\u0cc1', '\u0cb6\u0cc1\u0c95\u0ccd\u0cb0', '\u0cb6\u0ca8\u0cbf', '\u0cb0\u0cbe\u0cb9\u0cc1', '\u0c95\u0cc7\u0ca4\u0cc1',
+    '\u0b17\u0b4d\u0b30\u0b39', '\u0b39\u0b4b\u0b30\u0b3e', '\u0b15\u0b41\u0b23\u0b4d\u0b21\u0b33\u0b40', '\u0b1c\u0b28\u0b4d\u0b2e', '\u0b26\u0b43\u0b37\u0b4d\u0b1f\u0b3f', '\u0b30\u0b3e\u0b36\u0b3f', '\u0b2d\u0b3e\u0b2c', '\u0b28\u0b15\u0b4d\u0b37\u0b24\u0b4d\u0b30',
+    '\u0b38\u0b42\u0b30\u0b4d\u0b2f', '\u0b1a\u0b28\u0b4d\u0b26\u0b4d\u0b30', '\u0b2e\u0b19\u0b4d\u0b17\u0b33', '\u0b2c\u0b41\u0b27', '\u0b17\u0b41\u0b30\u0b41', '\u0b36\u0b41\u0b15\u0b4d\u0b30', '\u0b36\u0b28\u0b3f', '\u0b30\u0b3e\u0b39\u0b41', '\u0b15\u0b47\u0b24\u0b41',
   ];
 
   private readonly saturnGlyph = '<svg style="display:block;width:1em;height:1em;overflow:visible" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><ellipse cx="32" cy="36" rx="29" ry="8.5" fill="none" stroke="currentColor" stroke-width="2.2" transform="rotate(-12 32 36)"/><circle cx="32" cy="28" r="13" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>';
+
+  isNavScrolled = false;
 
   private astrologerScrollTimer?: ReturnType<typeof window.setInterval>;
 
   constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
   ngAfterViewInit(): void {
+    this.updateNavScrolledState();
     this.scatter('deva-hero', 10);
+    this.scatter('deva-tools', 6);
     this.scatter('deva-process', 6);
     this.scatter('deva-astrologers', 7);
     this.scatter('deva-eval', 8);
@@ -50,6 +53,11 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
     if (this.astrologerScrollTimer) {
       window.clearInterval(this.astrologerScrollTimer);
     }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.updateNavScrolledState();
   }
 
   scrollAstrologers(direction: number): void {
@@ -79,6 +87,10 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
       left: direction * step,
       behavior: 'smooth',
     });
+  }
+
+  private updateNavScrolledState(): void {
+    this.isNavScrolled = window.scrollY > 16;
   }
 
   private startAstrologerAutoScroll(): void {
@@ -119,7 +131,7 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
       }
 
       span.style.position = 'absolute';
-      span.style.fontFamily = "'Noto Sans Devanagari', 'Noto Sans Kannada', 'Noto Sans Oriya', 'Cormorant Garamond', serif";
+      span.style.fontFamily = "'Nirmala UI', 'Mangal', 'Kokila', 'Noto Sans Devanagari', 'Noto Sans Kannada', 'Noto Sans Oriya', 'Kalinga', 'Cormorant Garamond', serif";
       span.style.color = 'var(--brass)';
       span.style.opacity = '0.05';
       span.style.whiteSpace = 'nowrap';
@@ -154,3 +166,4 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
     }
   }
 }
+
