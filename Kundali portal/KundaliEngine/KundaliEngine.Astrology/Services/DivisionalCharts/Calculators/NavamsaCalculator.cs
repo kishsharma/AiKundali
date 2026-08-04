@@ -4,60 +4,23 @@ using KundaliEngine.Domain.Models;
 
 namespace KundaliEngine.Astrology.Services.DivisionalCharts.Calculators
 {
-    public class NavamsaCalculator :IDivisionalChartCalculator
+    public class NavamsaCalculator : IDivisionalChartCalculator
     {
         public List<PlanetPosition> Calculate(List<PlanetPosition> d1Planets)
         {
-            var d9Planets = new List<PlanetPosition>();
-
-            foreach (var planet in d1Planets)
-            {
-                var d9Sign = CalculateNavamsaSign(
-                    planet.Sign,
-                    planet.DegreeInSign);
-
-                var d9Planet = new PlanetPosition
-                {
-                    Planet = planet.Planet,
-
-                    Longitude = planet.Longitude,
-
-                    Latitude = planet.Latitude,
-
-                    Degree = planet.Degree,
-
-                    Minute = planet.Minute,
-
-                    Nakshatra = planet.Nakshatra,
-
-                    Pada = planet.Pada,
-
-                    IsRetrograde = planet.IsRetrograde,
-
-                    Sign = d9Sign
-                };
-
-                d9Planets.Add(d9Planet);
-            }
-
-            return d9Planets;
+            return DivisionalChartCalculatorHelper.Calculate(d1Planets, CalculateSign);
         }
 
-        public static ZodiacSign CalculateNavamsaSign(
-            ZodiacSign d1Sign,
-            double degreeInSign)
+        public ZodiacSign CalculateSign(ZodiacSign d1Sign, double degreeInSign)
         {
-            // Each Navamsa = 3°20'
-            double navamsaSize = 3.333333333;
+            return CalculateNavamsaSign(d1Sign, degreeInSign);
+        }
 
-            int navamsaIndex =
-                (int)(degreeInSign / navamsaSize);
-
-            int baseSignIndex =
-                ((int)d1Sign - 1);
-
-            int d9SignIndex =
-                (baseSignIndex * 9 + navamsaIndex) % 12;
+        public static ZodiacSign CalculateNavamsaSign(ZodiacSign d1Sign, double degreeInSign)
+        {
+            var navamsaIndex = DivisionalChartCalculatorHelper.DivisionIndex(degreeInSign, 9);
+            var baseSignIndex = (int)d1Sign - 1;
+            var d9SignIndex = (baseSignIndex * 9 + navamsaIndex) % 12;
 
             return (ZodiacSign)(d9SignIndex + 1);
         }

@@ -544,6 +544,62 @@
   margin-top: 0;
 }
 
+.report-quick-links {
+  position: sticky;
+  top: 8px;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 7px 2px;
+  background: color-mix(in srgb, var(--theme-bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+  scrollbar-width: none;
+}
+
+.report-quick-links::-webkit-scrollbar {
+  display: none;
+}
+
+.report-quick-links a {
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 4px 0;
+  color: var(--theme-text-muted);
+  background: transparent;
+  font: 800 11px/1 "IBM Plex Mono", monospace;
+  cursor: pointer;
+  white-space: nowrap;
+  opacity: 0.84;
+  text-decoration: none;
+  transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+.report-quick-links a:focus-visible {
+  outline: none;
+}
+
+.report-quick-links a.active,
+.report-quick-links a.is-active,
+.report-quick-links a[aria-current='location'] {
+  color: var(--theme-accent);
+  border-bottom-color: color-mix(in srgb, var(--theme-accent) 44%, transparent);
+  opacity: 1;
+}
+
+#kundali-chart,
+#kundali-summary,
+#yogaSection,
+#doshaSection,
+#planetPositions,
+#scoreSection,
+#dashaSection,
+#remediesSection,
+#transitSection {
+  scroll-margin-top: 64px;
+}
+
 :host ::ng-deep #kundali-report > .report-header + app-section-card > .card {
   border-top: 0;
   border-top-left-radius: 0;
@@ -2042,10 +2098,29 @@
 }
 .header-top-section {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.1fr);
+  grid-template-columns: minmax(220px, 1fr) 92px minmax(220px, 1fr);
   gap: 10px;
   align-items: center;
   min-height: 72px;
+}
+
+.report-header-deity {
+  display: grid;
+  place-items: center;
+  min-height: 64px;
+}
+
+.report-ganesh {
+  display: block;
+  width: clamp(70px, 6vw, 88px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  opacity: 0.86;
+  filter: drop-shadow(0 8px 12px rgba(225, 95, 61, 0.16));
+}
+
+.report-ganesh-dark {
+  display: none;
 }
 
 .brand-section,
@@ -2827,6 +2902,7 @@
   display: inline-flex;
   align-items: center;
   grid-column: 1 / -1;
+  flex: 0 0 auto;
   min-height: 30px;
   border: 1px solid color-mix(in srgb, var(--theme-success) 42%, transparent);
   border-radius: var(--theme-radius-control);
@@ -2837,6 +2913,75 @@
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.04em;
+}
+
+:host-context(body[data-theme='dark']) .report-quick-links {
+  background: color-mix(in srgb, var(--theme-bg) 80%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line-soft) 72%, transparent);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--line-soft) 44%, transparent);
+}
+
+:host-context(body[data-theme='dark']) .report-quick-links a {
+  color: color-mix(in srgb, var(--parchment-dim) 86%, transparent);
+}
+
+:host-context(body[data-theme='dark']) .report-quick-links a:hover,
+:host-context(body[data-theme='dark']) .report-quick-links a:focus-visible {
+  color: var(--brass);
+  border-bottom-color: color-mix(in srgb, var(--brass) 42%, transparent);
+  opacity: 1;
+}
+
+:host-context(body[data-theme='dark']) .report-quick-links a.active,
+:host-context(body[data-theme='dark']) .report-quick-links a.is-active,
+:host-context(body[data-theme='dark']) .report-quick-links a[aria-current='location'] {
+  color: var(--brass);
+  border-bottom-color: color-mix(in srgb, var(--brass) 56%, transparent);
+}
+
+:host-context(body[data-theme='dark']) .save-status {
+  border-color: color-mix(in srgb, var(--theme-success) 28%, transparent);
+  background: color-mix(in srgb, var(--theme-success) 6%, var(--theme-input-bg));
+  color: color-mix(in srgb, var(--theme-success) 86%, var(--parchment));
+}
+
+:host-context(body[data-theme='dark']) ::ng-deep #kundali-report > app-section-card > .card,
+:host-context(body[data-theme='dark']) ::ng-deep #kundali-report > .card {
+  border-color: color-mix(in srgb, var(--line) 82%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--theme-surface) 84%, transparent), color-mix(in srgb, var(--theme-surface-soft) 92%, transparent));
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--theme-shadow) 72%, transparent);
+}
+
+:host-context(body[data-theme='dark']) .chart-control-bar {
+  border-color: color-mix(in srgb, var(--line) 76%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--theme-input-bg) 72%, transparent), color-mix(in srgb, var(--theme-surface) 58%, transparent));
+}
+
+:host-context(body[data-theme='dark']) .division-tabs,
+:host-context(body[data-theme='dark']) .division-tabs button,
+:host-context(body[data-theme='dark']) .chart-tabs button {
+  border-color: color-mix(in srgb, var(--line) 76%, transparent);
+}
+
+:host-context(body[data-theme='dark']) .division-tabs {
+  background: color-mix(in srgb, var(--theme-input-bg) 90%, var(--theme-surface));
+}
+
+:host-context(body[data-theme='dark']) .division-tabs button,
+:host-context(body[data-theme='dark']) .chart-tabs button {
+  background: color-mix(in srgb, var(--theme-input-bg) 88%, transparent);
+}
+
+:host-context(body[data-theme='dark']) .report-ganesh-light {
+  display: none;
+}
+
+:host-context(body[data-theme='dark']) .report-ganesh-dark {
+  display: block;
+  opacity: 1;
+  filter: brightness(1.62) contrast(1.38) saturate(1.22) drop-shadow(0 0 7px rgba(241, 184, 59, 0.62)) drop-shadow(0 0 18px rgba(241, 184, 59, 0.34));
 }
 
 .horaverse-doorway {

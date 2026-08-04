@@ -1,5 +1,4 @@
-﻿
-namespace HoraLife.PredictionEngine.Models
+﻿namespace HoraLife.PredictionEngine.Models.Career
 {
     public sealed class CareerPredictionFactor
     {

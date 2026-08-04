@@ -153,13 +153,13 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
+  gap: 5px;
   overflow: hidden;
-  margin: 0 0 18px;
+  margin: 0;
   border-top: 3px solid #e15f3d;
   border-bottom: 0;
   border-radius: 0;
-  padding: 16px 20px 0;
+  padding: 8px 14px 6px;
   background:
     radial-gradient(circle at 16% 12%, rgba(38, 75, 160, 0.05), transparent 28%),
     linear-gradient(180deg, #ffffff 0%, #fffaf7 100%);
@@ -168,21 +168,22 @@
 
 .compatibility-header-top {
   display: grid;
-  grid-template-columns: minmax(230px, 1fr) 128px minmax(220px, 1fr);
+  grid-template-columns: minmax(220px, 1fr) 92px minmax(220px, 1fr);
   align-items: center;
-  gap: 18px;
+  gap: 10px;
+  min-height: 72px;
 }
 
 .compatibility-brand-lockup {
   display: grid;
-  grid-template-columns: 58px minmax(0, 1fr);
+  grid-template-columns: 57px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
 }
 
 .compatibility-brand-logo {
-  width: 58px;
-  height: 58px;
+  width: 57px;
+  height: 57px;
   object-fit: contain;
 }
 
@@ -192,8 +193,8 @@
   gap: 3px;
   margin: 0;
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 38px;
-  line-height: 0.92;
+  font-size: 30px;
+  line-height: 1;
   font-weight: 700;
   color: #263f87;
 }
@@ -204,7 +205,7 @@
 
 .compatibility-brand-copy small {
   display: block;
-  margin-top: 4px;
+  margin-top: 0;
   color: #8e3b23;
   font-family: "IBM Plex Mono", monospace;
   font-size: 9px;
@@ -217,15 +218,15 @@
   display: grid;
   place-items: center;
   align-self: center;
-  min-height: 70px;
+  min-height: 64px;
 }
 
 .compatibility-ganesh {
   display: block;
-  width: clamp(96px, 8vw, 122px);
+  width: clamp(70px, 6vw, 88px);
   aspect-ratio: 1;
   object-fit: contain;
-  opacity: 0.78;
+  opacity: 0.86;
   filter: drop-shadow(0 8px 12px rgba(225, 95, 61, 0.16));
 }
 
@@ -240,7 +241,7 @@
 
 .report-kicker {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   color: #e15f3d;
   font-family: "IBM Plex Mono", monospace;
   font-size: 9px;
@@ -253,8 +254,8 @@
   margin: 0;
   color: #8e3b23;
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 17px;
-  line-height: 1.1;
+  font-size: 16.5px;
+  line-height: 1.08;
   font-weight: 700;
 }
 
@@ -299,13 +300,13 @@
 .report-devotional-divider {
   display: grid;
   place-items: center;
-  height: 46px;
-  margin-top: -4px;
+  height: 42px;
+  margin-top: -6px;
 }
 
 .report-devotional-divider svg {
   width: min(760px, 100%);
-  height: 52px;
+  height: 48px;
   overflow: visible;
 }
 
@@ -1644,7 +1645,7 @@
     grid-template-columns: 1fr;
   }
   .compatibility-report-intro.premium-report-header {
-    padding: 18px 14px 0;
+    padding: 10px 12px 0;
   }
 
   .compatibility-header-top {
@@ -1658,11 +1659,11 @@
   }
 
   .compatibility-header-deity {
-    min-height: 74px;
+    min-height: 62px;
   }
 
   .compatibility-ganesh {
-    width: 92px;
+    width: 78px;
   }
 
   .report-pandit-block {

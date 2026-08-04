@@ -1740,11 +1740,24 @@ small {
   width: min(560px, 48vw);
   min-width: 420px;
 }
-.dasha-header-selector,
-.dasha-header-selector app-saved-chart-selector {
-  display: block;
+.dasha-header-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   min-width: 0;
+}
+
+.dasha-header-selector app-saved-chart-selector {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dasha-header-selector .action-button {
+  flex: 0 0 auto;
+  min-height: 38px;
+  white-space: nowrap;
 }
 
 :host ::ng-deep .mahadasha-page app-page-header .title-section {
@@ -1803,6 +1816,10 @@ small {
   .dasha-header-selector {
     width: 100%;
     min-width: 0;
+  }
+
+  .dasha-header-selector {
+    flex-wrap: wrap;
   }
 
   :host ::ng-deep .mahadasha-page app-page-header .header-top {
@@ -1939,6 +1956,126 @@ small {
 .strength-detail-row--association {
   position: relative;
   z-index: 8;
+}
+
+:host-context(body.mahadasha-pdf-mode) .mahadasha-page {
+  background: #eef3ff !important;
+  color: #10143d !important;
+  padding: 16px !important;
+  gap: 14px !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .page-toolbar {
+  margin-bottom: 2px !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) app-page-header {
+  display: block !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .dasha-header-selector app-saved-chart-selector {
+  display: none !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .timeline-panel {
+  display: none !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .surface,
+:host-context(body.mahadasha-pdf-mode) .note-card {
+  border: 1px solid #d8e2f6 !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(17, 36, 85, 0.1) !important;
+  color: #111a3b !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .hero-grid {
+  gap: 18px !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .current-dasha {
+  border-right-color: #d8e2f6 !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .remaining-block {
+  border-top-color: #d8e2f6 !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .timeline-badge {
+  border-color: #b9cbff !important;
+  color: #1d4ed8 !important;
+  background: #eef4ff !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .timeline-badge--current {
+  border-color: #f3cd79 !important;
+  color: #8e5a00 !important;
+  background: #fff6e2 !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .list-card--positive {
+  border-color: #b7e3c8 !important;
+  background: linear-gradient(180deg, #f7fff9 0%, #eefdf3 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .list-card--warning {
+  border-color: #f7d3a1 !important;
+  background: linear-gradient(180deg, #fffaf2 0%, #fff3e3 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .list-card--info {
+  border-color: #c4d5ff !important;
+  background: linear-gradient(180deg, #f5f8ff 0%, #eef3ff 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .prediction-card {
+  border-color: #c8d6ff !important;
+  background: linear-gradient(180deg, #f9fbff 0%, #f0f5ff 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .actions-card {
+  border-color: #cbe0ff !important;
+  background: linear-gradient(180deg, #f9fcff 0%, #eef6ff 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .important-card {
+  border-color: #d5dfff !important;
+  background: linear-gradient(180deg, #fbfcff 0%, #f2f6ff 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .note-card {
+  border-color: #dac8ff !important;
+  background: linear-gradient(180deg, #fcf8ff 0%, #f6efff 100%) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .planet-step,
+:host-context(body.mahadasha-pdf-mode) .antar-step,
+:host-context(body.mahadasha-pdf-mode) .pratyantar-step,
+:host-context(body.mahadasha-pdf-mode) .life-card,
+:host-context(body.mahadasha-pdf-mode) .date-row,
+:host-context(body.mahadasha-pdf-mode) .strength-grid article,
+:host-context(body.mahadasha-pdf-mode) .phase-grid article {
+  border-color: #d6def2 !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(16, 20, 61, 0.06) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .progress-shell {
+  background: #dde5f7 !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .progress-fill {
+  background: linear-gradient(90deg, #ffc533, #f59e0b) !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .nav-dot {
+  border-color: #c8d4f0 !important;
+  background: #ffffff !important;
+}
+
+:host-context(body.mahadasha-pdf-mode) .nav-dot:disabled {
+  opacity: 0.45 !important;
 }
 
 .strength-detail-row--association .strength-detail-cell {

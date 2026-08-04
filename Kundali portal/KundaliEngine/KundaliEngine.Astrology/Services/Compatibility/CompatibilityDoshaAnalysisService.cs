@@ -6,25 +6,11 @@ namespace KundaliEngine.Astrology.Services.Compatibility
 {
     public class CompatibilityDoshaAnalysisService
     {
-        // Compatibility intentionally uses a small relationship-facing allow-list.
-        // Broader individual Kundali findings such as Kaal Sarpa, Pitru/Pitra,
-        // Guru Chandal, Shrapit, Kemadruma, Sakata, Gandmool, Daridra and generic
-        // Raja/Dhana/spiritual/career yogas should remain in personal reports, not
-        // in match scoring.
-        private static readonly string[] DoshaKeys =
-        {
-            "manglik",
-            "chandra_grahan",
-            "surya_grahan",
-            "shani"
-        };
-
+        // Weight configuration for compatibility-relevant doshas
+        // Only doshas with ExcludeFromCompatibility = false in metadata will be considered
         private static readonly Dictionary<string, double> DoshaWeights = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["manglik"] = 0.52,
-            ["chandra_grahan"] = 0.26,
-            ["surya_grahan"] = 0.16,
-            ["shani"] = 0.06
+            ["manglik"] = 1.0
         };
 
         public CompatibilityDoshaAnalysis Analyze(
@@ -37,7 +23,13 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             var personAByKey = ToLookup(personADoshas);
             var personBByKey = ToLookup(personBDoshas);
 
-            var items = DoshaKeys
+            // Get all doshas from metadata that are NOT excluded from compatibility
+            var compatibilityDoshas = metadataService.GetAllDoshas()
+                .Where(meta => !meta.ExcludeFromCompatibility)
+                .Select(meta => meta.Key)
+                .ToList();
+
+            var items = compatibilityDoshas
                 .Select(key => BuildDoshaItem(
                     key,
                     personAName,
@@ -50,7 +42,7 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             var scoreBreakdown = items
                 .Select(item =>
                 {
-                    var weight = DoshaWeights[item.Key];
+                    var weight = DoshaWeights.TryGetValue(item.Key, out var w) ? w : 0.0;
                     return new ScoreComponent
                     {
                         Label = item.Name,
@@ -187,7 +179,6 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             return key switch
             {
                 "manglik" => CompareManglik(personAName, personBName, personA, personB, personASeverity, personBSeverity),
-                "chandra_grahan" => CompareChandraGrahan(personAName, personBName, personA, personB, personASeverity, personBSeverity),
                 _ => CompareDefault(personAName, personBName, personA, personB, personASeverity, personBSeverity)
             };
         }
@@ -224,41 +215,6 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                 $"{name} has Manglik Dosha while the other chart does not, so the one-sided Mars marriage pressure is counted as compatibility risk.",
                 "One-sided Manglik risk = present person's severity value.",
                 "One-sided Manglik risk");
-        }
-
-        private static DoshaComparison CompareChandraGrahan(
-            string personAName,
-            string personBName,
-            CompatibilityDoshaPersonSummary personA,
-            CompatibilityDoshaPersonSummary personB,
-            int personASeverity,
-            int personBSeverity)
-        {
-            if (!personA.IsPresent && !personB.IsPresent)
-            {
-                return NoDosha("Chandra Grahan Dosha", "Neither chart has Moon closely associated with Rahu or Ketu.");
-            }
-
-            if (personA.IsPresent && personB.IsPresent)
-            {
-                var average = (personASeverity + personBSeverity) / 2.0;
-                var risk = average * 0.65 + Math.Abs(personASeverity - personBSeverity) * 0.20;
-                return new DoshaComparison(
-                    "Mutual Pressure",
-                    risk,
-                    $"Both {personAName} and {personBName} have Chandra Grahan Dosha. Emotional sensitivity is shared, with extra risk if the intensities differ.",
-                    "Mutual Chandra Grahan risk = average severity x 0.65 + absolute severity difference x 0.20.",
-                    "Mutual Moon-node pressure");
-            }
-
-            var name = personA.IsPresent ? personAName : personBName;
-            var severity = personA.IsPresent ? personASeverity : personBSeverity;
-            return new DoshaComparison(
-                "Active Dosha",
-                severity,
-                $"{name} has Chandra Grahan Dosha, so the Moon-node emotional pressure is counted as one-sided compatibility risk.",
-                "One-sided Chandra Grahan risk = present person's severity value.",
-                "One-sided Moon-node risk");
         }
 
         private static DoshaComparison CompareDefault(
