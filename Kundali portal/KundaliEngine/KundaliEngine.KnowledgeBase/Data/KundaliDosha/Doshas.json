@@ -61,6 +61,7 @@
     },
     {
       "Key": "kaal_sarpa",
+      "ExcludeFromCompatibility": true,
       "Name": "Kaal Sarpa Dosha",
       "Category": "Karmic",
       "Nature": "Challenging",
@@ -118,6 +119,7 @@
     },
     {
       "Key": "chandra_grahan",
+      "ExcludeFromCompatibility": true,
       "Name": "Chandra Grahan Dosha",
       "Category": "Mind",
       "Nature": "Challenging",
@@ -183,6 +185,7 @@
     },
     {
       "Key": "surya_grahan",
+      "ExcludeFromCompatibility": true,
       "Name": "Surya Grahan Dosha",
       "Category": "Authority & Vitality",
       "Nature": "Challenging",
@@ -240,6 +243,7 @@
     },
     {
       "Key": "guru_chandal",
+      "ExcludeFromCompatibility": true,
       "Name": "Guru Chandal Dosha",
       "Category": "Wisdom & Judgment",
       "Nature": "Challenging",
@@ -297,6 +301,7 @@
     },
     {
       "Key": "pitra",
+      "ExcludeFromCompatibility": true,
       "Name": "Pitra Dosha",
       "Category": "Lineage & Ancestors",
       "Nature": "Challenging",
@@ -346,6 +351,7 @@
     },
     {
       "Key": "shani",
+      "ExcludeFromCompatibility": true,
       "Name": "Shani Dosha",
       "Category": "Delay & Discipline",
       "Nature": "Challenging",
@@ -403,6 +409,7 @@
     },
     {
       "Key": "kemadruma",
+      "ExcludeFromCompatibility": true,
       "Name": "Kemadruma Dosha",
       "Category": "Mind & Support",
       "Nature": "Challenging",
@@ -452,6 +459,7 @@
     },
     {
       "Key": "daridra",
+      "ExcludeFromCompatibility": true,
       "Name": "Daridra Dosha",
       "Category": "Finance & Stability",
       "Nature": "Challenging",

@@ -41,4 +41,5 @@ import { SectionCardComponent } from '../../shared/components/section-card.compo
     }
   `],
 })
-export class DashaComponent {}
+export class DashaComponent {
+}

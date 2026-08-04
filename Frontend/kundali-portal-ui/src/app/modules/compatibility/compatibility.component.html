@@ -280,7 +280,7 @@
     <section class="report-section">
       <h2>{{ 'compatibility.doshaAnalysisTitle' | transloco }}</h2>
       <div class="dosha-summary" *ngIf="result?.doshaAnalysis as doshaSummary">
-        <strong>{{ 'compatibility.overallDoshaScore' | transloco }}: {{ doshaSummary.overallDoshaScore }} / 100</strong>
+        <strong>Overall Dosha Assessment: {{ getOverallDoshaAssessmentLabel(doshaSummary.overallDoshaScore) }}</strong>
         <span class="status-pill">{{ translateCompatibilityTerm(doshaSummary.overallDoshaStatus) }}</span>
       </div>
       <div class="dosha-grid" *ngIf="doshas.length; else noCompatibilityDoshas">
@@ -302,12 +302,11 @@
             </div>
             <p>{{ dosha.detail }}</p>
             <div class="dosha-score-row">
-              <strong>{{ dosha.compatibilityScore }}%</strong>
-              <span>{{ dosha.status }}</span>
+              <span>{{ getDoshaStatusLabel(dosha) }}</span>
             </div>
             <div class="dosha-meta-row">
-              <small>{{ 'compatibility.who' | transloco }}: {{ dosha.whoHas }}</small>
-              <small>{{ 'compatibility.severity' | transloco }}: {{ dosha.severity }}</small>
+              <small>{{ getDoshaImpactLabel(dosha) }}</small>
+              <small>{{ getDoshaAffectedPersonLabel(dosha) }}</small>
             </div>
           </div>
         </article>

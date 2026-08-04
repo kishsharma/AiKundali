@@ -45,6 +45,7 @@ interface CompatibilityAspectCard {
 interface CompatibilityDoshaCard extends CompatibilityDoshaItem {
   detail: string;
   whoHas: string;
+  isDetected: boolean;
 }
 
 @Component({
@@ -301,7 +302,39 @@ export class CompatibilityComponent {
       scoreBreakdown: dosha.scoreBreakdown ?? [],
       detail: dosha.reason || this.t('compatibility.noDoshaPressure'),
       whoHas: this.getDoshaOwnership(dosha),
+      isDetected: this.isDoshaDetected(dosha),
     }));
+  }
+
+  getOverallDoshaAssessmentLabel(score: number | null | undefined): string {
+    const value = Number(score ?? 0);
+    if (value <= 20) return 'Low concern';
+    if (value <= 50) return 'Moderate concern';
+    if (value <= 75) return 'Needs careful review';
+    return 'High concern';
+  }
+
+  getDoshaStatusLabel(dosha: CompatibilityDoshaCard): string {
+    if (!dosha.isDetected) {
+      return 'Status: Not detected';
+    }
+
+    const presence = dosha.personA?.isPresent && dosha.personB?.isPresent
+      ? 'Present in both charts'
+      : 'Present in one chart';
+    return `Status: ${presence}`;
+  }
+
+  getDoshaImpactLabel(dosha: CompatibilityDoshaCard): string {
+    return dosha.isDetected
+      ? `Compatibility impact: ${dosha.severity}`
+      : `Compatibility impact: ${this.t('compatibility.none')}`;
+  }
+
+  getDoshaAffectedPersonLabel(dosha: CompatibilityDoshaCard): string {
+    return dosha.isDetected
+      ? `Affected person: ${dosha.whoHas}`
+      : `Affected person: ${this.t('compatibility.none')}`;
   }
 
   get doshaRemedies(): string[] {
@@ -1249,6 +1282,10 @@ export class CompatibilityComponent {
     if (boyHas) return this.t('compatibility.boy');
     if (girlHas) return this.t('compatibility.girl');
     return this.t('compatibility.none');
+  }
+
+  private isDoshaDetected(dosha: CompatibilityDoshaItem): boolean {
+    return Boolean(dosha.personA?.isPresent || dosha.personB?.isPresent);
   }
 
   private t(key: string, params?: Record<string, string | number>): string {

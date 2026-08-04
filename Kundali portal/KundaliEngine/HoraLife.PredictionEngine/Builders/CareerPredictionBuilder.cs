@@ -1,4 +1,4 @@
-using HoraLife.PredictionEngine.Models;
+using HoraLife.PredictionEngine.Models.Career;
 
 namespace HoraLife.PredictionEngine.Builders
 {

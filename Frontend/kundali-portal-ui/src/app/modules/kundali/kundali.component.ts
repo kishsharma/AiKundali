@@ -112,6 +112,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   houseScores: any[] = [];
   loading = false;
   showChart = false;
+  showBirthDetailsForm = true;
   mahadashaPeriods: any[] = [];
   savingKundali = false;
   savedKundaliId: string | null = null;
@@ -154,10 +155,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   doshas: any[] = [];
   openYogaIndex: number | null = null;
   openDoshaIndex: number | null = null;
+  activeReportSection = '';
 
   get hasReportStatus(): boolean {
     return !!(this.saveMessage || this.generationMessage || this.pdfDownloadMessage || this.shareMessage);
   }
+
   get currentYogaActivationGroups(): ActivationPeriodGroup[] {
     return this.buildActivationPeriodGroups(this.yogas, 'current', 'Current Yoga Activation');
   }
@@ -257,6 +260,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   ngOnInit(): void {
     this.loadBrandingSettings();
+    this.syncActiveReportSectionFromHash();
 
     this.route.paramMap.subscribe(params => {
       const savedId = params.get('id');
@@ -290,6 +294,32 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
         this.locationResults = results;
       });
+  }
+
+  @HostListener('window:hashchange')
+  onHashChange(): void {
+    this.syncActiveReportSectionFromHash();
+  }
+
+  private syncActiveReportSectionFromHash(): void {
+    this.activeReportSection = window.location.hash.replace('#', '');
+    this.applyActiveReportQuickLink(this.activeReportSection);
+  }
+
+  private applyActiveReportQuickLink(sectionId: string): void {
+    const quickLinks = Array.from(document.querySelectorAll('.report-quick-links a[data-section-id]'));
+
+    quickLinks.forEach((link) => {
+      const element = link as HTMLElement;
+      const isActive = element.getAttribute('data-section-id') === sectionId;
+      element.classList.toggle('is-active', isActive);
+
+      if (isActive) {
+        element.setAttribute('aria-current', 'location');
+      } else {
+        element.removeAttribute('aria-current');
+      }
+    });
   }
 
   loadBrandingSettings(): void {
@@ -722,8 +752,20 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   toggleChartPin(): void { this.isChartPinned = !this.isChartPinned; }
 
-  scrollToReportSection(sectionId: string): void {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  scrollToReportSection(event: MouseEvent, sectionId: string): void {
+    event.preventDefault();
+
+    const target = document.getElementById(sectionId);
+
+    if (!target) {
+      return;
+    }
+
+    const nextUrl = `${window.location.pathname}${window.location.search}#${sectionId}`;
+    window.history.replaceState(window.history.state, '', nextUrl);
+    this.activeReportSection = sectionId;
+    this.applyActiveReportQuickLink(sectionId);
+    target.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
 
   selectedCoordinates: any = null;
@@ -977,6 +1019,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.houseScores = response.houses;  
           this.kundaliResponse = response;
           this.showChart = true;
+          this.showBirthDetailsForm = false;
           this.savedKundaliId = null;
           this.saveMessage = '';
           this.notifications.success('Kundali generated.');
@@ -1035,6 +1078,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.openYogaIndex = null;
     this.openDoshaIndex = null;
     this.showChart = false;
+    this.showBirthDetailsForm = true;
     this.selectedHouseData = null;
     this.savedKundaliId = null;
     this.dhruvaKundaliContext.clearContext();
@@ -1085,6 +1129,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.loadingSavedKundali = true;
     this.loading = true;
     this.showChart = false;
+    this.showBirthDetailsForm = false;
     this.dhruvaKundaliContext.clearContext();
     this.selectedHouseData = null;
     this.activeDivisionalChart = 'd1';
@@ -1108,6 +1153,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         this.loadingSavedKundali = false;
         this.loading = false;
         this.showChart = false;
+        this.showBirthDetailsForm = true;
         this.notifications.error('Unable to open saved Kundali.');
         this.cdr.detectChanges();
       }
@@ -1134,6 +1180,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
       this.kundaliResponse = null;
       this.dhruvaKundaliContext.clearContext();
       this.showChart = false;
+      this.showBirthDetailsForm = true;
       return;
     }
 
@@ -1153,7 +1200,13 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.openDoshaIndex = null;
     this.houseScores = response.houses ?? [];
     this.showChart = true;
+    this.showBirthDetailsForm = false;
     this.setDefaultHouseSelection();
+  }
+
+  editBirthDetails(): void {
+    this.showBirthDetailsForm = true;
+    this.cdr.detectChanges();
   }
   setDefaultHouseSelection(): void {
     const availableHouses = this.activeChartHouses?.length

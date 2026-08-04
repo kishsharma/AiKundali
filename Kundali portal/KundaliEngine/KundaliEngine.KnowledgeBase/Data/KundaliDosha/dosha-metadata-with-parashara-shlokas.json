@@ -140,7 +140,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "chandra_grahan",
@@ -218,7 +219,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "surya_grahan",
@@ -288,7 +290,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "guru_chandal",
@@ -350,7 +353,7 @@
         "Verses": "1",
         "Sanskrit": "ग्रहाणां दोषशान्त्यर्थं तेषां पूजाविधिं वद ।\nमानवानां हितार्थाय संक्षेपात् कृपया मुने ॥१॥",
         "Transliteration": "grahāṇāṃ doṣaśāntyarthaṃ teṣāṃ pūjāvidhiṃ vada | mānavānāṃ hitārthāya saṃkṣepāt kṛpayā mune ||1||",
-        "SimpleMeaning": "Maitreya asks Parashara to explain the worship procedures used for pacifying planetary afflictions for human welfare.",
+        "SimpleMeaning": "No direct named Guru Chandal Yoga or Dosha definition for Jupiter with Rahu or Ketu has been verified in this BPHS recension. Do not present this verse as its formation rule.",
         "ReferenceType": "GeneralRemedialReference",
         "VerificationStatus": "VerifiedRelatedVerse",
         "ScopeNote": "No direct named Guru Chandal Yoga or Dosha definition for Jupiter with Rahu or Ketu has been verified in this BPHS recension. Do not present this verse as its formation rule.",
@@ -358,7 +361,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "pitra",
@@ -420,7 +424,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "shani",
@@ -481,7 +486,7 @@
         "ChapterTitle": "Pacification of Planetary Afflictions",
         "Verses": "26",
         "Sanskrit": "यस्य यश्च यदा दुःस्थः स तं यत्नेन पूजयेत् ।\nएषां धात्रा वरो दत्तः पूजिताः पूजयिष्यथ ॥२६॥",
-        "Transliteration": "yasya yaśca yadā duḥsthaḥ sa taṃ yatnena pūjayet | eṣāṃ dhātrā varo dattaḥ pūjitāḥ pūjayiṣyatha ||26||",
+        "Transliteration": "yasya yaśca yadā duḥsthaḥ sa taṃ yatnena pūjayet | eṣāṃ dhātrā varo dattaḥ pūjitaḥ pūjayiṣyatha ||26||",
         "SimpleMeaning": "Whenever a planet is ill-placed for a person, that planet should be worshipped diligently; the Creator granted that honored planets should in turn bestow favor.",
         "ReferenceType": "GeneralRemedialReference",
         "VerificationStatus": "VerifiedRelatedVerse",
@@ -490,7 +495,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "kemadruma",
@@ -552,7 +558,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     },
     {
       "Key": "daridra",
@@ -614,7 +621,8 @@
       },
       "References": [
         "Traditional Vedic astrology practice"
-      ]
+      ],
+      "ExcludeFromCompatibility": true
     }
   ]
 }

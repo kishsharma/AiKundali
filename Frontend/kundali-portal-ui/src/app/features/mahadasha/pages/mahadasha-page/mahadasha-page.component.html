@@ -13,9 +13,20 @@
           [selectedId]="selectedChartId"
           (chartSelected)="onSavedChartSelected($event)">
         </app-saved-chart-selector>
+        <button
+          type="button"
+          class="action-button action-button--accent"
+          (click)="downloadPdf()"
+          [disabled]="exportingPdf"
+          [attr.aria-busy]="exportingPdf"
+          [attr.aria-label]="exportingPdf ? 'Preparing dasha PDF' : 'Download dasha PDF'">
+          {{ exportingPdf ? 'Preparing PDF...' : 'Download PDF' }}
+        </button>
       </div>
     </app-page-header>
   </div>
+
+  <div id="mahadasha-report">
 
   <section class="surface dasha-native-card" *ngIf="analysis.birthChart as chart" aria-label="Dasha native details">
     <div class="native-intro">
@@ -362,6 +373,7 @@
     <strong>Note</strong>
     <p>{{ note }}</p>
   </aside>
+  </div>
 </section>
 
   <ng-template #nonAnalysisState>
@@ -379,6 +391,14 @@
               [selectedId]="selectedChartId"
               (chartSelected)="onSavedChartSelected($event)">
             </app-saved-chart-selector>
+            <button
+              type="button"
+              class="action-button action-button--accent"
+              [disabled]="true"
+              aria-disabled="true"
+              aria-label="Download dasha PDF (available after loading analysis)">
+              Download PDF
+            </button>
           </div>
         </app-page-header>
       </div>

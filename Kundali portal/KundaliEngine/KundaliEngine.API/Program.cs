@@ -1,4 +1,4 @@
-using HoraLife.Store.Application.DependencyInjection;
+﻿using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.AdvancedStrength;
@@ -19,6 +19,7 @@ using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Compatibility;
 using KundaliEngine.Astrology.Services.Dasha;
+using KundaliEngine.Astrology.Services.DivisionalCharts;
 using KundaliEngine.Astrology.Services.KundaliDosha;
 using KundaliEngine.Astrology.Services.KundaliYoga;
 using KundaliEngine.Astrology.Services.Panchang;
@@ -61,6 +62,7 @@ builder.Services.AddSingleton<RemediesRecommendationService>();
 builder.Services.AddSingleton<CompatibilityScoreService>();
 builder.Services.AddSingleton<CompatibilityDoshaAnalysisService>();
 builder.Services.AddSingleton<SudarshanChakraService>();
+builder.Services.AddSingleton<DivisionalChartService>();
 builder.Services.AddSingleton<YogaDoshaActivationService>();
 builder.Services.AddSingleton<AdvancedStrengthTableService>();
 builder.Services.AddSingleton<AstrologyKnowledgeService>();
@@ -332,6 +334,8 @@ app.UseRateLimiter();
 app.MapControllers();
 
 app.Run();
+
+
 
 
 

@@ -12,6 +12,8 @@ namespace KundaliEngine.Domain.Models
         public List<DoshaImpactArea> ImpactAreas { get; set; } = new();
         public List<string> Remedies { get; set; } = new();
         public List<string> References { get; set; } = new();
+        // New: when true this dosha should be ignored by compatibility analysis.
+        public bool ExcludeFromCompatibility { get; set; } = false;
     }
 
     public class DoshaImpactArea

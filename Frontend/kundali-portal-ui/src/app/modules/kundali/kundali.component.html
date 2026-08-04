@@ -3,6 +3,13 @@
     title="Kundali"
     [showActions]="showChart">
     <div page-actions class="report-actions" data-tour-id="kundali-report-actions" aria-label="Kundali report actions">
+      <button type="button" class="report-action-btn" (click)="editBirthDetails()" title="Edit Details" *ngIf="showChart && !showBirthDetailsForm">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17z"></path>
+          <path d="M13.5 6.5l4 4"></path>
+        </svg>
+        <span>Edit Details</span>
+      </button>
       <button
         class="report-action-btn save-action"
         type="button"
@@ -161,7 +168,7 @@
 
 <div class="kundali-layout">
   <div class="primary-sections">
-    <app-section-card class="birth-details-card" title="Birth Details">
+    <app-section-card class="birth-details-card" title="Birth Details" *ngIf="showBirthDetailsForm">
       <form class="kundali-form" [formGroup]="kundaliForm" (ngSubmit)="generateKundali()">
         <div class="form-grid">
           <div class="form-group">
@@ -250,17 +257,17 @@
 <aside class="chandra-rashi-watermark" *ngIf="showChart && chandraRashiWatermark as rashiWatermark" aria-hidden="true">
         <span class="rashi-watermark-symbol">{{ rashiWatermark.symbol }}</span>
       </aside>
-      <nav class="report-quick-links" aria-label="Kundali report sections" style="position: sticky; top: 8px; z-index: 25; display: flex; align-items: center; gap: 12px; overflow-x: auto; padding: 7px 2px; background: color-mix(in srgb, var(--theme-bg) 86%, transparent); backdrop-filter: blur(10px);">
-        <span class="save-status" style="flex: 0 0 auto;">Sections</span>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('kundali-chart')">Chart</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('kundali-summary')">Summary</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('yogaSection')">Yogas</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('doshaSection')">Doshas</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('planetPositions')">Planets</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('scoreSection')">Scores</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('dashaSection')">Dasha</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('remediesSection')">Remedies</button>
-        <button type="button" style="border: 0; border-bottom: 1px solid transparent; padding: 4px 0; color: var(--theme-text-muted); background: transparent; font: 800 11px/1 'IBM Plex Mono', monospace; cursor: pointer; white-space: nowrap;" (click)="scrollToReportSection('transitSection')" *ngIf="kundaliResponse?.transitInsight">Transit</button>
+        <nav class="report-quick-links" aria-label="Kundali report sections">
+          <span class="save-status">Sections</span>
+          <a href="" data-section-id="kundali-chart" (click)="scrollToReportSection($event, 'kundali-chart')">Chart</a>
+          <a href="" data-section-id="kundali-summary" (click)="scrollToReportSection($event, 'kundali-summary')">Summary</a>
+          <a href="" data-section-id="yogaSection" (click)="scrollToReportSection($event, 'yogaSection')">Yogas</a>
+          <a href="" data-section-id="doshaSection" (click)="scrollToReportSection($event, 'doshaSection')">Doshas</a>
+          <a href="" data-section-id="planetPositions" (click)="scrollToReportSection($event, 'planetPositions')">Planets</a>
+          <a href="" data-section-id="scoreSection" (click)="scrollToReportSection($event, 'scoreSection')">Scores</a>
+          <a href="" data-section-id="dashaSection" (click)="scrollToReportSection($event, 'dashaSection')">Dasha</a>
+          <a href="" data-section-id="remediesSection" (click)="scrollToReportSection($event, 'remediesSection')">Remedies</a>
+          <a href="" data-section-id="transitSection" (click)="scrollToReportSection($event, 'transitSection')" *ngIf="kundaliResponse?.transitInsight">Transit</a>
       </nav>
       <div class="report-header premium-header" id="pdfHeader">
 
@@ -271,6 +278,10 @@
               <h1 class="report-brand-name"><span>Hora</span><span>Life</span></h1>
               <small class="report-brand-descriptor">Precision Vedic Astrology</small>
             </div>
+          </div>
+          <div class="report-header-deity" aria-hidden="true">
+            <img class="report-ganesh report-ganesh-light" src="assets/brand/horalife/ganesh-compatibility-light-clean.png" alt="">
+            <img class="report-ganesh report-ganesh-dark" src="assets/brand/horalife/ganesh-compatibility-dark-clean.png" alt="">
           </div>
           <div class="astrologer-section report-prepared-by">
             <span class="astrologer-kicker">Prepared by</span>
