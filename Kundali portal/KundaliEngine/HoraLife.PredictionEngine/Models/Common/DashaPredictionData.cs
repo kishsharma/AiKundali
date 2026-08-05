@@ -1,10 +1,4 @@
-﻿using HoraLife.PredictionEngine.Models.Career;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HoraLife.PredictionEngine.Models.Common
 {
     public class DashaPredictionData
