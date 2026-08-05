@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoraLife.Store.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoraLife.PredictionEngine", "HoraLife.PredictionEngine\HoraLife.PredictionEngine.csproj", "{109712D4-18C2-4E87-8649-A0F36ED52E45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoraLife.PredictionEngine.Tests", "HoraLife.PredictionEngine.Tests\HoraLife.PredictionEngine.Tests.csproj", "{C72A1609-6FA2-46FB-8024-DA7163E35451}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +183,18 @@ Global
 		{109712D4-18C2-4E87-8649-A0F36ED52E45}.Release|x64.Build.0 = Release|Any CPU
 		{109712D4-18C2-4E87-8649-A0F36ED52E45}.Release|x86.ActiveCfg = Release|Any CPU
 		{109712D4-18C2-4E87-8649-A0F36ED52E45}.Release|x86.Build.0 = Release|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Debug|x64.Build.0 = Debug|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Debug|x86.Build.0 = Debug|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Release|x64.ActiveCfg = Release|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Release|x64.Build.0 = Release|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Release|x86.ActiveCfg = Release|Any CPU
+		{C72A1609-6FA2-46FB-8024-DA7163E35451}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
