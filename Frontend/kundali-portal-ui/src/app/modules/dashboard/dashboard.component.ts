@@ -2,6 +2,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { Subscription, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 
@@ -16,19 +17,21 @@ import {
   DashboardMuhurthaPreview,
   DashboardPanchang,
   DashboardSummary,
+  RetrogradePlanet,
 } from '../../core/services/dashboard-api.service';
 import { LatestKundaliStorageService } from '../../core/services/latest-kundali-storage.service';
 
 interface QuickAction {
-  label: string;
-  caption: string;
+  labelKey: string;
+  captionKey: string;
   routerLink: string;
   icon: string;
+  tone: string;
 }
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, PageHeaderComponent, SectionCardComponent],
+  imports: [CommonModule, RouterModule, PageHeaderComponent, SectionCardComponent, TranslocoPipe],
   templateUrl: './dashboard.component.html',
   styles: [`
     :host {
@@ -215,15 +218,16 @@ interface QuickAction {
     }
 
     .action-card {
+      --action-tone: var(--theme-accent);
       min-height: 7rem;
       display: grid;
       align-content: center;
       justify-items: center;
       gap: 0.45rem;
       padding: 1rem;
-      border: 1px solid var(--theme-line);
+      border: 1px solid color-mix(in srgb, var(--action-tone) 24%, var(--theme-line));
       border-radius: var(--theme-radius-control);
-      background: color-mix(in srgb, var(--theme-input-bg) 52%, transparent);
+      background: linear-gradient(145deg, color-mix(in srgb, var(--action-tone) 10%, var(--theme-input-bg)), color-mix(in srgb, var(--theme-input-bg) 78%, transparent));
       color: var(--theme-text);
       text-align: center;
       text-decoration: none;
@@ -232,22 +236,38 @@ interface QuickAction {
 
     .action-card:hover,
     .action-card:focus-visible {
-      border-color: var(--theme-accent);
-      background: color-mix(in srgb, var(--theme-accent) 10%, var(--theme-surface));
+      border-color: color-mix(in srgb, var(--action-tone) 58%, var(--theme-line));
+      background: linear-gradient(145deg, color-mix(in srgb, var(--action-tone) 16%, var(--theme-input-bg)), color-mix(in srgb, var(--theme-surface) 86%, transparent));
       transform: translateY(-1px);
       outline: none;
     }
+
+    .action-card.chart { --action-tone: #3b82f6; }
+    .action-card.match { --action-tone: #ec4899; }
+    .action-card.panchang { --action-tone: #14b8a6; }
+    .action-card.timing { --action-tone: #f59e0b; }
+    .action-card.dasha { --action-tone: #8b5cf6; }
+    .action-card.study { --action-tone: #22c55e; }
 
     .action-mark {
       display: grid;
       width: 2.65rem;
       height: 2.65rem;
       place-items: center;
-      border: 1px solid color-mix(in srgb, var(--theme-accent) 46%, transparent);
+      border: 1px solid color-mix(in srgb, var(--action-tone) 42%, transparent);
       border-radius: 50%;
-      color: var(--theme-accent);
-      font-size: 0.86rem;
-      font-weight: 900;
+      background: color-mix(in srgb, var(--action-tone) 14%, var(--theme-surface));
+      color: var(--action-tone);
+    }
+
+    .action-icon {
+      width: 1.35rem;
+      height: 1.35rem;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
     }
 
     .action-label {
@@ -261,6 +281,79 @@ interface QuickAction {
       color: var(--theme-text-muted);
       font-size: 0.76rem;
       line-height: 1.25;
+    }
+
+    .retrograde-panel {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .retrograde-table {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .retrograde-row {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr 0.9fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: 2.7rem;
+      padding: 0.55rem 0.7rem;
+      border: 1px solid var(--theme-line-soft);
+      border-radius: var(--theme-radius-control);
+      background: color-mix(in srgb, var(--theme-surface-2) 74%, transparent);
+      color: var(--theme-text);
+    }
+
+    .retrograde-row.header {
+      min-height: 2.1rem;
+      background: transparent;
+      color: var(--theme-text-muted);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .retrograde-planet {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      min-width: 0;
+      font-weight: 850;
+    }
+
+    .retrograde-mark {
+      display: inline-grid;
+      width: 1.75rem;
+      height: 1.75rem;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--theme-warning) 38%, transparent);
+      background: color-mix(in srgb, var(--theme-warning) 12%, transparent);
+      color: var(--theme-warning);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .retrograde-value,
+    .retrograde-degree {
+      color: var(--theme-text-muted);
+      font-size: 0.82rem;
+      overflow-wrap: anywhere;
+    }
+
+    .retrograde-degree {
+      justify-self: end;
+      white-space: nowrap;
+    }
+
+    .retrograde-note {
+      margin: 0;
+      color: var(--theme-text-muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
     }
 
     .journey-grid {
@@ -551,6 +644,16 @@ interface QuickAction {
         grid-template-columns: 1fr;
       }
 
+      .retrograde-row,
+      .retrograde-row.header {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .retrograde-degree {
+        justify-self: start;
+      }
+
       .muhurtha-row {
         grid-template-columns: auto minmax(0, 1fr);
       }
@@ -565,6 +668,7 @@ interface QuickAction {
 export class DashboardComponent implements OnInit, OnDestroy {
   private readonly dashboardApi = inject(DashboardApiService);
   private readonly latestKundaliStorage = inject(LatestKundaliStorageService);
+  private readonly transloco = inject(TranslocoService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly subscriptions = new Subscription();
 
@@ -585,22 +689,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
     studyLevels: 0,
   };
   insightCards: DashboardInsight[] = [];
+  private usingFallbackInsights = false;
   upcomingMuhurthas: DashboardMuhurthaPreview[] = [];
+  retrogradePlanets: RetrogradePlanet[] = [];
+  retrogradeError = '';
   loading = {
     dashboard: true,
+    retrogrades: true,
   };
 
   readonly quickActions: QuickAction[] = [
-    { label: 'Generate Kundali', caption: 'Create a birth chart', routerLink: '/app/kundali', icon: 'K' },
-    { label: 'Match Kundali', caption: 'Compare compatibility', routerLink: '/app/compatibility', icon: 'M' },
-    { label: 'Panchang', caption: 'See today and dates', routerLink: '/app/panchang', icon: 'P' },
-    { label: 'Muhurtha', caption: 'Find auspicious time', routerLink: '/app/panchang/muhurtha', icon: 'T' },
-    { label: 'Dasha', caption: 'Current period flow', routerLink: '/app/dasha', icon: 'D' },
-    { label: 'Jyotish Study', caption: 'Continue learning', routerLink: '/app/learning', icon: 'J' },
+    { labelKey: 'dashboard.quick.generateKundali', captionKey: 'dashboard.quick.generateKundaliCaption', routerLink: '/app/kundali', icon: 'kundali', tone: 'chart' },
+    { labelKey: 'dashboard.quick.matchKundali', captionKey: 'dashboard.quick.matchKundaliCaption', routerLink: '/app/compatibility', icon: 'match', tone: 'match' },
+    { labelKey: 'dashboard.quick.panchang', captionKey: 'dashboard.quick.panchangCaption', routerLink: '/app/panchang', icon: 'panchang', tone: 'panchang' },
+    { labelKey: 'dashboard.quick.muhurtha', captionKey: 'dashboard.quick.muhurthaCaption', routerLink: '/app/panchang/muhurtha', icon: 'muhurtha', tone: 'timing' },
+    { labelKey: 'dashboard.quick.dasha', captionKey: 'dashboard.quick.dashaCaption', routerLink: '/app/dasha', icon: 'dasha', tone: 'dasha' },
+    { labelKey: 'dashboard.quick.jyotishStudy', captionKey: 'dashboard.quick.jyotishStudyCaption', routerLink: '/app/learning', icon: 'study', tone: 'study' },
   ];
 
   ngOnInit(): void {
     this.loadDashboard();
+    this.loadRetrogrades();
+    this.subscriptions.add(this.transloco.langChanges$.subscribe(() => {
+      if (!this.loading.dashboard && this.usingFallbackInsights) {
+        this.insightCards = this.buildFallbackInsights();
+      }
+      this.cdr.markForCheck();
+    }));
   }
 
   ngOnDestroy(): void {
@@ -608,7 +723,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   get displayDate(): string {
-    return new Intl.DateTimeFormat('en-IN', {
+    return new Intl.DateTimeFormat(this.currentLocale, {
       weekday: 'long',
       day: '2-digit',
       month: 'long',
@@ -619,20 +734,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   get greeting(): string {
     const hour = this.today.getHours();
     if (hour < 12) {
-      return 'Good Morning';
+      return this.t('dashboard.greeting.morning');
     }
     if (hour < 17) {
-      return 'Good Afternoon';
+      return this.t('dashboard.greeting.afternoon');
     }
-    return 'Good Evening';
+    return this.t('dashboard.greeting.evening');
   }
 
   get latestName(): string {
-    return this.latestKundali?.fullName || this.latestBrowserKundali?.name || 'No chart yet';
+    return this.latestKundali?.fullName || this.latestBrowserKundali?.name || this.t('dashboard.noChartYet');
   }
 
   get latestBirthPlace(): string {
-    return this.latestKundali?.birthPlace || this.latestBrowserKundali?.birthPlace || this.latestBrowserKundali?.birthplace || 'Add birth details to begin';
+    return this.latestKundali?.birthPlace || this.latestBrowserKundali?.birthPlace || this.latestBrowserKundali?.birthplace || this.t('dashboard.addBirthDetails');
   }
   get latestKundaliRouterLink(): string | unknown[] {
     return this.latestKundali?.id ? ['/app/kundali/saved', this.latestKundali.id] : '/app/kundali';
@@ -653,10 +768,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   formatDate(value: string | Date | undefined): string {
     const date = this.toDate(value);
     if (!date) {
-      return value ? String(value) : 'Not available';
+      return value ? String(value) : this.t('dashboard.notAvailable');
     }
 
-    return new Intl.DateTimeFormat('en-IN', {
+    return new Intl.DateTimeFormat(this.currentLocale, {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -665,12 +780,61 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   formatDay(value: string | Date | undefined): string {
     const date = this.toDate(value);
-    return date ? new Intl.DateTimeFormat('en-IN', { day: '2-digit' }).format(date) : '--';
+    return date ? new Intl.DateTimeFormat(this.currentLocale, { day: '2-digit' }).format(date) : '--';
   }
 
   formatMonth(value: string | Date | undefined): string {
     const date = this.toDate(value);
-    return date ? new Intl.DateTimeFormat('en-IN', { month: 'short' }).format(date) : '';
+    return date ? new Intl.DateTimeFormat(this.currentLocale, { month: 'short' }).format(date) : '';
+  }
+
+  get currentLocale(): string {
+    const lang = this.transloco.getActiveLang();
+    if (lang === 'hi') {
+      return 'hi-IN';
+    }
+    if (lang === 'kn') {
+      return 'kn-IN';
+    }
+    return 'en-IN';
+  }
+
+  formatRetrogradeDegree(planet: RetrogradePlanet): string {
+    return `${planet.degree} deg ${planet.minute}'`;
+  }
+
+  reportSummaryText(): string {
+    if (!this.recentReport) {
+      return this.t('dashboard.reportsGeneratedFromKundali');
+    }
+
+    return this.t('dashboard.generatedForOn', {
+      name: this.recentReport.kundaliName,
+      date: this.formatDate(this.recentReport.createdAt),
+    });
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.transloco.translate(key, params);
+  }
+
+  private loadRetrogrades(): void {
+    const sub = this.dashboardApi.getCurrentRetrogrades().pipe(
+      catchError((error) => {
+        console.error('Dashboard retrogrades load error:', error);
+        this.retrogradeError = this.t('dashboard.retrogradesLoadError');
+        return of(null);
+      }),
+      finalize(() => {
+        this.loading.retrogrades = false;
+        this.cdr.markForCheck();
+      })
+    ).subscribe((response) => {
+      this.retrogradePlanets = response?.planets ?? [];
+      this.cdr.markForCheck();
+    });
+
+    this.subscriptions.add(sub);
   }
 
   private loadDashboard(): void {
@@ -685,12 +849,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     ).subscribe((summary) => {
       if (!summary) {
+        this.usingFallbackInsights = true;
         this.insightCards = this.buildFallbackInsights();
         this.cdr.markForCheck();
         return;
       }
 
-      this.userName = summary.user?.fullName?.trim() || 'Seeker';
+      this.userName = summary.user?.fullName?.trim() || this.t('dashboard.defaultUser');
       this.panchang = summary.todayPanchang ?? null;
       this.latestKundali = summary.latestKundali ?? null;
       this.currentDasha = summary.currentDasha ?? null;
@@ -698,6 +863,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.recentReport = summary.recentReport ?? null;
       this.collectionStats = summary.collectionStats ?? this.collectionStats;
       this.savedKundalisCount = this.collectionStats.savedKundalis;
+      this.usingFallbackInsights = !summary.dailyInsights?.length;
       this.insightCards = summary.dailyInsights?.length ? summary.dailyInsights : this.buildFallbackInsights();
       this.upcomingMuhurthas = summary.upcomingMuhurthas ?? [];
       this.cdr.markForCheck();
@@ -709,27 +875,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private buildFallbackInsights(): DashboardInsight[] {
     return [
       {
-        eyebrow: 'Panchang Insight',
-        title: 'Today\'s Panchang Insight',
-        text: 'The dashboard summary API will show tithi, nakshatra, and auspicious context here.',
+        eyebrow: this.t('dashboard.fallback.panchangEyebrow'),
+        title: this.t('dashboard.fallback.panchangTitle'),
+        text: this.t('dashboard.fallback.panchangText'),
         routerLink: '/app/panchang',
-        action: 'View Panchang',
+        action: this.t('dashboard.fallback.panchangAction'),
         tone: 'moon',
       },
       {
-        eyebrow: 'Learning Tip',
-        title: 'Jyotish foundations',
-        text: 'Open structured lessons to build a steady Jyotish study habit.',
+        eyebrow: this.t('dashboard.fallback.learningEyebrow'),
+        title: this.t('dashboard.fallback.learningTitle'),
+        text: this.t('dashboard.fallback.learningText'),
         routerLink: '/app/learning',
-        action: 'Open Study',
+        action: this.t('dashboard.fallback.learningAction'),
         tone: 'study',
       },
       {
-        eyebrow: 'Muhurtha Focus',
-        title: 'Plan with cleaner timing',
-        text: 'Use Muhurtha before major starts: home, vehicle, ceremonies, business work, and travel.',
+        eyebrow: this.t('dashboard.fallback.muhurthaEyebrow'),
+        title: this.t('dashboard.fallback.muhurthaTitle'),
+        text: this.t('dashboard.fallback.muhurthaText'),
         routerLink: '/app/panchang/muhurtha',
-        action: 'Find Muhurtha',
+        action: this.t('dashboard.fallback.muhurthaAction'),
         tone: 'muhurtha',
       },
     ];

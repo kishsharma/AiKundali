@@ -2,6 +2,7 @@ using System.Security.Claims;
 using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.API.Services.CurrentLifeFocus;
+using KundaliEngine.API.Services.Gochar;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,16 +15,25 @@ public class GocharController : ControllerBase
 {
     private readonly ICurrentLifeFocusService _currentLifeFocusService;
     private readonly IFocusedLifeAreaAnalysisService _focusedLifeAreaAnalysisService;
+    private readonly IRetrogradeTransitService _retrogradeTransitService;
     private readonly ILogger<GocharController> _logger;
 
     public GocharController(
         ICurrentLifeFocusService currentLifeFocusService,
         IFocusedLifeAreaAnalysisService focusedLifeAreaAnalysisService,
+        IRetrogradeTransitService retrogradeTransitService,
         ILogger<GocharController> logger)
     {
         _currentLifeFocusService = currentLifeFocusService;
         _focusedLifeAreaAnalysisService = focusedLifeAreaAnalysisService;
+        _retrogradeTransitService = retrogradeTransitService;
         _logger = logger;
+    }
+
+    [HttpGet("retrogrades/current")]
+    public ActionResult<CurrentRetrogradesResponse> CurrentRetrogrades([FromQuery] bool includeNodes = false)
+    {
+        return Ok(_retrogradeTransitService.GetCurrentRetrogrades(includeNodes));
     }
 
     [HttpPost("current-life-focus")]

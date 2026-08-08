@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Component, HostListener, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AstrologyIconComponent } from '../shared/components/astrology-icon.component';
 import { KundaliService } from '../modules/kundali/kundali.service';
 import { AuthService } from '../core/auth/auth.service';
@@ -10,6 +10,7 @@ import { CompatibilityApiService, SavedCompatibilityListItem } from '../core/ser
 import { ThemeService } from '../core/services/theme.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { APP_VERSION } from '../config/app-version';
 
 export interface NavItem {
   label: string;
@@ -22,11 +23,11 @@ export interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, AstrologyIconComponent],
+  imports: [CommonModule, RouterModule, AstrologyIconComponent, TranslocoPipe],
   template: `
     <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact && !mobileView">
       <div class="sidebar-header">
-        <button class="collapse-btn" type="button" (click)="toggleCompact()" [attr.aria-label]="compact ? 'Expand menu bar' : 'Collapse menu bar'" [title]="compact ? 'Expand menu bar' : 'Collapse menu bar'">
+        <button class="collapse-btn" type="button" (click)="toggleCompact()" [attr.aria-label]="compact ? ('sidebar.expandMenu' | transloco) : ('sidebar.collapseMenu' | transloco)" [title]="compact ? ('sidebar.expandMenu' | transloco) : ('sidebar.collapseMenu' | transloco)">
           <svg *ngIf="!compact" class="collapse-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M11 17l-5-5 5-5"></path>
             <path d="M18 17l-5-5 5-5"></path>
@@ -37,7 +38,7 @@ export interface NavItem {
           </svg>
         </button>
 
-        <button class="close-btn" (click)="onClose.emit()" *ngIf="mobileView">
+        <button class="close-btn" (click)="onClose.emit()" *ngIf="mobileView" [attr.aria-label]="'common.close' | transloco" [title]="'common.close' | transloco">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -48,7 +49,7 @@ export interface NavItem {
       <nav class="sidebar-nav">
         <div class="nav-section">
           
-          <h3 class="nav-section-title">Main</h3>
+          <h3 class="nav-section-title">{{ 'sidebar.main' | transloco }}</h3>
           <ul class="nav-list">
             <li class="nav-item">
               <a routerLink="/app/dashboard" routerLinkActive="active" data-dhruva-tour="dashboard" data-tour-id="portal-dashboard" (click)="onClose.emit()">
@@ -60,19 +61,19 @@ export interface NavItem {
                     <rect x="3" y="15" width="7" height="6" rx="1.5"></rect>
                   </svg>
                 </span>
-                <span class="nav-label">Dashboard</span>
+                <span class="nav-label">{{ 'sidebar.dashboard' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item nav-parent">
               <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-dhruva-tour="create-kundali" data-tour-id="portal-create-kundali">
                 <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">Kundali</span>
+                <span class="nav-label">{{ 'sidebar.kundali' | transloco }}</span>
               </a>
               <ul class="nav-sublist" *ngIf="!compact || mobileView">
                 <li>
                   <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
                     <span class="nav-dot"></span>
-                    <span class="nav-label">Create New</span>
+                    <span class="nav-label">{{ 'sidebar.createNew' | transloco }}</span>
                   </a>
                 </li>
                 <li class="saved-group">
@@ -82,7 +83,7 @@ export interface NavItem {
                     (click)="toggleSavedKundalis($event)"
                     [attr.aria-expanded]="savedKundalisOpen"
                     aria-controls="saved-kundali-list" data-dhruva-tour="saved-kundalis" data-tour-id="portal-saved-kundalis">
-                    <span>Saved Kundali</span>
+                    <span>{{ 'sidebar.savedKundali' | transloco }}</span>
                     <span class="saved-count">{{ savedKundalis.length }}</span>
                     <svg class="saved-chevron" [class.open]="savedKundalisOpen" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="m6 9 6 6 6-6"></path>
@@ -92,20 +93,20 @@ export interface NavItem {
                     <div class="saved-row" *ngFor="let item of savedKundalis" [class.deleting]="deletingKundaliIds.has(item.id)" [attr.aria-busy]="deletingKundaliIds.has(item.id)">
                       <a [routerLink]="['/app/kundali/saved', item.id]" routerLinkActive="active" (click)="onClose.emit()" [title]="item.displayName">
                         <span class="nav-dot saved"></span>
-                        <span class="nav-label">{{ deletingKundaliIds.has(item.id) ? 'Deleting...' : item.displayName }}</span>
+                        <span class="nav-label">{{ deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : item.displayName }}</span>
                       </a>
                       <button
                         type="button"
                         class="saved-delete-btn"
                         (click)="deleteSavedKundali(item, $event)"
                         [disabled]="deletingKundaliIds.has(item.id)"
-                        [attr.aria-label]="'Delete saved Kundali ' + item.displayName"
-                        [title]="deletingKundaliIds.has(item.id) ? 'Deleting...' : 'Delete saved Kundali'">
-                        {{ deletingKundaliIds.has(item.id) ? 'Deleting...' : 'X' }}
+                        [attr.aria-label]="'sidebar.deleteSavedKundaliNamed' | transloco: { name: item.displayName }"
+                        [title]="deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : ('sidebar.deleteSavedKundali' | transloco)">
+                        {{ deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : 'X' }}
                       </button>
                     </div>
                     <span class="saved-status" *ngIf="deleteStatusMessage">{{ deleteStatusMessage }}</span>
-                    <span class="saved-empty" *ngIf="!savedKundalis.length">No saved kundali</span>
+                    <span class="saved-empty" *ngIf="!savedKundalis.length">{{ 'sidebar.noSavedKundali' | transloco }}</span>
                   </div>
                 </li>
               </ul>
@@ -119,19 +120,19 @@ export interface NavItem {
                     <path d="M9.5 21v-6h5v6"></path>
                   </svg>
                 </span>
-                <span class="nav-label">Website Home</span>
+                <span class="nav-label">{{ 'sidebar.websiteHome' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item nav-parent">
               <a routerLink="/app/compatibility" routerLinkActive="active" data-dhruva-tour="compatibility" data-tour-id="portal-compatibility" [routerLinkActiveOptions]="{ exact: true }">
                 <app-astrology-icon name="compatibility" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">Compatibility</span>
+                <span class="nav-label">{{ 'sidebar.compatibility' | transloco }}</span>
               </a>
               <ul class="nav-sublist" *ngIf="!compact || mobileView">
                 <li>
                   <a routerLink="/app/compatibility" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
                     <span class="nav-dot"></span>
-                    <span class="nav-label">Create New</span>
+                    <span class="nav-label">{{ 'sidebar.createNew' | transloco }}</span>
                   </a>
                 </li>
                 <li class="saved-group">
@@ -141,7 +142,7 @@ export interface NavItem {
                     (click)="toggleSavedMatches($event)"
                     [attr.aria-expanded]="savedMatchesOpen"
                     aria-controls="saved-match-list">
-                    <span>Saved Matches</span>
+                    <span>{{ 'sidebar.savedMatches' | transloco }}</span>
                     <span class="saved-count">{{ savedMatches.length }}</span>
                     <svg class="saved-chevron" [class.open]="savedMatchesOpen" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="m6 9 6 6 6-6"></path>
@@ -151,20 +152,20 @@ export interface NavItem {
                     <div class="saved-row" *ngFor="let item of savedMatches" [class.deleting]="deletingCompatibilityIds.has(item.id)" [attr.aria-busy]="deletingCompatibilityIds.has(item.id)">
                       <a [routerLink]="['/app/compatibility/saved', item.id]" routerLinkActive="active" (click)="onClose.emit()" [title]="item.displayName || (item.personAName + ' & ' + item.personBName)">
                         <span class="nav-dot saved match"></span>
-                        <span class="nav-label">{{ deletingCompatibilityIds.has(item.id) ? 'Deleting...' : (item.displayName || (item.personAName + ' & ' + item.personBName)) }}</span>
+                        <span class="nav-label">{{ deletingCompatibilityIds.has(item.id) ? ('sidebar.deleting' | transloco) : (item.displayName || (item.personAName + ' & ' + item.personBName)) }}</span>
                       </a>
                       <button
                         type="button"
                         class="saved-delete-btn"
                         (click)="deleteSavedCompatibility(item, $event)"
                         [disabled]="deletingCompatibilityIds.has(item.id)"
-                        [attr.aria-label]="'Delete saved match ' + (item.displayName || item.personAName + ' and ' + item.personBName)"
-                        [title]="deletingCompatibilityIds.has(item.id) ? 'Deleting...' : 'Delete saved match'">
-                        {{ deletingCompatibilityIds.has(item.id) ? 'Deleting...' : 'X' }}
+                        [attr.aria-label]="'sidebar.deleteSavedMatchNamed' | transloco: { name: (item.displayName || item.personAName + ' and ' + item.personBName) }"
+                        [title]="deletingCompatibilityIds.has(item.id) ? ('sidebar.deleting' | transloco) : ('sidebar.deleteSavedMatch' | transloco)">
+                        {{ deletingCompatibilityIds.has(item.id) ? ('sidebar.deleting' | transloco) : 'X' }}
                       </button>
                     </div>
                     <span class="saved-status" *ngIf="compatibilityDeleteStatusMessage">{{ compatibilityDeleteStatusMessage }}</span>
-                    <span class="saved-empty" *ngIf="!savedMatches.length">No saved matches</span>
+                    <span class="saved-empty" *ngIf="!savedMatches.length">{{ 'sidebar.noSavedMatches' | transloco }}</span>
                   </div>
                 </li>
               </ul>
@@ -173,12 +174,12 @@ export interface NavItem {
         </div>
 
         <div class="nav-section">
-          <h3 class="nav-section-title">Astrology</h3>
+          <h3 class="nav-section-title">{{ 'sidebar.astrology' | transloco }}</h3>
           <ul class="nav-list">
             <li class="nav-item">
               <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
                 <app-astrology-icon name="panchang" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">Panchang</span>
+                <span class="nav-label">{{ 'sidebar.panchang' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item">
@@ -193,7 +194,7 @@ export interface NavItem {
                     <path d="M20.2 12h2"></path>
                   </svg>
                 </span>
-                <span class="nav-label">Muhurtha</span>
+                <span class="nav-label">{{ 'sidebar.muhurtha' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item">
@@ -206,20 +207,20 @@ export interface NavItem {
                     <path d="M8 10h6"></path>
                   </svg>
                 </span>
-                <span class="nav-label">Jyotish Study</span>
+                <span class="nav-label">{{ 'sidebar.jyotishStudy' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item">
               <a routerLink="/app/dasha" routerLinkActive="active" (click)="onClose.emit()">
                 <app-astrology-icon name="dasha" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">Dasha</span>
+                <span class="nav-label">{{ 'sidebar.dasha' | transloco }}</span>
               </a>
             </li>
           </ul>
         </div>
 
         <div class="nav-section">
-          <h3 class="nav-section-title">Settings</h3>
+          <h3 class="nav-section-title">{{ 'sidebar.settings' | transloco }}</h3>
           <ul class="nav-list">
             <li class="nav-item">
               <a routerLink="/app/white-label-settings" routerLinkActive="active" (click)="onClose.emit()">
@@ -231,7 +232,7 @@ export interface NavItem {
                     <path d="M15 13.2l1.8 1.8L15 16.8"></path>
                   </svg>
                 </span>
-                <span class="nav-label">White-label</span>
+                <span class="nav-label">{{ 'sidebar.whiteLabel' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item">
@@ -243,7 +244,7 @@ export interface NavItem {
                     <path d="M17 11l2 2 4-4"></path>
                   </svg>
                 </span>
-                <span class="nav-label">User Login</span>
+                <span class="nav-label">{{ 'sidebar.userLogin' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item">
@@ -258,13 +259,89 @@ export interface NavItem {
                     <path d="M4 18h.01"></path>
                   </svg>
                 </span>
-                <span class="nav-label">Audit Logs</span>
+                <span class="nav-label">{{ 'sidebar.auditLogs' | transloco }}</span>
               </a>
+            </li>
+            <li class="nav-item about-popover-host">
+              <button
+                type="button"
+                class="nav-popover-trigger"
+                [class.active]="aboutPopoverOpen"
+                (click)="toggleAboutPopover($event)"
+                [attr.aria-expanded]="aboutPopoverOpen"
+                aria-controls="about-version-popover"
+              >
+                <app-astrology-icon name="info" class="nav-icon icon-md"></app-astrology-icon>
+                <span class="nav-label">{{ 'sidebar.about' | transloco }}</span>
+              </button>
+              <div
+                id="about-version-popover"
+                class="about-popover"
+                *ngIf="aboutPopoverOpen"
+                role="dialog"
+                [attr.aria-label]="'sidebar.aboutHoraLife' | transloco"
+                (click)="$event.stopPropagation()"
+              >
+                <div class="about-popover-header">
+                  <strong>{{ appVersion.productName }}</strong>
+                </div>
+          <p class="about-popover-section-title">{{ 'sidebar.aboutSection' | transloco }}</p>
+          <dl class="about-popover-details">
+            <div>
+              <dt>{{ 'sidebar.version' | transloco }}</dt>
+              <dd>{{ appVersion.version }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.release' | transloco }}</dt>
+              <dd>{{ appVersion.releaseName }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.status' | transloco }}</dt>
+              <dd>{{ appVersion.status }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.started' | transloco }}</dt>
+              <dd>{{ appVersion.formalVersioningStart }}</dd>
+            </div>
+          </dl>
+
+          <p class="about-popover-section-title about-popover-section-title--separated">{{ 'sidebar.systemDetails' | transloco }}</p>
+          <dl class="about-popover-details about-popover-details--system">
+            <div>
+              <dt>{{ 'sidebar.system' | transloco }}</dt>
+              <dd>Classical Parāśari Jyotiṣa</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.zodiac' | transloco }}</dt>
+              <dd>Sidereal</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.ayanamsha' | transloco }}</dt>
+              <dd>Lahiri / Chitrapaksha</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.houses' | transloco }}</dt>
+              <dd>Whole Sign</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.dashaSystem' | transloco }}</dt>
+              <dd>Vimshottari</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.references' | transloco }}</dt>
+              <dd>BPHS, Phaladeepika</dd>
+            </div>
+            <div>
+              <dt>{{ 'sidebar.calculations' | transloco }}</dt>
+              <dd>Swiss Ephemeris</dd>
+            </div>
+          </dl>
+              </div>
             </li>
             <li class="nav-item">
               <a href="#help">
                 <app-astrology-icon name="info" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">Help & Support</span>
+                <span class="nav-label">{{ 'sidebar.helpSupport' | transloco }}</span>
               </a>
             </li>
           </ul>
@@ -292,7 +369,7 @@ export interface NavItem {
           <div class="mobile-account-panel-body" [class.open]="mobileAccountMenuOpen">
             <div class="mobile-preferences">
               <div class="mobile-preference-group">
-                <span class="mobile-preference-title">Language</span>
+                <span class="mobile-preference-title">{{ 'sidebar.language' | transloco }}</span>
                 <div class="mobile-option-list mobile-option-list--language">
                   <button
                     type="button"
@@ -304,7 +381,7 @@ export interface NavItem {
               </div>
 
               <div class="mobile-preference-group">
-                <span class="mobile-preference-title">Theme</span>
+                <span class="mobile-preference-title">{{ 'sidebar.theme' | transloco }}</span>
                 <div class="mobile-option-list mobile-option-list--theme">
                   <button
                     type="button"
@@ -328,13 +405,12 @@ export interface NavItem {
                     <path d="M20 12H9"></path>
                   </svg>
                 </span>
-                <span class="nav-label">Logout</span>
+                <span class="nav-label">{{ 'sidebar.logout' | transloco }}</span>
               </button>
             </div>
           </div>
         </div>
       </div>
-
       <div class="sidebar-footer" *ngIf="!mobileView">
         <button class="logout-btn" type="button" (click)="logout()">
           <span class="nav-icon" aria-hidden="true">
@@ -344,7 +420,7 @@ export interface NavItem {
               <path d="M20 12H9"></path>
             </svg>
           </span>
-          <span class="nav-label">Logout</span>
+          <span class="nav-label">{{ 'sidebar.logout' | transloco }}</span>
         </button>
       </div>
     </aside>
@@ -364,7 +440,7 @@ export interface NavItem {
       display: flex;
       flex-direction: column;
       z-index: 110;
-      overflow: hidden;
+      overflow: visible;
       transition: width 260ms ease, box-shadow 260ms ease, transform 260ms ease;
 
       &.compact {
@@ -468,7 +544,8 @@ export interface NavItem {
     }
 
     .nav-item {
-      a {
+      a,
+      .nav-popover-trigger {
         display: flex;
         align-items: center;
         gap: 0.75rem;
@@ -673,7 +750,8 @@ export interface NavItem {
       flex: 0 0 auto;
     }
 
-    .sidebar.compact .nav-item a {
+    .sidebar.compact .nav-item a,
+    .sidebar.compact .nav-item .nav-popover-trigger {
       justify-content: center;
       padding: 0.75rem 0;
       gap: 0;
@@ -687,6 +765,188 @@ export interface NavItem {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .nav-popover-trigger {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .about-popover-host {
+      position: relative;
+    }
+
+    .about-popover-host .nav-popover-trigger::after {
+      content: '›';
+      margin-left: auto;
+      color: var(--theme-text-muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1;
+      transition: transform 160ms ease, color 160ms ease;
+    }
+
+    .about-popover-host .nav-popover-trigger.active::after {
+      color: var(--theme-primary);
+      transform: translateX(2px);
+    }
+
+
+    .about-popover {
+      position: absolute;
+      left: calc(100% + 0.5rem);
+      top: auto;
+      bottom: 0;
+      z-index: 420;
+      width: min(258px, calc(100vw - 245px));
+      max-height: min(52vh, 300px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0.5rem 0.55rem;
+      border: 1px solid color-mix(in srgb, var(--theme-line) 80%, transparent);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--theme-surface) 96%, white);
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--theme-shadow) 12%, transparent);
+      color: var(--theme-text);
+      transform: none;
+      animation: aboutPopoverIn 160ms ease-out;
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--theme-line) 72%, var(--theme-muted)) transparent;
+    }
+
+    .about-popover::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: auto;
+      bottom: 1rem;
+      width: 8px;
+      height: 8px;
+      border-left: 1px solid color-mix(in srgb, var(--theme-line) 80%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--theme-line) 80%, transparent);
+      background: color-mix(in srgb, var(--theme-surface) 96%, white);
+      transform: rotate(45deg);
+    }
+
+    .about-popover::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .about-popover::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .about-popover::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--theme-line) 72%, var(--theme-muted));
+      border-radius: 999px;
+    }
+
+    .sidebar.compact .about-popover {
+      left: calc(100% + 0.62rem);
+      width: min(258px, calc(100vw - 105px));
+    }
+
+    .about-popover-header {
+      display: grid;
+      gap: 0.08rem;
+      margin-bottom: 0.38rem;
+      padding-bottom: 0.34rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--theme-line) 72%, transparent);
+    }
+
+    .about-popover-header strong {
+      font-size: 0.74rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .about-popover-section-title {
+      margin: 0 0 0.22rem;
+      color: var(--theme-text-muted);
+      font-size: 0.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .about-popover-section-title--separated {
+      margin-top: 0.34rem;
+      padding-top: 0.32rem;
+      border-top: 1px solid color-mix(in srgb, var(--theme-line) 72%, transparent);
+    }
+
+    .about-popover-details {
+      display: grid;
+      gap: 0.12rem;
+      margin: 0;
+    }
+
+    .about-popover-details div {
+      display: grid;
+      grid-template-columns: minmax(58px, 0.38fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 0.42rem;
+      padding: 0.1rem 0;
+    }
+
+    .about-popover-details dt {
+      color: var(--theme-text-muted);
+      font-size: 0.49rem;
+      font-weight: 750;
+      line-height: 1.18;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .about-popover-details dd {
+      margin: 0;
+      color: var(--theme-text);
+      font-size: 0.63rem;
+      font-weight: 650;
+      line-height: 1.18;
+      overflow-wrap: anywhere;
+    }
+
+    .about-popover-details--system div {
+      padding-block: 0.08rem;
+    }
+
+    .about-popover-details--system dd {
+      font-weight: 650;
+    }
+
+    @keyframes aboutPopoverIn {
+      from {
+        opacity: 0;
+        transform: translateX(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .about-popover {
+        position: absolute;
+        left: 0;
+        right: auto;
+        top: calc(100% + 0.4rem);
+        bottom: auto;
+        width: min(292px, calc(100vw - 2rem));
+        max-height: min(52vh, 300px);
+        transform: none;
+      }
+
+      .about-popover::before {
+        left: 1.1rem;
+        top: -6px;
+        transform: rotate(135deg);
+      }
     }
 
     .mobile-account-panel {
@@ -859,8 +1119,9 @@ export interface NavItem {
     .mobile-option-list--theme {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .sidebar-footer {
+      display: grid;
+      gap: 0.65rem;
       margin-top: auto;
       padding: 0.75rem 1rem;
       border-top: 1px solid #E0E0E0;
@@ -930,18 +1191,21 @@ export interface NavItem {
     .collapse-btn,
     .close-btn,
     .nav-item a,
+    .nav-popover-trigger,
     .logout-btn {
       color: var(--theme-text-muted);
     }
 
     .collapse-btn:hover,
     .close-btn:hover,
-    .nav-item a:hover {
+    .nav-item a:hover,
+    .nav-popover-trigger:hover {
       color: var(--theme-accent);
       background: color-mix(in srgb, var(--theme-accent) 10%, transparent);
     }
 
-    .nav-item a.active {
+    .nav-item a.active,
+    .nav-popover-trigger.active {
       border-left-color: var(--theme-accent);
       background: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface));
       color: var(--theme-accent);
@@ -1044,6 +1308,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Input() compact: boolean = false;
   @Output() onClose = new EventEmitter<void>();
   @Output() onToggleCompact = new EventEmitter<void>();
+  readonly appVersion = APP_VERSION;
   readonly languages = [
     { code: 'en', label: 'English' },
     { code: 'hi', label: 'हिंदी' },
@@ -1063,6 +1328,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   deletingCompatibilityIds = new Set<string>();
   deleteStatusMessage = '';
   compatibilityDeleteStatusMessage = '';
+  aboutPopoverOpen = false;
   mobileAccountMenuOpen = false;
   private savedKundaliRefreshSub?: Subscription;
 
@@ -1093,7 +1359,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   get userName(): string {
-    return this.formatDisplayName(this.currentUser?.fullName || 'User');
+    return this.formatDisplayName(this.currentUser?.fullName || this.t('sidebar.userFallback'));
   }
 
   get userEmail(): string {
@@ -1117,15 +1383,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   get themeToggleLabel(): string {
-    return this.themeService.mode() === 'dark' ? 'Dark' : 'Light';
+    return this.themeService.mode() === 'dark' ? this.t('sidebar.dark') : this.t('sidebar.light');
   }
 
   get themeAvailableModes(): string {
-    return 'Dark / Light';
+    return this.t('sidebar.darkLight');
   }
 
   get themeToggleTitle(): string {
-    return this.themeService.mode() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    return this.themeService.mode() === 'dark' ? this.t('sidebar.switchToLight') : this.t('sidebar.switchToDark');
+  }
+
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.translocoService.translate(key, params);
   }
 
   toggleTheme(): void {
@@ -1136,13 +1406,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.mobileAccountMenuOpen = !this.mobileAccountMenuOpen;
   }
 
+  toggleAboutPopover(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.aboutPopoverOpen = !this.aboutPopoverOpen;
+  }
+
+  closeAboutPopover(): void {
+    this.aboutPopoverOpen = false;
+  }
+
   private formatDisplayName(name: string): string {
     return name
       .trim()
       .split(/\s+/)
       .filter(Boolean)
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-      .join(' ') || 'User';
+      .join(' ') || this.t('sidebar.userFallback');
+  }
+
+  @HostListener('document:click')
+  closeAboutPopoverFromDocument(): void {
+    this.closeAboutPopover();
   }
 
   @HostListener('window:kundali-saved')
@@ -1177,11 +1462,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     const label = item?.displayName || item?.fullName || 'this Kundali';
-    if (!window.confirm(`Delete saved Kundali "${label}"?`)) {
+    if (!window.confirm(this.t('sidebar.confirmDeleteKundali', { name: label }))) {
       return;
     }
 
-    this.deleteStatusMessage = 'Deleting...';
+    this.deleteStatusMessage = this.t('sidebar.deleting');
     this.deletingKundaliIds.add(id);
     this.kundaliService.deleteSavedKundali(id).pipe(
       finalize(() => this.deletingKundaliIds.delete(id))
@@ -1231,11 +1516,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     const label = item.displayName || `${item.personAName} & ${item.personBName}`;
-    if (!window.confirm(`Delete saved match "${label}"?`)) {
+    if (!window.confirm(this.t('sidebar.confirmDeleteMatch', { name: label }))) {
       return;
     }
 
-    this.compatibilityDeleteStatusMessage = 'Deleting...';
+    this.compatibilityDeleteStatusMessage = this.t('sidebar.deleting');
     this.deletingCompatibilityIds.add(id);
     this.compatibilityApi.deleteCompatibilityAnalysis(id).pipe(
       finalize(() => this.deletingCompatibilityIds.delete(id))
@@ -1286,25 +1571,3 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

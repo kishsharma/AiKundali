@@ -27,12 +27,8 @@ namespace KundaliEngine.API.Controllers
         private readonly IEphemerisProvider _ephemerisProvider;
         private readonly PredictionService _predictionService = new();
 
-        public DashaController(
-            DashaService dashaService,
-            ChartService chartService,
-            PlanetStrengthService planetStrengthService,
-            PanchangService panchangService,
-            IEphemerisProvider ephemerisProvider)
+        public DashaController(DashaService dashaService, ChartService chartService, PlanetStrengthService planetStrengthService,
+            PanchangService panchangService,IEphemerisProvider ephemerisProvider)
         {
             _dashaService = dashaService;
             _chartService = chartService;

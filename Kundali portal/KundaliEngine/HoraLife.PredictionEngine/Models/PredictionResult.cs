@@ -18,4 +18,6 @@ public sealed record PredictionResult
 
     public IReadOnlyList<PredictionClaim> Claims { get; init; }
         = Array.Empty<PredictionClaim>();
+
+    public PredictionSynthesis? Synthesis { get; init; }
 }

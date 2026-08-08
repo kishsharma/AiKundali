@@ -1,0 +1,11 @@
+{
+  "tradition": "ParashariJyotisha",
+  "zodiac": "Sidereal",
+  "ayanamsa": "Lahiri",
+  "houseSystem": "WholeSign",
+  "dashaSystem": "Vimshottari",
+  "primarySources": [
+    "Brihat Parashara Hora Shastra",
+    "Phaladeepika"
+  ]
+}

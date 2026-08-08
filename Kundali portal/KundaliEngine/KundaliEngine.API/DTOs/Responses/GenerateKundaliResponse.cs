@@ -1,3 +1,5 @@
+using KundaliEngine.API.Prediction.DTOs;
+
 namespace KundaliEngine.API.DTOs.Responses
 {
     public class GenerateKundaliResponse
@@ -28,6 +30,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public DivisionalChartDto? D9Chart { get; set; }
         public SudarshanChakraDto? SudarshanChakra { get; set; }
         public AdvancedStrengthTableDto? AdvancedStrengthTables { get; set; }
+        public List<PredictionResponseDto> Predictions { get; set; } = new();
     }
 }
 

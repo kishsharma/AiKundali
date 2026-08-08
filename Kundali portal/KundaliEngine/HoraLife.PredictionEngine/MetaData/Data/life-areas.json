@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0",
+  "lifeAreas": [
+    {
+      "lifeArea": "Career",
+      "primaryHouses": [ 10 ],
+      "supportingHouses": [ 2, 6, 11 ],
+      "naturalSignificators": [
+        "Sun",
+        "Saturn",
+        "Mercury"
+      ]
+    }
+  ]
+}

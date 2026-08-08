@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0",
+  "defaultSystem": "parashari_lahiri",
+
+  "systems": [
+    {
+      "key": "parashari_lahiri",
+      "status": "Active",
+
+      "name": "Parashari Jyotisha - Lahiri",
+
+      "predictionTradition": "ParashariJyotisha",
+      "zodiac": "Sidereal",
+
+      "ayanamsa": {
+        "key": "Lahiri",
+        "swissEphemerisMode": 1
+      },
+
+      "houseSystem": {
+        "key": "WholeSign",
+        "swissEphemerisCode": "W"
+      },
+
+      "dashaSystem": "Vimshottari",
+
+      "primaryReferences": [
+        "Brihat Parashara Hora Shastra",
+        "Phaladeepika"
+      ],
+
+      "notes": [
+        "This is the default HoraLife calculation and prediction methodology.",
+        "Do not mix KP cuspal sub-lord rules into this system."
+      ]
+    },
+
+    {
+      "key": "kp_krishnamurti",
+      "status": "Future",
+
+      "name": "Krishnamurti Paddhati",
+
+      "predictionTradition": "KrishnamurtiPaddhati",
+      "zodiac": "Sidereal",
+
+      "ayanamsa": {
+        "key": "Krishnamurti",
+        "swissEphemerisMode": 5
+      },
+
+      "houseSystem": {
+        "key": "Placidus",
+        "swissEphemerisCode": "P"
+      },
+
+      "dashaSystem": "Vimshottari",
+
+      "coreMethods": [
+        "CuspalSubLord",
+        "StarLord",
+        "SubLord",
+        "SubSubLord",
+        "HouseSignificators",
+        "RulingPlanets",
+        "DashaBhuktiAntara",
+        "TransitConfirmation"
+      ],
+
+      "notes": [
+        "Future independent methodology.",
+        "Must not share Parashari interpretation rules.",
+        "May reuse birth data, Swiss Ephemeris infrastructure and basic astronomical calculations."
+      ]
+    }
+  ]
+}

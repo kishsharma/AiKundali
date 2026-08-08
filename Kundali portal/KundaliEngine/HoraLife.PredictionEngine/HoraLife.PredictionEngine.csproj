@@ -8,9 +8,17 @@
 
   <ItemGroup>
     <Folder Include="Builders\" />
-    <Folder Include="Evidence\" />
+    <Folder Include="Mappers\" />
     <Folder Include="Validation\" />
     <Folder Include="Rules\" />
   </ItemGroup>
+	
+<ItemGroup>
+  <Content Include="Metadata\Data\*.json">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </Content>
+</ItemGroup>
+
 
 </Project>

@@ -1,0 +1,770 @@
+{
+  "schemaVersion": "1.0",
+  "knowledgeVersion": "1.0",
+  "tradition": "ParasharaJyotisha",
+
+  "sources": [
+    {
+      "key": "BPHS",
+      "name": "Brihat Parashara Hora Shastra"
+    },
+    {
+      "key": "PHALADEEPIKA",
+      "name": "Phaladeepika"
+    },
+    {
+      "key": "TRADITIONAL_JYOTISHA",
+      "name": "Established Parashari Jyotisha Usage"
+    }
+  ],
+
+  "classificationDefinitions": [
+    {
+      "key": "Kendra",
+      "name": "Kendra",
+      "houses": [ 1, 4, 7, 10 ],
+      "aliases": [ "Angular" ],
+      "traditionalAssociations": [ "Vishnu Sthana" ],
+      "meaning": "Angular houses forming the principal structural pillars of the horoscope.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "Kona",
+      "name": "Kona",
+      "houses": [ 5, 9 ],
+      "aliases": [ "Trine" ],
+      "traditionalAssociations": [],
+      "meaning": "The fifth and ninth houses from the ascendant, explicitly identified as trinal houses.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "DharmaTrikona",
+      "name": "Dharma Trikona",
+      "houses": [ 1, 5, 9 ],
+      "aliases": [ "Dharma Houses" ],
+      "traditionalAssociations": [ "Lakshmi Sthana" ],
+      "meaning": "The Dharma group representing self, intelligence or merit, and dharma or fortune.",
+      "sourceRefs": [ "TRADITIONAL_JYOTISHA" ]
+    },
+    {
+      "key": "ArthaTrikona",
+      "name": "Artha Trikona",
+      "houses": [ 2, 6, 10 ],
+      "aliases": [ "Artha Houses" ],
+      "traditionalAssociations": [],
+      "meaning": "The Artha group concerning resources, service or obligations, and worldly action or profession.",
+      "sourceRefs": [ "TRADITIONAL_JYOTISHA" ]
+    },
+    {
+      "key": "KamaTrikona",
+      "name": "Kama Trikona",
+      "houses": [ 3, 7, 11 ],
+      "aliases": [ "Kama Houses" ],
+      "traditionalAssociations": [],
+      "meaning": "The Kama group concerning initiative, relationships and partnerships, and fulfilment of desires.",
+      "sourceRefs": [ "TRADITIONAL_JYOTISHA" ]
+    },
+    {
+      "key": "MokshaTrikona",
+      "name": "Moksha Trikona",
+      "houses": [ 4, 8, 12 ],
+      "aliases": [ "Moksha Houses" ],
+      "traditionalAssociations": [],
+      "meaning": "The Moksha group concerning inner happiness, transformation, release and withdrawal.",
+      "sourceRefs": [ "TRADITIONAL_JYOTISHA" ]
+    },
+    {
+      "key": "Panaphara",
+      "name": "Panaphara",
+      "houses": [ 2, 5, 8, 11 ],
+      "aliases": [ "Succedent" ],
+      "traditionalAssociations": [],
+      "meaning": "Houses succeeding the Kendras.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "Apoklima",
+      "name": "Apoklima",
+      "houses": [ 3, 6, 9, 12 ],
+      "aliases": [ "Cadent" ],
+      "traditionalAssociations": [],
+      "meaning": "Houses following the Panapharas.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "Upachaya",
+      "name": "Upachaya",
+      "houses": [ 3, 6, 10, 11 ],
+      "aliases": [ "Growth Houses" ],
+      "traditionalAssociations": [],
+      "meaning": "Houses whose matters can develop through time, effort, experience and growth.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "Trika",
+      "name": "Trika",
+      "houses": [ 6, 8, 12 ],
+      "aliases": [ "Dusthana" ],
+      "traditionalAssociations": [],
+      "meaning": "Houses associated with difficulty, disruption, adjustment, loss or transformation.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "Chaturasra",
+      "name": "Chaturasra",
+      "houses": [ 4, 8 ],
+      "aliases": [],
+      "traditionalAssociations": [],
+      "meaning": "The fourth and eighth houses forming the Chaturasra grouping.",
+      "sourceRefs": [ "BPHS" ]
+    },
+    {
+      "key": "Maraka",
+      "name": "Maraka",
+      "houses": [ 2, 7 ],
+      "aliases": [ "Maraka Sthana" ],
+      "traditionalAssociations": [],
+      "meaning": "The second and seventh houses traditionally considered Maraka positions in longevity analysis.",
+      "sourceRefs": [ "TRADITIONAL_JYOTISHA" ]
+    }
+  ],
+
+  "purusharthaDefinitions": [
+    {
+      "key": "Dharma",
+      "houses": [ 1, 5, 9 ],
+      "meaning": "Purpose, principles, right action, learning and dharmic development."
+    },
+    {
+      "key": "Artha",
+      "houses": [ 2, 6, 10 ],
+      "meaning": "Resources, material support, work, responsibility and worldly accomplishment."
+    },
+    {
+      "key": "Kama",
+      "houses": [ 3, 7, 11 ],
+      "meaning": "Desire, interaction, relationships, initiative and fulfilment."
+    },
+    {
+      "key": "Moksha",
+      "houses": [ 4, 8, 12 ],
+      "meaning": "Inner life, transformation, withdrawal, release and liberation."
+    }
+  ],
+
+  "houses": [
+    {
+      "houseNumber": 1,
+      "key": "house_01",
+      "canonicalName": "Tanu Bhava",
+      "aliases": [ "Lagna Bhava" ],
+      "englishName": "Self & Body",
+      "purushartha": "Dharma",
+      "classifications": [ "Kendra", "DharmaTrikona" ],
+      "coreSignifications": [
+        {
+          "key": "self.identity",
+          "label": "Self and Identity"
+        },
+        {
+          "key": "body.physical",
+          "label": "Physical Body"
+        },
+        {
+          "key": "health.constitution",
+          "label": "Constitution"
+        },
+        {
+          "key": "life.vitality",
+          "label": "Vitality"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "appearance",
+          "label": "Appearance"
+        },
+        {
+          "key": "temperament",
+          "label": "Temperament"
+        },
+        {
+          "key": "life.general_direction",
+          "label": "General Life Direction"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 2,
+      "key": "house_02",
+      "canonicalName": "Dhana Bhava",
+      "aliases": [],
+      "englishName": "Wealth & Family",
+      "purushartha": "Artha",
+      "classifications": [ "Panaphara", "ArthaTrikona", "Maraka" ],
+      "coreSignifications": [
+        {
+          "key": "wealth.accumulated",
+          "label": "Accumulated Wealth"
+        },
+        {
+          "key": "family",
+          "label": "Family"
+        },
+        {
+          "key": "speech",
+          "label": "Speech"
+        },
+        {
+          "key": "sustenance.food",
+          "label": "Food and Sustenance"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "resources.stored",
+          "label": "Stored Resources"
+        },
+        {
+          "key": "possessions",
+          "label": "Possessions"
+        },
+        {
+          "key": "values.personal",
+          "label": "Personal Values"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 3,
+      "key": "house_03",
+      "canonicalName": "Sahaja Bhava",
+      "aliases": [ "Bhratri Bhava" ],
+      "englishName": "Siblings & Self-Effort",
+      "purushartha": "Kama",
+      "classifications": [ "Apoklima", "Upachaya", "KamaTrikona" ],
+      "coreSignifications": [
+        {
+          "key": "siblings.younger",
+          "label": "Younger Siblings"
+        },
+        {
+          "key": "effort.self",
+          "label": "Self-Effort"
+        },
+        {
+          "key": "courage",
+          "label": "Courage"
+        },
+        {
+          "key": "communication",
+          "label": "Communication"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "skills.practical",
+          "label": "Practical Skills"
+        },
+        {
+          "key": "writing",
+          "label": "Writing"
+        },
+        {
+          "key": "journey.short",
+          "label": "Short Journeys"
+        },
+        {
+          "key": "initiative",
+          "label": "Initiative"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 4,
+      "key": "house_04",
+      "canonicalName": "Bandhu Bhava",
+      "aliases": [ "Sukha Bhava" ],
+      "englishName": "Home & Inner Happiness",
+      "purushartha": "Moksha",
+      "classifications": [ "Kendra", "Chaturasra", "MokshaTrikona" ],
+      "coreSignifications": [
+        {
+          "key": "mother",
+          "label": "Mother"
+        },
+        {
+          "key": "home",
+          "label": "Home"
+        },
+        {
+          "key": "property.land",
+          "label": "Land and Property"
+        },
+        {
+          "key": "happiness.inner",
+          "label": "Inner Happiness"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "vehicles",
+          "label": "Vehicles"
+        },
+        {
+          "key": "domestic.life",
+          "label": "Domestic Life"
+        },
+        {
+          "key": "peace.mental",
+          "label": "Mental Peace"
+        },
+        {
+          "key": "education.foundational",
+          "label": "Foundational Education"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 5,
+      "key": "house_05",
+      "canonicalName": "Putra Bhava",
+      "aliases": [],
+      "englishName": "Children & Intelligence",
+      "purushartha": "Dharma",
+      "classifications": [ "Kona", "DharmaTrikona", "Panaphara" ],
+      "coreSignifications": [
+        {
+          "key": "children",
+          "label": "Children"
+        },
+        {
+          "key": "intelligence",
+          "label": "Intelligence"
+        },
+        {
+          "key": "learning.capacity",
+          "label": "Learning Capacity"
+        },
+        {
+          "key": "creativity",
+          "label": "Creativity"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "mantra",
+          "label": "Mantra"
+        },
+        {
+          "key": "romance",
+          "label": "Romance"
+        },
+        {
+          "key": "authorship",
+          "label": "Authorship"
+        },
+        {
+          "key": "speculation",
+          "label": "Speculation"
+        },
+        {
+          "key": "merit.previous",
+          "label": "Previous Merit"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 6,
+      "key": "house_06",
+      "canonicalName": "Ari Bhava",
+      "aliases": [ "Ripu Bhava" ],
+      "englishName": "Enemies, Debt & Service",
+      "purushartha": "Artha",
+      "classifications": [
+        "Apoklima",
+        "Upachaya",
+        "Trika",
+        "ArthaTrikona"
+      ],
+      "coreSignifications": [
+        {
+          "key": "enemies",
+          "label": "Enemies"
+        },
+        {
+          "key": "debt",
+          "label": "Debt"
+        },
+        {
+          "key": "disease",
+          "label": "Disease"
+        },
+        {
+          "key": "competition",
+          "label": "Competition"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "service",
+          "label": "Service"
+        },
+        {
+          "key": "work.daily",
+          "label": "Daily Work"
+        },
+        {
+          "key": "disputes",
+          "label": "Disputes"
+        },
+        {
+          "key": "litigation",
+          "label": "Litigation"
+        },
+        {
+          "key": "obligations",
+          "label": "Obligations"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 7,
+      "key": "house_07",
+      "canonicalName": "Yuvati Bhava",
+      "aliases": [ "Kalatra Bhava", "Dara Bhava" ],
+      "englishName": "Spouse & Partnership",
+      "purushartha": "Kama",
+      "classifications": [ "Kendra", "KamaTrikona", "Maraka" ],
+      "coreSignifications": [
+        {
+          "key": "spouse",
+          "label": "Spouse"
+        },
+        {
+          "key": "marriage",
+          "label": "Marriage"
+        },
+        {
+          "key": "partnership",
+          "label": "Partnership"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "partnership.business",
+          "label": "Business Partnership"
+        },
+        {
+          "key": "agreements",
+          "label": "Agreements"
+        },
+        {
+          "key": "trade",
+          "label": "Trade"
+        },
+        {
+          "key": "interaction.public",
+          "label": "Public Interaction"
+        },
+        {
+          "key": "sexual.union",
+          "label": "Sexual Union"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 8,
+      "key": "house_08",
+      "canonicalName": "Randhra Bhava",
+      "aliases": [ "Ayush Bhava", "Nidhana Bhava" ],
+      "englishName": "Longevity & Hidden Matters",
+      "purushartha": "Moksha",
+      "classifications": [
+        "Panaphara",
+        "Trika",
+        "Chaturasra",
+        "MokshaTrikona"
+      ],
+      "coreSignifications": [
+        {
+          "key": "longevity",
+          "label": "Longevity"
+        },
+        {
+          "key": "events.sudden",
+          "label": "Sudden Events"
+        },
+        {
+          "key": "matters.hidden",
+          "label": "Hidden Matters"
+        },
+        {
+          "key": "inheritance",
+          "label": "Inheritance"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "research.deep",
+          "label": "Deep Research"
+        },
+        {
+          "key": "knowledge.occult",
+          "label": "Occult Knowledge"
+        },
+        {
+          "key": "crisis",
+          "label": "Crisis"
+        },
+        {
+          "key": "transformation",
+          "label": "Transformation"
+        },
+        {
+          "key": "resources.shared",
+          "label": "Shared Resources"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 9,
+      "key": "house_09",
+      "canonicalName": "Dharma Bhava",
+      "aliases": [ "Bhagya Bhava" ],
+      "englishName": "Dharma & Fortune",
+      "purushartha": "Dharma",
+      "classifications": [
+        "Kona",
+        "DharmaTrikona",
+        "Apoklima"
+      ],
+      "coreSignifications": [
+        {
+          "key": "dharma",
+          "label": "Dharma"
+        },
+        {
+          "key": "fortune",
+          "label": "Fortune"
+        },
+        {
+          "key": "guru",
+          "label": "Guru"
+        },
+        {
+          "key": "knowledge.higher",
+          "label": "Higher Knowledge"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "father",
+          "label": "Father"
+        },
+        {
+          "key": "philosophy",
+          "label": "Philosophy"
+        },
+        {
+          "key": "religion",
+          "label": "Religion"
+        },
+        {
+          "key": "pilgrimage",
+          "label": "Pilgrimage"
+        },
+        {
+          "key": "journey.long",
+          "label": "Long Journeys"
+        },
+        {
+          "key": "education.higher",
+          "label": "Higher Education"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 10,
+      "key": "house_10",
+      "canonicalName": "Karma Bhava",
+      "aliases": [],
+      "englishName": "Profession & Public Action",
+      "purushartha": "Artha",
+      "classifications": [
+        "Kendra",
+        "Upachaya",
+        "ArthaTrikona"
+      ],
+      "coreSignifications": [
+        {
+          "key": "career.profession",
+          "label": "Profession"
+        },
+        {
+          "key": "action.karma",
+          "label": "Action and Duty"
+        },
+        {
+          "key": "status.public",
+          "label": "Public Status"
+        },
+        {
+          "key": "responsibility",
+          "label": "Responsibility"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "authority",
+          "label": "Authority"
+        },
+        {
+          "key": "reputation",
+          "label": "Reputation"
+        },
+        {
+          "key": "achievement",
+          "label": "Achievement"
+        },
+        {
+          "key": "role.public",
+          "label": "Public Role"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 11,
+      "key": "house_11",
+      "canonicalName": "Labha Bhava",
+      "aliases": [ "Aya Bhava" ],
+      "englishName": "Gains & Fulfilment",
+      "purushartha": "Kama",
+      "classifications": [
+        "Panaphara",
+        "Upachaya",
+        "KamaTrikona"
+      ],
+      "coreSignifications": [
+        {
+          "key": "gains",
+          "label": "Gains"
+        },
+        {
+          "key": "income",
+          "label": "Income"
+        },
+        {
+          "key": "profit",
+          "label": "Profit"
+        },
+        {
+          "key": "desires.fulfilment",
+          "label": "Fulfilment of Desires"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "siblings.elder",
+          "label": "Elder Siblings"
+        },
+        {
+          "key": "friends",
+          "label": "Friends"
+        },
+        {
+          "key": "networks",
+          "label": "Networks"
+        },
+        {
+          "key": "circles.social",
+          "label": "Social Circles"
+        },
+        {
+          "key": "ambitions",
+          "label": "Ambitions"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    },
+
+    {
+      "houseNumber": 12,
+      "key": "house_12",
+      "canonicalName": "Vyaya Bhava",
+      "aliases": [],
+      "englishName": "Expenditure & Seclusion",
+      "purushartha": "Moksha",
+      "classifications": [
+        "Apoklima",
+        "Trika",
+        "MokshaTrikona"
+      ],
+      "coreSignifications": [
+        {
+          "key": "expenditure",
+          "label": "Expenditure"
+        },
+        {
+          "key": "loss",
+          "label": "Loss"
+        },
+        {
+          "key": "seclusion",
+          "label": "Seclusion"
+        },
+        {
+          "key": "renunciation",
+          "label": "Renunciation"
+        }
+      ],
+      "extendedSignifications": [
+        {
+          "key": "foreign.residence",
+          "label": "Foreign Residence"
+        },
+        {
+          "key": "sleep",
+          "label": "Sleep"
+        },
+        {
+          "key": "bed.pleasures",
+          "label": "Bed Pleasures"
+        },
+        {
+          "key": "confinement",
+          "label": "Confinement"
+        },
+        {
+          "key": "spiritual.withdrawal",
+          "label": "Spiritual Withdrawal"
+        },
+        {
+          "key": "liberation",
+          "label": "Liberation"
+        }
+      ],
+      "sourceRefs": [ "BPHS", "PHALADEEPIKA" ]
+    }
+  ]
+}

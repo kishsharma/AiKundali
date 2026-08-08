@@ -8,6 +8,8 @@
 > Product owner: **Kishore Sharma**  
 > Status owner: HoraLife development team
 
+For release and product-version progression, see `HORALIFE_VERSIONING.md`.
+
 ---
 
 ## 1. Purpose
@@ -65,6 +67,8 @@ Backend-only completion must always be labelled explicitly.
 ---
 
 ## 3. Current product snapshot
+
+**Current product version:** `v0.8.0-alpha.1` — Core Platform Baseline
 
 ### Overall assessment
 
