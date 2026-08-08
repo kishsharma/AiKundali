@@ -15,11 +15,9 @@ public sealed class CareerPredictionTests
         // Arrange
         var request = CreateCareerRequest();
 
-        var context = CreateContext(
-            hasBeneficAspect,
-            hasMaleficAspect);
+        var context = CreateContext( hasBeneficAspect,hasMaleficAspect);
 
-        var service = new PredictionEngineService();
+        var service = PredictionEngineFactory.CreateDefault();
 
         // Act
         var result = service.Generate(request, context);
@@ -47,7 +45,7 @@ public sealed class CareerPredictionTests
             hasBeneficAspect: false,
             hasMaleficAspect: false);
 
-        var service = new PredictionEngineService();
+        var service = PredictionEngineFactory.CreateDefault();
 
         // Act
         var result = service.Generate(request, context);
@@ -72,7 +70,7 @@ public sealed class CareerPredictionTests
             }
         };
 
-        var service = new PredictionEngineService();
+        var service = PredictionEngineFactory.CreateDefault();
 
         // Act
         var result = service.Generate(request, context);
@@ -92,7 +90,7 @@ public sealed class CareerPredictionTests
             hasMaleficAspect: false,
             strengthLevel: "Strong");
 
-        var service = new PredictionEngineService();
+        var service = PredictionEngineFactory.CreateDefault();
 
         var result = service.Generate(request, context);
 

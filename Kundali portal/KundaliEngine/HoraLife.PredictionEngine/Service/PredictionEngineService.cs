@@ -1,6 +1,8 @@
 ﻿using HoraLife.PredictionEngine.Enums;
+using HoraLife.PredictionEngine.Metadata;
 using HoraLife.PredictionEngine.Models;
 using HoraLife.PredictionEngine.Services.Career;
+using HoraLife.PredictionEngine.Synthesis;
 
 namespace HoraLife.PredictionEngine.Services;
 
@@ -10,10 +12,19 @@ namespace HoraLife.PredictionEngine.Services;
 /// </summary>
 public sealed class PredictionEngineService
 {
-    private readonly PredictionAreaProfileProviderService _profileService = new();
+    private readonly PredictionAreaProfileProviderService _profileService;
     private readonly DashaPeriodSelectorService _dashaSelector = new();
     private readonly PredictionEvidenceSelectorService _evidenceSelector = new();
     private readonly CareerClaimGeneratorService _careerGenerator = new();
+    private readonly CareerDashaClaimGeneratorService   _careerDashaGenerator = new();
+    private readonly PredictionClaimConsolidatorService  _claimConsolidator = new();
+    private readonly PredictionSynthesisService _synthesisService;
+    internal PredictionEngineService(PredictionAreaProfileProviderService profileService, PredictionSynthesisService synthesisService)
+    {
+        _profileService = profileService;
+        _synthesisService = synthesisService;
+    }
+
 
     public PredictionResult Generate(PredictionRequest request, PredictionContext context)
     {
@@ -26,9 +37,18 @@ public sealed class PredictionEngineService
 
          var evidence = _evidenceSelector.Select(context, profile, dashaPeriods);
 
-        var claims = GenerateClaims(
-            request,
-            evidence);
+        var sourceClaims = GenerateClaims(        request,      evidence);
+        var consolidatedClaim = _claimConsolidator.Consolidate(  request, sourceClaims);
+
+        var finalClaims = consolidatedClaim is null
+        ? sourceClaims
+        :
+        [
+            .. sourceClaims,
+            consolidatedClaim
+        ];
+
+        var synthesis = _synthesisService.Build(request, evidence,finalClaims);
 
         return new PredictionResult
         {
@@ -38,21 +58,35 @@ public sealed class PredictionEngineService
             ReferenceDate = request.ReferenceDate,
             FromDate = request.FromDate,
             ToDate = request.ToDate,
-            Claims = claims
+            Claims = finalClaims,
+            Synthesis = synthesis
         };
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateClaims(
-        PredictionRequest request,
-        PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateClaims( PredictionRequest request, PredictionEvidenceSet evidence)
     {
         return request.LifeArea switch
         {
             PredictionLifeArea.Career =>
-                _careerGenerator.Generate(request, evidence),
+                GenerateCareerClaims(request, evidence),
 
             _ => throw new NotSupportedException(
                 $"Prediction area '{request.LifeArea}' is not implemented.")
         };
+    }
+
+    private IReadOnlyList<PredictionClaim> GenerateCareerClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    {
+        var natalClaims = _careerGenerator.Generate(
+            request,
+            evidence);
+
+        var dashaClaims = _careerDashaGenerator.Generate(
+            request,
+            evidence);
+
+        return natalClaims
+            .Concat(dashaClaims)
+            .ToArray();
     }
 }

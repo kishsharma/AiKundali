@@ -91,6 +91,27 @@ export interface DashboardInsight {
   tone: 'moon' | 'study' | 'muhurtha' | string;
 }
 
+export interface RetrogradePlanet {
+  planet: string;
+  currentSign: string;
+  retrogradeFromSign: string;
+  retrogradeTowardSign: string;
+  degree: number;
+  minute: number;
+  degreeInSign: number;
+  longitude: number;
+  isNode: boolean;
+  motion: string;
+  information: string;
+}
+
+export interface CurrentRetrogradesResponse {
+  calculatedAtUtc: string;
+  includeNodes: boolean;
+  note: string;
+  planets: RetrogradePlanet[];
+}
+
 export interface DashboardSummary {
   user: DashboardUser;
   todayPanchang: DashboardPanchang;
@@ -110,5 +131,11 @@ export interface DashboardSummary {
 export class DashboardApiService extends BaseApiService {
   getSummary(): Observable<DashboardSummary> {
     return this.http.get<DashboardSummary>(`${this.apiUrl}/Dashboard/summary`);
+  }
+
+  getCurrentRetrogrades(includeNodes = false): Observable<CurrentRetrogradesResponse> {
+    return this.http.get<CurrentRetrogradesResponse>(`${this.apiUrl}/gochar/retrogrades/current`, {
+      params: { includeNodes }
+    });
   }
 }

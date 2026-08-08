@@ -19,6 +19,7 @@
     <ProjectReference Include="..\KundaliEngine.Astrology\KundaliEngine.Astrology.csproj" />
     <ProjectReference Include="..\KundaliEngine.Infrastructure\KundaliEngine.Infrastructure.csproj" />
     <ProjectReference Include="..\KundaliEngine.KnowledgeBase\KundaliEngine.KnowledgeBase.csproj" />
+	  <ProjectReference Include="..\HoraLife.PredictionEngine\HoraLife.PredictionEngine.csproj" />
   </ItemGroup>
 
   <ItemGroup>

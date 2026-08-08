@@ -1,5 +1,8 @@
-﻿using HoraLife.Store.Application.DependencyInjection;
+﻿using HoraLife.PredictionEngine;
+using HoraLife.PredictionEngine.Services;
+using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
+using KundaliEngine.API.Prediction.Mappers;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.AdvancedStrength;
 using KundaliEngine.API.Services.Audit;
@@ -7,6 +10,7 @@ using KundaliEngine.API.Services.Auth;
 using KundaliEngine.API.Services.CurrentLifeFocus;
 using KundaliEngine.API.Services.Dashboard;
 using KundaliEngine.API.Services.Email;
+using KundaliEngine.API.Services.Gochar;
 using KundaliEngine.API.Services.Learning;
 using KundaliEngine.API.Services.Muhurtha;
 using KundaliEngine.API.Services.Recommendations;
@@ -37,6 +41,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -146,6 +152,7 @@ builder.Services.AddSingleton<ICurrentLifeFocusAnalysisStore, CurrentLifeFocusAn
 builder.Services.AddScoped<ICurrentLifeFocusService, CurrentLifeFocusService>();
 builder.Services.AddSingleton<IFocusedLifeAreaNarrativeBuilder, FocusedLifeAreaNarrativeBuilder>();
 builder.Services.AddScoped<IFocusedLifeAreaAnalysisService, FocusedLifeAreaAnalysisService>();
+builder.Services.AddScoped<IRetrogradeTransitService, RetrogradeTransitService>();
 builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSection("ReportShare:Smtp"));
 builder.Services.Configure<SmsOtpOptions>(builder.Configuration.GetSection("TwoFactorSms"));
 builder.Services.AddSingleton<IReportHtmlTemplateService, ReportHtmlTemplateService>();
@@ -171,6 +178,10 @@ builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddSingleton<PredictionContextMapper>();
+
+builder.Services.AddSingleton(_ => PredictionEngineFactory.CreateDefault());
+
 
 builder.Services.AddStoreApplication();
 builder.Services.AddStoreInfrastructure(builder.Configuration);

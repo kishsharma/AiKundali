@@ -1,7 +1,11 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)\artifacts\**</DefaultItemExcludes>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)\bin\**</DefaultItemExcludes>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)\obj\**</DefaultItemExcludes>
+    <Version>0.8.0-alpha.1</Version>
+    <AssemblyVersion>0.8.0.0</AssemblyVersion>
+    <FileVersion>0.8.0.0</FileVersion>
+    <InformationalVersion>0.8.0-alpha.1</InformationalVersion>
   </PropertyGroup>
 </Project>

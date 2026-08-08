@@ -1,114 +1,171 @@
 <app-page-header
-  title="Dashboard"
-  subtitle="Your daily Vedic workspace"
-  description="Continue charts, read today's Panchang, and jump into the astrology tools you use most."
+  [title]="'dashboard.title' | transloco"
+  [subtitle]="'dashboard.subtitle' | transloco"
+  [description]="'dashboard.description' | transloco"
 ></app-page-header>
 
 <div class="dashboard-shell">
   <div class="dashboard-hero-grid">
     <section class="panel daily-panel" aria-labelledby="daily-heading">
       <div class="hero-copy">
-        <span class="kicker">Today in your portal</span>
+        <span class="kicker">{{ 'dashboard.todayInPortal' | transloco }}</span>
         <h1 id="daily-heading" class="hero-title">{{ greeting }}, {{ userName }}</h1>
         <p class="hero-subtitle">
-          Start with the day's Panchang, then continue from your latest Kundali, Dasha, Muhurtha, or study flow.
+          {{ 'dashboard.heroSubtitle' | transloco }}
         </p>
 
         <div class="hero-meta">
           <span class="meta-chip">{{ displayDate }}</span>
-          <span class="meta-chip" *ngIf="latestKundali">Latest chart: {{ latestKundali.fullName }}</span>
-          <span class="meta-chip" *ngIf="!latestKundali">No saved chart yet</span>
+          <span class="meta-chip" *ngIf="latestKundali">{{ 'dashboard.latestChart' | transloco: { name: latestKundali.fullName } }}</span>
+          <span class="meta-chip" *ngIf="!latestKundali">{{ 'dashboard.noSavedChartYet' | transloco }}</span>
         </div>
       </div>
 
       <div class="panchang-strip" *ngIf="!loading.dashboard; else panchangLoading">
         <div class="panchang-item">
-          <span>Tithi</span>
-          <strong>{{ panchang?.tithi || 'Not available' }}</strong>
+          <span>{{ 'panchang.tithi' | transloco }}</span>
+          <strong>{{ panchang?.tithi || ('dashboard.notAvailable' | transloco) }}</strong>
         </div>
         <div class="panchang-item">
-          <span>Nakshatra</span>
-          <strong>{{ panchang?.nakshatra || 'Not available' }}</strong>
+          <span>{{ 'panchang.nakshatra' | transloco }}</span>
+          <strong>{{ panchang?.nakshatra || ('dashboard.notAvailable' | transloco) }}</strong>
         </div>
         <div class="panchang-item">
-          <span>Yoga</span>
-          <strong>{{ panchang?.yoga || 'Not available' }}</strong>
+          <span>{{ 'panchang.yoga' | transloco }}</span>
+          <strong>{{ panchang?.yoga || ('dashboard.notAvailable' | transloco) }}</strong>
         </div>
         <div class="panchang-item">
-          <span>Sunrise</span>
-          <strong>{{ panchang?.sunRiseTime || 'Not available' }}</strong>
+          <span>{{ 'dashboard.sunrise' | transloco }}</span>
+          <strong>{{ panchang?.sunRiseTime || ('dashboard.notAvailable' | transloco) }}</strong>
         </div>
         <div class="panchang-item">
-          <span>Sunset</span>
-          <strong>{{ panchang?.sunSetTime || 'Not available' }}</strong>
+          <span>{{ 'dashboard.sunset' | transloco }}</span>
+          <strong>{{ panchang?.sunSetTime || ('dashboard.notAvailable' | transloco) }}</strong>
         </div>
       </div>
 
       <ng-template #panchangLoading>
-        <p class="loading-line">Loading today's Panchang...</p>
+        <p class="loading-line">{{ 'dashboard.loadingPanchang' | transloco }}</p>
       </ng-template>
     </section>
 
     <section class="panel quick-panel" aria-labelledby="quick-actions-heading">
       <div class="section-heading">
-        <h2 id="quick-actions-heading">Quick Actions</h2>
-        <a class="section-link" routerLink="/app/kundali">Create chart</a>
+        <h2 id="quick-actions-heading">{{ 'dashboard.quickActions' | transloco }}</h2>
+        <a class="section-link" routerLink="/app/kundali">{{ 'dashboard.createChart' | transloco }}</a>
       </div>
 
       <div class="actions-grid">
-        <a class="action-card" *ngFor="let action of quickActions" [routerLink]="action.routerLink">
-          <span class="action-mark">{{ action.icon }}</span>
-          <span class="action-label">{{ action.label }}</span>
-          <span class="action-caption">{{ action.caption }}</span>
+        <a class="action-card" *ngFor="let action of quickActions" [routerLink]="action.routerLink" [ngClass]="action.tone">
+          <span class="action-mark" aria-hidden="true" [ngSwitch]="action.icon">
+            <svg *ngSwitchCase="'kundali'" class="action-icon kundali-chart-icon" viewBox="0 0 24 24">
+              <path d="M12 3 21 12 12 21 3 12Z"></path>
+              <path d="M12 3v18M3 12h18M7.5 7.5l9 9M16.5 7.5l-9 9"></path>
+              <path d="M12 3 7.5 7.5 3 12M12 3l4.5 4.5L21 12M3 12l4.5 4.5L12 21M21 12l-4.5 4.5L12 21"></path>
+            </svg>
+            <svg *ngSwitchCase="'match'" class="action-icon" viewBox="0 0 24 24">
+              <circle cx="8" cy="8" r="3.2"></circle>
+              <circle cx="16" cy="8" r="3.2"></circle>
+              <path d="M4.5 19c.8-3 2.4-4.5 4.8-4.5 1.3 0 2.2.4 2.7 1.2.5-.8 1.4-1.2 2.7-1.2 2.4 0 4 1.5 4.8 4.5"></path>
+            </svg>
+            <svg *ngSwitchCase="'panchang'" class="action-icon" viewBox="0 0 24 24">
+              <rect x="4" y="5" width="16" height="15" rx="2"></rect>
+              <path d="M8 3v4M16 3v4M4 10h16M8 14h2M12 14h2M16 14h2"></path>
+            </svg>
+            <svg *ngSwitchCase="'muhurtha'" class="action-icon" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="8"></circle>
+              <path d="M12 8v4l2.5 2.5M17.7 6.3l1.5-1.5M6.3 6.3 4.8 4.8"></path>
+            </svg>
+            <svg *ngSwitchCase="'dasha'" class="action-icon" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="2.4"></circle>
+              <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6.6 6.6l2.1 2.1M15.3 15.3l2.1 2.1M17.4 6.6l-2.1 2.1M8.7 15.3l-2.1 2.1"></path>
+            </svg>
+            <svg *ngSwitchCase="'study'" class="action-icon" viewBox="0 0 24 24">
+              <path d="M5 5.5c2.7-.6 5-.2 7 1.2v12c-2-1.4-4.3-1.8-7-1.2z"></path>
+              <path d="M19 5.5c-2.7-.6-5-.2-7 1.2v12c2-1.4 4.3-1.8 7-1.2z"></path>
+            </svg>
+          </span>
+          <span class="action-label">{{ action.labelKey | transloco }}</span>
+          <span class="action-caption">{{ action.captionKey | transloco }}</span>
         </a>
       </div>
     </section>
   </div>
 
-  <app-section-card title="Continue Journey" [interactive]="false">
+  <app-section-card [title]="'dashboard.currentRetrogrades' | transloco" [interactive]="false">
+    <div class="retrograde-panel" [attr.aria-busy]="loading.retrogrades">
+      <p class="loading-line" *ngIf="loading.retrogrades">{{ 'dashboard.loadingRetrogrades' | transloco }}</p>
+      <p class="empty-copy" *ngIf="!loading.retrogrades && retrogradeError">{{ retrogradeError }}</p>
+      <ng-container *ngIf="!loading.retrogrades && !retrogradeError">
+        <div class="retrograde-table" *ngIf="retrogradePlanets.length; else noRetrogrades">
+          <div class="retrograde-row header" aria-hidden="true">
+            <span>{{ 'dashboard.retrogradePlanet' | transloco }}</span>
+            <span>{{ 'dashboard.retrogradeCurrentSign' | transloco }}</span>
+            <span>{{ 'dashboard.retrogradeTowardSign' | transloco }}</span>
+            <span>{{ 'dashboard.retrogradeDegree' | transloco }}</span>
+          </div>
+          <div class="retrograde-row" *ngFor="let planet of retrogradePlanets" [title]="planet.information">
+            <span class="retrograde-planet">
+              <span class="retrograde-mark" aria-hidden="true">R</span>
+              <span>{{ planet.planet }}</span>
+            </span>
+            <span class="retrograde-value">{{ planet.currentSign }}</span>
+            <span class="retrograde-value">{{ planet.retrogradeTowardSign }}</span>
+            <span class="retrograde-degree">{{ formatRetrogradeDegree(planet) }}</span>
+          </div>
+        </div>
+        <ng-template #noRetrogrades>
+          <p class="empty-copy">{{ 'dashboard.noCurrentRetrogrades' | transloco }}</p>
+        </ng-template>
+        <p class="retrograde-note">{{ 'dashboard.retrogradeNodesNote' | transloco }}</p>
+      </ng-container>
+    </div>
+  </app-section-card>
+
+  <app-section-card [title]="'dashboard.continueJourney' | transloco" [interactive]="false">
     <div class="journey-grid">
       <article class="journey-card">
-        <span class="mini-label">Last Kundali</span>
+        <span class="mini-label">{{ 'dashboard.lastKundali' | transloco }}</span>
         <p class="recent-name">{{ latestName }}</p>
-        <p class="recent-meta">{{ latestKundali ? formatDate(latestKundali.dateOfBirth) : 'Generate or open a saved chart to begin.' }}</p>
+        <p class="recent-meta">{{ latestKundali ? formatDate(latestKundali.dateOfBirth) : ('dashboard.generateOrOpenSavedChart' | transloco) }}</p>
         <p class="recent-meta">{{ latestBirthPlace }}</p>
         <a class="text-link" [routerLink]="latestKundaliRouterLink">
-          {{ latestKundali?.id ? 'Open saved chart' : 'Generate Kundali' }}
+          {{ latestKundali?.id ? ('dashboard.openSavedChart' | transloco) : ('kundali.generateButton' | transloco) }}
         </a>
       </article>
 
       <article class="journey-card">
-        <span class="mini-label">Current Dasha</span>
+        <span class="mini-label">{{ 'dashboard.currentDasha' | transloco }}</span>
         <ng-container *ngIf="!loading.dashboard; else dashaLoading">
-          <p class="recent-name">{{ currentDasha ? (currentDasha.mahadasha + ' / ' + currentDasha.antardasha) : 'No saved chart selected' }}</p>
-          <p class="dasha-date" *ngIf="currentDasha">{{ formatDate(currentDasha.startDate) }} to {{ formatDate(currentDasha.endDate) }}</p>
-          <p class="card-note" *ngIf="!currentDasha">Save a Kundali to calculate its current dasha period.</p>
-          <a class="text-link" routerLink="/app/dasha">View Dasha</a>
+          <p class="recent-name">{{ currentDasha ? (currentDasha.mahadasha + ' / ' + currentDasha.antardasha) : ('dashboard.noSavedChartSelected' | transloco) }}</p>
+          <p class="dasha-date" *ngIf="currentDasha">{{ 'dashboard.dateRange' | transloco: { start: formatDate(currentDasha.startDate), end: formatDate(currentDasha.endDate) } }}</p>
+          <p class="card-note" *ngIf="!currentDasha">{{ 'dashboard.saveKundaliForDasha' | transloco }}</p>
+          <a class="text-link" routerLink="/app/dasha">{{ 'dashboard.viewDasha' | transloco }}</a>
         </ng-container>
         <ng-template #dashaLoading>
-          <p class="loading-line">Loading current dasha...</p>
+          <p class="loading-line">{{ 'dashboard.loadingDasha' | transloco }}</p>
         </ng-template>
       </article>
 
       <article class="journey-card">
-        <span class="mini-label">Jyotish Study</span>
-        <p class="recent-name">{{ learningSummary?.title || 'Learning Center' }}</p>
-        <p class="card-note" *ngIf="learningSummary">{{ learningSummary.sessionCount }} sessions, {{ learningSummary.estimatedHours }} hours</p>
-        <p class="card-note" *ngIf="!learningSummary">Open structured lessons when learning levels are available.</p>
-        <span class="status-pill" [class.pending]="!learningSummary">{{ learningSummary?.status || 'Ready' }}</span>
-        <a class="text-link" routerLink="/app/learning">Continue Learning</a>
+        <span class="mini-label">{{ 'dashboard.jyotishStudy' | transloco }}</span>
+        <p class="recent-name">{{ learningSummary?.title || ('dashboard.learningCenter' | transloco) }}</p>
+        <p class="card-note" *ngIf="learningSummary">{{ 'dashboard.sessionsHours' | transloco: { sessions: learningSummary.sessionCount, hours: learningSummary.estimatedHours } }}</p>
+        <p class="card-note" *ngIf="!learningSummary">{{ 'dashboard.learningUnavailable' | transloco }}</p>
+        <span class="status-pill" [class.pending]="!learningSummary">{{ learningSummary?.status || ('dashboard.ready' | transloco) }}</span>
+        <a class="text-link" routerLink="/app/learning">{{ 'dashboard.continueLearning' | transloco }}</a>
       </article>
 
       <article class="journey-card">
-        <span class="mini-label">Recent Report</span>
-        <p class="recent-name">{{ recentReport?.reportType || 'Kundali Report' }}</p>
-        <p class="card-note">{{ recentReport ? ('Generated for ' + recentReport.kundaliName + ' on ' + formatDate(recentReport.createdAt)) : 'Reports are generated from the Kundali page.' }}</p>
-        <a class="text-link" routerLink="/app/kundali">{{ recentReport ? 'Create another report' : 'Create Report' }}</a>
+        <span class="mini-label">{{ 'dashboard.recentReport' | transloco }}</span>
+        <p class="recent-name">{{ recentReport?.reportType || ('dashboard.kundaliReport' | transloco) }}</p>
+        <p class="card-note">{{ reportSummaryText() }}</p>
+        <a class="text-link" routerLink="/app/kundali">{{ recentReport ? ('dashboard.createAnotherReport' | transloco) : ('dashboard.createReport' | transloco) }}</a>
       </article>
     </div>
   </app-section-card>
 
-  <app-section-card title="Portal Today" [interactive]="false">
+  <app-section-card [title]="'dashboard.portalToday' | transloco" [interactive]="false">
     <div class="today-grid">
       <article class="insight-card" *ngFor="let card of insightCards" [ngClass]="card.tone">
         <span class="insight-eyebrow">{{ card.eyebrow }}</span>
@@ -120,53 +177,53 @@
   </app-section-card>
 
   <div class="wide-grid">
-    <app-section-card title="My Collection" [interactive]="false">
+    <app-section-card [title]="'dashboard.myCollection' | transloco" [interactive]="false">
       <div class="collection-grid">
         <a class="collection-card" routerLink="/app/kundali">
           <span class="collection-number">{{ collectionStats.savedKundalis }}</span>
-          <span class="collection-label">Saved Kundalis</span>
-          <span class="text-link">View all</span>
+          <span class="collection-label">{{ 'dashboard.savedKundalis' | transloco }}</span>
+          <span class="text-link">{{ 'dashboard.viewAll' | transloco }}</span>
         </a>
         <a class="collection-card" routerLink="/app/compatibility">
           <span class="collection-number">{{ collectionStats.savedMatches }}</span>
-          <span class="collection-label">Saved Matches</span>
-          <span class="text-link">Start match</span>
+          <span class="collection-label">{{ 'dashboard.savedMatches' | transloco }}</span>
+          <span class="text-link">{{ 'dashboard.startMatch' | transloco }}</span>
         </a>
         <a class="collection-card" routerLink="/app/panchang/muhurtha">
           <span class="collection-number">{{ collectionStats.savedMuhurthas || upcomingMuhurthas.length }}</span>
-          <span class="collection-label">Muhurtas</span>
-          <span class="text-link">Explore</span>
+          <span class="collection-label">{{ 'dashboard.muhurtas' | transloco }}</span>
+          <span class="text-link">{{ 'dashboard.explore' | transloco }}</span>
         </a>
         <a class="collection-card" routerLink="/app/kundali">
           <span class="collection-number">{{ collectionStats.reports }}</span>
-          <span class="collection-label">Reports</span>
-          <span class="text-link">Generate</span>
+          <span class="collection-label">{{ 'dashboard.reports' | transloco }}</span>
+          <span class="text-link">{{ 'dashboard.generate' | transloco }}</span>
         </a>
         <a class="collection-card" routerLink="/app/learning">
           <span class="collection-number">{{ collectionStats.studyLevels }}</span>
-          <span class="collection-label">Study Levels</span>
-          <span class="text-link">Learn</span>
+          <span class="collection-label">{{ 'dashboard.studyLevels' | transloco }}</span>
+          <span class="text-link">{{ 'dashboard.learn' | transloco }}</span>
         </a>
       </div>
     </app-section-card>
 
-    <app-section-card title="Learning Progress" [interactive]="false">
+    <app-section-card [title]="'dashboard.learningProgress' | transloco" [interactive]="false">
       <div class="progress-layout">
         <div class="progress-ring" [style.--progress]="learningProgress + '%'">
           <span class="progress-value">{{ learningProgress }}%</span>
         </div>
         <div>
-          <h3 class="recent-name">{{ learningSummary?.title || 'Jyotish Study' }}</h3>
+          <h3 class="recent-name">{{ learningSummary?.title || ('dashboard.jyotishStudy' | transloco) }}</h3>
           <p class="progress-copy" *ngIf="learningSummary">{{ learningSummary.description }}</p>
-          <p class="progress-copy" *ngIf="!learningSummary">Your learning progress will appear here once study levels are loaded.</p>
-          <a class="text-link" routerLink="/app/learning">Go to Learning Center</a>
+          <p class="progress-copy" *ngIf="!learningSummary">{{ 'dashboard.learningProgressEmpty' | transloco }}</p>
+          <a class="text-link" routerLink="/app/learning">{{ 'dashboard.goToLearningCenter' | transloco }}</a>
         </div>
       </div>
     </app-section-card>
   </div>
 
-  <app-section-card title="Upcoming Muhurtha" [interactive]="false" [headerAction]="true">
-    <a card-action class="section-link" routerLink="/app/panchang/muhurtha">View calendar</a>
+  <app-section-card [title]="'dashboard.upcomingMuhurtha' | transloco" [interactive]="false" [headerAction]="true">
+    <a card-action class="section-link" routerLink="/app/panchang/muhurtha">{{ 'dashboard.viewCalendar' | transloco }}</a>
     <div class="muhurtha-list">
       <article class="muhurtha-row" *ngFor="let item of upcomingMuhurthas">
         <div class="date-badge">{{ formatDay(item.date) }} <span>{{ formatMonth(item.date) }}</span></div>
@@ -176,6 +233,7 @@
         </div>
         <span class="quality-pill">{{ item.quality }}</span>
       </article>
+      <p class="empty-copy" *ngIf="!upcomingMuhurthas.length">{{ 'dashboard.noUpcomingMuhurtha' | transloco }}</p>
     </div>
   </app-section-card>
 </div>

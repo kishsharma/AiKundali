@@ -52,3 +52,15 @@ Run frontend commands from `D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-u
 - For UI work, go to `D:\Learning\Ai Kundali\GIT\Frontend\kundali-portal-ui`.
 - For backend API work, go to `D:\Learning\Ai Kundali\GIT\Kundali portal\KundaliEngine\KundaliEngine.API`.
 - Check project references before moving code across backend projects.
+
+## HoraLife Versioning Reference
+
+- Formal HoraLife product versioning starts at `v0.8.0-alpha.1` as of 2026-08-07.
+- Canonical versioning docs:
+  - `README.md`
+  - `docs\roadmap\HORALIFE_VERSIONING.md`
+  - `docs\roadmap\HORALIFE_SPRINT_STATUS.md`
+  - `docs\architecture\HORALIFE_ARCHITECTURE.md`
+  - `docs\CHANGELOG.md`
+- Original imported source bundle from `HoraLife_MD_Pack.zip` is preserved at `docs\reference\HoraLife_MD_Pack\` for future reference.
+- Product version decisions belong in `HORALIFE_VERSIONING.md`; active sprint/status belongs in `HORALIFE_SPRINT_STATUS.md`; released user-visible changes belong in `CHANGELOG.md`.

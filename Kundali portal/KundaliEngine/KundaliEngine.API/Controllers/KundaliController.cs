@@ -29,6 +29,11 @@ using KundaliEngine.Infrastructure.Data;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Astrology.Services.DivisionalCharts.Calculators;
 using Microsoft.AspNetCore.Authorization;
+using HoraLife.PredictionEngine.Services;
+using KundaliEngine.API.Prediction.Mappers;
+using HoraLife.PredictionEngine.Enums;
+using HoraLife.PredictionEngine.Models;
+using KundaliEngine.API.Prediction.DTOs;
 
 namespace KundaliEngine.API.Controllers
 {
@@ -56,7 +61,9 @@ namespace KundaliEngine.API.Controllers
         private readonly AdvancedStrengthTableService _advancedStrengthTableService;
         private readonly KundaliDbContext _dbContext;
         private readonly IAuditLogService _auditLogService;
-        public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService, 
+        private readonly PredictionContextMapper _predictionContextMapper;
+        private readonly PredictionEngineService _predictionEngineService;
+        public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService,
             HouseScoreService houseScoreService, DashaService dashaService,
             OverallKundaliScoreService overallScoreService,
             AspectService aspectService,
@@ -72,7 +79,9 @@ namespace KundaliEngine.API.Controllers
             YogaDoshaActivationService yogaDoshaActivationService,
             AdvancedStrengthTableService advancedStrengthTableService,
             KundaliDbContext dbContext,
-            IAuditLogService auditLogService
+            IAuditLogService auditLogService,
+            PredictionContextMapper predictionContextMapper,
+            PredictionEngineService predictionEngineService
             )
         {
             _chartService = chartService;
@@ -95,6 +104,8 @@ namespace KundaliEngine.API.Controllers
             _advancedStrengthTableService = advancedStrengthTableService;
             _dbContext = dbContext;
             _auditLogService = auditLogService;
+            _predictionContextMapper = predictionContextMapper;
+            _predictionEngineService = predictionEngineService;
         }
         [Authorize]
         [HttpPost("generate")]
@@ -111,8 +122,8 @@ namespace KundaliEngine.API.Controllers
             request.BirthDateTime = birthLocal;
             DateTime birthUtc = TimeZoneInfo.ConvertTimeToUtc(request.BirthDateTime, indiaZone);
 
-            request.BirthDateTime= birthUtc;
-            var planets = _chartService.GenerateChart(request.BirthDateTime, request.Latitude, request.Longitude );
+            request.BirthDateTime = birthUtc;
+            var planets = _chartService.GenerateChart(request.BirthDateTime, request.Latitude, request.Longitude);
             // Panchang
             double sunLongitude = planets.First(p => p.Planet == Planet.Sun).Longitude;
             double moonLongitude = planets.First(p => p.Planet == Planet.Moon).Longitude;
@@ -256,13 +267,32 @@ namespace KundaliEngine.API.Controllers
                     Start = mahadasha.StartDate,
                     End = mahadasha.EndDate,
                     Antardashas = mahadasha.Antardashas
-                        .Select(antardasha => new AntardashaPeriodDto
-                        {
-                            SubPlanet = antardasha.SubPlanet.ToString(),
-                            StartDate = antardasha.StartDate,
-                            EndDate = antardasha.EndDate
-                        })
-                        .ToList()
+                            .Select(antardasha => new AntardashaPeriodDto
+                            {
+                                SubPlanet = antardasha.SubPlanet.ToString(),
+                                StartDate = antardasha.StartDate,
+                                EndDate = antardasha.EndDate,
+
+                                Pratyantardashas = _dashaService
+                                    .GeneratePratyantardashaForTimelinePeriod(
+                                        new KundaliEngine.Domain.Models.MahadashaPeriod
+                                        {
+                                            Planet = mahadasha.Planet,
+                                            StartDate = mahadasha.StartDate,
+                                            EndDate = mahadasha.EndDate
+                                        },
+                                        antardasha,
+                                        birthDasha.Planet,
+                                        birthDasha.RemainingYears)
+                                    .Select(pratyantar => new PratyantardashaPeriodDto
+                                    {
+                                        InnerPlanet = pratyantar.InnerPlanet.ToString(),
+                                        StartDate = pratyantar.StartDate,
+                                        EndDate = pratyantar.EndDate
+                                    })
+                                    .ToList()
+                            })
+                            .ToList()
                 })
                 .ToList();
 
@@ -362,8 +392,8 @@ namespace KundaliEngine.API.Controllers
                     Karana = panchang.Karana,
                     Vaar = panchang.Vaar,
                     Maas = panchang.Maas,
-                    Shake=panchang.Shake,
-                    Samvat=panchang.Samvat
+                    Shake = panchang.Shake,
+                    Samvat = panchang.Samvat
 
                 },
                 Planets = planets.Select(p => MapPlanetDto(p, aspectResult)).ToList(),
@@ -381,6 +411,43 @@ namespace KundaliEngine.API.Controllers
                 SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra),
                 AdvancedStrengthTables = _advancedStrengthTableService.Build(planets, houseDtos, aspectResult)
             };
+
+
+            var predictionContext = _predictionContextMapper.Map(response);
+
+
+
+            var predictionRequest = new PredictionRequest
+            {
+                Mode = PredictionMode.Report,
+                LifeArea = PredictionLifeArea.Career,
+                TimeScope = PredictionTimeScope.Current,
+                ReferenceDate = new DateTimeOffset(currentUtc)
+            };
+
+            var predictionResult = _predictionEngineService.Generate(predictionRequest, predictionContext);
+
+            response.Predictions.Add(
+                new PredictionResponseDto
+                {
+                    LifeArea = predictionResult.LifeArea.ToString(),
+                    TimeScope = predictionResult.TimeScope.ToString(),
+                    ReferenceDate = predictionResult.ReferenceDate,
+                    FocusKey = predictionResult.FocusKey,
+
+                    Claims = predictionResult.Claims
+                        .Select(claim => new PredictionClaimResponseDto
+                        {
+                            Key = claim.Key,
+                            Tone = claim.Tone.ToString(),
+                            Stage = claim.Stage.ToString(),
+                            StartDate = claim.StartDate,
+                            EndDate = claim.EndDate,
+                            RuleIds = claim.RuleIds,
+                            EvidenceKeys = claim.EvidenceKeys
+                        })
+                        .ToList()
+                });
 
             return Ok(response);
         }

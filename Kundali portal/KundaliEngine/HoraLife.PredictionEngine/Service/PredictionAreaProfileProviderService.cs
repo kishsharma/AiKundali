@@ -1,27 +1,33 @@
 ﻿using HoraLife.PredictionEngine.Enums;
+using HoraLife.PredictionEngine.Metadata;
 using HoraLife.PredictionEngine.Models;
 
 namespace HoraLife.PredictionEngine.Services;
 
 public sealed class PredictionAreaProfileProviderService
 {
-    private static readonly PredictionAreaProfile CareerProfile = new()
+    private readonly PredictionMetadataProvider _metadataProvider;
+
+    internal PredictionAreaProfileProviderService(
+        PredictionMetadataProvider metadataProvider)
     {
-        LifeArea = PredictionLifeArea.Career,
-        PrimaryHouses = Array.AsReadOnly([10]),
-        SupportingHouses = Array.AsReadOnly([2, 6, 11]),
-        NaturalSignificators =
-            Array.AsReadOnly(["Sun", "Saturn", "Mercury"])
-    };
+        _metadataProvider = metadataProvider
+            ?? throw new ArgumentNullException(nameof(metadataProvider));
+    }
 
     public PredictionAreaProfile Get(PredictionLifeArea lifeArea)
     {
-        return lifeArea switch
-        {
-            PredictionLifeArea.Career => CareerProfile,
+        var metadata =_metadataProvider.GetLifeArea(lifeArea);
 
-            _ => throw new NotSupportedException(
-                $"Prediction profile for '{lifeArea}' is not implemented.")
+        return new PredictionAreaProfile
+        {
+            LifeArea = metadata.LifeArea,
+
+            PrimaryHouses =metadata.PrimaryHouses.ToArray(),
+
+            SupportingHouses =metadata.SupportingHouses.ToArray(),
+
+            NaturalSignificators =metadata.NaturalSignificators.ToArray()
         };
     }
 }
