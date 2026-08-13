@@ -1,0 +1,596 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "3ca8931a-0fa9-572e-8ea4-1d804c2389ed",
+  "levelCode": "level-1",
+  "sessionNumber": 10,
+  "slug": "lagna-and-twelve-bhavas",
+  "language": "en",
+  "title": "Lagna and Twelve Bhavas",
+  "subtitle": "Understanding the Ascendant, house sequence and the main life areas represented by each Bhava",
+  "summary": "This session introduces Lagna as the rising sign at the eastern horizon and the starting point of the twelve Bhavas. Students learn the difference between Rashi and Bhava, the fixed house sequence from the Ascendant, the main meanings of all twelve houses, the Kendra, Trikona, Dusthana and Upachaya groupings, and a safe first method for identifying activated life areas without making premature predictions.",
+  "estimatedMinutes": 80,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define Lagna as the sign rising on the eastern horizon at a specific time and place.",
+    "Explain why birth time and location affect the Ascendant.",
+    "Distinguish Rashi from Bhava.",
+    "Number the twelve houses correctly from the Lagna.",
+    "Recall the principal life areas represented by each house.",
+    "Identify Kendra, Trikona, Dusthana and Upachaya houses.",
+    "Recognise that one house has multiple meanings and must be read in context.",
+    "Apply a basic house-reading sequence without giving a final prediction."
+  ],
+  "prerequisites": [
+    "Completion of Session 9: Planetary Relationships and Dignity.",
+    "Basic familiarity with the twelve Rashis and planetary sign placement."
+  ],
+  "keyTerms": [
+    {
+      "term": "Lagna",
+      "sanskrit": "लग्न",
+      "transliteration": "lagna",
+      "meaning": "The zodiac sign rising on the eastern horizon at a specific time and location.",
+      "note": "It becomes the first house and anchors the complete house sequence."
+    },
+    {
+      "term": "Ascendant",
+      "sanskrit": "उदय लग्न",
+      "transliteration": "udaya lagna",
+      "meaning": "The degree rising on the eastern horizon; commonly used as the English equivalent of Lagna.",
+      "note": "The exact degree may matter in advanced house and divisional calculations."
+    },
+    {
+      "term": "Bhava",
+      "sanskrit": "भाव",
+      "transliteration": "bhāva",
+      "meaning": "A house of the horoscope representing a field of life and experience.",
+      "note": "The twelve Bhavas are counted from the Lagna."
+    },
+    {
+      "term": "Kendra",
+      "sanskrit": "केन्द्र",
+      "transliteration": "kendra",
+      "meaning": "The angular houses 1, 4, 7 and 10.",
+      "note": "They form the structural pillars of the chart."
+    },
+    {
+      "term": "Trikona",
+      "sanskrit": "त्रिकोण",
+      "transliteration": "trikoṇa",
+      "meaning": "The trinal houses 1, 5 and 9.",
+      "note": "They are associated with identity, intelligence, merit, purpose and dharma."
+    },
+    {
+      "term": "Dusthana",
+      "sanskrit": "दुःस्थान",
+      "transliteration": "duḥsthāna",
+      "meaning": "The challenging houses 6, 8 and 12.",
+      "note": "They can indicate pressure, transformation, service, loss, release and hidden processes."
+    },
+    {
+      "term": "Upachaya",
+      "sanskrit": "उपचय",
+      "transliteration": "upacaya",
+      "meaning": "The growth houses 3, 6, 10 and 11.",
+      "note": "Their results often develop through effort, competition, experience and time."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-lagna",
+      "title": "What Is Lagna?",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "rashi-and-bhava",
+      "title": "Rashi and Bhava",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "twelve-house-sequence",
+      "title": "The Twelve-House Sequence",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "house-meanings-one-to-six",
+      "title": "House Meanings: 1 to 6",
+      "estimatedMinutes": 14
+    },
+    {
+      "sectionId": "house-meanings-seven-to-twelve",
+      "title": "House Meanings: 7 to 12",
+      "estimatedMinutes": 14
+    },
+    {
+      "sectionId": "house-groups",
+      "title": "Kendra, Trikona, Dusthana and Upachaya",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "basic-house-reading",
+      "title": "A Basic House-Reading Method",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-lagna",
+      "title": "What Is Lagna?",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Lagna is the zodiac sign rising on the eastern horizon at a particular time and place. Because Earth rotates, the rising sign changes through the day. A change in birth time or location can therefore change the Lagna and the complete house arrangement."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session10-eastern-horizon-lagna",
+          "assetPath": "assets/learning/Level-1/session-10/eastern-horizon-lagna.svg",
+          "altText": "A simple horizon diagram showing the eastern point where a zodiac sign rises and becomes the Lagna.",
+          "caption": "The sign rising in the east becomes the Lagna.",
+          "purpose": "Connect the Ascendant to time, place and the eastern horizon.",
+          "annotations": [
+            "East",
+            "Horizon",
+            "Rising sign",
+            "Lagna"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Birth-time accuracy matters",
+          "text": "Even when the Rashi placements of slow-moving planets remain unchanged, an inaccurate birth time can alter the Lagna, houses and house lords."
+        }
+      ]
+    },
+    {
+      "id": "rashi-and-bhava",
+      "title": "Rashi and Bhava",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Sign and house are related but different",
+          "left": {
+            "label": "Rashi",
+            "points": [
+              "One of twelve 30° zodiac signs.",
+              "Describes the style and environment of expression.",
+              "Has a planetary ruler."
+            ]
+          },
+          "right": {
+            "label": "Bhava",
+            "points": [
+              "One of twelve life areas counted from Lagna.",
+              "Describes where experience manifests.",
+              "Its sign and lord depend on the Ascendant."
+            ]
+          }
+        },
+        {
+          "type": "example",
+          "title": "Aries as a sign and as a house",
+          "scenario": "Aries may appear in different houses for different Ascendants.",
+          "steps": [
+            "For Aries Lagna, Aries becomes the first house.",
+            "For Cancer Lagna, Aries becomes the tenth house.",
+            "For Libra Lagna, Aries becomes the seventh house."
+          ],
+          "conclusion": "The sign remains Aries, but the life area changes with the Ascendant."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Rashi shows how; Bhava shows where",
+          "text": "This is a useful learning shortcut, but complete interpretation also requires the planet, sign lord, aspects, strength and timing."
+        }
+      ]
+    },
+    {
+      "id": "twelve-house-sequence",
+      "title": "The Twelve-House Sequence",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Lagna becomes the first house. The next zodiac sign becomes the second house, and the sequence continues counter-clockwise in the North Indian chart convention until the twelfth house."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session10-twelve-house-wheel",
+          "assetPath": "assets/learning/Level-1/session-10/twelve-house-wheel.svg",
+          "altText": "A simple twelve-part wheel numbered from house one to house twelve, beginning at the Lagna.",
+          "caption": "The twelve Bhavas are counted in sequence from the Lagna.",
+          "purpose": "Teach the fixed house numbering order.",
+          "annotations": [
+            "1st house",
+            "4th house",
+            "7th house",
+            "10th house",
+            "Lagna"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not number houses from Aries automatically",
+          "text": "House 1 begins from the Lagna sign, not always from Aries."
+        }
+      ]
+    },
+    {
+      "id": "house-meanings-one-to-six",
+      "title": "House Meanings: 1 to 6",
+      "estimatedMinutes": 14,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Principal meanings of houses 1 to 6",
+          "columns": [
+            "House",
+            "Core life areas"
+          ],
+          "rows": [
+            [
+              "1",
+              "Self, body, identity, appearance, vitality, direction of life"
+            ],
+            [
+              "2",
+              "Family, speech, food, accumulated wealth, values, early resources"
+            ],
+            [
+              "3",
+              "Courage, effort, skills, communication, younger siblings, short journeys"
+            ],
+            [
+              "4",
+              "Home, mother, inner peace, education foundations, property, vehicles"
+            ],
+            [
+              "5",
+              "Intelligence, learning, creativity, children, counsel, mantra, past merit"
+            ],
+            [
+              "6",
+              "Service, work routines, competition, debt, disputes, illness and obstacles"
+            ]
+          ],
+          "note": "These are foundation meanings. Each house has additional specialised meanings."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Avoid fear-based reading",
+          "text": "The sixth house does not automatically mean disease or defeat. It can also show service, problem-solving, discipline and ability to overcome competition."
+        }
+      ]
+    },
+    {
+      "id": "house-meanings-seven-to-twelve",
+      "title": "House Meanings: 7 to 12",
+      "estimatedMinutes": 14,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Principal meanings of houses 7 to 12",
+          "columns": [
+            "House",
+            "Core life areas"
+          ],
+          "rows": [
+            [
+              "7",
+              "Marriage, partnerships, contracts, public interaction, the other person"
+            ],
+            [
+              "8",
+              "Transformation, longevity factors, inheritance, vulnerability, secrecy, research"
+            ],
+            [
+              "9",
+              "Dharma, higher learning, teachers, father, fortune, pilgrimage, principles"
+            ],
+            [
+              "10",
+              "Career, action, status, responsibility, authority, visible contribution"
+            ],
+            [
+              "11",
+              "Gains, income, networks, elder siblings, fulfilment of objectives"
+            ],
+            [
+              "12",
+              "Expenditure, sleep, retreat, foreign residence, release, isolation, spiritual withdrawal"
+            ]
+          ],
+          "note": "The same house may produce constructive or difficult results depending on lordship, occupants, aspects, strength and timing."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "The eighth and twelfth are not only negative",
+          "text": "They can also represent research, healing processes, surrender, foreign experience, spiritual practice, privacy and release."
+        }
+      ]
+    },
+    {
+      "id": "house-groups",
+      "title": "Kendra, Trikona, Dusthana and Upachaya",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Important house groups",
+          "columns": [
+            "Group",
+            "Houses",
+            "Foundation meaning"
+          ],
+          "rows": [
+            [
+              "Kendra",
+              "1, 4, 7, 10",
+              "Structural pillars and visible life foundations"
+            ],
+            [
+              "Trikona",
+              "1, 5, 9",
+              "Identity, intelligence, merit, purpose and dharma"
+            ],
+            [
+              "Dusthana",
+              "6, 8, 12",
+              "Pressure, obstacles, transformation, loss and release"
+            ],
+            [
+              "Upachaya",
+              "3, 6, 10, 11",
+              "Growth through effort, skill, competition and time"
+            ]
+          ],
+          "note": "The first house belongs to both Kendra and Trikona."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session10-house-groups",
+          "assetPath": "assets/learning/Level-1/session-10/house-groups.svg",
+          "altText": "A simple twelve-house diagram highlighting Kendra, Trikona, Dusthana and Upachaya groups.",
+          "caption": "House groups help organise the twelve Bhavas by function.",
+          "purpose": "Give a visual memory aid for the major house classifications.",
+          "annotations": [
+            "Kendra",
+            "Trikona",
+            "Dusthana",
+            "Upachaya"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "A house can belong to more than one group",
+          "text": "For example, the first house is both Kendra and Trikona, while the sixth is both Dusthana and Upachaya."
+        }
+      ]
+    },
+    {
+      "id": "basic-house-reading",
+      "title": "A Basic House-Reading Method",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Identify the Lagna sign.",
+            "Number all twelve houses from the Lagna.",
+            "Choose the life area or house being studied.",
+            "Identify the sign occupying that house.",
+            "Identify the house lord and its placement.",
+            "Observe planets occupying the house.",
+            "Observe aspects and conjunctions affecting the house or lord.",
+            "Check dignity, strength and Dasha activation before forming a result."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Reading the tenth house at foundation level",
+          "scenario": "For Cancer Lagna, Aries becomes the tenth house and Mars becomes the tenth lord.",
+          "steps": [
+            "Identify the tenth-house sign: Aries.",
+            "Identify its lord: Mars.",
+            "Locate Mars in the chart.",
+            "Check planets occupying or aspecting the tenth house.",
+            "Check Mars's dignity and strength.",
+            "Check whether Mars or the tenth house is activated by Dasha."
+          ],
+          "conclusion": "Career judgement begins with these facts but should not be finalised from the tenth house alone."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "House meaning is not prediction",
+          "text": "A house identifies the life area. Prediction requires the house lord, occupants, aspects, strength, Yogas and timing."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Treating Aries as the first house in every chart.",
+      "whyItIsWrong": "The first house begins from the Lagna sign.",
+      "correctUnderstanding": "Number houses from the Ascendant."
+    },
+    {
+      "mistake": "Using Rashi and Bhava as identical terms.",
+      "whyItIsWrong": "Rashi is a zodiac sign, while Bhava is a life area counted from Lagna.",
+      "correctUnderstanding": "Read sign as the style and house as the field of experience."
+    },
+    {
+      "mistake": "Reducing one house to only one meaning.",
+      "whyItIsWrong": "Each house governs several related life themes.",
+      "correctUnderstanding": "Choose the meaning relevant to the question and chart context."
+    },
+    {
+      "mistake": "Calling Dusthana houses completely bad.",
+      "whyItIsWrong": "They can also show service, research, transformation, healing, release and spiritual processes.",
+      "correctUnderstanding": "Interpret pressure and constructive potential together."
+    },
+    {
+      "mistake": "Giving a final prediction from the house number alone.",
+      "whyItIsWrong": "The house lord, occupants, aspects, dignity, strength and timing modify the result.",
+      "correctUnderstanding": "Use a structured multi-factor reading."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Map the twelve Bhavas",
+    "instructions": [
+      "Write one principal meaning for each of the twelve houses.",
+      "List the Kendra houses.",
+      "List the Trikona houses.",
+      "List the Dusthana houses.",
+      "List the Upachaya houses.",
+      "For Leo Lagna, identify which signs become the 4th, 7th and 10th houses.",
+      "Use the basic reading checklist for the seventh house of a sample chart."
+    ],
+    "expectedOutcome": "The student can identify Lagna, number the houses correctly, recall the main meanings and house groups, and begin a structured house reading without giving a premature verdict.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "Lagna is the sign rising on the eastern horizon.",
+    "Birth time and location determine the Ascendant.",
+    "The Lagna becomes the first house.",
+    "Rashi describes a zodiac sign; Bhava describes a life area.",
+    "The twelve houses are counted from the Lagna.",
+    "Each house represents several related life themes.",
+    "Kendra houses are 1, 4, 7 and 10.",
+    "Trikona houses are 1, 5 and 9.",
+    "Dusthana houses are 6, 8 and 12; Upachaya houses are 3, 6, 10 and 11.",
+    "Prediction requires the house lord, occupants, aspects, strength and timing."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "What becomes the first house of a horoscope?",
+        "options": [
+          "Aries in every chart",
+          "The Moon sign",
+          "The Lagna sign",
+          "The Sun sign"
+        ],
+        "answer": "The Lagna sign",
+        "explanation": "The sign rising on the eastern horizon becomes the first house."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which houses are Kendras?",
+        "options": [
+          "1, 5, 9",
+          "1, 4, 7, 10",
+          "3, 6, 10, 11",
+          "6, 8, 12"
+        ],
+        "answer": "1, 4, 7, 10",
+        "explanation": "These are the four angular houses."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "Which houses are Trikonas?",
+        "options": [
+          "1, 5, 9",
+          "2, 6, 10",
+          "3, 7, 11",
+          "4, 8, 12"
+        ],
+        "answer": "1, 5, 9",
+        "explanation": "The first, fifth and ninth houses form the trinal group."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which house principally represents career and visible responsibility?",
+        "options": [
+          "4th",
+          "7th",
+          "10th",
+          "12th"
+        ],
+        "answer": "10th",
+        "explanation": "The tenth house is the primary house of action, career, status and responsibility."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "Rashi and Bhava always mean exactly the same thing.",
+        "answer": false,
+        "explanation": "Rashi is a zodiac sign; Bhava is a life area counted from the Ascendant."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "The sixth house can indicate both challenges and the ability to overcome competition.",
+        "answer": true,
+        "explanation": "It can show debt, disputes and illness, but also service, discipline and problem-solving."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "Why can an inaccurate birth time change the chart interpretation?",
+        "answer": "Because it can change the Lagna, house sequence, house lords and planetary house placements.",
+        "explanation": "The Ascendant depends directly on time and location."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "What should be checked after identifying a house and its sign?",
+        "answer": "The house lord, occupants, aspects, dignity, strength and Dasha or transit activation.",
+        "explanation": "House meaning alone is not a complete prediction."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical framework for Lagna, Bhavas, house meanings and house groupings in Parashari Jyotisha.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-23",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "Used as a work-level reference without verse-specific quotation. Edition-specific verification is required before publication."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For classical principles concerning Lagna, Bhavas and house interpretation.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-23",
+    "reviewNotes": "House numbering, core house meanings and major house groups were checked for internal consistency. Meanings are intentionally foundation-level and non-fatalistic. Human Jyotish SME review and edition-specific reference verification are required before publication."
+  },
+  "status": "review"
+}

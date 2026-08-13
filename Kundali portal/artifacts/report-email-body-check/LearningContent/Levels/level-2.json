@@ -1,0 +1,67 @@
+{
+    "schemaVersion":  "1.0.0",
+    "id":  "df81735a-0b82-5c7f-b798-f6f362d6db77",
+    "code":  "level-2",
+    "slug":  "kundali-prediction",
+    "title":  "Level 2: Kundali Prediction",
+    "subtitle":  "Structured prediction course",
+    "description":  "Planned advanced course unlocked after Level 1 and the Bonus Bridge session. Session content is not available yet.",
+    "sessionCount":  0,
+    "estimatedMinutes":  0,
+    "estimatedHours":  0,
+    "languages":  {
+                      "default":  "en",
+                      "supported":  [
+                                        "en",
+                                        "hi",
+                                        "kn"
+                                    ]
+                  },
+    "audience":  [
+                     "Students who completed Level 1 and the Bonus Bridge session."
+                 ],
+    "learningOutcome":  "Apply structured prediction methods after completing the bridge workflow.",
+    "recommendedPace":  {
+                            "sessionsPerWeek":  2,
+                            "estimatedWeeks":  0,
+                            "note":  "Level 2 content is planned and will open after the bridge session is completed."
+                        },
+    "access":  {
+                   "requiredRoles":  [
+                                         "student"
+                                     ],
+                   "authenticationRequired":  true,
+                   "allowPublicPreview":  false,
+                   "publicPreviewSessionIds":  [
+
+                                               ]
+               },
+    "navigation":  {
+                       "route":  "/learning/level/level-2",
+                       "sessionRoutePattern":  "/learning/session/{sessionId}",
+                       "showProgress":  true,
+                       "showLockedSessions":  true,
+                       "allowSequentialNavigation":  true,
+                       "prerequisiteLevelCode":  "bonus-bridge"
+                   },
+    "contentRules":  {
+                         "sessionSchema":  "StudyContent/Schemas/session-schema.json",
+                         "referenceLibrary":  "StudyContent/References/horalife-jyotish-reference-library.json",
+                         "oneJsonPerSessionPerLanguage":  true,
+                         "maximumShlokasPerSession":  3,
+                         "shlokaDisplayMode":  "contextual",
+                         "referencesRequired":  true,
+                         "commonMistakesRequired":  true,
+                         "selfCheckRequired":  true
+                     },
+    "completionRules":  {
+                            "requireAllSessions":  true,
+                            "minimumQuizScorePercent":  70,
+                            "certificateEnabled":  false,
+                            "completionMessage":  "Level 2 completed."
+                        },
+    "sessions":  [
+
+                 ],
+    "status":  "planned"
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { ThemeService } from '../../core/services/theme.service';
 import { SavedChartSelectorComponent } from '../../shared/components/saved-chart-selector/saved-chart-selector.component';
 import { SavedChartMapperService, SavedKundaliDetail } from '../../shared/services/saved-chart-mapper.service';
+import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 
 interface PersonSummary {
   role: 'Boy' | 'Girl';
@@ -51,11 +52,13 @@ interface CompatibilityDoshaCard extends CompatibilityDoshaItem {
 @Component({
   selector: 'app-compatibility',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe, SavedChartSelectorComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe, SavedChartSelectorComponent, PortalNotesComponent],
   templateUrl: './compatibility.component.html',
   styleUrls: ['./compatibility.component.scss'],
 })
 export class CompatibilityComponent {
+  @ViewChild(PortalNotesComponent) private portalNotes?: PortalNotesComponent;
+
   private fb = inject(FormBuilder);
   private compatibilityApi = inject(CompatibilityApiService);
   private route = inject(ActivatedRoute);
@@ -80,6 +83,7 @@ export class CompatibilityComponent {
   shareFailed = false;
   loadingSavedCompatibility = false;
   savedCompatibilityId: string | null = null;
+  isNotesOpen = false;
   selectedBoyChartId: string | null = null;
   selectedGirlChartId: string | null = null;
   showReport=false;
@@ -424,6 +428,21 @@ export class CompatibilityComponent {
         this.cdr.detectChanges();
       }
     });
+  }
+  openNotes(): void {
+    this.isNotesOpen = true;
+  }
+
+  closeNotes(): void {
+    this.isNotesOpen = false;
+  }
+
+  private saveDraftNotesForSavedCompatibility(compatibilityId: string): void {
+    if (!compatibilityId || !this.portalNotes?.hasPendingDraft) {
+      return;
+    }
+
+    this.portalNotes.saveForContext(compatibilityId);
   }
   openCompatibilityFactors(aspect: CompatibilityAspectCard): void {
     this.selectedCompatibilityAspect = aspect;

@@ -25,6 +25,21 @@
         <span>{{ savingKundali ? 'Saving' : (savedKundaliId ? 'Save Again' : 'Save') }}</span>
       </button>
 
+      <button
+        type="button"
+        class="report-action-btn notes-action"
+        (click)="openNotes()"
+        title="Notes"
+        aria-label="Open Kundali notes">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M5 4h14v16H5z"></path>
+          <path d="M8 8h8"></path>
+          <path d="M8 12h8"></path>
+          <path d="M8 16h5"></path>
+        </svg>
+        <span>Notes</span>
+      </button>
+
       <details #pdfModePicker class="pdf-mode-picker" [class.disabled]="exportingPdf" (toggle)="onReportPickerToggle($event, emailSharePicker, whatsAppSharePicker)">
         <summary
           class="report-action-btn download-action pdf-mode-trigger"
@@ -134,6 +149,16 @@
   </app-page-header>
 
 </div>
+<app-portal-notes
+  *ngIf="showChart"
+  [open]="isNotesOpen"
+  (closed)="closeNotes()"
+  contextType="Kundali"
+  [contextId]="savedKundaliId"
+  title="Kundali Notes"
+  subtitle="Private notes saved for this Kundali."
+  pendingMessage="Write notes now. They will be saved when you save this Kundali.">
+</app-portal-notes>
 <div class="pdf-loader" *ngIf="exportingPdf">
   <div class="pdf-loader-card">
     <div class="cosmic-export-orbit" aria-hidden="true">
@@ -259,8 +284,9 @@
       </aside>
         <nav class="report-quick-links" aria-label="Kundali report sections">
           <span class="save-status">Sections</span>
-          <a href="" data-section-id="kundali-chart" (click)="scrollToReportSection($event, 'kundali-chart')">Chart</a>
           <a href="" data-section-id="kundali-summary" (click)="scrollToReportSection($event, 'kundali-summary')">Summary</a>
+          <a href="" data-section-id="predictionSection" (click)="scrollToReportSection($event, 'predictionSection')">{{ 'kundali.predictions.quickLink' | transloco }}</a>
+          <a href="" data-section-id="kundali-chart" (click)="scrollToReportSection($event, 'kundali-chart')">Chart</a>
           <a href="" data-section-id="yogaSection" (click)="scrollToReportSection($event, 'yogaSection')">Yogas</a>
           <a href="" data-section-id="doshaSection" (click)="scrollToReportSection($event, 'doshaSection')">Doshas</a>
           <a href="" data-section-id="planetPositions" (click)="scrollToReportSection($event, 'planetPositions')">Planets</a>
@@ -330,6 +356,161 @@
           </g>
         </svg>
       </div>
+</div>
+<div class="detail-grid">
+
+        <app-section-card id="kundali-summary" data-tour-id="kundali-report-summary" [title]="'kundali.summary' | transloco"  class="full-row" >
+          <app-kundali-summary [summary]="kundaliResponse?.summary" [kundaliFormValue]="kundaliForm.value">
+          </app-kundali-summary>
+          <app-panchang-card [panchang]="kundaliResponse?.panchang">
+          </app-panchang-card>
+          <app-kundali-metadata-insights
+            [rashiInsight]="kundaliResponse?.rashiInsight"
+            [nakshatraInsight]="kundaliResponse?.nakshatraInsight">
+          </app-kundali-metadata-insights>
+        </app-section-card>
+
+      <app-section-card id="predictionSection" class="prediction-section full-row" [title]="(isPremiumUser ? 'kundali.predictions.title' : 'kundali.predictions.teaserTitle') | transloco">
+        <ng-container *ngIf="isPremiumUser; else freePredictionTeaser">
+          <div class="prediction-section-head">
+            <div class="prediction-section-copy-wrap">
+              <span class="prediction-premium-badge premium-unlocked-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumUnlockedBadge' | transloco }}</span>
+              <p class="prediction-section-copy">{{ 'kundali.predictions.premiumCopy' | transloco }}</p>
+            </div>
+            <span class="prediction-period" *ngIf="predictionEffectivePeriod">
+              {{ 'kundali.predictions.period' | transloco }}: {{ predictionEffectivePeriod }}
+            </span>
+          </div>
+          <div class="prediction-outlook-grid" role="tablist" aria-label="Premium prediction life areas">
+            <button
+              type="button"
+              role="tab"
+              class="prediction-outlook-card"
+              *ngFor="let area of premiumPredictionAreaCards"
+              [class]="'prediction-outlook-card tone-' + area.toneClass"
+              [class.active]="isPredictionAreaOpen(area.lifeArea)"
+              [attr.aria-selected]="isPredictionAreaOpen(area.lifeArea)"
+              (click)="selectPredictionArea(area.lifeArea)">
+              <span class="prediction-life-area">{{ getPredictionAreaLabel(area.lifeArea) }}</span>
+              <strong class="prediction-tone-label">{{ area.toneLabel }}</strong>
+            </button>
+          </div>
+
+          <article class="prediction-area-detail selected-panel" *ngIf="selectedPredictionArea as area" [class]="'prediction-area-detail selected-panel tone-' + area.toneClass">
+
+            <div class="prediction-detail-body">
+              <div class="prediction-context-grid" *ngIf="area.effectivePeriod">
+                <section class="prediction-detail-group" *ngIf="area.effectivePeriod">
+                  <h4>{{ 'kundali.predictions.currentEffectivePeriod' | transloco }}</h4>
+                  <p class="prediction-effective-line">{{ area.effectivePeriod }}</p>
+                </section>
+
+              </div>
+
+              <div class="prediction-detail-grid">
+                <section class="prediction-detail-group" *ngIf="area.supportClaims.length">
+                  <h4>{{ 'kundali.predictions.support' | transloco }}</h4>
+                  <ul>
+                    <li *ngFor="let claim of area.supportClaims">
+                      <span>{{ getPredictionClaimLabel(claim) }}</span>
+                    </li>
+                  </ul>
+                </section>
+
+                <section class="prediction-detail-group" *ngIf="area.challengeClaims.length">
+                  <h4>{{ 'kundali.predictions.needsAttention' | transloco }}</h4>
+                  <ul>
+                    <li *ngFor="let claim of area.challengeClaims">
+                      <span>{{ getPredictionClaimLabel(claim) }}</span>
+                    </li>
+                  </ul>
+                </section>
+
+                <section class="prediction-detail-group" *ngIf="area.mixedClaims.length">
+                  <h4>{{ 'kundali.predictions.mixedFactors' | transloco }}</h4>
+                  <ul>
+                    <li *ngFor="let claim of area.mixedClaims">
+                      <span>{{ getPredictionClaimLabel(claim) }}</span>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+
+              <section class="prediction-detail-group full prediction-dasha-panel" *ngIf="area.dashaClaims.length">
+                <h4>{{ 'kundali.predictions.currentDashaInfluence' | transloco }}</h4>
+                <div class="prediction-dasha-list">
+                  <article class="prediction-dasha-row" *ngFor="let claim of area.dashaClaims">
+                    <div class="prediction-dasha-line">
+                      <strong>{{ getDashaLevelLabel(readProp(claim, 'dashaLevel')) }}</strong>
+                      <small *ngIf="getPredictionClaimPeriod(claim)">{{ getPredictionClaimPeriod(claim) }}</small>
+                    </div>
+                    <div class="prediction-dasha-line meta">
+                      <span>{{ translatePlanetName(readProp(claim, 'dashaPlanet')) || '-' }}</span>
+                      <span [class]="'prediction-mini-tone tone-' + getPredictionToneClass(readProp(claim, 'tone'))">{{ getPredictionToneLabel(readProp(claim, 'tone')) }}</span>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <section class="prediction-why" *ngIf="area.natalClaims.length || area.timingClaims.length || area.houseConnections.length">
+                <div class="prediction-why-head">
+                  <h4>{{ 'kundali.predictions.whyResult' | transloco }}</h4>
+                  <p class="prediction-why-intro">{{ 'kundali.predictions.whyResultIntro' | transloco }}</p>
+                </div>
+                <div class="prediction-why-grid">
+                  <section *ngIf="area.natalClaims.length">
+                    <h5>{{ 'kundali.predictions.natalFactors' | transloco }}</h5>
+                    <p *ngFor="let claim of area.natalClaims">{{ getPredictionClaimLabel(claim) }}</p>
+                  </section>
+                  <section *ngIf="area.timingClaims.length">
+                    <h5>{{ 'kundali.predictions.currentTiming' | transloco }}</h5>
+                    <p *ngFor="let claim of area.timingClaims">{{ getPredictionClaimLabel(claim) }}</p>
+                  </section>
+                  <section *ngIf="area.houseConnections.length">
+                    <h5>{{ 'kundali.predictions.houseConnections' | transloco }}</h5>
+                    <article class="prediction-connection-row why" *ngFor="let connection of area.houseConnections">
+                      <strong>{{ getHouseConnectionTitle(connection) }}</strong>
+                      <span *ngIf="getHouseConnectionThemes(connection)">{{ getHouseConnectionThemes(connection) }}</span>
+                      <div class="prediction-connection-tags" *ngIf="getHouseConnectionLabels(connection).length">
+                        <small *ngFor="let label of getHouseConnectionLabels(connection)">{{ label }}</small>
+                    </div>
+                    </article>
+                  </section>
+                </div>
+              </section>
+            </div>
+          </article>
+        </ng-container>
+
+        <ng-template #freePredictionTeaser>
+          <div class="prediction-teaser-panel">
+            <div class="prediction-teaser-copy">
+              <span class="prediction-premium-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumBadge' | transloco }}</span>
+              <p>{{ 'kundali.predictions.teaserCopy' | transloco }}</p>
+              <strong>{{ 'kundali.predictions.includesLine' | transloco }}</strong>
+            </div>
+            <button type="button" class="prediction-unlock-button" (click)="onUnlockPremium()">
+              {{ 'kundali.predictions.unlockCta' | transloco }} <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
+                <path d="M14.6 5.15 17 3"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="prediction-locked-grid" [attr.aria-label]="'kundali.predictions.teaserTitle' | transloco">
+            <button type="button" class="prediction-locked-card" *ngFor="let lifeArea of predictionLifeAreas" (click)="onUnlockPremium()">
+              <strong>{{ getPredictionAreaLabel(lifeArea) }}</strong>
+              <span class="prediction-lock-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                  <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                </svg>
+              </span>
+              <span class="prediction-card-hint">{{ 'kundali.predictions.personalizedInsight' | transloco }}</span>
+            </button>
+          </div>
+        </ng-template>
+      </app-section-card>
 </div>
       <aside class="pinned-chart-reference" *ngIf="isChartPinned" aria-label="Pinned kundali chart reference">
         <div class="pinned-chart-header">
@@ -440,20 +621,8 @@
           </div>
         </div>
       </app-section-card>
-      <div class="detail-grid">
-
-        <app-section-card id="kundali-summary" data-tour-id="kundali-report-summary" [title]="'kundali.summary' | transloco"  class="full-row" >
-          <app-kundali-summary [summary]="kundaliResponse?.summary" [kundaliFormValue]="kundaliForm.value">
-          </app-kundali-summary>
-          <app-panchang-card [panchang]="kundaliResponse?.panchang">
-          </app-panchang-card>
-          <app-kundali-metadata-insights
-            [rashiInsight]="kundaliResponse?.rashiInsight"
-            [nakshatraInsight]="kundaliResponse?.nakshatraInsight">
-          </app-kundali-metadata-insights>
-        </app-section-card>
-</div>
-      <app-section-card id="yogaSection" data-tour-id="kundali-report-yogas" [title]="'kundali.yogas' | transloco" class="full-row" *ngIf="kundaliResponse">
+      <app-section-card id="yogaSection" data-tour-id="kundali-report-yogas" [title]="'kundali.yogas' | transloco" [headerAction]="natalYogaItems.length > 0" class="full-row" *ngIf="kundaliResponse">
+        <span card-action class="birth-chart-inline-note" *ngIf="natalYogaItems.length">Yoga present in your chart. Unlock to know more.</span>
         <div class="yogas-list" *ngIf="yogas.length; else noYogas">
           <ng-container *ngFor="let group of currentYogaActivationGroups">
             <div class="activation-period-group activation-period-group--yoga is-current">
@@ -463,20 +632,48 @@
               <div class="activation-card-list">
                 <div class="yoga-item" *ngFor="let entry of group.items">
                   <div class="yoga-header">
-                    <div class="yoga-title">
+                  <div class="yoga-title">
+                    <div class="yoga-dosha-title-line">
                       <h4>{{ entry.item.name }}</h4>
-                      <span class="meta-chip" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ entry.item.involvedPlanets.join(', ') }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
                     </div>
+                    <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.strength">
+                      <span class="meta-item" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                      <span class="yoga-strength natal-inline-value" *ngIf="entry.item.strength" [ngClass]="getYogaStrengthClass(entry.item.strength)">Natal: {{ entry.item.strength }}</span>
+                    </div>
+                  </div>
                     <div class="item-actions">
                       <span class="activation-level-chip" [ngClass]="getActivationLevelClass(entry.activation)">{{ getActivationLevel(entry.activation) }}</span>
-                      <span class="yoga-strength" *ngIf="entry.item.strength">Natal: {{ entry.item.strength }}</span>
-                      <button type="button" class="info-toggle" *ngIf="hasImpactDetails(entry.item)" [class.active]="isYogaDetailsOpen(entry.index)" [attr.aria-expanded]="isYogaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="toggleYogaDetails(entry.index)">i</button>
+                      <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                        <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                        <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                        <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                          <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                        </svg>
+                      </span>
+                      <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isYogaDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isYogaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleYogaDetailsAction(entry.index)">i</button>
                     </div>
                   </div>
                   <p class="yoga-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.description || entry.item.reason }}</p>
-                  <div class="impact-panel" *ngIf="isYogaDetailsOpen(entry.index)">
+                  <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+                    <div class="premium-activation-head">
+                      <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+                    </div>
+                    <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+                      <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent">
+                        <strong>{{ row.labelKey | transloco }}</strong>
+                        <span>{{ formatActivationPeriod(row.activation) }}</span>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'mahadashaPlanet')">{{ 'kundali.activation.mahadasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'mahadashaPlanet') }}</small>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'antardashaPlanet')">{{ 'kundali.activation.antardasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'antardashaPlanet') }}</small>
+                        <small *ngIf="getActivationLevel(row.activation)">{{ 'kundali.activation.level' | transloco }}: {{ getActivationLevel(row.activation) }}</small>
+                        <small *ngIf="formatActivationTrigger(row.activation)">{{ 'kundali.activation.triggeredBy' | transloco }}: {{ formatActivationTrigger(row.activation) }}</small>
+                      </div>
+                    </ng-container>
+                    <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+                  </div>
+                  <div class="impact-panel" *ngIf="isPremiumUser && isYogaDetailsOpen(entry.index)">
                     <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
                     <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
                       <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
@@ -499,20 +696,48 @@
               <div class="activation-card-list">
                 <div class="yoga-item" *ngFor="let entry of group.items">
                   <div class="yoga-header">
-                    <div class="yoga-title">
+                  <div class="yoga-title">
+                    <div class="yoga-dosha-title-line">
                       <h4>{{ entry.item.name }}</h4>
-                      <span class="meta-chip" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ entry.item.involvedPlanets.join(', ') }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
                     </div>
+                    <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.strength">
+                      <span class="meta-item" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                      <span class="yoga-strength natal-inline-value" *ngIf="entry.item.strength" [ngClass]="getYogaStrengthClass(entry.item.strength)">Natal: {{ entry.item.strength }}</span>
+                    </div>
+                  </div>
                     <div class="item-actions">
                       <span class="activation-level-chip" [ngClass]="getActivationLevelClass(entry.activation)">{{ getActivationLevel(entry.activation) }}</span>
-                      <span class="yoga-strength" *ngIf="entry.item.strength">Natal: {{ entry.item.strength }}</span>
-                      <button type="button" class="info-toggle" *ngIf="hasImpactDetails(entry.item)" [class.active]="isYogaDetailsOpen(entry.index)" [attr.aria-expanded]="isYogaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="toggleYogaDetails(entry.index)">i</button>
+                      <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                        <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                        <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                        <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                          <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                        </svg>
+                      </span>
+                      <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isYogaDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isYogaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleYogaDetailsAction(entry.index)">i</button>
                     </div>
                   </div>
                   <p class="yoga-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.description || entry.item.reason }}</p>
-                  <div class="impact-panel" *ngIf="isYogaDetailsOpen(entry.index)">
+                  <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+                    <div class="premium-activation-head">
+                      <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+                    </div>
+                    <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+                      <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent">
+                        <strong>{{ row.labelKey | transloco }}</strong>
+                        <span>{{ formatActivationPeriod(row.activation) }}</span>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'mahadashaPlanet')">{{ 'kundali.activation.mahadasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'mahadashaPlanet') }}</small>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'antardashaPlanet')">{{ 'kundali.activation.antardasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'antardashaPlanet') }}</small>
+                        <small *ngIf="getActivationLevel(row.activation)">{{ 'kundali.activation.level' | transloco }}: {{ getActivationLevel(row.activation) }}</small>
+                        <small *ngIf="formatActivationTrigger(row.activation)">{{ 'kundali.activation.triggeredBy' | transloco }}: {{ formatActivationTrigger(row.activation) }}</small>
+                      </div>
+                    </ng-container>
+                    <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+                  </div>
+                  <div class="impact-panel" *ngIf="isPremiumUser && isYogaDetailsOpen(entry.index)">
                     <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
                     <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
                       <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
@@ -528,43 +753,82 @@
           </ng-container>
 
           <div class="activation-period-group activation-period-group--natal" *ngIf="natalYogaItems.length">
-            <div class="activation-period-header"><p class="activation-period-story"><strong>Natal Yogas:</strong> <span>always present in the birth chart.</span></p></div>
             <div class="activation-card-list">
               <div class="yoga-item" *ngFor="let entry of natalYogaItems">
                 <div class="yoga-header">
                   <div class="yoga-title">
-                    <h4>{{ entry.item.name }}</h4>
-                    <span class="meta-chip" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
-                    <span class="meta-chip" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ entry.item.involvedPlanets.join(', ') }}</span>
-                    <span class="meta-chip" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                    <div class="yoga-dosha-title-line">
+                      <h4>{{ entry.item.name }}</h4>
+                    </div>
+                    <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.strength">
+                      <span class="meta-item" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                      <span class="yoga-strength natal-inline-value" *ngIf="entry.item.strength" [ngClass]="getYogaStrengthClass(entry.item.strength)">Natal: {{ entry.item.strength }}</span>
+                    </div>
                   </div>
                   <div class="item-actions">
-                    <span class="yoga-strength" *ngIf="entry.item.strength">Natal: {{ entry.item.strength }}</span>
-                    <button type="button" class="info-toggle" *ngIf="hasImpactDetails(entry.item)" [class.active]="isYogaDetailsOpen(entry.index)" [attr.aria-expanded]="isYogaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="toggleYogaDetails(entry.index)">i</button>
+                      <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                        <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                        <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                        <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                          <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                        </svg>
+                      </span>
+                    <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isYogaDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isYogaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleYogaDetailsAction(entry.index)">i</button>
                   </div>
                 </div>
                 <p class="yoga-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.description || entry.item.reason }}</p>
-                <div class="impact-panel" *ngIf="isYogaDetailsOpen(entry.index)">
-                  <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
-                  <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
-                    <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
-                      <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
-                      <p *ngFor="let statement of area.statements">{{ statement }}</p>
+                  <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+                    <div class="premium-activation-head">
+                      <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
                     </div>
+                    <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+                      <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent">
+                        <strong>{{ row.labelKey | transloco }}</strong>
+                        <span>{{ formatActivationPeriod(row.activation) }}</span>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'mahadashaPlanet')">{{ 'kundali.activation.mahadasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'mahadashaPlanet') }}</small>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'antardashaPlanet')">{{ 'kundali.activation.antardasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'antardashaPlanet') }}</small>
+                        <small *ngIf="getActivationLevel(row.activation)">{{ 'kundali.activation.level' | transloco }}: {{ getActivationLevel(row.activation) }}</small>
+                        <small *ngIf="formatActivationTrigger(row.activation)">{{ 'kundali.activation.triggeredBy' | transloco }}: {{ formatActivationTrigger(row.activation) }}</small>
+                      </div>
+                    </ng-container>
+                    <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
                   </div>
-                  <p class="impact-summary" *ngIf="entry.item.impact">{{ entry.item.impact }}</p>
-                </div>
+                  <div class="impact-panel" *ngIf="isPremiumUser && isYogaDetailsOpen(entry.index)">
+                    <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
+                    <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
+                      <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
+                        <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
+                        <p *ngFor="let statement of area.statements">{{ statement }}</p>
+                      </div>
+                    </div>
+                    <p class="impact-summary" *ngIf="entry.item.impact">{{ entry.item.impact }}</p>
+                  </div>
               </div>
             </div>
           </div>
-        </div>
 
+          <div class="premium-activation-locked premium-activation-section-cta" *ngIf="!hasAnyActivationAccess(yogas)">
+            <strong><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.lockedTitle' | transloco }}</strong>
+            <span>{{ 'kundali.activation.yogaLockedCopy' | transloco }}</span>
+            <button type="button" class="prediction-unlock-button compact" (click)="onUnlockPremium()">
+              {{ 'kundali.activation.unlockYogaCta' | transloco }} <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
+                <path d="M14.6 5.15 17 3"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
         <ng-template #noYogas>
           <p class="yoga-placeholder">{{ 'kundali.noYogas' | transloco }}</p>
         </ng-template>
       </app-section-card>
 
-      <app-section-card id="doshaSection" data-tour-id="kundali-report-doshas" [title]="'kundali.doshas' | transloco" class="full-row" *ngIf="kundaliResponse">
+      <app-section-card id="doshaSection" data-tour-id="kundali-report-doshas" [title]="'kundali.doshas' | transloco" [headerAction]="natalDoshaItems.length > 0" class="full-row" *ngIf="kundaliResponse">
+        <span card-action class="birth-chart-inline-note" *ngIf="natalDoshaItems.length">Dosha present in your chart. Unlock to know more.</span>
         <div class="doshas-list" *ngIf="doshas.length; else noDoshas">
           <ng-container *ngFor="let group of currentDoshaActivationGroups">
             <div class="activation-period-group activation-period-group--dosha is-current">
@@ -574,20 +838,48 @@
               <div class="activation-card-list">
                 <div class="dosha-item" *ngFor="let entry of group.items">
                   <div class="dosha-header">
-                    <div class="dosha-title">
+                  <div class="dosha-title">
+                    <div class="yoga-dosha-title-line">
                       <h4>{{ entry.item.name }}</h4>
-                      <span class="meta-chip" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ entry.item.involvedPlanets.join(', ') }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
                     </div>
+                    <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.severity">
+                      <span class="meta-item" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                      <span class="dosha-severity natal-inline-value" *ngIf="entry.item.severity" [ngClass]="getDoshaSeverityClass(entry.item.severity)">Natal: {{ translateControlledValue('severity', entry.item.severity) }}</span>
+                    </div>
+                  </div>
                     <div class="item-actions">
                       <span class="activation-level-chip" [ngClass]="getActivationLevelClass(entry.activation)">{{ getActivationLevel(entry.activation) }}</span>
-                      <span class="dosha-severity" *ngIf="entry.item.severity" [ngClass]="getDoshaSeverityClass(entry.item.severity)">Natal: {{ entry.item.severity }}</span>
-                      <button type="button" class="info-toggle" *ngIf="hasImpactDetails(entry.item)" [class.active]="isDoshaDetailsOpen(entry.index)" [attr.aria-expanded]="isDoshaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="toggleDoshaDetails(entry.index)">i</button>
+                      <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                        <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                        <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                        <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                          <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                        </svg>
+                      </span>
+                      <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isDoshaDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isDoshaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleDoshaDetailsAction(entry.index)">i</button>
                     </div>
                   </div>
                   <p class="dosha-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.reason || entry.item.description }}</p>
-                  <div class="impact-panel" *ngIf="isDoshaDetailsOpen(entry.index)">
+                  <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+                    <div class="premium-activation-head">
+                      <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+                    </div>
+                    <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+                      <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent">
+                        <strong>{{ row.labelKey | transloco }}</strong>
+                        <span>{{ formatActivationPeriod(row.activation) }}</span>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'mahadashaPlanet')">{{ 'kundali.activation.mahadasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'mahadashaPlanet') }}</small>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'antardashaPlanet')">{{ 'kundali.activation.antardasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'antardashaPlanet') }}</small>
+                        <small *ngIf="getActivationLevel(row.activation)">{{ 'kundali.activation.level' | transloco }}: {{ getActivationLevel(row.activation) }}</small>
+                        <small *ngIf="formatActivationTrigger(row.activation)">{{ 'kundali.activation.triggeredBy' | transloco }}: {{ formatActivationTrigger(row.activation) }}</small>
+                      </div>
+                    </ng-container>
+                    <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+                  </div>
+                  <div class="impact-panel" *ngIf="isPremiumUser && isDoshaDetailsOpen(entry.index)">
                     <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
                     <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
                       <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
@@ -610,20 +902,48 @@
               <div class="activation-card-list">
                 <div class="dosha-item" *ngFor="let entry of group.items">
                   <div class="dosha-header">
-                    <div class="dosha-title">
+                  <div class="dosha-title">
+                    <div class="yoga-dosha-title-line">
                       <h4>{{ entry.item.name }}</h4>
-                      <span class="meta-chip" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ entry.item.involvedPlanets.join(', ') }}</span>
-                      <span class="meta-chip" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
                     </div>
+                    <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.severity">
+                      <span class="meta-item" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                      <span class="dosha-severity natal-inline-value" *ngIf="entry.item.severity" [ngClass]="getDoshaSeverityClass(entry.item.severity)">Natal: {{ translateControlledValue('severity', entry.item.severity) }}</span>
+                    </div>
+                  </div>
                     <div class="item-actions">
                       <span class="activation-level-chip" [ngClass]="getActivationLevelClass(entry.activation)">{{ getActivationLevel(entry.activation) }}</span>
-                      <span class="dosha-severity" *ngIf="entry.item.severity" [ngClass]="getDoshaSeverityClass(entry.item.severity)">Natal: {{ entry.item.severity }}</span>
-                      <button type="button" class="info-toggle" *ngIf="hasImpactDetails(entry.item)" [class.active]="isDoshaDetailsOpen(entry.index)" [attr.aria-expanded]="isDoshaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="toggleDoshaDetails(entry.index)">i</button>
+                      <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                        <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                        <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                        <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                          <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                        </svg>
+                      </span>
+                      <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isDoshaDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isDoshaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleDoshaDetailsAction(entry.index)">i</button>
                     </div>
                   </div>
                   <p class="dosha-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.reason || entry.item.description }}</p>
-                  <div class="impact-panel" *ngIf="isDoshaDetailsOpen(entry.index)">
+                  <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+                    <div class="premium-activation-head">
+                      <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+                    </div>
+                    <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+                      <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent">
+                        <strong>{{ row.labelKey | transloco }}</strong>
+                        <span>{{ formatActivationPeriod(row.activation) }}</span>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'mahadashaPlanet')">{{ 'kundali.activation.mahadasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'mahadashaPlanet') }}</small>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'antardashaPlanet')">{{ 'kundali.activation.antardasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'antardashaPlanet') }}</small>
+                        <small *ngIf="getActivationLevel(row.activation)">{{ 'kundali.activation.level' | transloco }}: {{ getActivationLevel(row.activation) }}</small>
+                        <small *ngIf="formatActivationTrigger(row.activation)">{{ 'kundali.activation.triggeredBy' | transloco }}: {{ formatActivationTrigger(row.activation) }}</small>
+                      </div>
+                    </ng-container>
+                    <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+                  </div>
+                  <div class="impact-panel" *ngIf="isPremiumUser && isDoshaDetailsOpen(entry.index)">
                     <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
                     <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
                       <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
@@ -639,37 +959,75 @@
           </ng-container>
 
           <div class="activation-period-group activation-period-group--natal" *ngIf="natalDoshaItems.length">
-            <div class="activation-period-header"><p class="activation-period-story"><strong>Natal Doshas:</strong> <span>always present in the birth chart.</span></p></div>
             <div class="activation-card-list">
               <div class="dosha-item" *ngFor="let entry of natalDoshaItems">
                 <div class="dosha-header">
                   <div class="dosha-title">
-                    <h4>{{ entry.item.name }}</h4>
-                    <span class="meta-chip" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
-                    <span class="meta-chip" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ entry.item.involvedPlanets.join(', ') }}</span>
-                    <span class="meta-chip" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                    <div class="yoga-dosha-title-line">
+                      <h4>{{ entry.item.name }}</h4>
+                    </div>
+                    <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.severity">
+                      <span class="meta-item" *ngIf="entry.item.category">Category: {{ entry.item.category }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">Planets: {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                      <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">Houses: {{ entry.item.involvedHouses.join(', ') }}</span>
+                      <span class="dosha-severity natal-inline-value" *ngIf="entry.item.severity" [ngClass]="getDoshaSeverityClass(entry.item.severity)">Natal: {{ translateControlledValue('severity', entry.item.severity) }}</span>
+                    </div>
                   </div>
                   <div class="item-actions">
-                    <span class="dosha-severity" *ngIf="entry.item.severity" [ngClass]="getDoshaSeverityClass(entry.item.severity)">Natal: {{ entry.item.severity }}</span>
-                    <button type="button" class="info-toggle" *ngIf="hasImpactDetails(entry.item)" [class.active]="isDoshaDetailsOpen(entry.index)" [attr.aria-expanded]="isDoshaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="toggleDoshaDetails(entry.index)">i</button>
+                      <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                        <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                        <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                        <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                          <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                          <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                        </svg>
+                      </span>
+                    <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isDoshaDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isDoshaDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleDoshaDetailsAction(entry.index)">i</button>
                   </div>
                 </div>
                 <p class="dosha-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.reason || entry.item.description }}</p>
-                <div class="impact-panel" *ngIf="isDoshaDetailsOpen(entry.index)">
-                  <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
-                  <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
-                    <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
-                      <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
-                      <p *ngFor="let statement of area.statements">{{ statement }}</p>
+                  <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+                    <div class="premium-activation-head">
+                      <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
                     </div>
+                    <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+                      <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent">
+                        <strong>{{ row.labelKey | transloco }}</strong>
+                        <span>{{ formatActivationPeriod(row.activation) }}</span>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'mahadashaPlanet')">{{ 'kundali.activation.mahadasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'mahadashaPlanet') }}</small>
+                        <small *ngIf="getActivationPlanetLabel(row.activation, 'antardashaPlanet')">{{ 'kundali.activation.antardasha' | transloco }}: {{ getActivationPlanetLabel(row.activation, 'antardashaPlanet') }}</small>
+                        <small *ngIf="getActivationLevel(row.activation)">{{ 'kundali.activation.level' | transloco }}: {{ getActivationLevel(row.activation) }}</small>
+                        <small *ngIf="formatActivationTrigger(row.activation)">{{ 'kundali.activation.triggeredBy' | transloco }}: {{ formatActivationTrigger(row.activation) }}</small>
+                      </div>
+                    </ng-container>
+                    <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
                   </div>
-                  <div class="dosha-remedies" *ngIf="entry.item.remedies?.length"><strong>Remedies</strong><span *ngFor="let remedy of entry.item.remedies">{{ remedy }}</span></div>
-                </div>
+                  <div class="impact-panel" *ngIf="isPremiumUser && isDoshaDetailsOpen(entry.index)">
+                    <div class="impact-panel-header"><strong>Impact Areas</strong><span>{{ entry.item.impactAreas?.length || 0 }} categories</span></div>
+                    <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
+                      <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
+                        <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
+                        <p *ngFor="let statement of area.statements">{{ statement }}</p>
+                      </div>
+                    </div>
+                    <div class="dosha-remedies" *ngIf="entry.item.remedies?.length"><strong>Remedies</strong><span *ngFor="let remedy of entry.item.remedies">{{ remedy }}</span></div>
+                  </div>
               </div>
             </div>
           </div>
-        </div>
 
+          <div class="premium-activation-locked premium-activation-section-cta" *ngIf="!hasAnyActivationAccess(doshas)">
+            <strong><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.lockedTitle' | transloco }}</strong>
+            <span>{{ 'kundali.activation.doshaLockedCopy' | transloco }}</span>
+            <button type="button" class="prediction-unlock-button compact" (click)="onUnlockPremium()">
+              {{ 'kundali.activation.unlockDoshaCta' | transloco }} <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
+                <path d="M14.6 5.15 17 3"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
         <ng-template #noDoshas>
           <p class="dosha-placeholder">{{ 'kundali.noDoshas' | transloco }}</p>
         </ng-template>
@@ -749,8 +1107,33 @@
             {{ strengthTables.methodNote }}
           </div>
 
+          <div class="advanced-strength-tabs" role="tablist" aria-label="Advanced strength views">
+            <button
+              type="button"
+              class="advanced-strength-tab"
+              [class.active]="activeStrengthView === 'summary'"
+              role="tab"
+              [attr.aria-selected]="activeStrengthView === 'summary'"
+              (click)="activeStrengthView = 'summary'">
+              Strength Summary
+            </button>
+            <button
+              type="button"
+              class="advanced-strength-tab"
+              [class.active]="activeStrengthView === 'ashtakavarga'"
+              role="tab"
+              [attr.aria-selected]="activeStrengthView === 'ashtakavarga'"
+              *ngIf="strengthTables.houseSupport?.length"
+              (click)="activeStrengthView = 'ashtakavarga'">
+              Ashtakavarga Support
+            </button>
+            <button type="button" class="advanced-strength-tab is-disabled" disabled>
+              Shadbala Coming Soon
+            </button>
+          </div>
+
           <div class="advanced-strength-grid">
-            <section class="advanced-strength-block" *ngIf="strengthTables.planetaryStrengths?.length">
+            <section class="advanced-strength-block" *ngIf="activeStrengthView === 'summary' && strengthTables.planetaryStrengths?.length">
               <div class="advanced-strength-heading">
                 <h4>Planetary Strengths</h4>
                 <span>Shadbala-ready</span>
@@ -775,7 +1158,7 @@
                     <tr *ngFor="let row of strengthTables.planetaryStrengths">
                       <td class="planet-cell"><span class="planet-icon" [attr.data-planet]="row.planet">{{ getPlanetGlyph(row.planet) }}</span><span class="planet-name">{{ translatePlanetName(row.planet) }}</span></td>
                       <td><strong>{{ row.totalScore }}/100</strong></td>
-                      <td><span class="strength-pill" [ngClass]="getStrengthClass(row.strengthLevel)">{{ row.strengthLevel }}</span></td>
+                      <td><span class="strength-text" [ngClass]="getStrengthClass(row.strengthLevel)" [style.color]="row.strengthLevel && (row.strengthLevel.toLowerCase().includes('weak') || row.strengthLevel.toLowerCase().includes('low') || row.strengthLevel.toLowerCase().includes('poor') || row.strengthLevel.toLowerCase().includes('enemy') || row.strengthLevel.toLowerCase().includes('debilitated')) ? 'var(--theme-danger)' : row.strengthLevel && (row.strengthLevel.toLowerCase().includes('strong') || row.strengthLevel.toLowerCase().includes('high') || row.strengthLevel.toLowerCase().includes('good') || row.strengthLevel.toLowerCase().includes('excellent') || row.strengthLevel.toLowerCase().includes('own') || row.strengthLevel.toLowerCase().includes('exalted')) ? 'var(--theme-success)' : row.strengthLevel && (row.strengthLevel.toLowerCase().includes('moderate') || row.strengthLevel.toLowerCase().includes('medium') || row.strengthLevel.toLowerCase().includes('average') || row.strengthLevel.toLowerCase().includes('neutral')) ? 'var(--theme-warning)' : null">{{ translateControlledValue('strength', row.strengthLevel) }}</span></td>
                       <td>{{ row.sthanaBala }}</td>
                       <td>{{ row.digBala }}</td>
                       <td>{{ row.kalaBala }}</td>
@@ -789,7 +1172,7 @@
               </div>
             </section>
 
-            <section class="advanced-strength-block" *ngIf="strengthTables.houseSupport?.length">
+            <section class="advanced-strength-block" *ngIf="activeStrengthView === 'ashtakavarga' && strengthTables.houseSupport?.length">
               <div class="advanced-strength-heading">
                 <h4>Ashtakavarga House Support</h4>
                 <span>BAV/SAV estimated</span>
@@ -812,13 +1195,13 @@
                     <tr *ngFor="let row of strengthTables.houseSupport">
                       <td class="house-support-primary">
                         <strong>{{ row.house }}</strong>
-                        <span>{{ row.houseName }}</span>
+                        <span>{{ translateHouseName(row.house, row.houseName) }}</span><small>{{ translateHouseMeaning(row.house) }}</small>
                       </td>
                       <td>{{ translateSignName(row.sign) }}</td>
                       <td>{{ row.estimatedBavPoints }}/8</td>
                       <td>{{ row.estimatedSavPoints }}</td>
                       <td class="house-support-score">{{ row.score }}/100</td>
-                      <td><span class="strength-pill" [ngClass]="getStrengthClass(row.supportLevel)">{{ row.supportLevel }}</span></td>
+                      <td><span class="strength-text" [ngClass]="getStrengthClass(row.supportLevel)" [style.color]="row.supportLevel && (row.supportLevel.toLowerCase().includes('weak') || row.supportLevel.toLowerCase().includes('low') || row.supportLevel.toLowerCase().includes('poor') || row.supportLevel.toLowerCase().includes('enemy') || row.supportLevel.toLowerCase().includes('debilitated')) ? 'var(--theme-danger)' : row.supportLevel && (row.supportLevel.toLowerCase().includes('strong') || row.supportLevel.toLowerCase().includes('high') || row.supportLevel.toLowerCase().includes('good') || row.supportLevel.toLowerCase().includes('excellent') || row.supportLevel.toLowerCase().includes('own') || row.supportLevel.toLowerCase().includes('exalted')) ? 'var(--theme-success)' : row.supportLevel && (row.supportLevel.toLowerCase().includes('moderate') || row.supportLevel.toLowerCase().includes('medium') || row.supportLevel.toLowerCase().includes('average') || row.supportLevel.toLowerCase().includes('neutral')) ? 'var(--theme-warning)' : null">{{ translateControlledValue('strength', row.supportLevel) }}</span></td>
                       <td class="advanced-reading house-support-areas">{{ row.lifeAreas || '-' }}</td>
                       <td class="advanced-reading house-support-transit">{{ row.transitUsefulness }}</td>
                     </tr>
@@ -855,7 +1238,7 @@
                 <article class="sudarshan-analysis-card" *ngFor="let item of sudarshan.interpretations">
                   <div>
                     <h4>{{ item.area }}</h4>
-                    <span [class]="'tone-pill ' + (item.tone || 'neutral').toLowerCase()">{{ item.tone }}</span>
+                    <span [class]="'tone-pill ' + (item.tone || 'neutral').toLowerCase()">{{ translateControlledValue('tone', item.tone) }}</span>
                   </div>
                   <strong>{{ item.score }}/100</strong>
                   <p>{{ getSudarshanAreaDefinition(item.area) }}</p>
@@ -903,6 +1286,18 @@
             [resetKey]="currentLifeFocusResetKey"
             (kundaliSaved)="onCurrentLifeFocusSaved($event)">
           </app-current-life-focus>
+
+          <div class="prediction-bottom-cta full-row" *ngIf="!isPremiumUser">
+            <span class="prediction-bottom-cue" aria-hidden="true">&#10022;</span>
+            <p>{{ 'kundali.predictions.bottomCtaText' | transloco }}</p>
+            <button type="button" class="prediction-unlock-button" (click)="onUnlockPremium()">
+              {{ 'kundali.predictions.unlockCta' | transloco }} <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
+                <path d="M14.6 5.15 17 3"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -931,6 +1326,22 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

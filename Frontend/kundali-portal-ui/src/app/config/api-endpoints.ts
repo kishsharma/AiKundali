@@ -24,6 +24,7 @@ export const apiEndpoints = {
     pdf: 'ReportShare/pdf',
   },
   gochar: {
+    root: 'gochar',
     currentLifeFocus: 'gochar/current-life-focus',
   },
 } as const;

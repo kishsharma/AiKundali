@@ -1,0 +1,306 @@
+{
+  "id": 27,
+  "name": "Revati",
+  "sanskritName": "रेवती",
+  "englishName": "Revati",
+
+  "startDegree": {
+    "sign": "Pisces",
+    "longitude": 346.666667,
+    "display": "16°40' Pisces"
+  },
+
+  "endDegree": {
+    "sign": "Pisces",
+    "longitude": 360.000000,
+    "display": "30°00' Pisces"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 12,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "De",
+      "akshara": "दे"
+    },
+    {
+      "number": 2,
+      "rashiId": 12,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Do",
+      "akshara": "दो"
+    },
+    {
+      "number": 3,
+      "rashiId": 12,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Aquarius",
+      "syllable": "Cha",
+      "akshara": "चा"
+    },
+    {
+      "number": 4,
+      "rashiId": 12,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Pisces",
+      "syllable": "Chi",
+      "akshara": "ची"
+    }
+  ],
+
+  "lord": "Mercury",
+
+  "rashi": [
+    "Pisces"
+  ],
+
+  "deity": "Pushan",
+
+  "symbol": "Fish, Drum, Nourishing Cow",
+
+  "animalSymbol": "Female Elephant",
+
+  "gana": "Deva",
+
+  "yoni": "Elephant",
+
+  "nadi": "Antya",
+
+  "varna": "Shudra",
+
+  "vashya": [
+    "Jalachara"
+  ],
+
+  "guna": "Sattva",
+
+  "tatva": "Water",
+
+  "gender": "Female",
+
+  "nature": "Mridu (Soft)",
+
+  "motivation": "Moksha",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "Medium",
+    "kapha": "High"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Mahua (Madhuca longifolia)",
+
+  "flower": "White Lotus",
+
+  "metal": "Mercury",
+
+  "color": [
+    "White",
+    "Yellow",
+    "Light Blue"
+  ],
+
+  "gemstone": "Emerald",
+
+  "rudraksha": [
+    "4 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Green Gram",
+    "Books",
+    "Cow Feed",
+    "Rice",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ पूष्णे नमः",
+
+  "planetaryBeejMantra": "ॐ ब्रां ब्रीं ब्रौं सः बुधाय नमः",
+
+  "fastingDay": "Wednesday",
+
+  "positiveTraits": [
+    "Compassionate",
+    "Kind",
+    "Wise",
+    "Helpful",
+    "Creative",
+    "Intuitive",
+    "Patient",
+    "Generous",
+    "Gentle",
+    "Spiritual"
+  ],
+
+  "negativeTraits": [
+    "Overly Sensitive",
+    "Escapist",
+    "Indecisive",
+    "Trusting",
+    "Emotional",
+    "Avoids Conflict"
+  ],
+
+  "strengths": [
+    "Healing",
+    "Teaching",
+    "Counseling",
+    "Guidance",
+    "Creativity"
+  ],
+
+  "weaknesses": [
+    "Emotional Vulnerability",
+    "Difficulty Setting Boundaries",
+    "Overthinking"
+  ],
+
+  "career": [
+    "Teacher",
+    "Counselor",
+    "Doctor",
+    "Veterinarian",
+    "Artist",
+    "Writer",
+    "Musician",
+    "Traveler",
+    "Spiritual Guide",
+    "Social Worker"
+  ],
+
+  "education": [
+    "Medicine",
+    "Arts",
+    "Psychology",
+    "Education",
+    "Literature"
+  ],
+
+  "finance": [
+    "Steady Prosperity",
+    "Success through Service",
+    "Good Long-Term Savings"
+  ],
+
+  "health": [
+    "Feet",
+    "Digestive System",
+    "Intestines",
+    "Nervous System",
+    "Sleep Disorders"
+  ],
+
+  "bodyParts": [
+    "Feet",
+    "Toes",
+    "Digestive System"
+  ],
+
+  "relationships": [
+    "Caring",
+    "Faithful",
+    "Supportive",
+    "Compassionate"
+  ],
+
+  "loveNature": "Gentle",
+
+  "marriageNature": "Devoted",
+
+  "friendshipNature": "Loyal",
+
+  "leadershipStyle": "Supportive",
+
+  "communicationStyle": "Kind",
+
+  "decisionMaking": "Intuitive",
+
+  "emotionalNature": "Compassionate",
+
+  "learningStyle": "Experiential",
+
+  "businessSuitability": [
+    "Good"
+  ],
+
+  "recommendedProfessions": [
+    "Healthcare",
+    "Education",
+    "Arts",
+    "Travel",
+    "Animal Care",
+    "Counseling"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Travel",
+    "Education",
+    "Housewarming",
+    "Spiritual Practices",
+    "Charity",
+    "Healing"
+  ],
+
+  "avoidFor": [
+    "Violence",
+    "Destructive Activities"
+  ],
+
+  "isMokshaNakshatra": true,
+
+  "chakra": "Sahasrara",
+
+  "spiritualLesson": "Life's highest purpose is to guide, nurture and serve others with compassion, humility and unconditional love.",
+
+  "compatibleNakshatras": [
+    "Mrigashira",
+    "Hasta",
+    "Uttara Bhadrapada"
+  ],
+
+  "challengingNakshatras": [
+    "Bharani",
+    "Magha"
+  ],
+
+  "mythologicalStory": "Revati is ruled by Pushan, the divine protector of travelers, herds and lost souls. It is the final Nakshatra of the zodiac and represents completion, nourishment, protection and the soul's preparation for a new cycle of life. Revati signifies compassion, safe journeys and spiritual fulfillment.",
+
+  "interestingFacts": [
+    "The final Nakshatra of the zodiac.",
+    "Represents completion, nourishment and safe journeys.",
+    "One of the strongest Moksha-oriented Nakshatras.",
+    "Excellent for travel, healing and charitable activities.",
+    "Associated with protection, guidance and spiritual fulfillment."
+  ],
+
+  "keywords": [
+    "Completion",
+    "Compassion",
+    "Protection",
+    "Travel",
+    "Healing",
+    "Liberation"
+  ],
+
+  "icon": "🐘",
+
+  "priorityLifeAreas": [
+    "Spiritual Growth",
+    "Service",
+    "Healing",
+    "Family"
+  ]
+}

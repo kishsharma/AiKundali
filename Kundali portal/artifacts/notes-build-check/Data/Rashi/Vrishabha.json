@@ -1,0 +1,61 @@
+{
+  "id": 2,
+  "name": "Vrishabha",
+  "englishName": "Taurus",
+  "symbol": "♉",
+  "element": "Earth",
+  "modality": "Fixed",
+  "gender": "Female",
+  "nature": "Saumya",
+  "ruler": "Venus",
+  "direction": "South",
+  "bodyPart": "Face, Neck, Throat",
+  "quality": "Stability, patience, material prosperity",
+  "personality": "Reliable, practical, patient, determined, comfort-loving, and dependable.",
+  "strengths": [
+    "Patient",
+    "Reliable",
+    "Practical",
+    "Loyal",
+    "Persistent"
+  ],
+  "weaknesses": [
+    "Stubborn",
+    "Possessive",
+    "Materialistic",
+    "Resistant to change"
+  ],
+  "career": [
+    "Finance",
+    "Banking",
+    "Agriculture",
+    "Music",
+    "Fashion",
+    "Architecture",
+    "Luxury Business",
+    "Food Industry"
+  ],
+  "relationships": "Loyal, affectionate, dependable, and seeks long-term stability in relationships.",
+  "health": "Throat, neck, thyroid, vocal cords, tonsils.",
+  "color": "#43A047",
+  "gemstone": "Diamond",
+  "metal": "Silver",
+  "luckyNumbers": [ 2, 6 ],
+  "favorableDirection": "South",
+  "favorableDay": "Friday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 3,
+      "padas": [ 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 4,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 5,
+      "padas": [ 1, 2 ]
+    }
+  ],
+  "description": "Vrishabha is the second sign of the zodiac, representing stability, wealth, beauty, and endurance. Ruled by Venus, it signifies patience, material comforts, artistic appreciation, and unwavering determination."
+}

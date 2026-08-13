@@ -259,6 +259,20 @@ namespace KundaliEngine.API.Controllers
                 return NotFound();
             }
 
+            var notes = await _dbContext.PortalNotes
+                .Where(note => note.UserId == userId.Value
+                    && note.ContextType == "Compatibility"
+                    && note.ContextId == id)
+                .ToListAsync();
+
+            var voiceRecordings = await _dbContext.PortalNoteVoiceRecordings
+                .Where(recording => recording.UserId == userId.Value
+                    && recording.ContextType == "Compatibility"
+                    && recording.ContextId == id)
+                .ToListAsync();
+
+            _dbContext.PortalNotes.RemoveRange(notes);
+            _dbContext.PortalNoteVoiceRecordings.RemoveRange(voiceRecordings);
             _dbContext.SavedCompatibilities.Remove(savedCompatibility);
             await _dbContext.SaveChangesAsync();
             await _auditLogService.LogAsync(new AuditLogEntry

@@ -75,10 +75,10 @@
 .table-head,
 .table-row {
   display: grid;
-  grid-template-columns: minmax(190px, 1.15fr) minmax(220px, 1.1fr) minmax(120px, 0.7fr) 100px minmax(150px, 0.75fr) 170px;
+  grid-template-columns: minmax(170px, 1fr) minmax(190px, 1fr) minmax(110px, 0.62fr) 86px 86px minmax(260px, 1.25fr) minmax(140px, 0.75fr) 160px;
   align-items: center;
   gap: 12px;
-  min-width: 1010px;
+  min-width: 1320px;
 }
 
 .table-head {
@@ -448,5 +448,68 @@
 
   .switch input:checked + .slider::after {
     transform: translateX(16px);
+  }
+}
+.plan-pill {
+  color: var(--theme-warning, #b45309);
+  background: color-mix(in srgb, var(--theme-warning, #ff8a00) 16%, var(--theme-surface, #ffffff));
+}
+
+.plan-pill.inactive {
+  color: var(--theme-text-muted, #5d6689);
+  background: color-mix(in srgb, var(--theme-text-muted, #5d6689) 10%, var(--theme-surface, #ffffff));
+}
+
+.premium-control {
+  display: grid;
+  grid-template-columns: auto minmax(132px, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.premium-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--theme-text, #202640);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.premium-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--theme-accent, #7e3ba8);
+}
+
+.premium-control input[type='date'] {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--theme-line, #d9deee);
+  border-radius: var(--theme-radius-control, 6px);
+  padding: 0 8px;
+  color: var(--theme-text, #10143d);
+  background: var(--theme-surface-2, #fbfcff);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  outline: none;
+}
+
+.premium-control input[type='date']:focus {
+  border-color: var(--theme-accent, #7e3ba8);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent, #7e3ba8) 10%, transparent);
+}
+
+.premium-control.busy {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 760px) {
+  .premium-control--mobile,
+  .limit-control--mobile {
+    grid-template-columns: minmax(80px, auto) minmax(0, 1fr) auto;
   }
 }

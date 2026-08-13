@@ -1,0 +1,305 @@
+{
+  "id": 22,
+  "name": "Shravana",
+  "sanskritName": "श्रवण",
+  "englishName": "Shravana",
+
+  "startDegree": {
+    "sign": "Capricorn",
+    "longitude": 280.000000,
+    "display": "10°00' Capricorn"
+  },
+
+  "endDegree": {
+    "sign": "Capricorn",
+    "longitude": 293.333333,
+    "display": "23°20' Capricorn"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 10,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Aries",
+      "syllable": "Ju",
+      "akshara": "जू"
+    },
+    {
+      "number": 2,
+      "rashiId": 10,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Taurus",
+      "syllable": "Je",
+      "akshara": "जे"
+    },
+    {
+      "number": 3,
+      "rashiId": 10,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Gemini",
+      "syllable": "Jo",
+      "akshara": "जो"
+    },
+    {
+      "number": 4,
+      "rashiId": 10,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Cancer",
+      "syllable": "Khi",
+      "akshara": "खी"
+    }
+  ],
+
+  "lord": "Moon",
+
+  "rashi": [
+    "Capricorn"
+  ],
+
+  "deity": "Lord Vishnu",
+
+  "symbol": "Ear",
+
+  "animalSymbol": "Female Monkey",
+
+  "gana": "Deva",
+
+  "yoni": "Monkey",
+
+  "nadi": "Antya",
+
+  "varna": "Vaishya",
+
+  "vashya": [
+    "Chatushpada"
+  ],
+
+  "guna": "Rajas",
+
+  "tatva": "Earth",
+
+  "gender": "Male",
+
+  "nature": "Chara (Movable)",
+
+  "motivation": "Artha",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "Low",
+    "kapha": "High"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Akshaya Vat (Sacred Banyan)",
+
+  "flower": "White Lotus",
+
+  "metal": "Silver",
+
+  "color": [
+    "White",
+    "Blue",
+    "Cream"
+  ],
+
+  "gemstone": "Pearl",
+
+  "rudraksha": [
+    "2 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Rice",
+    "Milk",
+    "White Clothes",
+    "Books",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ नमो नारायणाय",
+
+  "planetaryBeejMantra": "ॐ श्रां श्रीं श्रौं सः चन्द्राय नमः",
+
+  "fastingDay": "Monday",
+
+  "positiveTraits": [
+    "Wise",
+    "Knowledgeable",
+    "Patient",
+    "Disciplined",
+    "Good Listener",
+    "Compassionate",
+    "Traditional",
+    "Responsible",
+    "Spiritual",
+    "Reliable"
+  ],
+
+  "negativeTraits": [
+    "Reserved",
+    "Overthinks",
+    "Conservative",
+    "Emotionally Sensitive",
+    "Can Be Stubborn",
+    "Slow Decision Making"
+  ],
+
+  "strengths": [
+    "Learning",
+    "Teaching",
+    "Communication",
+    "Memory",
+    "Spiritual Wisdom"
+  ],
+
+  "weaknesses": [
+    "Emotional Attachment",
+    "Overanalysis",
+    "Resistance to Change"
+  ],
+
+  "career": [
+    "Teacher",
+    "Professor",
+    "Scholar",
+    "Counselor",
+    "Writer",
+    "Priest",
+    "Historian",
+    "Librarian",
+    "Journalist",
+    "Consultant"
+  ],
+
+  "education": [
+    "Literature",
+    "History",
+    "Philosophy",
+    "Education",
+    "Religious Studies"
+  ],
+
+  "finance": [
+    "Steady Financial Growth",
+    "Income through Knowledge",
+    "Good Long-Term Savings"
+  ],
+
+  "health": [
+    "Ears",
+    "Hearing",
+    "Bones",
+    "Joints",
+    "Digestive System"
+  ],
+
+  "bodyParts": [
+    "Ears",
+    "Hearing System",
+    "Knees"
+  ],
+
+  "relationships": [
+    "Loyal",
+    "Respectful",
+    "Supportive",
+    "Family Oriented"
+  ],
+
+  "loveNature": "Gentle",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Trustworthy",
+
+  "leadershipStyle": "Mentoring",
+
+  "communicationStyle": "Thoughtful",
+
+  "decisionMaking": "Analytical",
+
+  "emotionalNature": "Calm",
+
+  "learningStyle": "Listening and Observation",
+
+  "businessSuitability": [
+    "Very Good"
+  ],
+
+  "recommendedProfessions": [
+    "Education",
+    "Publishing",
+    "Counseling",
+    "Media",
+    "Spiritual Services",
+    "Research"
+  ],
+
+  "goodFor": [
+    "Education",
+    "Learning",
+    "Teaching",
+    "Spiritual Practices",
+    "Signing Agreements",
+    "Travel"
+  ],
+
+  "avoidFor": [
+    "Aggressive Confrontations",
+    "Destructive Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Vishuddha",
+
+  "spiritualLesson": "True wisdom begins with listening. Knowledge transforms into wisdom only when it is understood, practiced and shared with humility.",
+
+  "compatibleNakshatras": [
+    "Hasta",
+    "Rohini",
+    "Uttara Ashadha"
+  ],
+
+  "challengingNakshatras": [
+    "Ardra",
+    "Ashlesha"
+  ],
+
+  "mythologicalStory": "Shravana is ruled by Lord Vishnu, the preserver of the universe. Symbolized by the ear, it represents listening, learning and preserving sacred knowledge. This Nakshatra teaches that attentive listening and disciplined learning are the foundation of wisdom and spiritual evolution.",
+
+  "interestingFacts": [
+    "Represents listening, learning and sacred knowledge.",
+    "Excellent Nakshatra for education and teaching.",
+    "Associated with Lord Vishnu and preservation of dharma.",
+    "Produces excellent communicators and lifelong learners.",
+    "Highly favorable for spiritual studies and pilgrimage."
+  ],
+
+  "keywords": [
+    "Learning",
+    "Listening",
+    "Wisdom",
+    "Knowledge",
+    "Teaching",
+    "Dharma"
+  ],
+
+  "icon": "👂",
+
+  "priorityLifeAreas": [
+    "Education",
+    "Career",
+    "Spiritual Growth",
+    "Knowledge"
+  ]
+}

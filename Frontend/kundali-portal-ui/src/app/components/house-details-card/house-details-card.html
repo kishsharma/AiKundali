@@ -1,16 +1,21 @@
-<div
+﻿<div
   class="house-details-card"
   *ngIf="houseData"
 >
 
   <div class="card-header">
 
-    <h3>
-      {{ 'house.detailsHeader' | transloco: {
-        houseNumber: houseData.houseNumber,
-        houseName: houseData.houseName
-      } }}
-    </h3>
+    <div class="house-title-block">
+      <h3>
+        {{ 'house.detailsHeader' | transloco: {
+          houseNumber: houseData.houseNumber,
+          houseName: houseName
+        } }}
+      </h3>
+      <p class="house-meaning" *ngIf="houseMeaning">
+        {{ houseMeaning }}
+      </p>
+    </div>
 
     <span class="sign-badge">
       {{ translateSign(houseData.sign) }}
@@ -52,7 +57,6 @@
       {{ aspectedByText }}
     </p>
   </div>
-
   <div
     class="tag-section simple-text-section"
     *ngIf="houseData.dominantThemes?.length"

@@ -1,4 +1,4 @@
-<div
+﻿<div
   class="panchang-card"
   *ngIf="panchang"
 >
@@ -18,8 +18,8 @@
         <span>{{ 'panchang.maas' | transloco }}</span>
 
         <strong>
-          {{ panchang.maas }}
-          {{ panchang.paksha }} {{ 'panchang.pakshaLabel' | transloco }}
+          {{ translatePanchang('maas', panchang.maas) }}
+          {{ translatePanchang('paksha', panchang.paksha) }} {{ 'panchang.pakshaLabel' | transloco }}
         </strong>
 
       </div>
@@ -39,7 +39,7 @@
         <span>{{ 'panchang.tithi' | transloco }}</span>
 
         <strong>
-          {{ panchang.tithi }}
+          {{ translatePanchang('tithi', panchang.tithi) }}
         </strong>
 
       </div>
@@ -59,7 +59,7 @@
         <span>{{ 'panchang.nakshatra' | transloco }}</span>
 
         <strong>
-          {{ panchang.nakshatra }}
+          {{ translatePanchang('nakshatra', panchang.nakshatra) }}
           Pada {{ panchang.pada }}
         </strong>
 
@@ -80,7 +80,7 @@
         <span>{{ 'panchang.yoga' | transloco }}</span>
 
         <strong>
-          {{ panchang.yoga }}
+          {{ translatePanchang('yoga', panchang.yoga) }}
         </strong>
 
       </div>
@@ -100,7 +100,7 @@
         <span>{{ 'panchang.karana' | transloco }}</span>
 
         <strong>
-          {{ panchang.karana }}
+          {{ translatePanchang('karana', panchang.karana) }}
         </strong>
 
       </div>
@@ -120,7 +120,7 @@
         <span>{{ 'panchang.vara' | transloco }}</span>
 
         <strong>
-          {{ panchang.vaar }}
+          {{ translatePanchang('vaar', panchang.vaar) }}
         </strong>
 
       </div>

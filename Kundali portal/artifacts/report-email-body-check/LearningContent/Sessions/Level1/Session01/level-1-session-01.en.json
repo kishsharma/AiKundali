@@ -1,0 +1,885 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "a3c9eff3-380b-5c4b-9135-6ea4e543d528",
+  "levelCode": "level-1",
+  "sessionNumber": 1,
+  "slug": "understanding-the-360-degree-celestial-circle",
+  "language": "en",
+  "title": "Understanding the 360° Celestial Circle",
+  "subtitle": "The common framework behind Rashis, Nakshatras, Padas and planetary longitude",
+  "summary": "This foundation session explains how Jyotish represents apparent celestial positions on a 360-degree circle. The student learns the Earth-centred observational viewpoint, the ecliptic, the twelve Rashis, the twenty-seven Nakshatras, the four Padas within each Nakshatra, and the astronomical basis of the Rahu-Ketu axis. Worked examples show how to convert a global longitude into Rashi, Nakshatra and Pada.",
+  "estimatedMinutes": 72,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Explain why all zodiacal longitudes are measured on one complete 360-degree circle.",
+    "Describe the geocentric observational viewpoint used when preparing a birth chart.",
+    "Calculate the thirty-degree span of each of the twelve Rashis.",
+    "Calculate the thirteen-degree-twenty-minute span of each of the twenty-seven Nakshatras.",
+    "Explain why each Nakshatra contains four Padas of three degrees and twenty minutes each.",
+    "Distinguish global zodiac longitude from longitude measured within a particular Rashi.",
+    "Describe Rahu and Ketu as the two lunar nodes where the Moon's orbital plane meets the ecliptic."
+  ],
+  "prerequisites": [
+    "No prior Jyotish knowledge is required.",
+    "The student should be comfortable with basic division and the idea that one degree contains sixty arcminutes."
+  ],
+  "keyTerms": [
+    {
+      "term": "Celestial circle",
+      "sanskrit": "खगोलीय वृत्त",
+      "transliteration": "khagolīya vṛtta",
+      "meaning": "A conceptual complete circle used to record apparent celestial longitude from 0° up to, but not including, 360°.",
+      "note": "This course uses the term as a teaching expression; terminology varies among Sanskrit astronomical works."
+    },
+    {
+      "term": "Rashi Chakra",
+      "sanskrit": "राशिचक्र",
+      "transliteration": "rāśi-cakra",
+      "meaning": "The zodiac divided into twelve equal Rashis of thirty degrees each.",
+      "note": "Rashi means a sign or division; chakra means circle or wheel."
+    },
+    {
+      "term": "Ecliptic",
+      "sanskrit": "क्रान्तिवृत्त",
+      "transliteration": "krānti-vṛtta",
+      "meaning": "The apparent annual path of the Sun against the background sky, used as the main reference circle for zodiacal longitude.",
+      "note": "The planets and Moon remain near this path but do not all move exactly upon the same line."
+    },
+    {
+      "term": "Nakshatra",
+      "sanskrit": "नक्षत्र",
+      "transliteration": "nakṣatra",
+      "meaning": "One of twenty-seven equal lunar divisions of the zodiac, each measuring 13°20′.",
+      "note": "The Nakshatra system is especially important for the Moon, Panchang and Vimshottari Dasha."
+    },
+    {
+      "term": "Pada",
+      "sanskrit": "पाद",
+      "transliteration": "pāda",
+      "meaning": "One quarter of a Nakshatra, measuring 3°20′.",
+      "note": "Twenty-seven Nakshatras multiplied by four Padas gives 108 Padas in the zodiac."
+    },
+    {
+      "term": "Lunar node",
+      "sanskrit": "पात",
+      "transliteration": "pāta",
+      "meaning": "One of two intersection points between the Moon's orbital plane and the ecliptic.",
+      "note": "Jyotish identifies the ascending node with Rahu and the descending node with Ketu."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "one-circle-many-divisions",
+      "title": "One Circle, Many Divisions",
+      "estimatedMinutes": 7
+    },
+    {
+      "sectionId": "earth-centred-observation",
+      "title": "The Earth-Centred Observational View",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "ecliptic-and-zodiac",
+      "title": "The Ecliptic and Zodiac Belt",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "twelve-rashis",
+      "title": "Twelve Rashis and Their Degree Ranges",
+      "estimatedMinutes": 11
+    },
+    {
+      "sectionId": "twenty-seven-nakshatras",
+      "title": "Twenty-Seven Nakshatras",
+      "estimatedMinutes": 11
+    },
+    {
+      "sectionId": "four-padas",
+      "title": "Four Padas in Every Nakshatra",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "sun-moon-rahu-ketu",
+      "title": "Sun, Moon and the Rahu-Ketu Axis",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "worked-examples",
+      "title": "Worked Degree Examples",
+      "estimatedMinutes": 7
+    },
+    {
+      "sectionId": "foundation-review",
+      "title": "Foundation Review",
+      "estimatedMinutes": 4
+    }
+  ],
+  "sections": [
+    {
+      "id": "one-circle-many-divisions",
+      "title": "One Circle, Many Divisions",
+      "estimatedMinutes": 7,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Jyotish begins by assigning an exact position to each relevant celestial body. To do this consistently, the apparent sky is represented through a complete circle of 360 degrees. Every planetary longitude, Rashi boundary, Nakshatra boundary and Pada boundary is located somewhere on this same circle."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session01-full-circle-360",
+          "assetPath": "assets/learning/Level-1/session-01/full-circle-360.svg",
+          "altText": "A complete circle marked at zero, ninety, one hundred eighty, two hundred seventy and three hundred sixty degrees.",
+          "caption": "A complete revolution returns to the starting point: 0° and 360° indicate the same direction.",
+          "purpose": "Establish the single coordinate circle used throughout the lesson.",
+          "annotations": [
+            "0° / 360°",
+            "90°",
+            "180°",
+            "270°"
+          ]
+        },
+        {
+          "type": "formula",
+          "expression": "1 complete circle = 360°",
+          "explanation": "Longitude begins at 0° and increases around the zodiac. After reaching 359°59′59″, the next point is again 0°.",
+          "workedExample": "A body at 2° has just passed the starting point. A body at 358° is two degrees before completing the circle."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "One framework",
+          "text": "Rashis and Nakshatras are not two separate skies. They are two different ways of dividing the same 360° zodiac."
+        }
+      ]
+    },
+    {
+      "id": "earth-centred-observation",
+      "title": "The Earth-Centred Observational View",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A birth chart describes the sky as observed for a specific place and time on Earth. Therefore, Jyotish normally uses geocentric positions: the celestial longitudes are calculated relative to an observer-centred Earth framework. This is a coordinate choice for observation and chart construction."
+        },
+        {
+          "type": "comparison",
+          "title": "Two valid viewpoints used for different purposes",
+          "left": {
+            "label": "Geocentric observational view",
+            "points": [
+              "Records where the Sun, Moon and planets appear from Earth.",
+              "Used to calculate the Ascendant, houses and ordinary birth-chart positions.",
+              "Changes according to the observer's time and location."
+            ]
+          },
+          "right": {
+            "label": "Heliocentric physical view",
+            "points": [
+              "Describes planets orbiting the Sun.",
+              "Used in modern physical astronomy and orbital mechanics.",
+              "Does not directly provide the local Ascendant seen from a birthplace."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session01-geocentric-observer-view",
+          "assetPath": "assets/learning/Level-1/session-01/geocentric-observer-view.svg",
+          "altText": "Earth at the centre of an observational celestial circle with apparent directions to the Sun, Moon and planets.",
+          "caption": "The chart records apparent directions from the observer's Earth-based viewpoint.",
+          "purpose": "Prevent confusion between an observational coordinate system and a physical model of the solar system.",
+          "annotations": [
+            "Observer on Earth",
+            "Celestial longitude",
+            "Apparent direction"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "modern-context",
+          "title": "Geocentric does not mean anti-scientific",
+          "text": "A geocentric chart does not claim that every celestial body physically revolves around Earth. It expresses apparent sky positions from Earth, just as sunrise and sunset times are described from the observer's horizon."
+        }
+      ]
+    },
+    {
+      "id": "ecliptic-and-zodiac",
+      "title": "The Ecliptic and Zodiac Belt",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "definition",
+          "term": "Ecliptic",
+          "sanskrit": "क्रान्तिवृत्त",
+          "transliteration": "krānti-vṛtta",
+          "meaning": "The great circle representing the Sun's apparent yearly path through the sky.",
+          "context": "Zodiacal longitude is measured along this reference circle."
+        },
+        {
+          "type": "paragraph",
+          "text": "From Earth, the Sun appears to move gradually against the background stars over the course of a year. The circle traced by this apparent motion is called the ecliptic. The zodiac is organised along this circle, and longitudes from 0° to 360° are measured upon it."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session01-ecliptic-plane",
+          "assetPath": "assets/learning/Level-1/session-01/ecliptic-plane.svg",
+          "altText": "A simplified illustration of Earth's orbital plane and the Sun's apparent ecliptic path on the celestial sphere.",
+          "caption": "The ecliptic is the principal reference path for zodiacal longitude.",
+          "purpose": "Connect the zodiac circle with the Sun's apparent annual path.",
+          "annotations": [
+            "Ecliptic plane",
+            "Apparent solar path",
+            "Zodiac belt"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "The Moon and planets are also generally seen near the ecliptic because their orbital planes are not extremely far from the plane used as this reference. They may have north or south latitude, so it is inaccurate to say that every body always lies exactly on the ecliptic line."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Longitude and latitude are different",
+          "text": "This course first teaches zodiacal longitude. Celestial latitude describes how far north or south a body lies from the ecliptic and should not be confused with longitude."
+        }
+      ]
+    },
+    {
+      "id": "twelve-rashis",
+      "title": "Twelve Rashis and Their Degree Ranges",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "360° ÷ 12 = 30°",
+          "explanation": "The Rashi Chakra divides the zodiac into twelve equal signs. Each Rashi occupies thirty degrees of global zodiac longitude.",
+          "workedExample": "The fourth Rashi begins after three complete signs: 3 × 30° = 90°."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session01-twelve-rashi-wheel",
+          "assetPath": "assets/learning/Level-1/session-01/twelve-rashi-wheel.svg",
+          "altText": "A zodiac wheel divided into twelve equal thirty-degree sectors labelled from Aries to Pisces.",
+          "caption": "Twelve equal Rashis divide the same 360° circle.",
+          "purpose": "Show the order and equal size of the twelve signs.",
+          "annotations": [
+            "Each sector = 30°",
+            "Aries begins at 0°",
+            "Pisces ends at 360°"
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "Global longitude ranges of the twelve Rashis",
+          "columns": [
+            "No.",
+            "Sanskrit name",
+            "Common English name",
+            "Global longitude"
+          ],
+          "rows": [
+            [
+              1,
+              "Mesha",
+              "Aries",
+              "0°00′ to 29°59′59″"
+            ],
+            [
+              2,
+              "Vrishabha",
+              "Taurus",
+              "30°00′ to 59°59′59″"
+            ],
+            [
+              3,
+              "Mithuna",
+              "Gemini",
+              "60°00′ to 89°59′59″"
+            ],
+            [
+              4,
+              "Karka",
+              "Cancer",
+              "90°00′ to 119°59′59″"
+            ],
+            [
+              5,
+              "Simha",
+              "Leo",
+              "120°00′ to 149°59′59″"
+            ],
+            [
+              6,
+              "Kanya",
+              "Virgo",
+              "150°00′ to 179°59′59″"
+            ],
+            [
+              7,
+              "Tula",
+              "Libra",
+              "180°00′ to 209°59′59″"
+            ],
+            [
+              8,
+              "Vrischika",
+              "Scorpio",
+              "210°00′ to 239°59′59″"
+            ],
+            [
+              9,
+              "Dhanu",
+              "Sagittarius",
+              "240°00′ to 269°59′59″"
+            ],
+            [
+              10,
+              "Makara",
+              "Capricorn",
+              "270°00′ to 299°59′59″"
+            ],
+            [
+              11,
+              "Kumbha",
+              "Aquarius",
+              "300°00′ to 329°59′59″"
+            ],
+            [
+              12,
+              "Meena",
+              "Pisces",
+              "330°00′ to 359°59′59″"
+            ]
+          ],
+          "note": "The next point after 359°59′59″ returns to 0° Aries."
+        },
+        {
+          "type": "example",
+          "title": "Convert 47° global longitude into Rashi longitude",
+          "scenario": "A planet has a global zodiac longitude of 47°.",
+          "steps": [
+            "The first 30° belong to Aries.",
+            "47° lies between 30° and 60°, so the planet is in Taurus.",
+            "Subtract the Taurus starting point: 47° − 30° = 17°."
+          ],
+          "conclusion": "The position is Taurus 17°, not Taurus 47°."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Two ways to write one position",
+          "text": "Global longitude 47° and Taurus 17° describe the same point. Always notice which form is being used."
+        }
+      ]
+    },
+    {
+      "id": "twenty-seven-nakshatras",
+      "title": "Twenty-Seven Nakshatras",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "360° ÷ 27 = 13°20′",
+          "explanation": "Each Nakshatra spans thirteen degrees and twenty arcminutes. The twenty arcminutes must not be discarded.",
+          "workedExample": "13°20′ equals 13 + 20/60 degrees, or 13⅓ degrees."
+        },
+        {
+          "type": "paragraph",
+          "text": "The Nakshatra division is closely connected with the Moon's apparent movement. A Moon position is described not only by Rashi but also by Nakshatra and Pada. This becomes essential later for Panchang, naming traditions and Vimshottari Dasha."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session01-twenty-seven-nakshatra-wheel",
+          "assetPath": "assets/learning/Level-1/session-01/twenty-seven-nakshatra-wheel.svg",
+          "altText": "The zodiac circle divided into twenty-seven equal numbered Nakshatra sectors with a separate legend.",
+          "caption": "Twenty-seven Nakshatras divide the same zodiac used by the twelve Rashis.",
+          "purpose": "Show that Nakshatra boundaries do not always match Rashi boundaries.",
+          "annotations": [
+            "27 equal divisions",
+            "Each = 13°20′",
+            "Rashi and Nakshatra boundaries overlap differently"
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "Beginning Nakshatra spans used for calculation practice",
+          "columns": [
+            "No.",
+            "Nakshatra",
+            "Global start",
+            "Global end"
+          ],
+          "rows": [
+            [
+              1,
+              "Ashwini",
+              "0°00′",
+              "13°20′"
+            ],
+            [
+              2,
+              "Bharani",
+              "13°20′",
+              "26°40′"
+            ],
+            [
+              3,
+              "Krittika",
+              "26°40′",
+              "40°00′"
+            ],
+            [
+              4,
+              "Rohini",
+              "40°00′",
+              "53°20′"
+            ],
+            [
+              5,
+              "Mrigashira",
+              "53°20′",
+              "66°40′"
+            ],
+            [
+              6,
+              "Ardra",
+              "66°40′",
+              "80°00′"
+            ]
+          ],
+          "note": "The end value of one Nakshatra is the starting boundary of the next. A precise calculation applies one consistent boundary convention."
+        },
+        {
+          "type": "example",
+          "title": "Why one Nakshatra may cross two Rashis",
+          "scenario": "Krittika begins at global 26°40′ and ends at global 40°00′.",
+          "steps": [
+            "Aries ends at global 30°.",
+            "The first 3°20′ of Krittika lies in Aries, from 26°40′ to 30°00′.",
+            "The remaining 10° lies in Taurus, from 30°00′ to 40°00′."
+          ],
+          "conclusion": "Rashi and Nakshatra divisions share the same circle but do not have identical boundaries."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Do not round 13°20′ to 13°",
+          "text": "Rounding would accumulate an error of nine degrees after twenty-seven divisions and would make the system fail to complete the 360° circle."
+        }
+      ]
+    },
+    {
+      "id": "four-padas",
+      "title": "Four Padas in Every Nakshatra",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "13°20′ ÷ 4 = 3°20′",
+          "explanation": "Every Nakshatra is divided into four equal Padas. Each Pada measures three degrees and twenty arcminutes.",
+          "workedExample": "Four Padas × 3°20′ = 13°20′, the complete Nakshatra span."
+        },
+       
+        {
+          "type": "table",
+          "caption": "Pada ranges measured from the beginning of any Nakshatra",
+          "columns": [
+            "Pada",
+            "Offset from Nakshatra start"
+          ],
+          "rows": [
+            [
+              1,
+              "0°00′ to 3°20′"
+            ],
+            [
+              2,
+              "3°20′ to 6°40′"
+            ],
+            [
+              3,
+              "6°40′ to 10°00′"
+            ],
+            [
+              4,
+              "10°00′ to 13°20′"
+            ]
+          ],
+          "note": "The exact boundary point begins the next Pada."
+        },
+        {
+          "type": "example",
+          "title": "Find the Pada inside Rohini",
+          "scenario": "A planet is at global longitude 48°10′. Rohini begins at 40°00′.",
+          "steps": [
+            "Find the distance from the start of Rohini: 48°10′ − 40°00′ = 8°10′.",
+            "Pada 1 ends at 3°20′ and Pada 2 ends at 6°40′.",
+            "8°10′ lies between 6°40′ and 10°00′."
+          ],
+          "conclusion": "The planet is in Rohini Pada 3."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "108 Padas",
+          "text": "Twenty-seven Nakshatras × four Padas = 108 Padas across the zodiac."
+        }
+      ]
+    },
+    {
+      "id": "sun-moon-rahu-ketu",
+      "title": "Sun, Moon and the Rahu-Ketu Axis",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Sun's apparent path defines the ecliptic reference. The Moon travels around Earth on an orbital plane tilted by about five degrees relative to the ecliptic. Because the two planes are inclined, they intersect at two opposite points."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session01-sun-moon-node-axis",
+          "assetPath": "assets/learning/Level-1/session-01/sun-moon-node-axis.svg",
+          "altText": "The ecliptic plane and the Moon's inclined orbital plane crossing at the ascending and descending lunar nodes.",
+          "caption": "The two intersections of the lunar orbit and ecliptic form the nodal axis.",
+          "purpose": "Explain the astronomical basis of Rahu and Ketu.",
+          "annotations": [
+            "Ecliptic",
+            "Moon's orbital plane",
+            "Ascending node — Rahu",
+            "Descending node — Ketu",
+            "Approximately 180° apart"
+          ]
+        },
+        {
+          "type": "definition",
+          "term": "Ascending and descending nodes",
+          "sanskrit": "आरोही पात तथा अवरोही पात",
+          "transliteration": "ārohī pāta tathā avarohī pāta",
+          "meaning": "The ascending node is where the Moon crosses the ecliptic moving northward; the descending node is where it crosses moving southward.",
+          "context": "In Jyotish terminology, these are represented by Rahu and Ketu."
+        },
+        {
+          "type": "paragraph",
+          "text": "Rahu and Ketu are therefore calculated points, not luminous physical planets. Nevertheless, Jyotish grants them the interpretive status of grahas. Their zodiacal positions always form one axis, approximately 180 degrees apart."
+        },
+        {
+          "type": "comparison",
+          "title": "Astronomical description and Jyotish interpretation",
+          "left": {
+            "label": "Astronomical description",
+            "points": [
+              "Two intersections of orbital planes.",
+              "No physical body is located at the node itself.",
+              "Eclipses become possible when the Sun and Moon align near the nodes."
+            ]
+          },
+          "right": {
+            "label": "Jyotish treatment",
+            "points": [
+              "Named Rahu and Ketu.",
+              "Included among the Nava Grahas for interpretation.",
+              "Read as an inseparable opposite axis in the chart."
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "style": "tradition",
+          "title": "Respect both layers",
+          "text": "A serious student should understand the astronomical definition of the nodes and the separate interpretive principles assigned to them by Jyotish."
+        }
+      ]
+    },
+    {
+      "id": "worked-examples",
+      "title": "Worked Degree Examples",
+      "estimatedMinutes": 7,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Example 1: Global longitude to Rashi"
+        },
+        {
+          "type": "example",
+          "title": "Convert 218° into Rashi and within-sign degrees",
+          "scenario": "A planet has global longitude 218°00′.",
+          "steps": [
+            "Each Rashi is 30°. Seven complete Rashis occupy 7 × 30° = 210°.",
+            "The eighth Rashi is Scorpio, beginning at 210°.",
+            "Subtract the starting longitude: 218° − 210° = 8°."
+          ],
+          "conclusion": "The planet is at Scorpio 8°00′."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Example 2: Global longitude to Nakshatra and Pada"
+        },
+        {
+          "type": "example",
+          "title": "Find the Nakshatra and Pada at global 48°10′",
+          "scenario": "A planet has global longitude 48°10′.",
+          "steps": [
+            "Rohini spans global 40°00′ to 53°20′, so the planet is in Rohini.",
+            "Subtract the Nakshatra start: 48°10′ − 40°00′ = 8°10′ inside Rohini.",
+            "Pada ranges are 0°00′–3°20′, 3°20′–6°40′, 6°40′–10°00′ and 10°00′–13°20′.",
+            "8°10′ falls in the third range."
+          ],
+          "conclusion": "The position is Rohini Pada 3."
+        },
+        {
+          "type": "formula",
+          "expression": "Rashi degree = global longitude − Rashi starting longitude",
+          "explanation": "For Nakshatra and Pada, apply the same principle: first identify the correct starting boundary, then subtract it.",
+          "workedExample": "At global 218°, Scorpio begins at 210°, so the within-sign position is 8°."
+        }
+      ]
+    },
+    {
+      "id": "foundation-review",
+      "title": "Foundation Review",
+      "estimatedMinutes": 4,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "check",
+          "items": [
+            "The zodiac is one complete 360° reference circle.",
+            "Twelve Rashis divide it into 30° sectors.",
+            "Twenty-seven Nakshatras divide it into 13°20′ sectors.",
+            "Each Nakshatra contains four Padas of 3°20′.",
+            "Global longitude and within-sign longitude are two expressions of the same position.",
+            "Rahu and Ketu are opposite lunar nodes formed by the intersection of the lunar orbital plane and the ecliptic."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Foundation before prediction",
+          "text": "Do not rush into interpreting planets until you can locate them accurately. A prediction based on an incorrectly identified Rashi, Nakshatra or Pada begins with a faulty foundation."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Thinking that a geocentric chart teaches that the Sun physically revolves around Earth.",
+      "whyItIsWrong": "Geocentric longitude is an observer-based coordinate system used to record the apparent sky from Earth.",
+      "correctUnderstanding": "Use geocentric coordinates for the birth chart while recognising the heliocentric physical structure of the solar system."
+    },
+    {
+      "mistake": "Writing global longitude 47° as Taurus 47°.",
+      "whyItIsWrong": "Every Rashi contains only thirty degrees.",
+      "correctUnderstanding": "Since Taurus begins at global 30°, global 47° equals Taurus 17°."
+    },
+    {
+      "mistake": "Using 13° instead of 13°20′ for a Nakshatra.",
+      "whyItIsWrong": "The missing twenty arcminutes creates cumulative boundary errors.",
+      "correctUnderstanding": "Always calculate with 13°20′, equal to thirteen and one-third degrees."
+    },
+    {
+      "mistake": "Assuming Rashi and Nakshatra boundaries always coincide.",
+      "whyItIsWrong": "Twelve and twenty-seven divide 360° differently.",
+      "correctUnderstanding": "Some Nakshatras remain within one Rashi, while others cross a Rashi boundary."
+    },
+    {
+      "mistake": "Calling Rahu and Ketu visible planets.",
+      "whyItIsWrong": "The nodes are calculated intersection points and do not emit or reflect visible light as planetary bodies.",
+      "correctUnderstanding": "They are mathematical nodes that are treated as grahas within Jyotish interpretation."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Create a personal longitude conversion sheet",
+    "instructions": [
+      "Draw a circle and mark 0°, 90°, 180°, 270° and 360°.",
+      "Add the twelve Rashi boundaries at every thirty degrees.",
+      "Choose three global longitudes: 47°, 218° and 335°.",
+      "For each longitude, identify the Rashi and degree within the Rashi.",
+      "For 48°10′, identify the Nakshatra and Pada using the method taught in the session.",
+      "Write one sentence explaining why Rahu and Ketu must appear opposite each other."
+    ],
+    "expectedOutcome": "The student should correctly convert global longitude into Rashi longitude and explain the nested Rashi-Nakshatra-Pada structure.",
+    "estimatedMinutes": 8
+  },
+  "sessionSummary": [
+    "Jyotish uses a complete 360° circle to record apparent celestial longitude.",
+    "The Earth-centred chart is an observational coordinate framework for a specific place and time.",
+    "The twelve Rashis are equal divisions of 30° each.",
+    "The twenty-seven Nakshatras are equal divisions of 13°20′ each.",
+    "Every Nakshatra contains four Padas of 3°20′, producing 108 Padas in total.",
+    "The lunar orbital plane crosses the ecliptic at two opposite nodes represented in Jyotish as Rahu and Ketu.",
+    "Accurate conversion between global longitude, Rashi, Nakshatra and Pada is essential before interpretation."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "How many degrees are contained in one Rashi?",
+        "options": [
+          "12°",
+          "27°",
+          "30°",
+          "13°20′"
+        ],
+        "answer": "30°",
+        "explanation": "The 360° zodiac divided by twelve Rashis gives 30° per Rashi."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "What is the exact span of one Nakshatra?",
+        "options": [
+          "13°",
+          "13°20′",
+          "12°30′",
+          "3°20′"
+        ],
+        "answer": "13°20′",
+        "explanation": "Dividing 360° by twenty-seven gives 13°20′."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "What is the span of one Pada?",
+        "options": [
+          "3°",
+          "3°20′",
+          "4°",
+          "4°30′"
+        ],
+        "answer": "3°20′",
+        "explanation": "One Nakshatra of 13°20′ divided into four equal quarters gives 3°20′ per Pada."
+      },
+      {
+        "id": "q4",
+        "type": "true-false",
+        "question": "A global longitude of 47° means Taurus 47°.",
+        "answer": false,
+        "explanation": "Taurus begins at global 30°, so global 47° equals Taurus 17°."
+      },
+      {
+        "id": "q5",
+        "type": "short-answer",
+        "question": "Convert global longitude 218° into Rashi and within-sign degrees.",
+        "answer": "Scorpio 8°",
+        "explanation": "Scorpio begins at global 210°. Subtracting 210° from 218° gives 8°."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "Every Nakshatra boundary coincides with a Rashi boundary.",
+        "answer": false,
+        "explanation": "The zodiac is divided by twelve in the Rashi system and by twenty-seven in the Nakshatra system, so many boundaries do not coincide."
+      },
+      {
+        "id": "q7",
+        "type": "single-choice",
+        "question": "Astronomically, Rahu and Ketu represent which of the following?",
+        "options": [
+          "Two visible planets",
+          "The two lunar nodes",
+          "Two fixed stars",
+          "The poles of Earth"
+        ],
+        "answer": "The two lunar nodes",
+        "explanation": "They correspond to the intersections of the Moon's orbital plane and the ecliptic."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why is the geocentric viewpoint used in a birth chart?",
+        "answer": "Because the chart records apparent celestial positions, the local horizon and the Ascendant for a specific place and time on Earth.",
+        "explanation": "The chart is observer-centred because birth occurs at a particular terrestrial location and moment."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "Translation of the Surya-Siddhanta: A Text-Book of Hindu Astronomy",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical vocabulary and the broader mathematical-astronomical framework in which celestial circles and longitude are studied.",
+      "quotationType": "none",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-19",
+      "verifiedBy": "HoraLife content preparation",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used as a book-level background reference in this session. No Sanskrit verse or exact chapter claim is quoted."
+    },
+    {
+      "sourceId": "bphs",
+      "editionId": "bphs-girish-chand-sharma-v1",
+      "title": "Brihat Parashara Hora Shastra, Volume 1",
+      "author": "Traditionally attributed to Maharishi Parashara; English translation by Girish Chand Sharma",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical Parashari context for Rashis, Grahas and the foundational vocabulary used in later chart interpretation.",
+      "quotationType": "none",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-19",
+      "verifiedBy": "HoraLife content preparation",
+      "url": "https://archive.org/details/brihatparasarahorasastrawithenglishtranslationgirishchandsharmavolume1_547_G",
+      "notes": "Used only as a general classical source reference here. Exact verse citation is deferred until a relevant passage is checked page by page."
+    },
+    {
+      "sourceId": "nasa-lunar-orbit",
+      "editionId": "nasa-gsfc-eclipse-moon-orbit",
+      "title": "Eclipses and the Moon's Orbit",
+      "author": "NASA Goddard Space Flight Center",
+      "chapterTitle": "The Moon's Orbit",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Modern astronomical explanation of the Moon's orbital inclination and the ascending and descending lunar nodes.",
+      "quotationType": "paraphrase",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-19",
+      "verifiedBy": "HoraLife content preparation",
+      "url": "https://eclipse.gsfc.nasa.gov/SEhelp/moonorbit.html",
+      "notes": "Used to distinguish the astronomical node definition from later Jyotish interpretation."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Translation of the Surya-Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess",
+      "note": "For students interested in the traditional mathematical-astronomical background. This is not required reading for completing Session 1.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    },
+    {
+      "title": "Brihat Parashara Hora Shastra, Volume 1",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara; translation by Girish Chand Sharma",
+      "note": "A core Parashari reference that will become more directly relevant in later sessions on Grahas, Rashis, Bhavas, Vargas and Dasha.",
+      "url": "https://archive.org/details/brihatparasarahorasastrawithenglishtranslationgirishchandsharmavolume1_547_G"
+    },
+    {
+      "title": "Eclipses and the Moon's Orbit",
+      "type": "reference-page",
+      "author": "NASA Goddard Space Flight Center",
+      "note": "Modern astronomical explanation of the lunar orbit and nodes.",
+      "url": "https://eclipse.gsfc.nasa.gov/SEhelp/moonorbit.html"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-19",
+    "reviewNotes": "Mathematical divisions and worked examples were checked. No shloka has been included because an exact topic-specific verse was not yet verified against a scanned edition. Human subject-matter review is still recommended before publication."
+  },
+  "status": "review"
+}

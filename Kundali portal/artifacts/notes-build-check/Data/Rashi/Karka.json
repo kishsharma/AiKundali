@@ -1,0 +1,61 @@
+{
+  "id": 4,
+  "name": "Karka",
+  "englishName": "Cancer",
+  "symbol": "♋",
+  "element": "Water",
+  "modality": "Movable",
+  "gender": "Female",
+  "nature": "Saumya",
+  "ruler": "Moon",
+  "direction": "North",
+  "bodyPart": "Chest, Heart",
+  "quality": "Emotions, nurturing, protection",
+  "personality": "Compassionate, caring, intuitive, emotional, family-oriented, and protective.",
+  "strengths": [
+    "Compassionate",
+    "Loyal",
+    "Protective",
+    "Intuitive",
+    "Nurturing"
+  ],
+  "weaknesses": [
+    "Overly Emotional",
+    "Moody",
+    "Sensitive",
+    "Possessive"
+  ],
+  "career": [
+    "Healthcare",
+    "Hospitality",
+    "Education",
+    "Psychology",
+    "Social Work",
+    "Real Estate",
+    "Food Industry",
+    "Public Service"
+  ],
+  "relationships": "Deeply caring and devoted. Values emotional security, family, and long-lasting relationships.",
+  "health": "Chest, lungs, breasts, stomach, digestive system, emotional well-being.",
+  "color": "#E3F2FD",
+  "gemstone": "Pearl",
+  "metal": "Silver",
+  "luckyNumbers": [ 2, 7 ],
+  "favorableDirection": "North",
+  "favorableDay": "Monday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 7,
+      "padas": [ 4 ]
+    },
+    {
+      "nakshatraId": 8,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 9,
+      "padas": [ 1, 2, 3, 4 ]
+    }
+  ],
+  "description": "Karka is the fourth sign of the zodiac, representing emotions, home, family, nourishment, and protection. Ruled by the Moon, it symbolizes compassion, intuition, sensitivity, and a deep connection to loved ones."
+}

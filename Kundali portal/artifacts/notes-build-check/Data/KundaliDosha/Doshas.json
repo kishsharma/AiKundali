@@ -1,0 +1,511 @@
+{
+  "Version": "1.0-draft",
+  "Note": "Interpretive dosha metadata for reporting. Detection logic remains in KundaliEngine.Astrology.",
+  "Items": [
+    {
+      "Key": "manglik",
+      "Name": "Manglik Dosha",
+      "Category": "Relationship & Marriage",
+      "Nature": "Challenging",
+      "Description": "Manglik Dosha is considered when Mars influences sensitive houses connected with marriage, domestic harmony, and longevity of partnership.",
+      "ImpactAreas": [
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "Partnerships may need patience, direct communication, and conscious anger management.",
+            "There can be intensity in emotional reactions during conflict.",
+            "Marriage decisions benefit from careful compatibility review and maturity."
+          ]
+        },
+        {
+          "Category": "Family & Domestic Life",
+          "Statements": [
+            "Domestic peace may fluctuate when decisions are rushed or ego-driven.",
+            "Family adjustment can require active listening and steady boundaries.",
+            "A disciplined lifestyle helps reduce friction at home."
+          ]
+        },
+        {
+          "Category": "Career & Drive",
+          "Statements": [
+            "Mars can give strong ambition, courage, and ability to act under pressure.",
+            "Impulsive professional choices may create avoidable stress.",
+            "Leadership improves when energy is directed through planning."
+          ]
+        },
+        {
+          "Category": "Health",
+          "Statements": [
+            "Stress, heat, inflammation, or accident-prone tendencies may need attention.",
+            "Exercise and disciplined routines help channel excess Mars energy.",
+            "Anger and impatience can affect sleep and physical recovery."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Regular prayer and service can soften harsh Mars expression.",
+            "Discipline, humility, and restraint become important spiritual remedies.",
+            "Tuesday-based worship routines may support emotional balance."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Worship Lord Hanuman or Lord Subramanya on Tuesdays.",
+        "Recite Mangal mantra or Hanuman Chalisa with discipline.",
+        "Match with another Manglik chart or review cancellation factors before final judgment."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "kaal_sarpa",
+      "ExcludeFromCompatibility": true,
+      "Name": "Kaal Sarpa Dosha",
+      "Category": "Karmic",
+      "Nature": "Challenging",
+      "Description": "Kaal Sarpa Dosha is indicated when all visible planets are enclosed within the Rahu-Ketu axis.",
+      "ImpactAreas": [
+        {
+          "Category": "Mental & Emotional",
+          "Statements": [
+            "The native may feel inner pressure, restlessness, or repeated mental loops.",
+            "Life can feel extreme during Rahu and Ketu periods.",
+            "Emotional stability improves through structure and spiritual grounding."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Progress may come after delays, reversals, or unusual turns.",
+            "Recognition can improve once focus and direction become stable.",
+            "Unconventional fields, research, technology, or hidden domains may attract the native."
+          ]
+        },
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "Trust and expectations may need conscious management.",
+            "Relationships can feel karmic, intense, or transformative.",
+            "Clear communication reduces misunderstandings during stressful periods."
+          ]
+        },
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Financial patterns may show sudden gains and sudden expenses.",
+            "Speculative decisions should be handled carefully.",
+            "Long-term planning helps reduce Rahu-Ketu volatility."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "This dosha can push the native toward deeper self-study and detachment.",
+            "Rahu-Ketu remedies and mantra practice may bring steadiness.",
+            "Service, charity, and disciplined routines reduce karmic pressure."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Perform Rahu-Ketu shanti or Navagraha shanti with a qualified priest.",
+        "Worship Lord Shiva and recite Mahamrityunjaya mantra.",
+        "Strengthen disciplined service, charity, and spiritual practice during Rahu/Ketu periods."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "chandra_grahan",
+      "ExcludeFromCompatibility": true,
+      "Name": "Chandra Grahan Dosha",
+      "Category": "Mind",
+      "Nature": "Challenging",
+      "Description": "Chandra Grahan Dosha is considered when Moon is closely associated with Rahu or Ketu, affecting emotional clarity, peace of mind, and mental steadiness.",
+      "ImpactAreas": [
+        {
+          "Category": "Mental & Emotional",
+          "Statements": [
+            "Emotional ups and downs, overthinking, or excessive worry may be more noticeable.",
+            "The native may find it difficult to maintain mental peace during stressful periods.",
+            "Mood swings, sleep disturbance, or vivid dreams can appear when the Moon is activated."
+          ]
+        },
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "The relationship with mother or maternal figures may feel emotionally fluctuating.",
+            "Trust issues, emotional dependency, or emotional detachment may appear in close bonds.",
+            "Expressing feelings clearly may require conscious effort and maturity."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Decision-making may feel confused when emotions and fear dominate judgment.",
+            "Recognition can be delayed despite effort, especially during Rahu or Ketu periods.",
+            "Success often improves after mental maturity and stable direction develop."
+          ]
+        },
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Financial decisions may be influenced by mood, anxiety, or impulse.",
+            "Savings habits can become inconsistent without a clear plan.",
+            "Unexpected gains and losses may appear during Rahu or Ketu periods."
+          ]
+        },
+        {
+          "Category": "Health",
+          "Statements": [
+            "Stress-related issues, headaches, or migraines may need attention.",
+            "Sleep disorders or psychosomatic complaints can arise under emotional pressure.",
+            "Calming routines and emotional regulation support overall health."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "This placement can increase interest in meditation, mantra, and inner healing.",
+            "Moon-strengthening practices help build emotional steadiness.",
+            "Worship of Lord Shiva and disciplined Monday observances may support peace of mind."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Worship Lord Shiva and recite Mahamrityunjaya mantra.",
+        "Donate white items such as rice, milk, or cloth on Mondays.",
+        "Practice moon-strengthening routines such as meditation, water offerings, and disciplined sleep."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "surya_grahan",
+      "ExcludeFromCompatibility": true,
+      "Name": "Surya Grahan Dosha",
+      "Category": "Authority & Vitality",
+      "Nature": "Challenging",
+      "Description": "Surya Grahan Dosha is considered when Sun is closely associated with Rahu or Ketu, affecting confidence, authority, fatherly support, visibility, and inner clarity.",
+      "ImpactAreas": [
+        {
+          "Category": "Self & Confidence",
+          "Statements": [
+            "Confidence may fluctuate between strong ambition and self-doubt.",
+            "The native may feel unseen or misunderstood by authority figures.",
+            "Identity becomes stronger when ego, duty, and discipline are aligned."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Recognition may come after delays or unusual turns.",
+            "Authority conflicts can arise when decisions are ego-driven.",
+            "Leadership improves when transparency and accountability are practiced."
+          ]
+        },
+        {
+          "Category": "Family",
+          "Statements": [
+            "Relationship with father, mentors, or senior figures may need healing.",
+            "Family expectations can feel heavy during Sun, Rahu, or Ketu periods.",
+            "Respectful communication reduces pride-based distance."
+          ]
+        },
+        {
+          "Category": "Health",
+          "Statements": [
+            "Vitality, eyes, headaches, or heat-related stress may need attention.",
+            "Regular routine and sunlight discipline support steadiness.",
+            "Overwork can reduce natural radiance and confidence."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Sun-related discipline supports humility and clarity.",
+            "Service to fatherly figures, teachers, or elders can be beneficial.",
+            "Daily prayer at sunrise may stabilize the Sun principle."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Offer water to the rising Sun with discipline and humility.",
+        "Recite Aditya Hridayam or Surya mantra on Sundays.",
+        "Serve father, teachers, elders, or public causes without pride."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "guru_chandal",
+      "ExcludeFromCompatibility": true,
+      "Name": "Guru Chandal Dosha",
+      "Category": "Wisdom & Judgment",
+      "Nature": "Challenging",
+      "Description": "Guru Chandal Dosha is considered when Jupiter is closely associated with Rahu or Ketu, affecting judgment, faith, teachers, ethics, and guidance.",
+      "ImpactAreas": [
+        {
+          "Category": "Knowledge & Belief",
+          "Statements": [
+            "Beliefs may become unconventional, intense, or frequently questioned.",
+            "The native may struggle to trust teachers or traditional guidance.",
+            "Wisdom matures when curiosity is balanced with humility."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Advisory, teaching, legal, financial, or spiritual roles need extra ethical clarity.",
+            "Shortcuts or exaggerated promises should be avoided.",
+            "Progress improves through qualified mentors and disciplined study."
+          ]
+        },
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "Differences in values or belief systems may affect close relationships.",
+            "The native may attract unusual teachers, guides, or advisors.",
+            "Respecting wisdom traditions without blind faith brings balance."
+          ]
+        },
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Speculative decisions based on hype or overconfidence can create risk.",
+            "Financial judgment improves through verified information.",
+            "Long-term planning is better than promises of sudden growth."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "The placement can create deep spiritual inquiry after confusion.",
+            "Guru worship and service to teachers support correction.",
+            "Truthfulness and charity strengthen Jupiter's higher expression."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Respect and serve genuine teachers, elders, and spiritual guides.",
+        "Recite Guru mantra or Vishnu Sahasranama on Thursdays.",
+        "Donate yellow food, books, or education support according to capacity."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "pitra",
+      "ExcludeFromCompatibility": true,
+      "Name": "Pitra Dosha",
+      "Category": "Lineage & Ancestors",
+      "Nature": "Challenging",
+      "Description": "Pitra Dosha is considered when Sun, the 9th house, or the 9th lord is afflicted, indicating pressure connected with father, ancestors, lineage blessings, duty, and inherited karmic patterns.",
+      "ImpactAreas": [
+        {
+          "Category": "Family & Lineage",
+          "Statements": [
+            "The native may feel unresolved responsibility toward family or ancestors.",
+            "Relationship with father or paternal elders can require maturity and forgiveness.",
+            "Family patterns may repeat until consciously addressed."
+          ]
+        },
+        {
+          "Category": "Fortune & Dharma",
+          "Statements": [
+            "Blessings and opportunities may improve after discipline and service.",
+            "Luck can feel delayed when duties are neglected.",
+            "Respecting tradition while acting ethically supports dharma."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Mentor support may fluctuate or arrive later in life.",
+            "Professional stability improves when commitments are honored.",
+            "Work connected with public duty, service, or guidance may activate growth."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Ancestral remembrance and gratitude become important remedies.",
+            "Pitru-related rituals may help bring emotional closure.",
+            "Charity in the name of ancestors supports lineage healing."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Perform ancestor remembrance, tarpan, or Pitru shanti with proper guidance.",
+        "Serve parents, elders, and needy people with sincerity.",
+        "Donate food, clothes, or essentials in the name of ancestors."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "shani",
+      "ExcludeFromCompatibility": true,
+      "Name": "Shani Dosha",
+      "Category": "Delay & Discipline",
+      "Nature": "Challenging",
+      "Description": "Shani Dosha is considered when Saturn strongly pressures sensitive houses or Moon, indicating delay, responsibility, fear, burden, discipline, and karmic correction.",
+      "ImpactAreas": [
+        {
+          "Category": "Mental & Emotional",
+          "Statements": [
+            "The native may feel heaviness, loneliness, fear, or delayed emotional ease.",
+            "Patience becomes a key life lesson.",
+            "Mental steadiness improves through structure and realistic expectations."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Growth may be slow but durable when effort is consistent.",
+            "Responsibility can arrive early or feel heavier than expected.",
+            "Long-term work, systems, service, and discipline support success."
+          ]
+        },
+        {
+          "Category": "Relationships",
+          "Statements": [
+            "Relationships may require patience, loyalty, and practical commitment.",
+            "Emotional distance can appear when fear is not expressed clearly.",
+            "Stable bonds improve through trust built over time."
+          ]
+        },
+        {
+          "Category": "Health",
+          "Statements": [
+            "Bones, joints, chronic fatigue, or stress stiffness may need care.",
+            "Regular movement and disciplined sleep support Saturn balance.",
+            "Neglected habits can become long-term burdens."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Service to the poor, elderly, workers, and disadvantaged people reduces harshness.",
+            "Humility and steady duty are important spiritual remedies.",
+            "Saturday discipline can bring calm and endurance."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Serve elderly people, workers, or the poor on Saturdays.",
+        "Recite Shani mantra or Hanuman Chalisa with discipline.",
+        "Donate black sesame, oil, blankets, or footwear according to capacity."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "kemadruma",
+      "ExcludeFromCompatibility": true,
+      "Name": "Kemadruma Dosha",
+      "Category": "Mind & Support",
+      "Nature": "Challenging",
+      "Description": "Kemadruma Dosha is considered when Moon lacks supportive planets in adjacent houses, showing emotional isolation, inconsistent support, and difficulty feeling settled.",
+      "ImpactAreas": [
+        {
+          "Category": "Mental & Emotional",
+          "Statements": [
+            "The native may feel emotionally unsupported even when people are present.",
+            "Mood and confidence can fluctuate with environment.",
+            "Inner steadiness grows through routine, community, and self-nourishment."
+          ]
+        },
+        {
+          "Category": "Family & Relationships",
+          "Statements": [
+            "Support from family or close friends may feel inconsistent.",
+            "The native may prefer independence but still need emotional reassurance.",
+            "Healthy emotional communication reduces isolation."
+          ]
+        },
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Income and savings can fluctuate if emotional decisions drive spending.",
+            "Stability improves through simple budgeting and repeated habits.",
+            "A practical support system helps avoid impulsive choices."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Moon remedies and meditation help stabilize the mind.",
+            "Service connected with food, water, or care-giving supports emotional healing.",
+            "Gratitude routines reduce the feeling of lack."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Strengthen Moon through Monday prayer, meditation, and disciplined sleep.",
+        "Donate rice, milk, or white food according to capacity.",
+        "Spend time near water and practice calming daily routines."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    },
+    {
+      "Key": "daridra",
+      "ExcludeFromCompatibility": true,
+      "Name": "Daridra Dosha",
+      "Category": "Finance & Stability",
+      "Nature": "Challenging",
+      "Description": "Daridra Dosha is considered when wealth lords or wealth houses are under dusthana, Saturn, or node pressure, indicating instability in savings, gains, and material comfort.",
+      "ImpactAreas": [
+        {
+          "Category": "Financial",
+          "Statements": [
+            "Savings may fluctuate due to pressure on income or family resources.",
+            "Sudden expenses or unstable gains can appear during difficult periods.",
+            "Financial discipline, budgeting, and conservative planning become important."
+          ]
+        },
+        {
+          "Category": "Career",
+          "Statements": [
+            "Earnings may improve after delays, skill-building, and consistent work.",
+            "Speculative or unclear financial opportunities should be reviewed carefully.",
+            "Stable income grows through practical planning rather than shortcuts."
+          ]
+        },
+        {
+          "Category": "Family",
+          "Statements": [
+            "Family responsibilities may influence savings and resources.",
+            "Speech, values, and money habits may need conscious correction.",
+            "Clear agreements reduce financial misunderstandings."
+          ]
+        },
+        {
+          "Category": "Spiritual",
+          "Statements": [
+            "Charity and gratitude help reduce scarcity thinking.",
+            "Lakshmi and Vishnu worship may support prosperity discipline.",
+            "Giving within one's means is more important than display."
+          ]
+        }
+      ],
+      "Remedies": [
+        "Maintain disciplined budgeting and avoid speculative financial decisions.",
+        "Worship Goddess Lakshmi or Lord Vishnu on Fridays or Thursdays.",
+        "Donate food, grains, or practical support to needy people according to capacity."
+      ],
+      "References": [
+        "Traditional Vedic astrology practice"
+      ]
+    }
+  ]
+}

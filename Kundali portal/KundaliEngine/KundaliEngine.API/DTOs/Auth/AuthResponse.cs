@@ -10,6 +10,8 @@ public class AuthResponse
 
     public string? PhoneNumber { get; set; }
 
+    public string? PreferredLanguage { get; set; }
+
     public string Role { get; set; } = string.Empty;
 
     public string Token { get; set; } = string.Empty;

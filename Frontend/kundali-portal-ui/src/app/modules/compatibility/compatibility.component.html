@@ -21,6 +21,20 @@
       </svg>
       <span>{{ savingCompatibility ? 'Saving' : (savedCompatibilityId ? 'Save Again' : 'Save') }}</span>
     </button>
+    <button
+      type="button"
+      class="report-action-btn notes-action"
+      (click)="openNotes()"
+      title="Notes"
+      aria-label="Open compatibility notes">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M5 4h14v16H5z"></path>
+        <path d="M8 8h8"></path>
+        <path d="M8 12h8"></path>
+        <path d="M8 16h5"></path>
+      </svg>
+      <span>Notes</span>
+    </button>
     <button type="button" class="report-action-btn" (click)="downloadPdf()" [disabled]="exportingPdf" title="Download PDF">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
       <span>{{ exportingPdf ? 'Preparing' : 'PDF' }}</span>
@@ -61,6 +75,17 @@
     </button>
   </div>
 </app-page-header>
+
+<app-portal-notes
+  *ngIf="showReport"
+  [open]="isNotesOpen"
+  (closed)="closeNotes()"
+  contextType="Compatibility"
+  [contextId]="savedCompatibilityId"
+  title="Compatibility Notes"
+  subtitle="Private notes saved for this compatibility report."
+  pendingMessage="Write notes now. They will be saved when you save this compatibility report.">
+</app-portal-notes>
 
 <div class="compatibility-page">
   <section class="input-panel" *ngIf="showBirthDetailsForm">

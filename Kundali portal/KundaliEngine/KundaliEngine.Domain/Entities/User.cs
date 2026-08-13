@@ -16,11 +16,17 @@ namespace KundaliEngine.Domain.Entities
 
         public string? PhoneNumber { get; set; }
 
+        public string? PreferredLanguage { get; set; }
+
         public string? PasswordHash { get; set; }
 
         public string AuthProvider { get; set; } = "Local";
 
         public string Role { get; set; } = "User";
+
+        public string PlanCode { get; set; } = "Free";
+
+        public DateTimeOffset? PlanExpiresAt { get; set; }
 
         public bool IsActive { get; set; } = true;
 
@@ -37,4 +43,5 @@ namespace KundaliEngine.Domain.Entities
         public DateTime? PhoneVerifiedAt { get; set; }
     }
 }
+
 

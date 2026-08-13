@@ -1,4 +1,4 @@
-﻿using HoraLife.PredictionEngine;
+using HoraLife.PredictionEngine;
 using HoraLife.PredictionEngine.Services;
 using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
@@ -10,6 +10,7 @@ using KundaliEngine.API.Services.Auth;
 using KundaliEngine.API.Services.CurrentLifeFocus;
 using KundaliEngine.API.Services.Dashboard;
 using KundaliEngine.API.Services.Email;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Gochar;
 using KundaliEngine.API.Services.Learning;
 using KundaliEngine.API.Services.Muhurtha;
@@ -175,6 +176,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthOtpService, AuthOtpService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IEntitlementService, EntitlementService>();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddInfrastructure(builder.Configuration);

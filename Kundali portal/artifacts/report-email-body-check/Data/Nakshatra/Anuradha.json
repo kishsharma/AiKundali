@@ -1,0 +1,305 @@
+{
+  "id": 17,
+  "name": "Anuradha",
+  "sanskritName": "अनुराधा",
+  "englishName": "Anuradha",
+
+  "startDegree": {
+    "sign": "Scorpio",
+    "longitude": 213.333333,
+    "display": "3°20' Scorpio"
+  },
+
+  "endDegree": {
+    "sign": "Scorpio",
+    "longitude": 226.666667,
+    "display": "16°40' Scorpio"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 8,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Leo",
+      "syllable": "Na",
+      "akshara": "ना"
+    },
+    {
+      "number": 2,
+      "rashiId": 8,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Virgo",
+      "syllable": "Ni",
+      "akshara": "नी"
+    },
+    {
+      "number": 3,
+      "rashiId": 8,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Libra",
+      "syllable": "Nu",
+      "akshara": "नू"
+    },
+    {
+      "number": 4,
+      "rashiId": 8,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Ne",
+      "akshara": "ने"
+    }
+  ],
+
+  "lord": "Saturn",
+
+  "rashi": [
+    "Scorpio"
+  ],
+
+  "deity": "Mitra",
+
+  "symbol": "Lotus Flower",
+
+  "animalSymbol": "Female Deer",
+
+  "gana": "Deva",
+
+  "yoni": "Deer",
+
+  "nadi": "Madhya",
+
+  "varna": "Shudra",
+
+  "vashya": [
+    "Keeta"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Water",
+
+  "gender": "Male",
+
+  "nature": "Mridu (Soft)",
+
+  "motivation": "Dharma",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "Medium",
+    "kapha": "High"
+  },
+
+  "direction": "West",
+
+  "aradhyaVruksha": "Bakula (Mimusops elengi)",
+
+  "flower": "Lotus",
+
+  "metal": "Iron",
+
+  "color": [
+    "Blue",
+    "Pink",
+    "White"
+  ],
+
+  "gemstone": "Blue Sapphire",
+
+  "rudraksha": [
+    "7 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Black Sesame",
+    "Blankets",
+    "Mustard Oil",
+    "Shoes",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ मित्राय नमः",
+
+  "planetaryBeejMantra": "ॐ प्रां प्रीं प्रौं सः शनैश्चराय नमः",
+
+  "fastingDay": "Saturday",
+
+  "positiveTraits": [
+    "Loyal",
+    "Friendly",
+    "Disciplined",
+    "Devoted",
+    "Patient",
+    "Compassionate",
+    "Diplomatic",
+    "Reliable",
+    "Spiritual",
+    "Persistent"
+  ],
+
+  "negativeTraits": [
+    "Emotionally Reserved",
+    "Overly Serious",
+    "Possessive",
+    "Secretive",
+    "Stubborn",
+    "Can Hold Grudges"
+  ],
+
+  "strengths": [
+    "Teamwork",
+    "Leadership",
+    "Friendship",
+    "Organization",
+    "Spiritual Practice"
+  ],
+
+  "weaknesses": [
+    "Emotional Suppression",
+    "Slow Decision Making",
+    "Attachment"
+  ],
+
+  "career": [
+    "Manager",
+    "Teacher",
+    "Diplomat",
+    "Psychologist",
+    "Social Worker",
+    "Administrator",
+    "Researcher",
+    "Spiritual Guide",
+    "Human Resources",
+    "NGO Leader"
+  ],
+
+  "education": [
+    "Management",
+    "Psychology",
+    "Social Sciences",
+    "Philosophy",
+    "Spiritual Studies"
+  ],
+
+  "finance": [
+    "Steady Wealth",
+    "Success through Partnerships",
+    "Long-Term Financial Stability"
+  ],
+
+  "health": [
+    "Reproductive System",
+    "Bladder",
+    "Urinary Tract",
+    "Hormonal Balance",
+    "Stress"
+  ],
+
+  "bodyParts": [
+    "Reproductive Organs",
+    "Bladder",
+    "Pelvis"
+  ],
+
+  "relationships": [
+    "Faithful",
+    "Supportive",
+    "Trustworthy",
+    "Long-Term Commitment"
+  ],
+
+  "loveNature": "Devoted",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Lifelong",
+
+  "leadershipStyle": "Cooperative",
+
+  "communicationStyle": "Diplomatic",
+
+  "decisionMaking": "Thoughtful",
+
+  "emotionalNature": "Deep",
+
+  "learningStyle": "Reflective",
+
+  "businessSuitability": [
+    "Very Good"
+  ],
+
+  "recommendedProfessions": [
+    "Management",
+    "Counseling",
+    "Administration",
+    "Education",
+    "Research",
+    "Social Service"
+  ],
+
+  "goodFor": [
+    "Friendships",
+    "Marriage",
+    "Team Building",
+    "Business Partnerships",
+    "Meditation",
+    "Spiritual Practices"
+  ],
+
+  "avoidFor": [
+    "Aggressive Confrontations",
+    "Destructive Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Anahata",
+
+  "spiritualLesson": "True success comes through loyalty, friendship, discipline and walking the path of righteousness with humility.",
+
+  "compatibleNakshatras": [
+    "Pushya",
+    "Vishakha",
+    "Uttara Bhadrapada"
+  ],
+
+  "challengingNakshatras": [
+    "Magha",
+    "Ashwini"
+  ],
+
+  "mythologicalStory": "Anuradha is ruled by Mitra, the deity of friendship, harmony and cooperation. The lotus symbolizes the ability to remain pure and flourish even amidst life's challenges, teaching that true strength lies in devotion, loyalty and balanced relationships.",
+
+  "interestingFacts": [
+    "Represents friendship, devotion and disciplined success.",
+    "The lotus symbolizes spiritual growth through adversity.",
+    "Excellent Nakshatra for teamwork and partnerships.",
+    "Produces loyal friends and dependable leaders.",
+    "Strong inclination toward spirituality and meditation."
+  ],
+
+  "keywords": [
+    "Friendship",
+    "Devotion",
+    "Discipline",
+    "Loyalty",
+    "Harmony",
+    "Spiritual Growth"
+  ],
+
+  "icon": "🪷",
+
+  "priorityLifeAreas": [
+    "Relationships",
+    "Career",
+    "Spirituality",
+    "Leadership"
+  ]
+}

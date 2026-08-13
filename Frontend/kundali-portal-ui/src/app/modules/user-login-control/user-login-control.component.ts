@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -23,6 +23,9 @@ export class UserLoginControlComponent implements OnInit {
   successMessage = '';
   savingUserIds = new Set<string>();
   savingLimitUserIds = new Set<string>();
+  savingPlanUserIds = new Set<string>();
+  planExpiryInputs: Record<string, string> = {};
+
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -37,8 +40,8 @@ export class UserLoginControlComponent implements OnInit {
     }
 
     return this.users.filter(user =>
-      user.fullName.toLowerCase().includes(term)
-      || user.email.toLowerCase().includes(term)
+      (user.fullName ?? '').toLowerCase().includes(term)
+      || (user.email ?? '').toLowerCase().includes(term)
       || (user.phoneNumber ?? '').toLowerCase().includes(term)
     );
   }
@@ -50,10 +53,7 @@ export class UserLoginControlComponent implements OnInit {
 
     this.userLoginControlService.getUsers().subscribe({
       next: (users) => {
-        this.users = (Array.isArray(users) ? users : []).map(user => ({
-          ...user,
-          kundaliSaveLimit: Number.isFinite(Number(user.kundaliSaveLimit)) ? Number(user.kundaliSaveLimit) : 5
-        }));
+        this.users = (Array.isArray(users) ? users : []).map(user => this.normalizeUser(user));
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -80,8 +80,9 @@ export class UserLoginControlComponent implements OnInit {
 
     this.userLoginControlService.updateActiveStatus(user.id, nextValue).subscribe({
       next: (updatedUser) => {
-        this.users = this.users.map(item => item.id === updatedUser.id ? updatedUser : item);
-        this.successMessage = `${updatedUser.fullName || updatedUser.email} login ${updatedUser.isActive ? 'enabled' : 'disabled'}.`;
+        const normalizedUser = this.normalizeUser(updatedUser);
+        this.users = this.users.map(item => item.id === normalizedUser.id ? normalizedUser : item);
+        this.successMessage = `${normalizedUser.fullName || normalizedUser.email} login ${normalizedUser.isActive ? 'enabled' : 'disabled'}.`;
         this.notifications.success(this.successMessage);
         this.savingUserIds.delete(user.id);
       },
@@ -113,8 +114,9 @@ export class UserLoginControlComponent implements OnInit {
 
     this.userLoginControlService.updateKundaliSaveLimit(user.id, nextLimit).subscribe({
       next: (updatedUser) => {
-        this.users = this.users.map(item => item.id === updatedUser.id ? updatedUser : item);
-        this.successMessage = `${updatedUser.fullName || updatedUser.email} can save up to ${updatedUser.kundaliSaveLimit} Kundalis.`;
+        const normalizedUser = this.normalizeUser(updatedUser);
+        this.users = this.users.map(item => item.id === normalizedUser.id ? normalizedUser : item);
+        this.successMessage = `${normalizedUser.fullName || normalizedUser.email} can save up to ${normalizedUser.kundaliSaveLimit} Kundalis.`;
         this.notifications.success(this.successMessage);
         this.savingLimitUserIds.delete(user.id);
       },
@@ -127,6 +129,96 @@ export class UserLoginControlComponent implements OnInit {
     });
   }
 
+  onPremiumToggle(user: UserLoginControlUser, isPremium: boolean): void {
+    user.isPremium = isPremium;
+    user.planCode = isPremium ? 'Premium' : 'Free';
+
+    if (isPremium && !this.planExpiryInputs[user.id]) {
+      this.planExpiryInputs[user.id] = this.getDefaultPremiumExpiryDate();
+    }
+  }
+
+  updatePremiumPlan(user: UserLoginControlUser): void {
+    if (this.savingPlanUserIds.has(user.id)) {
+      return;
+    }
+
+    const planExpiresAt = user.isPremium
+      ? this.toPlanExpiryIso(this.planExpiryInputs[user.id])
+      : null;
+
+    if (user.isPremium && !planExpiresAt) {
+      this.errorMessage = 'Select a premium expiry date.';
+      this.notifications.error(this.errorMessage);
+      return;
+    }
+
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.savingPlanUserIds.add(user.id);
+
+    this.userLoginControlService.updatePremiumPlan(user.id, user.isPremium, planExpiresAt).subscribe({
+      next: (updatedUser) => {
+        const normalizedUser = this.normalizeUser(updatedUser);
+        this.users = this.users.map(item => item.id === normalizedUser.id ? normalizedUser : item);
+        this.successMessage = `${normalizedUser.fullName || normalizedUser.email} is now ${normalizedUser.isPremium ? 'Premium' : 'Free'}.`;
+        this.notifications.success(this.successMessage);
+        this.savingPlanUserIds.delete(user.id);
+      },
+      error: (error) => {
+        this.errorMessage = this.getHttpErrorMessage(error, 'Unable to update premium plan.');
+        this.notifications.error(this.errorMessage);
+        this.savingPlanUserIds.delete(user.id);
+        this.loadUsers();
+      }
+    });
+  }
+
+  getPlanLabel(user: UserLoginControlUser): string {
+    return user.isPremium ? 'Premium' : 'Free';
+  }
+
+  private normalizeUser(user: UserLoginControlUser): UserLoginControlUser {
+    const normalizedUser: UserLoginControlUser = {
+      ...user,
+      email: user.email ?? '',
+      planCode: user.planCode || (user.isPremium ? 'Premium' : 'Free'),
+      isPremium: Boolean(user.isPremium),
+      kundaliSaveLimit: Number.isFinite(Number(user.kundaliSaveLimit)) ? Number(user.kundaliSaveLimit) : 5
+    };
+
+    this.planExpiryInputs[normalizedUser.id] = this.toDateInputValue(normalizedUser.planExpiresAt);
+    return normalizedUser;
+  }
+
+  private toDateInputValue(value?: string | null): string {
+    if (!value) {
+      return '';
+    }
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+
+    return date.toISOString().slice(0, 10);
+  }
+
+  private toPlanExpiryIso(value: string | undefined): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const expiryDate = new Date(`${value}T23:59:59.999Z`);
+    return Number.isNaN(expiryDate.getTime()) ? null : expiryDate.toISOString();
+  }
+
+  private getDefaultPremiumExpiryDate(): string {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() + 1);
+    return date.toISOString().slice(0, 10);
+  }
+
   private getHttpErrorMessage(error: any, fallback: string): string {
     if (typeof error?.error === 'string' && error.error.trim()) {
       return error.error;
@@ -136,11 +228,29 @@ export class UserLoginControlComponent implements OnInit {
       return error.error.message;
     }
 
+    if (error?.status === 403) {
+      return 'Only Admin users can update premium plans. Please sign in with an Admin account.';
+    }
+
+    if (error?.status === 404) {
+      return 'Premium plan API was not found. Restart the backend after deploying the latest code.';
+    }
+
+    if (error?.status === 500) {
+      return 'Premium plan update failed on the server. Check that the latest database migrations are applied.';
+    }
+
     return fallback;
   }
+
   isSavingLimit(userId: string): boolean {
     return this.savingLimitUserIds.has(userId);
   }
+
+  isSavingPlan(userId: string): boolean {
+    return this.savingPlanUserIds.has(userId);
+  }
+
   isSaving(userId: string): boolean {
     return this.savingUserIds.has(userId);
   }
@@ -149,4 +259,3 @@ export class UserLoginControlComponent implements OnInit {
     return user.id;
   }
 }
-

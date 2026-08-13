@@ -13,5 +13,11 @@ namespace KundaliEngine.API.DTOs.User
         public bool IsActive { get; set; }
 
         public int KundaliSaveLimit { get; set; }
+
+        public string PlanCode { get; set; } = "Free";
+
+        public DateTimeOffset? PlanExpiresAt { get; set; }
+
+        public bool IsPremium { get; set; }
     }
 }

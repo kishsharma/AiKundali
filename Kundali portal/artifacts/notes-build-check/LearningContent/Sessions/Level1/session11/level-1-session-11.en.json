@@ -1,0 +1,608 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "69c73568-c557-5031-979f-fd31c3c2e4ed",
+  "levelCode": "level-1",
+  "sessionNumber": 11,
+  "slug": "house-lords-and-functional-nature",
+  "language": "en",
+  "title": "House Lords and Functional Nature",
+  "subtitle": "Understanding how planetary roles change with the Ascendant",
+  "summary": "This session explains how each house receives a planetary lord according to the Lagna and why the same planet can perform different functions for different Ascendants. Students learn to identify house lords, distinguish natural nature from functional nature, recognise Kendra, Trikona, Dusthana and Maraka lordships, understand mixed lordship, and apply a safe first method for assessing a house lord without reducing it to a single good-or-bad label.",
+  "estimatedMinutes": 75,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Identify the lord of any house from the Lagna.",
+    "Explain the difference between a planet's natural nature and functional nature.",
+    "Recognise functional benefic, functional challenging and mixed lordships.",
+    "Identify Kendra, Trikona, Dusthana, Upachaya and Maraka lordships.",
+    "Understand why the same planet changes role for different Ascendants.",
+    "Avoid declaring a planet wholly good or bad from one lordship alone.",
+    "Assess the placement and condition of a house lord.",
+    "Apply a basic functional-nature reading sequence to a sample chart."
+  ],
+  "prerequisites": [
+    "Completion of Session 10: Lagna and Twelve Bhavas.",
+    "Knowledge of sign ownership and major house groups."
+  ],
+  "keyTerms": [
+    {
+      "term": "House Lord",
+      "sanskrit": "भावेश",
+      "transliteration": "bhāveśa",
+      "meaning": "The planet that rules the zodiac sign occupying a particular house.",
+      "note": "Its placement connects the matters of the house it owns with the house where it is situated."
+    },
+    {
+      "term": "Functional Nature",
+      "sanskrit": "कार्यात्मक प्रकृति",
+      "transliteration": "kāryātmaka prakṛti",
+      "meaning": "The role a planet performs for a specific Ascendant because of the houses it rules.",
+      "note": "It can differ from the planet's natural benefic or malefic nature."
+    },
+    {
+      "term": "Functional Benefic",
+      "sanskrit": "कार्यात्मक शुभ ग्रह",
+      "transliteration": "kāryātmaka śubha graha",
+      "meaning": "A planet that gains supportive functional responsibility through favourable house lordship.",
+      "note": "Trikona lordship is especially important in this assessment."
+    },
+    {
+      "term": "Functional Challenging Planet",
+      "sanskrit": "कार्यात्मक अशुभ ग्रह",
+      "transliteration": "kāryātmaka aśubha graha",
+      "meaning": "A planet whose house lordship gives it greater responsibility for difficult or pressure-producing areas.",
+      "note": "This does not mean the planet can produce only negative results."
+    },
+    {
+      "term": "Yogakaraka",
+      "sanskrit": "योगकारक",
+      "transliteration": "yogakāraka",
+      "meaning": "A planet that simultaneously rules a Kendra and a Trikona, giving it strong constructive potential.",
+      "note": "Its actual results still depend on placement, dignity, aspects and timing."
+    },
+    {
+      "term": "Maraka",
+      "sanskrit": "मारक",
+      "transliteration": "māraka",
+      "meaning": "A classical functional role associated mainly with the lords of the second and seventh houses.",
+      "note": "At foundation level, treat this as a technical timing role and avoid fear-based longevity claims."
+    },
+    {
+      "term": "Mixed Lordship",
+      "sanskrit": "मिश्र भावाधिपत्य",
+      "transliteration": "miśra bhāvādhipatya",
+      "meaning": "When one planet rules houses with both supportive and challenging functions.",
+      "note": "The final expression depends on which house is stronger, activated or better supported."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "finding-house-lord",
+      "title": "How to Find a House Lord",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "natural-vs-functional",
+      "title": "Natural Nature and Functional Nature",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "supportive-lordships",
+      "title": "Supportive Functional Lordships",
+      "estimatedMinutes": 11
+    },
+    {
+      "sectionId": "challenging-lordships",
+      "title": "Challenging Functional Lordships",
+      "estimatedMinutes": 11
+    },
+    {
+      "sectionId": "mixed-and-yogakaraka",
+      "title": "Mixed Lordship and Yogakaraka",
+      "estimatedMinutes": 11
+    },
+    {
+      "sectionId": "lord-placement",
+      "title": "Reading the Placement of a House Lord",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "functional-reading-method",
+      "title": "A Basic Functional-Nature Method",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "finding-house-lord",
+      "title": "How to Find a House Lord",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Every house contains a zodiac sign. The planet ruling that sign becomes the lord of the house. Begin from the Lagna, assign the signs to all twelve houses, and then use the sign-ownership table to identify each house lord."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session11-house-lord-flow",
+          "assetPath": "assets/learning/Level-1/session-11/house-lord-flow.svg",
+          "altText": "A simple flow showing house number, sign in the house, sign ruler and house lord.",
+          "caption": "House → sign → sign ruler → house lord.",
+          "purpose": "Teach the basic process for identifying a house lord.",
+          "annotations": [
+            "House",
+            "Sign",
+            "Sign ruler",
+            "House lord"
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Finding the tenth lord for Cancer Lagna",
+          "scenario": "For Cancer Lagna, Aries occupies the tenth house.",
+          "steps": [
+            "Identify the tenth-house sign: Aries.",
+            "Identify the ruler of Aries: Mars.",
+            "Therefore Mars becomes the tenth lord."
+          ],
+          "conclusion": "Mars carries responsibility for career, action, status and visible contribution in this chart."
+        }
+      ]
+    },
+    {
+      "id": "natural-vs-functional",
+      "title": "Natural Nature and Functional Nature",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Two different layers of planetary nature",
+          "left": {
+            "label": "Natural nature",
+            "points": [
+              "The planet's general inherent temperament.",
+              "Remains broadly consistent across charts.",
+              "Examples include natural benefic or natural malefic classification."
+            ]
+          },
+          "right": {
+            "label": "Functional nature",
+            "points": [
+              "The role created by house lordship for a particular Lagna.",
+              "Changes when the Ascendant changes.",
+              "May be supportive, challenging or mixed."
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "The same planet can change role",
+          "text": "Saturn, Mars, Jupiter, Venus, Mercury, the Sun and the Moon do not perform the same functional role for every Ascendant because their house ownership changes."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Natural and functional nature must be combined",
+          "text": "Do not cancel one layer with the other. A natural benefic may own difficult houses, while a natural malefic may become highly constructive through Kendra and Trikona lordship."
+        }
+      ]
+    },
+    {
+      "id": "supportive-lordships",
+      "title": "Supportive Functional Lordships",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Important supportive lordships",
+          "columns": [
+            "Lordship",
+            "Foundation interpretation"
+          ],
+          "rows": [
+            [
+              "1st lord",
+              "Represents the person, body, identity and overall direction; central to the whole chart"
+            ],
+            [
+              "5th lord",
+              "Carries intelligence, learning, creativity, counsel, children and past merit"
+            ],
+            [
+              "9th lord",
+              "Carries dharma, guidance, higher learning, fortune and principles"
+            ],
+            [
+              "Kendra lord",
+              "Supports major life foundations, visibility and structural activity"
+            ],
+            [
+              "Trikona lord",
+              "Often carries constructive potential related to purpose, merit and growth"
+            ]
+          ],
+          "note": "The first lord is special because the first house is both Kendra and Trikona."
+        },
+        {
+          "type": "paragraph",
+          "text": "Trikona lords, especially the fifth and ninth lords, are generally treated as functionally supportive. The Lagna lord is also central because its strength affects the person's capacity to use the rest of the chart."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Supportive lordship is not an automatic promise",
+          "text": "A supportive lord can be weakened by debilitation, combustion, severe affliction, difficult placement or lack of activation."
+        }
+      ]
+    },
+    {
+      "id": "challenging-lordships",
+      "title": "Challenging Functional Lordships",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Important pressure-producing lordships",
+          "columns": [
+            "Lordship",
+            "Foundation interpretation"
+          ],
+          "rows": [
+            [
+              "6th lord",
+              "Service, competition, debt, disputes, disease factors and obstacles"
+            ],
+            [
+              "8th lord",
+              "Transformation, vulnerability, hidden matters, inheritance and sudden change"
+            ],
+            [
+              "12th lord",
+              "Expenditure, withdrawal, isolation, foreign residence and release"
+            ],
+            [
+              "2nd lord",
+              "Resources and family, with a classical Maraka role"
+            ],
+            [
+              "7th lord",
+              "Partnership and public dealings, with a classical Maraka role"
+            ]
+          ],
+          "note": "These roles describe areas of responsibility, not a fixed promise of harm."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Avoid fear-based Maraka interpretation",
+          "text": "The term Maraka should not be used to make casual claims about death or lifespan. At foundation level, understand it only as a classical functional and timing category requiring advanced verification."
+        },
+        {
+          "type": "paragraph",
+          "text": "Dusthana lords can also support service, research, healing processes, resilience, foreign experience, spiritual withdrawal and the ability to manage difficult situations. Their results are not one-dimensional."
+        }
+      ]
+    },
+    {
+      "id": "mixed-and-yogakaraka",
+      "title": "Mixed Lordship and Yogakaraka",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Most planets rule two signs and therefore often rule two houses in a chart. If one house is supportive and the other challenging, the planet receives mixed functional responsibility. Its results must be divided by topic and judged through placement, strength and activation."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session11-functional-nature-balance",
+          "assetPath": "assets/learning/Level-1/session-11/functional-nature-balance.svg",
+          "altText": "A simple balance diagram showing supportive lordship, challenging lordship and mixed functional nature.",
+          "caption": "Functional nature may be supportive, challenging or mixed.",
+          "purpose": "Show that multiple house lordships must be combined rather than reduced to one label.",
+          "annotations": [
+            "Supportive lordship",
+            "Challenging lordship",
+            "Mixed result"
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "Common Yogakaraka examples",
+          "columns": [
+            "Ascendant",
+            "Planet",
+            "Kendra lordship",
+            "Trikona lordship"
+          ],
+          "rows": [
+            [
+              "Taurus",
+              "Saturn",
+              "10th",
+              "9th"
+            ],
+            [
+              "Libra",
+              "Saturn",
+              "4th",
+              "5th"
+            ],
+            [
+              "Cancer",
+              "Mars",
+              "10th",
+              "5th"
+            ],
+            [
+              "Leo",
+              "Mars",
+              "4th",
+              "9th"
+            ]
+          ],
+          "note": "Yogakaraka status shows strong constructive potential, but the planet's actual condition must still be judged."
+        }
+      ]
+    },
+    {
+      "id": "lord-placement",
+      "title": "Reading the Placement of a House Lord",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A house lord carries the matters of the house it owns into the house where it is placed. This creates a connection between two life areas. The quality of that connection depends on the lord's dignity, strength, conjunctions, aspects and activation."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session11-house-lord-connection",
+          "assetPath": "assets/learning/Level-1/session-11/house-lord-connection.svg",
+          "altText": "A simple diagram showing the owned house connecting to the occupied house through the house lord.",
+          "caption": "The house lord links its owned house with the house it occupies.",
+          "purpose": "Teach the basic principle of house-to-house connection.",
+          "annotations": [
+            "Owned house",
+            "House lord",
+            "Occupied house",
+            "Connection"
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Tenth lord placed in the ninth house",
+          "scenario": "The planet ruling the tenth house is placed in the ninth house.",
+          "steps": [
+            "The tenth house contributes career, responsibility and public action.",
+            "The ninth house contributes higher learning, mentors, principles, travel and dharma.",
+            "The placement creates a connection between career and ninth-house themes.",
+            "Judge the lord's dignity, aspects and Dasha before interpreting the quality."
+          ],
+          "conclusion": "Possible themes include work connected with education, guidance, law, travel, principles or institutions, but the final result requires the full chart."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Connection is not the same as outcome",
+          "text": "Lord placement first tells you which life areas are connected. Strength, support and timing tell you how that connection is experienced."
+        }
+      ]
+    },
+    {
+      "id": "functional-reading-method",
+      "title": "A Basic Functional-Nature Method",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Identify the Lagna.",
+            "Assign signs to all twelve houses.",
+            "Identify the houses ruled by the planet.",
+            "Classify each lordship as Lagna, Kendra, Trikona, Dusthana, Upachaya or Maraka-related.",
+            "Decide whether the functional responsibility is mainly supportive, challenging or mixed.",
+            "Locate the planet and identify the house connection it creates.",
+            "Check dignity, combustion, retrogression, conjunctions and aspects.",
+            "Check Dasha and transit activation before forming a practical result."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Mars for Cancer Lagna",
+          "scenario": "For Cancer Lagna, Mars rules the fifth and tenth houses.",
+          "steps": [
+            "The fifth house is a Trikona.",
+            "The tenth house is a Kendra.",
+            "Mars therefore combines Trikona and Kendra lordship.",
+            "This gives Mars Yogakaraka potential for Cancer Lagna.",
+            "Its actual results depend on placement, dignity, aspects and timing."
+          ],
+          "conclusion": "Mars has a strongly constructive functional role, but should still not be judged without its chart condition."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Use role-based language",
+          "text": "Prefer phrases such as 'carries sixth-house responsibilities' or 'has mixed functional lordship' instead of calling a planet simply good or bad."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming a natural benefic is functionally benefic for every Ascendant.",
+      "whyItIsWrong": "Functional nature changes according to house ownership.",
+      "correctUnderstanding": "Judge natural and functional nature separately, then combine them."
+    },
+    {
+      "mistake": "Assuming a natural malefic can never become constructive.",
+      "whyItIsWrong": "A natural malefic may become Yogakaraka through Kendra and Trikona lordship.",
+      "correctUnderstanding": "Examine lordship before assigning a final role."
+    },
+    {
+      "mistake": "Using one difficult lordship to label the whole planet as bad.",
+      "whyItIsWrong": "Most planets rule two houses and may carry mixed responsibilities.",
+      "correctUnderstanding": "Separate the results by house and topic."
+    },
+    {
+      "mistake": "Ignoring the placement of the house lord.",
+      "whyItIsWrong": "Lord placement shows where the house matters are carried and connected.",
+      "correctUnderstanding": "Read ownership and placement together."
+    },
+    {
+      "mistake": "Making frightening longevity claims from Maraka lordship.",
+      "whyItIsWrong": "Maraka assessment is an advanced timing topic requiring many safeguards and supporting factors.",
+      "correctUnderstanding": "At foundation level, treat it only as a technical functional category."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Identify Functional Roles",
+    "instructions": [
+      "Choose one sample Ascendant.",
+      "Assign signs and lords to all twelve houses.",
+      "List the houses ruled by each planet.",
+      "Mark Kendra, Trikona, Dusthana, Upachaya and Maraka-related lordships.",
+      "Identify any planet with mixed lordship.",
+      "Check whether the chart has a Yogakaraka planet.",
+      "Select one house lord and explain the connection created by its placement."
+    ],
+    "expectedOutcome": "The student can identify house lords, distinguish natural and functional nature, recognise mixed and Yogakaraka roles, and begin a structured lordship reading without reducing planets to fixed good-or-bad labels.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "The sign occupying a house determines its planetary lord.",
+    "A house lord carries the matters of its house into the house where it is placed.",
+    "Natural nature and functional nature are separate layers.",
+    "Functional nature changes with the Ascendant.",
+    "Lagna, fifth and ninth lordships are especially important supportive roles.",
+    "Sixth, eighth and twelfth lordships carry pressure-producing responsibilities.",
+    "Second and seventh lords have a classical Maraka role that must be handled carefully.",
+    "A planet may have mixed lordship.",
+    "A planet ruling both a Kendra and a Trikona may become Yogakaraka.",
+    "Final results require placement, dignity, aspects, strength and timing."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "How is the lord of a house identified?",
+        "options": [
+          "By the house number alone",
+          "By the ruler of the sign occupying the house",
+          "By the strongest planet",
+          "By the Moon sign only"
+        ],
+        "answer": "By the ruler of the sign occupying the house",
+        "explanation": "The sign placed in the house determines its planetary lord."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which lordships form a Yogakaraka combination?",
+        "options": [
+          "Two Dusthana houses",
+          "A Kendra and a Trikona",
+          "The second and seventh",
+          "The third and eleventh"
+        ],
+        "answer": "A Kendra and a Trikona",
+        "explanation": "A planet ruling both a Kendra and a Trikona gains strong constructive potential."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "For Cancer Lagna, which planet rules the fifth and tenth houses?",
+        "options": [
+          "Jupiter",
+          "Venus",
+          "Mars",
+          "Saturn"
+        ],
+        "answer": "Mars",
+        "explanation": "Mars rules Scorpio in the fifth and Aries in the tenth."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which houses are primarily associated with classical Maraka lordship?",
+        "options": [
+          "1 and 5",
+          "2 and 7",
+          "6 and 8",
+          "9 and 10"
+        ],
+        "answer": "2 and 7",
+        "explanation": "The second and seventh lords carry the principal classical Maraka role."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "A natural benefic is functionally benefic for every Ascendant.",
+        "answer": false,
+        "explanation": "Functional nature changes with the houses owned for each Lagna."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "A planet may carry both supportive and challenging house responsibilities.",
+        "answer": true,
+        "explanation": "This is called mixed lordship."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "What does the placement of a house lord indicate?",
+        "answer": "It connects the matters of the house it owns with the house where it is placed.",
+        "explanation": "Ownership shows what the planet carries; placement shows where those matters are expressed."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should functional nature not be reduced to a good-or-bad label?",
+        "answer": "Because planets may rule multiple houses and their results also depend on placement, dignity, aspects, strength and timing.",
+        "explanation": "Functional role is only one part of complete chart judgement."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical framework for house lordship, functional planetary roles, Yogakaraka principles and house-based chart judgement.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-23",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "Used as a work-level reference without verse-specific quotation. Edition-specific verification is required before publication."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For classical principles concerning house lords, functional nature and Yogakaraka planets.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-23",
+    "reviewNotes": "House-lord identification, natural-versus-functional distinction, major lordship categories and standard Yogakaraka examples were checked for internal consistency. Maraka content is intentionally non-fatalistic and limited to a technical foundation-level explanation. Human Jyotish SME review and edition-specific verification are required before publication."
+  },
+  "status": "review"
+}

@@ -1,26 +1,290 @@
-<app-page-header
-  title="Panchang"
-  subtitle="Vedic calendar and timings"
-  description="Check daily Panchang details including Tithi, Nakshatra, Yoga, and Karana. Find auspicious timings for important events."
+﻿<app-page-header
+  [title]="t('panchang.title')"
+  [compact]="true"
 ></app-page-header>
 
 <div class="panchang-layout">
-  <!-- Date Selector & Today's Panchang -->
-  <app-section-card title="Today's Panchang" [interactive]="false">
-    <div class="coming-soon">
-      <p>📅 Today's Panchang details coming soon!</p>
-      <p class="subtitle">View Tithi, Nakshatra, Yoga, Karana, and more.</p>
+  <app-section-card [interactive]="false">
+    <div class="calendar-shell">
+      <div class="calendar-toolbar">
+        <div class="calendar-title-stack">
+          <h2 class="month-title">{{ calendarTitle }}</h2>
+          <div class="calendar-era calendar-era-top" *ngIf="calendarHeaderPanchang as monthPanchang">
+            <span class="era-shake" *ngIf="monthPanchang.shake">
+              <small>{{ t('panchang.shake') }}</small>
+              {{ monthPanchang.shake }}
+            </span>
+            <span class="era-month" *ngIf="monthPanchang.maas">
+              <small>{{ t('panchang.month') }}</small>
+              {{ translatePanchangValue('maas', monthPanchang.maas) }}
+            </span>
+            <span class="era-samvat" *ngIf="monthPanchang.samvat">
+              <small>{{ t('panchang.samvat') }}</small>
+              {{ monthPanchang.samvat }}
+            </span>
+          </div>
+        </div>
+        <div class="mode-switcher" [attr.aria-label]="t('panchang.calendarTitle')">
+          <button
+            class="mode-btn"
+            type="button"
+            *ngFor="let mode of calendarModes"
+            [class.active]="mode === calendarMode"
+            (click)="setCalendarMode(mode)"
+          >
+            {{ formatMode(mode) }}
+          </button>
+        </div>
+        <div class="calendar-actions" aria-label="Calendar navigation">
+          <button class="calendar-btn" type="button" (click)="previousPeriod()" [attr.aria-label]="t('panchang.previous')">&lt;</button>
+          <button class="calendar-btn today" type="button" (click)="goToToday()">{{ t('panchang.today') }}</button>
+          <button class="calendar-btn" type="button" (click)="nextPeriod()" [attr.aria-label]="t('panchang.next')">&gt;</button>
+        </div>
+        <div class="location-selector">
+          <input
+            class="location-input"
+            type="text"
+            [ngModel]="locationQuery"
+            (ngModelChange)="onLocationQueryChange($event)"
+            [placeholder]="t('panchang.locationSearch')"
+            [attr.aria-label]="t('panchang.locationAria')"
+          />
+          <span class="location-current">{{ selectedLocation.name }}</span>
+          <div class="location-results" *ngIf="locationResults.length">
+            <button
+              class="location-result"
+              type="button"
+              *ngFor="let place of locationResults"
+              (click)="selectLocation(place)"
+            >
+              {{ place.display_name }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="calendar-status" [class.error]="errorMessage" *ngIf="isLoading || errorMessage">
+        <ng-container *ngIf="isLoading">{{ t('panchang.loadingDaily') }}</ng-container>
+        <ng-container *ngIf="!isLoading && errorMessage">{{ errorMessage }}</ng-container>
+      </div>
+
+      <div class="weekday-row" [class.single-day]="calendarMode === 'daily'">
+        <div class="weekday" *ngFor="let weekday of weekdays">{{ weekday }}</div>
+      </div>
+
+      <div class="calendar-grid" [class.single-day]="calendarMode === 'daily'">
+        <button
+          class="date-cell"
+          type="button"
+          *ngFor="let day of calendarDays; trackBy: trackByDate"
+          [class.outside-month]="!day.isCurrentMonth && calendarMode === 'monthly'"
+          [class.today]="day.isToday"
+          [class.selected]="day.dateKey === selectedDateKey"
+          (click)="selectDay(day)"
+        >
+          <span class="date-topline">
+            <span class="date-number">{{ day.dayNumber }}</span>
+            <span class="day-name">{{ day.dayName }}</span>
+          </span>
+
+          <ng-container *ngIf="panchangByDate.get(day.dateKey) as panchang; else noPanchang">
+            <span class="special-tithi-strip" *ngIf="specialTithiMarkers(panchang).length">
+              <span
+                class="special-tithi-badge"
+                *ngFor="let marker of specialTithiMarkers(panchang)"
+                [class]="'special-tithi-badge ' + marker.kind"
+                [attr.title]="marker.label"
+                [attr.aria-label]="marker.label"
+              >
+                <span class="special-tithi-icon" aria-hidden="true">{{ marker.icon }}</span>
+              </span>
+            </span>
+            <span class="panchang-mini">
+              <span class="panchang-line">
+                <span class="panchang-label">Ti</span>
+                <span class="panchang-value">{{ translatePanchangValue('tithi', panchang.tithi) || '-' }}</span>
+              </span>
+              <span class="panchang-line">
+                <span class="panchang-label">Na</span>
+                <span class="panchang-value">{{ translatePanchangValue('nakshatra', panchang.nakshatra) || '-' }}</span>
+              </span>
+              <span class="panchang-line">
+                <span class="panchang-label">Yo</span>
+                <span class="panchang-value">{{ translatePanchangValue('yoga', panchang.yoga) || '-' }}</span>
+              </span>
+              <span class="panchang-line">
+                <span class="panchang-label">Ka</span>
+                <span class="panchang-value">{{ translatePanchangValue('karana', panchang.karana) || '-' }}</span>
+              </span>
+            </span>
+          </ng-container>
+          <ng-template #noPanchang>
+            <span class="empty-panchang">{{ t('panchang.noData') }}</span>
+          </ng-template>
+        </button>
+      </div>
     </div>
   </app-section-card>
 
-  <!-- Auspicious Timings / Muhurats -->
-  <app-section-card title="Auspicious Timings (Muhurats)" [interactive]="false">
-    <div class="coming-soon">
-      <p>Muhurtha finder is ready.</p>
-      <p class="subtitle">Find best timings for marriages, ceremonies, business opening, travel, and more.</p>
-      <a class="muhurtha-link" routerLink="/app/panchang/muhurtha">Open Muhurtha Finder</a>
+  <app-section-card [title]="t('panchang.selectedDay')" [interactive]="false">
+    <div class="detail-panel" *ngIf="selectedDay as selected">
+      <div class="detail-date">
+        <strong>{{ formatFullDate(selected.date) }}</strong>
+        <div class="calendar-era" *ngIf="selectedPanchang as headerPanchang">
+          <span class="era-shake" *ngIf="headerPanchang.shake">
+            <small>{{ t('panchang.shake') }}</small>
+            {{ headerPanchang.shake }}
+          </span>
+          <span class="era-month" *ngIf="headerPanchang.maas">
+            <small>{{ t('panchang.month') }}</small>
+            {{ translatePanchangValue('maas', headerPanchang.maas) }}
+          </span>
+          <span class="era-samvat" *ngIf="headerPanchang.samvat">
+            <small>{{ t('panchang.samvat') }}</small>
+            {{ headerPanchang.samvat }}
+          </span>
+        </div>
+      </div>
+
+      <ng-container *ngIf="selectedPanchang as panchang; else selectedEmpty">
+        <div class="detail-grid">
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.paksha') }}</span>
+              <span class="detail-value">{{ translatePanchangValue('paksha', panchang.paksha) || '-' }}</span>
+              <span class="detail-end-time" aria-hidden="true"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.tithi') }}</span>
+              <span class="detail-value">{{ translatePanchangValue('tithi', panchang.tithi) || '-' }}</span>
+              <span class="detail-end-time" *ngIf="panchang.tithiEndTime; else noTithiEnd">{{ t('panchang.ends') }} {{ panchang.tithiEndTime }}</span>
+              <ng-template #noTithiEnd><span class="detail-end-time" aria-hidden="true"></span></ng-template>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.nakshatra') }}</span>
+              <span class="detail-value">{{ translatePanchangValue('nakshatra', panchang.nakshatra) || '-' }}</span>
+              <span class="detail-end-time" *ngIf="panchang.nakshatraEndTime; else noNakshatraEnd">{{ t('panchang.ends') }} {{ panchang.nakshatraEndTime }}</span>
+              <ng-template #noNakshatraEnd><span class="detail-end-time" aria-hidden="true"></span></ng-template>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.pada') }}</span>
+              <span class="detail-value">{{ panchang.pada || '-' }}</span>
+              <span class="detail-end-time" *ngIf="currentPadaSyllable(panchang) as syllable">{{ syllable }}</span>
+            </div>
+          </div>
+          <div class="pada-strip" *ngIf="panchang.nakshatraPadas?.length">
+            <div
+              class="pada-card"
+              *ngFor="let pada of panchang.nakshatraPadas"
+              [class.active]="pada.isCurrent"
+            >
+              <span class="pada-index">{{ t('panchang.padaShort') }} {{ pada.pada }}</span>
+              <strong>{{ pada.syllable || '-' }}</strong>
+              <small>{{ t('panchang.ends') }} {{ pada.endTime || '-' }}</small>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.yoga') }}</span>
+              <span class="detail-value">{{ translatePanchangValue('yoga', panchang.yoga) || '-' }}</span>
+              <span class="detail-end-time" *ngIf="panchang.yogaEndTime; else noYogaEnd">{{ t('panchang.ends') }} {{ panchang.yogaEndTime }}</span>
+              <ng-template #noYogaEnd><span class="detail-end-time" aria-hidden="true"></span></ng-template>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.karana') }}</span>
+              <span class="detail-value">{{ translatePanchangValue('karana', panchang.karana) || '-' }}</span>
+              <span class="detail-end-time" *ngIf="panchang.karanaEndTime; else noKaranaEnd">{{ t('panchang.ends') }} {{ panchang.karanaEndTime }}</span>
+              <ng-template #noKaranaEnd><span class="detail-end-time" aria-hidden="true"></span></ng-template>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.sunrise') }}</span>
+              <span class="detail-value">{{ panchang.sunRiseTime || '-' }}</span>
+              <span class="detail-end-time" aria-hidden="true"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.sunset') }}</span>
+              <span class="detail-value">{{ panchang.sunSetTime || '-' }}</span>
+              <span class="detail-end-time" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.moonrise') }}</span>
+              <span class="detail-value">{{ panchang.moonRiseTime || '-' }}</span>
+              <span class="detail-end-time" aria-hidden="true"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ t('panchang.moonset') }}</span>
+              <span class="detail-value">{{ panchang.moonSetTime || '-' }}</span>
+              <span class="detail-end-time" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gochar-panel">
+          <div class="gochar-header">
+            <strong>{{ t('panchang.gocharTitle') }}</strong>
+            <small>{{ t('panchang.gocharDate') }}</small>
+          </div>
+          <div class="gochar-status" *ngIf="isGocharLoading">{{ t('panchang.loadingGochar') }}</div>
+          <div class="gochar-status" *ngIf="!isGocharLoading && gocharError">{{ gocharError }}</div>
+
+          <ng-container *ngIf="!isGocharLoading && selectedGochar as gochar; else gocharEmpty">
+            <div class="gochar-chart">
+              <app-north-indian-chart
+                [planets]="gochar.planets"
+                [ascendant]="gochar.ascendant"
+              ></app-north-indian-chart>
+            </div>
+
+            <div class="gochar-header">
+              <strong>{{ t('panchang.currentTransits') }}</strong>
+            </div>
+            <div class="gochar-planets">
+              <div class="gochar-planet-row" *ngFor="let planet of gochar.planets">
+                <span class="gochar-planet-head">
+                  <strong>{{ translatePlanet(planet.planet) }}</strong>
+                  <span class="retrograde-chip" *ngIf="planet.isRetrograde">{{ t('panchang.retrogradeShort') }}</span>
+                </span>
+                <span class="gochar-planet-sign">{{ translateSign(planet.signName) }}</span>
+                <span class="gochar-planet-degree">{{ formatDegree(planet) }}</span>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #gocharEmpty>
+            <p class="muted" *ngIf="!isGocharLoading && !gocharError">{{ t('panchang.gocharUnavailable') }}</p>
+          </ng-template>
+        </div>
+
+
+        <div class="timing-list" *ngIf="panchang.auspiciousTimings.length">
+          <div class="timing-row" *ngFor="let timing of panchang.auspiciousTimings">
+            <span>{{ timing.type }}</span>
+            <span>{{ timing.startTime }} - {{ timing.endTime }}</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #selectedEmpty>
+        <p class="muted">{{ t('panchang.detailsUnavailable') }}</p>
+      </ng-template>
+
+      <a class="muhurtha-link" routerLink="/app/panchang/muhurtha">{{ t('panchang.openMuhurtha') }}</a>
     </div>
   </app-section-card>
 </div>
+
+
+
+
+
+
+
+
+
 
 

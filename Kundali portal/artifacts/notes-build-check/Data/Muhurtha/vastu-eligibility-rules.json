@@ -1,0 +1,222 @@
+[
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Saptami",
+    "weekdays": ["Thursday"],
+    "moonSigns": ["Gemini"],
+    "applicability": ["Ka"],
+    "ahuti": "Venus",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Tritiya",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Cancer"],
+    "applicability": ["Vru"],
+    "ahuti": "Sun",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Ashtami",
+    "weekdays": ["Monday"],
+    "moonSigns": ["Virgo"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Venus",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Ashtami",
+    "weekdays": ["Thursday"],
+    "moonSigns": ["Scorpio"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Venus",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Ashtami",
+    "weekdays": ["Friday"],
+    "moonSigns": ["Cancer"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Venus",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Dashami",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Libra"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Venus",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Trayodashi",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Virgo", "Capricorn"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Moon",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Trayodashi",
+    "weekdays": ["Saturday"],
+    "moonSigns": ["Scorpio"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Saturn",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Shukla",
+    "tithi": "Purnima",
+    "weekdays": ["Friday"],
+    "moonSigns": ["Libra", "Aquarius"],
+    "applicability": ["Vru"],
+    "ahuti": "Moon",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Prathama",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Sagittarius"],
+    "applicability": ["Vru"],
+    "ahuti": "Mars",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Chaturthi",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Sagittarius"],
+    "applicability": ["Vru"],
+    "ahuti": "Mars",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Shashthi",
+    "weekdays": ["Friday"],
+    "moonSigns": ["Capricorn"],
+    "applicability": ["Vru"],
+    "ahuti": "Jupiter",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Saptami",
+    "weekdays": ["Saturday"],
+    "moonSigns": ["Capricorn"],
+    "applicability": ["Vru"],
+    "ahuti": "Jupiter",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Ashtami",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Pisces"],
+    "applicability": ["Vru"],
+    "ahuti": "Jupiter",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Ashtami",
+    "weekdays": ["Friday"],
+    "moonSigns": ["Taurus"],
+    "applicability": ["Vru"],
+    "ahuti": "Jupiter",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Navami",
+    "weekdays": ["Thursday"],
+    "moonSigns": ["Aries"],
+    "applicability": ["Ka", "Vru"],
+    "ahuti": "Rahu",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Ekadashi",
+    "weekdays": ["Monday"],
+    "moonSigns": ["Gemini"],
+    "applicability": ["Ka"],
+    "ahuti": "Rahu",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Ekadashi",
+    "weekdays": ["Wednesday"],
+    "moonSigns": ["Pisces"],
+    "applicability": ["Ka"],
+    "ahuti": "Rahu",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Dwadashi",
+    "weekdays": ["Thursday"],
+    "moonSigns": ["Pisces"],
+    "applicability": ["Ka"],
+    "ahuti": "Ketu",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  },
+  {
+    "applicableEventTypes": ["GruhaPravesha"],
+    "paksha": "Krishna",
+    "tithi": "Dwadashi",
+    "weekdays": ["Saturday"],
+    "moonSigns": ["Taurus"],
+    "applicability": ["Ka"],
+    "ahuti": "Ketu",
+    "scoreImpact": 10,
+    "source": "InferredTraditionalVastuYoga"
+  }
+]

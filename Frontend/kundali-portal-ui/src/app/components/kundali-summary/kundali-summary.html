@@ -12,7 +12,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.name' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.name' | transloco }}</span>
         <strong>{{ summary.name }}</strong>
       </div>
 
@@ -25,9 +25,9 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.birthDate' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.birthDate' | transloco }}</span>
         <strong>
-          {{ kundaliFormValue.birthDate | date:'dd-MM-yyyy' }}
+          {{ kundaliFormValue.birthDate | date:'dd MMM yyyy' }}
         </strong>
       </div>
 
@@ -40,7 +40,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.birthTime' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.birthTime' | transloco }}</span>
         <strong>{{ kundaliFormValue.birthTime }}</strong>
       </div>
 
@@ -53,7 +53,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.gender' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.gender' | transloco }}</span>
         <strong>{{ kundaliFormValue.gender }}</strong>
       </div>
 
@@ -66,7 +66,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.ascendant' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.ascendant' | transloco }}</span>
         <strong class="summary-primary">{{ translateSign(summary.ascendant) }}</strong>
         <small class="summary-lord" *ngIf="getLagnaLord() as lord">
           {{ 'metadata.lord' | transloco }}: {{ lord }}
@@ -82,7 +82,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.moonSign' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.moonSign' | transloco }}</span>
         <strong class="summary-primary">{{ translateSign(summary.moonSign) }}</strong>
         <small class="summary-lord" *ngIf="getMoonSignLord() as lord">
           {{ 'metadata.lord' | transloco }}: {{ lord }}
@@ -98,7 +98,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.sunSign' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.sunSign' | transloco }}</span>
         <strong class="summary-primary">{{ translateSign(summary.sunSign) }}</strong>
         <small class="summary-lord" *ngIf="getSunSignLord() as lord">
           {{ 'metadata.lord' | transloco }}: {{ lord }}
@@ -114,7 +114,7 @@
       </div>
 
       <div class="kundali-summary-content">
-        <span>{{ 'kundali.mahadasha' | transloco }}</span>
+        <span class="summary-label">{{ 'kundali.mahadasha' | transloco }}</span>
         <strong class="summary-primary">{{ translatePlanet(summary.currentMahadasha) }}</strong>
         <small class="summary-lord" *ngIf="getMahadashaLord() as lord">
           {{ 'metadata.lord' | transloco }}: {{ lord }}

@@ -1,0 +1,92 @@
+[
+  {
+    "eventType": "Marriage",
+    "displayName": "Marriage",
+    "importantHouses": [2, 7, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "Engagement",
+    "displayName": "Engagement",
+    "importantHouses": [2, 7, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "GruhaPravesha",
+    "displayName": "Gruha Pravesha",
+    "importantHouses": [4, 8, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "BhoomiPuja",
+    "displayName": "Bhoomi Puja",
+    "importantHouses": [4, 8, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "PropertyPurchase",
+    "displayName": "Property Purchase",
+    "importantHouses": [4, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "BusinessOpening",
+    "displayName": "Business Opening",
+    "importantHouses": [2, 7, 10, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "JobJoining",
+    "displayName": "Job Joining",
+    "importantHouses": [6, 10, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "VehiclePurchase",
+    "displayName": "Vehicle Purchase",
+    "importantHouses": [4, 11],
+    "isActive": true
+  },
+  {
+    "eventType": "Travel",
+    "displayName": "Travel",
+    "importantHouses": [3, 9, 12],
+    "isActive": true
+  },
+  {
+    "eventType": "EducationStart",
+    "displayName": "Education Start",
+    "importantHouses": [2, 4, 5, 9],
+    "isActive": true
+  },
+  {
+    "eventType": "MedicalProcedure",
+    "displayName": "Medical Procedure",
+    "importantHouses": [1, 6, 8],
+    "isActive": true
+  },
+  {
+    "eventType": "NamingCeremony",
+    "displayName": "Naming Ceremony",
+    "importantHouses": [1, 2, 5],
+    "isActive": true
+  },
+  {
+    "eventType": "Annaprashana",
+    "displayName": "Annaprashana",
+    "importantHouses": [1, 2, 5],
+    "isActive": true
+  },
+  {
+    "eventType": "Upanayana",
+    "displayName": "Upanayana",
+    "importantHouses": [2, 5, 9],
+    "isActive": true
+  },
+  {
+    "eventType": "GeneralAuspiciousWork",
+    "displayName": "General Auspicious Work",
+    "importantHouses": [1, 5, 9, 11],
+    "isActive": true
+  }
+]

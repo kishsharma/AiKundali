@@ -1,0 +1,306 @@
+{
+  "id": 15,
+  "name": "Swati",
+  "sanskritName": "स्वाती",
+  "englishName": "Swati",
+
+  "startDegree": {
+    "sign": "Libra",
+    "longitude": 186.666667,
+    "display": "6°40' Libra"
+  },
+
+  "endDegree": {
+    "sign": "Libra",
+    "longitude": 200.000000,
+    "display": "20°00' Libra"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 7,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "Ru",
+      "akshara": "रू"
+    },
+    {
+      "number": 2,
+      "rashiId": 7,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Re",
+      "akshara": "रे"
+    },
+    {
+      "number": 3,
+      "rashiId": 7,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Aquarius",
+      "syllable": "Ro",
+      "akshara": "रो"
+    },
+    {
+      "number": 4,
+      "rashiId": 7,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Pisces",
+      "syllable": "Ta",
+      "akshara": "ता"
+    }
+  ],
+
+  "lord": "Rahu",
+
+  "rashi": [
+    "Libra"
+  ],
+
+  "deity": "Vayu (God of Wind)",
+
+  "symbol": "Young Plant Blowing in the Wind",
+
+  "animalSymbol": "Male Buffalo",
+
+  "gana": "Deva",
+
+  "yoni": "Buffalo",
+
+  "nadi": "Antya",
+
+  "varna": "Vaishya",
+
+  "vashya": [
+    "Manava"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Air",
+
+  "gender": "Female",
+
+  "nature": "Chara (Movable)",
+
+  "motivation": "Artha",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "High",
+    "pitta": "Low",
+    "kapha": "Medium"
+  },
+
+  "direction": "North-West",
+
+  "aradhyaVruksha": "Arjuna (Terminalia arjuna)",
+
+  "flower": "White Jasmine",
+
+  "metal": "Lead",
+
+  "color": [
+    "Sky Blue",
+    "White",
+    "Green"
+  ],
+
+  "gemstone": "Hessonite (Gomed)",
+
+  "rudraksha": [
+    "8 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Black Sesame",
+    "Blue Clothes",
+    "Blankets",
+    "Books",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ वायवे नमः",
+
+  "planetaryBeejMantra": "ॐ भ्रां भ्रीं भ्रौं सः राहवे नमः",
+
+  "fastingDay": "Saturday",
+
+  "positiveTraits": [
+    "Independent",
+    "Adaptable",
+    "Intelligent",
+    "Diplomatic",
+    "Curious",
+    "Flexible",
+    "Innovative",
+    "Open Minded",
+    "Communicative",
+    "Freedom Loving"
+  ],
+
+  "negativeTraits": [
+    "Restless",
+    "Indecisive",
+    "Unpredictable",
+    "Emotionally Detached",
+    "Impulsive",
+    "Inconsistent"
+  ],
+
+  "strengths": [
+    "Communication",
+    "Business",
+    "Negotiation",
+    "Innovation",
+    "Networking"
+  ],
+
+  "weaknesses": [
+    "Lack of Stability",
+    "Overthinking",
+    "Difficulty Committing"
+  ],
+
+  "career": [
+    "Entrepreneur",
+    "Business Consultant",
+    "Marketing Professional",
+    "Sales Executive",
+    "Pilot",
+    "Software Engineer",
+    "Lawyer",
+    "Diplomat",
+    "Journalist",
+    "International Trader"
+  ],
+
+  "education": [
+    "Business",
+    "Law",
+    "Commerce",
+    "Technology",
+    "Foreign Languages"
+  ],
+
+  "finance": [
+    "Good Business Income",
+    "Foreign Earnings",
+    "Needs Disciplined Investments"
+  ],
+
+  "health": [
+    "Lungs",
+    "Respiratory System",
+    "Kidneys",
+    "Nervous System",
+    "Blood Pressure"
+  ],
+
+  "bodyParts": [
+    "Lungs",
+    "Respiratory Tract",
+    "Skin"
+  ],
+
+  "relationships": [
+    "Friendly",
+    "Respectful",
+    "Needs Personal Freedom",
+    "Supportive"
+  ],
+
+  "loveNature": "Independent",
+
+  "marriageNature": "Balanced",
+
+  "friendshipNature": "Loyal",
+
+  "leadershipStyle": "Democratic",
+
+  "communicationStyle": "Diplomatic",
+
+  "decisionMaking": "Analytical",
+
+  "emotionalNature": "Balanced",
+
+  "learningStyle": "Exploratory",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Business",
+    "Technology",
+    "International Trade",
+    "Law",
+    "Consulting",
+    "Marketing"
+  ],
+
+  "goodFor": [
+    "Business",
+    "Travel",
+    "Trade",
+    "Learning",
+    "Communication",
+    "Networking",
+    "Starting New Ventures"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Highly Emotional Decisions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Vishuddha",
+
+  "spiritualLesson": "Freedom becomes meaningful only when balanced with responsibility, discipline and inner stability.",
+
+  "compatibleNakshatras": [
+    "Ardra",
+    "Shatabhisha",
+    "Chitra"
+  ],
+
+  "challengingNakshatras": [
+    "Pushya",
+    "Rohini"
+  ],
+
+  "mythologicalStory": "Swati is ruled by Vayu, the Wind God. Like a young plant swaying with the breeze, this Nakshatra symbolizes independence, adaptability, movement and the ability to grow through life's changing circumstances.",
+
+  "interestingFacts": [
+    "Represents independence and personal freedom.",
+    "Excellent Nakshatra for business, trade and entrepreneurship.",
+    "Strong communication and networking abilities.",
+    "Associated with foreign travel and international success.",
+    "Produces adaptable and innovative thinkers."
+  ],
+
+  "keywords": [
+    "Freedom",
+    "Independence",
+    "Business",
+    "Communication",
+    "Adaptability",
+    "Growth"
+  ],
+
+  "icon": "🌬️",
+
+  "priorityLifeAreas": [
+    "Business",
+    "Career",
+    "Travel",
+    "Personal Growth"
+  ]
+}

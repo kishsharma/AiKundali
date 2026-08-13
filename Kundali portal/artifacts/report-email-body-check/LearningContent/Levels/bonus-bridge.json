@@ -1,0 +1,85 @@
+{
+    "schemaVersion":  "1.0.0",
+    "id":  "8d46a00d-7a31-56a7-9ba3-4ed5f4b21658",
+    "code":  "bonus-bridge",
+    "slug":  "level-1-to-level-2-bridge",
+    "title":  "Bonus Bridge: Prediction Reading Formula",
+    "subtitle":  "Between Level 1 foundation and Level 2 prediction",
+    "description":  "A complete bridge session that turns foundation chart reading into a structured Kundali prediction workflow before Level 2 begins.",
+    "sessionCount":  1,
+    "estimatedMinutes":  105,
+    "estimatedHours":  1.8,
+    "languages":  {
+                      "default":  "en",
+                      "supported":  [
+                                        "en",
+                                        "hi",
+                                        "kn"
+                                    ]
+                  },
+    "audience":  [
+                     "Students who completed Level 1 and are preparing for structured prediction study."
+                 ],
+    "learningOutcome":  "Use the complete HoraLife prediction sequence before entering Level 2 Kundali Prediction.",
+    "recommendedPace":  {
+                            "sessionsPerWeek":  1,
+                            "estimatedWeeks":  1,
+                            "note":  "Complete this bridge after Level 1 session 15 and before Level 2."
+                        },
+    "access":  {
+                   "requiredRoles":  [
+                                         "student"
+                                     ],
+                   "authenticationRequired":  true,
+                   "allowPublicPreview":  false,
+                   "publicPreviewSessionIds":  [
+
+                                               ]
+               },
+    "navigation":  {
+                       "route":  "/learning/level/bonus-bridge",
+                       "sessionRoutePattern":  "/learning/session/{sessionId}",
+                       "showProgress":  true,
+                       "showLockedSessions":  true,
+                       "allowSequentialNavigation":  true,
+                       "nextLevelCode":  "level-2"
+                   },
+    "contentRules":  {
+                         "sessionSchema":  "StudyContent/Schemas/session-schema.json",
+                         "referenceLibrary":  "StudyContent/References/horalife-jyotish-reference-library.json",
+                         "oneJsonPerSessionPerLanguage":  true,
+                         "maximumShlokasPerSession":  3,
+                         "shlokaDisplayMode":  "contextual",
+                         "referencesRequired":  true,
+                         "commonMistakesRequired":  true,
+                         "selfCheckRequired":  true
+                     },
+    "completionRules":  {
+                            "requireAllSessions":  true,
+                            "minimumQuizScorePercent":  70,
+                            "certificateEnabled":  false,
+                            "completionMessage":  "Bridge session completed. The student may continue to Level 2: Kundali Prediction when Level 2 content is available."
+                        },
+    "sessions":  [
+                     {
+                         "id":  "835779e8-843f-52fb-a764-25cc5dbcc5d5",
+                         "sessionNumber":  16,
+                         "slug":  "complete-kundali-prediction-reading-formula",
+                         "title":  "Complete Kundali Prediction Reading Formula",
+                         "estimatedMinutes":  105,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/BonusBridge/Session16/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "6bd7f940-0a64-5eb3-b03f-f2b3d5372699"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     }
+                 ],
+    "status":  "content-in-progress"
+}

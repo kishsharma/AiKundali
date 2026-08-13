@@ -1,12 +1,14 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 
+type MetadataValueGroup = 'element' | 'direction' | 'metal' | 'gemstone' | 'gana' | 'yoni' | 'nadi' | 'varna' | 'vashya' | 'dosha';
+
 type InsightRow = {
   labelKey: string;
   value: string;
-  valueKey?: string;
+  valueGroup?: MetadataValueGroup;
   color?: string;
   icon?: string;
 };
@@ -45,15 +47,15 @@ export class KundaliMetadataInsightsComponent {
 
     return [
       { labelKey: 'metadata.ruler', value: this.apiTerms.translatePlanet(item.ruler), icon: this.getPlanetGlyph(item.ruler) },
-      { labelKey: 'metadata.element', value: item.element },
+      { labelKey: 'metadata.element', value: item.element, valueGroup: 'element' },
       { labelKey: 'metadata.strength', value: item.strength },
       { labelKey: 'metadata.weakness', value: item.weakness },
-      { labelKey: 'metadata.gemstone', value: item.gemstone },
-      { labelKey: 'metadata.metal', value: item.metal },
+      { labelKey: 'metadata.gemstone', value: item.gemstone, valueGroup: 'gemstone' },
+      { labelKey: 'metadata.metal', value: item.metal, valueGroup: 'metal' },
       { labelKey: 'metadata.color', value: item.color, color: item.color },
       { labelKey: 'metadata.luckyNumbers', value: this.joinValues(item.luckyNumbers) },
       { labelKey: 'metadata.favorableDay', value: item.favorableDay },
-      { labelKey: 'metadata.favorableDirection', value: item.favorableDirection }
+      { labelKey: 'metadata.favorableDirection', value: item.favorableDirection, valueGroup: 'direction' }
     ];
   }
 
@@ -67,12 +69,12 @@ export class KundaliMetadataInsightsComponent {
     return [
       { labelKey: 'metadata.lord', value: this.apiTerms.translatePlanet(item.lord), icon: this.getPlanetGlyph(item.lord) },
       { labelKey: 'metadata.symbol', value: item.symbol },
-      { labelKey: 'metadata.gana', value: item.gana },
-      { labelKey: 'metadata.yoni', value: item.yoni },
-      { labelKey: 'metadata.nadi', value: item.nadi },
-      { labelKey: 'metadata.varna', value: item.varna },
-      { labelKey: 'metadata.vashya', value: item.vashya },
-      { labelKey: 'metadata.dosha', value: item.dosha },
+      { labelKey: 'metadata.gana', value: item.gana, valueGroup: 'gana' },
+      { labelKey: 'metadata.yoni', value: item.yoni, valueGroup: 'yoni' },
+      { labelKey: 'metadata.nadi', value: item.nadi, valueGroup: 'nadi' },
+      { labelKey: 'metadata.varna', value: item.varna, valueGroup: 'varna' },
+      { labelKey: 'metadata.vashya', value: item.vashya, valueGroup: 'vashya' },
+      { labelKey: 'metadata.dosha', value: item.dosha, valueGroup: 'dosha' },
       { labelKey: 'metadata.fastingDay', value: item.fastingDay },
       { labelKey: 'metadata.businessSuitability', value: item.businessSuitability }
     ];
@@ -98,12 +100,11 @@ export class KundaliMetadataInsightsComponent {
       return '-';
     }
 
-    if (!row.valueKey) {
+    if (!row.valueGroup) {
       return row.value;
     }
 
-    const translated = this.translocoService.translate(row.valueKey);
-    return translated && translated !== row.valueKey ? translated : row.value;
+    return this.apiTerms.translateMetadataValue(row.valueGroup, row.value);
   }
 
   private joinValues(value: any): string {
@@ -116,9 +117,5 @@ export class KundaliMetadataInsightsComponent {
 
   private getPlanetGlyph(planet: string | null | undefined): string {
     return this.planetGlyphMap[planet ?? ''] ?? '\u2022';
-  }
-
-  private translationKey(prefix: string, value: string | null | undefined): string | undefined {
-    return value ? `${prefix}.${value}` : undefined;
   }
 }

@@ -1,0 +1,307 @@
+{
+  "id": 11,
+  "name": "PurvaPhalguni",
+  "sanskritName": "पूर्व फाल्गुनी",
+  "englishName": "Purva Phalguni",
+
+  "startDegree": {
+    "sign": "Leo",
+    "longitude": 133.333333,
+    "display": "13°20' Leo"
+  },
+
+  "endDegree": {
+    "sign": "Leo",
+    "longitude": 146.666667,
+    "display": "26°40' Leo"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 5,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Leo",
+      "syllable": "Mo",
+      "akshara": "मो"
+    },
+    {
+      "number": 2,
+      "rashiId": 5,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Virgo",
+      "syllable": "Ta",
+      "akshara": "टा"
+    },
+    {
+      "number": 3,
+      "rashiId": 5,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Libra",
+      "syllable": "Ti",
+      "akshara": "टी"
+    },
+    {
+      "number": 4,
+      "rashiId": 5,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Tu",
+      "akshara": "टू"
+    }
+  ],
+
+  "lord": "Venus",
+
+  "rashi": [
+    "Leo"
+  ],
+
+  "deity": "Bhaga (God of Prosperity and Marital Bliss)",
+
+  "symbol": "Front Legs of a Bed, Hammock, Swing",
+
+  "animalSymbol": "Female Rat",
+
+  "gana": "Manushya",
+
+  "yoni": "Rat",
+
+  "nadi": "Madhya",
+
+  "varna": "Brahmin",
+
+  "vashya": [
+    "Vanachara"
+  ],
+
+  "guna": "Rajas",
+
+  "tatva": "Fire",
+
+  "gender": "Female",
+
+  "nature": "Ugra (Fierce)",
+
+  "motivation": "Kama",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "High",
+    "kapha": "Medium"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Palash (Butea monosperma)",
+
+  "flower": "Rose",
+
+  "metal": "Silver",
+
+  "color": [
+    "Pink",
+    "White",
+    "Cream"
+  ],
+
+  "gemstone": "Diamond",
+
+  "rudraksha": [
+    "6 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "White Clothes",
+    "Rice",
+    "Curd",
+    "Perfume",
+    "Marriage Assistance"
+  ],
+
+  "recommendedMantra": "ॐ भगाय नमः",
+
+  "planetaryBeejMantra": "ॐ द्रां द्रीं द्रौं सः शुक्राय नमः",
+
+  "fastingDay": "Friday",
+
+  "positiveTraits": [
+    "Creative",
+    "Charismatic",
+    "Romantic",
+    "Artistic",
+    "Generous",
+    "Cheerful",
+    "Luxurious",
+    "Social",
+    "Hospitable",
+    "Optimistic"
+  ],
+
+  "negativeTraits": [
+    "Lazy",
+    "Pleasure Seeking",
+    "Extravagant",
+    "Possessive",
+    "Self-Indulgent",
+    "Stubborn"
+  ],
+
+  "strengths": [
+    "Creativity",
+    "Entertainment",
+    "Hospitality",
+    "Relationship Building",
+    "Luxury Business"
+  ],
+
+  "weaknesses": [
+    "Overindulgence",
+    "Procrastination",
+    "Material Attachment"
+  ],
+
+  "career": [
+    "Artist",
+    "Actor",
+    "Musician",
+    "Fashion Designer",
+    "Hotel Management",
+    "Wedding Planner",
+    "Event Manager",
+    "Interior Designer",
+    "Jeweler",
+    "Luxury Brand Consultant"
+  ],
+
+  "education": [
+    "Arts",
+    "Fashion",
+    "Design",
+    "Hospitality",
+    "Media"
+  ],
+
+  "finance": [
+    "Good Wealth Potential",
+    "Luxury Spending",
+    "Income through Creative Fields"
+  ],
+
+  "health": [
+    "Heart",
+    "Lower Back",
+    "Reproductive Organs",
+    "Skin",
+    "Hormonal Balance"
+  ],
+
+  "bodyParts": [
+    "Heart",
+    "Back",
+    "Reproductive System"
+  ],
+
+  "relationships": [
+    "Romantic",
+    "Affectionate",
+    "Loyal",
+    "Enjoys Family Life"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Happy and Supportive",
+
+  "friendshipNature": "Warm",
+
+  "leadershipStyle": "Inspirational",
+
+  "communicationStyle": "Pleasant",
+
+  "decisionMaking": "Emotion Driven",
+
+  "emotionalNature": "Expressive",
+
+  "learningStyle": "Creative",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Entertainment",
+    "Fashion",
+    "Luxury Goods",
+    "Hospitality",
+    "Beauty Industry",
+    "Creative Arts"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Engagement",
+    "Arts",
+    "Entertainment",
+    "Buying Jewelry",
+    "Celebrations",
+    "Social Gatherings"
+  ],
+
+  "avoidFor": [
+    "Military Activities",
+    "Legal Disputes",
+    "Funeral Ceremonies"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Swadhisthana",
+
+  "spiritualLesson": "True happiness comes from balancing pleasure with responsibility and sharing abundance with others.",
+
+  "compatibleNakshatras": [
+    "Uttara Phalguni",
+    "Rohini",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Magha",
+    "Jyeshtha"
+  ],
+
+  "mythologicalStory": "Purva Phalguni is ruled by Bhaga, the deity of prosperity, marital happiness and enjoyment. This Nakshatra represents love, creativity, celebration and the blessings of a joyful family life.",
+
+  "interestingFacts": [
+    "One of the best Nakshatras for marriage and celebrations.",
+    "Strong artistic and creative abilities.",
+    "Associated with luxury, beauty and comfort.",
+    "Excellent for entertainment and hospitality industries.",
+    "Blesses individuals with charm and social popularity."
+  ],
+
+  "keywords": [
+    "Love",
+    "Creativity",
+    "Luxury",
+    "Marriage",
+    "Beauty",
+    "Joy"
+  ],
+
+  "icon": "💖",
+
+  "priorityLifeAreas": [
+    "Relationships",
+    "Marriage",
+    "Creativity",
+    "Wealth"
+  ]
+}

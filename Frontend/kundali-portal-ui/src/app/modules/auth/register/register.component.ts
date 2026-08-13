@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslocoService } from '@jsverse/transloco';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
-import { OtpChannel } from '../../../core/auth/auth.models';
+import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
 
+type RegistrationMode = 'otp' | 'password';
 type RegistrationStep = 'contact' | 'code' | 'profile';
 
 @Component({
@@ -19,32 +21,42 @@ export class RegisterComponent implements OnDestroy {
   fullName = '';
   email = '';
   phoneNumber = '';
+  password = '';
   otpCode = '';
   otpDigits = Array(6).fill('');
   challengeId = '';
   registrationToken = '';
   maskedDestination = '';
-  verifiedChannel: OtpChannel = 'Phone';
+  verifiedChannel: OtpChannel = 'Email';
+  preferredLanguage: PreferredLanguage = 'en';
 
 
   @ViewChild('otpInput') otpInput?: ElementRef<HTMLInputElement>;
 
+  registrationMode: RegistrationMode = 'otp';
   step: RegistrationStep = 'contact';
-  otpChannel: OtpChannel = 'Phone';
+  otpChannel: OtpChannel = 'Email';
   resendSeconds = 0;
   isLoading = false;
+  isExiting = false;
   errorMessage = '';
 
   private resendTimer?: ReturnType<typeof setInterval>;
+  private navigationTimer?: ReturnType<typeof setTimeout>;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private notifications: NotificationService
+    private translocoService: TranslocoService,
+    private notifications: NotificationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnDestroy(): void {
     this.stopResendTimer();
+    if (this.navigationTimer) {
+      clearTimeout(this.navigationTimer);
+    }
   }
 
   get otpContactLabel(): string {
@@ -88,6 +100,7 @@ export class RegisterComponent implements OnDestroy {
         this.challengeId = response.challengeId;
         this.maskedDestination = response.maskedDestination;
         this.step = 'code';
+        this.cdr.detectChanges();
         this.startResendTimer(response.resendAfterSeconds || 60);
         setTimeout(() => this.focusOtpInput());
         this.notifications.success(response.message || 'Verification code sent.');
@@ -123,6 +136,7 @@ export class RegisterComponent implements OnDestroy {
         this.verifiedChannel = this.otpChannel;
         this.step = 'profile';
         this.stopResendTimer();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.isLoading = false;
@@ -143,17 +157,51 @@ export class RegisterComponent implements OnDestroy {
       registrationToken: this.registrationToken,
       fullName: this.fullName.trim(),
       email: this.email.trim() || undefined,
-      phoneNumber: this.phoneNumber.trim() || undefined
+      phoneNumber: this.phoneNumber.trim() || undefined,
+      preferredLanguage: this.preferredLanguage
     }).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.router.navigate(['/app/dashboard']);
-      },
+      next: () => this.finishRegistration(),
       error: (error) => {
         this.isLoading = false;
         this.notifications.error(error?.error?.message || 'Registration failed. Please try again.');
       }
     });
+  }
+
+  registerWithPassword(): void {
+    this.errorMessage = '';
+    if (!this.fullName.trim() || !this.email.trim() || !this.password) {
+      this.errorMessage = 'Please enter full name, email and password.';
+      return;
+    }
+
+    this.isLoading = true;
+    this.authService.register({
+      fullName: this.fullName.trim(),
+      email: this.email.trim(),
+      phoneNumber: this.phoneNumber.trim() || undefined,
+      password: this.password,
+      preferredLanguage: this.preferredLanguage
+    }).subscribe({
+      next: () => this.finishRegistration(),
+      error: (error) => {
+        this.isLoading = false;
+        this.notifications.error(error?.error?.message || 'Registration failed. Please try again.');
+      }
+    });
+  }
+
+  usePasswordRegistration(): void {
+    this.errorMessage = '';
+    this.registrationMode = 'password';
+    this.step = 'contact';
+    this.stopResendTimer();
+  }
+
+  useOtpRegistration(): void {
+    this.errorMessage = '';
+    this.registrationMode = 'otp';
+    this.step = 'contact';
   }
 
   editContact(): void {
@@ -207,6 +255,27 @@ export class RegisterComponent implements OnDestroy {
   focusOtpInput(): void {
     this.otpInput?.nativeElement.focus();
   }
+  private finishRegistration(): void {
+    this.authService.getMe().subscribe({
+      next: (user) => {
+        const language = (user.preferredLanguage || this.preferredLanguage) as PreferredLanguage;
+        this.translocoService.setActiveLang(language);
+        this.isExiting = true;
+        this.cdr.detectChanges();
+
+        this.navigationTimer = setTimeout(() => {
+          this.isLoading = false;
+          this.router.navigate(['/app/dashboard']);
+        }, 260);
+      },
+      error: () => {
+        this.isLoading = false;
+        this.isExiting = false;
+        this.notifications.error('Registration successful, but user profile failed. Please login again.');
+        this.cdr.detectChanges();
+      }
+    });
+  }
   private startResendTimer(seconds: number): void {
     this.stopResendTimer();
     this.resendSeconds = seconds;
@@ -229,6 +298,13 @@ export class RegisterComponent implements OnDestroy {
     }
   }
 }
+
+
+
+
+
+
+
 
 
 

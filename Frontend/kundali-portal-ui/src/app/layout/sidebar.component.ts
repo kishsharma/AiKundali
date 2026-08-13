@@ -6,8 +6,10 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AstrologyIconComponent } from '../shared/components/astrology-icon.component';
 import { KundaliService } from '../modules/kundali/kundali.service';
 import { AuthService } from '../core/auth/auth.service';
+import { PreferredLanguage } from '../core/auth/auth.models';
 import { CompatibilityApiService, SavedCompatibilityListItem } from '../core/services/compatibility-api.service';
 import { ThemeService } from '../core/services/theme.service';
+import { NotificationService } from '../shared/services/notification.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { APP_VERSION } from '../config/app-version';
@@ -64,18 +66,29 @@ export interface NavItem {
                 <span class="nav-label">{{ 'sidebar.dashboard' | transloco }}</span>
               </a>
             </li>
-            <li class="nav-item nav-parent">
-              <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-dhruva-tour="create-kundali" data-tour-id="portal-create-kundali">
-                <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">{{ 'sidebar.kundali' | transloco }}</span>
+            <li class="nav-item">
+              <a routerLink="/app/notes" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 4h14v16H5z"></path>
+                    <path d="M8 8h8"></path>
+                    <path d="M8 12h8"></path>
+                    <path d="M8 16h5"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.notes' | transloco }}</span>
               </a>
+            </li>
+
+            <li class="nav-item nav-parent">
+              <div class="nav-parent-row" data-dhruva-tour="create-kundali" data-tour-id="portal-create-kundali">
+                <a class="nav-parent-link" routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                  <app-astrology-icon name="kundali" class="nav-icon icon-md"></app-astrology-icon>
+                  <span class="nav-label">{{ 'sidebar.kundali' | transloco }}</span>
+                </a>
+                <a class="nav-create-btn" routerLink="/app/kundali" aria-label="Create Kundali" title="Create Kundali" (click)="onClose.emit()">+</a>
+              </div>
               <ul class="nav-sublist" *ngIf="!compact || mobileView">
-                <li>
-                  <a routerLink="/app/kundali" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
-                    <span class="nav-dot"></span>
-                    <span class="nav-label">{{ 'sidebar.createNew' | transloco }}</span>
-                  </a>
-                </li>
                 <li class="saved-group">
                   <button
                     type="button"
@@ -111,30 +124,16 @@ export interface NavItem {
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
-                <span class="nav-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 10.8 12 3l9 7.8"></path>
-                    <path d="M5.5 9.5V21h13V9.5"></path>
-                    <path d="M9.5 21v-6h5v6"></path>
-                  </svg>
-                </span>
-                <span class="nav-label">{{ 'sidebar.websiteHome' | transloco }}</span>
-              </a>
-            </li>
+
             <li class="nav-item nav-parent">
-              <a routerLink="/app/compatibility" routerLinkActive="active" data-dhruva-tour="compatibility" data-tour-id="portal-compatibility" [routerLinkActiveOptions]="{ exact: true }">
-                <app-astrology-icon name="compatibility" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">{{ 'sidebar.compatibility' | transloco }}</span>
-              </a>
+              <div class="nav-parent-row" data-dhruva-tour="compatibility" data-tour-id="portal-compatibility">
+                <a class="nav-parent-link" routerLink="/app/compatibility" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
+                  <app-astrology-icon name="compatibility" class="nav-icon icon-md"></app-astrology-icon>
+                  <span class="nav-label">{{ 'sidebar.compatibility' | transloco }}</span>
+                </a>
+                <a class="nav-create-btn" routerLink="/app/compatibility" aria-label="New Match" title="New Match" (click)="onClose.emit()">+</a>
+              </div>
               <ul class="nav-sublist" *ngIf="!compact || mobileView">
-                <li>
-                  <a routerLink="/app/compatibility" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
-                    <span class="nav-dot"></span>
-                    <span class="nav-label">{{ 'sidebar.createNew' | transloco }}</span>
-                  </a>
-                </li>
                 <li class="saved-group">
                   <button
                     type="button"
@@ -176,12 +175,7 @@ export interface NavItem {
         <div class="nav-section">
           <h3 class="nav-section-title">{{ 'sidebar.astrology' | transloco }}</h3>
           <ul class="nav-list">
-            <li class="nav-item">
-              <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onClose.emit()">
-                <app-astrology-icon name="panchang" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">{{ 'sidebar.panchang' | transloco }}</span>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a routerLink="/app/panchang/muhurtha" routerLinkActive="active" data-dhruva-tour="muhurtha" data-tour-id="portal-muhurtha" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
@@ -222,19 +216,7 @@ export interface NavItem {
         <div class="nav-section">
           <h3 class="nav-section-title">{{ 'sidebar.settings' | transloco }}</h3>
           <ul class="nav-list">
-            <li class="nav-item">
-              <a routerLink="/app/white-label-settings" routerLinkActive="active" (click)="onClose.emit()">
-                <span class="nav-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5z"></path>
-                    <path d="M8 9.2h8"></path>
-                    <path d="M8 14.8h4.8"></path>
-                    <path d="M15 13.2l1.8 1.8L15 16.8"></path>
-                  </svg>
-                </span>
-                <span class="nav-label">{{ 'sidebar.whiteLabel' | transloco }}</span>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a routerLink="/app/user-login-control" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
@@ -338,12 +320,7 @@ export interface NavItem {
           </dl>
               </div>
             </li>
-            <li class="nav-item">
-              <a href="#help">
-                <app-astrology-icon name="info" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">{{ 'sidebar.helpSupport' | transloco }}</span>
-              </a>
-            </li>
+
           </ul>
         </div>
       </nav>
@@ -570,8 +547,57 @@ export interface NavItem {
         }
       }
     }
+    .nav-parent-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 28px;
+      align-items: center;
+      gap: 0.2rem;
+      padding-right: 0.45rem;
+    }
 
-    .nav-sublist {
+    .nav-parent-link {
+      min-width: 0;
+    }
+
+    .nav-item .nav-create-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      min-height: 28px;
+      justify-self: center;
+      margin-right: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0.45rem;
+      background: transparent;
+      color: var(--theme-text-muted);
+      font-size: 1.18rem;
+      font-weight: 500;
+      line-height: 1;
+      text-decoration: none;
+      transition: opacity 160ms ease, background-color 160ms ease, color 160ms ease;
+    }
+
+    .nav-item .nav-create-btn:hover,
+    .nav-item .nav-create-btn:focus-visible {
+      background: color-mix(in srgb, var(--theme-accent, #7E3BA8) 9%, transparent);
+      color: var(--theme-accent, #7E3BA8);
+      outline: none;
+    }
+
+
+    .sidebar.compact .nav-parent-row {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .sidebar.compact .nav-item .nav-create-btn {
+      display: none;
+    }
+
+.nav-sublist {
       list-style: none;
       margin: 0.15rem 0 0.4rem 0;
       padding: 0 0 0 2.4rem;
@@ -1309,7 +1335,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Output() onClose = new EventEmitter<void>();
   @Output() onToggleCompact = new EventEmitter<void>();
   readonly appVersion = APP_VERSION;
-  readonly languages = [
+  readonly languages: ReadonlyArray<{ code: PreferredLanguage; label: string }> = [
     { code: 'en', label: 'English' },
     { code: 'hi', label: 'हिंदी' },
     { code: 'kn', label: 'ಕನ್ನಡ' }
@@ -1338,6 +1364,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private translocoService: TranslocoService,
+    private notifications: NotificationService,
     private cdr: ChangeDetectorRef,
     public themeService: ThemeService
   ) {}
@@ -1374,8 +1401,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     return this.translocoService.getActiveLang();
   }
 
-  changeLanguage(lang: string): void {
+  changeLanguage(lang: PreferredLanguage): void {
+    if (this.activeLanguage === lang) {
+      return;
+    }
+
+    const previousLanguage = this.activeLanguage as PreferredLanguage;
     this.translocoService.setActiveLang(lang);
+
+    if (!this.authService.isLoggedIn()) {
+      return;
+    }
+
+    this.authService.updatePreferredLanguage({ preferredLanguage: lang }).subscribe({
+      error: (error) => {
+        this.translocoService.setActiveLang(previousLanguage);
+        this.notifications.error(error?.error?.message || 'Unable to update preferred language.');
+      }
+    });
   }
 
   get themeToggleIcon(): string {
@@ -1566,8 +1609,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
+    if (!window.confirm(this.t('sidebar.confirmLogout'))) {
+      return;
+    }
+
     this.authService.logout();
     this.onClose.emit();
     this.router.navigate(['/login']);
   }
 }
+
+
+
+
+
+
+

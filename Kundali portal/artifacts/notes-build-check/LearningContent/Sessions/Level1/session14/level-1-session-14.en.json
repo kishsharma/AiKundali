@@ -1,0 +1,632 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "1b8cfe56-77ad-5df2-b14f-ecfa9ce75dc2",
+  "levelCode": "level-1",
+  "sessionNumber": 14,
+  "slug": "conjunction-combustion-retrogression",
+  "language": "en",
+  "title": "Conjunctions, Combustion and Retrogression",
+  "subtitle": "Understanding shared planetary placement, solar proximity and apparent backward motion without simplistic labels",
+  "summary": "This session explains three frequently misunderstood planetary conditions: conjunction, combustion and retrogression. Students learn how planets sharing a sign or house interact, why degree distance matters, how close proximity to the Sun may modify a planet's expression, and why retrograde motion does not automatically make a planet weak, negative or unusually strong. The session provides a disciplined sequence for combining these conditions with dignity, house placement, lordship, aspects and Dasha timing.",
+  "estimatedMinutes": 75,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define planetary conjunction in sign-based and house-based chart reading.",
+    "Explain why degree distance changes the intensity of a conjunction.",
+    "Identify the difference between a dominant planet and a supporting planet within a conjunction.",
+    "Explain combustion as close proximity to the Sun.",
+    "Avoid treating every combust planet as completely powerless.",
+    "Explain retrogression as apparent backward motion from Earth's viewpoint.",
+    "Avoid assuming that every retrograde planet is automatically weak, strong or negative.",
+    "Combine conjunction, combustion and retrogression with dignity, lordship, aspects and timing."
+  ],
+  "prerequisites": [
+    "Completion of Session 13: Planetary Aspects — Graha Drishti.",
+    "Knowledge of planetary dignity, relationships, houses, house lords and aspects."
+  ],
+  "keyTerms": [
+    {
+      "term": "Conjunction",
+      "sanskrit": "युति",
+      "transliteration": "yuti",
+      "meaning": "Two or more planets occupying the same sign or house.",
+      "note": "Their interaction must be judged by degree distance, strength, dignity, lordship and natural relationship."
+    },
+    {
+      "term": "Degree Distance",
+      "sanskrit": "अंश दूरी",
+      "transliteration": "aṃśa dūrī",
+      "meaning": "The angular separation between two planets within a sign.",
+      "note": "Closer planets generally interact more intensely than widely separated planets."
+    },
+    {
+      "term": "Planetary Dominance",
+      "sanskrit": "ग्रह प्रभुत्व",
+      "transliteration": "graha prabhutva",
+      "meaning": "The relative ability of one planet in a conjunction to express its agenda more strongly.",
+      "note": "Dominance may depend on dignity, degree position, natural strength, lordship and condition."
+    },
+    {
+      "term": "Combustion",
+      "sanskrit": "अस्तंगत",
+      "transliteration": "astaṅgata",
+      "meaning": "A condition in which a planet is very close to the Sun and its independent expression may be reduced or altered.",
+      "note": "Exact limits vary by planet, tradition and calculation standard."
+    },
+    {
+      "term": "Retrogression",
+      "sanskrit": "वक्र गति",
+      "transliteration": "vakra gati",
+      "meaning": "The apparent backward motion of a planet as seen from Earth.",
+      "note": "Retrogression changes expression and emphasis; it should not receive a single universal label."
+    },
+    {
+      "term": "Apparent Motion",
+      "sanskrit": "दृश्य गति",
+      "transliteration": "dṛśya gati",
+      "meaning": "Motion as observed from Earth rather than the planet literally reversing its orbit.",
+      "note": "Retrograde motion is an observational effect caused by relative planetary movement."
+    },
+    {
+      "term": "Condition Modifier",
+      "sanskrit": "अवस्था संशोधक",
+      "transliteration": "avasthā saṃśodhaka",
+      "meaning": "A factor that modifies how a planet expresses its promise without replacing the complete chart judgement.",
+      "note": "Combustion and retrogression should be used as modifiers, not isolated verdicts."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "meaning-of-conjunction",
+      "title": "Meaning of Planetary Conjunction",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "degree-distance",
+      "title": "Degree Distance and Conjunction Intensity",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "dominance-in-conjunction",
+      "title": "Dominance Within a Conjunction",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "combustion",
+      "title": "Combustion Near the Sun",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "retrogression",
+      "title": "Retrograde Motion",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "combined-condition",
+      "title": "Combining the Conditions",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "reading-sequence",
+      "title": "Safe Reading Sequence",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "meaning-of-conjunction",
+      "title": "Meaning of Planetary Conjunction",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A conjunction occurs when two or more planets occupy the same sign or house. Their agendas meet in one location, but they do not merge into a single planet. Each planet retains its own nature, lordship, dignity, strength and role while interacting with the others."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session14-conjunction-distance",
+          "assetPath": "assets/learning/Level-1/session-14/conjunction-distance.svg",
+          "altText": "A simple comparison of close and wide planetary conjunctions within the same sign.",
+          "caption": "Same sign does not always mean equal interaction intensity.",
+          "purpose": "Introduce conjunction and the importance of degree distance.",
+          "annotations": [
+            "Close conjunction",
+            "Wide conjunction",
+            "Same sign",
+            "Different intensity"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "A conjunction is a relationship, not a verdict",
+          "text": "The presence of two planets together does not by itself prove success, failure, Yoga, Dosha or a specific event."
+        }
+      ]
+    },
+    {
+      "id": "degree-distance",
+      "title": "Degree Distance and Conjunction Intensity",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Two planets may occupy the same sign but remain far apart by degree. A close conjunction usually produces stronger interaction, while a wide conjunction may behave more like shared sign occupancy with weaker direct blending. Exact interpretation depends on the planets and the method used."
+        },
+        {
+          "type": "comparison",
+          "title": "Close and wide conjunction",
+          "left": {
+            "label": "Close conjunction",
+            "points": [
+              "Small degree separation.",
+              "Stronger mutual interaction.",
+              "One planet may dominate or strongly modify the other.",
+              "Requires careful check for combustion or planetary war where applicable."
+            ]
+          },
+          "right": {
+            "label": "Wide conjunction",
+            "points": [
+              "Large degree separation within the same sign.",
+              "Shared house and sign themes remain.",
+              "Direct blending may be weaker.",
+              "Other aspects and conditions may become more important."
+            ]
+          }
+        },
+        {
+          "type": "example",
+          "title": "Same sign, different intensity",
+          "scenario": "Mercury and Venus are in the same sign in two charts.",
+          "steps": [
+            "In the first chart they are separated by two degrees.",
+            "In the second chart they are separated by twenty degrees.",
+            "Both charts show conjunction by sign.",
+            "The first chart usually requires stronger interaction analysis than the second."
+          ],
+          "conclusion": "Always record degree distance before describing conjunction intensity."
+        }
+      ]
+    },
+    {
+      "id": "dominance-in-conjunction",
+      "title": "Dominance Within a Conjunction",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Factors that may influence planetary dominance",
+          "columns": [
+            "Factor",
+            "Question to ask"
+          ],
+          "rows": [
+            [
+              "Dignity",
+              "Which planet is in a stronger sign condition?"
+            ],
+            [
+              "House relevance",
+              "Which planet has stronger functional importance for the Lagna?"
+            ],
+            [
+              "Degree closeness",
+              "Which planet is more tightly connected to the other?"
+            ],
+            [
+              "Natural strength",
+              "Does one planet naturally express more forcefully in this context?"
+            ],
+            [
+              "Combustion",
+              "Is one planet too close to the Sun?"
+            ],
+            [
+              "Aspects",
+              "Which planet receives stronger support or pressure?"
+            ],
+            [
+              "Dasha",
+              "Which planet is currently activated?"
+            ]
+          ],
+          "note": "Dominance is contextual and should not be assigned from one factor alone."
+        },
+        {
+          "type": "example",
+          "title": "Dominant and supporting roles",
+          "scenario": "Two planets occupy the tenth house.",
+          "steps": [
+            "Identify the houses owned by both planets.",
+            "Compare their dignity and degree positions.",
+            "Check conjunction distance and aspects received.",
+            "Identify which planet is active by Dasha.",
+            "Describe one as more dominant only if multiple factors support that conclusion."
+          ],
+          "conclusion": "A conjunction may contain a dominant planet, a supporting planet or a mixed partnership."
+        }
+      ]
+    },
+    {
+      "id": "combustion",
+      "title": "Combustion Near the Sun",
+      "estimatedMinutes": 15,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Combustion occurs when a planet comes very close to the Sun. The planet may find it harder to express independently because solar brilliance overwhelms its visibility and modifies its functioning. This does not mean the planet disappears from the chart or loses every result."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session14-combustion-zone",
+          "assetPath": "assets/learning/Level-1/session-14/combustion-zone.svg",
+          "altText": "A simple monochrome diagram showing the Sun, a nearby planet within a combustion zone and another planet farther away.",
+          "caption": "Closer proximity to the Sun may increase combustion intensity.",
+          "purpose": "Show combustion as a proximity-based condition rather than a simple on-off label.",
+          "annotations": [
+            "Sun",
+            "Closer planet",
+            "Combustion zone",
+            "Farther planet"
+          ]
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Identify the planet near the Sun.",
+            "Measure the degree distance from the Sun.",
+            "Use the selected calculation standard for that planet's combustion limit.",
+            "Check the planet's sign dignity and house placement.",
+            "Check whether the planet owns important houses.",
+            "Check aspects, conjunctions and Dasha activation.",
+            "Describe the result as modified, pressured or internalised rather than completely absent."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Combustion limits require one defined standard",
+          "text": "Different texts and software may use different limits, especially for Mercury and Venus. HoraLife should store the chosen calculation standard explicitly."
+        }
+      ]
+    },
+    {
+      "id": "retrogression",
+      "title": "Retrograde Motion",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Retrogression is the apparent backward movement of a planet as observed from Earth. The planet does not literally reverse its orbit. In interpretation, retrogression may increase emphasis, repetition, reconsideration, internalisation or unusual expression, but its result depends on the full chart."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session14-retrograde-motion",
+          "assetPath": "assets/learning/Level-1/session-14/retrograde-motion.svg",
+          "altText": "A simple Earth-centred diagram showing a planet's normal apparent path and a temporary retrograde loop.",
+          "caption": "Retrograde motion is an apparent observational effect.",
+          "purpose": "Explain retrogression visually without implying literal backward orbit.",
+          "annotations": [
+            "Earth viewpoint",
+            "Normal direction",
+            "Apparent loop",
+            "Retrograde phase"
+          ]
+        },
+        {
+          "type": "comparison",
+          "title": "Unsafe and safe interpretations",
+          "left": {
+            "label": "Unsafe shortcut",
+            "points": [
+              "Retrograde means weak.",
+              "Retrograde means always powerful.",
+              "Retrograde means certain delay.",
+              "Retrograde means certain negative karma."
+            ]
+          },
+          "right": {
+            "label": "Safer reading",
+            "points": [
+              "Retrogression modifies expression.",
+              "Check dignity and house placement.",
+              "Check lordship and aspects.",
+              "Check Dasha and the life area involved."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "combined-condition",
+      "title": "Combining the Conditions",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Condition-combination checklist",
+          "columns": [
+            "Condition",
+            "What to record"
+          ],
+          "rows": [
+            [
+              "Conjunction",
+              "Planets involved, house, sign and degree distance"
+            ],
+            [
+              "Combustion",
+              "Distance from Sun and selected combustion standard"
+            ],
+            [
+              "Retrogression",
+              "Whether retrograde and how the planet's expression changes"
+            ],
+            [
+              "Dignity",
+              "Own, exalted, friendly, neutral, enemy or debilitated sign"
+            ],
+            [
+              "Lordship",
+              "Houses owned and functional role"
+            ],
+            [
+              "Aspects",
+              "Support and pressure received or given"
+            ],
+            [
+              "Timing",
+              "Mahadasha, Antardasha and relevant activation"
+            ]
+          ],
+          "note": "These conditions modify one another. None should be read in isolation."
+        },
+        {
+          "type": "example",
+          "title": "Combust and retrograde planet in conjunction",
+          "scenario": "A retrograde planet is closely conjunct the Sun and another planet.",
+          "steps": [
+            "Record all planets, signs, houses and exact degrees.",
+            "Measure the planet's distance from the Sun.",
+            "Confirm whether it meets the chosen combustion limit.",
+            "Record its retrograde status.",
+            "Assess dignity, lordship and aspects.",
+            "Check which planet is activated by Dasha.",
+            "State the evidence as layered modifiers rather than one dramatic label."
+          ],
+          "conclusion": "Multiple conditions require a layered judgement, not multiplied fear."
+        }
+      ]
+    },
+    {
+      "id": "reading-sequence",
+      "title": "Safe Reading Sequence",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Record every planet's sign, house and exact degree.",
+            "Identify conjunctions by sign and house.",
+            "Measure degree distance between conjunct planets.",
+            "Check whether one planet appears dominant through multiple factors.",
+            "Measure each planet's distance from the Sun.",
+            "Apply one clearly defined combustion standard.",
+            "Record retrograde status without assigning an automatic result.",
+            "Check dignity, functional lordship, aspects and house relevance.",
+            "Check Dasha activation and the life area being studied.",
+            "Write supportive, pressure and mixed factors separately before concluding."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Foundation-level observation",
+          "scenario": "Mercury is close to the Sun, retrograde and conjunct Venus.",
+          "steps": [
+            "Record Mercury, Sun and Venus degrees.",
+            "Measure Mercury's distance from the Sun and Venus.",
+            "Check Mercury's sign dignity and house.",
+            "Identify Mercury's house lordships for the Lagna.",
+            "Check Venus's role and the relationship between Mercury and Venus.",
+            "Check aspects and Dasha activation.",
+            "Describe communication, analysis or decision-making as modified only if the full evidence supports it."
+          ],
+          "conclusion": "The correct output is an evidence-based observation, not a fixed one-line prediction."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Conditions modify promise",
+          "text": "Conjunction, combustion and retrogression influence how a planet delivers results. They do not replace the natal promise, house lordship, strength and timing analysis."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Treating all planets in the same sign as equally close.",
+      "whyItIsWrong": "Degree distance can make one conjunction much more intense than another.",
+      "correctUnderstanding": "Always record exact degrees and separation."
+    },
+    {
+      "mistake": "Assuming a conjunction automatically creates a Yoga or Dosha.",
+      "whyItIsWrong": "Yoga and Dosha require specific conditions, strength and relevance.",
+      "correctUnderstanding": "Test the exact rule before naming it."
+    },
+    {
+      "mistake": "Calling every combust planet powerless.",
+      "whyItIsWrong": "Combustion modifies expression but does not erase lordship, placement, dignity or all results.",
+      "correctUnderstanding": "Use combustion as one condition modifier."
+    },
+    {
+      "mistake": "Using different combustion limits without documenting the standard.",
+      "whyItIsWrong": "Different standards may produce inconsistent results.",
+      "correctUnderstanding": "Choose and store one calculation standard."
+    },
+    {
+      "mistake": "Calling every retrograde planet weak or harmful.",
+      "whyItIsWrong": "Retrogression may produce emphasis, repetition, internalisation or unusual expression depending on the chart.",
+      "correctUnderstanding": "Judge dignity, lordship, aspects and timing."
+    },
+    {
+      "mistake": "Multiplying fear when several conditions occur together.",
+      "whyItIsWrong": "Multiple conditions require layered analysis, not dramatic language.",
+      "correctUnderstanding": "Separate evidence and assess the net result."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Analyse Three Planetary Conditions",
+    "instructions": [
+      "Create a sample sign containing the Sun and two other planets.",
+      "Assign exact degrees to all three planets.",
+      "Calculate the degree distance between the two non-solar planets.",
+      "Calculate each planet's distance from the Sun.",
+      "Mark one planet as retrograde.",
+      "Record conjunction, possible combustion and retrograde status separately.",
+      "Add dignity, house lordship and aspects for each planet.",
+      "Write supportive, pressure and mixed observations without making a final prediction."
+    ],
+    "expectedOutcome": "The student can distinguish conjunction intensity, combustion proximity and retrograde status, and combine them with dignity, lordship, aspects and timing in a structured observation.",
+    "estimatedMinutes": 15
+  },
+  "sessionSummary": [
+    "A conjunction occurs when planets share the same sign or house.",
+    "Degree distance changes the intensity of planetary interaction.",
+    "Planets in conjunction retain their individual nature and lordship.",
+    "Dominance within a conjunction must be supported by multiple factors.",
+    "Combustion is based on proximity to the Sun.",
+    "A combust planet is modified, not automatically powerless.",
+    "Combustion limits must follow one clearly defined standard.",
+    "Retrogression is apparent backward motion viewed from Earth.",
+    "A retrograde planet is not automatically weak, strong or negative.",
+    "Conjunction, combustion and retrogression are condition modifiers.",
+    "Dignity, lordship, aspects, house relevance and Dasha remain essential.",
+    "Layered conditions require layered evidence, not fear-based conclusions."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "What most directly changes the intensity of a conjunction?",
+        "options": [
+          "House number only",
+          "Degree distance",
+          "Weekday",
+          "Nakshatra lord only"
+        ],
+        "answer": "Degree distance",
+        "explanation": "Closer degree separation usually creates stronger direct interaction."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "What is combustion primarily based on?",
+        "options": [
+          "Distance from the Moon",
+          "Distance from the Sun",
+          "House number",
+          "Retrograde status"
+        ],
+        "answer": "Distance from the Sun",
+        "explanation": "Combustion is assessed through the planet's proximity to the Sun."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "What is retrograde motion?",
+        "options": [
+          "Literal reversal of orbit",
+          "Apparent backward motion from Earth",
+          "Permanent weakness",
+          "Planetary combustion"
+        ],
+        "answer": "Apparent backward motion from Earth",
+        "explanation": "Retrogression is an observational effect caused by relative movement."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which is the safest statement about a combust planet?",
+        "options": [
+          "It gives no result",
+          "It is always harmful",
+          "Its expression may be modified",
+          "It becomes retrograde"
+        ],
+        "answer": "Its expression may be modified",
+        "explanation": "Combustion is a modifier and must be combined with the full chart."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "All planets in the same sign interact with equal intensity.",
+        "answer": false,
+        "explanation": "Degree distance and planetary condition change conjunction intensity."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "Every retrograde planet should be interpreted as weak.",
+        "answer": false,
+        "explanation": "Retrogression modifies expression and must be judged with dignity, lordship and timing."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "Which factors should be checked before calling one planet dominant in a conjunction?",
+        "answer": "Dignity, functional lordship, degree closeness, natural strength, combustion, aspects and Dasha activation.",
+        "explanation": "Dominance should be supported by several chart factors."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should conjunction, combustion and retrogression not be read in isolation?",
+        "answer": "Because they modify planetary expression, while the complete result also depends on dignity, lordship, house placement, aspects, natal promise and Dasha timing.",
+        "explanation": "These are layered conditions within the full chart."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical foundations for planetary conditions, strengths, house placement and interpretive modifiers.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-26",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "Work-level reference only. Exact combustion limits and terminology must be verified against the selected edition and HoraLife calculation standard before publication."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For classical foundations concerning planetary conditions, strengths and interpretation.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-26",
+    "reviewNotes": "The session separates conjunction, combustion and retrogression and treats each as a condition modifier rather than an isolated verdict. Exact combustion thresholds are intentionally not hard-coded because the product must first select and document one calculation standard. Human Jyotish SME review and source verification are required before publication."
+  },
+  "status": "review"
+}

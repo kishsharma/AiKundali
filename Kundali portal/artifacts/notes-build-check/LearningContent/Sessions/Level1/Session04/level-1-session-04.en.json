@@ -1,0 +1,652 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "4ace872a-a9b7-5eea-8e49-9a9e2243a7d1",
+  "levelCode": "level-1",
+  "sessionNumber": 4,
+  "slug": "tithi-and-paksha",
+  "language": "en",
+  "title": "Tithi and Paksha",
+  "subtitle": "Understanding the thirty lunar days and the waxing and waning halves",
+  "summary": "This session explains Tithi as a twelve-degree segment of the angular separation between the Moon and Sun. Students learn how thirty Tithis form one lunar phase cycle, how Shukla Paksha and Krishna Paksha divide the month, how Tithi numbers are calculated, why a Tithi may begin or end at any clock time, and why a Tithi can occasionally be skipped or repeated in sunrise-based calendar presentation.",
+  "estimatedMinutes": 70,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define Tithi using the angular separation between the Moon and Sun.",
+    "Explain why one Tithi spans twelve degrees.",
+    "Name the fifteen Tithis of Shukla Paksha and Krishna Paksha.",
+    "Distinguish Amavasya and Purnima in angular terms.",
+    "Calculate the running Tithi from Sun and Moon longitudes.",
+    "Explain why Tithi duration is not fixed at twenty-four hours.",
+    "Understand the basic meaning of Kshaya and Vriddhi Tithi in sunrise-based calendar presentation."
+  ],
+  "prerequisites": [
+    "Completion of Session 3: Introduction to Panchang.",
+    "Basic understanding of Sun–Moon angular separation and normalising angles to 0°–360°."
+  ],
+  "keyTerms": [
+    {
+      "term": "Tithi",
+      "sanskrit": "तिथि",
+      "transliteration": "tithi",
+      "meaning": "A lunar day defined by each twelve-degree increase in the Moon's angular separation from the Sun.",
+      "note": "Thirty Tithis complete one full 360° Sun–Moon phase cycle."
+    },
+    {
+      "term": "Paksha",
+      "sanskrit": "पक्ष",
+      "transliteration": "pakṣa",
+      "meaning": "One half of the lunar month, containing fifteen Tithis.",
+      "note": "The two Pakshas are Shukla Paksha and Krishna Paksha."
+    },
+    {
+      "term": "Shukla Paksha",
+      "sanskrit": "शुक्ल पक्ष",
+      "transliteration": "śukla pakṣa",
+      "meaning": "The waxing half of the lunar month, from Amavasya toward Purnima.",
+      "note": "The visible illuminated portion of the Moon generally increases."
+    },
+    {
+      "term": "Krishna Paksha",
+      "sanskrit": "कृष्ण पक्ष",
+      "transliteration": "kṛṣṇa pakṣa",
+      "meaning": "The waning half of the lunar month, from Purnima toward Amavasya.",
+      "note": "The visible illuminated portion of the Moon generally decreases."
+    },
+    {
+      "term": "Purnima",
+      "sanskrit": "पूर्णिमा",
+      "transliteration": "pūrṇimā",
+      "meaning": "The fifteenth Tithi of Shukla Paksha, associated with the Full Moon phase.",
+      "note": "The Sun–Moon angular separation approaches 180°."
+    },
+    {
+      "term": "Amavasya",
+      "sanskrit": "अमावस्या",
+      "transliteration": "amāvasyā",
+      "meaning": "The fifteenth Tithi of Krishna Paksha, associated with the New Moon phase.",
+      "note": "The Sun–Moon angular separation approaches 360° and then resets to 0°."
+    },
+    {
+      "term": "Kshaya Tithi",
+      "sanskrit": "क्षय तिथि",
+      "transliteration": "kṣaya tithi",
+      "meaning": "A Tithi that begins after one sunrise and ends before the next, so it is absent at sunrise.",
+      "note": "It may appear skipped in a sunrise-labelled Panchang."
+    },
+    {
+      "term": "Vriddhi Tithi",
+      "sanskrit": "वृद्धि तिथि",
+      "transliteration": "vṛddhi tithi",
+      "meaning": "A Tithi present at two consecutive sunrises.",
+      "note": "It may appear repeated across two civil dates in a sunrise-labelled Panchang."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-tithi",
+      "title": "What Is a Tithi?",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "thirty-tithis",
+      "title": "The Thirty Tithis",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "shukla-and-krishna-paksha",
+      "title": "Shukla Paksha and Krishna Paksha",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "calculate-running-tithi",
+      "title": "How to Calculate the Running Tithi",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "tithi-duration",
+      "title": "Why Tithi Duration Varies",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "sunrise-and-tithi",
+      "title": "Tithi at Sunrise, Kshaya and Vriddhi",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "read-tithi-entry",
+      "title": "How to Read a Tithi Entry",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-tithi",
+      "title": "What Is a Tithi?",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Tithi is not a fixed civil day. It is an angular interval between the Moon and Sun. Each time the Moon gains another twelve degrees of geocentric longitude over the Sun, a new Tithi begins."
+        },
+        {
+          "type": "formula",
+          "expression": "One Tithi = 360° ÷ 30 = 12°",
+          "explanation": "The complete Sun–Moon phase cycle is divided into thirty equal angular sections.",
+          "workedExample": "A separation from 24° up to, but not including, 36° corresponds to the third Tithi."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session04-tithi-twelve-degree-arc",
+          "assetPath": "assets/learning/Level-1/session-04/tithi-twelve-degree-arc.svg",
+          "altText": "A simple circular diagram showing the Sun direction, Moon direction and a highlighted twelve-degree angular segment.",
+          "caption": "Each Tithi represents twelve degrees of Moon–Sun angular separation.",
+          "purpose": "Connect the definition of Tithi to a measurable angle.",
+          "annotations": [
+            "Sun direction",
+            "Moon direction",
+            "12° Tithi span"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Tithi belongs to the phase relationship",
+          "text": "Tithi depends on the relative positions of both the Sun and Moon, not on the Moon's longitude alone."
+        }
+      ]
+    },
+    {
+      "id": "thirty-tithis",
+      "title": "The Thirty Tithis",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Tithi names in each Paksha",
+          "columns": [
+            "Number",
+            "Shukla Paksha",
+            "Krishna Paksha"
+          ],
+          "rows": [
+            [
+              "1",
+              "Pratipada",
+              "Pratipada"
+            ],
+            [
+              "2",
+              "Dwitiya",
+              "Dwitiya"
+            ],
+            [
+              "3",
+              "Tritiya",
+              "Tritiya"
+            ],
+            [
+              "4",
+              "Chaturthi",
+              "Chaturthi"
+            ],
+            [
+              "5",
+              "Panchami",
+              "Panchami"
+            ],
+            [
+              "6",
+              "Shashthi",
+              "Shashthi"
+            ],
+            [
+              "7",
+              "Saptami",
+              "Saptami"
+            ],
+            [
+              "8",
+              "Ashtami",
+              "Ashtami"
+            ],
+            [
+              "9",
+              "Navami",
+              "Navami"
+            ],
+            [
+              "10",
+              "Dashami",
+              "Dashami"
+            ],
+            [
+              "11",
+              "Ekadashi",
+              "Ekadashi"
+            ],
+            [
+              "12",
+              "Dwadashi",
+              "Dwadashi"
+            ],
+            [
+              "13",
+              "Trayodashi",
+              "Trayodashi"
+            ],
+            [
+              "14",
+              "Chaturdashi",
+              "Chaturdashi"
+            ],
+            [
+              "15",
+              "Purnima",
+              "Amavasya"
+            ]
+          ],
+          "note": "The first fourteen names repeat in both Pakshas. The fifteenth is Purnima in Shukla Paksha and Amavasya in Krishna Paksha."
+        },
+        {
+          "type": "paragraph",
+          "text": "The first fifteen Tithis cover angular separation from 0° to 180°. The next fifteen cover 180° to 360°. Thus the same ordinal names are used in both halves, while the Paksha identifies whether the Moon is waxing or waning."
+        }
+      ]
+    },
+    {
+      "id": "shukla-and-krishna-paksha",
+      "title": "Shukla Paksha and Krishna Paksha",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "The two halves of the lunar month",
+          "left": {
+            "label": "Shukla Paksha",
+            "points": [
+              "Begins after Amavasya.",
+              "Angular separation grows from about 0° toward 180°.",
+              "The visible Moon generally waxes.",
+              "Ends with Purnima."
+            ]
+          },
+          "right": {
+            "label": "Krishna Paksha",
+            "points": [
+              "Begins after Purnima.",
+              "Angular separation grows from about 180° toward 360°.",
+              "The visible Moon generally wanes.",
+              "Ends with Amavasya."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session04-shukla-krishna-paksha",
+          "assetPath": "assets/learning/Level-1/session-04/shukla-krishna-paksha.svg",
+          "altText": "A simple lunar cycle split into a waxing half from Amavasya to Purnima and a waning half from Purnima to Amavasya.",
+          "caption": "The lunar month is divided into Shukla Paksha and Krishna Paksha.",
+          "purpose": "Show the two fifteen-Tithi halves of the lunar cycle.",
+          "annotations": [
+            "Amavasya",
+            "Shukla Paksha",
+            "Purnima",
+            "Krishna Paksha"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Paksha is not determined by clock date",
+          "text": "Paksha changes when the Sun–Moon phase relationship crosses the Purnima or Amavasya boundary."
+        }
+      ]
+    },
+    {
+      "id": "calculate-running-tithi",
+      "title": "How to Calculate the Running Tithi",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Separation = normalised (Moon longitude − Sun longitude)",
+          "explanation": "If the subtraction is negative, add 360° so the result lies between 0° and 360°.",
+          "workedExample": "Moon 25° and Sun 340° gives −315°. Adding 360° gives a separation of 45°."
+        },
+        {
+          "type": "formula",
+          "expression": "Tithi index = floor(Separation ÷ 12°) + 1",
+          "explanation": "The result runs from 1 to 30.",
+          "workedExample": "45° ÷ 12° = 3 complete intervals with remainder, so the running Tithi index is 4."
+        },
+        {
+          "type": "example",
+          "title": "Identify the Paksha and Tithi",
+          "scenario": "Sun longitude is 100° and Moon longitude is 268°.",
+          "steps": [
+            "Separation = 268° − 100° = 168°.",
+            "168° ÷ 12° = 14 complete intervals.",
+            "Tithi index = 14 + 1 = 15.",
+            "Because the separation is below 180°, the Paksha is Shukla."
+          ],
+          "conclusion": "The running Tithi is Shukla Purnima."
+        },
+        {
+          "type": "example",
+          "title": "A Krishna Paksha example",
+          "scenario": "Sun longitude is 210° and Moon longitude is 70°.",
+          "steps": [
+            "Raw difference = 70° − 210° = −140°.",
+            "Normalise by adding 360°: 220°.",
+            "220° ÷ 12° gives eighteen complete intervals.",
+            "Tithi index = 19, equivalent to Krishna Chaturthi."
+          ],
+          "conclusion": "Indices 16–30 correspond to Krishna Paksha Tithis 1–15."
+        }
+      ]
+    },
+    {
+      "id": "tithi-duration",
+      "title": "Why Tithi Duration Varies",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A Tithi always spans twelve degrees, but its clock duration is not fixed. The Moon and Sun do not move at constant equal speeds. The changing difference between their daily motions determines how quickly twelve degrees of separation is completed."
+        },
+        {
+          "type": "formula",
+          "expression": "Approximate Tithi duration = 12° ÷ relative Moon–Sun speed",
+          "explanation": "When the Moon gains longitude faster relative to the Sun, a Tithi is shorter. When the relative gain is slower, a Tithi is longer.",
+          "workedExample": "At a relative speed of 12.5° per day, one Tithi lasts about 0.96 day, or roughly 23 hours."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Do not assume twenty-four hours",
+          "text": "A Tithi can begin and end at any clock time. Always use the calculated transition time."
+        }
+      ]
+    },
+    {
+      "id": "sunrise-and-tithi",
+      "title": "Tithi at Sunrise, Kshaya and Vriddhi",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Traditional daily Panchang presentation gives special importance to the Tithi present at local sunrise. Because Tithi duration varies, one Tithi may be absent at sunrise, while another may remain present at two consecutive sunrises."
+        },
+        {
+          "type": "comparison",
+          "title": "Kshaya and Vriddhi Tithi",
+          "left": {
+            "label": "Kshaya Tithi",
+            "points": [
+              "Begins after one sunrise.",
+              "Ends before the next sunrise.",
+              "Is not present at either sunrise.",
+              "May appear skipped in sunrise-based date labels."
+            ]
+          },
+          "right": {
+            "label": "Vriddhi Tithi",
+            "points": [
+              "Is active at one sunrise.",
+              "Remains active at the next sunrise.",
+              "Appears across two sunrise-based days.",
+              "May look repeated in the Panchang."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session04-kshaya-vriddhi-tithi",
+          "assetPath": "assets/learning/Level-1/session-04/kshaya-vriddhi-tithi.svg",
+          "altText": "Two simple timelines comparing a Tithi absent at sunrise with a Tithi present at two consecutive sunrises.",
+          "caption": "Variable Tithi duration creates Kshaya and Vriddhi patterns in sunrise-based presentation.",
+          "purpose": "Explain why a Tithi may look skipped or repeated in a Panchang.",
+          "annotations": [
+            "Sunrise 1",
+            "Sunrise 2",
+            "Kshaya Tithi",
+            "Vriddhi Tithi"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "The Tithi itself is not lost or duplicated",
+          "text": "Kshaya and Vriddhi describe how a continuous Tithi interval relates to sunrise boundaries."
+        }
+      ]
+    },
+    {
+      "id": "read-tithi-entry",
+      "title": "How to Read a Tithi Entry",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Sample Tithi entry",
+          "columns": [
+            "Printed item",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Shukla Dashami until 10:42",
+              "Dashami is active until 10:42 local time"
+            ],
+            [
+              "Then Ekadashi",
+              "Ekadashi begins immediately after 10:42"
+            ],
+            [
+              "Sunrise 06:15",
+              "Dashami is the Tithi present at sunrise"
+            ],
+            [
+              "Location: Bengaluru",
+              "The sunrise and transition times apply to Bengaluru"
+            ]
+          ],
+          "note": "This is an instructional sample, not a real Panchang for a specific date."
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Confirm the location and local sunrise.",
+            "Identify the Paksha.",
+            "Read the Tithi name present at sunrise.",
+            "Read its exact ending time.",
+            "Identify the next Tithi.",
+            "Check whether the intended activity occurs before or after the transition."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Name and end time belong together",
+          "text": "Reading 'Ekadashi' without reading when Ekadashi begins or ends is incomplete."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Treating Tithi as a fixed twenty-four-hour day.",
+      "whyItIsWrong": "Tithi is a twelve-degree angular interval, and its duration depends on the changing relative speed of the Moon and Sun.",
+      "correctUnderstanding": "Use calculated start and end times."
+    },
+    {
+      "mistake": "Calculating Tithi from Moon longitude alone.",
+      "whyItIsWrong": "Tithi depends on the angular difference between Moon and Sun.",
+      "correctUnderstanding": "Subtract Sun longitude from Moon longitude and normalise the result."
+    },
+    {
+      "mistake": "Calling every fifteenth Tithi Purnima.",
+      "whyItIsWrong": "The fifteenth Tithi is Purnima in Shukla Paksha and Amavasya in Krishna Paksha.",
+      "correctUnderstanding": "Identify the Paksha together with the ordinal Tithi."
+    },
+    {
+      "mistake": "Assuming a skipped Panchang date means a Tithi did not occur.",
+      "whyItIsWrong": "A Kshaya Tithi occurs normally but may begin and end between two sunrises.",
+      "correctUnderstanding": "Distinguish the continuous Tithi interval from sunrise-based day labels."
+    },
+    {
+      "mistake": "Reading only the Tithi name and ignoring its end time.",
+      "whyItIsWrong": "The Tithi may change before the intended event.",
+      "correctUnderstanding": "Read the Tithi as an interval with a precise transition time."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Calculate and read a Tithi",
+    "instructions": [
+      "Write the formula for normalised Moon–Sun separation.",
+      "Calculate the separation for Sun 320° and Moon 20°.",
+      "Divide the result by 12° and identify the running Tithi.",
+      "State whether it belongs to Shukla or Krishna Paksha.",
+      "Write the fifteen Tithi names in one Paksha.",
+      "Draw a simple timeline showing a Tithi ending after sunrise.",
+      "Explain Kshaya Tithi in one sentence."
+    ],
+    "expectedOutcome": "The student can calculate the Tithi index, identify the Paksha, read a Tithi transition and explain why sunrise-based calendars may show a Tithi as skipped or repeated.",
+    "estimatedMinutes": 10
+  },
+  "sessionSummary": [
+    "A Tithi is a twelve-degree interval of Moon–Sun angular separation.",
+    "Thirty Tithis complete one full lunar phase cycle.",
+    "Shukla Paksha contains the waxing fifteen Tithis and ends with Purnima.",
+    "Krishna Paksha contains the waning fifteen Tithis and ends with Amavasya.",
+    "The running Tithi is calculated from the normalised difference between Moon and Sun longitudes.",
+    "Tithi duration varies because the relative speed of the Moon and Sun varies.",
+    "A Tithi can begin or end at any clock time.",
+    "Kshaya and Vriddhi describe the relationship of Tithi intervals to sunrise boundaries.",
+    "A Tithi entry must be read with Paksha, location, sunrise and end time."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "How many degrees of Moon–Sun separation form one Tithi?",
+        "options": [
+          "6°",
+          "12°",
+          "13°20′",
+          "30°"
+        ],
+        "answer": "12°",
+        "explanation": "The 360° phase cycle is divided into thirty equal Tithi segments."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which Paksha ends with Purnima?",
+        "options": [
+          "Shukla Paksha",
+          "Krishna Paksha",
+          "Both Pakshas",
+          "Neither Paksha"
+        ],
+        "answer": "Shukla Paksha",
+        "explanation": "Shukla Paksha covers the waxing phase from Amavasya toward Purnima."
+      },
+      {
+        "id": "q3",
+        "type": "true-false",
+        "question": "A Tithi always lasts exactly twenty-four hours.",
+        "answer": false,
+        "explanation": "Its duration varies with the relative motion of the Moon and Sun."
+      },
+      {
+        "id": "q4",
+        "type": "short-answer",
+        "question": "What must be done if Moon longitude minus Sun longitude is negative?",
+        "answer": "Add 360° to normalise the separation into the 0°–360° range.",
+        "explanation": "Tithi calculation uses the Moon's forward angular separation from the Sun."
+      },
+      {
+        "id": "q5",
+        "type": "single-choice",
+        "question": "A separation of 168° corresponds to which Tithi index?",
+        "options": [
+          "14",
+          "15",
+          "16",
+          "30"
+        ],
+        "answer": "15",
+        "explanation": "floor(168 ÷ 12) + 1 = 15."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "A Kshaya Tithi does not occur astronomically.",
+        "answer": false,
+        "explanation": "It occurs normally but begins and ends between two consecutive sunrises."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "What is a Vriddhi Tithi?",
+        "answer": "A Tithi that is present at two consecutive local sunrises.",
+        "explanation": "Its interval extends across both sunrise boundaries."
+      },
+      {
+        "id": "q8",
+        "type": "single-choice",
+        "question": "What information should accompany a Tithi name in a daily Panchang?",
+        "options": [
+          "Only the weekday",
+          "Only the Moon sign",
+          "Its ending time and location context",
+          "Only the festival name"
+        ],
+        "answer": "Its ending time and location context",
+        "explanation": "Tithi is time- and location-sensitive in daily Panchang presentation."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "The Surya Siddhanta",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical foundations for lunar phases, solar and lunar longitude and calendar computation.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-20",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used at work level only. No verse-specific quotation is made."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "The Surya Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess; edited by Phanindralal Gangooly",
+      "note": "For the traditional mathematical astronomy underlying solar and lunar calendar calculations.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-20",
+    "reviewNotes": "The Tithi formula, Paksha mapping and sunrise-based Kshaya/Vriddhi explanations were checked for internal consistency. Interpretation is limited to foundation-level calculation and reading. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

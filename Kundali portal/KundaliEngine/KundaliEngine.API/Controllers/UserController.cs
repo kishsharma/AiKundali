@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using KundaliEngine.API.DTOs.User;
 using KundaliEngine.API.Services.Audit;
+using KundaliEngine.API.Services.Auth;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,52 +17,107 @@ namespace KundaliEngine.API.Controllers
     {
         private readonly KundaliDbContext _dbContext;
         private readonly IAuditLogService _auditLogService;
+        private readonly IEntitlementService _entitlementService;
 
-        public UserController(KundaliDbContext dbContext, IAuditLogService auditLogService)
+        public UserController(KundaliDbContext dbContext, IAuditLogService auditLogService, IEntitlementService entitlementService)
         {
             _dbContext = dbContext;
             _auditLogService = auditLogService;
+            _entitlementService = entitlementService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserLoginControlDto>>> GetUsers()
         {
             var users = await _dbContext.Users
                 .AsNoTracking()
                 .OrderBy(x => x.FullName)
-                .Select(x => new UserLoginControlDto
-                {
-                    Id = x.Id,
-                    FullName = x.FullName,
-                    Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
-                    IsActive = x.IsActive,
-                    KundaliSaveLimit = x.KundaliSaveLimit
-                })
                 .ToListAsync();
 
-            return Ok(users);
+            return Ok(users.Select(MapUserLoginControlDto));
         }
 
         [HttpGet("me")]
-        public IActionResult Me()
+        public async Task<IActionResult> Me()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var fullName = User.FindFirstValue(ClaimTypes.Name);
-            var email = User.FindFirstValue(ClaimTypes.Email);
-            var phoneNumber = User.FindFirstValue("phone_number");
-            var role = User.FindFirstValue(ClaimTypes.Role);
+            if (!Guid.TryParse(userId, out var parsedUserId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == parsedUserId);
+
+            if (user == null || !user.IsActive)
+            {
+                return Unauthorized();
+            }
 
             return Ok(new
             {
-                userId,
-                fullName,
-                email,
-                phoneNumber,
-                role
+                userId = user.Id,
+                fullName = user.FullName,
+                email = user.Email,
+                phoneNumber = user.PhoneNumber,
+                preferredLanguage = user.PreferredLanguage,
+                role = user.Role,
+                planCode = user.PlanCode,
+                planExpiresAt = user.PlanExpiresAt,
+                isPremium = _entitlementService.IsPremium(user)
             });
         }
 
+        [HttpPatch("me/preferred-language")]
+        public async Task<IActionResult> UpdatePreferredLanguage(UpdatePreferredLanguageRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(userId, out var parsedUserId))
+            {
+                return Unauthorized();
+            }
+
+            string preferredLanguage;
+            try
+            {
+                preferredLanguage = PreferredLanguageHelper.NormalizeRequired(request.PreferredLanguage);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == parsedUserId);
+            if (user == null || !user.IsActive)
+            {
+                return Unauthorized();
+            }
+
+            user.PreferredLanguage = preferredLanguage;
+            user.UpdatedAt = DateTime.UtcNow;
+            await _dbContext.SaveChangesAsync();
+
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "UserPreferredLanguageChanged",
+                Category = "UserPreference",
+                UserId = user.Id,
+                UserName = user.FullName,
+                EntityType = "User",
+                EntityId = user.Id.ToString(),
+                Description = $"User preferred language changed to {preferredLanguage}.",
+                Status = "Success"
+            });
+
+            return Ok(new
+            {
+                preferredLanguage = user.PreferredLanguage
+            });
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id:guid}/kundali-save-limit")]
         public async Task<IActionResult> UpdateKundaliSaveLimit(Guid id, UpdateUserKundaliSaveLimitRequest request)
         {
@@ -97,16 +154,43 @@ namespace KundaliEngine.API.Controllers
                 Status = "Success"
             });
 
-            return Ok(new UserLoginControlDto
-            {
-                Id = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                IsActive = user.IsActive,
-                KundaliSaveLimit = user.KundaliSaveLimit
-            });
+            return Ok(MapUserLoginControlDto(user));
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPatch("{id:guid}/premium-plan")]
+        public async Task<IActionResult> UpdatePremiumPlan(Guid id, UpdateUserPremiumPlanRequest request)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return NotFound(new
+                {
+                    message = "User was not found."
+                });
+            }
+
+            var oldPlanCode = user.PlanCode;
+            var oldPlanExpiresAt = user.PlanExpiresAt;
+            user.PlanCode = request.IsPremium ? "Premium" : "Free";
+            user.PlanExpiresAt = request.IsPremium ? request.PlanExpiresAt : null;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _dbContext.SaveChangesAsync();
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "UserPremiumPlanChanged",
+                Category = "AdminAction",
+                EntityType = "User",
+                EntityId = user.Id.ToString(),
+                Description = $"User plan changed from {oldPlanCode} ({oldPlanExpiresAt?.ToString("O") ?? "no expiry"}) to {user.PlanCode} ({user.PlanExpiresAt?.ToString("O") ?? "no expiry"}) for {user.Email}.",
+                Status = "Success"
+            });
+
+            return Ok(MapUserLoginControlDto(user));
+        }
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id:guid}/active")]
         public async Task<IActionResult> UpdateActiveStatus(Guid id, UpdateUserActiveStatusRequest request)
         {
@@ -135,15 +219,23 @@ namespace KundaliEngine.API.Controllers
                 Status = "Success"
             });
 
-            return Ok(new UserLoginControlDto
+            return Ok(MapUserLoginControlDto(user));
+        }
+
+        private UserLoginControlDto MapUserLoginControlDto(KundaliEngine.Domain.Entities.User user)
+        {
+            return new UserLoginControlDto
             {
                 Id = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsActive = user.IsActive,
-                KundaliSaveLimit = user.KundaliSaveLimit
-            });
+                KundaliSaveLimit = user.KundaliSaveLimit,
+                PlanCode = user.PlanCode,
+                PlanExpiresAt = user.PlanExpiresAt,
+                IsPremium = _entitlementService.IsPremium(user)
+            };
         }
     }
 }

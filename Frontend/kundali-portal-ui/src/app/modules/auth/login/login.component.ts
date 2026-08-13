@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/auth.service';
-import { OtpChannel } from '../../../core/auth/auth.models';
+import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 type LoginMode = 'otp' | 'password';
@@ -28,20 +29,23 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   @ViewChild('otpInput') otpInput?: ElementRef<HTMLInputElement>;
 
-  loginMode: LoginMode = 'otp';
+  loginMode: LoginMode = 'password';
   otpStep: OtpStep = 'contact';
-  otpChannel: OtpChannel = 'Phone';
+  otpChannel: OtpChannel = 'Email';
   resendSeconds = 0;
 
   isLoading = false;
+  isExiting = false;
   errorMessage = '';
 
   private resendTimer?: ReturnType<typeof setInterval>;
+  private navigationTimer?: ReturnType<typeof setTimeout>;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
+    private translocoService: TranslocoService,
     private notifications: NotificationService
   ) {}
 
@@ -53,6 +57,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopResendTimer();
+    if (this.navigationTimer) {
+      clearTimeout(this.navigationTimer);
+    }
   }
 
   get otpContactLabel(): string {
@@ -220,12 +227,28 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   private finishLogin(): void {
     this.authService.getMe().subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.router.navigateByUrl(this.route.snapshot.queryParamMap.get('returnUrl') || '/app/dashboard');
+      next: (user) => {
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/app/dashboard';
+        this.isExiting = true;
+
+        this.navigationTimer = setTimeout(() => {
+          this.isLoading = false;
+          if (user.preferredLanguage) {
+            this.translocoService.setActiveLang(user.preferredLanguage as PreferredLanguage);
+            this.router.navigateByUrl(returnUrl);
+            return;
+          }
+
+          this.router.navigate(['/select-language'], {
+            queryParams: {
+              returnUrl
+            }
+          });
+        }, 260);
       },
       error: () => {
         this.isLoading = false;
+        this.isExiting = false;
         this.notifications.error('Login successful, but user profile failed.');
       }
     });
@@ -253,6 +276,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 }
+
 
 
 

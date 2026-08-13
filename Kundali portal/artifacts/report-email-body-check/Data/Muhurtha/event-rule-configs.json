@@ -1,0 +1,62 @@
+[
+  {
+    "ruleKey": "rahu_kalam",
+    "enabled": true,
+    "severity": "StrongAvoid",
+    "scoreImpact": -12,
+    "hardReject": false,
+    "applicableEventTypes": [],
+    "excludedEventTypes": [],
+    "regionalProfiles": ["General", "NorthIndia", "SouthIndia", "Custom"]
+  },
+  {
+    "ruleKey": "yamaganda",
+    "enabled": true,
+    "severity": "SoftAvoid",
+    "scoreImpact": -6,
+    "hardReject": false,
+    "applicableEventTypes": [],
+    "excludedEventTypes": [],
+    "regionalProfiles": ["General", "NorthIndia", "SouthIndia", "Custom"]
+  },
+  {
+    "ruleKey": "gulika_kalam",
+    "enabled": true,
+    "severity": "SoftAvoid",
+    "scoreImpact": -5,
+    "hardReject": false,
+    "applicableEventTypes": [],
+    "excludedEventTypes": [],
+    "regionalProfiles": ["General", "NorthIndia", "SouthIndia", "Custom"]
+  },
+  {
+    "ruleKey": "tithi_suitability",
+    "enabled": true,
+    "severity": "Neutral",
+    "scoreImpact": 0,
+    "hardReject": false,
+    "applicableEventTypes": [],
+    "excludedEventTypes": [],
+    "regionalProfiles": ["General", "NorthIndia", "SouthIndia", "Custom"]
+  },
+  {
+    "ruleKey": "tara_bala",
+    "enabled": true,
+    "severity": "Neutral",
+    "scoreImpact": 0,
+    "hardReject": false,
+    "applicableEventTypes": [],
+    "excludedEventTypes": [],
+    "regionalProfiles": ["General", "NorthIndia", "SouthIndia", "Custom"]
+  },
+  {
+    "ruleKey": "muhurtha_lagna_strength",
+    "enabled": true,
+    "severity": "Neutral",
+    "scoreImpact": 0,
+    "hardReject": false,
+    "applicableEventTypes": [],
+    "excludedEventTypes": [],
+    "regionalProfiles": ["General", "NorthIndia", "SouthIndia", "Custom"]
+  }
+]

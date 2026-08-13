@@ -1,0 +1,307 @@
+{
+  "id": 21,
+  "name": "UttaraAshadha",
+  "sanskritName": "उत्तराषाढ़ा",
+  "englishName": "Uttara Ashadha",
+
+  "startDegree": {
+    "sign": "Sagittarius",
+    "longitude": 266.666667,
+    "display": "26°40' Sagittarius"
+  },
+
+  "endDegree": {
+    "sign": "Capricorn",
+    "longitude": 280.000000,
+    "display": "10°00' Capricorn"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 9,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "Bhe",
+      "akshara": "भे"
+    },
+    {
+      "number": 2,
+      "rashiId": 10,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Bho",
+      "akshara": "भो"
+    },
+    {
+      "number": 3,
+      "rashiId": 10,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Aquarius",
+      "syllable": "Ja",
+      "akshara": "जा"
+    },
+    {
+      "number": 4,
+      "rashiId": 10,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Pisces",
+      "syllable": "Ji",
+      "akshara": "जी"
+    }
+  ],
+
+  "lord": "Sun",
+
+  "rashi": [
+    "Sagittarius",
+    "Capricorn"
+  ],
+
+  "deity": "Vishvadevas (The Universal Gods)",
+
+  "symbol": "Elephant Tusk",
+
+  "animalSymbol": "Male Mongoose",
+
+  "gana": "Manushya",
+
+  "yoni": "Mongoose",
+
+  "nadi": "Antya",
+
+  "varna": "Kshatriya",
+
+  "vashya": [
+    "Vanachara",
+    "Chatushpada"
+  ],
+
+  "guna": "Sattva",
+
+  "tatva": "Fire/Earth",
+
+  "gender": "Male",
+
+  "nature": "Dhruva (Fixed)",
+
+  "motivation": "Moksha",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Jackfruit Tree (Artocarpus heterophyllus)",
+
+  "flower": "Sunflower",
+
+  "metal": "Gold",
+
+  "color": [
+    "Golden",
+    "Yellow",
+    "Orange"
+  ],
+
+  "gemstone": "Ruby",
+
+  "rudraksha": [
+    "12 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Wheat",
+    "Jaggery",
+    "Copper",
+    "Books",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ विश्वदेवेभ्यो नमः",
+
+  "planetaryBeejMantra": "ॐ ह्रां ह्रीं ह्रौं सः सूर्याय नमः",
+
+  "fastingDay": "Sunday",
+
+  "positiveTraits": [
+    "Honest",
+    "Responsible",
+    "Disciplined",
+    "Patient",
+    "Wise",
+    "Leadership Qualities",
+    "Ethical",
+    "Persistent",
+    "Reliable",
+    "Noble"
+  ],
+
+  "negativeTraits": [
+    "Rigid",
+    "Stubborn",
+    "Perfectionist",
+    "Slow to Change",
+    "Can Be Overly Serious",
+    "Workaholic"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Administration",
+    "Long-Term Planning",
+    "Justice",
+    "Organization"
+  ],
+
+  "weaknesses": [
+    "Resistance to Change",
+    "High Expectations",
+    "Emotional Reserve"
+  ],
+
+  "career": [
+    "Government Officer",
+    "Judge",
+    "IAS Officer",
+    "CEO",
+    "Administrator",
+    "Teacher",
+    "Military Officer",
+    "Corporate Leader",
+    "Lawyer",
+    "Diplomat"
+  ],
+
+  "education": [
+    "Law",
+    "Management",
+    "Political Science",
+    "Administration",
+    "Engineering"
+  ],
+
+  "finance": [
+    "Steady Wealth Accumulation",
+    "Long-Term Financial Success",
+    "Benefits through Discipline"
+  ],
+
+  "health": [
+    "Bones",
+    "Joints",
+    "Knees",
+    "Back",
+    "Heart"
+  ],
+
+  "bodyParts": [
+    "Thighs",
+    "Knees",
+    "Bones"
+  ],
+
+  "relationships": [
+    "Faithful",
+    "Supportive",
+    "Responsible",
+    "Family Oriented"
+  ],
+
+  "loveNature": "Committed",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Reliable",
+
+  "leadershipStyle": "Principle Driven",
+
+  "communicationStyle": "Honest",
+
+  "decisionMaking": "Practical",
+
+  "emotionalNature": "Balanced",
+
+  "learningStyle": "Systematic",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Government",
+    "Administration",
+    "Law",
+    "Corporate Leadership",
+    "Education",
+    "Public Service"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Buying Property",
+    "Government Work",
+    "Signing Contracts",
+    "Education",
+    "Long-Term Investments"
+  ],
+
+  "avoidFor": [
+    "Revenge Activities",
+    "Illegal Actions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Anahata",
+
+  "spiritualLesson": "Lasting victory is earned through righteousness, perseverance and unwavering commitment to truth and duty.",
+
+  "compatibleNakshatras": [
+    "Shravana",
+    "Vishakha",
+    "Rohini"
+  ],
+
+  "challengingNakshatras": [
+    "Ardra",
+    "Ashlesha"
+  ],
+
+  "mythologicalStory": "Uttara Ashadha is governed by the Vishvadevas, the ten universal deities representing noble virtues such as truth, goodness, skill, willpower and generosity. This Nakshatra teaches that true and lasting success comes through righteous conduct, discipline and dedication to universal values.",
+
+  "interestingFacts": [
+    "Known as the Nakshatra of 'Later Victory'.",
+    "Represents permanent success and lasting achievements.",
+    "Excellent for leadership, administration and public service.",
+    "Associated with righteousness, ethics and universal values.",
+    "Produces respected and trustworthy individuals."
+  ],
+
+  "keywords": [
+    "Victory",
+    "Leadership",
+    "Duty",
+    "Discipline",
+    "Integrity",
+    "Success"
+  ],
+
+  "icon": "🐘",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Leadership",
+    "Public Service",
+    "Legacy"
+  ]
+}

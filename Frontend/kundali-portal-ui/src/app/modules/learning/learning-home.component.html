@@ -49,7 +49,7 @@
         <span class="session-number">{{ session.sessionNumber }}</span>
         <span class="session-copy">
           <strong>{{ session.title }}</strong>
-          <small>{{ session.estimatedMinutes }} min � {{ session.difficulty }}</small>
+          <small>{{ session.estimatedMinutes }} min &middot; {{ session.difficulty }}</small>
         </span>
         <span class="status">{{ isSessionAvailable(session) ? 'Open' : 'Planned' }}</span>
       </button>

@@ -37,6 +37,18 @@ interface QuickAction {
     :host {
       display: block;
       color: var(--theme-text);
+      animation: dashboardEnter 300ms ease both;
+    }
+
+    @keyframes dashboardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .dashboard-shell {

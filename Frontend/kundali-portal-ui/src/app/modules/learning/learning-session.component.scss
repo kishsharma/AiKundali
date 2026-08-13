@@ -1,4 +1,4 @@
-﻿.learning-reader {
+.learning-reader {
   display: grid;
   grid-template-columns: 230px minmax(0, 1fr) 210px;
   gap: 1.25rem;
@@ -194,7 +194,7 @@
 }
 
 .breadcrumbs span::before {
-  content: '�';
+  content: '\203A';
   margin-right: 0.45rem;
   color: var(--theme-text-muted, #655d6e);
 }

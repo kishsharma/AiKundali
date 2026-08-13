@@ -1,4 +1,5 @@
 export type OtpChannel = 'Phone' | 'Email';
+export type PreferredLanguage = 'en' | 'hi' | 'kn';
 
 export interface LoginRequest {
   email: string;
@@ -9,6 +10,7 @@ export interface RegisterRequest {
   fullName: string;
   email: string;
   phoneNumber?: string;
+  preferredLanguage?: PreferredLanguage;
   password: string;
 }
 
@@ -31,6 +33,7 @@ export interface CompleteOtpRegistrationRequest {
   fullName: string;
   email?: string;
   phoneNumber?: string;
+  preferredLanguage?: PreferredLanguage;
 }
 
 export interface OtpChallengeResponse {
@@ -53,8 +56,32 @@ export interface AuthResponse {
   fullName: string;
   email?: string | null;
   phoneNumber?: string | null;
+  preferredLanguage?: PreferredLanguage | null;
   role: string;
+  planCode?: string | null;
+  planExpiresAt?: string | null;
+  isPremium?: boolean | null;
   token: string;
+}
+
+export interface UserProfileResponse {
+  userId: string;
+  fullName: string;
+  email?: string | null;
+  phoneNumber?: string | null;
+  preferredLanguage?: PreferredLanguage | null;
+  role: string;
+  planCode?: string | null;
+  planExpiresAt?: string | null;
+  isPremium?: boolean | null;
+}
+
+export interface UpdatePreferredLanguageRequest {
+  preferredLanguage: PreferredLanguage;
+}
+
+export interface UpdatePreferredLanguageResponse {
+  preferredLanguage: PreferredLanguage;
 }
 
 export interface ChangePasswordRequest {

@@ -1,4 +1,4 @@
-﻿using KundaliEngine.Domain.Entities;
+using KundaliEngine.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -27,6 +27,10 @@ public class KundaliDbContext : DbContext
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     public DbSet<CommunicationLog> CommunicationLogs => Set<CommunicationLog>();
+
+    public DbSet<PortalNote> PortalNotes => Set<PortalNote>();
+
+    public DbSet<PortalNoteVoiceRecording> PortalNoteVoiceRecordings => Set<PortalNoteVoiceRecording>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

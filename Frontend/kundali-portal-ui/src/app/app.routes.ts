@@ -8,10 +8,12 @@ import { MuhurthaComponent } from './modules/panchang/muhurtha.component';
 import { MahadashaPageComponent } from './features/mahadasha/pages/mahadasha-page/mahadasha-page.component';
 import { KundaliLandingComponent } from './modules/home/kundali-landing/kundali-landing.component';
 import { authGuard } from './core/auth/auth.guard';
+import { preferredLanguageGuard } from './core/auth/preferred-language.guard';
 import { WhiteLabelSettingsComponent } from './modules/white-label-settings/white-label-settings.component';
 import { ChangePasswordComponent } from './modules/account/change-password/change-password.component';
 import { UserLoginControlComponent } from './modules/user-login-control/user-login-control.component';
 import { AuditLogsComponent } from './modules/audit-logs/audit-logs.component';
+import { PortalNotesPageComponent } from './modules/portal-notes/portal-notes-page.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +35,13 @@ export const routes: Routes = [
       .then(m => m.RegisterComponent)
 },
   {
+  path: 'select-language',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./modules/auth/preferred-language/preferred-language.component')
+      .then(m => m.PreferredLanguageComponent)
+},
+  {
     path: 'horaverse',
     loadComponent: () =>
       import('./modules/horaverse/horaverse-page.component')
@@ -42,7 +51,7 @@ export const routes: Routes = [
   {
     path: 'app',
     component: LayoutComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, preferredLanguageGuard],
     children: [
       {
         path: '',
@@ -109,6 +118,11 @@ export const routes: Routes = [
         path: 'dasha',
         component: MahadashaPageComponent,
         data: { title: 'Dasha Analysis' },
+      },
+      {
+        path: 'notes',
+        component: PortalNotesPageComponent,
+        data: { title: 'Notes' },
       },
       {
         path: 'mahadasha',
@@ -187,6 +201,11 @@ export const routes: Routes = [
   {
     path: 'mahadasha',
     redirectTo: 'app/mahadasha',
+    pathMatch: 'full',
+  },
+  {
+    path: 'notes',
+    redirectTo: 'app/notes',
     pathMatch: 'full',
   },
   {

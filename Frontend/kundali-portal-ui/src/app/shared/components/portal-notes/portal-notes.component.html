@@ -1,0 +1,105 @@
+<div class="portal-notes-modal" [class.is-open]="open" [attr.aria-hidden]="!open" (click)="close()">
+  <section class="portal-notes" [class.is-pending]="!canPersistNotes" role="dialog" aria-modal="true" [attr.aria-label]="title" (click)="$event.stopPropagation()">
+    <div class="portal-notes__header">
+      <div>
+        <h3>{{ title }}</h3>
+        <p>{{ canPersistNotes ? subtitle : pendingMessage }}</p>
+      </div>
+      <div class="portal-notes__header-actions">
+        <span class="portal-notes__badge">Private</span>
+        <button type="button" class="portal-notes__close" (click)="close()" aria-label="Close notes" title="Close notes">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="portal-notes__context" *ngIf="contextTitle || contextDetails.length">
+      <strong *ngIf="contextTitle">{{ contextTitle }}</strong>
+      <span *ngFor="let detail of contextDetails">{{ detail }}</span>
+    </div>
+
+    <div class="portal-notes__body">
+      <textarea
+        [(ngModel)]="content"
+        [disabled]="loading || saving || deleting"
+        rows="4"
+        maxlength="20000"
+        placeholder="Add observations, follow-up points, consultation notes..."
+        aria-label="Portal notes"></textarea>
+
+      <div class="voice-notes" aria-label="Voice notes">
+        <div class="voice-notes__topline">
+          <div>
+            <strong>Voice notes</strong>
+            <span>Record up to {{ formatDuration(maxVoiceDurationSeconds) }}</span>
+          </div>
+          <button
+            type="button"
+            class="voice-record-btn"
+            [class.recording]="recording"
+            (click)="recording ? stopVoiceRecording() : startVoiceRecording()"
+            [disabled]="!mediaRecorderSupported || saving || uploadingVoice || deleting">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path *ngIf="!recording" d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"></path>
+              <path *ngIf="!recording" d="M5 11a7 7 0 0 0 14 0"></path>
+              <path *ngIf="!recording" d="M12 18v3"></path>
+              <path *ngIf="!recording" d="M9 21h6"></path>
+              <path *ngIf="recording" d="M7 7h10v10H7z"></path>
+            </svg>
+            <span>{{ recording ? 'Stop ' + formattedRecordingTime : 'Record' }}</span>
+          </button>
+        </div>
+
+        <small class="voice-notes__unsupported" *ngIf="!mediaRecorderSupported">
+          Voice recording is not supported in this browser.
+        </small>
+
+        <div class="voice-list" *ngIf="pendingVoiceRecordings.length">
+          <article class="voice-item pending" *ngFor="let item of pendingVoiceRecordings">
+            <div>
+              <strong>Pending voice note</strong>
+              <span>{{ formatDuration(item.durationSeconds) }} · saves with notes</span>
+            </div>
+            <audio controls [src]="item.audioUrl"></audio>
+            <button type="button" class="voice-remove-btn" (click)="removePendingVoiceRecording(item.id)">Remove</button>
+          </article>
+        </div>
+
+        <div class="voice-list" *ngIf="voiceRecordings.length">
+          <article class="voice-item" *ngFor="let item of voiceRecordings">
+            <div>
+              <strong>{{ item.fileName || 'Voice note' }}</strong>
+              <span>{{ formatDuration(item.durationSeconds) }}</span>
+            </div>
+            <button type="button" class="voice-load-btn" *ngIf="!item.audioUrl" (click)="loadVoiceAudio(item)" [disabled]="item.loadingAudio">
+              {{ item.loadingAudio ? 'Loading...' : 'Load' }}
+            </button>
+            <audio *ngIf="item.audioUrl" controls [src]="item.audioUrl"></audio>
+            <button type="button" class="voice-remove-btn" (click)="deleteVoiceRecording(item)">Delete</button>
+          </article>
+        </div>
+
+        <span class="voice-notes__status" *ngIf="loadingVoice || uploadingVoice">
+          {{ uploadingVoice ? 'Saving voice notes...' : 'Loading voice notes...' }}
+        </span>
+      </div>
+
+      <div class="portal-notes__footer">
+        <span class="portal-notes__status">
+          {{ loading ? 'Loading notes...' : (!canPersistNotes ? 'Draft will save with report' : (hasChanges || pendingVoiceRecordings.length ? 'Unsaved changes' : 'Saved')) }}
+        </span>
+        <div class="portal-notes__actions">
+          <button type="button" class="portal-notes__ghost" (click)="clear()" [disabled]="loading || saving || deleting || (!hasSavedNote && !content && !pendingVoiceRecordings.length)">
+            {{ deleting ? 'Clearing...' : 'Clear' }}
+          </button>
+          <button type="button" class="portal-notes__primary" (click)="save()" [disabled]="loading || saving || uploadingVoice || deleting || !canPersistNotes || (!hasChanges && !pendingVoiceRecordings.length)">
+            {{ saving || uploadingVoice ? 'Saving...' : 'Save Notes' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+using System.Text.Json.Nodes;
+using KundaliEngine.API.Services.Auth;
 using KundaliEngine.API.Services.Learning;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +24,8 @@ var tests = new List<(string Name, Func<Task> Test)>
     ("Invalid GUID returns not found", TestInvalidGuid),
     ("Unsupported language falls back to English", TestUnsupportedLanguageFallback),
     ("Manifest/session GUID mismatch", TestManifestSessionGuidMismatch),
-    ("Unknown block validation", TestUnknownBlockValidation)
+    ("Unknown block validation", TestUnknownBlockValidation),
+    ("Preferred language normalization", TestPreferredLanguageNormalization)
 };
 
 foreach (var test in tests)
@@ -119,6 +121,18 @@ async Task TestUnknownBlockValidation()
     await AssertThrowsAsync<InvalidOperationException>(() => service.GetSessionAsync(Session01Id, "en", CancellationToken.None));
 }
 
+
+Task TestPreferredLanguageNormalization()
+{
+    AssertEqual("en", PreferredLanguageHelper.Normalize("en"), "English should normalize.");
+    AssertEqual("hi", PreferredLanguageHelper.Normalize(" HI "), "Hindi should normalize casing and whitespace.");
+    AssertEqual("kn", PreferredLanguageHelper.Normalize("kn"), "Kannada should normalize.");
+    Assert(PreferredLanguageHelper.Normalize(null) is null, "Null preference should stay null.");
+    Assert(PreferredLanguageHelper.Normalize("fr") is null, "Unsupported language should not normalize.");
+    AssertEqual("hi", PreferredLanguageHelper.NormalizeRequired("hi"), "Required language should return normalized value.");
+    AssertThrows<InvalidOperationException>(() => PreferredLanguageHelper.NormalizeRequired("fr"));
+    return Task.CompletedTask;
+}
 LearningContentService BuildService(string root) => new(root, new NullLogger<LearningContentService>());
 
 string CopyContentToTemp()
@@ -142,6 +156,21 @@ void CopyDirectory(string source, string target)
     }
 }
 
+
+static void AssertThrows<TException>(Action action)
+    where TException : Exception
+{
+    try
+    {
+        action();
+    }
+    catch (TException)
+    {
+        return;
+    }
+
+    throw new InvalidOperationException($"Expected exception {typeof(TException).Name}.");
+}
 static async Task AssertThrowsAsync<TException>(Func<Task> action)
     where TException : Exception
 {
@@ -189,6 +218,8 @@ public sealed class NullLogger<T> : ILogger<T>
     {
     }
 }
+
+
 
 
 

@@ -1,0 +1,49 @@
+<app-page-header [title]="'portalNotes.title' | transloco" [compact]="true"></app-page-header>
+
+<app-portal-notes
+  *ngIf="editingNote"
+  [open]="isEditorOpen"
+  [allowPageSave]="!editingNote.contextId"
+  (closed)="closeEditor()"
+  [contextType]="editingNote.contextType"
+  [contextId]="editingNote.contextId || null"
+  title="Edit Note"
+  subtitle="Update this saved note and voice recordings.">
+</app-portal-notes>
+
+<section class="notes-page">
+  <div class="notes-page__intro">
+    <h2>{{ 'portalNotes.heading' | transloco }}</h2>
+    <p>{{ 'portalNotes.description' | transloco }}</p>
+  </div>
+
+  <div class="notes-state" *ngIf="loading">{{ 'portalNotes.loading' | transloco }}</div>
+  <div class="notes-state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+  <div class="notes-state" *ngIf="!loading && !errorMessage && !notes.length">{{ 'portalNotes.empty' | transloco }}</div>
+
+  <div class="notes-grid" *ngIf="!loading && notes.length">
+    <article class="note-card" *ngFor="let note of notes">
+      <div class="note-card__topline">
+        <span class="note-card__source">{{ sourceLabel(note) }}</span>
+        <span class="note-card__date">{{ updatedLabel(note) }}</span>
+      </div>
+      <div class="note-card__context-details" *ngIf="contextDetails(note).length">
+        <span *ngFor="let detail of contextDetails(note)">{{ detail }}</span>
+      </div>
+      <p>{{ preview(note) }}</p>
+      <div class="note-card__meta">
+        <span *ngIf="note.voiceRecordingCount">{{ note.voiceRecordingCount }} {{ 'portalNotes.voiceNotes' | transloco }}</span>
+        <span *ngIf="note.contextId">{{ 'portalNotes.reportLinked' | transloco }}</span>
+        <span *ngIf="!note.contextId">{{ 'portalNotes.pageNote' | transloco }}</span>
+      </div>
+      <div class="note-card__actions">
+        <button type="button" class="note-action" (click)="openEditor(note)">
+          {{ 'portalNotes.edit' | transloco }}
+        </button>
+        <button type="button" class="note-action danger" (click)="deleteNote(note)" [disabled]="isDeleting(note)">
+          {{ isDeleting(note) ? ('portalNotes.deleting' | transloco) : ('portalNotes.delete' | transloco) }}
+        </button>
+      </div>
+    </article>
+  </div>
+</section>

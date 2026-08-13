@@ -1,0 +1,307 @@
+{
+  "id": 16,
+  "name": "Vishakha",
+  "sanskritName": "विशाखा",
+  "englishName": "Vishakha",
+
+  "startDegree": {
+    "sign": "Libra",
+    "longitude": 200.000000,
+    "display": "20°00' Libra"
+  },
+
+  "endDegree": {
+    "sign": "Scorpio",
+    "longitude": 213.333333,
+    "display": "3°20' Scorpio"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 7,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Aries",
+      "syllable": "Ti",
+      "akshara": "ती"
+    },
+    {
+      "number": 2,
+      "rashiId": 7,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Taurus",
+      "syllable": "Tu",
+      "akshara": "तू"
+    },
+    {
+      "number": 3,
+      "rashiId": 7,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Gemini",
+      "syllable": "Te",
+      "akshara": "ते"
+    },
+    {
+      "number": 4,
+      "rashiId": 8,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Cancer",
+      "syllable": "To",
+      "akshara": "तो"
+    }
+  ],
+
+  "lord": "Jupiter",
+
+  "rashi": [
+    "Libra",
+    "Scorpio"
+  ],
+
+  "deity": "Indra and Agni",
+
+  "symbol": "Triumphal Archway, Decorated Gateway",
+
+  "animalSymbol": "Male Tiger",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Tiger",
+
+  "nadi": "Antya",
+
+  "varna": "Kshatriya",
+
+  "vashya": [
+    "Manava",
+    "Keeta"
+  ],
+
+  "guna": "Sattva",
+
+  "tatva": "Air/Water",
+
+  "gender": "Female",
+
+  "nature": "Mishra (Mixed)",
+
+  "motivation": "Dharma",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Nagakesar (Mesua ferrea)",
+
+  "flower": "Saffron Flower",
+
+  "metal": "Gold",
+
+  "color": [
+    "Yellow",
+    "Crimson",
+    "Golden"
+  ],
+
+  "gemstone": "Yellow Sapphire",
+
+  "rudraksha": [
+    "5 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Turmeric",
+    "Yellow Clothes",
+    "Books",
+    "Ghee",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ इन्द्राग्निभ्यां नमः",
+
+  "planetaryBeejMantra": "ॐ ग्रां ग्रीं ग्रौं सः गुरवे नमः",
+
+  "fastingDay": "Thursday",
+
+  "positiveTraits": [
+    "Ambitious",
+    "Determined",
+    "Goal Oriented",
+    "Confident",
+    "Persuasive",
+    "Competitive",
+    "Leadership Qualities",
+    "Optimistic",
+    "Visionary",
+    "Energetic"
+  ],
+
+  "negativeTraits": [
+    "Impatient",
+    "Stubborn",
+    "Aggressive",
+    "Overambitious",
+    "Argumentative",
+    "Can Be Obsessive"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Achievement",
+    "Public Speaking",
+    "Business",
+    "Strategy"
+  ],
+
+  "weaknesses": [
+    "Work-Life Imbalance",
+    "Ego",
+    "Difficulty Letting Go"
+  ],
+
+  "career": [
+    "Politician",
+    "Lawyer",
+    "Entrepreneur",
+    "Business Leader",
+    "Professor",
+    "Judge",
+    "Sales Executive",
+    "Motivational Speaker",
+    "Diplomat",
+    "Corporate Executive"
+  ],
+
+  "education": [
+    "Law",
+    "Management",
+    "Business",
+    "Political Science",
+    "Philosophy"
+  ],
+
+  "finance": [
+    "Strong Wealth Potential",
+    "Success through Leadership",
+    "Long-Term Financial Growth"
+  ],
+
+  "health": [
+    "Liver",
+    "Kidneys",
+    "Blood Circulation",
+    "Reproductive System",
+    "Stress Disorders"
+  ],
+
+  "bodyParts": [
+    "Kidneys",
+    "Lower Abdomen",
+    "Reproductive Organs"
+  ],
+
+  "relationships": [
+    "Loyal",
+    "Protective",
+    "Passionate",
+    "Needs Mutual Respect"
+  ],
+
+  "loveNature": "Committed",
+
+  "marriageNature": "Supportive",
+
+  "friendshipNature": "Encouraging",
+
+  "leadershipStyle": "Inspirational",
+
+  "communicationStyle": "Persuasive",
+
+  "decisionMaking": "Goal Focused",
+
+  "emotionalNature": "Intense",
+
+  "learningStyle": "Purpose Driven",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Business",
+    "Politics",
+    "Law",
+    "Education",
+    "Corporate Leadership",
+    "Consulting"
+  ],
+
+  "goodFor": [
+    "Business Expansion",
+    "Competitions",
+    "Leadership Roles",
+    "Education",
+    "Religious Activities",
+    "Strategic Planning"
+  ],
+
+  "avoidFor": [
+    "Divorce Proceedings",
+    "Emotionally Sensitive Discussions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "True victory is achieved when ambition is guided by wisdom, humility and righteous action.",
+
+  "compatibleNakshatras": [
+    "Anuradha",
+    "Uttara Ashadha",
+    "Punarvasu"
+  ],
+
+  "challengingNakshatras": [
+    "Ashlesha",
+    "Bharani"
+  ],
+
+  "mythologicalStory": "Vishakha is jointly ruled by Indra, the king of the Devas, and Agni, the god of sacred fire. It represents determination, achievement, transformation and the relentless pursuit of noble goals through discipline and perseverance.",
+
+  "interestingFacts": [
+    "Represents determination, victory and achievement.",
+    "Excellent Nakshatra for leadership and business success.",
+    "Blessed with strong ambition and perseverance.",
+    "Associated with ceremonies, celebrations and milestones.",
+    "Produces individuals capable of inspiring others."
+  ],
+
+  "keywords": [
+    "Achievement",
+    "Victory",
+    "Leadership",
+    "Ambition",
+    "Success",
+    "Determination"
+  ],
+
+  "icon": "🏆",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Leadership",
+    "Business",
+    "Achievement"
+  ]
+}

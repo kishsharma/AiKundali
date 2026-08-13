@@ -1,0 +1,1217 @@
+﻿{
+    "scoring":  {
+                    "dashaActivationWeight":  0.5,
+                    "gocharActivationWeight":  0.35,
+                    "natalSensitivityWeight":  0.15,
+                    "mahadashaWeight":  0.4,
+                    "antardashaWeight":  0.6,
+                    "highActivationThreshold":  70,
+                    "mediumActivationThreshold":  40,
+                    "supportiveToneThreshold":  12,
+                    "pressuredToneThreshold":  12,
+                    "analysisExpiryMinutes":  120
+                },
+    "lifeAreas":  [
+                      {
+                          "key":  "career",
+                          "displayName":  "Career and professional direction",
+                          "summaryTemplate":  "Career matters are currently receiving {activationLevel} attention during the active Dasha and Gochar period.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.65
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Sun",
+                                          "Saturn",
+                                          "Mercury"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Job search, role change, promotion, workload or business decisions may feel more active now.",
+                                                      "Career direction can need clearer choices, responsibility or visibility.",
+                                                      "Bosses, clients, deadlines, public role or professional reputation may demand attention.",
+                                                      "A skill upgrade, new responsibility or change in working pattern can come into focus."
+                                                  ],
+                          "supportiveTemplates":  [
+                                                      "The {house} house can support practical professional movement.",
+                                                      "{planet} can indicate support for professional growth when connected constructively."
+                                                  ],
+                          "pressureTemplates":  [
+                                                    "{planet} may increase responsibility, pressure or urgency around this area.",
+                                                    "The {house} house can indicate duties that need careful handling."
+                                                ],
+                          "followUpQuestion":  "Which career concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "job_search",
+                                                      "label":  "Looking for a job"
+                                                  },
+                                                  {
+                                                      "key":  "job_change",
+                                                      "label":  "Considering a job change"
+                                                  },
+                                                  {
+                                                      "key":  "promotion",
+                                                      "label":  "Promotion or professional growth"
+                                                  },
+                                                  {
+                                                      "key":  "work_pressure",
+                                                      "label":  "Workplace pressure"
+                                                  },
+                                                  {
+                                                      "key":  "boss_manager",
+                                                      "label":  "Boss or manager issue"
+                                                  },
+                                                  {
+                                                      "key":  "business",
+                                                      "label":  "Business-related concern"
+                                                  },
+                                                  {
+                                                      "key":  "career_confusion",
+                                                      "label":  "Confused about career direction"
+                                                  },
+                                                  {
+                                                      "key":  "work_recognition",
+                                                      "label":  "Recognition or reputation at work"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "children_education",
+                          "displayName":  "Children, education and exams",
+                          "summaryTemplate":  "Children, education, exams and learning are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  4,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  5,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  9,
+                                             "weight":  0.75
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Jupiter",
+                                          "Mercury"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Education, exams, children or creative decisions may currently receive attention.",
+                                                      "Learning, guidance, performance or planning for studies can become more relevant.",
+                                                      "Children-related responsibility or concern may need thoughtful effort.",
+                                                      "Creative work, speculation or judgment-based choices may need maturity."
+                                                  ],
+                          "followUpQuestion":  "Which children or education concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "children",
+                                                      "label":  "Children"
+                                                  },
+                                                  {
+                                                      "key":  "child_health",
+                                                      "label":  "Child health or behaviour"
+                                                  },
+                                                  {
+                                                      "key":  "education",
+                                                      "label":  "Education"
+                                                  },
+                                                  {
+                                                      "key":  "exam",
+                                                      "label":  "Exam or study pressure"
+                                                  },
+                                                  {
+                                                      "key":  "admission",
+                                                      "label":  "Admission or course choice"
+                                                  },
+                                                  {
+                                                      "key":  "higher_study",
+                                                      "label":  "Higher studies"
+                                                  },
+                                                  {
+                                                      "key":  "creativity",
+                                                      "label":  "Creative work"
+                                                  },
+                                                  {
+                                                      "key":  "speculation",
+                                                      "label":  "Speculation or risky decision"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "daily_work_routine",
+                          "displayName":  "Daily work, routine and responsibilities",
+                          "summaryTemplate":  "Daily work, routine and responsibilities are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  1,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  3,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  0.65
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Saturn",
+                                          "Mars",
+                                          "Mercury"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Daily workload, discipline, routine or responsibilities may feel heavier or more active.",
+                                                      "Service, deadlines, habits, health routines and practical tasks can demand attention.",
+                                                      "Small daily decisions may have a larger effect on stress and productivity now.",
+                                                      "This area can show where order and consistency are needed."
+                                                  ],
+                          "followUpQuestion":  "Which daily routine concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "workload",
+                                                      "label":  "Heavy workload"
+                                                  },
+                                                  {
+                                                      "key":  "discipline",
+                                                      "label":  "Discipline and consistency"
+                                                  },
+                                                  {
+                                                      "key":  "habits",
+                                                      "label":  "Habits"
+                                                  },
+                                                  {
+                                                      "key":  "routine_health",
+                                                      "label":  "Health routine"
+                                                  },
+                                                  {
+                                                      "key":  "deadlines",
+                                                      "label":  "Deadlines"
+                                                  },
+                                                  {
+                                                      "key":  "service_pressure",
+                                                      "label":  "Service pressure"
+                                                  },
+                                                  {
+                                                      "key":  "time_management",
+                                                      "label":  "Time management"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "debt_disputes_competition",
+                          "displayName":  "Debt, disputes and competition",
+                          "summaryTemplate":  "Debt, disputes and competition are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  3,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.45
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Mars",
+                                          "Saturn",
+                                          "Mercury"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Debt, disputes, competition, workload or obligations may currently require practical handling.",
+                                                      "Service matters, problem-solving, legal friction or daily pressure can receive attention.",
+                                                      "Discipline and timely action may be necessary now.",
+                                                      "This area can show where effort is needed to overcome resistance."
+                                                  ],
+                          "followUpQuestion":  "Which challenge best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "debt",
+                                                      "label":  "Debt"
+                                                  },
+                                                  {
+                                                      "key":  "loan_repayment",
+                                                      "label":  "Loan repayment"
+                                                  },
+                                                  {
+                                                      "key":  "dispute",
+                                                      "label":  "Dispute"
+                                                  },
+                                                  {
+                                                      "key":  "legal",
+                                                      "label":  "Legal matter"
+                                                  },
+                                                  {
+                                                      "key":  "competition",
+                                                      "label":  "Competition"
+                                                  },
+                                                  {
+                                                      "key":  "workload",
+                                                      "label":  "Workload"
+                                                  },
+                                                  {
+                                                      "key":  "enemy_politics",
+                                                      "label":  "Workplace politics or opponents"
+                                                  },
+                                                  {
+                                                      "key":  "service_issue",
+                                                      "label":  "Service or obligation"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "family_parents",
+                          "displayName":  "Family, parents and household harmony",
+                          "summaryTemplate":  "Family, parents and household harmony are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  4,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  9,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  0.45
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Moon",
+                                          "Sun",
+                                          "Jupiter"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Family discussions, parent-related responsibilities or household peace may need attention.",
+                                                      "A domestic decision may involve emotions, values and practical responsibilities together.",
+                                                      "Mother, father, elders or family expectations can become more visible.",
+                                                      "Speech, support, boundaries and patience may matter in family interactions."
+                                                  ],
+                          "followUpQuestion":  "Which family concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "parents",
+                                                      "label":  "Parents"
+                                                  },
+                                                  {
+                                                      "key":  "mother",
+                                                      "label":  "Mother-related concern"
+                                                  },
+                                                  {
+                                                      "key":  "father",
+                                                      "label":  "Father-related concern"
+                                                  },
+                                                  {
+                                                      "key":  "family_conflict",
+                                                      "label":  "Family conflict"
+                                                  },
+                                                  {
+                                                      "key":  "household_peace",
+                                                      "label":  "Household peace"
+                                                  },
+                                                  {
+                                                      "key":  "family_responsibility",
+                                                      "label":  "Family responsibility"
+                                                  },
+                                                  {
+                                                      "key":  "speech_misunderstanding",
+                                                      "label":  "Speech or misunderstanding"
+                                                  },
+                                                  {
+                                                      "key":  "elder_support",
+                                                      "label":  "Support from elders"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "finance",
+                          "displayName":  "Financial commitments",
+                          "summaryTemplate":  "Finance and commitments are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  0.55
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Jupiter",
+                                          "Venus",
+                                          "Mercury"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Income, savings, expenses, loans, EMI or shared resources may need attention.",
+                                                      "A financial decision, payment, investment or family money matter may feel important.",
+                                                      "Existing commitments can ask for budgeting, review or careful timing.",
+                                                      "Cash flow may need balancing between gains, obligations and expenses."
+                                                  ],
+                          "followUpQuestion":  "Which financial concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "income",
+                                                      "label":  "Income or salary"
+                                                  },
+                                                  {
+                                                      "key":  "expenses",
+                                                      "label":  "Rising expenses"
+                                                  },
+                                                  {
+                                                      "key":  "savings",
+                                                      "label":  "Savings planning"
+                                                  },
+                                                  {
+                                                      "key":  "loan_emi",
+                                                      "label":  "Loan or EMI"
+                                                  },
+                                                  {
+                                                      "key":  "investment",
+                                                      "label":  "Investment decision"
+                                                  },
+                                                  {
+                                                      "key":  "shared_money",
+                                                      "label":  "Shared or spouse money"
+                                                  },
+                                                  {
+                                                      "key":  "family_money",
+                                                      "label":  "Family money matter"
+                                                  },
+                                                  {
+                                                      "key":  "commitments",
+                                                      "label":  "Financial commitments"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "health_vitality",
+                          "displayName":  "Health and vitality",
+                          "summaryTemplate":  "Health and vitality are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  1,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  0.55
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Sun",
+                                          "Mars",
+                                          "Saturn"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Energy, routine, stress, recovery or physical resilience may need attention.",
+                                                      "Existing health patterns can ask for practical care and cleaner habits.",
+                                                      "Workload, sleep, digestion, inflammation or fatigue may need monitoring.",
+                                                      "Discipline around daily rhythm can matter more than dramatic changes."
+                                                  ],
+                          "followUpQuestion":  "Which vitality concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "energy",
+                                                      "label":  "Low energy"
+                                                  },
+                                                  {
+                                                      "key":  "routine",
+                                                      "label":  "Daily routine"
+                                                  },
+                                                  {
+                                                      "key":  "stress",
+                                                      "label":  "Stress"
+                                                  },
+                                                  {
+                                                      "key":  "recovery",
+                                                      "label":  "Recovery"
+                                                  },
+                                                  {
+                                                      "key":  "fitness",
+                                                      "label":  "Fitness or stamina"
+                                                  },
+                                                  {
+                                                      "key":  "medical_check",
+                                                      "label":  "Medical check or treatment"
+                                                  },
+                                                  {
+                                                      "key":  "habits",
+                                                      "label":  "Habits and discipline"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "home_property",
+                          "displayName":  "Home and property",
+                          "summaryTemplate":  "Home, property and emotional base are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  4,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.45
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Moon",
+                                          "Venus",
+                                          "Mars"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Home, residence, property, vehicle or family comfort may currently receive attention.",
+                                                      "Domestic decisions, repairs, relocation or living arrangements can become important.",
+                                                      "Mother, family peace or emotional base may need practical handling.",
+                                                      "Property planning may ask for patience, documents and realistic budgeting."
+                                                  ],
+                          "followUpQuestion":  "Which home concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "property",
+                                                      "label":  "Buying or selling property"
+                                                  },
+                                                  {
+                                                      "key":  "residence",
+                                                      "label":  "Residence or relocation"
+                                                  },
+                                                  {
+                                                      "key":  "family_home",
+                                                      "label":  "Family home"
+                                                  },
+                                                  {
+                                                      "key":  "mother",
+                                                      "label":  "Mother-related concern"
+                                                  },
+                                                  {
+                                                      "key":  "vehicle",
+                                                      "label":  "Vehicle"
+                                                  },
+                                                  {
+                                                      "key":  "renovation_repairs",
+                                                      "label":  "Renovation or repairs"
+                                                  },
+                                                  {
+                                                      "key":  "domestic_peace",
+                                                      "label":  "Peace at home"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "mental_peace_sleep",
+                          "displayName":  "Mental peace and sleep",
+                          "summaryTemplate":  "Mental peace and rest are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  1,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  4,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.6
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  0.85
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Moon",
+                                          "Jupiter"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Sleep, overthinking, emotional steadiness or inner calm may need care.",
+                                                      "Private worries, uncertainty or old thoughts can feel more noticeable.",
+                                                      "Home atmosphere, rest, isolation or emotional security may currently receive attention.",
+                                                      "The mind may need routine, grounding and fewer avoidable pressures."
+                                                  ],
+                          "followUpQuestion":  "Which inner concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "sleep",
+                                                      "label":  "Sleep disturbance"
+                                                  },
+                                                  {
+                                                      "key":  "overthinking",
+                                                      "label":  "Overthinking"
+                                                  },
+                                                  {
+                                                      "key":  "anxiety_pressure",
+                                                      "label":  "Anxiety or mental pressure"
+                                                  },
+                                                  {
+                                                      "key":  "inner_peace",
+                                                      "label":  "Inner peace"
+                                                  },
+                                                  {
+                                                      "key":  "home_stress",
+                                                      "label":  "Home stress"
+                                                  },
+                                                  {
+                                                      "key":  "loneliness",
+                                                      "label":  "Loneliness or isolation"
+                                                  },
+                                                  {
+                                                      "key":  "emotional_stability",
+                                                      "label":  "Emotional stability"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "relationship_marriage",
+                          "displayName":  "Relationship and marriage",
+                          "summaryTemplate":  "Relationship and marriage matters are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  4,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  7,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.45
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Venus",
+                                          "Jupiter"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Marriage, partner expectations, commitment or one-to-one dynamics may be active.",
+                                                      "Communication, adjustment, family involvement or emotional availability can matter more now.",
+                                                      "A relationship decision may need patience, clarity and realistic expectations.",
+                                                      "Client or partnership agreements may also become visible through this area."
+                                                  ],
+                          "followUpQuestion":  "Which relationship concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "marriage",
+                                                      "label":  "Marriage"
+                                                  },
+                                                  {
+                                                      "key":  "partner_conflict",
+                                                      "label":  "Partner conflict"
+                                                  },
+                                                  {
+                                                      "key":  "commitment",
+                                                      "label":  "Commitment"
+                                                  },
+                                                  {
+                                                      "key":  "separation_distance",
+                                                      "label":  "Distance or separation"
+                                                  },
+                                                  {
+                                                      "key":  "family_adjustment",
+                                                      "label":  "Family adjustment"
+                                                  },
+                                                  {
+                                                      "key":  "proposal_match",
+                                                      "label":  "Proposal or match"
+                                                  },
+                                                  {
+                                                      "key":  "trust_communication",
+                                                      "label":  "Trust or communication"
+                                                  },
+                                                  {
+                                                      "key":  "business_partner",
+                                                      "label":  "Business partnership"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "self_confidence_direction",
+                          "displayName":  "Self-confidence and decision making",
+                          "summaryTemplate":  "Self-confidence, direction and decision making are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  1,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  3,
+                                             "weight":  0.75
+                                         },
+                                         {
+                                             "house":  5,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  0.45
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Sun",
+                                          "Mars",
+                                          "Mercury"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Confidence, courage, decision-making or self-direction may feel more active now.",
+                                                      "You may be weighing whether to act, wait, speak up or change direction.",
+                                                      "Personal identity and practical choices can feel linked to visible life responsibilities.",
+                                                      "This area can show pressure to become clearer about your next step."
+                                                  ],
+                          "followUpQuestion":  "Which personal direction concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "confidence",
+                                                      "label":  "Low confidence"
+                                                  },
+                                                  {
+                                                      "key":  "decision_confusion",
+                                                      "label":  "Decision confusion"
+                                                  },
+                                                  {
+                                                      "key":  "starting_something",
+                                                      "label":  "Starting something new"
+                                                  },
+                                                  {
+                                                      "key":  "communication",
+                                                      "label":  "Speaking up or communication"
+                                                  },
+                                                  {
+                                                      "key":  "courage",
+                                                      "label":  "Courage to take action"
+                                                  },
+                                                  {
+                                                      "key":  "identity",
+                                                      "label":  "Identity or life direction"
+                                                  },
+                                                  {
+                                                      "key":  "personal_visibility",
+                                                      "label":  "Being seen or judged"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "social_network_reputation",
+                          "displayName":  "Friends, network and public image",
+                          "summaryTemplate":  "Friends, network and public image are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  3,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  7,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  0.75
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  1
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Mercury",
+                                          "Venus",
+                                          "Saturn"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Friends, networks, reputation, social support or public image may become more active.",
+                                                      "Gains through people, visibility, community or online presence can receive attention.",
+                                                      "Misunderstandings, expectations or group dynamics may need careful communication.",
+                                                      "This area can show where support and pressure both come through other people."
+                                                  ],
+                          "followUpQuestion":  "Which social or reputation concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "friends",
+                                                      "label":  "Friends"
+                                                  },
+                                                  {
+                                                      "key":  "network_support",
+                                                      "label":  "Network support"
+                                                  },
+                                                  {
+                                                      "key":  "social_conflict",
+                                                      "label":  "Social conflict"
+                                                  },
+                                                  {
+                                                      "key":  "public_image",
+                                                      "label":  "Public image"
+                                                  },
+                                                  {
+                                                      "key":  "online_presence",
+                                                      "label":  "Online presence"
+                                                  },
+                                                  {
+                                                      "key":  "gains_through_people",
+                                                      "label":  "Gains through people"
+                                                  },
+                                                  {
+                                                      "key":  "elder_sibling",
+                                                      "label":  "Elder sibling or group matter"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "spiritual_growth_inner_change",
+                          "displayName":  "Spiritual growth and inner change",
+                          "summaryTemplate":  "Spiritual growth and inner change are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  5,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  9,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  1
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Jupiter",
+                                          "Ketu",
+                                          "Saturn"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Inner change, faith, spiritual practice or letting go may feel more active now.",
+                                                      "You may be drawn toward reflection, guidance, healing or deeper meaning.",
+                                                      "A period of withdrawal or re-evaluation can ask for patience and maturity.",
+                                                      "This area can show private transformation rather than only visible events."
+                                                  ],
+                          "followUpQuestion":  "Which inner growth concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "spiritual_practice",
+                                                      "label":  "Spiritual practice"
+                                                  },
+                                                  {
+                                                      "key":  "faith_confusion",
+                                                      "label":  "Faith or belief confusion"
+                                                  },
+                                                  {
+                                                      "key":  "healing",
+                                                      "label":  "Healing from old pattern"
+                                                  },
+                                                  {
+                                                      "key":  "letting_go",
+                                                      "label":  "Letting go"
+                                                  },
+                                                  {
+                                                      "key":  "isolation_reflection",
+                                                      "label":  "Isolation or reflection"
+                                                  },
+                                                  {
+                                                      "key":  "guru_guidance",
+                                                      "label":  "Guru or guidance"
+                                                  },
+                                                  {
+                                                      "key":  "inner_transformation",
+                                                      "label":  "Inner transformation"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "travel_foreign",
+                          "displayName":  "Travel and foreign matters",
+                          "summaryTemplate":  "Travel and foreign matters are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  3,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  7,
+                                             "weight":  0.45
+                                         },
+                                         {
+                                             "house":  9,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  1
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Rahu",
+                                          "Jupiter",
+                                          "Moon"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Travel, relocation, foreign links, visa or long-distance plans may currently receive attention.",
+                                                      "International, remote, spiritual or away-from-home matters can become more active.",
+                                                      "Documentation, movement or distance from family may need practical decisions.",
+                                                      "Plans connected with guidance, studies or foreign settlement may require timing and patience."
+                                                  ],
+                          "followUpQuestion":  "Which travel concern best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "foreign",
+                                                      "label":  "Foreign matters"
+                                                  },
+                                                  {
+                                                      "key":  "travel",
+                                                      "label":  "Travel"
+                                                  },
+                                                  {
+                                                      "key":  "relocation",
+                                                      "label":  "Relocation"
+                                                  },
+                                                  {
+                                                      "key":  "visa",
+                                                      "label":  "Visa or documents"
+                                                  },
+                                                  {
+                                                      "key":  "settlement",
+                                                      "label":  "Foreign settlement"
+                                                  },
+                                                  {
+                                                      "key":  "long_distance",
+                                                      "label":  "Long-distance relationship or work"
+                                                  },
+                                                  {
+                                                      "key":  "pilgrimage",
+                                                      "label":  "Pilgrimage or spiritual travel"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "business_suitability",
+                          "displayName":  "Business suitability and business category",
+                          "summaryTemplate":  "Business suitability, trade capacity and enterprise decisions are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.75
+                                         },
+                                         {
+                                             "house":  3,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  7,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  0.35
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Mercury",
+                                          "Saturn",
+                                          "Sun",
+                                          "Jupiter",
+                                          "Venus"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Business, self-employment, clients, trade, cash flow or growth decisions may feel more active now.",
+                                                      "The chart may ask whether business is suitable, which category fits, and whether to begin small or wait.",
+                                                      "Client handling, service delivery, market demand, accounting and recurring gains become important indicators.",
+                                                      "Business choices should be judged through money houses, service capacity, trade partnerships and career visibility together."
+                                                  ],
+                          "supportiveTemplates":  [
+                                                      "The {house} house can support business movement when cash flow, effort, client handling or gains are active.",
+                                                      "{planet} can support business when connected with communication, planning, authority or market visibility."
+                                                  ],
+                          "pressureTemplates":  [
+                                                    "{planet} may bring pressure around risk, debt, haste, delay or unstable expectations.",
+                                                    "The {house} house can indicate business duties that need careful handling before expansion."
+                                                ],
+                          "followUpQuestion":  "Which business question best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "business",
+                                                      "label":  "Is business suitable?"
+                                                  },
+                                                  {
+                                                      "key":  "business_category",
+                                                      "label":  "Which business category suits?"
+                                                  },
+                                                  {
+                                                      "key":  "startup",
+                                                      "label":  "Starting a new business"
+                                                  },
+                                                  {
+                                                      "key":  "existing_business",
+                                                      "label":  "Existing business growth"
+                                                  },
+                                                  {
+                                                      "key":  "client_sales",
+                                                      "label":  "Clients, sales or market demand"
+                                                  },
+                                                  {
+                                                      "key":  "business_finance",
+                                                      "label":  "Business money, debt or cash flow"
+                                                  },
+                                                  {
+                                                      "key":  "side_business",
+                                                      "label":  "Side business"
+                                                  },
+                                                  {
+                                                      "key":  "career_business_switch",
+                                                      "label":  "Leaving job for business"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "partnership_contracts",
+                          "displayName":  "Partnership, contracts and agreements",
+                          "summaryTemplate":  "Partnerships, contracts and one-to-one agreements are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  7,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  10,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  11,
+                                             "weight":  0.65
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Venus",
+                                          "Mercury",
+                                          "Jupiter",
+                                          "Saturn"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Business partnership, contracts, clients or agreement terms may need careful judgment.",
+                                                      "Trust, money sharing, responsibilities, dispute handling and legal clarity can become important.",
+                                                      "Partnership may be useful only if roles, accounts and authority are cleanly defined.",
+                                                      "One-to-one cooperation can bring support, but pressure factors can expose weak agreements."
+                                                  ],
+                          "supportiveTemplates":  [
+                                                      "The {house} house can support partnership when agreements, gains and practical roles are clear.",
+                                                      "{planet} can support cooperation, negotiation, fairness or guidance."
+                                                  ],
+                          "pressureTemplates":  [
+                                                    "{planet} may create partnership pressure through delay, mistrust, conflict, urgency or unclear expectations.",
+                                                    "The {house} house can show disputes, shared-risk or money pressure inside agreements."
+                                                ],
+                          "followUpQuestion":  "Which partnership question best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "business_partner",
+                                                      "label":  "Is business partnership suitable?"
+                                                  },
+                                                  {
+                                                      "key":  "new_partnership",
+                                                      "label":  "New partnership"
+                                                  },
+                                                  {
+                                                      "key":  "existing_partnership",
+                                                      "label":  "Existing partnership issue"
+                                                  },
+                                                  {
+                                                      "key":  "contract_agreement",
+                                                      "label":  "Contract or agreement"
+                                                  },
+                                                  {
+                                                      "key":  "client_partnership",
+                                                      "label":  "Client-facing partnership"
+                                                  },
+                                                  {
+                                                      "key":  "money_sharing",
+                                                      "label":  "Shared money or investment"
+                                                  },
+                                                  {
+                                                      "key":  "partnership_dispute",
+                                                      "label":  "Partnership dispute"
+                                                  },
+                                                  {
+                                                      "key":  "exit_partnership",
+                                                      "label":  "Exit from partnership"
+                                                  }
+                                              ]
+                      },
+                      {
+                          "key":  "separation_relationship_pressure",
+                          "displayName":  "Separation, divorce and relationship pressure",
+                          "summaryTemplate":  "Relationship pressure, distance or separation questions are currently receiving {activationLevel} attention.",
+                          "houses":  [
+                                         {
+                                             "house":  2,
+                                             "weight":  0.55
+                                         },
+                                         {
+                                             "house":  4,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  6,
+                                             "weight":  0.65
+                                         },
+                                         {
+                                             "house":  7,
+                                             "weight":  1
+                                         },
+                                         {
+                                             "house":  8,
+                                             "weight":  0.85
+                                         },
+                                         {
+                                             "house":  12,
+                                             "weight":  0.75
+                                         }
+                                     ],
+                          "karakas":  [
+                                          "Venus",
+                                          "Jupiter",
+                                          "Moon",
+                                          "Mars",
+                                          "Saturn",
+                                          "Rahu",
+                                          "Ketu"
+                                      ],
+                          "possibleExperiences":  [
+                                                      "Relationship distance, separation thoughts, conflict, family pressure or legal concerns may feel more active now.",
+                                                      "The chart may show whether pressure is temporary, repairable, or moving toward stronger separation themes.",
+                                                      "Marriage judgment should consider the 7th house, family stability, disputes, emotional peace, vulnerability and distance together.",
+                                                      "This area needs careful real-world support because astrology can show pressure but should not replace counselling, safety or legal advice."
+                                                  ],
+                          "supportiveTemplates":  [
+                                                      "The {house} house can support repair when family, emotional base or agreement capacity remains active.",
+                                                      "{planet} can support maturity, guidance, affection or practical reconciliation."
+                                                  ],
+                          "pressureTemplates":  [
+                                                    "{planet} may intensify distance, conflict, detachment, anger, delay or uncertainty in relationship matters.",
+                                                    "The {house} house can show disputes, vulnerability, family pressure or separation themes that need careful handling."
+                                                ],
+                          "followUpQuestion":  "Which relationship pressure best matches your current situation?",
+                          "followUpOptions":  [
+                                                  {
+                                                      "key":  "separation_distance",
+                                                      "label":  "Distance or separation"
+                                                  },
+                                                  {
+                                                      "key":  "divorce",
+                                                      "label":  "Divorce question"
+                                                  },
+                                                  {
+                                                      "key":  "partner_conflict",
+                                                      "label":  "Partner conflict"
+                                                  },
+                                                  {
+                                                      "key":  "relationship_break",
+                                                      "label":  "Breakup or rupture"
+                                                  },
+                                                  {
+                                                      "key":  "trust_communication",
+                                                      "label":  "Trust or communication"
+                                                  },
+                                                  {
+                                                      "key":  "family_adjustment",
+                                                      "label":  "Family adjustment"
+                                                  },
+                                                  {
+                                                      "key":  "legal_relationship",
+                                                      "label":  "Legal or formal process"
+                                                  },
+                                                  {
+                                                      "key":  "repair_reconcile",
+                                                      "label":  "Repair or reconcile"
+                                                  }
+                                              ]
+                      }
+                  ]
+}

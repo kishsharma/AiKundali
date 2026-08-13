@@ -1,0 +1,47 @@
+﻿[
+  {
+    "eventType": "GeneralAuspiciousWork",
+    "positiveTithis": ["Dvitiya", "Tritiya", "Panchami", "Saptami", "Dashami", "Ekadashi", "Trayodashi", "Purnima"],
+    "avoidTithis": ["Chaturthi", "Navami", "Chaturdashi", "Amavasya"],
+    "positiveNakshatras": ["Rohini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Anuradha", "Shravana", "Revati"],
+    "avoidNakshatras": ["Ashlesha", "Magha", "Mula", "Jyeshtha"],
+    "positiveYogas": ["Saubhagya", "Shobhana", "Sukarma", "Dhriti", "Siddhi", "Shiva", "Siddha", "Shubha", "Brahma", "Indra"],
+    "avoidYogas": ["Atiganda", "Shoola", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"],
+    "positiveKaranas": ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija"],
+    "avoidKaranas": ["Visti", "Shakuni", "Chatushpada", "Naga"]
+  },
+  {
+    "eventType": "Marriage",
+    "positiveTithis": ["Dvitiya", "Tritiya", "Panchami", "Saptami", "Dashami", "Ekadashi", "Trayodashi", "Purnima"],
+    "avoidTithis": ["Chaturthi", "Navami", "Chaturdashi", "Amavasya"],
+    "positiveNakshatras": ["Rohini", "Mrigashira", "Magha", "UttaraPhalguni", "Hasta", "Swati", "Anuradha", "Mula", "Revati"],
+    "avoidNakshatras": ["Ashlesha", "Jyeshtha"],
+    "positiveYogas": ["Saubhagya", "Shobhana", "Sukarma", "Dhriti", "Siddhi", "Shiva", "Siddha", "Shubha"],
+    "avoidYogas": ["Atiganda", "Shoola", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"],
+    "positiveKaranas": ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija"],
+    "avoidKaranas": ["Visti", "Shakuni", "Chatushpada", "Naga"]
+  },
+  {
+    "eventType": "GruhaPravesha",
+    "positiveTithis": ["Dvitiya", "Tritiya", "Panchami", "Saptami", "Dashami", "Ekadashi", "Trayodashi", "Purnima"],
+    "avoidTithis": ["Chaturthi", "Navami", "Chaturdashi", "Amavasya"],
+    "positiveNakshatras": ["Rohini", "Mrigashira", "UttaraPhalguni", "Hasta", "Anuradha", "UttaraAshadha", "Shravana", "Revati"],
+    "avoidNakshatras": ["Ashlesha", "Mula", "Jyeshtha"],
+    "positiveYogas": ["Saubhagya", "Shobhana", "Sukarma", "Dhriti", "Siddhi", "Shiva", "Siddha", "Shubha"],
+    "avoidYogas": ["Atiganda", "Shoola", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"],
+    "positiveKaranas": ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija"],
+    "avoidKaranas": ["Visti", "Shakuni", "Chatushpada", "Naga"]
+  },
+  {
+    "eventType": "Travel",
+    "positiveTithis": ["Dvitiya", "Tritiya", "Panchami", "Saptami", "Dashami", "Ekadashi", "Purnima"],
+    "avoidTithis": ["Chaturthi", "Navami", "Chaturdashi", "Amavasya"],
+    "positiveNakshatras": ["Ashwini", "Mrigashira", "Punarvasu", "Hasta", "Anuradha", "Shravana", "Dhanishta", "Revati"],
+    "avoidNakshatras": ["Bharani", "Krittika", "Ashlesha", "Jyeshtha"],
+    "positiveYogas": ["Priti", "Ayushman", "Saubhagya", "Sukarma", "Siddhi", "Shiva"],
+    "avoidYogas": ["Atiganda", "Shoola", "Ganda", "Vyaghata", "Vajra", "Vyatipata"],
+    "positiveKaranas": ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija"],
+    "avoidKaranas": ["Visti", "Shakuni", "Chatushpada", "Naga"]
+  }
+]
+

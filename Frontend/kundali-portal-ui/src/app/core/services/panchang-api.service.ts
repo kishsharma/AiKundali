@@ -4,13 +4,33 @@ import { BaseApiService, ApiResponse } from './base-api.service';
 import { Observable } from 'rxjs';
 import { apiEndpoints } from '../../config/api-endpoints';
 
+export type PanchangCalendarMode = 'daily' | 'weekly' | 'monthly';
+
+export interface NakshatraPadaTiming {
+  pada: number;
+  syllable: string;
+  startTime: string;
+  endTime: string;
+  isCurrent: boolean;
+}
+
 export interface Panchang {
   id: string;
-  date: Date;
+  date: Date | string;
   tithi: string;
+  tithiEndTime?: string;
+  paksha?: string;
   nakshatra: string;
+  nakshatraEndTime?: string;
+  pada?: number;
+  akshara?: string;
+  nakshatraPadas?: NakshatraPadaTiming[];
   yoga: string;
+  yogaEndTime?: string;
   karana: string;
+  karanaEndTime?: string;
+  vaar?: string;
+  maas?: string;
   shake?: string;
   samvat?: string;
   dayOfWeek: string;
@@ -18,7 +38,27 @@ export interface Panchang {
   sunSetTime: string;
   moonRiseTime: string;
   moonSetTime: string;
+  isAuspicious?: boolean;
+  summary?: string;
   auspiciousTimings: AuspiciousTiming[];
+}
+
+export interface PanchangCalendarResponse {
+  mode: PanchangCalendarMode;
+  startDate: string;
+  endDate: string;
+  latitude: number;
+  longitude: number;
+  timezone: string;
+  days: Panchang[];
+}
+
+export interface PanchangCalendarRequest {
+  mode: PanchangCalendarMode;
+  date: Date;
+  latitude?: number;
+  longitude?: number;
+  timezone?: string;
 }
 
 export interface AuspiciousTiming {
@@ -34,11 +74,25 @@ export class PanchangApiService extends BaseApiService {
   private endpoint = apiEndpoints.panchang;
 
   /**
+   * Get Panchang calendar for daily, weekly, or monthly mode.
+   */
+  getPanchangCalendar(request: PanchangCalendarRequest): Observable<ApiResponse<PanchangCalendarResponse>> {
+    return this.get<PanchangCalendarResponse>(`${this.endpoint}/calendar`, {
+      params: {
+        mode: request.mode,
+        date: this.formatDate(request.date),
+        latitude: request.latitude ?? 12.9716,
+        longitude: request.longitude ?? 77.5946,
+        timezone: request.timezone || 'Asia/Kolkata',
+      },
+    });
+  }
+
+  /**
    * Get Panchang for a specific date
    */
   getPanchang(date: Date): Observable<ApiResponse<Panchang>> {
-    const formattedDate = date.toISOString().split('T')[0];
-    return this.get<Panchang>(`${this.endpoint}/${formattedDate}`);
+    return this.get<Panchang>(`${this.endpoint}/${this.formatDate(date)}`);
   }
 
   /**
@@ -48,10 +102,8 @@ export class PanchangApiService extends BaseApiService {
     startDate: Date,
     endDate: Date
   ): Observable<ApiResponse<Panchang[]>> {
-    const start = startDate.toISOString().split('T')[0];
-    const end = endDate.toISOString().split('T')[0];
     return this.get<Panchang[]>(`${this.endpoint}/range`, {
-      params: { startDate: start, endDate: end },
+      params: { startDate: this.formatDate(startDate), endDate: this.formatDate(endDate) },
     });
   }
 
@@ -66,4 +118,15 @@ export class PanchangApiService extends BaseApiService {
       params: { activityType, count: numberOfDates || 10 },
     });
   }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 }
+
+
+
+
