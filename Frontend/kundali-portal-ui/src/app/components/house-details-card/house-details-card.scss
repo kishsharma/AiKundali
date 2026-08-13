@@ -1,4 +1,4 @@
-:host {
+﻿:host {
   --ink: var(--theme-bg);
   --ink-2: var(--theme-surface);
   --parchment: var(--theme-text);
@@ -29,6 +29,10 @@
   margin-bottom: 0.85rem;
 }
 
+.house-title-block {
+  min-width: 0;
+}
+
 .card-header h3 {
   margin: 0;
   color: var(--parchment);
@@ -36,6 +40,13 @@
   font-size: 21px;
   font-weight: 600;
   line-height: 1.15;
+}
+
+.house-title-block .house-meaning {
+  margin: 0.25rem 0 0;
+  color: var(--parchment-dim);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .sign-badge {

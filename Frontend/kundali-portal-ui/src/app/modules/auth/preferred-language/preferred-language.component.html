@@ -1,0 +1,42 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Select your preferred language</h1>
+    <p>This helps us show your dashboard and reports in the right language.</p>
+
+    <div class="language-grid" role="radiogroup" aria-label="Preferred language">
+      <button
+        type="button"
+        class="language-option"
+        [class.active]="selectedLanguage === 'en'"
+        (click)="selectedLanguage = 'en'"
+      >
+        <span class="name">English</span>
+        <small class="code">en</small>
+      </button>
+
+      <button
+        type="button"
+        class="language-option"
+        [class.active]="selectedLanguage === 'hi'"
+        (click)="selectedLanguage = 'hi'"
+      >
+        <span class="name">हिंदी</span>
+        <small class="code">hi</small>
+      </button>
+
+      <button
+        type="button"
+        class="language-option"
+        [class.active]="selectedLanguage === 'kn'"
+        (click)="selectedLanguage = 'kn'"
+      >
+        <span class="name">ಕನ್ನಡ</span>
+        <small class="code">kn</small>
+      </button>
+    </div>
+
+    <button type="button" (click)="savePreferredLanguage()" [disabled]="isSaving">
+      {{ isSaving ? 'Saving...' : 'Continue' }}
+    </button>
+  </div>
+</div>

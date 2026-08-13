@@ -7,6 +7,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header.compone
 import { SectionCardComponent } from '../../shared/components/section-card.component';
 import { FindMuhurthaRequest, MuhurthaApiService, MuhurthaRecommendation, MuhurthaResponse, MuhurthaRuleResult } from '../../core/services/muhurtha-api.service';
 import { LocationService } from '../../core/services/location.service';
+import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 
 interface Option {
   label: string;
@@ -32,18 +33,26 @@ interface PanchangDayGroup {
 @Component({
   selector: 'app-muhurtha',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent],
   template: `
     <app-page-header
       title="Muhurtha"
       subtitle="Auspicious timing finder"
-      description="Find suitable Muhurtha windows with Panchanga rules, local timings, and optional personalized birth chart checks."
-      [breadcrumbs]="[
-        { label: 'Home', routerLink: '/' },
-        { label: 'Panchang', routerLink: '/app/panchang' },
-        { label: 'Muhurtha', active: true }
-      ]"
-    ></app-page-header>
+      [showActions]="true">
+      <button page-actions type="button" class="notes-page-action" (click)="openNotes()" aria-label="Open Muhurtha notes" title="Notes">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>
+        <span>Notes</span>
+      </button>
+    </app-page-header>
+
+    <app-portal-notes
+      [open]="isNotesOpen"
+      [allowPageSave]="true"
+      (closed)="closeNotes()"
+      contextType="Muhurtha"
+      title="Muhurtha Notes"
+      subtitle="Private notes saved for the Muhurtha page.">
+    </app-portal-notes>
 
     <div class="muhurtha-shell">
       <app-section-card title="Search Criteria" [interactive]="false">
@@ -273,6 +282,8 @@ interface PanchangDayGroup {
     </div>
   `,
   styles: [`
+    .notes-page-action { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--theme-line); border-radius: var(--theme-radius-control); background: var(--theme-surface); color: var(--theme-text); font: inherit; font-size: 0.82rem; font-weight: 850; cursor: pointer; }
+    .notes-page-action svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .muhurtha-shell { display: grid; gap: 1rem; align-items: start; }
     .muhurtha-form { display: grid; gap: 0.8rem; }
     .input-strip, .personal-fields { display: grid; grid-template-columns: repeat(5, minmax(135px, 1fr)); gap: 0.75rem; align-items: end; }
@@ -427,45 +438,6 @@ interface PanchangDayGroup {
     .score.acceptable, .table-score.acceptable, .panchang-slot-score.acceptable { background: color-mix(in srgb, var(--theme-accent) 18%, var(--theme-input-bg)); color: var(--theme-accent); border-color: color-mix(in srgb, var(--theme-accent) 44%, var(--theme-line)); }
     .score.weak, .table-score.weak, .panchang-slot-score.weak { background: color-mix(in srgb, #f59e0b 16%, var(--theme-input-bg)); color: #fbbf24; border-color: color-mix(in srgb, #f59e0b 44%, var(--theme-line)); }
     .score.not-recommended, .score.blocked, .table-score.not-recommended, .table-score.blocked, .panchang-slot-score.not-recommended, .panchang-slot-score.blocked { background: color-mix(in srgb, var(--theme-danger) 16%, var(--theme-input-bg)); color: var(--theme-danger); border-color: color-mix(in srgb, var(--theme-danger) 44%, var(--theme-line)); }
-    .muhurtha-shell { max-width: 1360px; margin: 0 auto; padding: 0 28px 28px; }
-    :host ::ng-deep app-page-header .page-header { max-width: 1360px; margin: 0 auto 18px; }
-    :host ::ng-deep app-section-card > .card { padding: 0.75rem; }
-    :host ::ng-deep app-section-card .card-header { margin-bottom: 1rem; padding-bottom: 0.85rem; }
-    :host ::ng-deep app-section-card .card-title { color: var(--theme-accent); font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.35rem; font-weight: 560; }
-    .muhurtha-form { gap: 1rem; }
-    .input-strip, .personal-fields { gap: 0.9rem; }
-    .criteria-toolbar { gap: 0.9rem; padding: 0.85rem; }
-    label { color: var(--theme-accent); font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
-    input, select { min-height: 38px; border-radius: var(--theme-radius-control); font-size: 0.88rem; font-weight: 560; }
-    .check-row { min-height: 36px; color: var(--theme-text); font-family: "Work Sans", "Segoe UI", sans-serif; font-size: 0.82rem; letter-spacing: 0; text-transform: none; }
-    .check-row span { color: var(--theme-text); }
-    .range-buttons button, .view-toggle button, .quality-pill, .sort-field { font-family: "Work Sans", "Segoe UI", sans-serif; text-transform: none; letter-spacing: 0; }
-    .response-toolbar { border: 1px solid var(--theme-line); border-radius: var(--theme-radius-card); padding: 0.85rem; background: color-mix(in srgb, var(--theme-input-bg) 72%, transparent); }
-    .response-summary span, .facts span { font-size: 0.82rem; line-height: 1.25; }
-    .slot-list { grid-template-columns: repeat(auto-fit, minmax(390px, 1fr)); gap: 1rem; }
-    .slot-card { padding: 1rem; background: linear-gradient(180deg, color-mix(in srgb, var(--theme-surface) 96%, transparent), color-mix(in srgb, var(--theme-input-bg) 82%, transparent)); }
-    .slot-head { gap: 1rem; }
-    .date-line strong { color: var(--theme-text); font-size: 0.98rem; line-height: 1.25; }
-    .slot-head span, .notes, .notes p { font-size: 0.86rem; line-height: 1.55; }
-    .notes { border-top: 1px solid var(--theme-line-soft); padding-top: 0.8rem; }
-    .notes b { color: var(--theme-accent); }
-    .score { min-width: 68px; padding: 0.38rem 0.45rem; font-size: 1.08rem; }
-    .score small { margin-top: 0.16rem; font-size: 0.62rem; letter-spacing: 0; }
-    .panchang-range-strip, .table-period { line-height: 1.35; }
-    .panchang-day { background: linear-gradient(180deg, color-mix(in srgb, var(--theme-surface) 96%, transparent), color-mix(in srgb, var(--theme-input-bg) 84%, transparent)); }
-    .panchang-day-head { padding: 0.85rem 0.95rem; }
-    .panchang-day-head strong { font-size: 1rem; }
-    .panchang-fact { padding: 0.7rem 0.75rem; }
-    .panchang-fact strong { color: var(--theme-text); font-size: 0.88rem; }
-    .panchang-slot-row { padding: 0.55rem 0.75rem; }
-    .panchang-slot-time strong, .panchang-slot-main span { font-size: 0.86rem; line-height: 1.3; }
-    .panchang-slot-main small { font-size: 0.74rem; line-height: 1.35; }
-    .panchang-table { background: color-mix(in srgb, var(--theme-surface) 96%, transparent); }
-    th { position: sticky; top: 0; z-index: 1; font-size: 0.75rem; letter-spacing: 0.04em; }
-    th, td { padding: 0.68rem 0.75rem; line-height: 1.35; }
-    td { color: var(--theme-text); }
-    td small { line-height: 1.35; }
-    .table-chip, .table-score, .time-pill, .slot-id, .panchang-slot-time code { line-height: 1.25; }
     @media (max-width: 760px) { .muhurtha-shell { padding: 0 12px 18px; } .slot-list { grid-template-columns: 1fr; } .response-toolbar { padding: 0.75rem; } }
     @media (max-width: 1200px) { .input-strip, .personal-fields { grid-template-columns: repeat(3, minmax(135px, 1fr)); } }
     @media (max-width: 900px) { .panchang-facts { grid-template-columns: repeat(2, minmax(120px, 1fr)); } .panchang-slot-row { grid-template-columns: 1fr; align-items: start; } .panchang-slot-score { justify-self: start; } }
@@ -473,6 +445,11 @@ interface PanchangDayGroup {
   `],
 })
 export class MuhurthaComponent implements OnInit {
+  isNotesOpen = false;
+
+  openNotes(): void { this.isNotesOpen = true; }
+  closeNotes(): void { this.isNotesOpen = false; }
+
   private fb = inject(FormBuilder);
   private muhurthaApi = inject(MuhurthaApiService);
   private locationService = inject(LocationService);
@@ -502,10 +479,10 @@ export class MuhurthaComponent implements OnInit {
   readonly form = this.fb.group({
     eventType: [14, Validators.required], regionalProfile: [0, Validators.required],
     requestedStart: [this.toDateInput(new Date()), Validators.required], requestedEnd: [this.toDateInput(this.addDays(new Date(), 7)), Validators.required],
-    dailyStartTime: ['08:00'], dailyEndTime: ['18:00'], locationName: ['Pune', Validators.required],
-    latitude: [18.5204, Validators.required], longitude: [73.8567, Validators.required], timezone: ['Asia/Kolkata', Validators.required],
+    dailyStartTime: ['08:00'], dailyEndTime: ['18:00'], locationName: ['Bangalore, Karnataka, India', Validators.required],
+    latitude: [12.9716, Validators.required], longitude: [77.5946, Validators.required], timezone: ['Asia/Kolkata', Validators.required],
     avoidRahuKalam: [true], avoidBhadra: [true], preferGoodChoghadiya: [false], checkMuhurthaLagna: [true], checkPersonalHoroscope: [false],
-    personName: [''], birthDate: [''], birthTime: [''], birthPlace: [''], birthLatitude: [18.5204], birthLongitude: [73.8567], birthTimezone: ['Asia/Kolkata'],
+    personName: [''], birthDate: [''], birthTime: [''], birthPlace: ['Bangalore, Karnataka, India'], birthLatitude: [12.9716], birthLongitude: [77.5946], birthTimezone: ['Asia/Kolkata'],
     resultSort: ['score'],
     resultQuality: ['all'],
     resultView: ['card'],
@@ -1037,6 +1014,7 @@ export class MuhurthaComponent implements OnInit {
   private toDateInput(date: Date): string { return date.toISOString().slice(0, 10); }
   private addDays(date: Date, days: number): Date { const next = new Date(date); next.setDate(next.getDate() + days); return next; }
 }
+
 
 
 

@@ -11,7 +11,10 @@ import {
   OtpChallengeResponse,
   RegisterRequest,
   StartEmailOtpRequest,
+  UpdatePreferredLanguageRequest,
+  UpdatePreferredLanguageResponse,
   VerifyEmailOtpRequest,
+  UserProfileResponse,
   VerifyRegistrationOtpResponse
 } from './auth.models';
 
@@ -72,6 +75,15 @@ export class AuthService {
     return this.http.post<{ message: string }>(`${this.apiUrl}/change-password`, request);
   }
 
+  updatePreferredLanguage(request: UpdatePreferredLanguageRequest): Observable<UpdatePreferredLanguageResponse> {
+    return this.http.patch<UpdatePreferredLanguageResponse>(`${this.userApiUrl}/me/preferred-language`, request)
+      .pipe(
+        tap((response) => {
+          this.updateCachedUser({ preferredLanguage: response.preferredLanguage });
+        })
+      );
+  }
+
   private saveSession(response: AuthResponse): void {
     localStorage.setItem(this.tokenKey, response.token);
     localStorage.setItem(this.userKey, JSON.stringify(response));
@@ -99,7 +111,27 @@ export class AuthService {
     localStorage.removeItem(this.userKey);
   }
 
-  getMe() {
-    return this.http.get<any>(`${this.userApiUrl}/me`);
+  getMe(): Observable<UserProfileResponse> {
+    return this.http.get<UserProfileResponse>(`${this.userApiUrl}/me`)
+      .pipe(
+        tap((profile) => {
+          this.updateCachedUser(profile);
+        })
+      );
+  }
+
+  private updateCachedUser(update: Partial<AuthResponse> | UserProfileResponse): void {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) {
+      return;
+    }
+
+    const nextUser: AuthResponse = {
+      ...currentUser,
+      ...update,
+      token: currentUser.token
+    };
+
+    localStorage.setItem(this.userKey, JSON.stringify(nextUser));
   }
 }

@@ -1,4 +1,4 @@
-﻿using KundaliEngine.API.DTOs.Requests;
+using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.Services.Email;
 using KundaliEngine.API.Services.ReportPdf;
 using Microsoft.Extensions.Options;
@@ -39,9 +39,7 @@ public class ReportShareEmailService : IReportShareEmailService
         {
             ToEmail = request.ToEmail.Trim(),
             Subject = string.IsNullOrWhiteSpace(request.Subject) ? $"{reportFormatLabel} for {GetReportName(request)}" : request.Subject.Trim(),
-            TextBody = string.IsNullOrWhiteSpace(request.Message)
-                ? $"Please find the {reportFormatLabel} attached."
-                : request.Message.Trim(),
+            TextBody = BuildEmailBody(request.Message, reportFormatLabel),
             Attachments = new[]
             {
                 new EmailAttachment
@@ -54,6 +52,21 @@ public class ReportShareEmailService : IReportShareEmailService
         }, cancellationToken);
     }
 
+
+    private static string BuildEmailBody(string? message, string reportFormatLabel)
+    {
+        var body = string.IsNullOrWhiteSpace(message)
+            ? $"Please find the {reportFormatLabel} attached."
+            : message.Trim();
+
+        const string visitLine = "To explore more personalized Kundali insights, timing guidance, and compatibility reports, please visit https://horalife.in.";
+        if (body.Contains("horalife.in", StringComparison.OrdinalIgnoreCase))
+        {
+            return body;
+        }
+
+        return $"{body}{Environment.NewLine}{Environment.NewLine}{visitLine}";
+    }
     private (byte[] Bytes, string FileName, string ContentType) BuildAttachment(SendReportEmailRequest request)
     {
         if (!string.IsNullOrWhiteSpace(request.AttachmentBase64))
@@ -139,3 +152,4 @@ public class ReportShareEmailService : IReportShareEmailService
         return string.IsNullOrWhiteSpace(sanitized) ? "kundali-report.pdf" : sanitized;
     }
 }
+

@@ -1,0 +1,305 @@
+{
+  "id": 9,
+  "name": "Ashlesha",
+  "sanskritName": "आश्लेषा",
+  "englishName": "Ashlesha",
+
+  "startDegree": {
+    "sign": "Cancer",
+    "longitude": 106.666667,
+    "display": "16°40' Cancer"
+  },
+
+  "endDegree": {
+    "sign": "Cancer",
+    "longitude": 120.000000,
+    "display": "30°00' Cancer"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 4,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "Di",
+      "akshara": "डि"
+    },
+    {
+      "number": 2,
+      "rashiId": 4,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Du",
+      "akshara": "डु,डू"
+    },
+    {
+      "number": 3,
+      "rashiId": 4,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Aquarius",
+      "syllable": "De",
+      "akshara": "डे"
+    },
+    {
+      "number": 4,
+      "rashiId": 4,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Pisces",
+      "syllable": "Do",
+      "akshara": "डो"
+    }
+  ],
+
+  "lord": "Mercury",
+
+  "rashi": [
+    "Cancer"
+  ],
+
+  "deity": "Nagas (Serpent Deities)",
+
+  "symbol": "Coiled Serpent",
+
+  "animalSymbol": "Cat",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Cat",
+
+  "nadi": "Antya",
+
+  "varna": "Brahmin",
+
+  "vashya": [
+    "Jalachara"
+  ],
+
+  "guna": "Sattva",
+
+  "tatva": "Water",
+
+  "gender": "Female",
+
+  "nature": "Tikshna (Sharp)",
+
+  "motivation": "Dharma",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Medium"
+  },
+
+  "direction": "South",
+
+  "aradhyaVruksha": "Nagakesar (Mesua ferrea)",
+
+  "flower": "Nag Champa",
+
+  "metal": "Bronze",
+
+  "color": [
+    "Green",
+    "Dark Blue",
+    "Black"
+  ],
+
+  "gemstone": "Emerald",
+
+  "rudraksha": [
+    "4 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Green Gram",
+    "Books",
+    "Stationery",
+    "Milk",
+    "Snake Protection Donations"
+  ],
+
+  "recommendedMantra": "ॐ नागदेवताभ्यो नमः",
+
+  "planetaryBeejMantra": "ॐ ब्रां ब्रीं ब्रौं सः बुधाय नमः",
+
+  "fastingDay": "Wednesday",
+
+  "positiveTraits": [
+    "Intelligent",
+    "Strategic",
+    "Persuasive",
+    "Intuitive",
+    "Observant",
+    "Resourceful",
+    "Protective",
+    "Research Oriented",
+    "Psychologically Insightful",
+    "Adaptable"
+  ],
+
+  "negativeTraits": [
+    "Manipulative",
+    "Secretive",
+    "Jealous",
+    "Possessive",
+    "Overthinking",
+    "Suspicious"
+  ],
+
+  "strengths": [
+    "Research",
+    "Negotiation",
+    "Psychology",
+    "Communication",
+    "Strategy"
+  ],
+
+  "weaknesses": [
+    "Trust Issues",
+    "Emotional Complexity",
+    "Hidden Anger"
+  ],
+
+  "career": [
+    "Psychologist",
+    "Doctor",
+    "Surgeon",
+    "Lawyer",
+    "Researcher",
+    "Software Engineer",
+    "Detective",
+    "Intelligence Services",
+    "Astrologer",
+    "Pharmacist"
+  ],
+
+  "education": [
+    "Medicine",
+    "Psychology",
+    "Law",
+    "Research",
+    "Computer Science"
+  ],
+
+  "finance": [
+    "Good Financial Intelligence",
+    "Success through Strategy",
+    "Avoid Speculative Risks"
+  ],
+
+  "health": [
+    "Digestive System",
+    "Stomach",
+    "Nervous System",
+    "Mental Stress",
+    "Skin Allergies"
+  ],
+
+  "bodyParts": [
+    "Stomach",
+    "Chest",
+    "Digestive Tract"
+  ],
+
+  "relationships": [
+    "Deeply Attached",
+    "Protective",
+    "Emotionally Intense",
+    "Needs Trust"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Loyal but Possessive",
+
+  "friendshipNature": "Selective",
+
+  "leadershipStyle": "Strategic",
+
+  "communicationStyle": "Persuasive",
+
+  "decisionMaking": "Analytical",
+
+  "emotionalNature": "Complex",
+
+  "learningStyle": "Observation Based",
+
+  "businessSuitability": [
+    "Very Good"
+  ],
+
+  "recommendedProfessions": [
+    "Medicine",
+    "Psychology",
+    "Research",
+    "Law",
+    "Technology",
+    "Consulting"
+  ],
+
+  "goodFor": [
+    "Research",
+    "Occult Studies",
+    "Healing",
+    "Meditation",
+    "Strategic Planning"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Housewarming",
+    "Public Celebrations"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "True power lies in mastering the mind and transforming hidden fears into wisdom and self-awareness.",
+
+  "compatibleNakshatras": [
+    "Jyeshtha",
+    "Revati",
+    "Punarvasu"
+  ],
+
+  "challengingNakshatras": [
+    "Mrigashira",
+    "Ardra"
+  ],
+
+  "mythologicalStory": "Ashlesha is governed by the Nagas, the divine serpent beings who symbolize hidden wisdom, kundalini energy and mystical knowledge. This Nakshatra teaches mastery over desires, emotions and the subconscious mind.",
+
+  "interestingFacts": [
+    "Represents Kundalini energy and hidden wisdom.",
+    "Excellent Nakshatra for psychology and research.",
+    "Strong intuition and persuasive abilities.",
+    "Associated with mystical sciences and healing.",
+    "People often possess magnetic personalities."
+  ],
+
+  "keywords": [
+    "Mystery",
+    "Transformation",
+    "Strategy",
+    "Healing",
+    "Intuition",
+    "Kundalini"
+  ],
+
+  "icon": "🐍",
+
+  "priorityLifeAreas": [
+    "Research",
+    "Spiritual Growth",
+    "Career",
+    "Self-Mastery"
+  ]
+}

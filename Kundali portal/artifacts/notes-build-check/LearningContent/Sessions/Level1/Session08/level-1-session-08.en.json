@@ -1,0 +1,598 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "a5c972b1-6c56-5cc7-8c91-84d3e449bc1d",
+  "levelCode": "level-1",
+  "sessionNumber": 8,
+  "slug": "karana-in-panchang",
+  "language": "en",
+  "title": "Karana in Panchang",
+  "subtitle": "Understanding the sixty half-Tithi intervals and the eleven Karana names",
+  "summary": "This session introduces Karana as one of the five limbs of Panchang. Students learn that one Karana equals half a Tithi or six degrees of Moon–Sun angular separation, that sixty Karana intervals occur in one lunar month, why only eleven Karana names are used, how the seven movable Karanas repeat, how the four fixed Karanas occur near Amavasya, and how to calculate and read the running Karana.",
+  "estimatedMinutes": 75,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define Karana as half of a Tithi.",
+    "Explain why one Karana spans six degrees of Moon–Sun angular separation.",
+    "Distinguish sixty Karana intervals from eleven Karana names.",
+    "Name the seven movable and four fixed Karanas.",
+    "Understand the repeating sequence of movable Karanas.",
+    "Identify where the fixed Karanas occur in the lunar cycle.",
+    "Calculate the running Karana from Moon–Sun angular separation.",
+    "Read a Karana entry together with its ending time."
+  ],
+  "prerequisites": [
+    "Completion of Session 7: Yoga in Panchang.",
+    "Clear understanding of Tithi calculation and normalised Moon–Sun angular separation."
+  ],
+  "keyTerms": [
+    {
+      "term": "Karana",
+      "sanskrit": "करण",
+      "transliteration": "karaṇa",
+      "meaning": "Half of a Tithi, defined by six degrees of Moon–Sun angular separation.",
+      "note": "Two Karanas complete one Tithi."
+    },
+    {
+      "term": "Movable Karana",
+      "sanskrit": "चर करण",
+      "transliteration": "cara karaṇa",
+      "meaning": "One of seven Karanas that repeat in sequence through most of the lunar month.",
+      "note": "The movable Karanas are Bava, Balava, Kaulava, Taitila, Gara, Vanija and Vishti."
+    },
+    {
+      "term": "Fixed Karana",
+      "sanskrit": "स्थिर करण",
+      "transliteration": "sthira karaṇa",
+      "meaning": "One of four Karanas that occur once each near the end and beginning of the lunar cycle.",
+      "note": "The fixed Karanas are Shakuni, Chatushpada, Naga and Kimstughna."
+    },
+    {
+      "term": "Karana interval",
+      "sanskrit": "करण खंड",
+      "transliteration": "karaṇa khaṇḍa",
+      "meaning": "One six-degree angular interval within the full 360° Moon–Sun phase cycle.",
+      "note": "There are sixty Karana intervals in one complete lunar cycle."
+    },
+    {
+      "term": "Vishti",
+      "sanskrit": "विष्टि",
+      "transliteration": "viṣṭi",
+      "meaning": "The seventh movable Karana, also commonly called Bhadra in Panchang usage.",
+      "note": "Its use in Muhurta requires specific traditional rules and should not be judged alone."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-karana",
+      "title": "What Is a Karana?",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "sixty-intervals-eleven-names",
+      "title": "Sixty Intervals but Eleven Names",
+      "estimatedMinutes": 11
+    },
+    {
+      "sectionId": "movable-karanas",
+      "title": "The Seven Movable Karanas",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "fixed-karanas",
+      "title": "The Four Fixed Karanas",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "calculate-running-karana",
+      "title": "How to Calculate the Running Karana",
+      "estimatedMinutes": 13
+    },
+    {
+      "sectionId": "karana-and-tithi",
+      "title": "Reading Karana with Tithi",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "reading-karana-entry",
+      "title": "How to Read a Karana Entry",
+      "estimatedMinutes": 11
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-karana",
+      "title": "What Is a Karana?",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Karana is one of the five limbs of Panchang. It is defined as half of a Tithi. Because one Tithi spans twelve degrees of Moon–Sun angular separation, one Karana spans six degrees."
+        },
+        {
+          "type": "formula",
+          "expression": "One Karana = 12° ÷ 2 = 6°",
+          "explanation": "Every Tithi contains two consecutive Karana intervals.",
+          "workedExample": "The first half of a Tithi covers one six-degree interval and the second half covers the next six-degree interval."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session08-tithi-two-karanas",
+          "assetPath": "assets/learning/Level-1/session-08/tithi-two-karanas.svg",
+          "altText": "A simple bar showing one twelve-degree Tithi divided into two six-degree Karana intervals.",
+          "caption": "Each Tithi contains two Karanas.",
+          "purpose": "Connect Karana directly to the Tithi structure.",
+          "annotations": [
+            "One Tithi",
+            "Karana 1",
+            "Karana 2",
+            "6° each"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Karana is part of the Tithi cycle",
+          "text": "Karana is calculated from the same Moon–Sun angular separation used for Tithi, but at six-degree intervals."
+        }
+      ]
+    },
+    {
+      "id": "sixty-intervals-eleven-names",
+      "title": "Sixty Intervals but Eleven Names",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "360° ÷ 6° = 60 Karana intervals",
+          "explanation": "A complete Moon–Sun phase cycle contains sixty half-Tithi intervals.",
+          "workedExample": "Thirty Tithis multiplied by two Karanas per Tithi gives sixty intervals."
+        },
+        {
+          "type": "paragraph",
+          "text": "Although sixty Karana intervals occur in a lunar cycle, only eleven Karana names are used. Seven are movable and repeat in a fixed sequence. Four are fixed and occur once each near the end and beginning of the cycle."
+        },
+        {
+          "type": "comparison",
+          "title": "Two Karana groups",
+          "left": {
+            "label": "Movable Karanas",
+            "points": [
+              "Seven names.",
+              "Repeat through most of the lunar month.",
+              "Used across fifty-six Karana intervals."
+            ]
+          },
+          "right": {
+            "label": "Fixed Karanas",
+            "points": [
+              "Four names.",
+              "Occur once each in the cycle.",
+              "Appear near the end and beginning of Amavasya."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "movable-karanas",
+      "title": "The Seven Movable Karanas",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "The seven movable Karanas",
+          "columns": [
+            "Sequence",
+            "Karana"
+          ],
+          "rows": [
+            [
+              "1",
+              "Bava"
+            ],
+            [
+              "2",
+              "Balava"
+            ],
+            [
+              "3",
+              "Kaulava"
+            ],
+            [
+              "4",
+              "Taitila"
+            ],
+            [
+              "5",
+              "Gara"
+            ],
+            [
+              "6",
+              "Vanija"
+            ],
+            [
+              "7",
+              "Vishti"
+            ]
+          ],
+          "note": "After Vishti, the sequence returns to Bava."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session08-seven-movable-karanas",
+          "assetPath": "assets/learning/Level-1/session-08/seven-movable-karanas.svg",
+          "altText": "A simple seven-step loop showing Bava, Balava, Kaulava, Taitila, Gara, Vanija and Vishti.",
+          "caption": "The seven movable Karanas repeat in a fixed cycle.",
+          "purpose": "Help students memorise the movable Karana sequence.",
+          "annotations": [
+            "Bava",
+            "Balava",
+            "Kaulava",
+            "Taitila",
+            "Gara",
+            "Vanija",
+            "Vishti"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "The repeating sequence begins after the first fixed interval",
+          "text": "Kimstughna occupies the first half of Shukla Pratipada. The movable sequence begins with Bava in the second half."
+        }
+      ]
+    },
+    {
+      "id": "fixed-karanas",
+      "title": "The Four Fixed Karanas",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "The four fixed Karanas",
+          "columns": [
+            "Karana",
+            "Position in the lunar cycle"
+          ],
+          "rows": [
+            [
+              "Shakuni",
+              "Second half of Krishna Chaturdashi"
+            ],
+            [
+              "Chatushpada",
+              "First half of Amavasya"
+            ],
+            [
+              "Naga",
+              "Second half of Amavasya"
+            ],
+            [
+              "Kimstughna",
+              "First half of Shukla Pratipada"
+            ]
+          ],
+          "note": "After Kimstughna, the movable sequence begins with Bava."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session08-fixed-karanas-amavasya",
+          "assetPath": "assets/learning/Level-1/session-08/fixed-karanas-amavasya.svg",
+          "altText": "A simple timeline around Krishna Chaturdashi, Amavasya and Shukla Pratipada showing Shakuni, Chatushpada, Naga and Kimstughna.",
+          "caption": "The four fixed Karanas occur around the Amavasya transition.",
+          "purpose": "Show where the non-repeating Karanas occur.",
+          "annotations": [
+            "Shakuni",
+            "Chatushpada",
+            "Naga",
+            "Kimstughna"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calculate-running-karana",
+      "title": "How to Calculate the Running Karana",
+      "estimatedMinutes": 13,
+      "blocks": [
+        {
+          "type": "formula",
+          "expression": "Karana interval index = floor(Normalised Moon–Sun separation ÷ 6°) + 1",
+          "explanation": "The interval index runs from 1 to 60.",
+          "workedExample": "A separation of 45° gives interval index 8."
+        },
+        {
+          "type": "paragraph",
+          "text": "The interval index identifies the six-degree section. The Karana name is then assigned using the special first interval, the repeating movable sequence, and the four fixed intervals at the end of the cycle."
+        },
+        {
+          "type": "example",
+          "title": "A movable Karana example",
+          "scenario": "The normalised Moon–Sun separation is 45°.",
+          "steps": [
+            "45° ÷ 6° gives seven complete intervals with remainder.",
+            "Karana interval index = 8.",
+            "Interval 1 is Kimstughna.",
+            "Intervals 2 onward follow the movable sequence.",
+            "Interval 8 corresponds to Vishti."
+          ],
+          "conclusion": "The running Karana is Vishti."
+        },
+        {
+          "type": "example",
+          "title": "A fixed Karana example",
+          "scenario": "The normalised Moon–Sun separation is 354°.",
+          "steps": [
+            "354° ÷ 6° gives fifty-nine complete intervals.",
+            "Karana interval index = 60.",
+            "The final four intervals are Shakuni, Chatushpada, Naga and Kimstughna across the cycle boundary.",
+            "Interval 60 is Naga."
+          ],
+          "conclusion": "The running Karana is Naga."
+        }
+      ]
+    },
+    {
+      "id": "karana-and-tithi",
+      "title": "Reading Karana with Tithi",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Tithi and Karana",
+          "left": {
+            "label": "Tithi",
+            "points": [
+              "Twelve-degree interval.",
+              "Thirty intervals per lunar cycle.",
+              "One Tithi contains two Karanas."
+            ]
+          },
+          "right": {
+            "label": "Karana",
+            "points": [
+              "Six-degree interval.",
+              "Sixty intervals per lunar cycle.",
+              "Changes twice within most Tithis."
+            ]
+          }
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Karana may change before Tithi ends",
+          "text": "Because a Tithi contains two Karanas, always read the Karana ending time separately."
+        }
+      ]
+    },
+    {
+      "id": "reading-karana-entry",
+      "title": "How to Read a Karana Entry",
+      "estimatedMinutes": 11,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Sample Karana entry",
+          "columns": [
+            "Printed item",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Karana: Gara until 09:35",
+              "Gara remains active until 09:35 local time"
+            ],
+            [
+              "Then Vanija",
+              "Vanija begins immediately after 09:35"
+            ],
+            [
+              "Tithi: Shukla Dashami until 18:10",
+              "Both Karanas occur within the same Tithi"
+            ],
+            [
+              "Location: Bengaluru",
+              "The transition times apply to Bengaluru"
+            ]
+          ],
+          "note": "This is an instructional sample, not a real Panchang for a specific date."
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Confirm the location.",
+            "Read the running Tithi.",
+            "Read the current Karana.",
+            "Read the Karana ending time.",
+            "Identify the next Karana.",
+            "Check whether the intended activity occurs before or after the Karana transition.",
+            "Combine Karana with the other Panchang limbs."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Karana is one supporting factor",
+          "text": "A complete Muhurta or Panchang judgement should not be based on Karana alone."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming there are only eleven Karana intervals.",
+      "whyItIsWrong": "There are sixty intervals but only eleven names.",
+      "correctUnderstanding": "Distinguish interval count from name count."
+    },
+    {
+      "mistake": "Treating one Karana as one full Tithi.",
+      "whyItIsWrong": "One Karana is half a Tithi.",
+      "correctUnderstanding": "Two six-degree Karanas form one twelve-degree Tithi."
+    },
+    {
+      "mistake": "Repeating all eleven Karana names in one simple cycle.",
+      "whyItIsWrong": "Only seven movable Karanas repeat; the four fixed Karanas occupy special positions.",
+      "correctUnderstanding": "Use the movable sequence plus the fixed end-of-cycle placements."
+    },
+    {
+      "mistake": "Ignoring the Karana ending time.",
+      "whyItIsWrong": "Karana can change while the Tithi remains the same.",
+      "correctUnderstanding": "Read Karana as a timed interval."
+    },
+    {
+      "mistake": "Using Karana alone to declare a complete Muhurta.",
+      "whyItIsWrong": "Karana is only one Panchang limb.",
+      "correctUnderstanding": "Read it with Tithi, Vara, Nakshatra, Yoga and the intended activity."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Calculate and identify Karana",
+    "instructions": [
+      "Write the angular span of one Tithi and one Karana.",
+      "Write the seven movable Karanas in sequence.",
+      "Write the four fixed Karanas.",
+      "Calculate the Karana interval index for a Moon–Sun separation of 96°.",
+      "Identify the Karana name for that interval.",
+      "Draw one Tithi divided into two Karanas.",
+      "Explain in one sentence why there are sixty intervals but only eleven names."
+    ],
+    "expectedOutcome": "The student can calculate the Karana interval index, identify movable and fixed Karanas, explain their sequence and read Karana together with Tithi and transition time.",
+    "estimatedMinutes": 12
+  },
+  "sessionSummary": [
+    "Karana is one of the five limbs of Panchang.",
+    "One Karana is half a Tithi.",
+    "Each Karana spans six degrees of Moon–Sun separation.",
+    "There are sixty Karana intervals in one lunar cycle.",
+    "Only eleven Karana names are used.",
+    "Seven movable Karanas repeat through most of the cycle.",
+    "Four fixed Karanas occur around the Amavasya transition.",
+    "Kimstughna occupies the first half of Shukla Pratipada.",
+    "Karana can change while the Tithi remains unchanged.",
+    "Karana should be read with its ending time and the other Panchang limbs."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "How many degrees form one Karana?",
+        "options": [
+          "3°20′",
+          "6°",
+          "12°",
+          "13°20′"
+        ],
+        "answer": "6°",
+        "explanation": "One Karana is half of a twelve-degree Tithi."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "How many Karana intervals occur in one lunar cycle?",
+        "options": [
+          "11",
+          "27",
+          "30",
+          "60"
+        ],
+        "answer": "60",
+        "explanation": "360° divided by 6° equals sixty intervals."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "How many movable Karanas are there?",
+        "options": [
+          "4",
+          "7",
+          "11",
+          "14"
+        ],
+        "answer": "7",
+        "explanation": "Seven movable Karanas repeat through most of the cycle."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which Karana follows Vanija in the movable sequence?",
+        "options": [
+          "Bava",
+          "Vishti",
+          "Gara",
+          "Shakuni"
+        ],
+        "answer": "Vishti",
+        "explanation": "The sequence is Bava, Balava, Kaulava, Taitila, Gara, Vanija and Vishti."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "All eleven Karana names repeat continuously.",
+        "answer": false,
+        "explanation": "Only the seven movable Karanas repeat; four are fixed."
+      },
+      {
+        "id": "q6",
+        "type": "short-answer",
+        "question": "Which Karana occurs in the first half of Shukla Pratipada?",
+        "answer": "Kimstughna.",
+        "explanation": "Kimstughna is the first Karana interval of the lunar cycle."
+      },
+      {
+        "id": "q7",
+        "type": "true-false",
+        "question": "Karana may change before the current Tithi ends.",
+        "answer": true,
+        "explanation": "Each Tithi contains two Karana intervals."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should the Karana ending time be read?",
+        "answer": "Because the Karana can change within the same Tithi and before the intended activity.",
+        "explanation": "Karana is a timed six-degree interval."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "The Surya Siddhanta",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical framework for lunar phase divisions and calendar calculation.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-21",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used as a work-level astronomical reference. No verse-specific quotation is made."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "The Surya Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess; edited by Phanindralal Gangooly",
+      "note": "For the traditional mathematical astronomy underlying lunar phase and calendar calculations.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-21",
+    "reviewNotes": "Karana span, movable and fixed Karana sequence, calculation method and relation to Tithi were checked for internal consistency. Interpretation is limited to foundation-level identification and reading. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

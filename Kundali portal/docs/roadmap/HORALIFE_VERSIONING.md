@@ -25,7 +25,7 @@ HoraLife uses Semantic Versioning:
 | `v0.8.0-alpha.1` | Current Core Platform Baseline |
 | `v0.8.0-alpha.2` | Complete multilingual support + persist preferred language |
 | `v0.8.0-alpha.3` | Premium UI/UX polish - landing, login, dashboard, report opening, mobile, transitions |
-| `v0.8.0-beta.1` | Core beta + CI, regression, timezone, duplicate-save, security and production readiness |
+| `v0.8.0-beta.1` | Core beta + CI,Paymentintegration+ regression, timezone, duplicate-save, security and production readiness |
 | `v0.8.0-rc.1` | Feature freeze and controlled final testing |
 | `v0.8.0` | Stable Core Release |
 | `v0.9.0` | Prediction Engine + deterministic premium synthesis |

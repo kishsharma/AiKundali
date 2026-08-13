@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { KundaliService } from './kundali.service';
@@ -41,6 +41,8 @@ import {
 } from '../../core/services/astrologer-branding-settings.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { AuthService } from '../../core/auth/auth.service';
+import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 
 type KundaliPdfMode = 'desktop' | 'mobile' | 'print-bw' | 'corporate';
 
@@ -62,6 +64,25 @@ interface ActivationPeriodGroup {
   trigger: string;
   isCurrent: boolean;
   items: ActivationGroupedItem[];
+}
+
+interface PredictionOutlookCard {
+  lifeArea: string;
+  tone: string;
+  toneLabel: string;
+  toneClass: string;
+}
+
+interface PredictionAreaDetailCard extends PredictionOutlookCard {
+  prediction: any | null;
+  supportClaims: any[];
+  challengeClaims: any[];
+  mixedClaims: any[];
+  dashaClaims: any[];
+  natalClaims: any[];
+  timingClaims: any[];
+  houseConnections: any[];
+  effectivePeriod: string;
 }
 
 
@@ -87,12 +108,15 @@ interface ActivationPeriodGroup {
     KundaliMetadataInsightsComponent,
     TransitInsightComponent,
     CurrentLifeFocusComponent,
-    RemediesRecommendationComponent
+    RemediesRecommendationComponent,
+    PortalNotesComponent
 ],
   templateUrl: './kundali.component.html',
   styleUrls: ['./kundali.component.scss', './kundali.component.exportpdf.scss']
 })
 export class KundaliComponent {
+
+  @ViewChild(PortalNotesComponent) private portalNotes?: PortalNotesComponent;
 
 constructor(private translocoService: TranslocoService,private cdr: ChangeDetectorRef) {}
   private fb = inject(FormBuilder);
@@ -105,6 +129,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   private brandingSettingsService = inject(AstrologerBrandingSettingsService);
   private readonly notifications = inject(NotificationService);
   private readonly themeService = inject(ThemeService);
+  private readonly authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   locationResults: any[] = [];
   kundaliResponse: any = null;
@@ -116,6 +141,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   mahadashaPeriods: any[] = [];
   savingKundali = false;
   savedKundaliId: string | null = null;
+  isNotesOpen = false;
   currentLifeFocusResetKey = 0;
   saveMessage = '';
   saveFailed = false;
@@ -128,7 +154,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   shareMessage = '';
   shareFailed = false;
   shareSending = false;
-  selectedEmailPdfMode: KundaliPdfMode = 'corporate';
+  selectedEmailPdfMode: KundaliPdfMode = 'desktop';
   shareWhatsAppNumber = '';
   shareWhatsAppTouched = false;
   shareWhatsAppMessage = '';
@@ -148,6 +174,15 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     'Opening dasha timeline',
     'Composing your report'
   ];
+  readonly predictionLifeAreas = [
+    'Career',
+    'Finance',
+    'Relationships',
+    'Education',
+    'Family',
+    'Property',
+    'Health'
+  ];
   planets: any[] = [];
   summary: any;
   scores: any[] = [];
@@ -156,6 +191,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   openYogaIndex: number | null = null;
   openDoshaIndex: number | null = null;
   activeReportSection = '';
+  openPredictionLifeArea = 'Career';
+  activeStrengthView: 'summary' | 'ashtakavarga' = 'summary';
 
   get hasReportStatus(): boolean {
     return !!(this.saveMessage || this.generationMessage || this.pdfDownloadMessage || this.shareMessage);
@@ -228,34 +265,34 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     Ketu: 'Ke'
   };
   private readonly rashiWatermarkMap: Record<string, { symbol: string; indianName: string; englishName: string }> = {
-    aries: { symbol: 'ðŸ', indianName: 'Mesha', englishName: 'Aries' },
-    mesha: { symbol: 'ðŸ', indianName: 'Mesha', englishName: 'Aries' },
-    taurus: { symbol: 'ðŸ‚', indianName: 'Vrishabha', englishName: 'Taurus' },
-    vrishabha: { symbol: 'ðŸ‚', indianName: 'Vrishabha', englishName: 'Taurus' },
-    gemini: { symbol: 'ðŸ‘¥', indianName: 'Mithuna', englishName: 'Gemini' },
-    mithuna: { symbol: 'ðŸ‘¥', indianName: 'Mithuna', englishName: 'Gemini' },
-    cancer: { symbol: 'ðŸ¦€', indianName: 'Karka', englishName: 'Cancer' },
-    karka: { symbol: 'ðŸ¦€', indianName: 'Karka', englishName: 'Cancer' },
-    karkataka: { symbol: 'ðŸ¦€', indianName: 'Karka', englishName: 'Cancer' },
-    leo: { symbol: 'ðŸ¦', indianName: 'Simha', englishName: 'Leo' },
-    simha: { symbol: 'ðŸ¦', indianName: 'Simha', englishName: 'Leo' },
-    sinh: { symbol: 'ðŸ¦', indianName: 'Simha', englishName: 'Leo' },
-    virgo: { symbol: 'ðŸŒ¾', indianName: 'Kanya', englishName: 'Virgo' },
-    kanya: { symbol: 'ðŸŒ¾', indianName: 'Kanya', englishName: 'Virgo' },
-    libra: { symbol: 'âš–', indianName: 'Tula', englishName: 'Libra' },
-    tula: { symbol: 'âš–', indianName: 'Tula', englishName: 'Libra' },
-    scorpio: { symbol: 'ðŸ¦‚', indianName: 'Vrischika', englishName: 'Scorpio' },
-    vrischika: { symbol: 'ðŸ¦‚', indianName: 'Vrischika', englishName: 'Scorpio' },
-    vrishchika: { symbol: 'ðŸ¦‚', indianName: 'Vrischika', englishName: 'Scorpio' },
-    sagittarius: { symbol: 'ðŸ¹', indianName: 'Dhanu', englishName: 'Sagittarius' },
-    dhanu: { symbol: 'ðŸ¹', indianName: 'Dhanu', englishName: 'Sagittarius' },
-    capricorn: { symbol: 'ðŸ', indianName: 'Makara', englishName: 'Capricorn' },
-    makara: { symbol: 'ðŸ', indianName: 'Makara', englishName: 'Capricorn' },
-    aquarius: { symbol: 'ðŸº', indianName: 'Kumbha', englishName: 'Aquarius' },
-    kumbha: { symbol: 'ðŸº', indianName: 'Kumbha', englishName: 'Aquarius' },
-    pisces: { symbol: 'ðŸŸðŸŸ', indianName: 'Meena', englishName: 'Pisces' },
-    meena: { symbol: 'ðŸŸðŸŸ', indianName: 'Meena', englishName: 'Pisces' },
-    meen: { symbol: 'ðŸŸðŸŸ', indianName: 'Meena', englishName: 'Pisces' }
+    aries: { symbol: '\u2648', indianName: 'Mesha', englishName: 'Aries' },
+    mesha: { symbol: '\u2648', indianName: 'Mesha', englishName: 'Aries' },
+    taurus: { symbol: '\u2649', indianName: 'Vrishabha', englishName: 'Taurus' },
+    vrishabha: { symbol: '\u2649', indianName: 'Vrishabha', englishName: 'Taurus' },
+    gemini: { symbol: '\u264A', indianName: 'Mithuna', englishName: 'Gemini' },
+    mithuna: { symbol: '\u264A', indianName: 'Mithuna', englishName: 'Gemini' },
+    cancer: { symbol: '\u264B', indianName: 'Karka', englishName: 'Cancer' },
+    karka: { symbol: '\u264B', indianName: 'Karka', englishName: 'Cancer' },
+    karkataka: { symbol: '\u264B', indianName: 'Karka', englishName: 'Cancer' },
+    leo: { symbol: '\u264C', indianName: 'Simha', englishName: 'Leo' },
+    simha: { symbol: '\u264C', indianName: 'Simha', englishName: 'Leo' },
+    sinh: { symbol: '\u264C', indianName: 'Simha', englishName: 'Leo' },
+    virgo: { symbol: '\u264D', indianName: 'Kanya', englishName: 'Virgo' },
+    kanya: { symbol: '\u264D', indianName: 'Kanya', englishName: 'Virgo' },
+    libra: { symbol: '\u264E', indianName: 'Tula', englishName: 'Libra' },
+    tula: { symbol: '\u264E', indianName: 'Tula', englishName: 'Libra' },
+    scorpio: { symbol: '\u264F', indianName: 'Vrischika', englishName: 'Scorpio' },
+    vrischika: { symbol: '\u264F', indianName: 'Vrischika', englishName: 'Scorpio' },
+    vrishchika: { symbol: '\u264F', indianName: 'Vrischika', englishName: 'Scorpio' },
+    sagittarius: { symbol: '\u2650', indianName: 'Dhanu', englishName: 'Sagittarius' },
+    dhanu: { symbol: '\u2650', indianName: 'Dhanu', englishName: 'Sagittarius' },
+    capricorn: { symbol: '\u2651', indianName: 'Makara', englishName: 'Capricorn' },
+    makara: { symbol: '\u2651', indianName: 'Makara', englishName: 'Capricorn' },
+    aquarius: { symbol: '\u2652', indianName: 'Kumbha', englishName: 'Aquarius' },
+    kumbha: { symbol: '\u2652', indianName: 'Kumbha', englishName: 'Aquarius' },
+    pisces: { symbol: '\u2653', indianName: 'Meena', englishName: 'Pisces' },
+    meena: { symbol: '\u2653', indianName: 'Meena', englishName: 'Pisces' },
+    meen: { symbol: '\u2653', indianName: 'Meena', englishName: 'Pisces' },
   };
 
   ngOnInit(): void {
@@ -444,8 +481,399 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return Number.isFinite(parsed) ? parsed : 0;
   }
 
+  get isPremiumUser(): boolean {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      return false;
+    }
+
+    if (user.isPremium === true) {
+      return true;
+    }
+
+    const planCode = this.firstText(user.planCode).toLowerCase();
+    if (planCode !== 'premium') {
+      return false;
+    }
+
+    const expiresAt = this.firstText(user.planExpiresAt);
+    return !expiresAt || new Date(expiresAt).getTime() > Date.now();
+  }
+
+  get premiumPredictionOutlook(): PredictionOutlookCard[] {
+    const predictions = Array.isArray(this.kundaliResponse?.predictions)
+      ? this.kundaliResponse.predictions
+      : [];
+
+    return this.predictionLifeAreas.map((lifeArea) => {
+      const prediction = predictions.find((item: any) =>
+        this.firstText(item?.lifeArea).toLowerCase() === lifeArea.toLowerCase()
+      );
+      const tone = this.firstText(this.readNestedProp(prediction, 'synthesis', 'overallTone'), 'Neutral');
+
+      return {
+        lifeArea,
+        tone,
+        toneLabel: this.getPredictionToneLabel(tone),
+        toneClass: this.getPredictionToneClass(tone)
+      };
+    });
+  }
+
+  get predictionEffectivePeriod(): string {
+    const predictions = Array.isArray(this.kundaliResponse?.predictions)
+      ? this.kundaliResponse.predictions
+      : [];
+    const periodSource = predictions.find((item: any) =>
+      this.firstText(item?.synthesis?.effectiveFrom) || this.firstText(item?.synthesis?.effectiveTo)
+    );
+
+    if (!periodSource) {
+      return '\u2014';
+    }
+
+    const from = this.formatPredictionDate(periodSource?.synthesis?.effectiveFrom);
+    const to = this.formatPredictionDate(periodSource?.synthesis?.effectiveTo);
+
+    return [from, to].filter(Boolean).join(' - ');
+  }
+
+  getPredictionAreaLabel(lifeArea: string): string {
+    const key = `kundali.predictions.area.${lifeArea}`;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : lifeArea;
+  }
+
+  getPredictionToneLabel(tone: string | null | undefined): string {
+    const normalized = this.firstText(tone).toLowerCase();
+    const key = normalized === 'supportive'
+      ? 'kundali.predictions.favorable'
+      : normalized === 'challenging'
+        ? 'kundali.predictions.needsAttention'
+        : normalized === 'mixed'
+          ? 'kundali.predictions.mixed'
+          : 'kundali.predictions.neutral';
+
+    return this.translocoService.translate(key);
+  }
+
+  getPredictionToneClass(tone: string | null | undefined): string {
+    const normalized = this.firstText(tone).toLowerCase();
+    return ['supportive', 'mixed', 'challenging'].includes(normalized) ? normalized : 'neutral';
+  }
+
+  formatPredictionDate(value: string | null | undefined): string {
+    const raw = this.firstText(value);
+    if (!raw) {
+      return '\u2014';
+    }
+
+    const parsed = new Date(raw);
+    if (Number.isNaN(parsed.getTime())) {
+      return raw;
+    }
+
+    return parsed.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  onUnlockPremium(): void {
+    this.notifications.info(this.translocoService.translate('kundali.predictions.unlockSoon'));
+  }
+
+  get premiumPredictionAreaCards(): PredictionAreaDetailCard[] {
+    const predictions = Array.isArray(this.kundaliResponse?.predictions)
+      ? this.kundaliResponse.predictions
+      : [];
+
+    return this.predictionLifeAreas.map((lifeArea) => {
+      const prediction = predictions.find((item: any) =>
+        this.firstText(item?.lifeArea).toLowerCase() === lifeArea.toLowerCase()
+      ) ?? null;
+      const claims = Array.isArray(prediction?.claims) ? prediction.claims : [];
+      const tone = this.firstText(this.readNestedProp(prediction, 'synthesis', 'overallTone'), 'Neutral');
+
+      return {
+        lifeArea,
+        prediction,
+        tone,
+        toneLabel: this.getPredictionToneLabel(tone),
+        toneClass: this.getPredictionToneClass(tone),
+        supportClaims: this.getPredictionClaimsByTone(claims, 'supportive'),
+        challengeClaims: this.getPredictionClaimsByTone(claims, 'challenging'),
+        mixedClaims: this.getPredictionClaimsByTone(claims, 'mixed'),
+        dashaClaims: this.getPredictionDashaClaims(claims),
+        natalClaims: this.getPredictionClaimsByStage(claims, 'natal'),
+        timingClaims: this.getPredictionTimingClaims(claims),
+        houseConnections: this.limitList(this.readNestedProp(prediction, 'synthesis', 'houseConnections'), 3),
+        effectivePeriod: this.formatPredictionPeriod(this.readNestedProp(prediction, 'synthesis', 'effectiveFrom'), this.readNestedProp(prediction, 'synthesis', 'effectiveTo'))
+      };
+    });
+  }
+
+  get selectedPredictionArea(): PredictionAreaDetailCard | null {
+    return this.premiumPredictionAreaCards.find(area => this.isPredictionAreaOpen(area.lifeArea))
+      ?? this.premiumPredictionAreaCards[0]
+      ?? null;
+  }
+
+  selectPredictionArea(lifeArea: string): void {
+    this.openPredictionLifeArea = lifeArea;
+  }
+
+
+  togglePredictionArea(lifeArea: string): void {
+    this.selectPredictionArea(lifeArea);
+  }
+
+  isPredictionAreaOpen(lifeArea: string): boolean {
+    return this.openPredictionLifeArea === lifeArea;
+  }
+
+  getPredictionClaimsByTone(claims: any[], tone: string): any[] {
+    return claims.filter((claim: any) =>
+      this.firstText(this.readProp(claim, 'tone')).toLowerCase() === tone
+    ).slice(0, 3);
+  }
+
+  getPredictionClaimsByStage(claims: any[], stage: string): any[] {
+    return claims.filter((claim: any) =>
+      this.firstText(this.readProp(claim, 'stage')).toLowerCase() === stage
+    ).slice(0, 4);
+  }
+
+  getPredictionDashaClaims(claims: any[]): any[] {
+    const levelOrder = ['mahadasha', 'antardasha', 'pratyantardasha'];
+    const byLevel = new Map<string, any[]>();
+
+    claims.forEach((claim: any) => {
+      const level = this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase();
+      const planet = this.firstText(this.readProp(claim, 'dashaPlanet'));
+
+      if (!levelOrder.includes(level) || !planet) {
+        return;
+      }
+
+      const existing = byLevel.get(level) ?? [];
+      existing.push(claim);
+      byLevel.set(level, existing);
+    });
+
+    return levelOrder
+      .map(level => {
+        const levelClaims = byLevel.get(level) ?? [];
+        if (!levelClaims.length) {
+          return null;
+        }
+
+        return {
+          ...levelClaims[0],
+          tone: this.getAggregatedPredictionTone(levelClaims)
+        };
+      })
+      .filter(Boolean);
+  }
+
+  private getAggregatedPredictionTone(claims: any[]): string {
+    const tones = new Set(
+      claims
+        .map((claim: any) => this.firstText(this.readProp(claim, 'tone')).toLowerCase())
+        .filter(Boolean)
+    );
+
+    if (tones.has('mixed') || (tones.has('supportive') && tones.has('challenging'))) {
+      return 'mixed';
+    }
+
+    if (tones.has('challenging')) {
+      return 'challenging';
+    }
+
+    if (tones.has('supportive')) {
+      return 'supportive';
+    }
+
+    return this.firstText(this.readProp(claims[0], 'tone'), 'Neutral');
+  }
+
+  getPredictionTimingClaims(claims: any[]): any[] {
+    const seen = new Set<string>();
+
+    return claims
+      .filter((claim: any) => this.isPredictionTimingClaim(claim))
+      .filter((claim: any) => {
+        const stage = this.firstText(this.readProp(claim, 'stage')).toLowerCase();
+        const identity = stage === 'dasha'
+          ? [
+            this.firstText(this.readProp(claim, 'key')),
+            stage,
+            this.firstText(this.readProp(claim, 'tone'))
+          ].join('|').toLowerCase()
+          : [
+            this.firstText(this.readProp(claim, 'key')),
+            stage,
+            this.firstText(this.readProp(claim, 'startDate')),
+            this.firstText(this.readProp(claim, 'endDate'))
+          ].join('|').toLowerCase();
+
+        if (seen.has(identity)) {
+          return false;
+        }
+
+        seen.add(identity);
+        return true;
+      })
+      .slice(0, 4);
+  }
+
+  isPredictionTimingClaim(claim: any): boolean {
+    const stage = this.firstText(this.readProp(claim, 'stage')).toLowerCase();
+    return stage === 'dasha' || stage === 'consolidated' || !!this.firstText(this.readProp(claim, 'dashaLevel')) || !!this.firstText(this.readProp(claim, 'dashaPlanet'));
+  }
+
+  getPredictionClaimLabel(claim: any): string {
+    const key = this.firstText(this.readProp(claim, 'key'));
+    if (!key) {
+      return this.translocoService.translate('kundali.predictions.claim.default');
+    }
+
+    const translationKey = 'kundali.predictions.claim.' + key;
+    const translated = this.translocoService.translate(translationKey);
+    if (translated && translated !== translationKey) {
+      return translated;
+    }
+
+    return this.humanizePredictionKey(key);
+  }
+
+  getPredictionStageLabel(stage: string | null | undefined): string {
+    const normalized = this.firstText(stage).toLowerCase();
+    const key = normalized === 'dasha'
+      ? 'kundali.predictions.stage.dasha'
+      : normalized === 'consolidated'
+        ? 'kundali.predictions.stage.current'
+        : 'kundali.predictions.stage.natal';
+    return this.translocoService.translate(key);
+  }
+
+  getDashaLevelLabel(level: string | null | undefined): string {
+    const normalized = this.firstText(level).toLowerCase();
+    const key = normalized === 'mahadasha'
+      ? 'kundali.predictions.dasha.mahadasha'
+      : normalized === 'antardasha'
+        ? 'kundali.predictions.dasha.antardasha'
+        : normalized === 'pratyantardasha'
+          ? 'kundali.predictions.dasha.pratyantardasha'
+          : 'kundali.predictions.dasha.current';
+    return this.translocoService.translate(key);
+  }
+
+  getPredictionClaimPeriod(claim: any): string {
+    return this.formatPredictionPeriod(this.readProp(claim, 'startDate'), this.readProp(claim, 'endDate'));
+  }
+
+  getHouseConnectionTitle(connection: any): string {
+    const sourceHouse = this.formatOrdinalHouse(this.readProp(connection, 'sourceHouse'));
+    const targetHouse = this.formatOrdinalHouse(this.readProp(connection, 'targetHouse'));
+    const lordPlanet = this.translatePlanetName(this.firstText(this.readProp(connection, 'lordPlanet')));
+    return this.translocoService.translate('kundali.predictions.houseConnectionTitle', {
+      sourceHouse,
+      lordPlanet,
+      targetHouse
+    });
+  }
+
+  getHouseConnectionThemes(connection: any): string {
+    const source = this.getConnectionSignificationLabels(this.readProp(connection, 'sourceSignificationKeys'), 1).join(', ');
+    const target = this.getConnectionSignificationLabels(this.readProp(connection, 'targetSignificationKeys'), 1).join(', ');
+    return [source, target].filter(Boolean).join(' -> ');
+  }
+
+  getHouseConnectionLabels(connection: any): string[] {
+    return [
+      ...this.getConnectionSignificationLabels(this.readProp(connection, 'sourceSignificationKeys'), 1),
+      ...this.getConnectionSignificationLabels(this.readProp(connection, 'targetSignificationKeys'), 1)
+    ].slice(0, 2);
+  }
+
+  private getConnectionSignificationLabels(value: any, count: number): string[] {
+    return this.limitList(value, count)
+      .map((item: any) => this.getHouseSignificationLabel(item))
+      .filter(Boolean);
+  }
+
+  getHouseSignificationLabel(value: unknown): string {
+    const keyPart = this.firstText(value);
+    if (!keyPart) {
+      return '';
+    }
+
+    const key = 'kundali.predictions.signification.' + keyPart;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : this.humanizePredictionKey(keyPart);
+  }
+
+  formatPredictionPeriod(from: string | null | undefined, to: string | null | undefined): string {
+    const start = this.formatPredictionDate(from);
+    const end = this.formatPredictionDate(to);
+    return [start, end].filter(Boolean).join(' - ');
+  }
+
+  private formatOrdinalHouse(value: unknown): string {
+    const houseNumber = Number(value);
+    if (!Number.isInteger(houseNumber) || houseNumber < 1) {
+      return this.translocoService.translate('kundali.predictions.house');
+    }
+
+    const suffix = houseNumber % 10 === 1 && houseNumber % 100 !== 11
+      ? 'st'
+      : houseNumber % 10 === 2 && houseNumber % 100 !== 12
+        ? 'nd'
+        : houseNumber % 10 === 3 && houseNumber % 100 !== 13
+          ? 'rd'
+          : 'th';
+
+    return houseNumber + suffix;
+  }
+
+  private humanizePredictionKey(key: string): string {
+    return key
+      .replace(/^(career|finance|relationships|education|family|property|health)_/, '')
+      .replace(/_/g, ' ')
+      .replace(/\b10th\b/g, '10th')
+      .replace(/\blord\b/g, 'lord')
+      .replace(/\bsupport\b/g, 'supportive factor')
+      .replace(/\bpressure\b/g, 'attention point')
+      .replace(/\bmixed\b/g, 'mixed factor')
+      .replace(/\bdasha\b/g, 'current Dasha')
+      .replace(/\bdignity\b/g, 'planet strength')
+      .replace(/\b\w/g, char => char.toUpperCase());
+  }
+
+
+  readProp(source: any, key: string): any {
+    if (!source || typeof source !== 'object') {
+      return undefined;
+    }
+
+    const pascalKey = key.charAt(0).toUpperCase() + key.slice(1);
+    return source[key] ?? source[pascalKey];
+  }
+
+  private readNestedProp(source: any, parentKey: string, childKey: string): any {
+    return this.readProp(this.readProp(source, parentKey), childKey);
+  }
+
+  private limitList(value: any, count: number): any[] {
+    return Array.isArray(value) ? value.slice(0, count) : [];
+  }
+
   onCurrentLifeFocusSaved(kundaliId: string): void {
     this.savedKundaliId = kundaliId;
+    this.saveDraftNotesForSavedKundali(kundaliId);
     this.saveFailed = false;
     this.notifications.success('Kundali saved for Current Life Focus.');
     window.dispatchEvent(new CustomEvent('kundali-saved'));
@@ -461,6 +889,9 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.kundaliService.saveKundali(payload).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? saved?.kundaliId ?? this.savedKundaliId;
+        if (this.savedKundaliId) {
+          this.saveDraftNotesForSavedKundali(this.savedKundaliId);
+        }
         this.saveFailed = false;
         this.notifications.success('Kundali saved.');
         this.savingKundali = false;
@@ -477,6 +908,20 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     });
   }
 
+  openNotes(): void {
+    this.isNotesOpen = true;
+  }
+
+  closeNotes(): void {
+    this.isNotesOpen = false;
+  }
+  private saveDraftNotesForSavedKundali(kundaliId: string): void {
+    if (!kundaliId || !this.portalNotes?.hasPendingDraft) {
+      return;
+    }
+
+    this.portalNotes.saveForContext(kundaliId);
+  }
   private getSaveErrorMessage(error: any): string {
     if (typeof error?.error === 'string' && error.error.trim()) {
       return error.error;
@@ -788,18 +1233,18 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     console.log(this.selectedCoordinates);
   }
   kundaliForm = this.fb.group({
-    fullName: ['kishore', Validators.required],
-    gender: ['Male', Validators.required],
-    birthDate: ['1986-10-06', Validators.required],
-    birthTime: ['11:45', Validators.required],
-    birthPlace: ['Hingoli, Maharashtra, India', Validators.required],
-    latitude: ['19.5431163'],
-    longitude: ['77.1739432']
+    fullName: ['', Validators.required],
+    gender: ['', Validators.required],
+    birthDate: ['', Validators.required],
+    birthTime: ['', Validators.required],
+    birthPlace: ['', Validators.required],
+    latitude: [''],
+    longitude: ['']
   });
 
   formatBirthDate(value: string | null | undefined): string {
     if (!value) {
-      return 'â€”';
+      return '\u2014';
     }
 
     const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -914,6 +1359,39 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   translatePlanetName(planet: unknown): string { return this.apiTerms.translatePlanet(planet); }
   translateSignName(sign: unknown): string { return this.apiTerms.translateSign(sign); }
   translateNakshatraName(nakshatra: unknown): string { return this.apiTerms.translateNakshatra(nakshatra); }
+  translateHouseName(houseNumber: unknown, fallback?: string): string {
+    return this.translateHouseValue('name', houseNumber, fallback);
+  }
+
+  translateHouseMeaning(houseNumber: unknown, fallback?: string): string {
+    return this.translateHouseValue('meaning', houseNumber, fallback);
+  }
+
+  private translateHouseValue(kind: 'name' | 'meaning', houseNumber: unknown, fallback?: string): string {
+    const number = this.resolveHouseNumber(houseNumber);
+    if (!Number.isInteger(number) || number < 1 || number > 12) {
+      return fallback || '';
+    }
+
+    const key = `house.${kind}.${number}`;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : fallback || '';
+  }
+
+  private resolveHouseNumber(value: unknown): number {
+    const direct = Number(value);
+    if (Number.isInteger(direct)) {
+      return direct;
+    }
+
+    const match = String(value ?? '').match(/\d+/);
+    return match ? Number(match[0]) : 0;
+  }
+  translateControlledValue(group: 'strength' | 'severity' | 'tone' | 'activationLevel', value: unknown): string { return this.apiTerms.translateControlledValue(group, value); }
+  translatePlanetList(value: any): string {
+    const planets = this.normalizePlanetNameList(value);
+    return planets.length ? planets.map(planet => this.translatePlanetName(planet)).join(', ') : '';
+  }
 
   private normalizePlanetNameList(value: any): string[] {
     if (!value) {
@@ -1336,7 +1814,11 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   private normalizeActivationPeriods(rawActivationPeriods: any): any {
-    const source = rawActivationPeriods ?? {};
+    if (!rawActivationPeriods) {
+      return null;
+    }
+
+    const source = rawActivationPeriods;
 
     return {
       currentlyActive: this.normalizeActivationList(source.currentlyActive ?? source.CurrentlyActive),
@@ -1371,6 +1853,34 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
   getDisplayActivation(item: any): any | null {
     return this.getCurrentActivation(item) ?? this.getNextActivation(item);
+  }
+
+  hasActivationAccess(item: any): boolean {
+    return !!item?.activationPeriods;
+  }
+
+  hasAnyActivationAccess(items: any[]): boolean {
+    return (items ?? []).some((item) => this.hasActivationAccess(item));
+  }
+
+  getActivationDisplayRows(item: any): any[] {
+    const current = this.normalizeActivationList(item?.activationPeriods?.currentlyActive);
+    const upcoming = this.normalizeActivationList(item?.activationPeriods?.upcoming);
+
+    return [
+      ...current.map((activation: any) => ({ activation, labelKey: 'kundali.activation.activeNow', isCurrent: true })),
+      ...upcoming.slice(0, 3).map((activation: any, index: number) => ({
+        activation,
+        labelKey: index === 0 ? 'kundali.activation.nextActivation' : 'kundali.activation.upcomingActivation',
+        isCurrent: false
+      }))
+    ];
+  }
+
+  getActivationPlanetLabel(activation: any, key: 'mahadashaPlanet' | 'antardashaPlanet'): string {
+    const pascalKey = key.charAt(0).toUpperCase() + key.slice(1);
+    const value = activation?.[key] ?? activation?.[pascalKey];
+    return value ? this.translatePlanetName(value) : '';
   }
 
   private buildActivationPeriodGroups(items: any[], mode: 'current' | 'upcoming', title: string): ActivationPeriodGroup[] {
@@ -1476,7 +1986,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           return `${planet} Antardasha`;
         }
 
-        return planet;
+        return this.translatePlanetName(planet);
       })
       .join(' / ');
   }
@@ -1486,7 +1996,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
   formatActivationSentence(item: any, activation: any): string {
     const status = this.getActivationStatusLabel(item).toLowerCase();
-    const level = this.getActivationLevel(activation).toLowerCase();
+    const level = this.getRawActivationLevel(activation).toLowerCase();
     const period = this.formatActivationPeriod(activation);
     const dasha = this.formatActivationDashaSentence(activation);
     const trigger = this.formatActivationTrigger(activation);
@@ -1495,11 +2005,16 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     return `A ${level} activation ${timingPhrase} from ${period} during ${dasha}, primarily triggered by the ${trigger}.`;
   }
   getActivationLevel(activation: any): string {
+    const value = activation?.activationLevel ?? activation?.ActivationLevel ?? '';
+    return this.translateControlledValue('activationLevel', value);
+  }
+
+  getRawActivationLevel(activation: any): string {
     return activation?.activationLevel ?? activation?.ActivationLevel ?? '';
   }
 
   getActivationLevelClass(activation: any): Record<string, boolean> {
-    const level = this.getActivationLevel(activation).toLowerCase();
+    const level = this.getRawActivationLevel(activation).toLowerCase();
 
     return {
       strong: level === 'strong',
@@ -1516,6 +2031,34 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
       medium: severity.includes('medium'),
       low: severity.includes('low') || !severity
     };
+  }
+
+  getYogaStrengthClass(value: string | null | undefined): Record<string, boolean> {
+    const strength = (value ?? '').toLowerCase();
+
+    return {
+      strong: strength.includes('strong'),
+      medium: strength.includes('medium') || strength.includes('moderate') || strength.includes('neutral'),
+      weak: strength.includes('weak') || strength.includes('low')
+    };
+  }
+
+  handleYogaDetailsAction(index: number): void {
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
+
+    this.toggleYogaDetails(index);
+  }
+
+  handleDoshaDetailsAction(index: number): void {
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
+
+    this.toggleDoshaDetails(index);
   }
 
   toggleYogaDetails(index: number): void {
@@ -1583,6 +2126,8 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   async downloadPdf(mode: KundaliPdfMode = 'desktop'): Promise<void> {
+    this.selectedEmailPdfMode = mode;
+
     if (!this.kundaliResponse) {
       return;
     }
@@ -1614,7 +2159,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     const errorName = error && typeof error === 'object' && 'name' in error ? String(error.name) : '';
 
     if (errorName === 'TimeoutError') {
-      return 'Report PDF generation is taking longer than expected. Please try again in a moment.';
+      return '\u2014';
     }
 
     if (error && typeof error === 'object') {
@@ -2061,4 +2606,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     }
   }
 }
+
+
 

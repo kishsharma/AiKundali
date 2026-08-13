@@ -1,0 +1,293 @@
+{
+  "id": 6,
+  "name": "Ardra",
+  "sanskritName": "आर्द्रा",
+  "englishName": "Ardra",
+
+  "startDegree": {
+    "sign": "Gemini",
+    "longitude": 66.666667,
+    "display": "6°40' Gemini"
+  },
+
+  "endDegree": {
+    "sign": "Gemini",
+    "longitude": 80.000000,
+    "display": "20°00' Gemini"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 3,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Sagittarius",
+      "syllable": "Ku",
+      "akshara": "कु"
+    },
+    {
+      "number": 2,
+      "rashiId": 3,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Capricorn",
+      "syllable": "Gha",
+      "akshara": "घ"
+    },
+    {
+      "number": 3,
+      "rashiId": 3,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Aquarius",
+      "syllable": "Na",
+      "akshara": "ङ"
+    },
+    {
+      "number": 4,
+      "rashiId": 3,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Pisces",
+      "syllable": "Cha",
+      "akshara": "च"
+    }
+  ],
+
+  "lord": "Rahu",
+  "rashi": [
+    "Gemini"
+  ],
+  "deity": "Rudra",
+  "symbol": "Teardrop",
+  "animalSymbol": "Dog",
+
+  "gana": "Manushya",
+  "yoni": "Dog",
+  "nadi": "Antya",
+  "varna": "Shudra",
+  "vashya": [
+    "Manava"
+  ],
+
+  "guna": "Tamas",
+  "tatva": "Air",
+  "gender": "Female",
+  "nature": "Tikshna (Sharp)",
+  "motivation": "Kama",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "High",
+    "pitta": "Medium",
+    "kapha": "Low"
+  },
+
+  "direction": "North",
+
+  "aradhyaVruksha": "Krishna Agaru (Aquilaria agallocha)",
+
+  "flower": "Blue Lotus",
+
+  "metal": "Lead",
+
+  "color": [
+    "Green",
+    "Dark Blue",
+    "Grey"
+  ],
+
+  "gemstone": "Hessonite (Gomed)",
+
+  "rudraksha": [
+    "8 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Black Blanket",
+    "Mustard Oil",
+    "Sesame Seeds",
+    "Blue Clothes",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ नमः शिवाय",
+
+  "planetaryBeejMantra": "ॐ भ्रां भ्रीं भ्रौं सः राहवे नमः",
+
+  "fastingDay": "Saturday",
+
+  "positiveTraits": [
+    "Courageous",
+    "Resilient",
+    "Innovative",
+    "Intelligent",
+    "Transformative",
+    "Truth Seeking",
+    "Determined",
+    "Independent",
+    "Analytical",
+    "Powerful"
+  ],
+
+  "negativeTraits": [
+    "Aggressive",
+    "Impulsive",
+    "Emotionally Intense",
+    "Rebellious",
+    "Restless",
+    "Argumentative"
+  ],
+
+  "strengths": [
+    "Transformation",
+    "Research",
+    "Problem Solving",
+    "Technology",
+    "Crisis Management"
+  ],
+
+  "weaknesses": [
+    "Emotional Turmoil",
+    "Anger",
+    "Impatience"
+  ],
+
+  "career": [
+    "Scientist",
+    "Software Engineer",
+    "Researcher",
+    "Surgeon",
+    "Psychologist",
+    "Detective",
+    "Military",
+    "Disaster Management",
+    "Technology",
+    "Astrologer"
+  ],
+
+  "education": [
+    "Science",
+    "Engineering",
+    "Medicine",
+    "Psychology",
+    "Technology"
+  ],
+
+  "finance": [
+    "Sudden Gains",
+    "Success through Innovation",
+    "Needs Disciplined Investments"
+  ],
+
+  "health": [
+    "Respiratory System",
+    "Lungs",
+    "Shoulders",
+    "Nervous System",
+    "Stress Disorders"
+  ],
+
+  "bodyParts": [
+    "Shoulders",
+    "Arms",
+    "Lungs"
+  ],
+
+  "relationships": [
+    "Passionate",
+    "Protective",
+    "Needs Understanding",
+    "Emotionally Intense"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Loyal but Intense",
+
+  "friendshipNature": "Protective",
+
+  "leadershipStyle": "Transformational",
+
+  "communicationStyle": "Direct",
+
+  "decisionMaking": "Bold",
+
+  "emotionalNature": "Intense",
+
+  "learningStyle": "Experiential",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Technology",
+    "Engineering",
+    "Medical",
+    "Research",
+    "Defense",
+    "Investigation"
+  ],
+
+  "goodFor": [
+    "Research",
+    "Innovation",
+    "Technology",
+    "Breaking Old Patterns",
+    "Problem Solving"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Peace Negotiations",
+    "Delicate Relationships"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Vishuddha",
+
+  "spiritualLesson": "Transformation often begins with destruction of illusion. Growth comes through accepting change and facing challenges fearlessly.",
+
+  "compatibleNakshatras": [
+    "Swati",
+    "Shatabhisha",
+    "Dhanishta"
+  ],
+
+  "challengingNakshatras": [
+    "Rohini",
+    "Pushya"
+  ],
+
+  "mythologicalStory": "Ardra is ruled by Rudra, the fierce form of Shiva, symbolizing storms, destruction and renewal. It teaches that every ending creates space for a new beginning.",
+
+  "interestingFacts": [
+    "Represents the cleansing power of storms.",
+    "Excellent Nakshatra for research and innovation.",
+    "Associated with deep transformation.",
+    "Produces strong analytical thinkers.",
+    "Often brings success after overcoming hardships."
+  ],
+
+  "keywords": [
+    "Transformation",
+    "Storm",
+    "Research",
+    "Innovation",
+    "Power",
+    "Renewal"
+  ],
+
+  "icon": "🌧️",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Technology",
+    "Research",
+    "Personal Growth"
+  ]
+}

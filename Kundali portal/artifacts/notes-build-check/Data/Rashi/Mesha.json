@@ -1,0 +1,59 @@
+﻿{
+  "id": 1,
+  "name": "Mesha",
+  "englishName": "Aries",
+  "symbol": "♈",
+  "element": "Fire",
+  "modality": "Movable",
+  "gender": "Male",
+  "nature": "Cruel",
+  "ruler": "Mars",
+  "direction": "East",
+  "bodyPart": "Head",
+  "quality": "Leadership, courage, initiative",
+  "personality": "Energetic, confident, ambitious, independent, action-oriented.",
+  "strengths": [
+    "Courageous",
+    "Confident",
+    "Leadership",
+    "Energetic",
+    "Determined"
+  ],
+  "weaknesses": [
+    "Impulsive",
+    "Impatient",
+    "Aggressive",
+    "Short-tempered"
+  ],
+  "career": [
+    "Military",
+    "Police",
+    "Engineering",
+    "Sports",
+    "Entrepreneurship",
+    "Administration"
+  ],
+  "relationships": "Passionate, protective, loyal, but may dominate relationships.",
+  "health": "Head, brain, migraines, blood pressure.",
+  "color": "#D32F2F",
+  "gemstone": "Red Coral",
+  "metal": "Copper",
+  "luckyNumbers": [ 1, 9 ],
+  "favorableDirection": "East",
+  "favorableDay": "Tuesday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 1,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 2,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 3,
+      "padas": [ 1 ]
+    }
+  ],
+  "description": "Mesha is the first sign of the zodiac, representing beginnings, courage, initiative, and dynamic energy. Ruled by Mars, it symbolizes action, determination, and pioneering spirit."
+}

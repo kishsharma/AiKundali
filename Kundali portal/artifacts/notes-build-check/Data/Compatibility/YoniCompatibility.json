@@ -1,0 +1,21 @@
+{
+  "sameScore": 4,
+  "friendlyScore": 3,
+  "neutralScore": 2,
+  "unfriendlyScore": 1,
+  "enemyScore": 0,
+  "friendlyPairs": [
+  ],
+  "unfriendlyPairs": [
+  ],
+  "enemyPairs": [
+    ["Horse", "Buffalo"],
+    ["Elephant", "Lion"],
+    ["Sheep", "Monkey"],
+    ["Goat", "Monkey"],
+    ["Serpent", "Mongoose"],
+    ["Dog", "Deer"],
+    ["Cat", "Rat"],
+    ["Cow", "Tiger"]
+  ]
+}

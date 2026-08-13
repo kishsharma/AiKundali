@@ -35,6 +35,25 @@ namespace KundaliEngine.KnowledgeBase.Services
             return root?.Padas.FirstOrDefault(p => p.Number == pada)?.Akshara ?? string.Empty;
         }
 
+        public string GetPadaSyllable(string nakshatraName, int pada)
+        {
+            if (string.IsNullOrWhiteSpace(nakshatraName) || pada < 1 || pada > 4)
+            {
+                return string.Empty;
+            }
+
+            var path = Path.Combine(_nakshatraDataPath, $"{nakshatraName}.json");
+            if (!File.Exists(path))
+            {
+                return string.Empty;
+            }
+
+            var json = File.ReadAllText(path);
+            var root = JsonSerializer.Deserialize<NakshatraMeta>(json, JsonOptions);
+            var padaMeta = root?.Padas.FirstOrDefault(p => p.Number == pada);
+            return padaMeta?.Syllable ?? padaMeta?.Akshara ?? string.Empty;
+        }
+
         public NakshatraMeta? GetNakshatra(string nakshatraName)
         {
             if (string.IsNullOrWhiteSpace(nakshatraName))
@@ -71,6 +90,7 @@ namespace KundaliEngine.KnowledgeBase.Services
         public sealed class NakshatraPadaMeta
         {
             public int Number { get; set; }
+            public string Syllable { get; set; } = string.Empty;
             public string Akshara { get; set; } = string.Empty;
         }
 
@@ -106,3 +126,4 @@ namespace KundaliEngine.KnowledgeBase.Services
         }
     }
 }
+

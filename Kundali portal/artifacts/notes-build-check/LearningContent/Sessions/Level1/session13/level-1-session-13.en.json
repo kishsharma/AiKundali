@@ -1,0 +1,611 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "e449ce5a-8a9c-5528-840e-c90cb065fa4c",
+  "levelCode": "level-1",
+  "sessionNumber": 13,
+  "slug": "planetary-aspects-graha-drishti",
+  "language": "en",
+  "title": "Planetary Aspects — Graha Drishti",
+  "subtitle": "Understanding the seventh aspect, special aspects and a safe method for reading planetary influence",
+  "summary": "This session introduces Graha Drishti, the planetary aspect system used in Parashari Jyotish. Students learn the common seventh aspect of all planets, the special aspects of Mars, Jupiter and Saturn, and the difference between conjunction and aspect. The session emphasises reading the aspecting planet, the receiving house or planet, the planet's functional role and strength, and the life area being influenced before reaching any conclusion.",
+  "estimatedMinutes": 75,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Explain the meaning of Graha Drishti in Parashari Jyotish.",
+    "Identify the seventh aspect of every planet.",
+    "Identify the special aspects of Mars, Jupiter and Saturn.",
+    "Distinguish conjunction from planetary aspect.",
+    "Identify the aspect giver and the aspect receiver.",
+    "Assess whether an aspect is supportive, challenging or mixed.",
+    "Connect a planetary aspect with the houses owned and occupied by the aspecting planet.",
+    "Apply a basic aspect-reading sequence without using blanket benefic or malefic statements."
+  ],
+  "prerequisites": [
+    "Completion of Session 12: Reading a North Indian Kundali.",
+    "Knowledge of houses, signs, planets, house lords and functional nature."
+  ],
+  "keyTerms": [
+    {
+      "term": "Graha Drishti",
+      "sanskrit": "ग्रह दृष्टि",
+      "transliteration": "graha dṛṣṭi",
+      "meaning": "The influence cast by a planet upon another house or planet from its placement.",
+      "note": "This session follows the commonly taught Parashari planetary aspect framework."
+    },
+    {
+      "term": "Seventh Aspect",
+      "sanskrit": "सप्तम दृष्टि",
+      "transliteration": "saptama dṛṣṭi",
+      "meaning": "The aspect cast by every planet upon the seventh house from its position.",
+      "note": "It falls directly opposite the planet."
+    },
+    {
+      "term": "Special Aspect",
+      "sanskrit": "विशेष दृष्टि",
+      "transliteration": "viśeṣa dṛṣṭi",
+      "meaning": "An additional aspect assigned to Mars, Jupiter or Saturn.",
+      "note": "Mars aspects the fourth and eighth, Jupiter the fifth and ninth, and Saturn the third and tenth."
+    },
+    {
+      "term": "Aspect Giver",
+      "sanskrit": "दृष्टि दाता",
+      "transliteration": "dṛṣṭi dātā",
+      "meaning": "The planet casting the aspect.",
+      "note": "Its nature, strength, lordship and condition shape the influence."
+    },
+    {
+      "term": "Aspect Receiver",
+      "sanskrit": "दृष्टि प्राप्त",
+      "transliteration": "dṛṣṭi prāpta",
+      "meaning": "The house or planet receiving the aspect.",
+      "note": "Its own condition determines how the influence is expressed."
+    },
+    {
+      "term": "Conjunction",
+      "sanskrit": "युति",
+      "transliteration": "yuti",
+      "meaning": "Two or more planets occupying the same sign or house.",
+      "note": "Conjunction is shared placement; aspect is influence from a distance."
+    },
+    {
+      "term": "Aspect Chain",
+      "sanskrit": "दृष्टि सम्बन्ध",
+      "transliteration": "dṛṣṭi sambandha",
+      "meaning": "A relationship formed when a planet links its own placement and lordships to another house or planet through aspect.",
+      "note": "The aspect carries the agenda of the aspecting planet."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "meaning-of-drishti",
+      "title": "Meaning of Graha Drishti",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "seventh-aspect",
+      "title": "The Seventh Aspect of All Planets",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "special-aspects",
+      "title": "Special Aspects of Mars, Jupiter and Saturn",
+      "estimatedMinutes": 15
+    },
+    {
+      "sectionId": "conjunction-vs-aspect",
+      "title": "Conjunction and Aspect",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "giver-and-receiver",
+      "title": "Aspect Giver and Receiver",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "reading-quality",
+      "title": "Reading the Quality of an Aspect",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "aspect-reading-sequence",
+      "title": "Basic Aspect-Reading Sequence",
+      "estimatedMinutes": 10
+    }
+  ],
+  "sections": [
+    {
+      "id": "meaning-of-drishti",
+      "title": "Meaning of Graha Drishti",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Graha Drishti means planetary sight or influence. A planet affects not only the house it occupies but also specific houses counted from its placement. The aspect carries the planet's natural nature, functional role, strength, house ownership and current condition toward the receiving house or planet."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "An aspect is not automatically good or bad",
+          "text": "The result depends on the aspecting planet, the receiving house or planet, lordship, dignity, conjunctions, strength and timing."
+        },
+        {
+          "type": "example",
+          "title": "One planet, two areas of influence",
+          "scenario": "A planet occupies one house and aspects another.",
+          "steps": [
+            "The occupied house shows where the planet is directly placed.",
+            "The aspected house shows where the planet extends its influence.",
+            "The houses owned by that planet show what subjects it carries.",
+            "The receiving house shows where those subjects are expressed."
+          ],
+          "conclusion": "An aspect forms a link between the planet's agenda and the receiving life area."
+        }
+      ]
+    },
+    {
+      "id": "seventh-aspect",
+      "title": "The Seventh Aspect of All Planets",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Every planet aspects the seventh house from its position. This is the house directly opposite it in the chart. Count the occupied house as one and continue until the seventh position is reached."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session13-seventh-aspect",
+          "assetPath": "assets/learning/Level-1/session-13/seventh-aspect.svg",
+          "altText": "A simple chart showing a planet in one house and its seventh aspect falling directly opposite.",
+          "caption": "Every planet casts a seventh aspect.",
+          "purpose": "Show the common opposite-house aspect shared by all planets.",
+          "annotations": [
+            "Planet position",
+            "Count seven",
+            "Receiving house",
+            "Opposite direction"
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Planet in the first house",
+          "scenario": "A planet is placed in the first house.",
+          "steps": [
+            "Begin counting from the first house.",
+            "The seventh count reaches the seventh house.",
+            "The planet therefore aspects the seventh house.",
+            "Any planet in the seventh house also receives that aspect."
+          ],
+          "conclusion": "The seventh aspect directly connects opposite houses."
+        }
+      ]
+    },
+    {
+      "id": "special-aspects",
+      "title": "Special Aspects of Mars, Jupiter and Saturn",
+      "estimatedMinutes": 15,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Parashari planetary aspects",
+          "columns": [
+            "Planet",
+            "Common aspect",
+            "Special aspects"
+          ],
+          "rows": [
+            [
+              "All planets",
+              "7th",
+              "None"
+            ],
+            [
+              "Mars",
+              "7th",
+              "4th and 8th"
+            ],
+            [
+              "Jupiter",
+              "7th",
+              "5th and 9th"
+            ],
+            [
+              "Saturn",
+              "7th",
+              "3rd and 10th"
+            ]
+          ],
+          "note": "Rahu and Ketu aspect rules vary by tradition. This foundation session does not treat one disputed model as universally settled."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session13-special-aspects",
+          "assetPath": "assets/learning/Level-1/session-13/special-aspects.svg",
+          "altText": "A simple comparison showing Mars aspects 4, 7 and 8; Jupiter aspects 5, 7 and 9; Saturn aspects 3, 7 and 10.",
+          "caption": "Mars, Jupiter and Saturn have additional special aspects.",
+          "purpose": "Provide a compact visual reference for the three special-aspect planets.",
+          "annotations": [
+            "Mars 4-7-8",
+            "Jupiter 5-7-9",
+            "Saturn 3-7-10"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Count from the planet's house",
+          "text": "The aspect number is counted from the house occupied by the planet, not from the Lagna unless the planet itself is in the Lagna."
+        }
+      ]
+    },
+    {
+      "id": "conjunction-vs-aspect",
+      "title": "Conjunction and Aspect",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Shared placement and distant influence",
+          "left": {
+            "label": "Conjunction",
+            "points": [
+              "Planets occupy the same sign or house.",
+              "Their energies operate together in one location.",
+              "Closeness by degree may change intensity."
+            ]
+          },
+          "right": {
+            "label": "Aspect",
+            "points": [
+              "A planet influences another house or planet from a distance.",
+              "The planets need not share the same sign.",
+              "The aspect follows a defined counting rule."
+            ]
+          }
+        },
+        {
+          "type": "example",
+          "title": "Mars and Saturn",
+          "scenario": "Mars and Saturn are in the same house in one chart, but in different houses with an aspect in another chart.",
+          "steps": [
+            "In the first chart they form a conjunction.",
+            "In the second chart one may influence the other by aspect.",
+            "Both create a relationship, but the mechanism is different.",
+            "The interpretation must state whether the relationship is conjunction or aspect."
+          ],
+          "conclusion": "Do not use conjunction and aspect as interchangeable terms."
+        }
+      ]
+    },
+    {
+      "id": "giver-and-receiver",
+      "title": "Aspect Giver and Receiver",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "diagram",
+          "assetId": "session13-aspect-giver-receiver",
+          "assetPath": "assets/learning/Level-1/session-13/aspect-giver-receiver.svg",
+          "altText": "A simple flow showing the aspecting planet carrying its nature, lordships and condition toward a receiving house or planet.",
+          "caption": "Read the giver first, then the receiver.",
+          "purpose": "Show what information travels through an aspect.",
+          "annotations": [
+            "Aspect giver",
+            "Nature and lordship",
+            "Aspect line",
+            "Receiver"
+          ]
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Identify the planet casting the aspect.",
+            "Record its natural nature and functional role.",
+            "Record the houses it owns.",
+            "Assess its sign, house, dignity, combustion, retrogression and conjunctions.",
+            "Identify the receiving house or planet.",
+            "Assess the receiver's own strength and condition.",
+            "State the life areas connected by the aspect."
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "The giver carries its agenda",
+          "text": "A planet does not send an empty influence. It carries the subjects of the houses it owns and the condition of the house and sign it occupies."
+        }
+      ]
+    },
+    {
+      "id": "reading-quality",
+      "title": "Reading the Quality of an Aspect",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Questions for judging an aspect",
+          "columns": [
+            "Question",
+            "Why it matters"
+          ],
+          "rows": [
+            [
+              "Is the aspecting planet strong?",
+              "A strong planet expresses its agenda more clearly."
+            ],
+            [
+              "What houses does it own?",
+              "Lordship determines its functional role for the Lagna."
+            ],
+            [
+              "Is it dignified or afflicted?",
+              "Condition modifies the quality of influence."
+            ],
+            [
+              "What is receiving the aspect?",
+              "The affected house or planet identifies the life area."
+            ],
+            [
+              "Are there supporting influences?",
+              "Other planets may strengthen, balance or redirect the result."
+            ],
+            [
+              "Is the planet active by Dasha?",
+              "Timing determines when the aspect becomes more relevant."
+            ]
+          ],
+          "note": "At Level 1, collect these facts without forcing a final prediction."
+        },
+        {
+          "type": "comparison",
+          "title": "Support, pressure and mixed influence",
+          "left": {
+            "label": "Supportive indicators",
+            "points": [
+              "Strong functional benefic.",
+              "Good dignity or supportive placement.",
+              "Connection with Lagna, Kendra or Trikona.",
+              "Supportive conjunctions or aspects."
+            ]
+          },
+          "right": {
+            "label": "Pressure indicators",
+            "points": [
+              "Afflicted or severely weakened planet.",
+              "Difficult functional lordship.",
+              "Connection with conflict, obstruction or loss houses.",
+              "Multiple challenging influences on the receiver."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "aspect-reading-sequence",
+      "title": "Basic Aspect-Reading Sequence",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Locate the aspecting planet.",
+            "List all houses it aspects.",
+            "Identify whether the aspect is seventh or special.",
+            "Record the planet's natural nature and functional role.",
+            "Record the houses owned by the planet.",
+            "Assess the planet's sign, house and dignity.",
+            "Identify the receiving house or planet.",
+            "Assess the receiver's own condition.",
+            "Separate supportive, pressure and mixed indications.",
+            "Check Dasha activation before using the aspect in prediction."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Jupiter's ninth aspect",
+          "scenario": "Jupiter aspects a house through its ninth aspect.",
+          "steps": [
+            "Confirm the house occupied by Jupiter.",
+            "Count nine houses from Jupiter's position.",
+            "Identify the receiving house and any planet placed there.",
+            "Read Jupiter's strength, lordship and condition.",
+            "Connect Jupiter's owned houses with the receiving life area.",
+            "Avoid calling the result automatically positive without checking the full chart."
+          ],
+          "conclusion": "Aspect reading is a structured connection analysis, not a one-line judgement."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Avoid isolated aspect predictions",
+          "text": "One aspect alone should not decide marriage, career, wealth, health or any major life result."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming every aspect of a natural benefic is automatically favourable.",
+      "whyItIsWrong": "Functional lordship, dignity, affliction and the receiving house can modify the result.",
+      "correctUnderstanding": "Judge the complete condition of the aspect giver and receiver."
+    },
+    {
+      "mistake": "Assuming every aspect of a natural malefic is automatically harmful.",
+      "whyItIsWrong": "A natural malefic may be functionally supportive or produce constructive discipline and effort.",
+      "correctUnderstanding": "Use role-based and context-based language."
+    },
+    {
+      "mistake": "Counting a special aspect from the Lagna instead of the planet.",
+      "whyItIsWrong": "Aspect counting begins from the house occupied by the aspecting planet.",
+      "correctUnderstanding": "Count from the planet's position."
+    },
+    {
+      "mistake": "Confusing conjunction with aspect.",
+      "whyItIsWrong": "Conjunction means shared placement; aspect means influence from another position.",
+      "correctUnderstanding": "State the actual relationship clearly."
+    },
+    {
+      "mistake": "Ignoring the houses owned by the aspecting planet.",
+      "whyItIsWrong": "The aspect carries the planet's functional agenda.",
+      "correctUnderstanding": "Always connect lordship with the receiving house."
+    },
+    {
+      "mistake": "Making a final prediction from one aspect.",
+      "whyItIsWrong": "Prediction requires natal promise, strength, Dasha and supporting evidence.",
+      "correctUnderstanding": "Treat an aspect as one factor within the complete chart."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Map Planetary Aspects in a Sample Chart",
+    "instructions": [
+      "Draw or print an empty North Indian Kundali.",
+      "Place Mars, Jupiter and Saturn in three different sample houses.",
+      "Mark the seventh aspect of each planet.",
+      "Mark Mars's fourth and eighth aspects.",
+      "Mark Jupiter's fifth and ninth aspects.",
+      "Mark Saturn's third and tenth aspects.",
+      "Choose one receiving house and write the aspect giver, aspect type, lordships and likely area of influence.",
+      "Classify the influence as supportive, pressure or mixed without making a final prediction."
+    ],
+    "expectedOutcome": "The student can map common and special planetary aspects, distinguish conjunction from aspect, identify the giver and receiver, and record the factors required for safe interpretation.",
+    "estimatedMinutes": 15
+  },
+  "sessionSummary": [
+    "Graha Drishti is planetary influence cast upon another house or planet.",
+    "Every planet aspects the seventh house from its placement.",
+    "Mars additionally aspects the fourth and eighth houses.",
+    "Jupiter additionally aspects the fifth and ninth houses.",
+    "Saturn additionally aspects the third and tenth houses.",
+    "Aspect counting begins from the planet's house.",
+    "Conjunction is shared placement; aspect is influence from a distance.",
+    "The aspect giver carries its natural nature, functional role, lordships and condition.",
+    "The receiver's own strength and condition also matter.",
+    "An aspect may be supportive, challenging or mixed.",
+    "Dasha timing determines when an aspect becomes more relevant.",
+    "One isolated aspect should not decide a major prediction."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "Which aspect is cast by every planet?",
+        "options": [
+          "Third",
+          "Fifth",
+          "Seventh",
+          "Tenth"
+        ],
+        "answer": "Seventh",
+        "explanation": "Every planet aspects the seventh house from its placement."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which special aspects belong to Mars?",
+        "options": [
+          "3rd and 10th",
+          "4th and 8th",
+          "5th and 9th",
+          "2nd and 12th"
+        ],
+        "answer": "4th and 8th",
+        "explanation": "Mars aspects the fourth, seventh and eighth houses from its position."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "Which special aspects belong to Jupiter?",
+        "options": [
+          "3rd and 10th",
+          "4th and 8th",
+          "5th and 9th",
+          "6th and 11th"
+        ],
+        "answer": "5th and 9th",
+        "explanation": "Jupiter aspects the fifth, seventh and ninth houses from its position."
+      },
+      {
+        "id": "q4",
+        "type": "single-choice",
+        "question": "Which special aspects belong to Saturn?",
+        "options": [
+          "3rd and 10th",
+          "4th and 8th",
+          "5th and 9th",
+          "2nd and 11th"
+        ],
+        "answer": "3rd and 10th",
+        "explanation": "Saturn aspects the third, seventh and tenth houses from its position."
+      },
+      {
+        "id": "q5",
+        "type": "true-false",
+        "question": "A conjunction and an aspect mean the same thing.",
+        "answer": false,
+        "explanation": "Conjunction is shared placement, while aspect is influence from another house."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "Special aspects are counted from the house occupied by the planet.",
+        "answer": true,
+        "explanation": "The planet's own placement is the starting point for aspect counting."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "What information does the aspect giver carry toward the receiver?",
+        "answer": "Its natural nature, functional role, house lordships, strength, dignity and current condition.",
+        "explanation": "These factors shape the quality and subject of the influence."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "Why should one aspect not be used for a final prediction?",
+        "answer": "Because the full judgement also requires house promise, lordship, strength, other influences, Dasha activation and supporting evidence.",
+        "explanation": "An aspect is one factor within the complete chart."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "work-level-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Classical Parashari principles concerning planetary aspects, including the common seventh aspect and the special aspects of Mars, Jupiter and Saturn.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-26",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra",
+      "notes": "Work-level reference only. Exact chapter and verse numbering varies by edition and must be verified before publication. Rahu and Ketu aspect traditions are intentionally not standardised in this foundation session."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditionally attributed to Maharishi Parashara",
+      "note": "For the classical foundation of Parashari planetary aspects and house-based interpretation.",
+      "url": "https://archive.org/search?query=Brihat+Parashara+Hora+Shastra"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": false,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-26",
+    "reviewNotes": "The seventh aspect and the special aspect patterns of Mars, Jupiter and Saturn were checked for internal consistency. The session avoids treating disputed Rahu and Ketu aspect models as universally settled and avoids isolated benefic or malefic predictions. Human Jyotish SME review and edition-specific source verification are required before publication."
+  },
+  "status": "review"
+}

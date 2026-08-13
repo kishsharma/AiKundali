@@ -1,0 +1,282 @@
+{
+  "id": 2,
+  "name": "Bharani",
+  "sanskritName": "भरणी",
+  "englishName": "Bharani",
+
+  "startDegree": {
+    "sign": "Aries",
+    "longitude": 13.333333,
+    "display": "13°20' Aries"
+  },
+
+  "endDegree": {
+    "sign": "Aries",
+    "longitude": 26.666667,
+    "display": "26°40' Aries"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 1,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Leo",
+      "syllable": "Li",
+      "akshara": "ली"
+    },
+    {
+      "number": 2,
+      "rashiId": 1,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Virgo",
+      "syllable": "Lu",
+      "akshara": "लू"
+    },
+    {
+      "number": 3,
+      "rashiId": 1,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Libra",
+      "syllable": "Le",
+      "akshara": "ले"
+    },
+    {
+      "number": 4,
+      "rashiId": 1,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Lo",
+      "akshara": "लो"
+    }
+  ],
+
+  "lord": "Venus",
+  "rashi": "Aries",
+  "deity": "Yama",
+  "symbol": "Yoni (Womb)",
+  "animalSymbol": "Elephant",
+
+  "gana": "Manushya",
+  "yoni": "Elephant",
+  "nadi": "Madhya",
+  "varna": "Kshatriya",
+  "vashya": "Chatushpada",
+
+  "guna": "Rajas",
+  "tatva": "Fire",
+  "gender": "Female",
+  "nature": "Ugra (Fierce)",
+  "motivation": "Artha",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Amla (Indian Gooseberry)",
+
+  "flower": "Red Hibiscus",
+
+  "metal": "Silver",
+
+  "color": [
+    "White",
+    "Red",
+    "Pink"
+  ],
+
+  "gemstone": "Diamond",
+
+  "rudraksha": [
+    "6 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "White Clothes",
+    "Rice",
+    "Curd",
+    "Ghee",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ यमाय नमः",
+
+  "planetaryBeejMantra": "ॐ द्रां द्रीं द्रौं सः शुक्राय नमः",
+
+  "fastingDay": "Friday",
+
+  "positiveTraits": [
+    "Responsible",
+    "Disciplined",
+    "Determined",
+    "Creative",
+    "Strong Will",
+    "Patient",
+    "Protective",
+    "Independent",
+    "Practical",
+    "Hardworking"
+  ],
+
+  "negativeTraits": [
+    "Possessive",
+    "Stubborn",
+    "Impulsive",
+    "Secretive",
+    "Emotionally Intense",
+    "Dominating"
+  ],
+
+  "strengths": [
+    "Responsibility",
+    "Leadership",
+    "Management",
+    "Creativity",
+    "Persistence"
+  ],
+
+  "weaknesses": [
+    "Anger",
+    "Attachment",
+    "Overthinking"
+  ],
+
+  "career": [
+    "Administration",
+    "Law",
+    "Medicine",
+    "Finance",
+    "Government",
+    "Business",
+    "Arts",
+    "Politics"
+  ],
+
+  "education": [
+    "Law",
+    "Medicine",
+    "Management",
+    "Finance"
+  ],
+
+  "finance": [
+    "Strong Wealth Building",
+    "Good Asset Management",
+    "Long-term Financial Growth"
+  ],
+
+  "health": [
+    "Reproductive System",
+    "Kidneys",
+    "Lower Abdomen",
+    "Hormonal Balance"
+  ],
+
+  "bodyParts": [
+    "Reproductive Organs",
+    "Lower Abdomen"
+  ],
+
+  "relationships": [
+    "Loyal",
+    "Protective",
+    "Deeply Attached",
+    "Emotionally Intense"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Committed",
+
+  "friendshipNature": "Reliable",
+
+  "leadershipStyle": "Responsible",
+
+  "communicationStyle": "Practical",
+
+  "decisionMaking": "Firm",
+
+  "emotionalNature": "Intense",
+
+  "learningStyle": "Experiential",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Law",
+    "Administration",
+    "Medical",
+    "Business",
+    "Government"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Business",
+    "Investments",
+    "Property Purchase",
+    "Leadership Roles"
+  ],
+
+  "avoidFor": [
+    "Aggressive Decisions",
+    "Arguments",
+    "Emotional Commitments in Anger"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Swadhisthana",
+
+  "spiritualLesson": "Learn responsibility, discipline and balanced attachment.",
+
+  "compatibleNakshatras": [
+    "Rohini",
+    "Hasta",
+    "Uttara Phalguni"
+  ],
+
+  "challengingNakshatras": [
+    "Mula",
+    "Ashlesha"
+  ],
+
+  "mythologicalStory": "Bharani is ruled by Yama, the lord of Dharma and justice, representing discipline, transformation, responsibility, and the cycle of birth and death.",
+
+  "interestingFacts": [
+    "Represents the power to bear and transform.",
+    "Symbolizes birth, death and regeneration.",
+    "Known for endurance and responsibility.",
+    "Excellent nakshatra for leadership and administration."
+  ],
+
+  "keywords": [
+    "Discipline",
+    "Responsibility",
+    "Transformation",
+    "Justice",
+    "Creativity",
+    "Endurance"
+  ],
+
+  "icon": "🕉️",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Finance",
+    "Relationships",
+    "Leadership"
+  ]
+}

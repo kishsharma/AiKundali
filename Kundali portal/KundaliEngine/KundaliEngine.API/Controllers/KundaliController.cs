@@ -21,6 +21,7 @@ using KundaliEngine.API.Helper_functions;
 using KundaliEngine.API.Services.Recommendations;
 using KundaliEngine.API.Services.AdvancedStrength;
 using KundaliEngine.API.Services.Audit;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.YogaDoshaActivation;
 using System.Text.Json;
 using System.Security.Claims;
@@ -63,6 +64,7 @@ namespace KundaliEngine.API.Controllers
         private readonly IAuditLogService _auditLogService;
         private readonly PredictionContextMapper _predictionContextMapper;
         private readonly PredictionEngineService _predictionEngineService;
+        private readonly IEntitlementService _entitlementService;
         public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService,
             HouseScoreService houseScoreService, DashaService dashaService,
             OverallKundaliScoreService overallScoreService,
@@ -81,7 +83,8 @@ namespace KundaliEngine.API.Controllers
             KundaliDbContext dbContext,
             IAuditLogService auditLogService,
             PredictionContextMapper predictionContextMapper,
-            PredictionEngineService predictionEngineService
+            PredictionEngineService predictionEngineService,
+            IEntitlementService entitlementService
             )
         {
             _chartService = chartService;
@@ -106,13 +109,31 @@ namespace KundaliEngine.API.Controllers
             _auditLogService = auditLogService;
             _predictionContextMapper = predictionContextMapper;
             _predictionEngineService = predictionEngineService;
+            _entitlementService = entitlementService;
         }
         [Authorize]
         [HttpPost("generate")]
-        public ActionResult<GenerateKundaliResponse> Generate([FromBody] GenerateKundaliRequest request)
+        public async Task<ActionResult<GenerateKundaliResponse>> Generate([FromBody] GenerateKundaliRequest request)
         {
             if (request == null)
                 return BadRequest("Request is required");
+
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == userId.Value);
+
+            if (user == null || !user.IsActive)
+            {
+                return Unauthorized();
+            }
+
+            var isPremiumUser = _entitlementService.IsPremium(user);
 
             // Generate planet positions (Kundali chart)
             TimeZoneInfo indiaZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
@@ -311,26 +332,30 @@ namespace KundaliEngine.API.Controllers
                     Category = item.Meta.Category,
                     Nature = item.Meta.Nature,
                     Description = item.Meta.Description,
-                    Impact = item.Meta.Impact,
-                    ImpactAreas = item.Meta.ImpactAreas
-                        .Select(area => new YogaImpactAreaDto
-                        {
-                            Category = area.Category,
-                            Statements = area.Statements
-                        })
-                        .ToList(),
+                    Impact = isPremiumUser ? item.Meta.Impact : string.Empty,
+                    ImpactAreas = isPremiumUser
+                        ? item.Meta.ImpactAreas
+                            .Select(area => new YogaImpactAreaDto
+                            {
+                                Category = area.Category,
+                                Statements = area.Statements
+                            })
+                            .ToList()
+                        : new(),
                     References = item.Meta.References,
                     Strength = item.Match.Strength,
                     InvolvedPlanets = item.Match.InvolvedPlanets,
                     InvolvedHouses = item.Match.InvolvedHouses,
                     Reason = item.Match.Reason,
-                    ActivationPeriods = _yogaDoshaActivationService.CalculateActivationPeriods(
-                        item.Meta!.Key,
-                        item.Meta.Name,
-                        "Yoga",
-                        item.Match.InvolvedPlanets,
-                        activationTimeline,
-                        currentUtc)
+                    ActivationPeriods = isPremiumUser
+                        ? _yogaDoshaActivationService.CalculateActivationPeriods(
+                            item.Meta!.Key,
+                            item.Meta.Name,
+                            "Yoga",
+                            item.Match.InvolvedPlanets,
+                            activationTimeline,
+                            currentUtc)
+                        : null
                 })
                 .ToList();
 
@@ -347,22 +372,26 @@ namespace KundaliEngine.API.Controllers
                     Reason = item.Match.Reason,
                     InvolvedPlanets = item.Match.InvolvedPlanets,
                     InvolvedHouses = item.Match.InvolvedHouses,
-                    ImpactAreas = item.Meta?.ImpactAreas
-                        .Select(area => new DoshaImpactAreaDto
-                        {
-                            Category = area.Category,
-                            Statements = area.Statements
-                        })
-                        .ToList() ?? new(),
-                    Remedies = item.Meta?.Remedies ?? new(),
+                    ImpactAreas = isPremiumUser
+                        ? item.Meta?.ImpactAreas
+                            .Select(area => new DoshaImpactAreaDto
+                            {
+                                Category = area.Category,
+                                Statements = area.Statements
+                            })
+                            .ToList() ?? new()
+                        : new(),
+                    Remedies = isPremiumUser ? item.Meta?.Remedies ?? new() : new(),
                     References = item.Meta?.References ?? new(),
-                    ActivationPeriods = _yogaDoshaActivationService.CalculateActivationPeriods(
-                        item.Match.Key,
-                        item.Meta?.Name ?? item.Match.Key,
-                        "Dosha",
-                        item.Match.InvolvedPlanets,
-                        activationTimeline,
-                        currentUtc)
+                    ActivationPeriods = isPremiumUser
+                        ? _yogaDoshaActivationService.CalculateActivationPeriods(
+                            item.Match.Key,
+                            item.Meta?.Name ?? item.Match.Key,
+                            "Dosha",
+                            item.Match.InvolvedPlanets,
+                            activationTimeline,
+                            currentUtc)
+                        : null
                 })
                 .ToList();
 
@@ -411,43 +440,35 @@ namespace KundaliEngine.API.Controllers
                 SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra),
                 AdvancedStrengthTables = _advancedStrengthTableService.Build(planets, houseDtos, aspectResult)
             };
-
-
-            var predictionContext = _predictionContextMapper.Map(response);
-
-
-
-            var predictionRequest = new PredictionRequest
+            if (isPremiumUser)
             {
-                Mode = PredictionMode.Report,
-                LifeArea = PredictionLifeArea.Career,
-                TimeScope = PredictionTimeScope.Current,
-                ReferenceDate = new DateTimeOffset(currentUtc)
-            };
-
-            var predictionResult = _predictionEngineService.Generate(predictionRequest, predictionContext);
-
-            response.Predictions.Add(
-                new PredictionResponseDto
+                var predictionContext = _predictionContextMapper.Map(response);
+                var predictionLifeAreas = new[]
                 {
-                    LifeArea = predictionResult.LifeArea.ToString(),
-                    TimeScope = predictionResult.TimeScope.ToString(),
-                    ReferenceDate = predictionResult.ReferenceDate,
-                    FocusKey = predictionResult.FocusKey,
+                    PredictionLifeArea.Career,
+                    PredictionLifeArea.Finance,
+                    PredictionLifeArea.Relationships,
+                    PredictionLifeArea.Education,
+                    PredictionLifeArea.Family,
+                    PredictionLifeArea.Property,
+                    PredictionLifeArea.Health
+                };
 
-                    Claims = predictionResult.Claims
-                        .Select(claim => new PredictionClaimResponseDto
-                        {
-                            Key = claim.Key,
-                            Tone = claim.Tone.ToString(),
-                            Stage = claim.Stage.ToString(),
-                            StartDate = claim.StartDate,
-                            EndDate = claim.EndDate,
-                            RuleIds = claim.RuleIds,
-                            EvidenceKeys = claim.EvidenceKeys
-                        })
-                        .ToList()
-                });
+                foreach (var lifeArea in predictionLifeAreas)
+                {
+                    var predictionRequest = new PredictionRequest
+                    {
+                        Mode = PredictionMode.Report,
+                        LifeArea = lifeArea,
+                        TimeScope = PredictionTimeScope.Current,
+                        ReferenceDate = new DateTimeOffset(currentUtc)
+                    };
+
+                    var predictionResult = _predictionEngineService.Generate(predictionRequest, predictionContext);
+
+                    response.Predictions.Add(MapPredictionResponse(predictionResult, predictionContext.DashaTimeline));
+                }
+            }
 
             return Ok(response);
         }
@@ -607,7 +628,21 @@ namespace KundaliEngine.API.Controllers
                 .Where(report => report.KundaliId == id)
                 .ToListAsync();
 
+            var notes = await _dbContext.PortalNotes
+                .Where(note => note.UserId == userId.Value
+                    && note.ContextType == "Kundali"
+                    && note.ContextId == id)
+                .ToListAsync();
+
+            var voiceRecordings = await _dbContext.PortalNoteVoiceRecordings
+                .Where(recording => recording.UserId == userId.Value
+                    && recording.ContextType == "Kundali"
+                    && recording.ContextId == id)
+                .ToListAsync();
+
             _dbContext.KundaliReports.RemoveRange(reports);
+            _dbContext.PortalNotes.RemoveRange(notes);
+            _dbContext.PortalNoteVoiceRecordings.RemoveRange(voiceRecordings);
             _dbContext.Kundalis.Remove(kundali);
             await _dbContext.SaveChangesAsync();
             await _auditLogService.LogAsync(new AuditLogEntry
@@ -628,6 +663,89 @@ namespace KundaliEngine.API.Controllers
             return Guid.TryParse(claimValue, out var userId) ? userId : null;
         }
 
+        private static PredictionResponseDto MapPredictionResponse(
+            PredictionResult predictionResult,
+            DashaTimeline dashaTimeline)
+        {
+            return new PredictionResponseDto
+            {
+                LifeArea = predictionResult.LifeArea.ToString(),
+                TimeScope = predictionResult.TimeScope.ToString(),
+                ReferenceDate = predictionResult.ReferenceDate,
+                FocusKey = predictionResult.FocusKey,
+
+                Synthesis = predictionResult.Synthesis is null
+                    ? null
+                    : new PredictionSynthesisResponseDto
+                    {
+                        OverallTone = predictionResult.Synthesis.OverallTone?.ToString(),
+                        EffectiveFrom = predictionResult.Synthesis.EffectiveFrom,
+                        EffectiveTo = predictionResult.Synthesis.EffectiveTo,
+                        HouseConnections = predictionResult.Synthesis.HouseConnections
+                            .Select(connection =>
+                                new PredictionHouseConnectionResponseDto
+                                {
+                                    SourceHouse = connection.SourceHouse,
+                                    LordPlanet = connection.LordPlanet,
+                                    TargetHouse = connection.TargetHouse,
+                                    SourceSignificationKeys = connection.SourceSignificationKeys,
+                                    TargetSignificationKeys = connection.TargetSignificationKeys,
+                                    EvidenceKey = connection.EvidenceKey
+                                })
+                            .ToList()
+                    },
+
+                Claims = predictionResult.Claims
+                    .Select(claim =>
+                    {
+                        var dashaPeriod = ResolveClaimDashaPeriod(claim.EvidenceKeys, dashaTimeline);
+
+                        return new PredictionClaimResponseDto
+                        {
+                            Key = claim.Key,
+                            Tone = claim.Tone.ToString(),
+                            Stage = claim.Stage.ToString(),
+                            DashaLevel = dashaPeriod?.Level.ToString(),
+                            DashaPlanet = dashaPeriod?.Planet,
+                            StartDate = claim.StartDate,
+                            EndDate = claim.EndDate,
+                            RuleIds = claim.RuleIds,
+                            EvidenceKeys = claim.EvidenceKeys
+                        };
+                    })
+                    .ToList()
+            };
+        }
+
+        private static DashaPeriod? ResolveClaimDashaPeriod(
+            IReadOnlyList<string> evidenceKeys,
+            DashaTimeline dashaTimeline)
+        {
+            if (evidenceKeys.Count == 0 || dashaTimeline.Periods.Count == 0)
+            {
+                return null;
+            }
+
+            var periodsById = dashaTimeline.Periods
+                .ToDictionary(period => period.PeriodId, StringComparer.OrdinalIgnoreCase);
+
+            foreach (var evidenceKey in evidenceKeys)
+            {
+                const string prefix = "dasha:";
+                if (!evidenceKey.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                var periodId = evidenceKey[prefix.Length..];
+                if (periodsById.TryGetValue(periodId, out var period))
+                {
+                    return period;
+                }
+            }
+
+            return null;
+        }
         private static SavedKundaliDetailDto MapSavedKundaliDetail(Kundali kundali)
         {
             return new SavedKundaliDetailDto
@@ -1175,6 +1293,11 @@ namespace KundaliEngine.API.Controllers
 
     }
 }
+
+
+
+
+
 
 
 

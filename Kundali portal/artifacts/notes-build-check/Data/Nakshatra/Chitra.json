@@ -1,0 +1,306 @@
+{
+  "id": 14,
+  "name": "Chitra",
+  "sanskritName": "चित्रा",
+  "englishName": "Chitra",
+
+  "startDegree": {
+    "sign": "Virgo",
+    "longitude": 173.333333,
+    "display": "23°20' Virgo"
+  },
+
+  "endDegree": {
+    "sign": "Libra",
+    "longitude": 186.666667,
+    "display": "6°40' Libra"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 6,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Leo",
+      "syllable": "Pe",
+      "akshara": "पे"
+    },
+    {
+      "number": 2,
+      "rashiId": 6,
+      "startDegree": "26°40'",
+      "endDegree": "30°00'",
+      "navamsa": "Virgo",
+      "syllable": "Po",
+      "akshara": "पो"
+    },
+    {
+      "number": 3,
+      "rashiId": 7,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Libra",
+      "syllable": "Ra",
+      "akshara": "रा"
+    },
+    {
+      "number": 4,
+      "rashiId": 7,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Ri",
+      "akshara": "री"
+    }
+  ],
+
+  "lord": "Mars",
+
+  "rashi": [
+    "Virgo",
+    "Libra"
+  ],
+
+  "deity": "Vishvakarma (Divine Architect)",
+
+  "symbol": "Bright Jewel, Pearl",
+
+  "animalSymbol": "Female Tiger",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Tiger",
+
+  "nadi": "Madhya",
+
+  "varna": "Shudra",
+
+  "vashya": [
+    "Manava"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Earth/Air",
+
+  "gender": "Female",
+
+  "nature": "Mridu (Soft)",
+
+  "motivation": "Kama",
+
+  "mukha": "Tiryakmukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "West",
+
+  "aradhyaVruksha": "Bilva (Aegle marmelos)",
+
+  "flower": "Red Rose",
+
+  "metal": "Copper",
+
+  "color": [
+    "Bright Red",
+    "White",
+    "Golden"
+  ],
+
+  "gemstone": "Red Coral",
+
+  "rudraksha": [
+    "3 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Red Cloth",
+    "Copper",
+    "Construction Materials",
+    "Tools",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ विश्वकर्मणे नमः",
+
+  "planetaryBeejMantra": "ॐ क्रां क्रीं क्रौं सः भौमाय नमः",
+
+  "fastingDay": "Tuesday",
+
+  "positiveTraits": [
+    "Creative",
+    "Artistic",
+    "Innovative",
+    "Charismatic",
+    "Skilled",
+    "Visionary",
+    "Independent",
+    "Ambitious",
+    "Elegant",
+    "Perfectionist"
+  ],
+
+  "negativeTraits": [
+    "Egoistic",
+    "Perfectionist",
+    "Impulsive",
+    "Competitive",
+    "Materialistic",
+    "Short Tempered"
+  ],
+
+  "strengths": [
+    "Architecture",
+    "Design",
+    "Engineering",
+    "Innovation",
+    "Leadership"
+  ],
+
+  "weaknesses": [
+    "Impatience",
+    "Pride",
+    "Overambition"
+  ],
+
+  "career": [
+    "Architect",
+    "Engineer",
+    "Interior Designer",
+    "Jewelry Designer",
+    "Artist",
+    "Fashion Designer",
+    "Software Architect",
+    "Surgeon",
+    "Builder",
+    "Photographer"
+  ],
+
+  "education": [
+    "Architecture",
+    "Engineering",
+    "Design",
+    "Technology",
+    "Fine Arts"
+  ],
+
+  "finance": [
+    "Wealth through Creativity",
+    "Good Business Potential",
+    "Success through Innovation"
+  ],
+
+  "health": [
+    "Kidneys",
+    "Skin",
+    "Lower Abdomen",
+    "Eyes",
+    "Blood Disorders"
+  ],
+
+  "bodyParts": [
+    "Kidneys",
+    "Lower Abdomen",
+    "Lumbar Region"
+  ],
+
+  "relationships": [
+    "Romantic",
+    "Protective",
+    "Passionate",
+    "Values Beauty and Harmony"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Loyal",
+
+  "friendshipNature": "Supportive",
+
+  "leadershipStyle": "Visionary",
+
+  "communicationStyle": "Confident",
+
+  "decisionMaking": "Creative",
+
+  "emotionalNature": "Intense",
+
+  "learningStyle": "Visual",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Architecture",
+    "Technology",
+    "Engineering",
+    "Creative Arts",
+    "Construction",
+    "Luxury Products"
+  ],
+
+  "goodFor": [
+    "Construction",
+    "Architecture",
+    "Buying Property",
+    "Artistic Activities",
+    "Technology Projects",
+    "Innovation"
+  ],
+
+  "avoidFor": [
+    "Peace Negotiations",
+    "Emotional Confrontations"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "True beauty is created when talent, discipline and divine inspiration come together in service of humanity.",
+
+  "compatibleNakshatras": [
+    "Mrigashira",
+    "Swati",
+    "Dhanishta"
+  ],
+
+  "challengingNakshatras": [
+    "Ashlesha",
+    "Jyeshtha"
+  ],
+
+  "mythologicalStory": "Chitra is ruled by Vishvakarma, the celestial architect who created the magnificent structures of the heavens. This Nakshatra symbolizes beauty, craftsmanship, innovation and the divine ability to transform imagination into reality.",
+
+  "interestingFacts": [
+    "Represents brilliance, creativity and divine craftsmanship.",
+    "Excellent Nakshatra for architecture, engineering and design.",
+    "Strong attraction toward beauty, luxury and perfection.",
+    "Produces highly innovative and visionary individuals.",
+    "Associated with artistic excellence and technical mastery."
+  ],
+
+  "keywords": [
+    "Creativity",
+    "Architecture",
+    "Beauty",
+    "Innovation",
+    "Design",
+    "Perfection"
+  ],
+
+  "icon": "💎",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Creativity",
+    "Innovation",
+    "Wealth"
+  ]
+}

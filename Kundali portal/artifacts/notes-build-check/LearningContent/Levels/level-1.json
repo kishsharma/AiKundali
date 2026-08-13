@@ -1,0 +1,353 @@
+{
+    "schemaVersion":  "1.0.0",
+    "id":  "6bbf3471-eee0-5de3-9051-8ed2ddbcfc13",
+    "code":  "level-1",
+    "slug":  "jyotish-foundation",
+    "title":  "Jyotish Foundation",
+    "subtitle":  "Level 1 Certification",
+    "description":  "A structured foundation course covering the astronomical framework, Panchang, Rashis, Grahas, Bhavas, chart formats, aspects and the first complete Kundali reading method.",
+    "audience":  [
+                     "Students beginning Jyotish study",
+                     "Astrology learners who want a structured foundation",
+                     "HoraLife users preparing for prediction-level study"
+                 ],
+    "learningOutcome":  "After completing Level 1, the student should be able to identify the main building blocks of a Kundali, read common chart layouts and perform a disciplined foundation-level chart review without making unsupported predictions.",
+    "sessionCount":  15,
+    "estimatedMinutes":  1080,
+    "estimatedHours":  18.0,
+    "recommendedPace":  {
+                            "sessionsPerWeek":  2,
+                            "estimatedWeeks":  8,
+                            "note":  "Students may proceed at their own pace. Review and exercises are included within each session."
+                        },
+    "access":  {
+                   "requiredRoles":  [
+                                         "Student",
+                                         "Admin"
+                                     ],
+                   "authenticationRequired":  true,
+                   "allowPublicPreview":  true,
+                   "publicPreviewSessionIds":  [
+                                                   "a3c9eff3-380b-5c4b-9135-6ea4e543d528"
+                                               ]
+               },
+    "languages":  {
+                      "default":  "en",
+                      "supported":  [
+                                        "en",
+                                        "hi",
+                                        "kn"
+                                    ]
+                  },
+    "navigation":  {
+                       "route":  "/learning/level-1",
+                       "sessionRoutePattern":  "/learning/session/{sessionGuid}",
+                       "showProgress":  true,
+                       "showLockedSessions":  true,
+                       "allowSequentialNavigation":  true
+                   },
+    "contentRules":  {
+                         "sessionSchema":  "StudyContent/Schemas/session-schema.json",
+                         "referenceLibrary":  "StudyContent/References/horalife-jyotish-reference-library.json",
+                         "oneJsonPerSessionPerLanguage":  true,
+                         "maximumShlokasPerSession":  2,
+                         "shlokaDisplayMode":  "collapsed",
+                         "referencesRequired":  true,
+                         "commonMistakesRequired":  true,
+                         "selfCheckRequired":  true
+                     },
+    "completionRules":  {
+                            "requireAllSessions":  true,
+                            "minimumQuizScorePercent":  70,
+                            "certificateEnabled":  false,
+                            "completionMessage":  "Level 1 completed. The student may continue to Level 2: Kundali Prediction."
+                        },
+    "sessions":  [
+                     {
+                         "id":  "a3c9eff3-380b-5c4b-9135-6ea4e543d528",
+                         "sessionNumber":  1,
+                         "slug":  "understanding-the-360-degree-celestial-circle",
+                         "title":  "Understanding the 360Â° Celestial Circle",
+                         "estimatedMinutes":  70,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "in-progress",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session01/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "8ec09818-6eef-59b4-9430-1d148bd7d4a5",
+                         "sessionNumber":  2,
+                         "slug":  "earth-sun-moon-and-time",
+                         "title":  "Earth, Sun, Moon and Time",
+                         "estimatedMinutes":  70,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session02/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "a3c9eff3-380b-5c4b-9135-6ea4e543d528"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "b44c43de-2896-5fce-a9f5-19c13cc8857b",
+                         "sessionNumber":  3,
+                         "slug":  "introduction-to-panchang",
+                         "title":  "Introduction to Panchang",
+                         "estimatedMinutes":  65,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session03/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "8ec09818-6eef-59b4-9430-1d148bd7d4a5"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "4ace872a-a9b7-5eea-8e49-9a9e2243a7d1",
+                         "sessionNumber":  4,
+                         "slug":  "tithi-and-karana",
+                         "title":  "Tithi and Karana",
+                         "estimatedMinutes":  70,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session04/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "b44c43de-2896-5fce-a9f5-19c13cc8857b"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "6cbe331f-11e9-5bc6-b1b5-21994e92e0ae",
+                         "sessionNumber":  5,
+                         "slug":  "nakshatra-and-pada-system",
+                         "title":  "Nakshatra and Pada System",
+                         "estimatedMinutes":  75,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session05/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "4ace872a-a9b7-5eea-8e49-9a9e2243a7d1"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "f8a59a37-7c0a-5a4d-a15a-d4a0b37be3b4",
+                         "sessionNumber":  6,
+                         "slug":  "yoga-vara-and-basic-panchang-interpretation",
+                         "title":  "Yoga, Vara and Basic Panchang Interpretation",
+                         "estimatedMinutes":  70,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session06/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "6cbe331f-11e9-5bc6-b1b5-21994e92e0ae"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "2d7a1b78-4d75-5ef8-9f18-4a899f6d7ef2",
+                         "sessionNumber":  7,
+                         "slug":  "twelve-rashis",
+                         "title":  "Twelve Rashis",
+                         "estimatedMinutes":  70,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session07/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "f8a59a37-7c0a-5a4d-a15a-d4a0b37be3b4"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "a5c972b1-6c56-5cc7-8c91-84d3e449bc1d",
+                         "sessionNumber":  8,
+                         "slug":  "nine-grahas",
+                         "title":  "Nine Grahas",
+                         "estimatedMinutes":  75,
+                         "difficulty":  "foundation",
+                         "status":  "planned",
+                         "languages":  {
+                                           "en":  "planned",
+                                           "hi":  "planned",
+                                           "kn":  "planned"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session08/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "2d7a1b78-4d75-5ef8-9f18-4a899f6d7ef2"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "10228a19-9710-5ebf-bcc9-055bc0327e89",
+                         "sessionNumber":  9,
+                         "slug":  "planetary-relationships-and-dignity",
+                         "title":  "Planetary Relationships and Dignity",
+                         "estimatedMinutes":  75,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session09/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "a5c972b1-6c56-5cc7-8c91-84d3e449bc1d"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "3ca8931a-0fa9-572e-8ea4-1d804c2389ed",
+                         "sessionNumber":  10,
+                         "slug":  "lagna-and-twelve-bhavas",
+                         "title":  "Lagna and Twelve Bhavas",
+                         "estimatedMinutes":  75,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session10/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "10228a19-9710-5ebf-bcc9-055bc0327e89"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "69c73568-c557-5031-979f-fd31c3c2e4ed",
+                         "sessionNumber":  11,
+                         "slug":  "house-lords-and-functional-nature",
+                         "title":  "House Lords and Functional Nature",
+                         "estimatedMinutes":  75,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session11/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "3ca8931a-0fa9-572e-8ea4-1d804c2389ed"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "795ce0f8-5dd5-5658-aa55-44c24b5145ff",
+                         "sessionNumber":  12,
+                         "slug":  "reading-north-indian-kundali",
+                         "title":  "Reading a North Indian Kundali",
+                         "estimatedMinutes":  70,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session12/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "69c73568-c557-5031-979f-fd31c3c2e4ed"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "e449ce5a-8a9c-5528-840e-c90cb065fa4c",
+                         "sessionNumber":  13,
+                         "slug":  "reading-south-indian-and-other-charts",
+                         "title":  "Reading South Indian and Other Chart Styles",
+                         "estimatedMinutes":  65,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session13/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "795ce0f8-5dd5-5658-aa55-44c24b5145ff"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "1b8cfe56-77ad-5df2-b14f-ecfa9ce75dc2",
+                         "sessionNumber":  14,
+                         "slug":  "planetary-aspects-and-conjunctions",
+                         "title":  "Planetary Aspects and Conjunctions",
+                         "estimatedMinutes":  75,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session14/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "e449ce5a-8a9c-5528-840e-c90cb065fa4c"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     },
+                     {
+                         "id":  "6bd7f940-0a64-5eb3-b03f-f2b3d5372699",
+                         "sessionNumber":  15,
+                         "slug":  "complete-foundation-level-chart-reading",
+                         "title":  "Complete Foundation-Level Chart Reading",
+                         "estimatedMinutes":  80,
+                         "difficulty":  "foundation",
+                         "status":  "content-in-progress",
+                         "languages":  {
+                                           "en":  "content-in-progress",
+                                           "hi":  "content-in-progress",
+                                           "kn":  "content-in-progress"
+                                       },
+                         "contentPathPattern":  "StudyContent/Level1/Session15/session.{language}.json",
+                         "prerequisiteSessionIds":  [
+                                                        "1b8cfe56-77ad-5df2-b14f-ecfa9ce75dc2"
+                                                    ],
+                         "isPreviewAvailable":  true
+                     }
+                 ],
+    "status":  "draft"
+}

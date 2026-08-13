@@ -1,13 +1,14 @@
 // Dasha Module - Dasha Period Analysis Page
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { SectionCardComponent } from '../../shared/components/section-card.component';
 
 @Component({
   selector: 'app-dasha',
   standalone: true,
-  imports: [CommonModule, PageHeaderComponent, SectionCardComponent],
+  imports: [CommonModule, TranslocoPipe, PageHeaderComponent, SectionCardComponent],
   templateUrl: './dasha.component.html',
   styles: [`
     .dasha-layout {

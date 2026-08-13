@@ -15,7 +15,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public List<string> InvolvedPlanets { get; set; } = new();
         public List<int> InvolvedHouses { get; set; } = new();
         public string Reason { get; set; } = string.Empty;
-        public FormationActivationPeriodsDto ActivationPeriods { get; set; } = new();
+        public FormationActivationPeriodsDto? ActivationPeriods { get; set; }
     }
 
     public class YogaImpactAreaDto
@@ -24,4 +24,5 @@ namespace KundaliEngine.API.DTOs.Responses
         public List<string> Statements { get; set; } = new();
     }
 }
+
 

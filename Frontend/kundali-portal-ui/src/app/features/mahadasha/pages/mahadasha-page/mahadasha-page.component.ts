@@ -7,8 +7,10 @@ import { RouterLink } from '@angular/router';
 import { PageHeaderComponent } from '../../../../shared/components/page-header.component';
 import { AstrologyIconComponent, AstrologyIconName } from '../../../../shared/components/astrology-icon.component';
 import { SavedChartSelectorComponent } from '../../../../shared/components/saved-chart-selector/saved-chart-selector.component';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { SavedChartMapperService, SavedKundaliDetail } from '../../../../shared/services/saved-chart-mapper.service';
+import { PortalNotesComponent } from '../../../../shared/components/portal-notes/portal-notes.component';
 import { GenerateKundaliRequest } from '../../../../core/services/kundali-api.service';
 import { MahadashaService, MissingLatestKundaliPayloadError } from '../../services/mahadasha.service';
 import {
@@ -32,7 +34,7 @@ interface MahadashaPageState {
 @Component({
   selector: 'app-mahadasha-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, PageHeaderComponent, AstrologyIconComponent, SavedChartSelectorComponent],
+  imports: [CommonModule, RouterLink, PageHeaderComponent, AstrologyIconComponent, SavedChartSelectorComponent, TranslocoPipe, PortalNotesComponent],
   templateUrl: './mahadasha-page.component.html',
   styleUrls: ['./mahadasha-page.component.scss'],
 })
@@ -41,6 +43,7 @@ export class MahadashaPageComponent {
   private readonly savedChartMapper = inject(SavedChartMapperService);
   private readonly notifications = inject(NotificationService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly translocoService = inject(TranslocoService);
   private readonly analysisPayload$ = new BehaviorSubject<GenerateKundaliRequest | undefined>(undefined);
   private readonly mahadashaWindowSize = 7;
   private readonly antardashaWindowSize = 5;
@@ -51,6 +54,7 @@ export class MahadashaPageComponent {
   selectedPratyantardashaIndex = 0;
   selectedChartId: string | null = null;
   exportingPdf = false;
+  isNotesOpen = false;
 
   readonly state$: Observable<MahadashaPageState> = this.analysisPayload$.pipe(
     switchMap((payload) => {
@@ -75,27 +79,63 @@ export class MahadashaPageComponent {
           analysis: null,
           loading: false,
           missingChart: error instanceof MissingLatestKundaliPayloadError,
-          error: error?.message ?? 'Unable to load Mahadasha analysis.',
+          error: error?.message ?? this.t('dashaPage.loadError'),
         }))
       );
     })
   );
 
-  readonly note =
-    'Dasha results vary based on your actions, planetary strength, and transits. Use this guidance to make better decisions and grow in life.';
-
   readonly phaseOrder: Array<'start' | 'middle' | 'end'> = ['start', 'middle', 'end'];
 
-  private readonly monthYearFormatter = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric' });
+  openNotes(): void {
+    this.isNotesOpen = true;
+  }
+
+  closeNotes(): void {
+    this.isNotesOpen = false;
+  }
+  private t(key: string, params?: Record<string, unknown>): string {
+    return this.translocoService.translate(key, params);
+  }
+
+  private dateLocale(): string {
+    const lang = this.translocoService.getActiveLang();
+    return lang === 'hi' ? 'hi-IN' : lang === 'kn' ? 'kn-IN' : 'en-GB';
+  }
+
+  private translateIfExists(key: string, fallback: string): string {
+    const translated = this.t(key);
+    return translated === key ? fallback : translated;
+  }
+
+  translatePlanet(planet?: string | null): string {
+    if (!planet) {
+      return '';
+    }
+
+    return this.translateIfExists(`planet.${planet}`, planet);
+  }
+
+  translateLifeArea(area?: string | null): string {
+    if (!area) {
+      return '';
+    }
+
+    return this.translateIfExists(`kundali.predictions.lifeArea.${area}`, area);
+  }
+
+  private monthYearFormatter(): Intl.DateTimeFormat {
+    return new Intl.DateTimeFormat(this.dateLocale(), { month: 'short', year: 'numeric' });
+  }
 
   readonly strengthRows = [
-    { label: 'Dasha Lord', value: 'planet' },
-    { label: 'Lord Strength', value: 'planetStrength' },
-    { label: 'Placement', value: 'placement' },
-    { label: 'Sign', value: 'sign' },
-    { label: 'Aspect on Lagna', value: 'aspectOnLagna' },
-    { label: 'Association', value: 'associationSummary' },
-    { label: 'Overall Result', value: 'overallResult' },
+    { labelKey: 'dashaPage.strength.rule.dashaLord', value: 'planet' },
+    { labelKey: 'dashaPage.strength.rule.lordStrength', value: 'planetStrength' },
+    { labelKey: 'dashaPage.strength.rule.placement', value: 'placement' },
+    { labelKey: 'dashaPage.strength.rule.sign', value: 'sign' },
+    { labelKey: 'dashaPage.strength.rule.aspectOnLagna', value: 'aspectOnLagna' },
+    { labelKey: 'dashaPage.strength.rule.association', value: 'associationSummary' },
+    { labelKey: 'dashaPage.strength.rule.overallResult', value: 'overallResult' },
   ] as const;
   onSavedChartSelected(chart: SavedKundaliDetail): void {
     this.selectedChartId = chart.id;
@@ -334,7 +374,7 @@ export class MahadashaPageComponent {
     const strength = analysis.strength;
 
     if (key === 'aspectOnLagna') {
-      return strength.aspectOnLagna ? 'Yes' : 'No';
+      return strength.aspectOnLagna ? this.t('common.yes') : this.t('common.no');
     }
 
     if (key === 'supportedByBenefics') {
@@ -347,7 +387,7 @@ export class MahadashaPageComponent {
 
   getLevelStrengthValue(item: DashaLevelStrength, key: string): string {
     if (key === 'aspectOnLagna') {
-      return item.aspectOnLagna ? 'Yes' : 'No';
+      return item.aspectOnLagna ? this.t('common.yes') : this.t('common.no');
     }
 
     if (key === 'placement') {
@@ -355,7 +395,7 @@ export class MahadashaPageComponent {
     }
 
     if (key === 'associationSummary') {
-      return item.associationSummary || 'None';
+      return item.associationSummary || this.t('common.none');
     }
 
     if (key === 'supportedByBenefics') {
@@ -379,17 +419,17 @@ export class MahadashaPageComponent {
   }
 
   getAssociationDetailsText(item: DashaLevelStrength): string {
-    return item.associationDetails?.join('\n') || 'No major association found.';
+    return item.associationDetails?.join('\n') || this.t('dashaPage.noAssociation');
   }
 
   formatBirthDateTime(value: string): string {
     const date = new Date(value);
 
     if (Number.isNaN(date.getTime())) {
-      return value || 'Not available';
+      return value || this.t('dashaPage.notAvailable');
     }
 
-    return new Intl.DateTimeFormat('en-GB', {
+    return new Intl.DateTimeFormat(this.dateLocale(), {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -399,7 +439,7 @@ export class MahadashaPageComponent {
   }
 
   getDashaOwnerName(analysis: MahadashaAnalysis): string {
-    return analysis.birthChart?.dashaBelongsTo || analysis.birthChart?.name || 'this person';
+    return analysis.birthChart?.dashaBelongsTo || analysis.birthChart?.name || this.t('dashaPage.thisPerson');
   }
   formatDate(value: string): string {
     const date = new Date(value);
@@ -408,7 +448,7 @@ export class MahadashaPageComponent {
       return value;
     }
 
-    return new Intl.DateTimeFormat('en-GB', {
+    return new Intl.DateTimeFormat(this.dateLocale(), {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -436,13 +476,13 @@ export class MahadashaPageComponent {
     const endDate = this.parseDate(end);
 
     if (!endDate) {
-      return 'Not available';
+      return this.t('dashaPage.notAvailable');
     }
 
     const remainingMs = endDate - Date.now();
 
     if (remainingMs <= 0) {
-      return 'Completed';
+      return this.t('dashaPage.completed');
     }
 
     const totalDays = Math.ceil(remainingMs / 86_400_000);
@@ -463,7 +503,7 @@ export class MahadashaPageComponent {
       parts.push(`${days}d`);
     }
 
-    return parts.length ? parts.join(' ') : 'Less than 1d';
+    return parts.length ? parts.join(' ') : this.t('dashaPage.lessThanOneDay');
   }
   formatPeriod(start?: string, end?: string): string {
     return [this.formatMonthYear(start), this.formatMonthYear(end)].filter(Boolean).join(' - ');
@@ -499,10 +539,10 @@ export class MahadashaPageComponent {
       const monthIndex = match[6] ? Number(match[6]) - 1 : this.monthIndex(month);
       const fallbackDate = new Date(Number(year), monthIndex >= 0 ? monthIndex : 0, 1);
 
-      return this.monthYearFormatter.format(fallbackDate);
+      return this.monthYearFormatter().format(fallbackDate);
     }
 
-    return this.monthYearFormatter.format(date);
+    return this.monthYearFormatter().format(date);
   }
 
   trackLifeArea(_: number, area: LifeArea): string {
@@ -539,7 +579,7 @@ export class MahadashaPageComponent {
 
     const report = document.getElementById('mahadasha-report');
     if (!report) {
-      this.notifications.error('Mahadasha report view is not available for PDF export.');
+      this.notifications.error(this.t('dashaPage.reportUnavailable'));
       return;
     }
 
@@ -549,10 +589,10 @@ export class MahadashaPageComponent {
     try {
       const pdf = await this.buildMahadashaPdfDocument(report);
       pdf.save(this.getMahadashaPdfFileName());
-      this.notifications.success('Dasha PDF downloaded.');
+      this.notifications.success(this.t('dashaPage.pdfDownloaded'));
     } catch (error) {
       console.error('Mahadasha PDF export failed:', error);
-      this.notifications.error('Unable to export Dasha PDF right now.');
+      this.notifications.error(this.t('dashaPage.pdfExportFailed'));
     } finally {
       this.setPdfMode(false);
       this.exportingPdf = false;
@@ -946,7 +986,7 @@ export class MahadashaPageComponent {
 
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(16);
-    pdf.text('Mahadasha & Antardasha Analysis', margin, y);
+    pdf.text(this.t('dashaPage.title'), margin, y);
     y += 7;
     writeWrapped(`Generated on ${new Date().toLocaleString('en-GB')}`, {
       size: 9,
@@ -997,7 +1037,7 @@ export class MahadashaPageComponent {
 
       const bullets = Array.from(section.querySelectorAll<HTMLElement>('li'));
       for (const bullet of bullets) {
-        writeWrapped(`• ${bullet.textContent || ''}`, {
+        writeWrapped(`â€¢ ${bullet.textContent || ''}`, {
           size: 10,
           weight: 'normal',
           lineHeight: 4.6,
@@ -1101,6 +1141,8 @@ export class MahadashaPageComponent {
     return Math.min(Math.max(index, 0), length - 1);
   }
 }
+
+
 
 
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
@@ -30,12 +30,31 @@ export class HouseDetailsCard {
     return this.normalizePlanetList(this.houseData?.aspectedBy).length > 0;
   }
 
+  get houseName(): string {
+    return this.translateHouseKey('name', this.houseData?.houseNumber) || this.houseData?.houseName || '';
+  }
+
+  get houseMeaning(): string {
+    return this.translateHouseKey('meaning', this.houseData?.houseNumber);
+  }
+
   translateSign(value: unknown): string {
     return this.apiTerms.translateSign(value);
   }
 
   translatePlanet(value: unknown): string {
     return this.apiTerms.translatePlanet(value);
+  }
+
+  private translateHouseKey(kind: 'name' | 'meaning', houseNumber: unknown): string {
+    const number = Number(houseNumber);
+    if (!Number.isInteger(number) || number < 1 || number > 12) {
+      return '';
+    }
+
+    const key = `house.${kind}.${number}`;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : '';
   }
 
   private normalizePlanetList(value: any): string[] {

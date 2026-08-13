@@ -1,36 +1,19 @@
-<div class="auth-page">
-  <div class="auth-card">
+﻿<div class="auth-page">
+  <div class="auth-card" [class.is-exiting]="isExiting">
     <h1>Login to HoraLife</h1>
-    <p>Access your saved kundalis, reports and personalized insights.</p>
+    <p>Access your saved kundalis, reports and insights.</p>
 
     <ng-container *ngIf="loginMode === 'otp'; else passwordLogin">
       <ng-container *ngIf="otpStep === 'contact'; else otpCodeStep">
-        <div class="auth-option-tabs" role="tablist" aria-label="OTP login method">
-          <button type="button" [class.active]="otpChannel === 'Phone'" (click)="useOtpChannel('Phone')">Mobile number</button>
-          <button type="button" [class.active]="otpChannel === 'Email'" (click)="useOtpChannel('Email')">Email</button>
-        </div>
-
-        <div class="form-group" *ngIf="otpChannel === 'Phone'; else emailOtpContact">
+        <div class="form-group">
           <label>{{ otpContactLabel }}</label>
           <input
-            type="tel"
-            [(ngModel)]="phoneNumber"
+            type="email"
+            [(ngModel)]="email"
             [placeholder]="otpContactPlaceholder"
-            autocomplete="tel"
+            autocomplete="email"
           />
         </div>
-
-        <ng-template #emailOtpContact>
-          <div class="form-group">
-            <label>{{ otpContactLabel }}</label>
-            <input
-              type="email"
-              [(ngModel)]="email"
-              [placeholder]="otpContactPlaceholder"
-              autocomplete="email"
-            />
-          </div>
-        </ng-template>
 
         <div class="error-message" *ngIf="errorMessage">
           {{ errorMessage }}
@@ -78,7 +61,7 @@
         </div>
 
         <button type="button" (click)="verifyLoginCode()" [disabled]="isLoading">
-          {{ isLoading ? 'Verifying...' : 'Verify & Login' }}
+          {{ isLoading ? 'Signing in...' : 'Verify & Login' }}
         </button>
 
         <button type="button" class="secondary-button" (click)="sendLoginCode()" [disabled]="isLoading || resendSeconds > 0">
@@ -117,7 +100,7 @@
       </div>
 
       <button type="button" (click)="login()" [disabled]="isLoading">
-        {{ isLoading ? 'Logging in...' : 'Login' }}
+        {{ isLoading ? 'Signing in...' : 'Login' }}
       </button>
 
       <button type="button" class="text-button mode-switch" (click)="useOtpLogin()">
@@ -131,5 +114,6 @@
     </div>
   </div>
 </div>
+
 
 

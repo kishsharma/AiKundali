@@ -2,49 +2,43 @@
   class="house-overview-wrapper"
   *ngIf="houseCards.length"
 >
-
   <div class="house-grid">
-
     <div
       class="house-card"
-      *ngFor="let house of houseCards"  >
+      *ngFor="let house of houseCards"
+    >
+      <div class="house-card-header">
+        <div class="house-title-group">
+          <span class="house-number">
+            {{ house.houseNumber }}
+          </span>
 
-      <div class="top-row">
-
-        <span class="house-number">
-          {{ house.houseNumber }}
-        </span>
+          <div class="house-name">
+            {{ house.displayName }}
+          </div>
+        </div>
 
         <span class="score">
           {{ house.score }}
         </span>
-
-      </div>
-      <div class="house-name">
-
-        {{ house.displayName | transloco }}
-
       </div>
 
-   
+      <div class="house-meaning" *ngIf="house.meaning">
+        {{ house.meaning }}
+      </div>
 
-<div
-  class="status"
-  [ngClass]="{
-    'excellent-status': house.status.includes('excellent'),
-    'strong-status': house.status.includes('strong'),
-    'supportive-status': house.status.includes('supportive'),
-    'challenging-status': house.status.includes('challenging'),
-    'weak-status': house.status.includes('weak')
-  }"
->
-
-  {{ house.status | transloco }}
-
-</div>
-
+      <div
+        class="status"
+        [ngClass]="{
+          'excellent-status': house.status.includes('excellent'),
+          'strong-status': house.status.includes('strong'),
+          'supportive-status': house.status.includes('supportive'),
+          'challenging-status': house.status.includes('challenging'),
+          'weak-status': house.status.includes('weak')
+        }"
+      >
+        {{ house.status | transloco }}
+      </div>
     </div>
-
   </div>
-
 </div>

@@ -1,0 +1,305 @@
+{
+  "id": 20,
+  "name": "PurvaAshadha",
+  "sanskritName": "पूर्वाषाढ़ा",
+  "englishName": "Purva Ashadha",
+
+  "startDegree": {
+    "sign": "Sagittarius",
+    "longitude": 253.333333,
+    "display": "13°20' Sagittarius"
+  },
+
+  "endDegree": {
+    "sign": "Sagittarius",
+    "longitude": 266.666667,
+    "display": "26°40' Sagittarius"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 9,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Leo",
+      "syllable": "Bhu",
+      "akshara": "भू"
+    },
+    {
+      "number": 2,
+      "rashiId": 9,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Virgo",
+      "syllable": "Dha",
+      "akshara": "धा"
+    },
+    {
+      "number": 3,
+      "rashiId": 9,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Libra",
+      "syllable": "Pha",
+      "akshara": "फा"
+    },
+    {
+      "number": 4,
+      "rashiId": 9,
+      "startDegree": "23°20'",
+      "endDegree": "26°40'",
+      "navamsa": "Scorpio",
+      "syllable": "Dha",
+      "akshara": "ढा"
+    }
+  ],
+
+  "lord": "Venus",
+
+  "rashi": [
+    "Sagittarius"
+  ],
+
+  "deity": "Apah (Goddess of Cosmic Waters)",
+
+  "symbol": "Hand Fan",
+
+  "animalSymbol": "Male Monkey",
+
+  "gana": "Manushya",
+
+  "yoni": "Monkey",
+
+  "nadi": "Madhya",
+
+  "varna": "Brahmin",
+
+  "vashya": [
+    "Vanachara"
+  ],
+
+  "guna": "Rajas",
+
+  "tatva": "Fire",
+
+  "gender": "Female",
+
+  "nature": "Ugra (Fierce)",
+
+  "motivation": "Moksha",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Ashoka (Saraca asoca)",
+
+  "flower": "White Lotus",
+
+  "metal": "Silver",
+
+  "color": [
+    "White",
+    "Cream",
+    "Light Blue"
+  ],
+
+  "gemstone": "Diamond",
+
+  "rudraksha": [
+    "6 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "White Clothes",
+    "Rice",
+    "Water Pots",
+    "Curd",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ अपः स्वाहा",
+
+  "planetaryBeejMantra": "ॐ द्रां द्रीं द्रौं सः शुक्राय नमः",
+
+  "fastingDay": "Friday",
+
+  "positiveTraits": [
+    "Confident",
+    "Optimistic",
+    "Independent",
+    "Charismatic",
+    "Creative",
+    "Determined",
+    "Persuasive",
+    "Adventurous",
+    "Generous",
+    "Victorious"
+  ],
+
+  "negativeTraits": [
+    "Proud",
+    "Argumentative",
+    "Impulsive",
+    "Overconfident",
+    "Stubborn",
+    "Emotionally Intense"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Public Speaking",
+    "Creativity",
+    "Motivation",
+    "Influence"
+  ],
+
+  "weaknesses": [
+    "Overconfidence",
+    "Difficulty Accepting Defeat",
+    "Impulsiveness"
+  ],
+
+  "career": [
+    "Politician",
+    "Motivational Speaker",
+    "Teacher",
+    "Writer",
+    "Lawyer",
+    "Marketing Executive",
+    "Public Relations",
+    "Artist",
+    "Travel Industry",
+    "Entrepreneur"
+  ],
+
+  "education": [
+    "Law",
+    "Arts",
+    "Literature",
+    "Marketing",
+    "Management"
+  ],
+
+  "finance": [
+    "Strong Wealth Potential",
+    "Income through Creativity",
+    "Benefits from Long-Term Investments"
+  ],
+
+  "health": [
+    "Thighs",
+    "Hips",
+    "Liver",
+    "Blood Circulation",
+    "Dehydration"
+  ],
+
+  "bodyParts": [
+    "Thighs",
+    "Hips",
+    "Femur"
+  ],
+
+  "relationships": [
+    "Affectionate",
+    "Independent",
+    "Supportive",
+    "Values Respect"
+  ],
+
+  "loveNature": "Passionate",
+
+  "marriageNature": "Loyal",
+
+  "friendshipNature": "Cheerful",
+
+  "leadershipStyle": "Inspirational",
+
+  "communicationStyle": "Persuasive",
+
+  "decisionMaking": "Confident",
+
+  "emotionalNature": "Optimistic",
+
+  "learningStyle": "Experiential",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Marketing",
+    "Education",
+    "Politics",
+    "Media",
+    "Travel",
+    "Business"
+  ],
+
+  "goodFor": [
+    "Education",
+    "Travel",
+    "Competitions",
+    "Business Launch",
+    "Creative Activities",
+    "Public Events"
+  ],
+
+  "avoidFor": [
+    "Funeral Rites",
+    "Destructive Activities"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Swadhisthana",
+
+  "spiritualLesson": "True victory is achieved not by defeating others, but by mastering one's own ego and remaining pure in intention.",
+
+  "compatibleNakshatras": [
+    "Uttara Ashadha",
+    "Purva Phalguni",
+    "Swati"
+  ],
+
+  "challengingNakshatras": [
+    "Jyeshtha",
+    "Ashlesha"
+  ],
+
+  "mythologicalStory": "Purva Ashadha is ruled by Apah, the goddess of cosmic waters, symbolizing purification, invincibility and renewal. Like flowing water, this Nakshatra teaches adaptability, resilience and the power to overcome obstacles through inner purity and unwavering determination.",
+
+  "interestingFacts": [
+    "Represents invincibility and purification.",
+    "Excellent Nakshatra for competitions and public success.",
+    "Strong persuasive and leadership abilities.",
+    "Associated with creativity, beauty and optimism.",
+    "Success often comes through confidence and perseverance."
+  ],
+
+  "keywords": [
+    "Victory",
+    "Purification",
+    "Confidence",
+    "Creativity",
+    "Leadership",
+    "Resilience"
+  ],
+
+  "icon": "🌊",
+
+  "priorityLifeAreas": [
+    "Career",
+    "Leadership",
+    "Education",
+    "Personal Growth"
+  ]
+}

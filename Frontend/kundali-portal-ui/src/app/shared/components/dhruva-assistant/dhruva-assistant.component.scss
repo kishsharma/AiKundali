@@ -931,3 +931,972 @@
 
 
 
+
+/* HTML Dhruva merge: cosmic chat shell with the existing HoraLife brain. */
+.dhruva-panel {
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(560px, calc(100dvh - 108px));
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--dhruva-identity-gold) 16%, transparent), transparent 30%),
+    linear-gradient(165deg, color-mix(in srgb, var(--dhruva-panel-bg) 96%, #170a38), var(--dhruva-panel-bg));
+  box-shadow: 0 20px 60px var(--dhruva-panel-shadow), 0 0 0 1px color-mix(in srgb, var(--dhruva-identity-gold) 8%, transparent) inset;
+  transform-origin: bottom right;
+}
+
+.dhruva-panel.expanded {
+  width: min(900px, calc(100vw - 32px));
+}
+
+.dhruva-panel-header {
+  align-items: center;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--dhruva-message-bg) 76%, transparent);
+}
+
+.dhruva-title-emblem,
+.dhruva-button-star {
+  overflow: visible;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.96), color-mix(in srgb, var(--dhruva-identity-gold) 62%, #c084fc) 34%, color-mix(in srgb, var(--theme-accent) 70%, #4f367f) 72%, transparent 100%);
+}
+
+.dhruva-emblem-orbit {
+  position: absolute;
+  inset: -6px;
+  border: 1px solid color-mix(in srgb, var(--dhruva-identity-gold) 36%, transparent);
+  border-radius: 999px;
+  animation: dhruvaOrbPulse 2.6s ease-in-out infinite;
+}
+
+.dhruva-title-emblem img,
+.dhruva-button-star img {
+  filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.35));
+}
+
+.dhruva-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  color: var(--theme-text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.dhruva-status::before {
+  display: none;
+}
+
+.dhruva-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--dhruva-identity-gold);
+  box-shadow: 0 0 8px var(--dhruva-star-glow);
+}
+
+.dhruva-status.thinking .dhruva-status-dot {
+  background: #f2b94b;
+  box-shadow: 0 0 9px rgba(242, 185, 75, 0.75);
+  animation: dhruvaStatusPulse 760ms ease-in-out infinite;
+}
+
+.dhruva-status.speaking .dhruva-status-dot {
+  background: #d85f95;
+  box-shadow: 0 0 9px rgba(216, 95, 149, 0.72);
+  animation: dhruvaStatusPulse 560ms ease-in-out infinite;
+}
+
+.dhruva-panel-actions {
+  gap: 7px;
+}
+
+.dhruva-mode-action,
+.dhruva-close {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  border-radius: 999px;
+  padding: 0;
+  background: color-mix(in srgb, var(--theme-input-bg) 70%, transparent);
+}
+
+.dhruva-mode-action span:not([aria-hidden='true']) {
+  display: none;
+}
+
+.dhruva-scroll-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dhruva-chat-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dhruva-chat-message {
+  max-width: 86%;
+  margin: 0;
+  border-radius: 15px;
+  padding: 10px 13px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.dhruva-chat-message.bot {
+  align-self: flex-start;
+  border: 1px solid var(--dhruva-panel-border);
+  border-bottom-left-radius: 5px;
+  background: var(--dhruva-message-bg);
+  color: var(--theme-text);
+}
+
+.dhruva-chat-message.user {
+  align-self: flex-end;
+  border-bottom-right-radius: 5px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-accent) 82%, #4f367f), #c15882);
+  color: #fffaf0;
+}
+
+.dhruva-answer {
+  border-left: 0;
+  box-shadow: none;
+}
+
+.dhruva-chip-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.dhruva-chip,
+.dhruva-question {
+  border-radius: 999px;
+}
+
+.dhruva-chip {
+  border: 1px solid color-mix(in srgb, var(--dhruva-identity-gold) 28%, var(--theme-line));
+  padding: 6px 11px;
+  background: color-mix(in srgb, var(--dhruva-message-bg) 80%, transparent);
+  color: var(--theme-text-muted);
+  cursor: pointer;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.dhruva-chip:hover,
+.dhruva-chip:focus-visible {
+  border-color: var(--dhruva-identity-gold);
+  color: var(--theme-text);
+  outline: none;
+}
+
+.dhruva-ask-row input {
+  border-radius: 999px;
+  padding: 10px 14px;
+}
+
+.dhruva-ask-submit {
+  width: 38px;
+  border-radius: 999px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--theme-accent) 86%, #4f367f), #c15882);
+  color: #fffaf0;
+}
+
+.dhruva-button {
+  position: relative;
+  min-width: 64px;
+  min-height: 64px;
+  border: 0;
+  padding: 0 14px 0 0;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.dhruva-button:hover,
+.dhruva-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+.dhruva-button-star {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-color: color-mix(in srgb, var(--dhruva-identity-gold) 36%, transparent);
+  box-shadow: 0 0 18px var(--dhruva-star-glow), 0 0 34px var(--dhruva-nebula-glow), 0 0 54px var(--dhruva-nebula-blue);
+}
+
+.dhruva-launcher-ring {
+  position: absolute;
+  left: 0;
+  width: 64px;
+  height: 64px;
+  border: 1px solid color-mix(in srgb, var(--dhruva-identity-gold) 38%, transparent);
+  border-radius: 999px;
+  animation: dhruvaOrbPulse 2.6s ease-in-out infinite;
+}
+
+.dhruva-launcher-badge {
+  position: absolute;
+  left: 48px;
+  bottom: 3px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--dhruva-panel-bg);
+  border-radius: 999px;
+  background: #d85f95;
+  box-shadow: 0 0 8px rgba(216, 95, 149, 0.78);
+}
+
+.dhruva-button-label {
+  margin-left: -4px;
+  border: 1px solid var(--dhruva-button-border);
+  border-radius: 999px;
+  padding: 8px 12px 8px 16px;
+  background: var(--dhruva-button-bg);
+  color: var(--dhruva-button-text);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--dhruva-star-glow) 52%, transparent);
+  font-size: 13px;
+}
+
+@keyframes dhruvaOrbPulse {
+  0%, 100% {
+    opacity: 0.62;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes dhruvaStatusPulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.72);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dhruva-emblem-orbit,
+  .dhruva-launcher-ring,
+  .dhruva-status-dot {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .dhruva-button-label {
+    display: none;
+  }
+
+  .dhruva-button {
+    padding: 0;
+  }
+
+  .dhruva-chat-message {
+    max-width: 90%;
+  }
+}
+
+/* Compact Dhruva launcher chip. */
+.dhruva-button {
+  min-width: 0;
+  min-height: 34px;
+  border: 1px solid color-mix(in srgb, var(--dhruva-identity-gold) 34%, var(--theme-line));
+  border-radius: 999px;
+  padding: 7px 13px;
+  animation: none;
+  background: color-mix(in srgb, var(--dhruva-panel-bg) 88%, transparent);
+  color: var(--theme-text);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--dhruva-panel-shadow) 72%, transparent);
+}
+
+.dhruva-button:hover,
+.dhruva-button:focus-visible {
+  border-color: var(--dhruva-identity-gold);
+  background: color-mix(in srgb, var(--dhruva-message-bg) 84%, var(--dhruva-panel-bg));
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--dhruva-star-glow) 52%, transparent);
+  transform: translateY(-1px);
+}
+
+.dhruva-button-label {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  color: currentColor;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (max-width: 560px) {
+  .dhruva-button-label {
+    display: inline;
+  }
+}
+
+/* Final HTML Dhruva experience: glowing orb launcher + nebula core. */
+.dhruva-panel {
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(540px, calc(100dvh - 150px));
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, #c084fc 18%, transparent), transparent 34%),
+    linear-gradient(165deg, color-mix(in srgb, var(--dhruva-panel-bg) 92%, #140930), color-mix(in srgb, var(--dhruva-panel-bg) 96%, #080316));
+  border-color: color-mix(in srgb, #c084fc 22%, var(--dhruva-panel-border));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32), 0 0 0 1px color-mix(in srgb, #c084fc 7%, transparent) inset;
+  overflow: hidden;
+  transform-origin: bottom right;
+}
+
+:host-context(body[data-theme='dark']) .dhruva-panel {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.52), 0 0 0 1px rgba(192, 132, 252, 0.06) inset;
+}
+
+.dhruva-panel-header {
+  align-items: center;
+  border-bottom-color: color-mix(in srgb, #c084fc 18%, var(--dhruva-panel-border));
+  background: color-mix(in srgb, var(--dhruva-message-bg) 72%, transparent);
+}
+
+.dhruva-title-emblem,
+.dhruva-button-star {
+  position: relative;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  isolation: isolate;
+}
+
+.dhruva-title-emblem::before,
+.dhruva-button-star::before {
+  display: none;
+}
+
+.dhruva-mini-orb {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  animation: dhruvaCoreBreathe 2.4s ease-in-out infinite;
+}
+
+.dhruva-button {
+  position: relative;
+  display: inline-flex;
+  width: 64px;
+  min-width: 64px;
+  height: 64px;
+  min-height: 64px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  animation: none;
+  background: transparent;
+  box-shadow: none;
+  color: transparent;
+}
+
+.dhruva-button:hover,
+.dhruva-button:focus-visible {
+  transform: translateY(-1px);
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+.dhruva-button-star {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.45));
+}
+
+.dhruva-launcher-ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  border-radius: 999px;
+  animation: dhruvaRingPulse 2.6s ease-in-out infinite;
+}
+
+.dhruva-launcher-badge {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--dhruva-panel-bg);
+  border-radius: 999px;
+  background: #ec4899;
+  box-shadow: 0 0 8px #ec4899;
+}
+
+.dhruva-button-label {
+  display: none;
+}
+
+.dhruva-nebula-layer,
+.dhruva-nebula-core,
+.dhruva-orb-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.dhruva-nebula-layer {
+  mix-blend-mode: screen;
+  opacity: 0.82;
+  filter: blur(0.2px);
+}
+
+.dhruva-button-star .layer-one,
+.dhruva-button-star .layer-two,
+.dhruva-button-star .layer-three,
+.dhruva-button-star .layer-four {
+  width: 31px;
+  height: 31px;
+}
+
+.dhruva-mini-orb .layer-one,
+.dhruva-mini-orb .layer-two,
+.dhruva-mini-orb .layer-three {
+  width: 22px;
+  height: 22px;
+}
+
+.layer-one {
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.72) 0%, rgba(147, 51, 234, 0) 68%);
+  animation: dhruvaBlobOne 4.4s ease-in-out infinite;
+}
+
+.layer-two {
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.68) 0%, rgba(236, 72, 153, 0) 68%);
+  animation: dhruvaBlobTwo 4.9s ease-in-out infinite;
+}
+
+.layer-three {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.6) 0%, rgba(56, 189, 248, 0) 70%);
+  animation: dhruvaBlobThree 5.2s ease-in-out infinite;
+}
+
+.layer-four {
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.62) 0%, rgba(192, 132, 252, 0) 70%);
+  animation: dhruvaBlobFour 4.7s ease-in-out infinite;
+}
+
+.dhruva-nebula-core {
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.96) 0%, rgba(224, 204, 255, 0.65) 42%, rgba(147, 51, 234, 0) 78%);
+  box-shadow: 0 0 12px rgba(224, 204, 255, 0.56), 0 0 22px rgba(147, 51, 234, 0.34);
+  animation: dhruvaCorePulse 1.9s ease-in-out infinite;
+}
+
+.dhruva-mini-orb .dhruva-nebula-core {
+  width: 13px;
+  height: 13px;
+}
+
+.dhruva-orb-particle {
+  width: 3px;
+  height: 3px;
+  background: #c084fc;
+  box-shadow: 0 0 6px currentColor;
+  color: #c084fc;
+  opacity: 0;
+}
+
+.particle-one { animation: dhruvaParticleOne 2.7s linear infinite; }
+.particle-two { color: #ec4899; background: #ec4899; animation: dhruvaParticleTwo 3.1s linear infinite 0.25s; }
+.particle-three { color: #38bdf8; background: #38bdf8; animation: dhruvaParticleThree 2.9s linear infinite 0.5s; }
+.particle-four { color: #fbbf24; background: #fbbf24; animation: dhruvaParticleFour 3.4s linear infinite 0.75s; }
+.particle-five { animation: dhruvaParticleFive 3s linear infinite 1s; }
+.particle-six { color: #ec4899; background: #ec4899; animation: dhruvaParticleSix 3.6s linear infinite 1.2s; }
+
+.dhruva-status-dot {
+  background: #c084fc;
+  box-shadow: 0 0 6px #c084fc;
+}
+
+.dhruva-status.thinking .dhruva-status-dot {
+  background: #fbbf24;
+  box-shadow: 0 0 6px #fbbf24;
+}
+
+.dhruva-status.speaking .dhruva-status-dot {
+  background: #ec4899;
+  box-shadow: 0 0 6px #ec4899;
+}
+
+.dhruva-chat-message.bot {
+  background: color-mix(in srgb, #9333ea 10%, var(--dhruva-panel-bg));
+  border-color: color-mix(in srgb, #c084fc 18%, var(--dhruva-panel-border));
+}
+
+.dhruva-chat-message.user,
+.dhruva-ask-submit {
+  background: linear-gradient(135deg, #9333ea, #ec4899);
+}
+
+.dhruva-chip {
+  border-color: color-mix(in srgb, #c084fc 20%, var(--dhruva-panel-border));
+  background: color-mix(in srgb, #9333ea 6%, var(--theme-input-bg));
+}
+
+@keyframes dhruvaRingPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0; transform: scale(1.18); }
+}
+
+@keyframes dhruvaCoreBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes dhruvaCorePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.82; }
+  50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
+}
+
+@keyframes dhruvaBlobOne {
+  0%, 100% { transform: translate(-58%, -54%) scale(0.9); }
+  50% { transform: translate(-46%, -42%) scale(1.22); }
+}
+
+@keyframes dhruvaBlobTwo {
+  0%, 100% { transform: translate(-42%, -52%) scale(0.94); }
+  50% { transform: translate(-56%, -58%) scale(1.18); }
+}
+
+@keyframes dhruvaBlobThree {
+  0%, 100% { transform: translate(-50%, -42%) scale(0.88); }
+  50% { transform: translate(-40%, -56%) scale(1.2); }
+}
+
+@keyframes dhruvaBlobFour {
+  0%, 100% { transform: translate(-50%, -58%) scale(0.9); }
+  50% { transform: translate(-61%, -45%) scale(1.16); }
+}
+
+@keyframes dhruvaParticleOne {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(12deg) translateX(14px) scale(0.6); }
+  18%, 72% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(96deg) translateX(44px) scale(1); }
+}
+
+@keyframes dhruvaParticleTwo {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(96deg) translateX(15px) scale(0.6); }
+  18%, 72% { opacity: 0.82; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(182deg) translateX(43px) scale(0.95); }
+}
+
+@keyframes dhruvaParticleThree {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(176deg) translateX(15px) scale(0.6); }
+  18%, 72% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(268deg) translateX(42px) scale(1); }
+}
+
+@keyframes dhruvaParticleFour {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(246deg) translateX(14px) scale(0.6); }
+  18%, 72% { opacity: 0.78; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(336deg) translateX(44px) scale(0.9); }
+}
+
+@keyframes dhruvaParticleFive {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(304deg) translateX(16px) scale(0.6); }
+  18%, 72% { opacity: 0.86; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(392deg) translateX(45px) scale(1); }
+}
+
+@keyframes dhruvaParticleSix {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(42deg) translateX(15px) scale(0.6); }
+  18%, 72% { opacity: 0.82; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(132deg) translateX(41px) scale(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dhruva-launcher-ring,
+  .dhruva-mini-orb,
+  .dhruva-nebula-layer,
+  .dhruva-nebula-core,
+  .dhruva-orb-particle {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .dhruva-button {
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    min-height: 60px;
+  }
+
+  .dhruva-button-star,
+  .dhruva-launcher-ring {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Compact header: keep Dhruva's mind state beside the title. */
+.dhruva-panel-header {
+  padding-block: 10px;
+}
+
+.dhruva-title-block {
+  align-items: center;
+}
+
+.dhruva-title-copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.dhruva-title-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.dhruva-title-row h2 {
+  min-width: 0;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.dhruva-title-copy p {
+  margin-top: 0;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.dhruva-title-row .dhruva-status {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  border: 1px solid color-mix(in srgb, var(--dhruva-identity-gold) 26%, var(--dhruva-panel-border));
+  border-radius: 999px;
+  padding: 3px 7px;
+  background: color-mix(in srgb, var(--dhruva-message-bg) 68%, transparent);
+  font-size: 10px;
+  line-height: 1;
+}
+
+@media (max-width: 380px) {
+  .dhruva-title-row {
+    gap: 6px;
+  }
+
+  .dhruva-title-row h2 {
+    font-size: 22px;
+  }
+
+  .dhruva-title-row .dhruva-status {
+    padding-inline: 6px;
+  }
+}
+
+/* Janma Story reveal: make story answers feel narrated, not dumped. */
+.dhruva-janma-story-card {
+  animation: dhruvaStoryCardEnter 420ms ease both;
+}
+
+.dhruva-story-awakening {
+  display: flex;
+  min-height: 96px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.dhruva-story-awakening span {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #c084fc;
+  box-shadow: 0 0 14px rgba(192, 132, 252, 0.72), 0 0 28px rgba(147, 51, 234, 0.35);
+  animation: dhruvaStoryAwaken 900ms ease-in-out infinite;
+}
+
+.dhruva-story-awakening span:nth-child(2) {
+  background: #ec4899;
+  animation-delay: 140ms;
+}
+
+.dhruva-story-awakening span:nth-child(3) {
+  background: #38bdf8;
+  animation-delay: 280ms;
+}
+
+.dhruva-story-header,
+.dhruva-story-footer {
+  animation: dhruvaStorySectionEnter 420ms ease both;
+}
+
+.dhruva-story-line {
+  opacity: 0;
+  animation: dhruvaStoryLineEnter 520ms ease both;
+  animation-delay: calc(90ms + (var(--story-line-index, 0) * 120ms));
+}
+
+@keyframes dhruvaStoryCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dhruvaStorySectionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dhruvaStoryLineEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dhruvaStoryAwaken {
+  0%, 100% {
+    opacity: 0.34;
+    transform: translateY(0) scale(0.78);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dhruva-janma-story-card,
+  .dhruva-story-awakening span,
+  .dhruva-story-header,
+  .dhruva-story-footer,
+  .dhruva-story-line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Compact composer footer: HTML Dhruva-style input with paper-plane send. */
+.dhruva-panel-footer {
+  gap: 6px;
+  padding: 8px 12px 10px;
+}
+
+.dhruva-panel.expanded .dhruva-panel-footer {
+  padding: 10px clamp(14px, 2vw, 18px) 12px;
+}
+
+.dhruva-ask-form {
+  gap: 4px;
+}
+
+.dhruva-input-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dhruva-ask-row {
+  gap: 7px;
+}
+
+.dhruva-ask-row input {
+  min-height: 36px;
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-size: 12.5px;
+  line-height: 1.2;
+}
+
+.dhruva-ask-submit {
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  height: 36px;
+  border-radius: 999px;
+}
+
+.dhruva-ask-submit svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dhruva-input-error {
+  padding-left: 12px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.dhruva-secondary-actions {
+  gap: 6px;
+}
+
+.dhruva-tour-again {
+  min-height: 26px;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+@media (max-width: 560px) {
+  .dhruva-panel-footer {
+    padding: 8px 10px 10px;
+  }
+}
+
+/* Smaller Dhruva header typography for a tighter chat window. */
+.dhruva-panel-header {
+  padding-block: 8px;
+}
+
+.dhruva-title-row h2 {
+  font-size: 20px;
+  line-height: 0.95;
+}
+
+.dhruva-title-copy p {
+  font-size: 11px;
+  line-height: 1.1;
+}
+
+.dhruva-title-row .dhruva-status {
+  padding: 2px 6px;
+  font-size: 9.5px;
+}
+
+.dhruva-mini-orb {
+  width: 32px;
+  height: 32px;
+  flex-basis: 32px;
+}
+
+@media (max-width: 380px) {
+  .dhruva-title-row h2 {
+    font-size: 19px;
+  }
+}
+
+/* Smooth HTML-reference open, close, expand and restore motion. */
+.dhruva-assistant {
+  transition: inset 260ms ease, padding 260ms ease, align-items 260ms ease, justify-content 260ms ease;
+}
+
+.dhruva-panel {
+  will-change: transform, opacity, width, max-height;
+  animation: dhruvaPanelOpen 240ms cubic-bezier(0.2, 0.9, 0.3, 1.18) both;
+  transition:
+    width 280ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    max-height 280ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    border-radius 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease,
+    opacity 180ms ease;
+}
+
+.dhruva-panel.expanded {
+  transform-origin: center;
+}
+
+.dhruva-panel.closing {
+  pointer-events: none;
+  animation: dhruvaPanelClose 180ms ease both;
+}
+
+.dhruva-button {
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.dhruva-button:hover,
+.dhruva-button:focus-visible {
+  transform: translateY(-1px) scale(1.02);
+}
+
+@keyframes dhruvaPanelOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.86) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dhruvaPanelClose {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.88) translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dhruva-assistant,
+  .dhruva-panel,
+  .dhruva-button {
+    animation: none;
+    transition: none;
+  }
+}

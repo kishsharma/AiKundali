@@ -11,6 +11,9 @@ export interface UserLoginControlUser {
   phoneNumber?: string | null;
   isActive: boolean;
   kundaliSaveLimit: number;
+  planCode: string;
+  planExpiresAt?: string | null;
+  isPremium: boolean;
 }
 
 @Injectable({
@@ -30,5 +33,9 @@ export class UserLoginControlService {
 
   updateKundaliSaveLimit(id: string, kundaliSaveLimit: number): Observable<UserLoginControlUser> {
     return this.http.patch<UserLoginControlUser>(`${this.apiUrl}/${id}/kundali-save-limit`, { kundaliSaveLimit });
+  }
+
+  updatePremiumPlan(id: string, isPremium: boolean, planExpiresAt: string | null): Observable<UserLoginControlUser> {
+    return this.http.patch<UserLoginControlUser>(`${this.apiUrl}/${id}/premium-plan`, { isPremium, planExpiresAt });
   }
 }

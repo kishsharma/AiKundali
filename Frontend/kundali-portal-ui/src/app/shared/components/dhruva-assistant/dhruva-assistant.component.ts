@@ -162,6 +162,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     private readonly changeDetector: ChangeDetectorRef = { markForCheck: () => undefined } as ChangeDetectorRef,
   ) {}
   isOpen = false;
+  isClosing = false;
   isExpanded = false;
   isTourOpen = false;
   isGeneralQuestionsOpen = false;
@@ -182,6 +183,8 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   private responseTypingStartTimer: ReturnType<typeof setTimeout> | null = null;
   private responseTypingInterval: ReturnType<typeof setInterval> | null = null;
   private hadKundaliContext = false;
+  private panelStateBeforeTour: { isOpen: boolean; isExpanded: boolean } | null = null;
+  private closeTransitionTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly generalQuestions: DhruvaGeneralQuestion[] = [
     {
@@ -434,6 +437,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
   ngOnDestroy(): void {
     this.clearResponseTypingTimers();
+    this.clearCloseTransitionTimer();
     this.clearTargetHighlight();
   }
 
@@ -492,21 +496,57 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     return this.currentTourIndex === this.activeTourSteps.length - 1;
   }
 
+  get dhruvaStatus(): 'idle' | 'thinking' | 'speaking' {
+    if (this.isTypingResponse) {
+      return 'thinking';
+    }
+
+    return this.responseVisibleLength !== Number.MAX_SAFE_INTEGER && this.responseVisibleLength < 600
+      ? 'speaking'
+      : 'idle';
+  }
+
+  get dhruvaStatusLabel(): string {
+    const labels: Record<'idle' | 'thinking' | 'speaking', string> = {
+      idle: 'Idle',
+      thinking: 'Thinking',
+      speaking: 'Speaking',
+    };
+
+    return labels[this.dhruvaStatus];
+  }
+
   open(): void {
+    this.clearCloseTransitionTimer();
+    this.isClosing = false;
     this.isOpen = true;
   }
 
   close(): void {
+    if (!this.isOpen) {
+      this.isClosing = false;
+      this.isExpanded = false;
+      return;
+    }
+
     this.isOpen = false;
     this.isExpanded = false;
+    this.isClosing = true;
+    this.clearCloseTransitionTimer();
+    this.closeTransitionTimer = setTimeout(() => {
+      this.isClosing = false;
+      this.closeTransitionTimer = null;
+      this.markResponseAnimationForCheck();
+    }, 220);
   }
 
   toggle(): void {
-    this.isOpen = !this.isOpen;
-
-    if (!this.isOpen) {
-      this.isExpanded = false;
+    if (this.isOpen) {
+      this.close();
+      return;
     }
+
+    this.open();
   }
 
   expand(): void {
@@ -660,6 +700,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     this.activeTourKind = 'portal';
     this.activePortalTourSteps = visibleSteps;
     this.activeReportTourSteps = [];
+    this.panelStateBeforeTour = { isOpen: this.isOpen, isExpanded: this.isExpanded };
     this.isOpen = false;
     this.isTourOpen = true;
     this.currentTourIndex = 0;
@@ -706,6 +747,14 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   }
 
 
+  private clearCloseTransitionTimer(): void {
+    if (!this.closeTransitionTimer) {
+      return;
+    }
+
+    clearTimeout(this.closeTransitionTimer);
+    this.closeTransitionTimer = null;
+  }
   private beginResponseReveal(): void {
     this.clearResponseTypingTimers();
 
@@ -1132,6 +1181,19 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
     this.isTourOpen = false;
     this.clearTargetHighlight();
+    this.restorePanelAfterTour();
+  }
+
+  private restorePanelAfterTour(): void {
+    const panelState = this.panelStateBeforeTour;
+    this.panelStateBeforeTour = null;
+
+    if (!panelState?.isOpen) {
+      return;
+    }
+
+    this.isOpen = true;
+    this.isExpanded = panelState.isExpanded;
   }
 
   private updateTourPosition(scrollTarget = false): void {
@@ -1194,6 +1256,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
     this.activeTourKind = 'kundali-report';
     this.activeReportTourSteps = visibleSteps;
+    this.panelStateBeforeTour = { isOpen: this.isOpen, isExpanded: this.isExpanded };
     this.isOpen = false;
     this.isTourOpen = true;
     this.currentTourIndex = 0;

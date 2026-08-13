@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
 type TermGroup = 'planet' | 'sign' | 'nakshatra';
+type ApiValueGroup =
+  | 'panchangMaas' | 'panchangPaksha' | 'panchangTithi' | 'panchangYoga' | 'panchangKarana' | 'panchangVaar'
+  | 'strength' | 'severity' | 'tone' | 'activationLevel'
+  | 'element' | 'direction' | 'metal' | 'gemstone' | 'gana' | 'yoni' | 'nadi' | 'varna' | 'vashya' | 'dosha';
 
 @Injectable({ providedIn: 'root' })
 export class ApiTermTranslationService {
@@ -28,18 +32,8 @@ export class ApiTermTranslationService {
   };
 
   private readonly signLords: Record<string, string> = {
-    Aries: 'Mars',
-    Taurus: 'Venus',
-    Gemini: 'Mercury',
-    Cancer: 'Moon',
-    Leo: 'Sun',
-    Virgo: 'Mercury',
-    Libra: 'Venus',
-    Scorpio: 'Mars',
-    Sagittarius: 'Jupiter',
-    Capricorn: 'Saturn',
-    Aquarius: 'Saturn',
-    Pisces: 'Jupiter'
+    Aries: 'Mars', Taurus: 'Venus', Gemini: 'Mercury', Cancer: 'Moon', Leo: 'Sun', Virgo: 'Mercury',
+    Libra: 'Venus', Scorpio: 'Mars', Sagittarius: 'Jupiter', Capricorn: 'Saturn', Aquarius: 'Saturn', Pisces: 'Jupiter'
   };
 
   private readonly nakshatras: Record<string, string> = {
@@ -55,6 +49,18 @@ export class ApiTermTranslationService {
     dhanishta: 'Dhanishta', dhanishtha: 'Dhanishta', shatabhisha: 'Shatabhisha', satabhisha: 'Shatabhisha',
     purvabhadrapada: 'PurvaBhadrapada', poorvabhadrapada: 'PurvaBhadrapada',
     uttarabhadrapada: 'UttaraBhadrapada', revati: 'Revati'
+  };
+
+  private readonly apiValueAliases: Partial<Record<ApiValueGroup, Record<string, string>>> = {
+    panchangMaas: { vaisakha: 'vaishakha', vaishakh: 'vaishakha', baisakh: 'vaishakha', jyestha: 'jyeshtha', ashada: 'ashadha', shravan: 'shravana', sawan: 'shravana', bhadra: 'bhadrapada', ashwina: 'ashwin', kartika: 'kartik', margasirsa: 'margashirsha', margashira: 'margashirsha', agrahayana: 'margashirsha', paus: 'pausha', phalgun: 'phalguna' },
+    panchangPaksha: { sukla: 'shukla', shuklapaksha: 'shukla', suklapaksha: 'shukla', krishnapaksha: 'krishna' },
+    panchangTithi: { prathama: 'pratipada', dvitiya: 'dwitiya', sashti: 'shashthi', dasami: 'dashami', dvadashi: 'dwadashi', poornima: 'purnima', amavas: 'amavasya' },
+    panchangVaar: { ravivar: 'sunday', raviwar: 'sunday', somvar: 'monday', somwar: 'monday', mangalvar: 'tuesday', mangalwar: 'tuesday', budhvar: 'wednesday', budhwar: 'wednesday', guruvar: 'thursday', guruwar: 'thursday', brihaspativar: 'thursday', shukravar: 'friday', shukrawar: 'friday', shanivar: 'saturday', shaniwar: 'saturday' },
+    strength: { ownsign: 'ownSign', notapplicable: 'notApplicable' },
+    activationLevel: { activenow: 'active' },
+    direction: { northeast: 'northEast', northwest: 'northWest', southeast: 'southEast', southwest: 'southWest' },
+    gemstone: { yellowsapphire: 'yellowSapphire', bluesapphire: 'blueSapphire', redcoral: 'redCoral', catseye: 'catsEye', hessonitegarnet: 'hessonite' },
+    gana: { manusya: 'manushya' }
   };
 
   constructor(private readonly translocoService: TranslocoService) {}
@@ -83,6 +89,27 @@ export class ApiTermTranslationService {
     return this.translate('nakshatra', value);
   }
 
+  translatePanchangValue(field: 'maas' | 'paksha' | 'tithi' | 'nakshatra' | 'yoga' | 'karana' | 'vaar', value: unknown): string {
+    if (field === 'nakshatra') {
+      return this.translateNakshatra(value);
+    }
+
+    const group = ({
+      maas: 'panchangMaas', paksha: 'panchangPaksha', tithi: 'panchangTithi',
+      yoga: 'panchangYoga', karana: 'panchangKarana', vaar: 'panchangVaar'
+    } as const)[field];
+
+    return this.translateApiValue(group, value);
+  }
+
+  translateControlledValue(group: 'strength' | 'severity' | 'tone' | 'activationLevel', value: unknown): string {
+    return this.translateApiValue(group, value);
+  }
+
+  translateMetadataValue(group: 'element' | 'direction' | 'metal' | 'gemstone' | 'gana' | 'yoni' | 'nadi' | 'varna' | 'vashya' | 'dosha', value: unknown): string {
+    return this.translateApiValue(group, value);
+  }
+
   translateSignLord(value: unknown): string {
     const text = this.cleanValue(value);
     if (!text) {
@@ -92,6 +119,19 @@ export class ApiTermTranslationService {
     const canonicalSign = this.resolveCanonical('sign', text);
     const lord = canonicalSign ? this.signLords[canonicalSign] : undefined;
     return lord ? this.translatePlanet(lord) : '';
+  }
+
+  private translateApiValue(group: ApiValueGroup, value: unknown): string {
+    const text = this.cleanValue(value);
+    if (!text) {
+      return '';
+    }
+
+    const normalized = this.normalize(text);
+    const keyPart = this.apiValueAliases[group]?.[normalized] ?? normalized;
+    const key = `apiTerm.${group}.${keyPart}`;
+    const translated = this.translocoService.translate(key);
+    return translated && translated !== key ? translated : text;
   }
 
   private resolveCanonical(group: TermGroup, value: string): string | undefined {

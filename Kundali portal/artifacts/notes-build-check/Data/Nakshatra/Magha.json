@@ -1,0 +1,305 @@
+{
+  "id": 10,
+  "name": "Magha",
+  "sanskritName": "मघा",
+  "englishName": "Magha",
+
+  "startDegree": {
+    "sign": "Leo",
+    "longitude": 120.000000,
+    "display": "0°00' Leo"
+  },
+
+  "endDegree": {
+    "sign": "Leo",
+    "longitude": 133.333333,
+    "display": "13°20' Leo"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 5,
+      "startDegree": "0°00'",
+      "endDegree": "3°20'",
+      "navamsa": "Aries",
+      "syllable": "Ma",
+      "akshara": "मा"
+    },
+    {
+      "number": 2,
+      "rashiId": 5,
+      "startDegree": "3°20'",
+      "endDegree": "6°40'",
+      "navamsa": "Taurus",
+      "syllable": "Mi",
+      "akshara": "मी"
+    },
+    {
+      "number": 3,
+      "rashiId": 5,
+      "startDegree": "6°40'",
+      "endDegree": "10°00'",
+      "navamsa": "Gemini",
+      "syllable": "Mu",
+      "akshara": "मू"
+    },
+    {
+      "number": 4,
+      "rashiId": 5,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Cancer",
+      "syllable": "Me",
+      "akshara": "मे"
+    }
+  ],
+
+  "lord": "Ketu",
+
+  "rashi": [
+    "Leo"
+  ],
+
+  "deity": "Pitris (Ancestors)",
+
+  "symbol": "Royal Throne",
+
+  "animalSymbol": "Male Rat",
+
+  "gana": "Rakshasa",
+
+  "yoni": "Rat",
+
+  "nadi": "Antya",
+
+  "varna": "Kshatriya",
+
+  "vashya": [
+    "Vanachara"
+  ],
+
+  "guna": "Tamas",
+
+  "tatva": "Fire",
+
+  "gender": "Female",
+
+  "nature": "Ugra (Fierce)",
+
+  "motivation": "Artha",
+
+  "mukha": "Adhomukha",
+
+  "dosha": {
+    "vata": "Medium",
+    "pitta": "High",
+    "kapha": "Low"
+  },
+
+  "direction": "South",
+
+  "aradhyaVruksha": "Banyan (Ficus benghalensis)",
+
+  "flower": "Marigold",
+
+  "metal": "Gold",
+
+  "color": [
+    "Golden",
+    "Red",
+    "Orange"
+  ],
+
+  "gemstone": "Cat's Eye",
+
+  "rudraksha": [
+    "9 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Blankets",
+    "Sesame Seeds",
+    "Food to Elders",
+    "Cow Donation",
+    "Ancestor Charity"
+  ],
+
+  "recommendedMantra": "ॐ पितृभ्यो नमः",
+
+  "planetaryBeejMantra": "ॐ स्त्रां स्त्रीं स्त्रौं सः केतवे नमः",
+
+  "fastingDay": "Tuesday",
+
+  "positiveTraits": [
+    "Dignified",
+    "Honorable",
+    "Confident",
+    "Leadership Qualities",
+    "Traditional",
+    "Responsible",
+    "Loyal",
+    "Respected",
+    "Independent",
+    "Generous"
+  ],
+
+  "negativeTraits": [
+    "Proud",
+    "Authoritative",
+    "Egoistic",
+    "Dominating",
+    "Status Conscious",
+    "Rigid"
+  ],
+
+  "strengths": [
+    "Leadership",
+    "Administration",
+    "Tradition",
+    "Decision Making",
+    "Responsibility"
+  ],
+
+  "weaknesses": [
+    "Ego",
+    "Stubbornness",
+    "Difficulty Accepting Criticism"
+  ],
+
+  "career": [
+    "Government Officer",
+    "Politician",
+    "Judge",
+    "Administrator",
+    "CEO",
+    "Military Officer",
+    "Historian",
+    "Temple Trustee",
+    "Royal Services",
+    "Genealogist"
+  ],
+
+  "education": [
+    "History",
+    "Political Science",
+    "Public Administration",
+    "Law",
+    "Management"
+  ],
+
+  "finance": [
+    "Inheritance",
+    "Stable Wealth",
+    "Success through Authority"
+  ],
+
+  "health": [
+    "Heart",
+    "Back",
+    "Blood Pressure",
+    "Spine",
+    "Stress"
+  ],
+
+  "bodyParts": [
+    "Heart",
+    "Upper Back",
+    "Spine"
+  ],
+
+  "relationships": [
+    "Protective",
+    "Traditional",
+    "Family Oriented",
+    "Respects Elders"
+  ],
+
+  "loveNature": "Loyal",
+
+  "marriageNature": "Responsible",
+
+  "friendshipNature": "Dependable",
+
+  "leadershipStyle": "Authoritative",
+
+  "communicationStyle": "Confident",
+
+  "decisionMaking": "Firm",
+
+  "emotionalNature": "Proud",
+
+  "learningStyle": "Experience Based",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Government",
+    "Administration",
+    "Politics",
+    "Management",
+    "Law",
+    "Heritage Conservation"
+  ],
+
+  "goodFor": [
+    "Ancestral Rituals",
+    "Government Work",
+    "Leadership Roles",
+    "Buying Property",
+    "Assuming Authority"
+  ],
+
+  "avoidFor": [
+    "Marriage Ceremony",
+    "Peace Negotiations",
+    "Emotional Discussions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Manipura",
+
+  "spiritualLesson": "Honor your ancestors and traditions while creating your own legacy through righteous leadership and humility.",
+
+  "compatibleNakshatras": [
+    "Ashwini",
+    "Mula",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Rohini",
+    "Anuradha"
+  ],
+
+  "mythologicalStory": "Magha is ruled by the Pitris, the divine ancestors. It represents heritage, royal authority, family lineage and the blessings received from honoring one's forefathers. This Nakshatra reminds us that true greatness comes from respecting our roots while fulfilling our responsibilities.",
+
+  "interestingFacts": [
+    "Represents royal dignity and ancestral blessings.",
+    "Strong connection with family lineage and traditions.",
+    "Excellent Nakshatra for leadership and administrative roles.",
+    "Often gives respect, authority and social recognition.",
+    "Pitru Tarpana and ancestor worship are especially beneficial."
+  ],
+
+  "keywords": [
+    "Ancestors",
+    "Royalty",
+    "Leadership",
+    "Heritage",
+    "Honor",
+    "Authority"
+  ],
+
+  "icon": "👑",
+
+  "priorityLifeAreas": [
+    "Leadership",
+    "Career",
+    "Family Legacy",
+    "Social Status"
+  ]
+}

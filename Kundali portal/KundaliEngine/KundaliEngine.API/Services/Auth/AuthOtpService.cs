@@ -205,6 +205,7 @@ public sealed class AuthOtpService : IAuthOtpService
         var phoneNumber = challenge.Channel == PhoneChannel
             ? challenge.DestinationNormalized
             : NormalizeOptionalPhoneNumber(request.PhoneNumber);
+        var preferredLanguage = PreferredLanguageHelper.Normalize(request.PreferredLanguage) ?? "en";
 
         if (!string.IsNullOrWhiteSpace(email) && await UserExistsForTargetAsync(new OtpTarget(EmailChannel, email), cancellationToken))
         {
@@ -222,6 +223,7 @@ public sealed class AuthOtpService : IAuthOtpService
             FullName = fullName,
             Email = email,
             PhoneNumber = phoneNumber,
+            PreferredLanguage = preferredLanguage,
             PasswordHash = null,
             AuthProvider = challenge.Channel == PhoneChannel ? "PhoneOtp" : "EmailOtp",
             Role = "User",
@@ -418,6 +420,7 @@ public sealed class AuthOtpService : IAuthOtpService
             FullName = user.FullName,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
+            PreferredLanguage = user.PreferredLanguage,
             Role = user.Role,
             Token = _jwtTokenGenerator.GenerateToken(user)
         };
@@ -819,6 +822,9 @@ public sealed class AuthOtpService : IAuthOtpService
     """;
     }
 }
+
+
+
 
 
 

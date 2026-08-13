@@ -1,0 +1,291 @@
+{
+  "id": 4,
+  "name": "Rohini",
+  "sanskritName": "रोहिणी",
+  "englishName": "Rohini",
+
+  "startDegree": {
+    "sign": "Taurus",
+    "longitude": 40.000000,
+    "display": "10°00' Taurus"
+  },
+
+  "endDegree": {
+    "sign": "Taurus",
+    "longitude": 53.333333,
+    "display": "23°20' Taurus"
+  },
+
+  "padas": [
+    {
+      "number": 1,
+      "rashiId": 2,
+      "startDegree": "10°00'",
+      "endDegree": "13°20'",
+      "navamsa": "Aries",
+      "syllable": "O",
+      "akshara": "ओ"
+    },
+    {
+      "number": 2,
+      "rashiId": 2,
+      "startDegree": "13°20'",
+      "endDegree": "16°40'",
+      "navamsa": "Taurus",
+      "syllable": "Va",
+      "akshara": "वा"
+    },
+    {
+      "number": 3,
+      "rashiId": 2,
+      "startDegree": "16°40'",
+      "endDegree": "20°00'",
+      "navamsa": "Gemini",
+      "syllable": "Vi",
+      "akshara": "वी"
+    },
+    {
+      "number": 4,
+      "rashiId": 2,
+      "startDegree": "20°00'",
+      "endDegree": "23°20'",
+      "navamsa": "Cancer",
+      "syllable": "Vu",
+      "akshara": "वू"
+    }
+  ],
+
+  "lord": "Moon",
+  "rashi": "Taurus",
+  "deity": "Prajapati (Brahma)",
+  "symbol": "Chariot",
+  "animalSymbol": "Serpent",
+
+  "gana": "Manushya",
+  "yoni": "Serpent",
+  "nadi": "Antya",
+  "varna": "Vaishya",
+  "vashya": "Chatushpada",
+
+  "guna": "Rajas",
+  "tatva": "Earth",
+  "gender": "Female",
+  "nature": "Mridu (Soft)",
+  "motivation": "Moksha",
+
+  "mukha": "Urdhvamukha",
+
+  "dosha": {
+    "vata": "Low",
+    "pitta": "Medium",
+    "kapha": "High"
+  },
+
+  "direction": "East",
+
+  "aradhyaVruksha": "Jamun (Syzygium cumini)",
+
+  "flower": "White Lotus",
+
+  "metal": "Silver",
+
+  "color": [
+    "White",
+    "Cream",
+    "Silver"
+  ],
+
+  "gemstone": "Pearl",
+
+  "rudraksha": [
+    "2 Mukhi"
+  ],
+
+  "recommendedDaan": [
+    "Milk",
+    "Rice",
+    "White Clothes",
+    "Silver",
+    "Food Donation"
+  ],
+
+  "recommendedMantra": "ॐ प्रजापतये नमः",
+
+  "planetaryBeejMantra": "ॐ श्रां श्रीं श्रौं सः चन्द्राय नमः",
+
+  "fastingDay": "Monday",
+
+  "positiveTraits": [
+    "Creative",
+    "Compassionate",
+    "Attractive",
+    "Artistic",
+    "Patient",
+    "Loving",
+    "Diplomatic",
+    "Prosperous",
+    "Reliable",
+    "Nurturing"
+  ],
+
+  "negativeTraits": [
+    "Possessive",
+    "Materialistic",
+    "Jealous",
+    "Stubborn",
+    "Overprotective",
+    "Comfort Seeking"
+  ],
+
+  "strengths": [
+    "Creativity",
+    "Prosperity",
+    "Beauty",
+    "Relationship Building",
+    "Wealth Creation"
+  ],
+
+  "weaknesses": [
+    "Attachment",
+    "Emotional Dependency",
+    "Luxury Addiction"
+  ],
+
+  "career": [
+    "Arts",
+    "Fashion",
+    "Music",
+    "Agriculture",
+    "Finance",
+    "Hospitality",
+    "Jewellery",
+    "Interior Design",
+    "Food Industry",
+    "Luxury Business"
+  ],
+
+  "education": [
+    "Arts",
+    "Commerce",
+    "Finance",
+    "Architecture",
+    "Design"
+  ],
+
+  "finance": [
+    "Excellent Wealth Potential",
+    "Property Gains",
+    "Luxury Assets",
+    "Stable Income"
+  ],
+
+  "health": [
+    "Throat",
+    "Neck",
+    "Face",
+    "Thyroid",
+    "Weight Management"
+  ],
+
+  "bodyParts": [
+    "Face",
+    "Neck",
+    "Throat"
+  ],
+
+  "relationships": [
+    "Loyal",
+    "Romantic",
+    "Caring",
+    "Family Oriented"
+  ],
+
+  "loveNature": "Romantic",
+
+  "marriageNature": "Stable",
+
+  "friendshipNature": "Trustworthy",
+
+  "leadershipStyle": "Supportive",
+
+  "communicationStyle": "Pleasant",
+
+  "decisionMaking": "Balanced",
+
+  "emotionalNature": "Sensitive",
+
+  "learningStyle": "Visual and Practical",
+
+  "businessSuitability": [
+    "Excellent"
+  ],
+
+  "recommendedProfessions": [
+    "Artist",
+    "Designer",
+    "Finance",
+    "Jeweller",
+    "Hospitality",
+    "Agriculture",
+    "Luxury Goods"
+  ],
+
+  "goodFor": [
+    "Marriage",
+    "Business",
+    "Property Purchase",
+    "Investment",
+    "Naming Ceremony",
+    "Creative Projects"
+  ],
+
+  "avoidFor": [
+    "Legal Conflicts",
+    "Aggressive Actions"
+  ],
+
+  "isMokshaNakshatra": false,
+
+  "chakra": "Anahata",
+
+  "spiritualLesson": "True abundance comes from balancing material prosperity with emotional and spiritual fulfillment.",
+
+  "compatibleNakshatras": [
+    "Hasta",
+    "Uttara Phalguni",
+    "Revati"
+  ],
+
+  "challengingNakshatras": [
+    "Mula",
+    "Ardra"
+  ],
+
+  "mythologicalStory": "Rohini is the favorite consort of Chandra (Moon). It symbolizes fertility, beauty, nourishment, growth, creativity and abundance.",
+
+  "interestingFacts": [
+    "Moon is exalted in Rohini.",
+    "One of the most auspicious Nakshatras.",
+    "Represents fertility and prosperity.",
+    "Excellent for wealth creation and artistic pursuits.",
+    "Associated with beauty and growth."
+  ],
+
+  "keywords": [
+    "Prosperity",
+    "Beauty",
+    "Creativity",
+    "Growth",
+    "Luxury",
+    "Abundance"
+  ],
+
+  "icon": "🌸",
+
+  "priorityLifeAreas": [
+    "Wealth",
+    "Relationships",
+    "Creativity",
+    "Family"
+  ]
+}

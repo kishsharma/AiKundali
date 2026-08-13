@@ -1,0 +1,26 @@
+[
+  {
+    "profileType": "General",
+    "displayName": "General",
+    "description": "Default configurable Muhurtha profile.",
+    "isDefault": true
+  },
+  {
+    "profileType": "NorthIndia",
+    "displayName": "North India",
+    "description": "North Indian Muhurtha traditions and regional defaults.",
+    "isDefault": false
+  },
+  {
+    "profileType": "SouthIndia",
+    "displayName": "South India",
+    "description": "South Indian Muhurtha traditions and regional defaults.",
+    "isDefault": false
+  },
+  {
+    "profileType": "Custom",
+    "displayName": "Custom",
+    "description": "Custom expert-configured Muhurtha profile.",
+    "isDefault": false
+  }
+]

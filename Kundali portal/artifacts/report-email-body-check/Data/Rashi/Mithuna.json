@@ -1,0 +1,61 @@
+{
+  "id": 3,
+  "name": "Mithuna",
+  "englishName": "Gemini",
+  "symbol": "♊",
+  "element": "Air",
+  "modality": "Dual",
+  "gender": "Male",
+  "nature": "Cruel",
+  "ruler": "Mercury",
+  "direction": "West",
+  "bodyPart": "Shoulders, Arms, Hands",
+  "quality": "Communication, intelligence, adaptability",
+  "personality": "Curious, intelligent, adaptable, expressive, quick-witted, and sociable.",
+  "strengths": [
+    "Intelligent",
+    "Adaptable",
+    "Communicative",
+    "Versatile",
+    "Quick Learner"
+  ],
+  "weaknesses": [
+    "Indecisive",
+    "Restless",
+    "Inconsistent",
+    "Overthinking"
+  ],
+  "career": [
+    "Writing",
+    "Journalism",
+    "Teaching",
+    "Marketing",
+    "Sales",
+    "Information Technology",
+    "Media",
+    "Public Relations"
+  ],
+  "relationships": "Friendly, expressive, and intellectually driven. Prefers communication and companionship in relationships.",
+  "health": "Shoulders, arms, lungs, nervous system, respiratory issues.",
+  "color": "#FBC02D",
+  "gemstone": "Emerald",
+  "metal": "Bronze",
+  "luckyNumbers": [ 5, 6 ],
+  "favorableDirection": "West",
+  "favorableDay": "Wednesday",
+  "associatedNakshatras": [
+    {
+      "nakshatraId": 5,
+      "padas": [ 3, 4 ]
+    },
+    {
+      "nakshatraId": 6,
+      "padas": [ 1, 2, 3, 4 ]
+    },
+    {
+      "nakshatraId": 7,
+      "padas": [ 1, 2, 3 ]
+    }
+  ],
+  "description": "Mithuna is the third sign of the zodiac, representing intellect, communication, curiosity, and versatility. Ruled by Mercury, it symbolizes learning, adaptability, social interaction, and the constant pursuit of knowledge."
+}

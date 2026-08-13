@@ -26,6 +26,9 @@
     transform 0.18s ease,
     box-shadow 0.18s ease,
     background 0.18s ease;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
 }
 
 .house-card:hover {
@@ -38,12 +41,22 @@
     0 12px 26px rgba(16,20,61,0.08);
 }
 
-.top-row {
+.house-card-header {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.35rem;
+  gap: 0.6rem;
+  margin-bottom: 0.45rem;
 }
+
+.house-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  flex: 1;
+}
+
 
 .house-number {
 
@@ -62,6 +75,11 @@ text-align: center;
   border: 1px solid #dbe5ff;
 
   color: #2563eb;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .score {
@@ -73,42 +91,61 @@ text-align: center;
   color: #f59e0b;
 
   line-height: 1;
+  flex: 0 0 auto;
+  min-width: 2.2ch;
+  text-align: right;
 }
 
 .house-name {
 
-  font-size: 13px;
+  font-size: 12.5px;
 
-  font-weight: 700;
+  font-weight: 800;
+
+  line-height: 1.15;
 
   color: #10143d;
 }
 
+.house-meaning {
+
+  margin-top: 0.05rem;
+
+  margin-bottom: 0.55rem;
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  line-height: 1.25;
+
+  color: #68708f;
+}
+
 .status {
 
-  display: inline-flex;
-
-  align-items: center;
+  display: block;
 
   width: fit-content;
 
-  padding: 4px 8px;
+  padding: 0;
 
-  border-radius: 999px;
+  border: 0;
 
-  background: #f6f1e6;
+  border-radius: 0;
+
+  background: transparent;
 
   color: #5d6689;
 
   font-size: 10px;
 
   font-weight: 700;
+  margin-top: auto;
 }
 /* EXCELLENT */
 
 .excellent-status {
-
-  background: #edf8ef;
 
   color: #2e7d32;
 }
@@ -117,16 +154,12 @@ text-align: center;
 
 .strong-status {
 
-  background: #fff7ed;
-
   color: #f59e0b;
 }
 
 /* SUPPORTIVE */
 
 .supportive-status {
-
-  background: #eef5ff;
 
   color: #2962ff;
 }
@@ -135,16 +168,12 @@ text-align: center;
 
 .challenging-status {
 
-  background: #fff0ec;
-
   color: #d84315;
 }
 
 /* WEAK */
 
 .weak-status {
-
-  background: #f3f3f3;
 
   color: #616161;
 }
@@ -173,6 +202,9 @@ text-align: center;
   border-color: var(--theme-line);
   background: color-mix(in srgb, var(--theme-surface) 92%, transparent);
   box-shadow: 0 16px 34px var(--theme-shadow);
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
 }
 
 .house-card:hover {
@@ -183,43 +215,48 @@ text-align: center;
 .house-number {
   border-color: color-mix(in srgb, var(--theme-info) 34%, transparent);
   color: var(--theme-info);
-  background: color-mix(in srgb, var(--theme-info) 12%, var(--theme-surface));
 }
 
 .score {
   color: var(--theme-accent);
+  flex: 0 0 auto;
+  min-width: 2.2ch;
+  text-align: right;
 }
 
 .house-name {
   color: var(--theme-text);
 }
 
-.status {
+.house-meaning {
   color: var(--theme-text-muted);
-  background: color-mix(in srgb, var(--theme-surface-2) 80%, transparent);
+}
+
+.status {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--theme-text-muted);
+  background: transparent;
+  margin-top: auto;
 }
 
 .excellent-status {
   color: var(--theme-success);
-  background: color-mix(in srgb, var(--theme-success) 12%, var(--theme-surface));
 }
 
 .strong-status {
   color: var(--theme-accent);
-  background: color-mix(in srgb, var(--theme-accent) 13%, var(--theme-surface));
 }
 
 .supportive-status {
   color: var(--theme-info);
-  background: color-mix(in srgb, var(--theme-info) 12%, var(--theme-surface));
 }
 
 .challenging-status {
   color: var(--theme-danger);
-  background: color-mix(in srgb, var(--theme-danger) 12%, var(--theme-surface));
 }
 
 .weak-status {
   color: var(--theme-text-muted);
-  background: color-mix(in srgb, var(--theme-line) 34%, transparent);
 }

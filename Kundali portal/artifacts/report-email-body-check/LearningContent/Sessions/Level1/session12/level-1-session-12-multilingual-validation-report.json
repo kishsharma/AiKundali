@@ -1,0 +1,212 @@
+{
+  "reportId": "level-1-session-12-multilingual-validation",
+  "levelCode": "level-1",
+  "sessionNumber": 12,
+  "sessionSlug": "reading-north-indian-kundali",
+  "languages": [
+    "en",
+    "hi",
+    "kn"
+  ],
+  "validatedOn": "2026-07-25",
+  "summary": {
+    "totalChecks": 34,
+    "passed": 34,
+    "failed": 0,
+    "overallStatus": "PASS"
+  },
+  "checks": [
+    {
+      "check": "EN schema validation",
+      "status": "PASS",
+      "details": "No schema errors."
+    },
+    {
+      "check": "HI schema validation",
+      "status": "PASS",
+      "details": "No schema errors."
+    },
+    {
+      "check": "KN schema validation",
+      "status": "PASS",
+      "details": "No schema errors."
+    },
+    {
+      "check": "Same session number",
+      "status": "PASS",
+      "details": "EN=12, HI=12, KN=12"
+    },
+    {
+      "check": "Same level code",
+      "status": "PASS",
+      "details": "level-1"
+    },
+    {
+      "check": "Same slug",
+      "status": "PASS",
+      "details": "reading-north-indian-kundali"
+    },
+    {
+      "check": "Language codes correct",
+      "status": "PASS",
+      "details": "en, hi, kn"
+    },
+    {
+      "check": "Same estimated duration",
+      "status": "PASS",
+      "details": "70 minutes"
+    },
+    {
+      "check": "Same difficulty",
+      "status": "PASS",
+      "details": "foundation"
+    },
+    {
+      "check": "Learning objectives count",
+      "status": "PASS",
+      "details": "EN=8, HI=8, KN=8"
+    },
+    {
+      "check": "Prerequisites count",
+      "status": "PASS",
+      "details": "EN=2, HI=2, KN=2"
+    },
+    {
+      "check": "Key terms count",
+      "status": "PASS",
+      "details": "EN=7, HI=7, KN=7"
+    },
+    {
+      "check": "Table of contents count",
+      "status": "PASS",
+      "details": "EN=7, HI=7, KN=7"
+    },
+    {
+      "check": "Sections count",
+      "status": "PASS",
+      "details": "EN=7, HI=7, KN=7"
+    },
+    {
+      "check": "Common mistakes count",
+      "status": "PASS",
+      "details": "EN=5, HI=5, KN=5"
+    },
+    {
+      "check": "Session summary count",
+      "status": "PASS",
+      "details": "EN=10, HI=10, KN=10"
+    },
+    {
+      "check": "References count",
+      "status": "PASS",
+      "details": "EN=1, HI=1, KN=1"
+    },
+    {
+      "check": "Further reading count",
+      "status": "PASS",
+      "details": "EN=1, HI=1, KN=1"
+    },
+    {
+      "check": "Table of contents section IDs match",
+      "status": "PASS",
+      "details": "All section IDs match across languages."
+    },
+    {
+      "check": "Section IDs match",
+      "status": "PASS",
+      "details": "All section IDs match across languages."
+    },
+    {
+      "check": "Block types and order match",
+      "status": "PASS",
+      "details": "Each section has the same block sequence."
+    },
+    {
+      "check": "Diagram IDs and asset paths match",
+      "status": "PASS",
+      "details": "3 diagrams mapped consistently."
+    },
+    {
+      "check": "Practical exercise duration matches",
+      "status": "PASS",
+      "details": "12 minutes"
+    },
+    {
+      "check": "Practical exercise instruction count matches",
+      "status": "PASS",
+      "details": "7"
+    },
+    {
+      "check": "Self-check question IDs match",
+      "status": "PASS",
+      "details": "8 question IDs match."
+    },
+    {
+      "check": "Self-check question types match",
+      "status": "PASS",
+      "details": "Question types and order match."
+    },
+    {
+      "check": "Passing score matches",
+      "status": "PASS",
+      "details": "70%"
+    },
+    {
+      "check": "EN duration totals consistent",
+      "status": "PASS",
+      "details": "Session=70, sections=70, TOC=70"
+    },
+    {
+      "check": "HI duration totals consistent",
+      "status": "PASS",
+      "details": "Session=70, sections=70, TOC=70"
+    },
+    {
+      "check": "KN duration totals consistent",
+      "status": "PASS",
+      "details": "Session=70, sections=70, TOC=70"
+    },
+    {
+      "check": "HI Unicode corruption check",
+      "status": "PASS",
+      "details": "No common mojibake markers found."
+    },
+    {
+      "check": "KN Unicode corruption check",
+      "status": "PASS",
+      "details": "No common mojibake markers found."
+    },
+    {
+      "check": "Hindi Devanagari content present",
+      "status": "PASS",
+      "details": "Devanagari characters detected."
+    },
+    {
+      "check": "Kannada script content present",
+      "status": "PASS",
+      "details": "Kannada characters detected."
+    }
+  ],
+  "diagramStatus": {
+    "totalDiagrams": 3,
+    "status": "PENDING",
+    "items": [
+      {
+        "assetId": "session12-north-indian-chart-anatomy",
+        "assetPath": "assets/study/level-1/session-12/north-indian-chart-anatomy.svg",
+        "status": "PENDING_CREATION"
+      },
+      {
+        "assetId": "session12-lagna-sign-sequence",
+        "assetPath": "assets/study/level-1/session-12/lagna-sign-sequence.svg",
+        "status": "PENDING_CREATION"
+      },
+      {
+        "assetId": "session12-house-to-lord-tracing",
+        "assetPath": "assets/study/level-1/session-12/house-to-lord-tracing.svg",
+        "status": "PENDING_CREATION"
+      }
+    ]
+  },
+  "nextStep": "Create and review the Session 12 diagrams one at a time."
+}

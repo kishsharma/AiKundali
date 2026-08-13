@@ -1,0 +1,695 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "8ec09818-6eef-59b4-9430-1d148bd7d4a5",
+  "levelCode": "level-1",
+  "sessionNumber": 2,
+  "slug": "earth-sun-moon-and-time",
+  "language": "en",
+  "title": "Earth, Sun, Moon and Time",
+  "subtitle": "How daily, monthly and yearly time arise from celestial motion",
+  "summary": "This session connects observable celestial motion with the measurement of time. Students learn how Earth's rotation produces the daily cycle, how Earth's revolution and the Sun's apparent motion define the solar year, how the Moon's revolution creates changing lunar phases, and why local time, sunrise, sunset and the calendar depend on location and astronomical reference. The session also distinguishes physical motion from apparent geocentric motion used in Jyotish.",
+  "estimatedMinutes": 70,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Explain how Earth's rotation produces day, night and the apparent daily motion of the sky.",
+    "Distinguish Earth's physical revolution around the Sun from the Sun's apparent geocentric motion through the zodiac.",
+    "Describe the relationship between a solar day, sidereal day and local meridian.",
+    "Explain how the Moon's orbital motion produces changing angular separation from the Sun and visible lunar phases.",
+    "Distinguish the synodic lunar month from the Moon's return relative to the background stars.",
+    "Explain why sunrise, sunset and local time vary with longitude, latitude and date.",
+    "Recognise that Jyotish calculations require an exact date, clock time, time zone and geographic location."
+  ],
+  "prerequisites": [
+    "Completion of Session 1: Understanding the 360° Celestial Circle.",
+    "Basic familiarity with the ecliptic, zodiacal longitude and the Earth-centred observational viewpoint."
+  ],
+  "keyTerms": [
+    {
+      "term": "Rotation",
+      "sanskrit": "भ्रमण",
+      "transliteration": "bhramaṇa",
+      "meaning": "The spinning of a body around its own axis.",
+      "note": "Earth's rotation creates the daily alternation of day and night."
+    },
+    {
+      "term": "Revolution",
+      "sanskrit": "परिभ्रमण",
+      "transliteration": "paribhramaṇa",
+      "meaning": "The motion of one body around another body or around a common centre.",
+      "note": "Earth revolves around the Sun, while the Moon revolves around Earth."
+    },
+    {
+      "term": "Solar day",
+      "sanskrit": "सौर दिवस",
+      "transliteration": "saura divasa",
+      "meaning": "The interval between two successive passages of the Sun across the same local meridian.",
+      "note": "Ordinary civil time is based on the mean solar day of twenty-four hours."
+    },
+    {
+      "term": "Sidereal day",
+      "sanskrit": "नाक्षत्र दिवस",
+      "transliteration": "nākṣatra divasa",
+      "meaning": "The time Earth takes to complete one rotation relative to distant stars.",
+      "note": "It is slightly shorter than a mean solar day."
+    },
+    {
+      "term": "Local meridian",
+      "sanskrit": "मध्याह्नवृत्त",
+      "transliteration": "madhyāhna-vṛtta",
+      "meaning": "The north-south great circle passing through the observer's zenith and defining local noon when the Sun crosses it.",
+      "note": "Local solar time depends on the observer's longitude."
+    },
+    {
+      "term": "Lunar phase",
+      "sanskrit": "चन्द्रकला",
+      "transliteration": "candra-kalā",
+      "meaning": "The changing visible illuminated portion of the Moon as seen from Earth.",
+      "note": "The phase depends on the angular relationship among the Sun, Earth and Moon."
+    },
+    {
+      "term": "Synodic month",
+      "sanskrit": "सिनोडिक चन्द्रमास",
+      "transliteration": "synodic candramāsa",
+      "meaning": "The interval from one New Moon to the next New Moon.",
+      "note": "It is longer than the Moon's return relative to the background stars because Earth also advances in its orbit."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "three-motions-three-clocks",
+      "title": "Three Motions, Three Time Cycles",
+      "estimatedMinutes": 7
+    },
+    {
+      "sectionId": "earth-rotation-day-night",
+      "title": "Earth's Rotation: Day, Night and the Moving Sky",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "earth-revolution-solar-year",
+      "title": "Earth's Revolution and the Solar Year",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "apparent-solar-motion",
+      "title": "The Sun's Apparent Motion in Jyotish",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "moon-orbit-phases",
+      "title": "The Moon's Orbit and Phases",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "solar-and-lunar-months",
+      "title": "Solar and Lunar Months",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "local-time-location",
+      "title": "Local Time, Sunrise and Location",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "time-data-for-kundali",
+      "title": "Why Exact Time Data Matters in a Kundali",
+      "estimatedMinutes": 5
+    }
+  ],
+  "sections": [
+    {
+      "id": "three-motions-three-clocks",
+      "title": "Three Motions, Three Time Cycles",
+      "estimatedMinutes": 7,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The basic units of astronomical time arise from repeated motion. Earth's rotation creates the daily cycle. Earth's revolution around the Sun creates the yearly cycle and the Sun's apparent progress through the zodiac. The Moon's revolution around Earth creates the changing lunar phase cycle. Jyotish combines these motions when calculating Panchang, planetary positions, the Ascendant and houses."
+        },
+        {
+          "type": "table",
+          "caption": "The three principal motions used in this session",
+          "columns": [
+            "Physical motion",
+            "Observed result from Earth",
+            "Time cycle"
+          ],
+          "rows": [
+            [
+              "Earth rotates on its axis",
+              "The sky appears to rise in the east and set in the west",
+              "Day"
+            ],
+            [
+              "Earth revolves around the Sun",
+              "The Sun appears to advance through the zodiac",
+              "Year"
+            ],
+            [
+              "Moon revolves around Earth",
+              "The Moon changes position and phase relative to the Sun",
+              "Lunar month"
+            ]
+          ],
+          "note": "The physical and apparent descriptions are not contradictory; they describe the same system from different reference frames."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Movement is always described from a reference",
+          "text": "When Jyotish states that the Sun moves through the zodiac, it means that the Sun's apparent geocentric longitude changes as observed from Earth."
+        }
+      ]
+    },
+    {
+      "id": "earth-rotation-day-night",
+      "title": "Earth's Rotation: Day, Night and the Moving Sky",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Earth rotates from west to east. Because the observer rotates with Earth, the Sun, Moon, planets and stars appear to move across the sky from east to west. Sunrise is therefore an apparent consequence of Earth's rotation, not the Sun physically circling Earth once every day."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session02-earth-rotation-day-night",
+          "assetPath": "assets/learning/Level-1/session-02/earth-rotation-day-night.svg",
+          "altText": "Earth rotating from west to east with one illuminated half and one dark half, while the Sun remains to one side.",
+          "caption": "Earth's rotation produces day and night and the apparent daily movement of the sky.",
+          "purpose": "Connect Earth's physical rotation with the observer's daily sky experience.",
+          "annotations": [
+            "Sunlight",
+            "Day side",
+            "Night side",
+            "West-to-east rotation"
+          ]
+        },
+        {
+          "type": "comparison",
+          "title": "Solar day and sidereal day",
+          "left": {
+            "label": "Solar day",
+            "points": [
+              "Measured from one local solar noon to the next.",
+              "Mean value used by civil clocks: twenty-four hours.",
+              "Requires Earth to rotate slightly more than one full turn relative to distant stars."
+            ]
+          },
+          "right": {
+            "label": "Sidereal day",
+            "points": [
+              "Measured relative to distant stars.",
+              "Approximately 23 hours 56 minutes.",
+              "Useful for understanding the daily return of the stellar sky."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": "The solar day is about four minutes longer than the sidereal day because Earth moves forward in its orbit while it rotates. After one rotation relative to the stars, Earth must turn a little farther before the Sun again reaches the same local meridian."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "Do not confuse rotation with revolution",
+          "text": "Rotation is Earth's spin around its own axis. Revolution is Earth's yearly path around the Sun."
+        }
+      ]
+    },
+    {
+      "id": "earth-revolution-solar-year",
+      "title": "Earth's Revolution and the Solar Year",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Earth travels around the Sun while its axis remains tilted relative to the orbital plane. The yearly cycle of changing solar declination, season length and daylight duration arises from this revolution together with Earth's axial tilt. The year is therefore not produced by Earth's daily rotation."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session02-earth-revolution-solar-year",
+          "assetPath": "assets/learning/Level-1/session-02/earth-revolution-solar-year.svg",
+          "altText": "Earth shown at four positions around the Sun with a consistently tilted axis.",
+          "caption": "Earth's revolution and axial tilt create the annual solar cycle and seasons.",
+          "purpose": "Show the physical foundation of the year and seasonal change.",
+          "annotations": [
+            "Sun",
+            "Earth orbit",
+            "Axial tilt",
+            "Four seasonal positions"
+          ]
+        },
+        {
+          "type": "formula",
+          "expression": "Approximate apparent solar motion = 360° ÷ 365.24 ≈ 0.986° per day",
+          "explanation": "As Earth advances around the Sun, the Sun's apparent geocentric longitude changes by roughly one degree each day. The exact daily change is not perfectly constant because Earth's orbit is not a perfect circle.",
+          "workedExample": "If the Sun is near 100° today, it may be near 101° the next day, though the exact difference varies slightly."
+        },
+        {
+          "type": "note",
+          "style": "modern-context",
+          "title": "The Sun is not physically orbiting Earth each year",
+          "text": "The annual zodiacal motion of the Sun is an apparent geocentric motion caused mainly by Earth's physical revolution around the Sun."
+        }
+      ]
+    },
+    {
+      "id": "apparent-solar-motion",
+      "title": "The Sun's Apparent Motion in Jyotish",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "definition",
+          "term": "Apparent solar longitude",
+          "sanskrit": "सूर्य दीर्घांश",
+          "transliteration": "sūrya dīrghāṃśa",
+          "meaning": "The Sun's zodiacal position measured geocentrically along the ecliptic.",
+          "context": "Jyotish uses this changing longitude for Rashi position, Sankranti, Tithi, Yoga and many calendar calculations."
+        },
+        {
+          "type": "paragraph",
+          "text": "In a Jyotish calculation, the Sun is assigned a geocentric longitude between 0° and 360°. When this longitude crosses a thirty-degree Rashi boundary, the Sun enters the next Rashi. This transition is called Sankranti. The calculation describes a change in observed zodiacal direction, not a claim that the Sun physically travels around Earth."
+        },
+        {
+          "type": "example",
+          "title": "Reading the Sun's daily apparent motion",
+          "scenario": "The Sun's longitude is 100°20′ on one day and 101°17′ on the next.",
+          "steps": [
+            "Subtract the earlier longitude from the later longitude.",
+            "101°17′ − 100°20′ = 0°57′.",
+            "Interpret this as the daily change in apparent geocentric longitude."
+          ],
+          "conclusion": "The Sun's apparent zodiacal motion for that interval is 57 arcminutes."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Use precise language",
+          "text": "In this course, 'the Sun moves through the zodiac' means 'the Sun's apparent geocentric longitude changes through the zodiac.'"
+        }
+      ]
+    },
+    {
+      "id": "moon-orbit-phases",
+      "title": "The Moon's Orbit and Phases",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Moon shines by reflecting sunlight. As the Moon revolves around Earth, the angle among the Sun, Earth and Moon changes. The visible illuminated portion therefore changes from New Moon through waxing phases to Full Moon and then through waning phases back to New Moon."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session02-lunar-phase-cycle",
+          "assetPath": "assets/learning/Level-1/session-02/lunar-phase-cycle.svg",
+          "altText": "Earth at the centre with the Moon shown at eight positions and sunlight arriving from one side.",
+          "caption": "Lunar phases arise from the changing Sun–Moon geometry as seen from Earth.",
+          "purpose": "Explain the observational basis of the lunar phase cycle used in Panchang.",
+          "annotations": [
+            "New Moon",
+            "First Quarter",
+            "Full Moon",
+            "Last Quarter",
+            "Sunlight direction"
+          ]
+        },
+        {
+          "type": "comparison",
+          "title": "New Moon and Full Moon",
+          "left": {
+            "label": "New Moon",
+            "points": [
+              "Sun and Moon have nearly the same geocentric longitude.",
+              "Their angular separation is near 0°.",
+              "The Moon's illuminated half is mostly turned away from Earth."
+            ]
+          },
+          "right": {
+            "label": "Full Moon",
+            "points": [
+              "Sun and Moon are nearly opposite in geocentric longitude.",
+              "Their angular separation is near 180°.",
+              "The Moon's illuminated half is mostly visible from Earth."
+            ]
+          }
+        },
+        {
+          "type": "formula",
+          "expression": "Sun–Moon angular separation = Moon longitude − Sun longitude, normalised to 0°–360°",
+          "explanation": "This angular separation is the foundation for Tithi. Session 4 will divide the separation into thirty Tithis of twelve degrees each.",
+          "workedExample": "Sun at 40° and Moon at 100° gives a separation of 60°, corresponding to five complete twelve-degree intervals."
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "A phase is not caused by Earth's shadow",
+          "text": "Ordinary lunar phases occur because we see different portions of the Moon's sunlit half. Earth's shadow is involved only during a lunar eclipse."
+        }
+      ]
+    },
+    {
+      "id": "solar-and-lunar-months",
+      "title": "Solar and Lunar Months",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Two different lunar cycles",
+          "left": {
+            "label": "Sidereal lunar period",
+            "points": [
+              "Moon's return relative to the background stars.",
+              "Approximately 27.3 days.",
+              "Closely related to the Moon's passage through the Nakshatras."
+            ]
+          },
+          "right": {
+            "label": "Synodic lunar month",
+            "points": [
+              "New Moon to New Moon.",
+              "Approximately 29.5 days.",
+              "Longer because Earth advances around the Sun during the Moon's orbit."
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "assetId": "session02-sidereal-synodic-month",
+          "assetPath": "assets/learning/Level-1/session-02/sidereal-synodic-month.svg",
+          "altText": "Two-stage diagram showing the Moon returning relative to stars before it again aligns with the Sun for New Moon.",
+          "caption": "The Moon must travel farther than one stellar revolution to return to the same phase.",
+          "purpose": "Clarify why the Nakshatra-related cycle and phase-related lunar month have different lengths.",
+          "annotations": [
+            "Return relative to stars",
+            "Earth advances",
+            "Additional lunar motion",
+            "Next New Moon"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "A solar month may be defined through the Sun's movement from one Rashi into the next. A lunar month is organised around the phase cycle. Because the solar and lunar cycles do not fit into each other exactly, traditional calendars require rules for coordinating them. These rules will be introduced gradually in later Panchang sessions."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "One word, different astronomical definitions",
+          "text": "The word 'month' does not always indicate the same cycle. Always ask whether the context is solar, lunar-phase based or stellar."
+        }
+      ]
+    },
+    {
+      "id": "local-time-location",
+      "title": "Local Time, Sunrise and Location",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Earth rotates through 360° in about twenty-four hours, so a difference of fifteen degrees of longitude corresponds approximately to one hour of mean solar time. Places eastward experience local noon earlier than places westward. Modern civil time zones group wide regions under one standard clock, so the clock time and local solar time are not usually identical."
+        },
+        {
+          "type": "formula",
+          "expression": "Approximate local solar-time difference = longitude difference ÷ 15° per hour",
+          "explanation": "This is a teaching approximation. Accurate astronomical calculations also account for the equation of time and the conventions of the time zone.",
+          "workedExample": "Two locations separated by 30° of longitude differ by approximately two hours in local solar time."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session02-longitude-local-time",
+          "assetPath": "assets/learning/Level-1/session-02/longitude-local-time.svg",
+          "altText": "Earth with several longitude meridians and two locations showing different local solar times.",
+          "caption": "Longitude determines when the Sun crosses the local meridian.",
+          "purpose": "Connect geographic longitude with local solar time and chart calculation.",
+          "annotations": [
+            "Eastern location",
+            "Western location",
+            "Local meridian",
+            "Earlier local noon"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Sunrise and sunset depend not only on longitude but also on latitude and date. The length of daylight changes through the year, especially farther from the equator. For this reason, Panchang values and local Muhurta boundaries should be calculated for the user's location rather than copied blindly from another city."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Time zone is not location",
+          "text": "Two cities may use the same civil time zone but have different local sunrise, sunset, Ascendant and house positions."
+        }
+      ]
+    },
+    {
+      "id": "time-data-for-kundali",
+      "title": "Why Exact Time Data Matters in a Kundali",
+      "estimatedMinutes": 5,
+      "blocks": [
+        {
+          "type": "list",
+          "style": "check",
+          "items": [
+            "Date identifies the civil calendar day used for the calculation.",
+            "Clock time identifies the recorded local civil time.",
+            "Time zone converts civil time to a universal astronomical reference.",
+            "Daylight-saving or historical time-zone rules may alter the conversion.",
+            "Latitude and longitude establish the local horizon and meridian.",
+            "The local horizon is required for the Ascendant and houses."
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Why location cannot be omitted",
+          "scenario": "Two children are born at the same clock time in two distant cities.",
+          "steps": [
+            "Their civil clock reading may be identical.",
+            "Their geographic longitudes and latitudes differ.",
+            "The local sky and rising degree therefore differ.",
+            "Their Ascendants and house cusps may not be the same."
+          ],
+          "conclusion": "A complete birth record requires date, exact time, time-zone context and place."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Accuracy before interpretation",
+          "text": "A beautifully written interpretation cannot correct an inaccurate birth time or an incorrect location conversion."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Saying the Sun physically travels around Earth once per day or once per year.",
+      "whyItIsWrong": "The daily and annual solar motions used in geocentric coordinates are apparent motions observed from rotating and revolving Earth.",
+      "correctUnderstanding": "Use heliocentric language for physical orbital structure and geocentric language for observed zodiacal positions."
+    },
+    {
+      "mistake": "Treating a solar day and a sidereal day as exactly the same.",
+      "whyItIsWrong": "Earth advances in its orbit while rotating, so it must turn slightly farther for the Sun to return to the local meridian.",
+      "correctUnderstanding": "The mean solar day is twenty-four hours; the sidereal day is approximately 23 hours 56 minutes."
+    },
+    {
+      "mistake": "Explaining ordinary lunar phases as Earth's shadow falling on the Moon.",
+      "whyItIsWrong": "Ordinary phases arise from the changing visible portion of the Moon's sunlit hemisphere.",
+      "correctUnderstanding": "Earth's shadow is involved only during a lunar eclipse."
+    },
+    {
+      "mistake": "Assuming the Moon completes its phase month in the same time as its return relative to stars.",
+      "whyItIsWrong": "Earth moves around the Sun while the Moon orbits Earth, so the Moon must travel farther to recreate the same Sun–Moon alignment.",
+      "correctUnderstanding": "The sidereal period is about 27.3 days and the synodic phase month about 29.5 days."
+    },
+    {
+      "mistake": "Using only a time-zone name without the birthplace coordinates.",
+      "whyItIsWrong": "The Ascendant, houses, sunrise and sunset depend on the local horizon, latitude and longitude.",
+      "correctUnderstanding": "Record date, exact clock time, time-zone rule and geographic location."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Trace the three celestial time cycles",
+    "instructions": [
+      "Draw Earth rotating on its axis and label day and night.",
+      "Draw Earth at two positions in its orbit and show why the Sun's apparent zodiac longitude changes.",
+      "Draw Sun, Earth and Moon for New Moon and Full Moon.",
+      "Write one sentence distinguishing the Moon's sidereal period from its synodic month.",
+      "Choose two cities with different longitudes and estimate their local solar-time difference using fifteen degrees per hour.",
+      "List the minimum birth data required to calculate a Kundali."
+    ],
+    "expectedOutcome": "The student can connect daily, yearly and lunar time cycles to the underlying celestial motions and explain why exact time and location are required for Jyotish calculations.",
+    "estimatedMinutes": 10
+  },
+  "sessionSummary": [
+    "Earth's west-to-east rotation produces day and night and makes the sky appear to move east to west.",
+    "A solar day is slightly longer than a sidereal day because Earth also advances in its orbit.",
+    "Earth's revolution creates the yearly cycle and causes the Sun's apparent geocentric longitude to progress through the zodiac.",
+    "Jyotish describes the Sun's apparent zodiacal motion without denying the heliocentric physical structure of the solar system.",
+    "Lunar phases arise from the changing angular relationship among the Sun, Earth and Moon.",
+    "The Moon's sidereal period and synodic phase month are different cycles.",
+    "Longitude influences local solar time, while latitude and date influence sunrise, sunset and daylight duration.",
+    "Reliable Kundali calculation requires exact date, time, time-zone context and geographic location."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "Which physical motion mainly produces day and night?",
+        "options": [
+          "Earth's rotation",
+          "Earth's revolution",
+          "Moon's revolution",
+          "Sun's galactic motion"
+        ],
+        "answer": "Earth's rotation",
+        "explanation": "Earth's rotation turns each location toward and away from the Sun."
+      },
+      {
+        "id": "q2",
+        "type": "true-false",
+        "question": "The Sun's daily and yearly motion in a geocentric chart means the Sun physically circles Earth.",
+        "answer": false,
+        "explanation": "These are apparent motions described from Earth's observational reference frame."
+      },
+      {
+        "id": "q3",
+        "type": "single-choice",
+        "question": "Which is shorter?",
+        "options": [
+          "Mean solar day",
+          "Sidereal day",
+          "Both are exactly equal",
+          "Lunar day"
+        ],
+        "answer": "Sidereal day",
+        "explanation": "A sidereal day is approximately 23 hours 56 minutes."
+      },
+      {
+        "id": "q4",
+        "type": "short-answer",
+        "question": "Why is the solar day slightly longer than the sidereal day?",
+        "answer": "Because Earth moves forward in its orbit while rotating and must turn slightly farther for the Sun to return to the same local meridian.",
+        "explanation": "The stars return after one rotation, but the Sun requires a little additional rotation."
+      },
+      {
+        "id": "q5",
+        "type": "single-choice",
+        "question": "What primarily causes ordinary lunar phases?",
+        "options": [
+          "Earth's shadow",
+          "Changing Sun–Earth–Moon geometry",
+          "Cloud cover",
+          "The Moon producing different amounts of light"
+        ],
+        "answer": "Changing Sun–Earth–Moon geometry",
+        "explanation": "We see changing portions of the Moon's illuminated hemisphere."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "The synodic lunar month is longer than the Moon's sidereal period.",
+        "answer": true,
+        "explanation": "Earth advances around the Sun, so the Moon must move farther to return to the same phase alignment."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "Approximately how much local solar-time difference corresponds to 30° of longitude?",
+        "answer": "Approximately two hours.",
+        "explanation": "Earth rotates about fifteen degrees per hour, so 30° ÷ 15° per hour = 2 hours."
+      },
+      {
+        "id": "q8",
+        "type": "short-answer",
+        "question": "What minimum information is required for a reliable birth-chart calculation?",
+        "answer": "Birth date, exact clock time, time-zone or historical offset information, and geographic place or latitude and longitude.",
+        "explanation": "These values are needed to convert time correctly and establish the local horizon and meridian."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "surya-siddhanta",
+      "editionId": "surya-siddhanta-burgess-gangooly",
+      "title": "The Surya Siddhanta",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional Indian astronomical background for time measurement, solar and lunar motion and calendrical cycles.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-20",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668",
+      "notes": "Used as a work-level reference only. No verse, chapter or page-specific claim is quoted in this session.",
+      "verifiedBy": "HoraLife content preparation",
+      "author": "Traditional text; English translation by Ebenezer Burgess",
+      "quotationType": "none"
+    },
+    {
+      "sourceId": "nasa-earth-rotation-revolution",
+      "editionId": "nasa-space-place-earth-orbit",
+      "title": "Why Do Planets Orbit the Sun?",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Modern astronomical explanation of Earth's rotation, revolution and the yearly solar cycle.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-20",
+      "url": "https://spaceplace.nasa.gov/orbits/en/",
+      "notes": "Used for modern physical context and kept separate from classical Jyotisha interpretation.",
+      "verifiedBy": "HoraLife content preparation",
+      "author": "NASA",
+      "quotationType": "none"
+    },
+    {
+      "sourceId": "nasa-moon-phases",
+      "editionId": "nasa-moon-phases-page",
+      "title": "Moon Phases",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Modern astronomical explanation of lunar phases and the Sun–Earth–Moon geometry.",
+      "verificationStatus": "single-edition-verified",
+      "verifiedOn": "2026-07-20",
+      "url": "https://science.nasa.gov/moon/moon-phases/",
+      "notes": "Used to distinguish ordinary phases from eclipses.",
+      "verifiedBy": "HoraLife content preparation",
+      "author": "NASA",
+      "quotationType": "none"
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "The Surya Siddhanta",
+      "type": "classical-text",
+      "author": "Translated by Ebenezer Burgess; edited by Phanindralal Gangooly",
+      "note": "For traditional Indian mathematical astronomy and time-measurement background. No specific verse is required for this session.",
+      "url": "https://archive.org/details/in.ernet.dli.2015.96668"
+    },
+    {
+      "title": "Moon Phases",
+      "type": "reference-page",
+      "author": "NASA",
+      "note": "A modern visual introduction to the changing Sun–Earth–Moon geometry.",
+      "url": "https://science.nasa.gov/moon/moon-phases/"
+    },
+    {
+      "title": "Why Do Planets Orbit the Sun?",
+      "type": "reference-page",
+      "author": "NASA Space Place",
+      "note": "Modern context for Earth's revolution and orbital motion.",
+      "url": "https://spaceplace.nasa.gov/orbits/en/"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-20",
+    "reviewNotes": "Mathematical and astronomical explanations were checked for internal consistency. Traditional and modern astronomical viewpoints are explicitly separated. No Sanskrit verse was included because no topic-specific verse was page-verified for this session. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

@@ -1,0 +1,1310 @@
+:root {
+  --hora-bg: #f7f8fa;
+  --hora-surface: #ffffff;
+  --hora-surface-2: #f8fafc;
+  --hora-text: #111827;
+  --hora-muted: #5f6673;
+  --hora-accent: #d8643a;
+  --hora-accent-soft: #ad4f32;
+  --hora-danger: #dc3f3f;
+  --hora-success: #24a35a;
+  --hora-info: #2f7de1;
+  --hora-warning: #e2a235;
+  --hora-copper: #b5693a;
+  --hora-line: rgba(17, 24, 39, 0.10);
+  --hora-line-strong: rgba(17, 24, 39, 0.18);
+}
+
+body.report-shell {
+  color: var(--hora-text);
+  background: var(--hora-bg);
+}
+
+.report-page {
+  display: grid;
+  gap: 10px;
+}
+
+.report-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 270px;
+  gap: 12px;
+  border: 1px solid var(--hora-line);
+  border-top: 4px solid var(--hora-accent);
+  border-radius: 8px;
+  padding: 8px 12px 6px;
+  background: var(--hora-surface);
+}
+
+.brand-lockup {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+}
+
+.brand-mark svg {
+  width: 46px;
+  height: 46px;
+  overflow: visible;
+}
+
+.logo-orbit,
+.logo-horizon {
+  fill: none;
+  stroke: #1e2b5a;
+  stroke-width: 4.2;
+  stroke-linecap: round;
+}
+
+.logo-sun {
+  fill: #d9a441;
+  stroke: #1e2b5a;
+  stroke-width: 1.5;
+}
+
+.logo-moon {
+  fill: #c2c8d1;
+  stroke: #1e2b5a;
+  stroke-width: 0.9;
+}
+
+.logo-earth {
+  fill: #3f6fa3;
+  stroke: #c69a3a;
+  stroke-width: 2.6;
+}
+
+.brand-copy {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.brand-name {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  color: #1e2b5a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.brand-name-life {
+  color: var(--hora-accent);
+}
+
+.brand-copy small,
+.brand-copy .report-tagline,
+.report-meta,
+.micro-label {
+  color: var(--hora-muted);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.subject-line {
+  margin-top: 6px;
+  color: var(--hora-muted);
+  font-size: 11px;
+}
+
+.subject-line strong {
+  color: var(--hora-accent);
+  font-size: 15px;
+}
+
+.prepared-by {
+  display: grid;
+  gap: 2px;
+  border-left: 0;
+  padding-left: 12px;
+  text-align: right;
+}
+
+.prepared-by strong {
+  color: var(--hora-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+}
+
+.prepared-by span {
+  color: var(--hora-muted);
+  font-size: 9px;
+}
+
+.report-section {
+  border: 1px solid var(--hora-line);
+  border-radius: 8px;
+  background: var(--hora-surface);
+  overflow: hidden;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  border-bottom: 1px solid var(--hora-line);
+  padding: 7px 10px;
+  background: var(--hora-surface-2);
+  color: var(--hora-text);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.section-title::before {
+  content: "";
+  width: 4px;
+  height: 16px;
+  border-radius: 3px;
+  background: var(--hora-accent);
+}
+
+.section-body {
+  padding: 10px;
+}
+
+.grid-2,
+.grid-3,
+.grid-4 {
+  display: grid;
+  gap: 7px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.fact {
+  min-height: 38px;
+  border: 1px solid var(--hora-line);
+  border-radius: 6px;
+  padding: 7px 8px;
+  background: var(--hora-surface);
+}
+
+.fact span {
+  display: block;
+  color: var(--hora-muted);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fact strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--hora-text);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.report-text {
+  margin-top: 8px;
+  color: var(--hora-muted);
+  font-size: 10.5px;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.chart-panel {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  border: 1px solid var(--hora-line);
+  border-radius: 8px;
+  padding: 9px;
+  background: var(--hora-surface);
+}
+
+.chart-title {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--hora-text);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.chart-title span {
+  color: var(--hora-muted);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.north-chart {
+  width: 292px;
+  height: 292px;
+  overflow: visible;
+}
+
+.north-chart .chart-outline {
+  fill: var(--hora-surface);
+  stroke: #C56F50;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart .chart-secondary-outline {
+  fill: none;
+  stroke: #C56F50;`r`n  stroke-width: 1.45;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart .chart-line {
+  fill: none;
+  stroke: #C56F50;`r`n  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart .house {
+  fill: rgba(248, 250, 252, 0.58);
+  stroke: #C56F50;`r`n  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.north-chart text {
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: var(--hora-surface);
+  stroke-linejoin: round;
+}
+
+.north-chart .house-num {
+  fill: #148A50;
+  font-size: 17px;
+  font-weight: 900;
+  stroke-width: 3px;
+}
+
+.north-chart .planet-text {
+  fill: var(--hora-text);
+  font-size: 13px;
+  font-weight: 700;
+  stroke-width: 2px;
+}
+
+.north-chart .planet-text.tone-supportive,
+.north-chart .planet-text.tone-special {
+  fill: var(--hora-success);
+}
+
+.north-chart .planet-text.tone-neutral {
+  fill: var(--hora-info);
+}
+
+.north-chart .planet-text.tone-mixed {
+  fill: var(--hora-copper);
+}
+
+.north-chart .planet-text.tone-challenging {
+  fill: var(--hora-danger);
+}
+.sudarshan-large-wrap {
+  display: grid;
+  justify-items: center;
+  padding: 4px 0 8px;
+}
+
+.sudarshan-large-wrap .sudarshan-chart-svg {
+  width: 430px;
+  height: 430px;
+}
+
+.sudarshan-chart-svg {
+  width: 360px;
+  height: 360px;
+  overflow: visible;
+}
+
+.chakra-sector {
+  stroke-width: 1.2;
+}
+
+.lagna-ring {
+  fill: #e4f1ee;
+  stroke: #4f8f87;
+}
+
+.moon-ring {
+  fill: #eee7f8;
+  stroke: #9270b7;
+}
+
+.sun-ring {
+  fill: #f7f0df;
+  stroke: #b99555;
+}
+
+.chakra-house-number {
+  fill: #111827;
+  font-size: 7px;
+  font-weight: 900;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.chakra-planet-label {
+  font-size: 7.2px;
+  font-weight: 900;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 1.8px;
+  stroke-linejoin: round;
+}
+
+.lagna-label {
+  fill: #2f6f69;
+}
+
+.moon-label {
+  fill: #74519a;
+}
+
+.sun-label {
+  fill: #8a6426;
+}
+
+.chakra-center-disc {
+  fill: #ffffff;
+  stroke: #d9deee;
+  stroke-width: 1.4;
+}
+
+.chakra-center-title,
+.chakra-center-subtitle {
+  fill: #111827;
+  text-anchor: middle;
+  font-weight: 900;
+}
+
+.chakra-center-title {
+  font-size: 9px;
+}
+
+.chakra-center-subtitle {
+  font-size: 8px;
+}
+.house-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 7px;
+  align-content: start;
+}
+
+.house-legend div {
+  border-bottom: 1px solid var(--hora-line);
+  padding-bottom: 2px;
+  color: var(--hora-muted);
+  font-size: 8.2px;
+  line-height: 1.18;
+}
+
+.house-legend strong {
+  color: var(--hora-accent);
+  font-size: 8px;
+}
+
+.score-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.score-box {
+  border: 1px solid var(--hora-line);
+  border-radius: 8px;
+  padding: 8px;
+  background: var(--hora-surface-2);
+}
+
+.score-box span {
+  color: var(--hora-muted);
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.score-box strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--hora-accent);
+  font-size: 21px;
+  line-height: 1;
+}
+
+.compact-table th {
+  border: 1px solid var(--hora-line-strong);
+  padding: 5px 6px;
+  color: #ffffff;
+  background: var(--hora-accent);
+  font-size: 8.5px;
+  text-align: left;
+}
+
+.compact-table td {
+  border: 1px solid var(--hora-line);
+  padding: 4px 6px;
+  color: var(--hora-text);
+  background: #ffffff;
+  font-size: 8.7px;
+}
+
+.compact-table tr:nth-child(even) td {
+  background: var(--hora-surface-2);
+}
+
+.two-col-report {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bullet-list {
+  display: grid;
+  gap: 6px;
+}
+
+.bullet-item {
+  border: 1px solid var(--hora-line);
+  border-radius: 6px;
+  padding: 7px 8px;
+  background: var(--hora-surface);
+}
+
+.bullet-item strong {
+  color: var(--hora-text);
+  font-size: 9px;
+}
+
+.bullet-item p {
+  margin-top: 3px;
+  color: var(--hora-muted);
+  font-size: 9.2px;
+}
+
+.report-footer {
+  display: flex;
+  justify-content: space-between;
+  color: var(--hora-muted);
+  font-size: 8.5px;
+  padding: 0 2px;
+}
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.insight-card,
+.bhava-card,
+.dasha-card {
+  border: 1px solid var(--hora-line);
+  border-radius: 8px;
+  background: var(--hora-surface);
+  overflow: hidden;
+}
+
+.insight-head,
+.dasha-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid var(--hora-line);
+  padding: 7px 8px;
+  background: var(--hora-surface-2);
+}
+
+.insight-head span,
+.dasha-head span {
+  color: var(--hora-muted);
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.insight-head strong,
+.dasha-head strong {
+  color: var(--hora-accent);
+  font-size: 11px;
+}
+
+.insight-rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+
+.insight-rows div {
+  border-bottom: 1px solid var(--hora-line);
+  padding: 5px 7px;
+}
+
+.insight-rows span {
+  display: block;
+  color: var(--hora-muted);
+  font-size: 7.8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.insight-rows strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--hora-text);
+  font-size: 9.2px;
+  line-height: 1.18;
+}
+
+.bhava-score-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bhava-card {
+  padding: 7px;
+  min-height: 118px;
+}
+
+.bhava-top,
+.bhava-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.bhava-top strong {
+  color: var(--hora-accent);
+  font-size: 13px;
+}
+
+.bhava-top span {
+  color: var(--hora-text);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.score-meter {
+  height: 5px;
+  margin: 5px 0;
+  border-radius: 999px;
+  background: #eef1f6;
+  overflow: hidden;
+}
+
+.score-meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--hora-accent);
+}
+
+.bhava-meta span {
+  color: var(--hora-muted);
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.bhava-card p {
+  margin-top: 5px;
+  color: var(--hora-text);
+  font-size: 8.8px;
+  line-height: 1.22;
+}
+
+.bhava-card small {
+  display: block;
+  margin-top: 3px;
+  color: var(--hora-muted);
+  font-size: 7.8px;
+  line-height: 1.2;
+}
+
+.dasha-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.dasha-card .compact-table th,
+.dasha-card .compact-table td {
+  font-size: 7.8px;
+  padding: 3px 5px;
+}
+
+.report-table-stack {
+  display: grid;
+  gap: 8px;
+}
+
+.table-subtitle {
+  margin: 0 0 4px;
+  color: var(--hora-accent);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.planet-position-table th,
+.planet-position-table td,
+.house-highlight-table th,
+.house-highlight-table td {
+  padding: 3px 5px;
+  font-size: 8.1px;
+}
+
+
+.prepared-by em {
+  color: var(--hora-muted);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.section-kundali-charts,
+.section-planet-positions-house-highlights,
+.section-mahadasha-antardasha,
+.section-sudarshan-chakra,
+.section-remedies-recommendation {
+  break-before: page;
+  page-break-before: always;
+}
+
+/* UI-matched report header for backend PDF/export modes. */
+.report-header.report-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  border: 1px solid var(--hora-line);
+  border-top: 0;
+  border-radius: 8px;
+  padding: 8px 14px 6px;
+  background: var(--hora-surface);
+}
+
+.report-header.report-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hora-accent), #d9a441, transparent);
+}
+
+.report-header .header-top-section {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 72px;
+}
+
+.report-header .brand-section,
+.report-header .astrologer-section {
+  min-width: 0;
+}
+
+.report-header .report-brand-lockup {
+  display: grid;
+  grid-template-columns: 57px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.report-header .report-brand-logo,
+.report-header .report-brand-logo svg {
+  width: 57px;
+  height: 57px;
+}
+
+.report-header .report-brand-copy {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.report-header .report-brand-name {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 0;
+  color: color-mix(in srgb, var(--hora-info) 58%, #d9a441);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.report-header .report-brand-name .brand-name-life {
+  color: #d9a441;
+}
+
+.report-header .report-brand-descriptor {
+  color: var(--hora-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.report-header .report-title,
+.report-header .report-tagline,
+.report-header .report-meta {
+  display: none;
+}
+
+.report-header .report-prepared-by {
+  display: grid;
+  align-content: center;
+  justify-items: end;
+  gap: 2px;
+  padding-left: 12px;
+  text-align: right;
+}
+
+.report-header .astrologer-kicker {
+  color: var(--hora-accent);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.report-header .astrologer-name {
+  color: var(--hora-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16.5px;
+  line-height: 1.05;
+}
+
+.report-header .astrologer-title,
+.report-header .astrologer-contact {
+  color: var(--hora-muted);
+  font-size: 9.2px;
+  line-height: 1.35;
+}
+
+.report-header .header-bottom-section {
+  display: grid;
+  align-items: center;
+  min-height: 32px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.report-header .person-details-block {
+  margin: 0;
+}
+
+.report-header .person-detail-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin: 0;
+  color: var(--hora-muted);
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.report-header .intro-name {
+  color: #d9a441;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.05;
+  text-transform: capitalize;
+}
+
+.report-header .intro-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.report-header .intro-date,
+.report-header .intro-time,
+.report-header .intro-place {
+  color: var(--hora-text);
+  font-weight: 800;
+}
+
+.report-header .intro-place {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  border: 1px solid var(--hora-line);
+  padding: 1px 6px;
+  background: var(--hora-surface-2);
+  font-size: 10px;
+}
+
+.report-header .devotional-divider {
+  margin: -6px 0 -6px;
+  padding: 0 10px;
+}
+
+.report-header .devotional-divider svg {
+  width: min(100%, 616px);
+  height: 48px;
+}
+
+/* ========================================================================
+   ALIGNMENT + PDF RENDERING STABILITY FIXES
+   Keeps the existing visual theme while removing overflow, uneven widths,
+   SVG sizing issues, table drift, header overlap, and print fragmentation.
+   ======================================================================== */
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body.report-shell,
+body.report-shell * {
+  box-sizing: border-box;
+}
+
+body.report-shell {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.35;
+}
+
+.report-page {
+  width: 100%;
+  min-width: 0;
+  align-items: start;
+}
+
+.report-page h1,
+.report-page h2,
+.report-page h3,
+.report-page h4,
+.report-page p,
+.report-page figure {
+  margin: 0;
+}
+
+.report-page img,
+.report-page svg {
+  max-width: 100%;
+}
+
+.report-page > *,
+.report-hero > *,
+.report-section,
+.section-body,
+.grid-2 > *,
+.grid-3 > *,
+.grid-4 > *,
+.charts-grid > *,
+.score-strip > *,
+.two-col-report > *,
+.insight-grid > *,
+.insight-rows > *,
+.bhava-score-grid > *,
+.dasha-grid > *,
+.house-legend > * {
+  min-width: 0;
+}
+
+/* Header alignment */
+.report-hero {
+  width: 100%;
+  align-items: center;
+}
+
+.brand-lockup,
+.brand-copy,
+.prepared-by {
+  min-width: 0;
+}
+
+.prepared-by {
+  align-self: center;
+  justify-self: stretch;
+}
+
+.prepared-by strong,
+.prepared-by span,
+.prepared-by em {
+  overflow-wrap: anywhere;
+}
+
+.report-header.report-hero {
+  width: 100%;
+  align-items: stretch;
+}
+
+.report-header .header-top-section {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  width: 100%;
+  align-items: center;
+}
+
+.report-header .report-brand-lockup,
+.report-header .report-brand-copy,
+.report-header .report-prepared-by {
+  min-width: 0;
+}
+
+.report-header .report-brand-name {
+  color: #58708d; /* Static PDF-safe fallback for color-mix(). */
+  white-space: nowrap;
+}
+
+.report-header .report-brand-descriptor,
+.report-header .astrologer-kicker,
+.report-header .astrologer-name,
+.report-header .astrologer-title,
+.report-header .astrologer-contact {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.report-header .report-prepared-by {
+  align-self: center;
+  justify-self: stretch;
+}
+
+.report-header .header-bottom-section,
+.report-header .person-details-block,
+.report-header .person-detail-value {
+  width: 100%;
+  min-width: 0;
+}
+
+.report-header .person-detail-value > * {
+  min-width: 0;
+}
+
+.report-header .intro-place {
+  max-width: 100%;
+  justify-content: center;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.report-header .devotional-divider {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.report-header .devotional-divider svg {
+  display: block;
+  width: 100%;
+  max-width: 616px;
+  height: 38px;
+}
+
+/* Section alignment */
+.section-title {
+  width: 100%;
+  line-height: 1.2;
+}
+
+.section-title::before {
+  flex: 0 0 4px;
+}
+
+.section-body {
+  width: 100%;
+}
+
+.fact {
+  display: grid;
+  align-content: start;
+}
+
+.fact span,
+.fact strong,
+.report-text,
+.bullet-item p,
+.bhava-card p,
+.bhava-card small {
+  overflow-wrap: anywhere;
+}
+
+/* Charts: title must span the card; SVGs must never escape their columns. */
+.chart-panel {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: stretch;
+  align-content: start;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.chart-panel > *:not(.chart-title) {
+  justify-self: center;
+}
+
+.chart-title {
+  width: 100%;
+  min-width: 0;
+  align-items: baseline;
+}
+
+.chart-title > * {
+  min-width: 0;
+}
+
+.chart-title span {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.north-chart {
+  display: block;
+  width: 100%;
+  max-width: 292px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.sudarshan-chart-svg,
+.sudarshan-large-wrap .sudarshan-chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.sudarshan-chart-svg {
+  max-width: 360px;
+}
+
+.sudarshan-large-wrap .sudarshan-chart-svg {
+  max-width: 430px;
+}
+
+.sudarshan-large-wrap {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Equal and predictable card/header alignment. */
+.score-box,
+.bhava-card,
+.insight-card,
+.dasha-card,
+.bullet-item {
+  min-width: 0;
+}
+
+.insight-head,
+.dasha-head,
+.bhava-top,
+.bhava-meta,
+.report-footer {
+  align-items: center;
+}
+
+.insight-head > *,
+.dasha-head > *,
+.bhava-top > *,
+.bhava-meta > *,
+.report-footer > * {
+  min-width: 0;
+}
+
+.insight-head span,
+.dasha-head span,
+.insight-head strong,
+.dasha-head strong {
+  overflow-wrap: anywhere;
+}
+
+.insight-rows div:nth-child(odd) {
+  border-right: 1px solid var(--hora-line);
+}
+
+.bhava-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.bhava-top,
+.bhava-meta {
+  width: 100%;
+}
+
+.bullet-item p,
+.bhava-card p {
+  margin: 3px 0 0;
+}
+
+.report-footer {
+  gap: 12px;
+  width: 100%;
+}
+
+.report-footer > :last-child {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* Tables: prevents independent column sizing and horizontal drift. */
+.compact-table,
+.planet-position-table,
+.house-highlight-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.compact-table th,
+.compact-table td,
+.planet-position-table th,
+.planet-position-table td,
+.house-highlight-table th,
+.house-highlight-table td {
+  vertical-align: middle;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.compact-table thead,
+.planet-position-table thead,
+.house-highlight-table thead {
+  display: table-header-group;
+}
+
+.compact-table tr,
+.planet-position-table tr,
+.house-highlight-table tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Keep explicit page starts print-only; screen preview remains continuous. */
+.section-kundali-charts,
+.section-planet-positions-house-highlights,
+.section-mahadasha-antardasha,
+.section-sudarshan-chakra,
+.section-remedies-recommendation {
+  break-before: auto;
+  page-break-before: auto;
+}
+
+@media print {
+  html,
+  body.report-shell {
+    width: 100%;
+    min-width: 0;
+    background: #ffffff;
+  }
+
+  body.report-shell {
+    margin: 0;
+  }
+
+  /* Grid containers fragment poorly in several HTML-to-PDF engines. */
+  .report-page {
+    display: block;
+  }
+
+  .report-page > * + * {
+    margin-top: 10px;
+  }
+
+  .report-header.report-hero,
+  .chart-panel,
+  .score-strip,
+  .insight-card,
+  .bhava-card,
+  .dasha-card,
+  .bullet-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .section-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .section-kundali-charts,
+  .section-planet-positions-house-highlights,
+  .section-mahadasha-antardasha,
+  .section-sudarshan-chakra,
+  .section-remedies-recommendation {
+    break-before: page;
+    page-break-before: always;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .report-hero,
+  .report-header .header-top-section,
+  .charts-grid,
+  .two-col-report,
+  .insight-grid,
+  .dasha-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .prepared-by,
+  .report-header .report-prepared-by {
+    justify-items: start;
+    padding-left: 0;
+    text-align: left;
+  }
+
+  .report-header .report-brand-name {
+    font-size: 26px;
+  }
+
+  .grid-4,
+  .score-strip,
+  .bhava-score-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

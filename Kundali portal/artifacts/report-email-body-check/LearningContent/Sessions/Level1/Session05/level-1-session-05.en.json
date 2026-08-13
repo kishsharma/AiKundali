@@ -1,0 +1,589 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "6cbe331f-11e9-5bc6-b1b5-21994e92e0ae",
+  "levelCode": "level-1",
+  "sessionNumber": 5,
+  "slug": "vara-and-weekday-lords",
+  "language": "en",
+  "title": "Vara and Weekday Lords",
+  "subtitle": "Understanding the seven-day cycle and its planetary rulers",
+  "summary": "This session introduces Vara as the weekday limb of Panchang. Students learn the seven traditional weekday lords, the sunrise-based day convention used in many Panchang contexts, the relationship between civil weekday and traditional Vara, and the basic logic behind the repeating planetary hour sequence that gives each weekday its name.",
+  "estimatedMinutes": 60,
+  "difficulty": "foundation",
+  "learningObjectives": [
+    "Define Vara as the weekday limb of Panchang.",
+    "Name the seven weekdays and their traditional planetary lords.",
+    "Distinguish civil weekday boundaries from sunrise-based Vara usage.",
+    "Explain why location and sunrise matter when identifying the traditional day.",
+    "Understand the basic repeating planetary hour order.",
+    "Explain how the first planetary hour after sunrise is linked to the weekday lord.",
+    "Read a basic Vara entry without making unsupported predictive claims."
+  ],
+  "prerequisites": [
+    "Completion of Session 4: Tithi and Paksha.",
+    "Basic understanding of local sunrise and the difference between civil and traditional day boundaries."
+  ],
+  "keyTerms": [
+    {
+      "term": "Vara",
+      "sanskrit": "वार",
+      "transliteration": "vāra",
+      "meaning": "The weekday limb of Panchang associated with one of seven traditional planetary rulers.",
+      "note": "In many traditional contexts, Vara is considered from local sunrise to the next local sunrise."
+    },
+    {
+      "term": "Weekday lord",
+      "sanskrit": "वारेश",
+      "transliteration": "vāreśa",
+      "meaning": "The traditional planetary ruler assigned to a weekday.",
+      "note": "Sunday is ruled by the Sun, Monday by the Moon, and so on."
+    },
+    {
+      "term": "Hora",
+      "sanskrit": "होरा",
+      "transliteration": "horā",
+      "meaning": "A traditional planetary hour belonging to a repeating sequence of seven planetary rulers.",
+      "note": "The first Hora after sunrise is associated with the weekday lord."
+    },
+    {
+      "term": "Sunrise boundary",
+      "sanskrit": "सूर्योदय सीमा",
+      "transliteration": "sūryodaya sīmā",
+      "meaning": "The local sunrise used as the beginning of the traditional weekday in many Panchang systems.",
+      "note": "Before sunrise, the traditional Vara may still belong to the previous civil date's weekday."
+    },
+    {
+      "term": "Civil weekday",
+      "sanskrit": "नागरिक वार",
+      "transliteration": "nāgarika vāra",
+      "meaning": "The weekday defined by the modern midnight-to-midnight civil calendar.",
+      "note": "It may differ from the sunrise-based traditional Vara before local sunrise."
+    }
+  ],
+  "tableOfContents": [
+    {
+      "sectionId": "what-is-vara",
+      "title": "What Is Vara?",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "seven-weekdays",
+      "title": "The Seven Weekdays and Their Lords",
+      "estimatedMinutes": 10
+    },
+    {
+      "sectionId": "civil-and-traditional-day",
+      "title": "Civil Weekday and Traditional Vara",
+      "estimatedMinutes": 9
+    },
+    {
+      "sectionId": "hora-sequence",
+      "title": "The Planetary Hora Sequence",
+      "estimatedMinutes": 12
+    },
+    {
+      "sectionId": "why-weekday-changes",
+      "title": "Why the Weekday Lord Repeats Every Seven Days",
+      "estimatedMinutes": 8
+    },
+    {
+      "sectionId": "reading-vara-entry",
+      "title": "How to Read a Vara Entry",
+      "estimatedMinutes": 7
+    },
+    {
+      "sectionId": "scope-and-limits",
+      "title": "Scope and Limits at Foundation Level",
+      "estimatedMinutes": 6
+    }
+  ],
+  "sections": [
+    {
+      "id": "what-is-vara",
+      "title": "What Is Vara?",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Vara is the weekday limb of Panchang. It places a moment within the repeating seven-day cycle and associates that day with one traditional planetary ruler. Vara is simpler to identify than Tithi or Nakshatra because it follows the weekday cycle, but its traditional boundary may be sunrise rather than midnight."
+        },
+        {
+          "type": "definition",
+          "term": "Vara",
+          "sanskrit": "वार",
+          "transliteration": "vāra",
+          "meaning": "The weekday designation used in Panchang, linked to a traditional planetary day lord.",
+          "context": "It is used in daily observance, fasting traditions, Muhurta and the general description of a day."
+        },
+        {
+          "type": "note",
+          "style": "remember",
+          "title": "Vara is one of the five Panchang limbs",
+          "text": "Unlike Tithi, Nakshatra, Yoga and Karana, Vara is based on the repeating weekday cycle rather than a direct longitude calculation."
+        }
+      ]
+    },
+    {
+      "id": "seven-weekdays",
+      "title": "The Seven Weekdays and Their Lords",
+      "estimatedMinutes": 10,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Traditional weekday lords",
+          "columns": [
+            "Weekday",
+            "Sanskrit name",
+            "Planetary lord"
+          ],
+          "rows": [
+            [
+              "Sunday",
+              "Ravivara",
+              "Sun"
+            ],
+            [
+              "Monday",
+              "Somavara",
+              "Moon"
+            ],
+            [
+              "Tuesday",
+              "Mangalavara",
+              "Mars"
+            ],
+            [
+              "Wednesday",
+              "Budhavara",
+              "Mercury"
+            ],
+            [
+              "Thursday",
+              "Guruvara",
+              "Jupiter"
+            ],
+            [
+              "Friday",
+              "Shukravara",
+              "Venus"
+            ],
+            [
+              "Saturday",
+              "Shanivara",
+              "Saturn"
+            ]
+          ],
+          "note": "The weekday names directly preserve the names of their traditional planetary rulers."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session05-seven-weekday-lords",
+          "assetPath": "assets/learning/Level-1/session-05/seven-weekday-lords.svg",
+          "altText": "A simple circular sequence of seven weekdays with each day connected to its planetary ruler.",
+          "caption": "The seven weekdays form a repeating planetary cycle.",
+          "purpose": "Help students memorise the weekday and planetary-lord mapping.",
+          "annotations": [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Jupiter",
+            "Venus",
+            "Saturn"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "caution",
+          "title": "The weekday lord does not alone predict the whole day",
+          "text": "Vara is only one Panchang limb. It should not be used alone to declare a day favourable or unfavourable for every activity."
+        }
+      ]
+    },
+    {
+      "id": "civil-and-traditional-day",
+      "title": "Civil Weekday and Traditional Vara",
+      "estimatedMinutes": 9,
+      "blocks": [
+        {
+          "type": "comparison",
+          "title": "Two weekday boundaries",
+          "left": {
+            "label": "Civil weekday",
+            "points": [
+              "Begins at midnight.",
+              "Used by modern calendars and legal timekeeping.",
+              "The weekday changes at 00:00."
+            ]
+          },
+          "right": {
+            "label": "Traditional Vara",
+            "points": [
+              "Often begins at local sunrise.",
+              "Used in many Panchang and ritual contexts.",
+              "Before sunrise, the previous Vara may still apply."
+            ]
+          }
+        },
+        {
+          "type": "example",
+          "title": "Before sunrise",
+          "scenario": "The civil clock shows Tuesday at 04:30, but local sunrise is at 06:20.",
+          "steps": [
+            "The civil weekday is Tuesday because midnight has passed.",
+            "The traditional sunrise-based day has not yet changed.",
+            "The Vara may therefore still be Monday until 06:20."
+          ],
+          "conclusion": "Always check the tradition and local sunrise before assigning Vara to a pre-sunrise event."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session05-midnight-sunrise-vara",
+          "assetPath": "assets/learning/Level-1/session-05/midnight-sunrise-vara.svg",
+          "altText": "A simple timeline showing civil weekday change at midnight and traditional Vara change at local sunrise.",
+          "caption": "Civil weekday and sunrise-based Vara can differ before sunrise.",
+          "purpose": "Show why pre-sunrise birth or event times require careful weekday interpretation.",
+          "annotations": [
+            "Midnight",
+            "Pre-sunrise period",
+            "Local sunrise",
+            "New Vara"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hora-sequence",
+      "title": "The Planetary Hora Sequence",
+      "estimatedMinutes": 12,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Traditional Hora follows a repeating planetary order: Saturn, Jupiter, Mars, Sun, Venus, Mercury and Moon. The sequence continues without interruption. The first Hora after local sunrise carries the ruler of that weekday."
+        },
+        {
+          "type": "table",
+          "caption": "Traditional repeating Hora order",
+          "columns": [
+            "Sequence position",
+            "Planet"
+          ],
+          "rows": [
+            [
+              "1",
+              "Saturn"
+            ],
+            [
+              "2",
+              "Jupiter"
+            ],
+            [
+              "3",
+              "Mars"
+            ],
+            [
+              "4",
+              "Sun"
+            ],
+            [
+              "5",
+              "Venus"
+            ],
+            [
+              "6",
+              "Mercury"
+            ],
+            [
+              "7",
+              "Moon"
+            ]
+          ],
+          "note": "After Moon, the sequence returns to Saturn."
+        },
+        {
+          "type": "diagram",
+          "assetId": "session05-hora-sequence",
+          "assetPath": "assets/learning/Level-1/session-05/hora-sequence.svg",
+          "altText": "A simple seven-step loop showing Saturn, Jupiter, Mars, Sun, Venus, Mercury and Moon in repeating order.",
+          "caption": "The Hora sequence repeats continuously through day and night.",
+          "purpose": "Provide the sequence needed to understand weekday naming.",
+          "annotations": [
+            "Saturn",
+            "Jupiter",
+            "Mars",
+            "Sun",
+            "Venus",
+            "Mercury",
+            "Moon"
+          ]
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Hora length is not always a fixed clock hour",
+          "text": "In traditional day-and-night Hora calculation, daylight and night are each divided into twelve equal parts, so Hora duration can vary with season and location."
+        }
+      ]
+    },
+    {
+      "id": "why-weekday-changes",
+      "title": "Why the Weekday Lord Repeats Every Seven Days",
+      "estimatedMinutes": 8,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Starting from the first Hora of a day and continuing the seven-planet sequence through twenty-four Horas, the first Hora of the next day falls three positions ahead in the sequence. Repeating this shift generates the familiar weekday order."
+        },
+        {
+          "type": "example",
+          "title": "From Sunday to Monday",
+          "scenario": "The first Hora on Sunday is ruled by the Sun.",
+          "steps": [
+            "Continue the seven-planet Hora sequence through twenty-four Horas.",
+            "Twenty-four leaves a remainder of three when divided by seven.",
+            "Move three positions ahead from the Sun in the repeating sequence.",
+            "The next day's first Hora is ruled by the Moon."
+          ],
+          "conclusion": "Therefore Sunday is followed by Monday."
+        },
+        {
+          "type": "formula",
+          "expression": "24 mod 7 = 3",
+          "explanation": "Each new day advances three places in the seven-planet Hora sequence.",
+          "workedExample": "Sun → Moon → Mars → Mercury → Jupiter → Venus → Saturn → Sun forms the repeating weekday order."
+        }
+      ]
+    },
+    {
+      "id": "reading-vara-entry",
+      "title": "How to Read a Vara Entry",
+      "estimatedMinutes": 7,
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Sample Vara reading",
+          "columns": [
+            "Printed item",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Vara: Thursday",
+              "The traditional day is ruled by Jupiter"
+            ],
+            [
+              "Sunrise: 06:18",
+              "The sunrise-based day begins at 06:18"
+            ],
+            [
+              "Location: Bengaluru",
+              "The sunrise applies to Bengaluru"
+            ],
+            [
+              "Event time: 05:40",
+              "The event occurs before sunrise and may belong to the previous Vara"
+            ]
+          ],
+          "note": "This is an instructional sample, not a real Panchang entry."
+        },
+        {
+          "type": "list",
+          "style": "numbered",
+          "items": [
+            "Confirm the event location.",
+            "Read the local sunrise time.",
+            "Check whether the event occurs before or after sunrise.",
+            "Identify the traditional Vara.",
+            "Note the planetary lord.",
+            "Do not make a complete Muhurta judgement from Vara alone."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scope-and-limits",
+      "title": "Scope and Limits at Foundation Level",
+      "estimatedMinutes": 6,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "At foundation level, the goal is to identify the correct Vara, know its planetary lord and understand the sunrise boundary. Predictive or Muhurta use requires the other Panchang limbs, the nature of the intended activity, planetary strength, Lagna and additional rules."
+        },
+        {
+          "type": "note",
+          "style": "important",
+          "title": "Vara is a supporting factor",
+          "text": "The weekday lord contributes one layer of meaning, but it does not override the rest of the Panchang or the chart."
+        }
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming traditional Vara always changes at midnight.",
+      "whyItIsWrong": "Many Panchang traditions use local sunrise as the day boundary.",
+      "correctUnderstanding": "Check local sunrise for pre-sunrise events."
+    },
+    {
+      "mistake": "Forgetting the planetary lord of a weekday.",
+      "whyItIsWrong": "The weekday name itself is derived from its traditional ruler.",
+      "correctUnderstanding": "Memorise the seven weekday-lord pairs."
+    },
+    {
+      "mistake": "Using Vara alone to declare a day universally auspicious.",
+      "whyItIsWrong": "Vara is only one of the five Panchang limbs.",
+      "correctUnderstanding": "Combine it with Tithi, Nakshatra, Yoga, Karana and the purpose of the activity."
+    },
+    {
+      "mistake": "Treating every Hora as exactly sixty minutes.",
+      "whyItIsWrong": "Traditional day and night Horas are based on dividing daylight and night into twelve equal parts.",
+      "correctUnderstanding": "Hora length can vary by date and location."
+    },
+    {
+      "mistake": "Ignoring location when checking a pre-sunrise Vara.",
+      "whyItIsWrong": "Sunrise time differs by location.",
+      "correctUnderstanding": "Use the local sunrise of the event place."
+    }
+  ],
+  "practicalExercise": {
+    "title": "Identify Vara and weekday lord",
+    "instructions": [
+      "Write all seven weekdays in order.",
+      "Write the planetary lord beside each weekday.",
+      "Memorise the repeating Hora sequence.",
+      "Choose a sample location and note its sunrise.",
+      "Classify an event thirty minutes before sunrise as civil weekday and traditional Vara.",
+      "Explain in one sentence why Vara alone is insufficient for complete Muhurta judgement."
+    ],
+    "expectedOutcome": "The student can identify the correct traditional Vara, name its planetary lord, distinguish it from the civil weekday before sunrise and explain the basic Hora sequence behind weekday naming.",
+    "estimatedMinutes": 10
+  },
+  "sessionSummary": [
+    "Vara is the weekday limb of Panchang.",
+    "Each weekday has one traditional planetary lord.",
+    "Sunday through Saturday are ruled by the Sun, Moon, Mars, Mercury, Jupiter, Venus and Saturn.",
+    "Civil weekday usually changes at midnight.",
+    "Traditional Vara often changes at local sunrise.",
+    "The Hora sequence is Saturn, Jupiter, Mars, Sun, Venus, Mercury and Moon.",
+    "The first Hora after sunrise is linked to the weekday lord.",
+    "The twenty-four-Hora cycle advances the next day lord by three positions in the seven-planet sequence.",
+    "Vara should be read with location and sunrise and should not be used alone for complete judgement."
+  ],
+  "selfCheck": {
+    "questions": [
+      {
+        "id": "q1",
+        "type": "single-choice",
+        "question": "Which planet rules Thursday?",
+        "options": [
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn"
+        ],
+        "answer": "Jupiter",
+        "explanation": "Thursday is Guruvara, ruled by Jupiter."
+      },
+      {
+        "id": "q2",
+        "type": "single-choice",
+        "question": "Which planet rules Tuesday?",
+        "options": [
+          "Moon",
+          "Mars",
+          "Sun",
+          "Mercury"
+        ],
+        "answer": "Mars",
+        "explanation": "Tuesday is Mangalavara, ruled by Mars."
+      },
+      {
+        "id": "q3",
+        "type": "true-false",
+        "question": "Traditional Vara must always change at midnight.",
+        "answer": false,
+        "explanation": "Many Panchang traditions use local sunrise as the day boundary."
+      },
+      {
+        "id": "q4",
+        "type": "short-answer",
+        "question": "What should be checked for an event occurring before sunrise?",
+        "answer": "The local sunrise and whether the traditional Vara still belongs to the previous day.",
+        "explanation": "Civil and traditional weekday labels may differ before sunrise."
+      },
+      {
+        "id": "q5",
+        "type": "single-choice",
+        "question": "Which sequence correctly begins the traditional Hora order?",
+        "options": [
+          "Saturn, Jupiter, Mars",
+          "Sun, Moon, Mars",
+          "Moon, Mercury, Venus",
+          "Jupiter, Venus, Saturn"
+        ],
+        "answer": "Saturn, Jupiter, Mars",
+        "explanation": "The traditional repeating order begins Saturn, Jupiter, Mars, Sun, Venus, Mercury and Moon."
+      },
+      {
+        "id": "q6",
+        "type": "true-false",
+        "question": "Every traditional Hora is exactly sixty minutes.",
+        "answer": false,
+        "explanation": "Daylight and night are each divided into twelve equal parts, so duration varies."
+      },
+      {
+        "id": "q7",
+        "type": "short-answer",
+        "question": "Why does the next weekday lord advance by three positions in the Hora sequence?",
+        "answer": "Because twenty-four Horas leave a remainder of three when divided by the seven-planet sequence.",
+        "explanation": "24 mod 7 equals 3."
+      },
+      {
+        "id": "q8",
+        "type": "true-false",
+        "question": "Vara alone is sufficient to declare a complete Muhurta.",
+        "answer": false,
+        "explanation": "Complete Muhurta judgement requires several Panchang and chart factors."
+      }
+    ],
+    "passingScorePercent": 70
+  },
+  "references": [
+    {
+      "sourceId": "brihat-parashara-hora-shastra",
+      "editionId": "generic-reference",
+      "title": "Brihat Parashara Hora Shastra",
+      "author": "Traditional Jyotisha text",
+      "chapterTitle": "",
+      "chapterNumberAsPrinted": "",
+      "verseNumberAsPrinted": "",
+      "pageNumber": "",
+      "supports": "Traditional context for planetary rulership and Hora terminology.",
+      "verificationStatus": "unverified",
+      "verifiedOn": "2026-07-20",
+      "verifiedBy": "HoraLife content preparation",
+      "quotationType": "none",
+      "url": "https://archive.org/",
+      "notes": "Included as a general traditional reference only. No edition-specific or verse-specific quotation is made."
+    }
+  ],
+  "shlokaReferences": [],
+  "furtherReading": [
+    {
+      "title": "Brihat Parashara Hora Shastra",
+      "type": "classical-text",
+      "author": "Traditional Jyotisha text",
+      "note": "For later study of Hora, planetary rulership and broader Jyotisha principles. Use a verified edition before adding exact citations.",
+      "url": "https://archive.org/"
+    }
+  ],
+  "contentReview": {
+    "authenticityChecked": true,
+    "referencesChecked": true,
+    "languageReviewed": true,
+    "reviewedBy": "Initial HoraLife AI content review",
+    "reviewedOn": "2026-07-20",
+    "reviewNotes": "Weekday-lord mapping, sunrise boundary explanation and Hora sequence were checked for internal consistency. Interpretive use is intentionally limited at foundation level. Human Jyotish SME review is required before publication."
+  },
+  "status": "review"
+}

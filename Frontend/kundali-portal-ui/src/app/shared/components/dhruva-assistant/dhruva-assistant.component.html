@@ -7,12 +7,20 @@
   >
     <div class="dhruva-panel-header">
       <div class="dhruva-title-block">
-        <span class="dhruva-title-emblem" aria-hidden="true">
-          <img src="assets/brand/horalife/horalife-icon-color.svg" alt="" />
-          <span class="dhruva-emblem-sparkle"></span>
+        <span class="dhruva-title-emblem dhruva-mini-orb" aria-hidden="true">
+          <span class="dhruva-nebula-layer layer-one"></span>
+          <span class="dhruva-nebula-layer layer-two"></span>
+          <span class="dhruva-nebula-layer layer-three"></span>
+          <span class="dhruva-nebula-core"></span>
         </span>
-        <div>
-          <h2 id="dhruva-title">{{ 'dhruva.title' | transloco }}</h2>
+        <div class="dhruva-title-copy">
+          <div class="dhruva-title-row">
+            <h2 id="dhruva-title">{{ 'dhruva.title' | transloco }}</h2>
+            <span class="dhruva-status" [class.idle]="dhruvaStatus === 'idle'" [class.thinking]="dhruvaStatus === 'thinking'" [class.speaking]="dhruvaStatus === 'speaking'">
+              <span class="dhruva-status-dot" aria-hidden="true"></span>
+              <span>{{ dhruvaStatusLabel }}</span>
+            </span>
+          </div>
           <p>{{ 'dhruva.subtitle' | transloco }}</p>
         </div>
       </div>
@@ -26,7 +34,6 @@
           [title]="'dhruva.expand' | transloco"
         >
           <span aria-hidden="true">&#10530;</span>
-          <span>{{ 'dhruva.expand' | transloco }}</span>
         </button>
         <ng-template #restoreDhruvaMode>
           <button
@@ -37,7 +44,6 @@
             [title]="'dhruva.restore' | transloco"
           >
             <span aria-hidden="true">&#10529;</span>
-            <span>{{ 'dhruva.restore' | transloco }}</span>
           </button>
         </ng-template>
         <button
@@ -47,67 +53,87 @@
           [attr.aria-label]="'dhruva.close' | transloco"
           [title]="'dhruva.close' | transloco"
         >
-          <span aria-hidden="true">x</span>
+          <span aria-hidden="true">&#10005;</span>
         </button>
       </div>
     </div>
 
     <div class="dhruva-panel-content">
       <div class="dhruva-scroll-content">
-        <p class="dhruva-message">{{ 'dhruva.welcomeMessage' | transloco }}</p>
-        <div class="dhruva-story-prompt" *ngIf="hasKundaliContext">
-          <button
-            type="button"
-            class="dhruva-story-action"
-            [class.active]="selectedStoryActive"
-            [attr.aria-pressed]="selectedStoryActive"
-            (click)="tellJanmaStory()"
-          >
-            <span>Janma Story</span>
-            <strong>Tell me my story</strong>
-          </button>
-        </div>
+        <div class="dhruva-chat-stack">
+          <p class="dhruva-chat-message bot">{{ 'dhruva.welcomeMessage' | transloco }}</p>
+          <p class="dhruva-chat-message user" *ngIf="typedQuestion.trim()">{{ typedQuestion }}</p>
 
-        <ng-container *ngIf="displayedAnswer as answer">
-          <section
-            class="dhruva-janma-story-card"
-            data-dhruva-response
-            *ngIf="answer.kind === 'story'; else standardDhruvaAnswer"
-            role="status"
-            aria-live="polite"
-          >
-            <div class="dhruva-story-header">
-              <span class="dhruva-story-kicker">Janma Story</span>
-              <strong>{{ answer.title || 'Your Janma Story' }}</strong>
-            </div>
-            <div class="dhruva-story-lines">
-              <p class="dhruva-story-line" *ngFor="let line of answer.lines">{{ line }}</p>
-            </div>
-            <div class="dhruva-story-footer">
-              <span></span>
-              <small>Ask Dhruva to go deeper into any chapter</small>
-            </div>
-          </section>
-
-          <ng-template #standardDhruvaAnswer>
-            <p
-              class="dhruva-answer"
+          <ng-container *ngIf="displayedAnswer as answer">
+            <section
+              class="dhruva-janma-story-card"
               data-dhruva-response
-              *ngIf="answer.key && (answer.key | transloco: answer.params) as answerText"
+              *ngIf="answer.kind === 'story'; else standardDhruvaAnswer"
               role="status"
               aria-live="polite"
               [attr.aria-busy]="isTypingResponse"
             >
-              <span class="dhruva-visually-hidden">{{ answerText }}</span>
-              <span class="dhruva-typing-indicator" *ngIf="isTypingResponse" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-              </span>
-              <span *ngIf="!isTypingResponse" aria-hidden="true">{{ animatedResponseText(answerText) }}</span>
-            </p>
-          </ng-template>
-        </ng-container>
+              <ng-container *ngIf="isTypingResponse; else janmaStoryContent">
+                <div class="dhruva-story-awakening" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span class="dhruva-visually-hidden">Dhruva is preparing your Janma Story.</span>
+              </ng-container>
+              <ng-template #janmaStoryContent>
+                <div class="dhruva-story-header">
+                  <span class="dhruva-story-kicker">Janma Story</span>
+                  <strong>{{ answer.title || 'Your Janma Story' }}</strong>
+                </div>
+                <div class="dhruva-story-lines">
+                  <p class="dhruva-story-line" *ngFor="let line of answer.lines; let lineIndex = index" [style.--story-line-index]="lineIndex">{{ line }}</p>
+                </div>
+                <div class="dhruva-story-footer">
+                  <span></span>
+                  <small>Ask Dhruva to go deeper into any chapter</small>
+                </div>
+              </ng-template>
+            </section>
+
+            <ng-template #standardDhruvaAnswer>
+              <p
+                class="dhruva-chat-message bot dhruva-answer"
+                data-dhruva-response
+                *ngIf="answer.key && (answer.key | transloco: answer.params) as answerText"
+                role="status"
+                aria-live="polite"
+                [attr.aria-busy]="isTypingResponse"
+              >
+                <span class="dhruva-visually-hidden">{{ answerText }}</span>
+                <span class="dhruva-typing-indicator" *ngIf="isTypingResponse" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+                <span *ngIf="!isTypingResponse" aria-hidden="true">{{ animatedResponseText(answerText) }}</span>
+              </p>
+            </ng-template>
+          </ng-container>
+        </div>
+
+        <div class="dhruva-chip-tray" aria-label="Dhruva suggestions">
+          <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="tellJanmaStory()">
+            Janma Story
+          </button>
+          <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="selectPersonalQuestion('moon-sign')">
+            {{ 'dhruva.personal.moonSignQuestion' | transloco }}
+          </button>
+          <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="selectPersonalQuestion('mahadasha')">
+            {{ 'dhruva.personal.mahadashaQuestion' | transloco }}
+          </button>
+          <button type="button" class="dhruva-chip" (click)="selectGeneralQuestion('kundali')">
+            {{ 'dhruva.general.kundaliQuestion' | transloco }}
+          </button>
+          <button type="button" class="dhruva-chip" (click)="startTour()">
+            Portal Tour
+          </button>
+        </div>
 
         <div class="dhruva-personal-guide" *ngIf="hasKundaliContext">
           <h3>{{ 'dhruva.personal.heading' | transloco }}</h3>
@@ -159,7 +185,7 @@
 
       <div class="dhruva-panel-footer">
         <form class="dhruva-ask-form" (ngSubmit)="submitTypedQuestion()">
-          <label for="dhruva-ask-input">{{ (hasKundaliContext ? 'dhruva.personal.inputLabel' : 'dhruva.general.heading') | transloco }}</label>
+          <label class="dhruva-input-label" for="dhruva-ask-input">{{ (hasKundaliContext ? 'dhruva.personal.inputLabel' : 'dhruva.general.heading') | transloco }}</label>
           <div class="dhruva-ask-row">
             <input
               id="dhruva-ask-input"
@@ -171,7 +197,9 @@
               [attr.aria-invalid]="hasAskInputError"
               [attr.aria-describedby]="hasAskInputError ? 'dhruva-ask-error' : null"
             />
-            <button type="submit" class="dhruva-ask-submit" [attr.aria-label]="'dhruva.personal.askButton' | transloco" [title]="'dhruva.personal.askButton' | transloco"><span aria-hidden="true">&#8593;</span></button>
+                        <button type="submit" class="dhruva-ask-submit" [attr.aria-label]="'dhruva.personal.askButton' | transloco" [title]="'dhruva.personal.askButton' | transloco">
+              <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
           </div>
           <p class="dhruva-input-error" id="dhruva-ask-error" *ngIf="hasAskInputError">
             {{ 'dhruva.personal.emptyQuestionAnswer' | transloco }}
@@ -180,11 +208,11 @@
 
         <div class="dhruva-secondary-actions">
           <button type="button" class="dhruva-tour-again" (click)="startTour()">
-            {{ 'dhruva.tour.takeAgain' | transloco }}
+            Portal Tour
           </button>
 
           <button type="button" class="dhruva-tour-again" *ngIf="hasKundaliContext" (click)="startKundaliReportTour()">
-            {{ 'dhruva.reportTour.takeAgain' | transloco }}
+            Report Tour
           </button>
         </div>
       </div>
@@ -201,11 +229,21 @@
     [attr.aria-label]="'dhruva.open' | transloco"
     [title]="'dhruva.open' | transloco"
   >
+    <span class="dhruva-launcher-ring" aria-hidden="true"></span>
     <span class="dhruva-button-star" aria-hidden="true">
-      <img src="assets/brand/horalife/horalife-icon-color.svg" alt="" />
-      <span class="dhruva-emblem-sparkle"></span>
+      <span class="dhruva-nebula-layer layer-one"></span>
+      <span class="dhruva-nebula-layer layer-two"></span>
+      <span class="dhruva-nebula-layer layer-three"></span>
+      <span class="dhruva-nebula-layer layer-four"></span>
+      <span class="dhruva-nebula-core"></span>
+      <span class="dhruva-orb-particle particle-one"></span>
+      <span class="dhruva-orb-particle particle-two"></span>
+      <span class="dhruva-orb-particle particle-three"></span>
+      <span class="dhruva-orb-particle particle-four"></span>
+      <span class="dhruva-orb-particle particle-five"></span>
+      <span class="dhruva-orb-particle particle-six"></span>
     </span>
-    <span class="dhruva-button-label">{{ 'dhruva.title' | transloco }}</span>
+    <span class="dhruva-launcher-badge" aria-hidden="true"></span>
   </button>
 </div>
 
@@ -243,14 +281,3 @@
     </div>
   </section>
 </div>
-
-
-
-
-
-
-
-
-
-
-

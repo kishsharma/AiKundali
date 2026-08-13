@@ -27,6 +27,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         entity.Property(x => x.PhoneNumber)
             .HasMaxLength(20);
 
+        entity.Property(x => x.PreferredLanguage)
+            .HasMaxLength(2);
+
         entity.HasIndex(x => x.PhoneNumber)
             .IsUnique()
             .HasFilter("\"PhoneNumber\" IS NOT NULL");
@@ -42,6 +45,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50)
             .HasDefaultValue("User");
 
+        entity.Property(x => x.PlanCode)
+            .HasMaxLength(50)
+            .HasDefaultValue("Free")
+            .IsRequired();
+
+        entity.Property(x => x.PlanExpiresAt);
+
         entity.Property(x => x.IsActive)
             .HasDefaultValue(true);
 
@@ -56,5 +66,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         entity.Property(x => x.PhoneVerifiedAt);
     }
 }
+
 
 

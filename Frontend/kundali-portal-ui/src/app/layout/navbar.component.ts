@@ -1,4 +1,4 @@
-﻿// Top Navbar Component
+// Top Navbar Component
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
             <span class="hamburger"></span>
           </button>
           <a routerLink="/" class="brand-text">
-            <span class="brand-icon">â™ˆ</span>
+            <span class="brand-icon">&#9800;</span>
             <span class="brand-name">Kundali Portal</span>
           </a>
         </div>

@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 
 @Component({
   selector: 'app-panchang-card',
@@ -11,6 +11,11 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
   styleUrls: ['./panchang-card.component.scss'],
 })
 export class PanchangCardComponent {
-  constructor(private translocoService: TranslocoService) {}
   @Input() panchang: any;
+
+  constructor(private readonly apiTerms: ApiTermTranslationService) {}
+
+  translatePanchang(field: 'maas' | 'paksha' | 'tithi' | 'nakshatra' | 'yoga' | 'karana' | 'vaar', value: unknown): string {
+    return this.apiTerms.translatePanchangValue(field, value);
+  }
 }

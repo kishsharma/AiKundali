@@ -37,6 +37,7 @@ namespace KundaliEngine.API.Services.Auth
                 FullName = request.FullName.Trim(),
                 Email = email,
                 PhoneNumber = request.PhoneNumber,
+                PreferredLanguage = PreferredLanguageHelper.Normalize(request.PreferredLanguage),
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 AuthProvider = "Local",
                 Role = "User",
@@ -55,6 +56,7 @@ namespace KundaliEngine.API.Services.Auth
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                PreferredLanguage = user.PreferredLanguage,
                 Role = user.Role,
                 Token = token
             };
@@ -103,6 +105,7 @@ namespace KundaliEngine.API.Services.Auth
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                PreferredLanguage = user.PreferredLanguage,
                 Role = user.Role,
                 Token = token
             };
@@ -145,4 +148,6 @@ namespace KundaliEngine.API.Services.Auth
         }
     }
 }
+
+
 
