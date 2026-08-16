@@ -7,7 +7,7 @@ let apiVmBaseUrl = 'https://api.horalife.in/api'
 let localApiBaseUrl='https://localhost:7245/api'
 export const environment = {
   production: false,
-  apiBaseUrl: localApiBaseUrl,
+  apiBaseUrl: apiVmBaseUrl,
     
   apiTimeout: 30000, // milliseconds
   apiEndpoints: {
