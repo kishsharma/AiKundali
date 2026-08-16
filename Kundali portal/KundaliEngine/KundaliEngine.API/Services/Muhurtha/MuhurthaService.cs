@@ -333,7 +333,6 @@ public class MuhurthaService : IMuhurthaService
         {
             "Varjyam source-data calculation",
             "Panchanga transition-boundary splitting beyond generated time windows",
-            "Eclipse and Sutak period calculation",
             "Sankranti restriction windows",
             "Detailed Navamsha confirmation and Vargottama support",
             "Expert override and audit workflow",
@@ -353,6 +352,7 @@ public class MuhurthaService : IMuhurthaService
         return unsupported;
     }
 }
+
 
 
 

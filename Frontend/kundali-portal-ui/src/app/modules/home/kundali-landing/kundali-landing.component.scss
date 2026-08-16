@@ -228,7 +228,7 @@
     margin-top:5px;
   }
 
-  .nav-links{display:flex; gap:36px; align-items:center;}
+  .nav-links{display:flex; flex-wrap:nowrap; gap:clamp(18px, 2vw, 32px); align-items:center; white-space:nowrap;}
   .nav-links a{
     font-size:14px; color:var(--parchment-dim);
     transition:color .2s ease;
@@ -1272,3 +1272,421 @@ footer {
 .eval-card .metric b {
   color:#f0c963;
 }
+/* Account conversion and compact mobile landing */
+.mobile-core-features,
+.mobile-cta-label,
+.hero-login-link {
+  display: none;
+}
+
+.signup-panel {
+  display: grid;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: 0 14px 36px rgba(3, 8, 30, 0.2);
+}
+
+.signup-panel-kicker {
+  color: var(--brass-soft);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.signup-panel h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.signup-panel p {
+  margin: 0;
+  color: var(--parchment-dim);
+  font-size: 14px;
+}
+
+.signup-panel .btn-primary {
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.signup-login,
+.hero-login-link {
+  width: fit-content;
+  color: var(--parchment-dim);
+  font-size: 13px;
+  border-bottom: 1px solid var(--line);
+}
+
+.signup-login:hover,
+.hero-login-link:hover {
+  color: var(--brass);
+  border-color: var(--brass);
+}
+
+@media (max-width: 640px) {
+  .shloka-strip,
+  .public-tools,
+  .process,
+  .evaluators,
+  .milan,
+  .philosophy {
+    display: none;
+  }
+
+  .mobile-core-features {
+    display: block;
+    padding: 38px 0 42px;
+    border-bottom: 1px solid var(--line-soft);
+    background: linear-gradient(180deg, #192b61 0%, #14234f 100%);
+  }
+
+  .mobile-section-head {
+    margin-bottom: 18px;
+  }
+
+  .mobile-section-head h2 {
+    margin-top: 9px;
+    font-size: 25px;
+    line-height: 1.08;
+  }
+
+  .mobile-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .mobile-feature-card {
+    display: grid;
+    min-width: 0;
+    min-height: 126px;
+    align-content: start;
+    gap: 6px;
+    padding: 14px;
+    border: 1px solid rgba(224, 184, 79, 0.23);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .mobile-feature-symbol {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 3px;
+    place-items: center;
+    border: 1px solid rgba(240, 201, 99, 0.34);
+    color: var(--brass);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+  }
+
+  .mobile-feature-card strong {
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.05;
+  }
+
+  .mobile-feature-card small {
+    color: var(--parchment-dim);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .nav-actions {
+    gap: 5px;
+  }
+
+  .nav-login {
+    padding: 7px 8px;
+    border: 0;
+    font-size: 11px;
+  }
+
+  .nav-cta {
+    padding: 8px 10px;
+    font-size: 9px;
+  }
+
+  .brand,
+  header.is-scrolled .brand {
+    --brand-logo-mark-size: 34px;
+    --brand-logo-name-size: 22px;
+    --brand-logo-descriptor-size: 8px;
+  }
+
+  .hero {
+    padding: 42px 0 36px;
+  }
+
+  .hero-grid {
+    gap: 20px;
+  }
+
+  .hero h1 {
+    margin: 14px 0 16px;
+    font-size: 32px;
+    line-height: 1.02;
+  }
+
+  .hero p.lede {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .hero-ctas {
+    display: grid;
+    justify-items: start;
+    gap: 11px;
+  }
+
+  .hero-secondary-cta,
+  .hero-sample-cta,
+  .desktop-cta-label,
+  .hero-note {
+    display: none;
+  }
+
+  .mobile-cta-label,
+  .hero-login-link {
+    display: inline;
+  }
+
+  .hero .btn-primary {
+    padding: 13px 20px;
+    font-size: 11px;
+  }
+
+  .chart-stage {
+    min-height: 0;
+  }
+
+  .chart-frame {
+    width: min(64vw, 230px);
+  }
+
+  .chart-frame .chip {
+    display: none;
+  }
+
+  .moving-saturn {
+    width: 105px;
+    opacity: 0.08;
+  }
+
+  .astrologer-validation {
+    padding: 40px 0;
+  }
+
+  .astrologer-validation .section-head {
+    margin-bottom: 18px;
+  }
+
+  .astrologer-validation .section-head h2 {
+    margin-top: 9px;
+    font-size: 25px;
+  }
+
+  .astrologer-validation .section-head p,
+  .astrologer-review:not(:first-child),
+  .scroll-nav {
+    display: none;
+  }
+
+  .astrologer-scroll {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .astrologer-review {
+    flex: 0 0 100%;
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .astrologer-review img {
+    width: 72px;
+    height: 72px;
+  }
+
+  #preview {
+    padding: 40px 0;
+  }
+
+  .preview-grid {
+    gap: 24px;
+  }
+
+  .preview-copy h2 {
+    margin: 12px 0 14px !important;
+    font-size: 25px !important;
+  }
+
+  .preview-copy > p,
+  .preview-copy li:nth-child(n+3) {
+    display: none;
+  }
+
+  .preview-copy ul {
+    margin-top: 0;
+  }
+
+  .preview-card .titlebar,
+  .preview-body {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .cta-section {
+    padding: 40px 0;
+  }
+
+  .cta-grid {
+    gap: 20px;
+  }
+
+  .cta-copy h2 {
+    margin: 10px 0 12px;
+    font-size: 28px;
+  }
+
+  .cta-copy p {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+
+  .signup-panel {
+    gap: 11px;
+    padding: 18px;
+  }
+
+  .signup-panel h3 {
+    font-size: 22px;
+  }
+
+  .signup-panel .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  footer {
+    padding: 28px 0 24px;
+  }
+
+  .foot-links,
+  .foot-soon {
+    display: none;
+  }
+
+  .foot-bottom {
+    margin-top: 18px;
+  }
+}
+
+
+/* Comfortable authentication actions across desktop and touch layouts. */
+.nav-actions {
+  gap: 12px;
+}
+
+.nav-login,
+.nav-cta {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.nav-login {
+  padding: 10px 17px;
+  font-size: 13px;
+}
+
+.nav-cta {
+  padding: 10px 18px;
+  background: var(--brass);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.nav-cta:hover {
+  background: #e1bb62;
+  color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .nav-login {
+    min-width: 62px;
+    min-height: 40px;
+    padding: 9px 11px;
+    border: 1px solid var(--line-soft);
+    font-size: 12px;
+  }
+
+  .nav-cta {
+    min-width: 78px;
+    min-height: 40px;
+    padding: 9px 12px;
+    font-size: 10px;
+  }
+
+  .hero .btn-primary {
+    min-height: 48px;
+    padding: 14px 22px;
+    font-size: 12px;
+  }
+
+  .hero-login-link {
+    padding: 4px 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
+
+
+
+/* One restrained surface language for all landing-page cards. */
+.public-tool-card,
+.mobile-feature-card,
+.astrologer-review,
+.eval-card,
+.preview-card,
+.milan-card,
+.signup-panel {
+  border-radius: 8px;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.tool-symbol,
+.mobile-feature-symbol,
+.eval-card .glyph {
+  border-radius: 6px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.nav-login,
+.nav-cta,
+.signup-panel .btn-primary {
+  border-radius: 6px;
+}
+

@@ -176,6 +176,13 @@ export interface NavItem {
           <h3 class="nav-section-title">{{ 'sidebar.astrology' | transloco }}</h3>
           <ul class="nav-list">
 
+
+            <li class="nav-item">
+              <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-dhruva-tour="panchang" data-tour-id="portal-panchang" (click)="onClose.emit()">
+                <app-astrology-icon name="panchang" class="nav-icon icon-md"></app-astrology-icon>
+                <span class="nav-label">{{ 'sidebar.panchang' | transloco }}</span>
+              </a>
+            </li>
             <li class="nav-item">
               <a routerLink="/app/panchang/muhurtha" routerLinkActive="active" data-dhruva-tour="muhurtha" data-tour-id="portal-muhurtha" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
@@ -1618,6 +1625,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 }
+
 
 
 

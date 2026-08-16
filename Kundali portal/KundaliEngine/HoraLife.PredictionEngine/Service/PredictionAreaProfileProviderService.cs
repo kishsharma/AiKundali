@@ -1,4 +1,4 @@
-﻿using HoraLife.PredictionEngine.Enums;
+using HoraLife.PredictionEngine.Enums;
 using HoraLife.PredictionEngine.Metadata;
 using HoraLife.PredictionEngine.Models;
 
@@ -17,17 +17,22 @@ public sealed class PredictionAreaProfileProviderService
 
     public PredictionAreaProfile Get(PredictionLifeArea lifeArea)
     {
-        var metadata =_metadataProvider.GetLifeArea(lifeArea);
+        var metadata = _metadataProvider.GetLifeArea(lifeArea);
 
         return new PredictionAreaProfile
         {
             LifeArea = metadata.LifeArea,
-
-            PrimaryHouses =metadata.PrimaryHouses.ToArray(),
-
-            SupportingHouses =metadata.SupportingHouses.ToArray(),
-
-            NaturalSignificators =metadata.NaturalSignificators.ToArray()
+            PrimaryHouses = metadata.PrimaryHouses.ToArray(),
+            SupportingHouses = metadata.SupportingHouses.ToArray(),
+            NaturalSignificators = metadata.NaturalSignificators.ToArray(),
+            CustomQuestionTiming = metadata.CustomQuestionTiming
+                .Select(item => new PredictionCustomQuestionTimingProfile
+                {
+                    FocusKey = item.FocusKey,
+                    FutureHorizonYears = item.FutureHorizonYears,
+                    MaxWindows = item.MaxWindows
+                })
+                .ToArray()
         };
     }
 }

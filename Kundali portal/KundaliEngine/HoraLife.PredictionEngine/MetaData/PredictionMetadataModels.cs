@@ -1,4 +1,4 @@
-﻿using HoraLife.PredictionEngine.Enums;
+using HoraLife.PredictionEngine.Enums;
 
 namespace HoraLife.PredictionEngine.Metadata;
 
@@ -21,4 +21,16 @@ internal sealed record PredictionLifeAreaMetadata
 
     public IReadOnlyList<string> NaturalSignificators { get; init; }
         = Array.Empty<string>();
+
+    public IReadOnlyList<PredictionCustomQuestionTimingMetadata> CustomQuestionTiming { get; init; }
+        = Array.Empty<PredictionCustomQuestionTimingMetadata>();
+}
+
+internal sealed record PredictionCustomQuestionTimingMetadata
+{
+    public required string FocusKey { get; init; }
+
+    public int? FutureHorizonYears { get; init; }
+
+    public int MaxWindows { get; init; } = 5;
 }

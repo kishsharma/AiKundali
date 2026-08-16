@@ -53,6 +53,27 @@ export interface PanchangCalendarResponse {
   days: Panchang[];
 }
 
+export interface PanchangEclipse {
+  id: string;
+  kind: 'solar' | 'lunar' | string;
+  type: string;
+  date: string;
+  startTime: string;
+  maximumTime: string;
+  endTime: string;
+  sutakStartTime?: string | null;
+  sutakEndTime?: string | null;
+  isVisibleFromLocation: boolean;
+}
+
+export interface PanchangEclipseYearResponse {
+  year: number;
+  latitude: number;
+  longitude: number;
+  timezone: string;
+  eclipses: PanchangEclipse[];
+}
+
 export interface PanchangCalendarRequest {
   mode: PanchangCalendarMode;
   date: Date;
@@ -84,6 +105,26 @@ export class PanchangApiService extends BaseApiService {
         latitude: request.latitude ?? 12.9716,
         longitude: request.longitude ?? 77.5946,
         timezone: request.timezone || 'Asia/Kolkata',
+      },
+    });
+  }
+
+  /**
+   * Get yearly visible eclipses for the selected location.
+   */
+  getYearlyEclipses(
+    year: number,
+    latitude?: number,
+    longitude?: number,
+    timezone?: string
+  ): Observable<ApiResponse<PanchangEclipseYearResponse>> {
+    return this.get<PanchangEclipseYearResponse>(`${this.endpoint}/eclipses`, {
+      params: {
+        year,
+        latitude: latitude ?? 12.9716,
+        longitude: longitude ?? 77.5946,
+        timezone: timezone || 'Asia/Kolkata',
+        _: Date.now(),
       },
     });
   }
@@ -126,7 +167,5 @@ export class PanchangApiService extends BaseApiService {
     return `${year}-${month}-${day}`;
   }
 }
-
-
 
 

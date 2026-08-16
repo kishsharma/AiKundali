@@ -27,5 +27,7 @@ export const apiEndpoints = {
     root: 'gochar',
     currentLifeFocus: 'gochar/current-life-focus',
   },
+  prediction: {
+    question: 'Prediction/question',
+  },
 } as const;
-

@@ -697,9 +697,14 @@ function installBrowserFakes(targets: () => Map<string, FakeTourElement>): void 
 function renderPortalTargets(targets: Map<string, FakeTourElement>): void {
   renderReportTargets(targets, [
     '[data-tour-id="portal-dashboard"]',
+    '[data-tour-id="dashboard-overview"]',
+    '[data-tour-id="dashboard-quick-actions"]',
+    '[data-tour-id="dashboard-journey"]',
+    '[data-tour-id="dashboard-collection"]',
     '[data-tour-id="portal-create-kundali"]',
     '[data-tour-id="portal-saved-kundalis"]',
     '[data-tour-id="portal-compatibility"]',
+    '[data-tour-id="portal-panchang"]',
     '[data-tour-id="portal-muhurtha"]',
     '[data-tour-id="portal-learning"]',
     '[data-tour-id="portal-dhruva-assistant"]',
@@ -726,6 +731,7 @@ function createFakeElement(): FakeTourElement {
     getBoundingClientRect: () => ({ top: 24, left: 32, width: 240, height: 80 }),
   };
 }
+
 
 
 

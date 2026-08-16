@@ -72,3 +72,67 @@ export interface FormValidationResult {
   errors: ValidationError[];
 }
 
+export type PredictionLifeArea = 'Relationships';
+export type PredictionFocusKey = 'marriage_possibility' | 'marriage_timing';
+export type PredictionTimeScope = 'Current' | 'Future';
+
+export interface PredictionQuestionRequest {
+  lifeArea: PredictionLifeArea;
+  focusKey: PredictionFocusKey;
+  timeScope: PredictionTimeScope;
+  referenceDate?: string;
+  kundaliData: any;
+}
+
+export interface PredictionResponse {
+  lifeArea: string;
+  timeScope: string;
+  referenceDate: string;
+  focusKey?: string | null;
+  claims: PredictionClaimResponse[];
+  synthesis?: PredictionSynthesisResponse | null;
+  answer?: PredictionAnswerResponse | null;
+}
+
+export interface PredictionClaimResponse {
+  key: string;
+  tone: string;
+  stage: string;
+  dashaLevel?: string | null;
+  dashaPlanet?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  ruleIds: string[];
+  evidenceKeys: string[];
+}
+
+export interface PredictionSynthesisResponse {
+  overallTone?: string | null;
+  effectiveFrom?: string | null;
+  effectiveTo?: string | null;
+  houseConnections: PredictionHouseConnectionResponse[];
+}
+
+export interface PredictionHouseConnectionResponse {
+  sourceHouse: number;
+  lordPlanet: string;
+  targetHouse: number;
+  sourceSignificationKeys: string[];
+  targetSignificationKeys: string[];
+  evidenceKey: string;
+}
+
+export interface PredictionAnswerResponse {
+  outcome: string;
+  reasonKeys: string[];
+  evidenceKeys: string[];
+  timingWindows: PredictionTimingWindowResponse[];
+}
+
+export interface PredictionTimingWindowResponse {
+  startDate: string;
+  endDate: string;
+  strength: string;
+  triggerPlanets: string[];
+  evidenceKeys: string[];
+}

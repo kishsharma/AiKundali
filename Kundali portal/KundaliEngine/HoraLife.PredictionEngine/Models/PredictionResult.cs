@@ -20,4 +20,6 @@ public sealed record PredictionResult
         = Array.Empty<PredictionClaim>();
 
     public PredictionSynthesis? Synthesis { get; init; }
+
+    public PredictionAnswer? Answer { get; init; }
 }

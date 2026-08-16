@@ -7,12 +7,15 @@ import { DhruvaKundaliContext } from './dhruva-kundali-context.mapper';
 })
 export class DhruvaKundaliContextService {
   readonly context = signal<DhruvaKundaliContext | null>(null);
+  readonly source = signal<unknown | null>(null);
 
-  setContext(context: DhruvaKundaliContext): void {
+  setContext(context: DhruvaKundaliContext, source?: unknown): void {
     this.context.set(context);
+    this.source.set(source ?? null);
   }
 
   clearContext(): void {
     this.context.set(null);
+    this.source.set(null);
   }
 }

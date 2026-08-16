@@ -13,6 +13,8 @@ using KundaliEngine.API.Services.Email;
 using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Gochar;
 using KundaliEngine.API.Services.Learning;
+using KundaliEngine.API.Services.Locations;
+using KundaliEngine.API.Services.Panchang;
 using KundaliEngine.API.Services.Muhurtha;
 using KundaliEngine.API.Services.Recommendations;
 using KundaliEngine.API.Services.ReportPdf;
@@ -62,6 +64,18 @@ builder.Services.AddSingleton<PlanetScoreService>();
 builder.Services.AddSingleton<HouseScoreService>();
 builder.Services.AddSingleton<DashaService>();
 builder.Services.AddSingleton<PanchangService>();
+builder.Services.AddSingleton<IPanchangEclipseService, PanchangEclipseService>();
+builder.Services.Configure<LocationProviderOptions>(builder.Configuration.GetSection("LocationProvider"));
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<ILocationSearchProvider, NominatimLocationSearchProvider>((serviceProvider, client) =>
+{
+    var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LocationProviderOptions>>().Value;
+    client.BaseAddress = new Uri(options.BaseUrl.TrimEnd('/') + "/");
+    client.Timeout = TimeSpan.FromSeconds(Math.Max(1, options.TimeoutSeconds));
+    client.DefaultRequestHeaders.UserAgent.ParseAdd(options.UserAgent);
+    client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+});
+builder.Services.AddScoped<ILocationSearchService, LocationSearchService>();
 builder.Services.AddSingleton<AspectService>();
 builder.Services.AddSingleton<PlanetStrengthService>();
 builder.Services.AddSingleton<OverallKundaliScoreService>();
@@ -136,6 +150,7 @@ builder.Services.AddSingleton(_ =>
 builder.Services.AddSingleton<IMuhurthaRuleConfigurationProvider, MuhurthaRuleConfigurationProvider>();
 builder.Services.AddSingleton<IMuhurthaSunriseSunsetService, MuhurthaSunriseSunsetService>();
 builder.Services.AddSingleton<IMuhurthaGenericTimeWindowService, MuhurthaGenericTimeWindowService>();
+builder.Services.AddSingleton<IMuhurthaEclipseWindowService, MuhurthaEclipseWindowService>();
 builder.Services.AddSingleton<IVastuMuhurthaEligibilityService, VastuMuhurthaEligibilityService>();
 builder.Services.AddSingleton<IMuhurthaRuleEvaluationService, MuhurthaRuleEvaluationService>();
 builder.Services.AddSingleton<IMuhurthaCandidateGenerator, MuhurthaCandidateGenerator>();

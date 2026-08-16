@@ -125,7 +125,7 @@ export class CompatibilityComponent {
         distinctUntilChanged(),
         switchMap((value) => value && value.length >= 3 ? this.locationService.searchLocation(value) : of([]))
       )
-      .subscribe((results) => this.boyLocationResults = results);
+      .subscribe((results) => { this.boyLocationResults = results; this.cdr.detectChanges(); });
 
     this.form.controls.girlBirthPlace.valueChanges
       .pipe(
@@ -133,7 +133,7 @@ export class CompatibilityComponent {
         distinctUntilChanged(),
         switchMap((value) => value && value.length >= 3 ? this.locationService.searchLocation(value) : of([]))
       )
-      .subscribe((results) => this.girlLocationResults = results);
+      .subscribe((results) => { this.girlLocationResults = results; this.cdr.detectChanges(); });
 
     this.route.paramMap.subscribe(params => {
       const savedId = params.get('id');
@@ -145,9 +145,9 @@ export class CompatibilityComponent {
 
   selectLocation(role: 'boy' | 'girl', place: any): void {
     this.form.patchValue({
-      [`${role}BirthPlace`]: place.display_name,
-      [`${role}Latitude`]: Number(place.lat),
-      [`${role}Longitude`]: Number(place.lon),
+      [`${role}BirthPlace`]: place.displayName,
+      [`${role}Latitude`]: Number(place.latitude),
+      [`${role}Longitude`]: Number(place.longitude),
     });
 
     if (role === 'boy') {
@@ -402,6 +402,21 @@ export class CompatibilityComponent {
     });
   }
 
+  readonly unsavedChangesMessage = 'This compatibility report has not been saved. Leave without saving it?';
+
+  hasUnsavedChanges(): boolean {
+    return !!this.result && !this.savedCompatibilityId;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  warnBeforeLeavingWithUnsavedCompatibility(event: BeforeUnloadEvent): void {
+    if (!this.hasUnsavedChanges()) {
+      return;
+    }
+
+    event.preventDefault();
+    event.returnValue = '';
+  }
   saveCompatibility(): void {
     if (!this.result || this.savingCompatibility) {
       return;
@@ -1311,5 +1326,4 @@ export class CompatibilityComponent {
     return this.transloco.translate(key, params);
   }
 }
-
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "schemaVersion": "1.0",
   "lifeAreas": [
     {
@@ -28,6 +28,13 @@
       "naturalSignificators": [
         "Venus",
         "Jupiter"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "marriage_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     },
     {

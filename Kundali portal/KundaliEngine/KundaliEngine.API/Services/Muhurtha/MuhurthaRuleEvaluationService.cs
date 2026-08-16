@@ -1,4 +1,4 @@
-using KundaliEngine.API.Helper_functions;
+﻿using KundaliEngine.API.Helper_functions;
 using KundaliEngine.API.Services.Muhurtha.Models;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Calculations;
@@ -895,6 +895,7 @@ public class MuhurthaRuleEvaluationService : IMuhurthaRuleEvaluationService
 
     private static DateTimeOffset Min(DateTimeOffset a, DateTimeOffset b) => a < b ? a : b;
 }
+
 
 
 

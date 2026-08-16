@@ -11,15 +11,13 @@
     </div>
     <nav class="nav-links">
       <a href="#public-tools">Free Tools</a>
-      <a href="#process">Method</a>
-      <a href="#astrologers">Astrologers</a>
-      <a href="#evaluators">Evaluators</a>
+      <a href="#process">How It Works</a>
       <a href="#preview">Sample Report</a>
       <a href="#milan">Compatibility</a>
-      <a href="#philosophy">Sources</a>
     </nav>
     <div class="nav-actions">
-      <a routerLink="/login" class="nav-cta">Login</a>
+      <a routerLink="/login" class="nav-login">Login</a>
+      <a routerLink="/register" class="nav-cta">Sign Up</a>
     </div>
   </div>
 </header>
@@ -50,9 +48,10 @@
       <h1>Your kundali,<br>scored like it <em>deserves</em> to be.</h1>
       <p class="lede">Every planet's strength, every combustion, every yoga and dosha — traced back to the classical rule that produced it, not hidden behind a generic star rating.</p>
       <div class="hero-ctas">
-        <a href="#get-score" class="btn-primary">Generate My Kundali</a>
-        <a href="#public-tools" class="btn-secondary">Explore Free Tools</a>
-        <a href="#preview" class="btn-ghost">See a sample report</a>
+        <a routerLink="/register" class="btn-primary"><span class="desktop-cta-label">Generate My Kundali</span><span class="mobile-cta-label">Create Free Account</span></a>
+        <a href="#public-tools" class="btn-secondary hero-secondary-cta">Explore Free Tools</a>
+        <a href="#preview" class="btn-ghost hero-sample-cta">See a sample report</a>
+        <a routerLink="/login" class="hero-login-link">Already have an account? Login</a>
       </div>
       <div class="hero-note"><span class="dot"></span> Built on Bṛhat Parāśara Horā Śāstra, Jaimini Sūtras &amp; Phaladeepika</div>
     </div>
@@ -113,6 +112,20 @@
   </div>
 </section>
 
+<section class="mobile-core-features" aria-labelledby="mobile-core-features-title">
+  <div class="wrap">
+    <div class="mobile-section-head">
+      <span class="eyebrow">Core Features</span>
+      <h2 id="mobile-core-features-title">Your essential Jyotish tools.</h2>
+    </div>
+    <div class="mobile-feature-grid">
+      <a routerLink="/register" class="mobile-feature-card"><span class="mobile-feature-symbol" aria-hidden="true">Ku</span><strong>Kundali</strong><small>Scored birth chart</small></a>
+      <a routerLink="/register" class="mobile-feature-card"><span class="mobile-feature-symbol" aria-hidden="true">Mi</span><strong>Compatibility</strong><small>Complete match analysis</small></a>
+      <a routerLink="/register" class="mobile-feature-card"><span class="mobile-feature-symbol" aria-hidden="true">Da</span><strong>Dasha</strong><small>Planetary periods</small></a>
+      <a routerLink="/register" class="mobile-feature-card"><span class="mobile-feature-symbol" aria-hidden="true">Jn</span><strong>Learning</strong><small>Guided Jyotish study</small></a>
+    </div>
+  </div>
+</section>
 <!-- Public discovery hooks: lightweight placeholders that can be wired to dedicated routes later. -->
 <section class="public-tools" id="public-tools" aria-labelledby="public-tools-title">
   <div class="deva-field" id="deva-tools"></div>
@@ -407,8 +420,8 @@
         <span class="ai-chip">AI</span> explains why a match is strong, risky, or workable without reducing two charts to one guna number.
       </p>
       <div class="hero-ctas">
-        <a href="#get-score" class="btn-primary">Check Your Compatibility</a>
-        <a href="#get-score" class="btn-ghost">Two minutes. Both birth details.</a>
+        <a routerLink="/register" class="btn-primary">Create Free Account</a>
+        <a routerLink="/login" class="btn-ghost">Login to continue</a>
       </div>
     </div>
   </div>
@@ -445,28 +458,13 @@
       <p>Enter your birth details once. Get a scored, explained chart you can actually read — and come back to as your dashas unfold.</p>
       <div class="hero-note"><span class="dot"></span> No predictions without a cited rule behind them.</div>
     </div>
-    <form class="cta-form">
-      <div class="field">
-        <label for="name">Full name</label>
-        <input id="name" type="text" placeholder="As it appears on your birth record">
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="dob">Date of birth</label>
-          <input id="dob" type="date">
-        </div>
-        <div class="field">
-          <label for="tob">Time of birth</label>
-          <input id="tob" type="time">
-        </div>
-      </div>
-      <div class="field">
-        <label for="pob">Place of birth</label>
-        <input id="pob" type="text" placeholder="City, state, country">
-      </div>
-      <button type="submit" class="btn-primary">Generate My Kundali</button>
-      <p class="form-note">Your birth details are used only to compute your chart.</p>
-    </form>
+    <div class="signup-panel">
+      <span class="signup-panel-kicker">Your chart begins with one account</span>
+      <h3>Create your free HoraLife account.</h3>
+      <p>Save your Kundali, explore compatibility and return to your Dasha insights anytime.</p>
+      <a routerLink="/register" class="btn-primary">Create Free Account</a>
+      <a routerLink="/login" class="signup-login">Already registered? Login</a>
+    </div>
   </div>
 </section>
 
@@ -480,13 +478,10 @@
       </div>
       <div class="foot-links">
         <a href="#public-tools">Free Tools</a>
-        <a href="#process">Method</a>
-        <a href="#astrologers">Astrologers</a>
-        <a href="#evaluators">Evaluators</a>
-        <a href="#preview">Sample Report</a>
+        <a href="#process">How It Works</a>
+            <a href="#preview">Sample Report</a>
         <a href="#milan">Compatibility</a>
-        <a href="#philosophy">Sources</a>
-      </div>
+        </div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 <span class="brand-hora">Hora</span>Life</span>
@@ -495,6 +490,5 @@
     </div>
   </div>
 </footer>
-
 
 

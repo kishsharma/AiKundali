@@ -1,68 +1,117 @@
-[
-  {
-    "ruleKey": "rahu_kalam",
-    "displayName": "Rahu Kalam",
-    "sanskritName": "Rahu Kalam",
-    "group": "GenericTimeRules",
-    "ruleType": "TimeWindow",
-    "calculationMethod": "SunriseSunsetSegment",
-    "message": "The selected time overlaps Rahu Kalam.",
-    "recommendation": "Prefer a time outside Rahu Kalam for auspicious beginnings.",
-    "expertOverrideAllowed": true
-  },
-  {
-    "ruleKey": "yamaganda",
-    "displayName": "Yamaganda",
-    "sanskritName": "Yamaganda",
-    "group": "GenericTimeRules",
-    "ruleType": "TimeWindow",
-    "calculationMethod": "SunriseSunsetSegment",
-    "message": "The selected time overlaps Yamaganda.",
-    "recommendation": "Prefer a time outside Yamaganda where practical.",
-    "expertOverrideAllowed": true
-  },
-  {
-    "ruleKey": "gulika_kalam",
-    "displayName": "Gulika Kalam",
-    "sanskritName": "Gulika Kalam",
-    "group": "GenericTimeRules",
-    "ruleType": "TimeWindow",
-    "calculationMethod": "SunriseSunsetSegment",
-    "message": "The selected time overlaps Gulika Kalam.",
-    "recommendation": "Review this period according to tradition and event type.",
-    "expertOverrideAllowed": true
-  },
-  {
-    "ruleKey": "tithi_suitability",
-    "displayName": "Tithi Suitability",
-    "sanskritName": "Tithi",
-    "group": "PanchangaRules",
-    "ruleType": "PanchangaSuitability",
-    "calculationMethod": "PanchangService",
-    "message": "Tithi suitability depends on the selected event.",
-    "recommendation": "Use event-specific Tithi configuration.",
-    "expertOverrideAllowed": true
-  },
-  {
-    "ruleKey": "tara_bala",
-    "displayName": "Tara Bala",
-    "sanskritName": "Tara Bala",
-    "group": "PersonalHoroscopeRules",
-    "ruleType": "PersonalCompatibility",
-    "calculationMethod": "NatalNakshatraToMuhurthaMoonNakshatra",
-    "message": "Tara Bala requires horoscope details.",
-    "recommendation": "Provide horoscope details to evaluate personal suitability.",
-    "expertOverrideAllowed": true
-  },
-  {
-    "ruleKey": "muhurtha_lagna_strength",
-    "displayName": "Muhurtha Lagna Strength",
-    "sanskritName": "Lagna Bala",
-    "group": "MuhurthaChartRules",
-    "ruleType": "ChartStrength",
-    "calculationMethod": "ChartService",
-    "message": "Muhurtha Lagna strength is evaluated from the Muhurtha chart.",
-    "recommendation": "Prefer a stronger Lagna and Lagna lord for the selected event.",
-    "expertOverrideAllowed": true
-  }
+﻿[
+    {
+        "value":  [
+                      {
+                          "ruleKey":  "rahu_kalam",
+                          "displayName":  "Rahu Kalam",
+                          "sanskritName":  "Rahu Kalam",
+                          "group":  "GenericTimeRules",
+                          "ruleType":  "TimeWindow",
+                          "calculationMethod":  "SunriseSunsetSegment",
+                          "message":  "The selected time overlaps Rahu Kalam.",
+                          "recommendation":  "Prefer a time outside Rahu Kalam for auspicious beginnings.",
+                          "expertOverrideAllowed":  true
+                      },
+                      {
+                          "ruleKey":  "yamaganda",
+                          "displayName":  "Yamaganda",
+                          "sanskritName":  "Yamaganda",
+                          "group":  "GenericTimeRules",
+                          "ruleType":  "TimeWindow",
+                          "calculationMethod":  "SunriseSunsetSegment",
+                          "message":  "The selected time overlaps Yamaganda.",
+                          "recommendation":  "Prefer a time outside Yamaganda where practical.",
+                          "expertOverrideAllowed":  true
+                      },
+                      {
+                          "ruleKey":  "gulika_kalam",
+                          "displayName":  "Gulika Kalam",
+                          "sanskritName":  "Gulika Kalam",
+                          "group":  "GenericTimeRules",
+                          "ruleType":  "TimeWindow",
+                          "calculationMethod":  "SunriseSunsetSegment",
+                          "message":  "The selected time overlaps Gulika Kalam.",
+                          "recommendation":  "Review this period according to tradition and event type.",
+                          "expertOverrideAllowed":  true
+                      },
+                      {
+                          "ruleKey":  "tithi_suitability",
+                          "displayName":  "Tithi Suitability",
+                          "sanskritName":  "Tithi",
+                          "group":  "PanchangaRules",
+                          "ruleType":  "PanchangaSuitability",
+                          "calculationMethod":  "PanchangService",
+                          "message":  "Tithi suitability depends on the selected event.",
+                          "recommendation":  "Use event-specific Tithi configuration.",
+                          "expertOverrideAllowed":  true
+                      },
+                      {
+                          "ruleKey":  "tara_bala",
+                          "displayName":  "Tara Bala",
+                          "sanskritName":  "Tara Bala",
+                          "group":  "PersonalHoroscopeRules",
+                          "ruleType":  "PersonalCompatibility",
+                          "calculationMethod":  "NatalNakshatraToMuhurthaMoonNakshatra",
+                          "message":  "Tara Bala requires horoscope details.",
+                          "recommendation":  "Provide horoscope details to evaluate personal suitability.",
+                          "expertOverrideAllowed":  true
+                      },
+                      {
+                          "ruleKey":  "muhurtha_lagna_strength",
+                          "displayName":  "Muhurtha Lagna Strength",
+                          "sanskritName":  "Lagna Bala",
+                          "group":  "MuhurthaChartRules",
+                          "ruleType":  "ChartStrength",
+                          "calculationMethod":  "ChartService",
+                          "message":  "Muhurtha Lagna strength is evaluated from the Muhurtha chart.",
+                          "recommendation":  "Prefer a stronger Lagna and Lagna lord for the selected event.",
+                          "expertOverrideAllowed":  true
+                      }
+                  ],
+        "Count":  6
+    },
+    {
+        "ruleKey":  "solar_eclipse",
+        "displayName":  "Solar Eclipse",
+        "sanskritName":  "Surya Grahan",
+        "group":  "GenericTimeRules",
+        "ruleType":  "TimeWindow",
+        "calculationMethod":  "SwissEphemerisLocalEclipse",
+        "message":  "The selected time overlaps a locally visible solar eclipse.",
+        "recommendation":  "Avoid auspicious Muhurtha during the solar eclipse window.",
+        "expertOverrideAllowed":  false
+    },
+    {
+        "ruleKey":  "solar_eclipse_sutak",
+        "displayName":  "Solar Eclipse Sutak",
+        "sanskritName":  "Surya Grahan Sutak",
+        "group":  "GenericTimeRules",
+        "ruleType":  "TimeWindow",
+        "calculationMethod":  "SwissEphemerisLocalEclipse",
+        "message":  "The selected time overlaps the Sutak period of a locally visible solar eclipse.",
+        "recommendation":  "Prefer a time outside the solar eclipse Sutak period.",
+        "expertOverrideAllowed":  false
+    },
+    {
+        "ruleKey":  "lunar_eclipse",
+        "displayName":  "Lunar Eclipse",
+        "sanskritName":  "Chandra Grahan",
+        "group":  "GenericTimeRules",
+        "ruleType":  "TimeWindow",
+        "calculationMethod":  "SwissEphemerisLocalEclipse",
+        "message":  "The selected time overlaps a locally visible lunar eclipse.",
+        "recommendation":  "Avoid auspicious Muhurtha during the lunar eclipse window.",
+        "expertOverrideAllowed":  false
+    },
+    {
+        "ruleKey":  "lunar_eclipse_sutak",
+        "displayName":  "Lunar Eclipse Sutak",
+        "sanskritName":  "Chandra Grahan Sutak",
+        "group":  "GenericTimeRules",
+        "ruleType":  "TimeWindow",
+        "calculationMethod":  "SwissEphemerisLocalEclipse",
+        "message":  "The selected time overlaps the Sutak period of a locally visible lunar eclipse.",
+        "recommendation":  "Prefer a time outside the lunar eclipse Sutak period.",
+        "expertOverrideAllowed":  false
+    }
 ]

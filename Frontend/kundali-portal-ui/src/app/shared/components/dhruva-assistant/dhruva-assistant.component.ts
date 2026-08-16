@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, HostBinding, HostListener, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, HostBinding, HostListener, OnDestroy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { DhruvaHouseContext, DhruvaKundaliContext, DhruvaKundaliField, DhruvaPlanetContext, DhruvaResultDetailContext } from './dhruva-kundali-context.mapper';
 import { DhruvaKundaliContextService } from './dhruva-kundali-context.service';
+import { PredictionApiService } from '../../../core/services/prediction-api.service';
+import { PredictionQuestionRequest, PredictionResponse, PredictionTimeScope } from '../../models/api.models';
 
 interface DhruvaTourStep {
   id: string;
@@ -30,12 +32,67 @@ interface DhruvaPersonalQuestion {
   houseExample?: number;
 }
 
+interface DhruvaCustomQuestion {
+  id: string;
+  label: string;
+  displayTitle: string;
+  summaryTopic: string;
+  lifeArea: 'Relationships';
+  focusKey: 'marriage_possibility' | 'marriage_timing';
+  timeScope: PredictionTimeScope;
+  kind: 'possibility' | 'timing';
+}
+
+type DhruvaReasonTone = 'supportive' | 'challenging';
+
+interface DhruvaReasonView {
+  key: string;
+  label: string;
+  tone: DhruvaReasonTone;
+}
+
+interface DhruvaTimingWindowView {
+  uniqueKey: string;
+  title: string;
+  startLabel: string;
+  endLabel: string;
+  startTime: number;
+  strength: string;
+  rawStrength: string;
+  triggerPlanets: string[];
+  triggerLabel: string;
+  evidenceKeys: string[];
+  rank: number;
+}
+
+interface DhruvaCustomQuestionView {
+  id: string;
+  question: string;
+  title: string;
+  kind: 'possibility' | 'timing';
+  state: 'loading' | 'ready' | 'error';
+  outcome?: string;
+  summary?: string;
+  supportiveReasons: DhruvaReasonView[];
+  challengingReasons: DhruvaReasonView[];
+  technicalReasonLabels: string[];
+  technicalEvidenceLabels: string[];
+  technicalWindowEvidence: string[];
+  timingWindows: DhruvaTimingWindowView[];
+  earliestIndication?: DhruvaTimingWindowView | null;
+  strongestNearTermWindow?: DhruvaTimingWindowView | null;
+  nextStrongWindow?: DhruvaTimingWindowView | null;
+  laterWindows: DhruvaTimingWindowView[];
+  errorMessage?: string;
+}
+
 interface DhruvaAnswer {
   key?: string;
   params?: Record<string, string>;
-  kind?: 'story';
+  kind?: 'story' | 'custom-question';
   title?: string;
   lines?: string[];
+  customQuestion?: DhruvaCustomQuestionView;
 }
 
 type DhruvaPlanetFact =
@@ -161,6 +218,9 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     private readonly kundaliContextService: DhruvaKundaliContextService,
     private readonly changeDetector: ChangeDetectorRef = { markForCheck: () => undefined } as ChangeDetectorRef,
   ) {}
+
+  private readonly predictionApi = inject(PredictionApiService);
+  private readonly translocoService = inject(TranslocoService);
   isOpen = false;
   isClosing = false;
   isExpanded = false;
@@ -175,13 +235,16 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   selectedPersonalQuestionId: string | null = null;
   selectedStoryActive = false;
   typedQuestion = '';
+  latestQuestionText = '';
   askInputTouched = false;
   typedAnswer: DhruvaAnswer | null = null;
   latestAnswer: DhruvaAnswer | null = null;
   isTypingResponse = false;
+  isCustomQuestionLoading = false;
   responseVisibleLength = Number.MAX_SAFE_INTEGER;
   private responseTypingStartTimer: ReturnType<typeof setTimeout> | null = null;
   private responseTypingInterval: ReturnType<typeof setInterval> | null = null;
+  private customQuestionRevealTimer: ReturnType<typeof setTimeout> | null = null;
   private hadKundaliContext = false;
   private panelStateBeforeTour: { isOpen: boolean; isExpanded: boolean } | null = null;
   private closeTransitionTimer: ReturnType<typeof setTimeout> | null = null;
@@ -224,6 +287,29 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     },
   ];
 
+
+  readonly customQuestions: DhruvaCustomQuestion[] = [
+    {
+      id: 'marriage-possibility',
+      label: 'Is marriage indicated?',
+      displayTitle: 'Marriage Potential',
+      summaryTopic: 'Marriage',
+      lifeArea: 'Relationships',
+      focusKey: 'marriage_possibility',
+      timeScope: 'Current',
+      kind: 'possibility',
+    },
+    {
+      id: 'marriage-timing',
+      label: 'When is marriage likely?',
+      displayTitle: 'Marriage Timing',
+      summaryTopic: 'Marriage',
+      lifeArea: 'Relationships',
+      focusKey: 'marriage_timing',
+      timeScope: 'Future',
+      kind: 'timing',
+    },
+  ];
 
   readonly personalQuestions: DhruvaPersonalQuestion[] = [
     {
@@ -339,6 +425,29 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
       selector: '[data-tour-id="portal-dashboard"]',
     },
     {
+      id: 'dashboard-overview',
+      titleKey: 'dhruva.tour.dashboardOverviewTitle',
+      bodyKey: 'dhruva.tour.dashboardOverviewBody',
+      selector: '[data-tour-id="dashboard-overview"]',
+    },
+    {
+      id: 'dashboard-quick-actions',
+      titleKey: 'dhruva.tour.dashboardQuickActionsTitle',
+      bodyKey: 'dhruva.tour.dashboardQuickActionsBody',
+      selector: '[data-tour-id="dashboard-quick-actions"]',
+    },
+    {
+      id: 'dashboard-journey',
+      titleKey: 'dhruva.tour.dashboardJourneyTitle',
+      bodyKey: 'dhruva.tour.dashboardJourneyBody',
+      selector: '[data-tour-id="dashboard-journey"]',
+    },
+    {
+      id: 'dashboard-collection',
+      titleKey: 'dhruva.tour.dashboardCollectionTitle',
+      bodyKey: 'dhruva.tour.dashboardCollectionBody',
+      selector: '[data-tour-id="dashboard-collection"]',
+    },    {
       id: 'create-kundali',
       titleKey: 'dhruva.tour.createKundaliTitle',
       bodyKey: 'dhruva.tour.createKundaliBody',
@@ -357,6 +466,11 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
       selector: '[data-tour-id="portal-compatibility"]',
     },
     {
+      id: 'panchang',
+      titleKey: 'dhruva.tour.panchangTitle',
+      bodyKey: 'dhruva.tour.panchangBody',
+      selector: '[data-tour-id="portal-panchang"]',
+    },    {
       id: 'muhurtha',
       titleKey: 'dhruva.tour.muhurthaTitle',
       bodyKey: 'dhruva.tour.muhurthaBody',
@@ -437,6 +551,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
   ngOnDestroy(): void {
     this.clearResponseTypingTimers();
+    this.clearCustomQuestionRevealTimer();
     this.clearCloseTransitionTimer();
     this.clearTargetHighlight();
   }
@@ -452,6 +567,14 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
   get hasKundaliContext(): boolean {
     return this.kundaliContext !== null;
+  }
+
+  get kundaliSource(): unknown | null {
+    return this.kundaliContextService.source();
+  }
+
+  get hasCustomQuestionSource(): boolean {
+    return this.hasKundaliContext && this.kundaliSource !== null;
   }
 
   get shouldShowGeneralQuestions(): boolean {
@@ -473,6 +596,11 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
   get hasAskInputError(): boolean {
     return this.askInputTouched && !this.typedQuestion.trim();
+  }
+
+  get welcomeMessage(): string {
+    const name = this.currentUserDisplayName();
+    return name ? 'Hi ' + name + ', how can I guide you?' : 'Hi, how can I guide you?';
   }
 
   get selectedGeneralQuestion(): DhruvaGeneralQuestion {
@@ -618,20 +746,21 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     }
 
     this.askInputTouched = false;
-    this.typedQuestion = trimmedQuestion;
+    this.latestQuestionText = trimmedQuestion;
+    this.typedQuestion = '';
 
-    const wantsStory = this.matchStoryQuestion(this.typedQuestion);
+    const wantsStory = this.matchStoryQuestion(trimmedQuestion);
 
     if (wantsStory) {
       this.tellJanmaStory();
       return;
     }
 
-    const panchangFieldKey = this.matchTypedPanchangField(this.typedQuestion);
-    const houseQuery = panchangFieldKey ? null : this.matchTypedHouseQuestion(this.typedQuestion);
-    const resultDetail = panchangFieldKey || houseQuery ? null : this.matchTypedResultDetail(this.typedQuestion);
-    const match = panchangFieldKey || houseQuery || resultDetail ? null : this.matchPersonalQuestion(this.typedQuestion);
-    const planetFact = match || panchangFieldKey || houseQuery || resultDetail ? null : this.matchTypedPlanetFact(this.typedQuestion);
+    const panchangFieldKey = this.matchTypedPanchangField(trimmedQuestion);
+    const houseQuery = panchangFieldKey ? null : this.matchTypedHouseQuestion(trimmedQuestion);
+    const resultDetail = panchangFieldKey || houseQuery ? null : this.matchTypedResultDetail(trimmedQuestion);
+    const match = panchangFieldKey || houseQuery || resultDetail ? null : this.matchPersonalQuestion(trimmedQuestion);
+    const planetFact = match || panchangFieldKey || houseQuery || resultDetail ? null : this.matchTypedPlanetFact(trimmedQuestion);
 
     if (houseQuery?.kind === 'ambiguous') {
       this.selectedPersonalQuestionId = null;
@@ -682,6 +811,428 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
     this.latestAnswer = this.typedAnswer ?? { key: 'dhruva.personal.unsupportedAnswer' };
     this.beginResponseReveal();
+  }
+
+  askCustomQuestion(questionId: string): void {
+    const question = this.customQuestions.find((item) => item.id === questionId);
+
+    if (!question) {
+      return;
+    }
+
+    if (this.isCustomQuestionLoading) {
+      return;
+    }
+
+    if (!this.kundaliSource) {
+      this.selectedPersonalQuestionId = null;
+      this.selectedStoryActive = false;
+      this.typedAnswer = { key: 'dhruva.personal.noKundaliAnswer' };
+      this.latestAnswer = this.typedAnswer;
+      this.beginResponseReveal();
+      return;
+    }
+
+    this.isOpen = true;
+    this.selectedPersonalQuestionId = null;
+    this.selectedStoryActive = false;
+    this.askInputTouched = false;
+    this.typedQuestion = '';
+    this.latestQuestionText = question.label;
+    this.typedAnswer = null;
+    this.isCustomQuestionLoading = true;
+    this.latestAnswer = {
+      kind: 'custom-question',
+      customQuestion: {
+        id: question.id,
+        question: question.label,
+        title: question.displayTitle,
+        kind: question.kind,
+        state: 'loading',
+        supportiveReasons: [],
+        challengingReasons: [],
+        technicalReasonLabels: [],
+        technicalEvidenceLabels: [],
+        technicalWindowEvidence: [],
+        timingWindows: [],
+        laterWindows: [],
+      },
+    };
+
+    this.clearResponseTypingTimers(false);
+    this.isTypingResponse = true;
+    this.responseVisibleLength = 0;
+    this.markResponseAnimationForCheck();
+    this.scrollLatestResponseIntoView();
+
+    const request: PredictionQuestionRequest = {
+      lifeArea: question.lifeArea,
+      focusKey: question.focusKey,
+      timeScope: question.timeScope,
+      referenceDate: new Date().toISOString(),
+      kundaliData: this.kundaliSource as any,
+    };
+
+    this.predictionApi.askQuestion(request).subscribe({
+      next: (response) => {
+        const prediction = (response?.data ?? response) as PredictionResponse;
+        const mappedAnswer: DhruvaAnswer = {
+          kind: 'custom-question',
+          customQuestion: this.mapCustomQuestionView(question, prediction),
+        };
+        this.finishCustomQuestionReveal(mappedAnswer);
+      },
+      error: (error: Error) => {
+        const erroredAnswer: DhruvaAnswer = {
+          kind: 'custom-question',
+          customQuestion: {
+            id: question.id,
+            question: question.label,
+            title: question.displayTitle,
+            kind: question.kind,
+            state: 'error',
+            supportiveReasons: [],
+            challengingReasons: [],
+            technicalReasonLabels: [],
+            technicalEvidenceLabels: [],
+            technicalWindowEvidence: [],
+            timingWindows: [],
+            laterWindows: [],
+            errorMessage: error.message || 'Unable to load the answer right now.',
+          },
+        };
+        this.finishCustomQuestionReveal(erroredAnswer);
+      },
+    });
+  }
+
+  isCustomQuestionActive(questionId: string): boolean {
+    return this.latestAnswer?.kind === 'custom-question'
+      && this.latestAnswer.customQuestion?.id === questionId;
+  }
+
+  getOutcomeToneClass(outcome: string | undefined): string {
+    switch ((outcome ?? '').trim().toLowerCase()) {
+      case 'supported':
+        return 'supported';
+      case 'challenging':
+        return 'challenging';
+      case 'mixed':
+        return 'mixed';
+      default:
+        return 'neutral';
+    }
+  }
+
+  private mapCustomQuestionView(
+    question: DhruvaCustomQuestion,
+    response: PredictionResponse | null | undefined,
+  ): DhruvaCustomQuestionView {
+    const answer = response?.answer ?? null;
+    const technicalReasonKeys = this.normalizeKeys(answer?.reasonKeys);
+    const reasonViews = technicalReasonKeys.map((key) => this.mapReasonView(key));
+    const technicalEvidenceKeys = this.normalizeKeys(answer?.evidenceKeys);
+    const timingWindows = Array.isArray(answer?.timingWindows)
+      ? answer.timingWindows.map((window, index) => this.mapTimingWindowView(window, index))
+      : [];
+    const timingPresentation = this.buildTimingWindowPresentation(timingWindows);
+    const outcome = answer?.outcome || response?.synthesis?.overallTone || 'Mixed';
+    const supportiveReasons = reasonViews.filter((reason) => reason.tone === 'supportive');
+    const challengingReasons = reasonViews.filter((reason) => reason.tone === 'challenging');
+
+    return {
+      id: question.id,
+      question: question.label,
+      title: question.displayTitle,
+      kind: question.kind,
+      state: 'ready',
+      outcome,
+      summary: this.buildCustomQuestionSummary(question, outcome, supportiveReasons, challengingReasons, timingPresentation),
+      supportiveReasons,
+      challengingReasons,
+      technicalReasonLabels: this.uniqueNonEmpty(reasonViews.map((reason) => reason.label)),
+      technicalEvidenceLabels: this.uniqueNonEmpty(technicalEvidenceKeys.map((key) => this.mapEvidenceLabel(key))),
+      technicalWindowEvidence: this.mapTimingWindowEvidenceLabels(timingWindows),
+      timingWindows,
+      earliestIndication: timingPresentation.earliestIndication,
+      strongestNearTermWindow: timingPresentation.strongestNearTermWindow,
+      nextStrongWindow: timingPresentation.nextStrongWindow,
+      laterWindows: timingPresentation.laterWindows,
+    };
+  }
+
+  private mapReasonView(key: string): DhruvaReasonView {
+    const labels: Record<string, string> = {
+      'relationships.primary_house.strong': 'Strong primary relationship-house foundation',
+      'relationships.primary_house.weak': 'Weak primary relationship-house foundation',
+      'relationships.primary_house.benefic_aspect': 'Helpful aspect on the primary relationship house',
+      'relationships.primary_house.malefic_aspect': 'Pressure on the primary relationship house',
+      'relationships.primary_house_lord.strong_dignity': 'Primary relationship-house lord is well placed',
+      'relationships.primary_house_lord.weak_dignity': 'Primary relationship-house lord is under pressure',
+      'relationships.primary_house_lord.benefic_aspect': 'Helpful aspect on the primary relationship-house lord',
+      'relationships.primary_house_lord.malefic_aspect': 'Pressure on the primary relationship-house lord',
+      'relationships.natural_significator.supportive': 'Natural significators are supportive',
+      'relationships.natural_significator.challenging': 'Natural significators show pressure',
+      'relationships.d9.confirmation.supportive': 'Divisional confirmation is supportive',
+      'relationships.d9.confirmation.challenging': 'Divisional confirmation shows pressure',
+      'relationships.d9.occupants.supportive': 'Divisional occupants add supportive energy',
+      'relationships.d9.occupants.challenging': 'Divisional occupants add pressure',
+    };
+
+    return {
+      key,
+      label: labels[key] ?? this.humanizeKey(key),
+      tone: this.getReasonTone(key),
+    };
+  }
+
+  private getReasonTone(key: string): DhruvaReasonTone {
+    const normalized = key.toLowerCase();
+    return normalized.includes('weak') || normalized.includes('malefic') || normalized.includes('challenging') || normalized.includes('pressure')
+      ? 'challenging'
+      : 'supportive';
+  }
+
+  private mapEvidenceLabel(key: string): string {
+    const trimmed = key.trim();
+    const normalized = trimmed.toLowerCase();
+    const divisionalLordMatch = trimmed.match(/^divisional:(\w+):house:(\d+):lord:([A-Za-z]+)$/i);
+    if (divisionalLordMatch) {
+      return `${this.formatChartType(divisionalLordMatch[1])} ${this.formatHouseOrdinal(Number(divisionalLordMatch[2]))} house lord is ${this.displayPlanetName(divisionalLordMatch[3])}`;
+    }
+
+    const divisionalOccupantMatch = trimmed.match(/^divisional:(\w+):house:(\d+):occupant:([A-Za-z]+)$/i);
+    if (divisionalOccupantMatch) {
+      return `${this.displayPlanetName(divisionalOccupantMatch[3])} occupies the ${this.formatChartType(divisionalOccupantMatch[1])} ${this.formatHouseOrdinal(Number(divisionalOccupantMatch[2]))} house`;
+    }
+
+    const divisionalHouseMatch = trimmed.match(/^divisional:(\w+):house:(\d+)$/i);
+    if (divisionalHouseMatch) {
+      return `${this.formatChartType(divisionalHouseMatch[1])} ${this.formatHouseOrdinal(Number(divisionalHouseMatch[2]))} house is part of the reading`;
+    }
+
+    const planetMatch = trimmed.match(/(?:^|[:._-])(Sun|Moon|Mars|Mercury|Jupiter|Venus|Saturn|Rahu|Ketu)(?:$|[:._-])/i);
+    if (normalized.includes('primary_house_lord')) {
+      return planetMatch
+        ? `${this.displayPlanetName(planetMatch[1])} is acting as the main relationship-house lord`
+        : 'The main relationship-house lord is active in this reading';
+    }
+
+    if (normalized.includes('primary_house')) {
+      return 'The main relationship house is actively involved';
+    }
+
+    if (normalized.includes('natural_significator') || normalized.includes('significator')) {
+      return planetMatch
+        ? `${this.displayPlanetName(planetMatch[1])} is acting as a relationship significator`
+        : 'A key relationship significator is active';
+    }
+
+    const houseMatch = trimmed.match(/(?:^|[:._-])house[:._-]?(\d+)(?:$|[:._-])/i);
+    if (houseMatch) {
+      return `${this.formatHouseOrdinal(Number(houseMatch[1]))} house is part of this reading`;
+    }
+
+    if (planetMatch) {
+      return `${this.displayPlanetName(planetMatch[1])} is one of the active chart triggers`;
+    }
+
+    const dashaMatch = trimmed.match(/(?:^|[:._-])(MD|AD|PD)[:._-]?([A-Za-z]+)(?:$|[:._-])/i);
+    if (dashaMatch) {
+      const periodLabels: Record<string, string> = {
+        MD: 'Mahadasha',
+        AD: 'Antardasha',
+        PD: 'Pratyantardasha',
+      };
+      return `${this.displayPlanetName(dashaMatch[2])} ${periodLabels[dashaMatch[1].toUpperCase()] ?? dashaMatch[1].toUpperCase()} is active`;
+    }
+
+    return this.humanizeKey(trimmed);
+  }
+
+  private mapTimingWindowEvidenceLabels(timingWindows: DhruvaTimingWindowView[]): string[] {
+    return timingWindows.map((window) => {
+      const evidence = this.uniqueNonEmpty(window.evidenceKeys.map((key) => this.mapEvidenceLabel(key)));
+      const summary = evidence.length ? evidence.join(', ') : 'Planet-period support is active in this window';
+      return `${window.title}: ${summary}`;
+    });
+  }
+
+  private uniqueNonEmpty(values: string[]): string[] {
+    return Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));
+  }
+
+  private formatChartType(value: string): string {
+    return value.trim().toUpperCase();
+  }
+
+  private formatHouseOrdinal(value: number): string {
+    return Number.isFinite(value) && value > 0
+      ? `${value}${this.ordinalSuffix(value)}`
+      : 'relevant';
+  }
+
+  private mapTimingWindowView(window: { startDate: string; endDate: string; strength: string; triggerPlanets: string[]; evidenceKeys: string[] }, rank: number): DhruvaTimingWindowView {
+    const triggerPlanets = Array.isArray(window.triggerPlanets) ? window.triggerPlanets.filter(Boolean) : [];
+    const startTime = Date.parse(window.startDate || '');
+    const startLabel = this.formatDisplayDate(window.startDate);
+    const endLabel = this.formatDisplayDate(window.endDate);
+    const strength = this.formatStrengthLabel(window.strength || 'Candidate');
+
+    return {
+      uniqueKey: `${window.startDate}|${window.endDate}|${window.strength}|${triggerPlanets.join('+')}`,
+      title: `${startLabel} - ${endLabel}`,
+      startLabel,
+      endLabel,
+      startTime: Number.isFinite(startTime) ? startTime : Number.MAX_SAFE_INTEGER,
+      strength,
+      rawStrength: window.strength || 'Candidate',
+      triggerPlanets,
+      triggerLabel: triggerPlanets.join(' + '),
+      evidenceKeys: this.normalizeKeys(window.evidenceKeys),
+      rank,
+    };
+  }
+
+  private buildTimingWindowPresentation(timingWindows: DhruvaTimingWindowView[]): {
+    earliestIndication: DhruvaTimingWindowView | null;
+    strongestNearTermWindow: DhruvaTimingWindowView | null;
+    nextStrongWindow: DhruvaTimingWindowView | null;
+    laterWindows: DhruvaTimingWindowView[];
+  } {
+    if (!timingWindows.length) {
+      return {
+        earliestIndication: null,
+        strongestNearTermWindow: null,
+        nextStrongWindow: null,
+        laterWindows: [],
+      };
+    }
+
+    const earliestIndication = [...timingWindows]
+      .sort((left, right) => left.startTime - right.startTime || left.rank - right.rank)[0] ?? null;
+
+    const strongestNearTermWindow = timingWindows[0] ?? null;
+    const selected = new Set<string>();
+
+    if (earliestIndication) {
+      selected.add(earliestIndication.uniqueKey);
+    }
+
+    const strongestUnique = strongestNearTermWindow && !selected.has(strongestNearTermWindow.uniqueKey)
+      ? strongestNearTermWindow
+      : null;
+
+    if (strongestUnique) {
+      selected.add(strongestUnique.uniqueKey);
+    }
+
+    const nextStrongWindow = timingWindows.find((window) => !selected.has(window.uniqueKey)) ?? null;
+
+    if (nextStrongWindow) {
+      selected.add(nextStrongWindow.uniqueKey);
+    }
+
+    return {
+      earliestIndication,
+      strongestNearTermWindow: strongestUnique,
+      nextStrongWindow,
+      laterWindows: timingWindows.filter((window) => !selected.has(window.uniqueKey)),
+    };
+  }
+
+  private buildCustomQuestionSummary(
+    question: DhruvaCustomQuestion,
+    outcome: string,
+    supportiveReasons: DhruvaReasonView[],
+    challengingReasons: DhruvaReasonView[],
+    timingPresentation: {
+      earliestIndication: DhruvaTimingWindowView | null;
+      strongestNearTermWindow: DhruvaTimingWindowView | null;
+      nextStrongWindow: DhruvaTimingWindowView | null;
+    },
+  ): string {
+    if (question.kind === 'timing') {
+      if (!timingPresentation.earliestIndication) {
+        return 'No clear near-term marriage window surfaced from the current dasha pattern.';
+      }
+
+      if (timingPresentation.strongestNearTermWindow) {
+        return `The earliest indication opens around ${timingPresentation.earliestIndication.title}, while the strongest near-term support gathers around ${timingPresentation.strongestNearTermWindow.title}.`;
+      }
+
+      return `The earliest meaningful indication appears around ${timingPresentation.earliestIndication.title}.`;
+    }
+
+    switch (outcome.trim().toLowerCase()) {
+      case 'supported':
+        return challengingReasons.length
+          ? 'Marriage indicators look supportive overall, with a stable base and some manageable pressure.'
+          : 'Marriage indicators look supportive overall, with the core relationship foundation holding well.';
+      case 'challenging':
+        return 'Marriage indicators show more pressure than support in the core relationship foundation right now.';
+      default:
+        return supportiveReasons.length && challengingReasons.length
+          ? 'Marriage is indicated through a mixed pattern of support and pressure in the chart.'
+          : 'Marriage indicators are mixed at the moment.';
+    }
+  }
+
+  private normalizeKeys(values: readonly string[] | null | undefined): string[] {
+    if (!Array.isArray(values)) {
+      return [];
+    }
+
+    return Array.from(new Set(values.map((value) => String(value ?? '').trim()).filter(Boolean)));
+  }
+
+  private humanizeKey(value: string): string {
+    const cleaned = value
+      .replace(/[:._-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!cleaned) {
+      return '';
+    }
+
+    return cleaned
+      .split(' ')
+      .map((part) => {
+        const upper = part.toUpperCase();
+        if (upper === 'D9' || upper === 'MD' || upper === 'AD' || upper === 'PD') {
+          return upper;
+        }
+
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
+      .join(' ');
+  }
+
+  private formatStrengthLabel(value: string | null | undefined): string {
+    switch ((value ?? '').trim()) {
+      case 'VeryStrong':
+        return 'Very Strong';
+      default:
+        return this.humanizeKey(value ?? 'Candidate');
+    }
+  }
+
+  private formatDisplayDate(value: string | null | undefined): string {
+    if (!value) {
+      return 'TBD';
+    }
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return 'TBD';
+    }
+
+    return new Intl.DateTimeFormat('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }).format(date);
   }
   animatedResponseText(value: string): string {
     if (!value || this.isReducedMotionPreferred()) {
@@ -784,6 +1335,23 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     }, 180);
   }
 
+  shouldShowCustomQuestionDetails(customQuestion: DhruvaCustomQuestionView): boolean {
+    if (customQuestion.state !== 'ready') {
+      return false;
+    }
+
+    if (this.isTypingResponse) {
+      return false;
+    }
+
+    const summaryLength = (customQuestion.summary ?? '').trim().length;
+    const revealThreshold = Math.max(summaryLength, 88);
+    return this.responseVisibleLength === Number.MAX_SAFE_INTEGER || this.responseVisibleLength >= revealThreshold;
+  }
+
+  shouldShowCustomQuestionTyping(customQuestion: DhruvaCustomQuestionView): boolean {
+    return customQuestion.state === 'ready' && this.isTypingResponse;
+  }
   private scrollLatestResponseIntoView(): void {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
       return;
@@ -797,7 +1365,38 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     });
   }
 
+  private finishCustomQuestionReveal(answer: DhruvaAnswer): void {
+    this.clearCustomQuestionRevealTimer();
+
+    if (this.isReducedMotionPreferred()) {
+      this.latestAnswer = answer;
+      this.isCustomQuestionLoading = false;
+      this.isTypingResponse = false;
+      this.responseVisibleLength = Number.MAX_SAFE_INTEGER;
+      this.markResponseAnimationForCheck();
+      this.scrollLatestResponseIntoView();
+      return;
+    }
+
+    this.customQuestionRevealTimer = setTimeout(() => {
+      this.customQuestionRevealTimer = null;
+      this.latestAnswer = answer;
+      this.isCustomQuestionLoading = false;
+      this.beginResponseReveal();
+    }, 420);
+  }
+
+  private clearCustomQuestionRevealTimer(): void {
+    if (!this.customQuestionRevealTimer) {
+      return;
+    }
+
+    clearTimeout(this.customQuestionRevealTimer);
+    this.customQuestionRevealTimer = null;
+  }
   private clearResponseTypingTimers(resetState = true): void {
+    this.clearCustomQuestionRevealTimer();
+
     if (this.responseTypingStartTimer) {
       clearTimeout(this.responseTypingStartTimer);
       this.responseTypingStartTimer = null;
@@ -1045,7 +1644,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
       return '';
     }
 
-    return `${label}: ${field.value.replace(/[.ã€‚]+$/, '')}.`;
+    return `${label}: ${field.value.replace(/[.ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡]+$/, '')}.`;
   }
   private houseNumberFromQuestion(normalized: string): number | null {
     const ordinalMatch = normalized.match(/\b(1st|2nd|3rd|[4-9]th|10th|11th|12th|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|[1-9]|1[0-2]) house\b/);
@@ -1312,6 +1911,41 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     return userId ? `${REPORT_TOUR_COMPLETED_KEY}.${userId}` : REPORT_TOUR_COMPLETED_KEY;
   }
   private currentUserId(): string | null {
+    const user = this.readStoredUser();
+
+    if (!user) {
+      return null;
+    }
+
+    return typeof user.userId === 'string'
+      ? user.userId
+      : typeof user.email === 'string'
+        ? user.email
+        : null;
+  }
+
+  private currentUserDisplayName(): string | null {
+    const user = this.readStoredUser();
+
+    if (!user) {
+      return null;
+    }
+
+    const directName = [user.firstName, user.fullName, user.name]
+      .find((value): value is string => typeof value === 'string' && value.trim().length > 0);
+
+    if (directName) {
+      return directName.trim().split(/\s+/)[0];
+    }
+
+    if (typeof user.email === 'string' && user.email.includes('@')) {
+      return user.email.split('@')[0].replace(/[._-]+/g, ' ').trim().split(/\s+/)[0] || null;
+    }
+
+    return null;
+  }
+
+  private readStoredUser(): { userId?: unknown; email?: unknown; firstName?: unknown; fullName?: unknown; name?: unknown } | null {
     if (!this.isBrowserStorageAvailable()) {
       return null;
     }
@@ -1323,12 +1957,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     }
 
     try {
-      const user = JSON.parse(rawUser) as { userId?: unknown; email?: unknown };
-      return typeof user.userId === 'string'
-        ? user.userId
-        : typeof user.email === 'string'
-          ? user.email
-          : null;
+      return JSON.parse(rawUser) as { userId?: unknown; email?: unknown; firstName?: unknown; fullName?: unknown; name?: unknown };
     } catch {
       return null;
     }
@@ -1338,6 +1967,12 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
   }
 }
+
+
+
+
+
+
 
 
 
