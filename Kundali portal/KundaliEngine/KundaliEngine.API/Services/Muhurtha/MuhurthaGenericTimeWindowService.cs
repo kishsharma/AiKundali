@@ -1,4 +1,4 @@
-using KundaliEngine.API.Services.Muhurtha.Models;
+﻿using KundaliEngine.API.Services.Muhurtha.Models;
 using KundaliEngine.Domain.Enums;
 
 namespace KundaliEngine.API.Services.Muhurtha;
@@ -46,6 +46,13 @@ public class MuhurthaGenericTimeWindowService : IMuhurthaGenericTimeWindowServic
         "Char"
     };
 
+    private readonly IMuhurthaEclipseWindowService _eclipseWindowService;
+
+    public MuhurthaGenericTimeWindowService(IMuhurthaEclipseWindowService eclipseWindowService)
+    {
+        _eclipseWindowService = eclipseWindowService;
+    }
+
     public IReadOnlyList<MuhurthaTimeWindow> BuildWindows(MuhurthaDayContext dayContext)
     {
         var windows = new List<MuhurthaTimeWindow>();
@@ -58,6 +65,7 @@ public class MuhurthaGenericTimeWindowService : IMuhurthaGenericTimeWindowServic
         windows.Add(BuildSegment("gulika_kalam", "Gulika Kalam", dayContext, GulikaSegments[weekday], segmentLength, MuhurthaRuleSeverity.SoftAvoid, -5));
         windows.Add(BuildAbhijit(dayContext));
         windows.AddRange(BuildChoghadiya(dayContext, segmentLength));
+        windows.AddRange(_eclipseWindowService.BuildWindows(dayContext));
 
         return windows
             .Where(window => window.EndTime > dayContext.DayStart && window.StartTime < dayContext.DayEnd)

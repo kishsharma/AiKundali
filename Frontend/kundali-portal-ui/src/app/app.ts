@@ -32,6 +32,7 @@ export class App {
   ] as const;
   activeLanguage: string;
   isPublicLanding = true;
+  isAuthPage = false;
  isUserMenuOpen = false;
  pageTitle = 'Kundali Portal';
   constructor(
@@ -93,6 +94,18 @@ get userInitial(): string {
 
 get showAppTopbar(): boolean {
   return !this.isPublicLanding;
+}
+
+get showPublicPreferenceControls(): boolean {
+  return this.showAppTopbar && !this.isAuthPage;
+}
+
+get showThemeSelector(): boolean {
+  return this.showPublicPreferenceControls;
+}
+
+get showAppMenuToggle(): boolean {
+  return this.showAppTopbar && this.authService.isLoggedIn();
 }
 
 get showUserMenu(): boolean {
@@ -176,7 +189,8 @@ logout(): void {
 
   private updateShellMode(url: string): void {
     const path = url.split('?')[0].split('#')[0];
-    this.isPublicLanding = path === '' || path === '/';
+    this.isPublicLanding = path === '' || path === '/' || path === '/select-language';
+    this.isAuthPage = path === '/login' || path === '/register';
     this.isUserMenuOpen = false;
   }
   private formatDisplayName(name: string): string {
@@ -188,4 +202,6 @@ logout(): void {
       .join(' ') || 'User';
   }
 }
+
+
 

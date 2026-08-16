@@ -119,7 +119,7 @@
           <label class="place-field">{{ 'compatibility.birthPlace' | transloco }} <input formControlName="boyBirthPlace" type="text" />
             <div class="location-dropdown" *ngIf="boyLocationResults.length">
               <button type="button" *ngFor="let place of boyLocationResults" (click)="selectLocation('boy', place)">
-                {{ place.display_name }}
+                {{ place.displayName }}
               </button>
             </div>
           </label>
@@ -146,7 +146,7 @@
           <label class="place-field">{{ 'compatibility.birthPlace' | transloco }} <input formControlName="girlBirthPlace" type="text" />
             <div class="location-dropdown" *ngIf="girlLocationResults.length">
               <button type="button" *ngFor="let place of girlLocationResults" (click)="selectLocation('girl', place)">
-                {{ place.display_name }}
+                {{ place.displayName }}
               </button>
             </div>
           </label>
@@ -437,5 +437,3 @@
     <p>{{ 'compatibility.pdfLoaderText' | transloco }}</p>
   </div>
 </div>
-
-

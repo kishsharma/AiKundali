@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { SectionCardComponent } from '../../shared/components/section-card.compo
 import { FindMuhurthaRequest, MuhurthaApiService, MuhurthaRecommendation, MuhurthaResponse, MuhurthaRuleResult } from '../../core/services/muhurtha-api.service';
 import { LocationService } from '../../core/services/location.service';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
+import { PortalWheelPickerComponent } from '../../shared/components/portal-wheel-picker.component';
 
 interface Option {
   label: string;
@@ -33,7 +34,7 @@ interface PanchangDayGroup {
 @Component({
   selector: 'app-muhurtha',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent, PortalWheelPickerComponent],
   template: `
     <app-page-header
       title="Muhurtha"
@@ -60,13 +61,13 @@ interface PanchangDayGroup {
           <div class="input-strip">
             <label><span>Event</span><select formControlName="eventType"><option *ngFor="let event of eventTypes" [ngValue]="event.value">{{ event.label }}</option></select></label>
             <label><span>Regional Profile</span><select formControlName="regionalProfile"><option *ngFor="let profile of regionalProfiles" [ngValue]="profile.value">{{ profile.label }}</option></select></label>
-            <label><span>From Date</span><input type="date" formControlName="requestedStart" /></label>
-            <label><span>To Date</span><input type="date" formControlName="requestedEnd" /></label>
-            <label><span>Daily Start</span><input type="time" formControlName="dailyStartTime" /></label>
-            <label><span>Daily End</span><input type="time" formControlName="dailyEndTime" /></label>
+            <label><span>From Date</span><app-portal-wheel-picker mode="date" label="From Date" placeholder="Select start date" formControlName="requestedStart"></app-portal-wheel-picker></label>
+            <label><span>To Date</span><app-portal-wheel-picker mode="date" label="To Date" placeholder="Select end date" formControlName="requestedEnd"></app-portal-wheel-picker></label>
+            <label><span>Daily Start</span><app-portal-wheel-picker mode="time" label="Daily Start" placeholder="Select daily start" formControlName="dailyStartTime"></app-portal-wheel-picker></label>
+            <label><span>Daily End</span><app-portal-wheel-picker mode="time" label="Daily End" placeholder="Select daily end" formControlName="dailyEndTime"></app-portal-wheel-picker></label>
             <label class="location-field"><span>Place</span><input type="text" formControlName="locationName" autocomplete="off" />
               <div class="location-dropdown" *ngIf="locationResults.length">
-                <button type="button" class="location-item" *ngFor="let place of locationResults" (click)="selectLocation(place)">{{ place.display_name }}</button>
+                <button type="button" class="location-item" *ngFor="let place of locationResults" (click)="selectLocation(place)">{{ place.displayName }}</button>
               </div>
             </label>
             <label class="location-field"><span>Timezone</span><input type="text" formControlName="timezone" autocomplete="off" (focus)="showTimezoneOptions(false)" />
@@ -99,11 +100,11 @@ interface PanchangDayGroup {
 
           <div class="personal-fields" *ngIf="isPersonalized()">
             <label><span>Name</span><input type="text" formControlName="personName" /></label>
-            <label><span>Birth Date</span><input type="date" formControlName="birthDate" /></label>
-            <label><span>Birth Time</span><input type="time" formControlName="birthTime" /></label>
+            <label><span>Birth Date</span><app-portal-wheel-picker mode="date" label="Birth Date" placeholder="Select birth date" formControlName="birthDate"></app-portal-wheel-picker></label>
+            <label><span>Birth Time</span><app-portal-wheel-picker mode="time" label="Birth Time" placeholder="Select birth time" formControlName="birthTime"></app-portal-wheel-picker></label>
             <label class="location-field"><span>Birth Place</span><input type="text" formControlName="birthPlace" autocomplete="off" />
               <div class="location-dropdown" *ngIf="birthLocationResults.length">
-                <button type="button" class="location-item" *ngFor="let place of birthLocationResults" (click)="selectBirthLocation(place)">{{ place.display_name }}</button>
+                <button type="button" class="location-item" *ngFor="let place of birthLocationResults" (click)="selectBirthLocation(place)">{{ place.displayName }}</button>
               </div>
             </label>
             <label><span>Birth Latitude</span><input type="number" step="0.000001" formControlName="birthLatitude" /></label>
@@ -453,6 +454,7 @@ export class MuhurthaComponent implements OnInit {
   private fb = inject(FormBuilder);
   private muhurthaApi = inject(MuhurthaApiService);
   private locationService = inject(LocationService);
+  private cdr = inject(ChangeDetectorRef);
 
   loading = signal(false);
   errorMessage = signal('');
@@ -493,30 +495,30 @@ export class MuhurthaComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap((value) => this.searchLocations(value || '', false)),
-    ).subscribe((results) => { this.locationResults = results; });
+    ).subscribe((results) => { this.locationResults = results; this.cdr.detectChanges(); });
 
     this.form.controls.birthPlace.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       switchMap((value) => this.searchLocations(value || '', true)),
-    ).subscribe((results) => { this.birthLocationResults = results; });
+    ).subscribe((results) => { this.birthLocationResults = results; this.cdr.detectChanges(); });
 
     this.form.controls.timezone.valueChanges.pipe(
       debounceTime(150),
       distinctUntilChanged(),
-    ).subscribe((value) => { this.timezoneResults = this.searchTimezones(value || ''); });
+    ).subscribe((value) => { this.timezoneResults = this.searchTimezones(value || ''); this.cdr.detectChanges(); });
 
     this.form.controls.birthTimezone.valueChanges.pipe(
       debounceTime(150),
       distinctUntilChanged(),
-    ).subscribe((value) => { this.birthTimezoneResults = this.searchTimezones(value || ''); });
+    ).subscribe((value) => { this.birthTimezoneResults = this.searchTimezones(value || ''); this.cdr.detectChanges(); });
   }
 
   selectLocation(place: any): void {
     this.form.patchValue({
-      locationName: place.display_name,
-      latitude: Number(place.lat),
-      longitude: Number(place.lon),
+      locationName: place.displayName,
+      latitude: Number(place.latitude),
+      longitude: Number(place.longitude),
       timezone: this.resolveTimezone(place, this.form.controls.timezone.value),
     }, { emitEvent: false });
 
@@ -542,9 +544,9 @@ export class MuhurthaComponent implements OnInit {
   }
   selectBirthLocation(place: any): void {
     this.form.patchValue({
-      birthPlace: place.display_name,
-      birthLatitude: Number(place.lat),
-      birthLongitude: Number(place.lon),
+      birthPlace: place.displayName,
+      birthLatitude: Number(place.latitude),
+      birthLongitude: Number(place.longitude),
       birthTimezone: this.resolveTimezone(place, this.form.controls.birthTimezone.value || this.form.controls.timezone.value),
     }, { emitEvent: false });
 
@@ -863,7 +865,7 @@ export class MuhurthaComponent implements OnInit {
   }
 
   private resolveTimezone(place: any, fallbackTimezone?: string | null): string {
-    const countryCode = String(place?.address?.country_code || '').toLowerCase();
+    const countryCode = String(place?.countryCode || '').toLowerCase();
     if (countryCode === 'in') {
       return 'Asia/Kolkata';
     }
@@ -1014,58 +1016,3 @@ export class MuhurthaComponent implements OnInit {
   private toDateInput(date: Date): string { return date.toISOString().slice(0, 10); }
   private addDays(date: Date, days: number): Date { const next = new Date(date); next.setDate(next.getDate() + days); return next; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

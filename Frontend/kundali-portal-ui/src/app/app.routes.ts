@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './modules/account/change-password/chang
 import { UserLoginControlComponent } from './modules/user-login-control/user-login-control.component';
 import { AuditLogsComponent } from './modules/audit-logs/audit-logs.component';
 import { PortalNotesPageComponent } from './modules/portal-notes/portal-notes-page.component';
+import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 
 export const routes: Routes = [
   {
@@ -66,21 +67,25 @@ export const routes: Routes = [
       {
         path: 'kundali/saved/:id',
         component: KundaliComponent,
+        canDeactivate: [unsavedChangesGuard],
         data: { title: 'Saved Kundali' },
       },
       {
         path: 'kundali',
         component: KundaliComponent,
+        canDeactivate: [unsavedChangesGuard],
         data: { title: 'Generate Kundali' },
       },
       {
         path: 'compatibility/saved/:id',
         component: CompatibilityComponent,
+        canDeactivate: [unsavedChangesGuard],
         data: { title: 'Saved Compatibility' },
       },
       {
         path: 'compatibility',
         component: CompatibilityComponent,
+        canDeactivate: [unsavedChangesGuard],
         data: { title: 'Compatibility Analysis' },
       },
       {
@@ -239,6 +244,7 @@ export const routes: Routes = [
     redirectTo: '',
   },
 ];
+
 
 
 

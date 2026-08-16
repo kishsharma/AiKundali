@@ -212,17 +212,22 @@
 
           <div class="form-group">
             <label>{{ 'kundali.birthDate' | transloco }}</label>
-            <input type="date" formControlName="birthDate" />
+            <app-portal-wheel-picker mode="date" [label]="'Birth Date'" [placeholder]="'Select birth date'" formControlName="birthDate"></app-portal-wheel-picker>
           </div>
 
           <div class="form-group">
             <label>{{ 'kundali.birthTime' | transloco }}</label>
-            <input type="time" formControlName="birthTime" />
+            <app-portal-wheel-picker mode="time" [label]="'Birth Time'" [placeholder]="'Select birth time'" formControlName="birthTime"></app-portal-wheel-picker>
           </div>
 
-          <div class="form-group full-width">
+          <div class="form-group full-width location-field">
             <label>{{ 'kundali.birthPlace' | transloco }}</label>
-            <input type="text" formControlName="birthPlace" placeholder="{{ 'kundali.birthPlace' | transloco }}" />
+            <input type="text" formControlName="birthPlace" autocomplete="off" placeholder="{{ 'kundali.birthPlace' | transloco }}" />
+            <div class="location-dropdown" *ngIf="locationResults.length">
+              <button type="button" class="location-item" *ngFor="let place of locationResults" (click)="selectLocation(place)">
+                {{ place.displayName }}
+              </button>
+            </div>
           </div>
 
           <div class="form-group">
@@ -233,12 +238,6 @@
           <div class="form-group">
             <label>{{ 'kundali.longitude' | transloco }}</label>
             <input type="text" formControlName="longitude" readonly />
-          </div>
-
-          <div class="location-dropdown" *ngIf="locationResults.length">
-            <div class="location-item" *ngFor="let place of locationResults" (click)="selectLocation(place)">
-              {{ place.display_name }}
-            </div>
           </div>
         </div>
 
@@ -627,7 +626,12 @@
           <ng-container *ngFor="let group of currentYogaActivationGroups">
             <div class="activation-period-group activation-period-group--yoga is-current">
               <div class="activation-period-header">
-                <p class="activation-period-story"><strong>{{ group.title }}:</strong> <span>{{ group.period }}</span><span *ngIf="group.dasha"> during {{ group.dasha }}</span><span *ngIf="group.trigger">, triggered by {{ group.trigger }}</span>.</p>
+                <p class="activation-period-story">
+                  <strong class="activation-story-status">{{ group.title }}</strong>
+                  <span class="activation-story-period">{{ group.period }}</span>
+                  <span class="activation-story-context" *ngIf="group.dasha"><small>During</small>{{ group.dasha }}</span>
+                  <span class="activation-story-context" *ngIf="group.trigger"><small>Triggered by</small>{{ group.trigger }}</span>
+                </p>
               </div>
               <div class="activation-card-list">
                 <div class="yoga-item" *ngFor="let entry of group.items">
@@ -691,7 +695,12 @@
           <ng-container *ngFor="let group of upcomingYogaActivationGroups">
             <div class="activation-period-group activation-period-group--yoga">
               <div class="activation-period-header">
-                <p class="activation-period-story"><strong>{{ group.title }}:</strong> <span>{{ group.period }}</span><span *ngIf="group.dasha"> during {{ group.dasha }}</span><span *ngIf="group.trigger">, triggered by {{ group.trigger }}</span>.</p>
+                <p class="activation-period-story">
+                  <strong class="activation-story-status">{{ group.title }}</strong>
+                  <span class="activation-story-period">{{ group.period }}</span>
+                  <span class="activation-story-context" *ngIf="group.dasha"><small>During</small>{{ group.dasha }}</span>
+                  <span class="activation-story-context" *ngIf="group.trigger"><small>Triggered by</small>{{ group.trigger }}</span>
+                </p>
               </div>
               <div class="activation-card-list">
                 <div class="yoga-item" *ngFor="let entry of group.items">
@@ -833,7 +842,12 @@
           <ng-container *ngFor="let group of currentDoshaActivationGroups">
             <div class="activation-period-group activation-period-group--dosha is-current">
               <div class="activation-period-header">
-                <p class="activation-period-story"><strong>{{ group.title }}:</strong> <span>{{ group.period }}</span><span *ngIf="group.dasha"> during {{ group.dasha }}</span><span *ngIf="group.trigger">, triggered by {{ group.trigger }}</span>.</p>
+                <p class="activation-period-story">
+                  <strong class="activation-story-status">{{ group.title }}</strong>
+                  <span class="activation-story-period">{{ group.period }}</span>
+                  <span class="activation-story-context" *ngIf="group.dasha"><small>During</small>{{ group.dasha }}</span>
+                  <span class="activation-story-context" *ngIf="group.trigger"><small>Triggered by</small>{{ group.trigger }}</span>
+                </p>
               </div>
               <div class="activation-card-list">
                 <div class="dosha-item" *ngFor="let entry of group.items">
@@ -897,7 +911,12 @@
           <ng-container *ngFor="let group of upcomingDoshaActivationGroups">
             <div class="activation-period-group activation-period-group--dosha">
               <div class="activation-period-header">
-                <p class="activation-period-story"><strong>{{ group.title }}:</strong> <span>{{ group.period }}</span><span *ngIf="group.dasha"> during {{ group.dasha }}</span><span *ngIf="group.trigger">, triggered by {{ group.trigger }}</span>.</p>
+                <p class="activation-period-story">
+                  <strong class="activation-story-status">{{ group.title }}</strong>
+                  <span class="activation-story-period">{{ group.period }}</span>
+                  <span class="activation-story-context" *ngIf="group.dasha"><small>During</small>{{ group.dasha }}</span>
+                  <span class="activation-story-context" *ngIf="group.trigger"><small>Triggered by</small>{{ group.trigger }}</span>
+                </p>
               </div>
               <div class="activation-card-list">
                 <div class="dosha-item" *ngFor="let entry of group.items">
@@ -1326,28 +1345,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

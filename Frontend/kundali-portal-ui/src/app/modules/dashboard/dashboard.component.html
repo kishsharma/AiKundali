@@ -5,7 +5,7 @@
 
 <div class="dashboard-shell">
   <div class="dashboard-hero-grid">
-    <section class="panel daily-panel" aria-labelledby="daily-heading">
+    <section class="panel daily-panel" data-tour-id="dashboard-overview" aria-labelledby="daily-heading">
       <div class="hero-copy">
         <span class="kicker">{{ 'dashboard.todayInPortal' | transloco }}</span>
         <h1 id="daily-heading" class="hero-title">{{ greeting }}, {{ userName }}</h1>
@@ -48,7 +48,7 @@
       </ng-template>
     </section>
 
-    <section class="panel quick-panel" aria-labelledby="quick-actions-heading">
+    <section class="panel quick-panel" data-tour-id="dashboard-quick-actions" aria-labelledby="quick-actions-heading">
       <div class="section-heading">
         <h2 id="quick-actions-heading">{{ 'dashboard.quickActions' | transloco }}</h2>
         <a class="section-link" routerLink="/app/kundali">{{ 'dashboard.createChart' | transloco }}</a>
@@ -121,7 +121,7 @@
     </div>
   </app-section-card>
 
-  <app-section-card [title]="'dashboard.continueJourney' | transloco" [interactive]="false">
+  <app-section-card data-tour-id="dashboard-journey" [title]="'dashboard.continueJourney' | transloco" [interactive]="false">
     <div class="journey-grid">
       <article class="journey-card">
         <span class="mini-label">{{ 'dashboard.lastKundali' | transloco }}</span>
@@ -176,7 +176,7 @@
   </app-section-card>
 
   <div class="wide-grid">
-    <app-section-card [title]="'dashboard.myCollection' | transloco" [interactive]="false">
+    <app-section-card data-tour-id="dashboard-collection" [title]="'dashboard.myCollection' | transloco" [interactive]="false">
       <div class="collection-grid">
         <a class="collection-card" routerLink="/app/kundali">
           <span class="collection-number">{{ collectionStats.savedKundalis }}</span>
@@ -236,3 +236,4 @@
     </div>
   </app-section-card>
 </div>
+

@@ -10,6 +10,9 @@ public sealed record PredictionContext
 
     public required DashaTimeline DashaTimeline { get; init; }
 
+    public IReadOnlyList<DivisionalChartPredictionData> DivisionalCharts { get; init; }
+        = Array.Empty<DivisionalChartPredictionData>();
+
     public IReadOnlyList<YogaPredictionData> Yogas { get; init; }
         = Array.Empty<YogaPredictionData>();
 

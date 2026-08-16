@@ -8,8 +8,9 @@ internal sealed record PredictionEvidenceSet
 {
     public IReadOnlyList<HousePredictionData> PrimaryHouses { get; init; }
         = Array.Empty<HousePredictionData>();
+
     public IReadOnlyList<PlanetPredictionData> PrimaryHouseLords { get; init; }
-    = Array.Empty<PlanetPredictionData>();
+        = Array.Empty<PlanetPredictionData>();
 
     public IReadOnlyList<HousePredictionData> SupportingHouses { get; init; }
         = Array.Empty<HousePredictionData>();
@@ -30,11 +31,14 @@ internal sealed record PredictionEvidenceSet
         = Array.Empty<DoshaPredictionData>();
 
     public IReadOnlyList<HouseLordPlacementFact> HouseLordPlacements { get; init; }
-    = Array.Empty<HouseLordPlacementFact>();
+        = Array.Empty<HouseLordPlacementFact>();
 
     public IReadOnlyList<HouseAspectFact> HouseAspects { get; init; }
-    = Array.Empty<HouseAspectFact>();
-    public IReadOnlyList<PlanetAspectFact> PlanetAspects { get; init; }
-    = Array.Empty<PlanetAspectFact>();
+        = Array.Empty<HouseAspectFact>();
 
+    public IReadOnlyList<PlanetAspectFact> PlanetAspects { get; init; }
+        = Array.Empty<PlanetAspectFact>();
+
+    public IReadOnlyList<DivisionalChartFocusEvidence> DivisionalFocusEvidence { get; init; }
+        = Array.Empty<DivisionalChartFocusEvidence>();
 }

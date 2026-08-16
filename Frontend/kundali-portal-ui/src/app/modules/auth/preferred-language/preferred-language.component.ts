@@ -6,13 +6,14 @@ import { TranslocoService } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/auth.service';
 import { PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { BrandLogoComponent } from '../../../shared/components/brand-logo/brand-logo.component';
 
 @Component({
   selector: 'app-preferred-language',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BrandLogoComponent],
   templateUrl: './preferred-language.component.html',
-  styleUrl: './preferred-language.component.scss'
+  styleUrls: ['../login/login.component.scss', './preferred-language.component.scss']
 })
 export class PreferredLanguageComponent implements OnInit {
   selectedLanguage: PreferredLanguage = 'en';
@@ -73,3 +74,4 @@ export class PreferredLanguageComponent implements OnInit {
     this.router.navigateByUrl(returnUrl);
   }
 }
+

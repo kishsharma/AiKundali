@@ -1,4 +1,4 @@
-using KundaliEngine.Domain.Enums;
+﻿using KundaliEngine.Domain.Enums;
 
 namespace KundaliEngine.API.Services.Muhurtha.Models;
 
@@ -17,4 +17,10 @@ public class MuhurthaTimeWindow
     public int DefaultScoreImpact { get; set; }
 
     public bool IsPositive { get; set; }
+
+    public string Summary { get; set; } = string.Empty;
+
+    public string Recommendation { get; set; } = string.Empty;
+
+    public Dictionary<string, string> Metadata { get; set; } = new();
 }

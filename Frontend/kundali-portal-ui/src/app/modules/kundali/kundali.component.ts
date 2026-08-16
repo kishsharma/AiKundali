@@ -43,6 +43,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
+import { PortalWheelPickerComponent } from '../../shared/components/portal-wheel-picker.component';
 
 type KundaliPdfMode = 'desktop' | 'mobile' | 'print-bw' | 'corporate';
 
@@ -109,8 +110,9 @@ interface PredictionAreaDetailCard extends PredictionOutlookCard {
     TransitInsightComponent,
     CurrentLifeFocusComponent,
     RemediesRecommendationComponent,
-    PortalNotesComponent
-],
+    PortalNotesComponent,
+    PortalWheelPickerComponent
+  ],
   templateUrl: './kundali.component.html',
   styleUrls: ['./kundali.component.scss', './kundali.component.exportpdf.scss']
 })
@@ -199,11 +201,15 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   get currentYogaActivationGroups(): ActivationPeriodGroup[] {
-    return this.buildActivationPeriodGroups(this.yogas, 'current', 'Current Yoga Activation');
+    return this.isPremiumUser
+      ? this.buildActivationPeriodGroups(this.yogas, 'current', 'Current Yoga Activation')
+      : [];
   }
 
   get upcomingYogaActivationGroups(): ActivationPeriodGroup[] {
-    return this.buildActivationPeriodGroups(this.yogas, 'upcoming', 'Upcoming Yoga Activation');
+    return this.isPremiumUser
+      ? this.buildActivationPeriodGroups(this.yogas, 'upcoming', 'Upcoming Yoga Activation')
+      : [];
   }
 
   get natalYogaItems(): NatalGroupedItem[] {
@@ -211,11 +217,15 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   get currentDoshaActivationGroups(): ActivationPeriodGroup[] {
-    return this.buildActivationPeriodGroups(this.doshas, 'current', 'Current Dosha Activation');
+    return this.isPremiumUser
+      ? this.buildActivationPeriodGroups(this.doshas, 'current', 'Current Dosha Activation')
+      : [];
   }
 
   get upcomingDoshaActivationGroups(): ActivationPeriodGroup[] {
-    return this.buildActivationPeriodGroups(this.doshas, 'upcoming', 'Upcoming Dosha Activation');
+    return this.isPremiumUser
+      ? this.buildActivationPeriodGroups(this.doshas, 'upcoming', 'Upcoming Dosha Activation')
+      : [];
   }
 
   get natalDoshaItems(): NatalGroupedItem[] {
@@ -330,6 +340,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
         console.log(results);
 
         this.locationResults = results;
+        this.cdr.detectChanges();
       });
   }
 
@@ -880,6 +891,21 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.cdr.detectChanges();
   }
 
+  readonly unsavedChangesMessage = 'This Kundali chart has not been saved. Leave without saving it?';
+
+  hasUnsavedChanges(): boolean {
+    return !!this.kundaliResponse && !this.savedKundaliId;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  warnBeforeLeavingWithUnsavedKundali(event: BeforeUnloadEvent): void {
+    if (!this.hasUnsavedChanges()) {
+      return;
+    }
+
+    event.preventDefault();
+    event.returnValue = '';
+  }
   saveCurrentKundali(): void {
     if (!this.kundaliResponse || this.savingKundali) { return; }
     this.savingKundali = true;
@@ -1218,14 +1244,14 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   selectLocation(place: any): void {
 
     this.kundaliForm.patchValue({
-      birthPlace: place.display_name,
-      latitude: place.lat,
-      longitude: place.lon
+      birthPlace: place.displayName,
+      latitude: place.latitude,
+      longitude: place.longitude
     });
 
     this.selectedCoordinates = {
-      latitude: place.lat,
-      longitude: place.lon
+      latitude: place.latitude,
+      longitude: place.longitude
     };
 
     this.locationResults = [];
@@ -1480,7 +1506,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
         next: (response) => {
           console.log('Generated:', response);
           this.kundaliResponse = response;
-          this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(response));
+          this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(response), response);
           console.log(response);
 console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.planets = response.planets;
@@ -1616,7 +1642,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.kundaliService.getSavedKundali(id).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? id;
-        this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(saved));
+        this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(saved), saved?.chartData ?? null);
         this.patchFormFromSavedKundali(saved);
         this.applyKundaliResponse(saved?.chartData ?? null);
         this.mahadashaPeriods = saved?.chartData?.mahadashaPeriods ?? [];
@@ -1664,7 +1690,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
     this.currentLifeFocusResetKey++;
     this.kundaliResponse = response;
-    this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({ kundaliId: this.savedKundaliId, chartData: response }));
+    this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({ kundaliId: this.savedKundaliId, chartData: response }), response);
     this.planets = response.planets ?? [];
     this.d1Planets = response.planets ?? [];
     this.d1Houses = response.houses ?? [];
@@ -1856,7 +1882,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   hasActivationAccess(item: any): boolean {
-    return !!item?.activationPeriods;
+    return this.isPremiumUser && !!item?.activationPeriods;
   }
 
   hasAnyActivationAccess(items: any[]): boolean {
@@ -1916,9 +1942,11 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   private getNatalOnlyItems(items: any[]): NatalGroupedItem[] {
-    return items
-      .map((item, index) => ({ item, index }))
-      .filter(({ item }) => !this.hasActivationPeriod(item));
+    const natalItems = items.map((item, index) => ({ item, index }));
+
+    return this.isPremiumUser
+      ? natalItems.filter(({ item }) => !this.hasActivationPeriod(item))
+      : natalItems;
   }
 
   formatActivationDate(value: string | Date | null | undefined): string {
@@ -2606,6 +2634,4 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     }
   }
 }
-
-
 

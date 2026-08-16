@@ -4,7 +4,7 @@
     <button
       type="button"
       class="mobile-menu-toggle"
-      *ngIf="showAppTopbar"
+      *ngIf="showAppMenuToggle"
       (click)="toggleAppMenu()"
       aria-label="Open menu"
       title="Open menu">
@@ -14,7 +14,7 @@
       <app-brand-logo variant="iconText" tone="auto"></app-brand-logo>
     </div>
 
-    <div class="language-switcher topbar-control" aria-label="Select language">
+    <div class="language-switcher topbar-control" *ngIf="showPublicPreferenceControls" aria-label="Select language">
       <button
         type="button"
         *ngFor="let language of languages"
@@ -23,7 +23,7 @@
       >{{ language.label }}</button>
     </div>
 
-    <div class="theme-selector topbar-control" aria-label="Select theme">
+    <div class="theme-selector topbar-control" *ngIf="showThemeSelector" aria-label="Select theme">
       <span class="theme-mode-label">{{ themeToggleLabel }}</span>
       <button
         type="button"
@@ -249,3 +249,5 @@
   </main>
   <app-notification-toast></app-notification-toast>
 </div>
+
+

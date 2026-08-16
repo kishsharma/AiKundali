@@ -1,3 +1,4 @@
+@import '@ionic/angular/css/core.css';
 /* Global Styles - Kundali Portal */
 
 // Import theme variables and mixins
@@ -31,7 +32,6 @@ body[data-theme='dark'] {
   --theme-input-bg: #17244d;
   --theme-grid-line: rgba(201, 162, 75, 0.045);
   --theme-grid-line-2: rgba(201, 162, 75, 0.034);
-  // Radius experiment: dark structural surfaces 2px, cards/controls 6px. Roll back these three tokens to 0 if needed.
   --theme-radius-structural: 2px;
   --theme-radius-card: 6px;
   --theme-radius-control: 6px;
@@ -438,6 +438,25 @@ app-root {
 
 body {
   transition: background 180ms ease, color 180ms ease;
+  --ion-background-color: var(--theme-bg, #1e2b5a);
+  --ion-text-color: var(--theme-text, #efe6d3);
+  --ion-color-primary: var(--theme-accent, #c9a24b);
+  --ion-color-primary-rgb: 201, 162, 75;
+  --ion-border-color: var(--theme-line, rgba(201, 162, 75, 0.26));
+  --ion-item-background: var(--theme-surface, #24366f);
+  --ion-card-background: var(--theme-surface, #24366f);
+  --ion-toolbar-background: var(--theme-surface, #24366f);
+}
+
+body[data-theme='light'] {
+  --ion-background-color: var(--theme-bg, #f8fafc);
+  --ion-text-color: var(--theme-text, #111827);
+  --ion-color-primary: var(--theme-accent, #7e3ba8);
+  --ion-color-primary-rgb: 126, 59, 168;
+  --ion-border-color: var(--theme-line, rgba(17, 24, 39, 0.08));
+  --ion-item-background: var(--theme-surface, #ffffff);
+  --ion-card-background: var(--theme-surface, #ffffff);
+  --ion-toolbar-background: var(--theme-surface, #ffffff);
 }
 
 body:not(.pdf-mode) app-root {
@@ -457,3 +476,4 @@ body:not(.pdf-mode) input::placeholder,
 body:not(.pdf-mode) textarea::placeholder {
   color: color-mix(in srgb, var(--theme-text-muted) 62%, transparent);
 }
+

@@ -1,4 +1,4 @@
-namespace KundaliEngine.API.DTOs.Responses
+﻿namespace KundaliEngine.API.DTOs.Responses
 {
     public class PanchangApiResponse<T>
     {
@@ -16,6 +16,29 @@ namespace KundaliEngine.API.DTOs.Responses
         public double Longitude { get; set; }
         public string Timezone { get; set; } = string.Empty;
         public List<PanchangCalendarDayDto> Days { get; set; } = new();
+    }
+
+    public class PanchangEclipseYearResponseDto
+    {
+        public int Year { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Timezone { get; set; } = string.Empty;
+        public List<PanchangEclipseDto> Eclipses { get; set; } = new();
+    }
+
+    public class PanchangEclipseDto
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Kind { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public DateOnly Date { get; set; }
+        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset MaximumTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
+        public DateTimeOffset? SutakStartTime { get; set; }
+        public DateTimeOffset? SutakEndTime { get; set; }
+        public bool IsVisibleFromLocation { get; set; }
     }
 
     public class PanchangCalendarDayDto
@@ -64,7 +87,3 @@ namespace KundaliEngine.API.DTOs.Responses
         public string EndTime { get; set; } = string.Empty;
     }
 }
-
-
-
-

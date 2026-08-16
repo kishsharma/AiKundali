@@ -1,11 +1,12 @@
-﻿// Panchang Module - Panchang Viewer Page
+// Panchang Module - Panchang Viewer Page
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { SectionCardComponent } from '../../shared/components/section-card.component';
-import { Panchang, PanchangApiService, PanchangCalendarMode } from '../../core/services/panchang-api.service';
+import { Panchang, PanchangApiService, PanchangCalendarMode, PanchangEclipse } from '../../core/services/panchang-api.service';
 import { GocharApiService, GocharDailyResponse, GocharPlanet } from '../../core/services/gochar-api.service';
 import { LocationService } from '../../core/services/location.service';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
@@ -171,6 +172,109 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
     .calendar-status.error {
       color: #b42318;
     }
+
+    .eclipse-details-section {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .eclipse-details-toggle {
+      width: 100%;
+      min-height: 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.45rem;
+      background: var(--theme-surface);
+      color: var(--theme-text);
+      font: inherit;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .eclipse-details-toggle:hover,
+    .eclipse-details-toggle[aria-expanded="true"] {
+      border-color: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-line));
+      background: color-mix(in srgb, var(--theme-accent) 5%, var(--theme-surface));
+    }
+
+    .eclipse-panel {
+      display: grid;
+      gap: 0.42rem;
+      padding: 0.52rem 0.58rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.58rem;
+      background: color-mix(in srgb, var(--theme-accent) 5%, var(--theme-surface));
+    }
+
+    .eclipse-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .eclipse-header strong {
+      color: var(--theme-text);
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+
+    .eclipse-header small,
+    .eclipse-status,
+    .eclipse-empty,
+    .eclipse-meta {
+      color: var(--theme-text-muted);
+      font-size: 0.6rem;
+      font-weight: 400;
+      line-height: 1.25;
+    }
+
+    .eclipse-status.error {
+      color: #b42318;
+    }
+
+    .eclipse-list {
+      display: grid;
+      gap: 0.32rem;
+    }
+
+    .eclipse-row {
+      display: grid;
+      gap: 0.16rem;
+      padding: 0.42rem 0.48rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.48rem;
+      background: var(--theme-surface);
+    }
+
+    .eclipse-row-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.42rem;
+      flex-wrap: wrap;
+    }
+
+    .eclipse-name {
+      color: var(--theme-text);
+      font-size: 0.66rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .eclipse-date {
+      color: var(--theme-text-muted);
+      font-size: 0.58rem;
+      font-weight: 400;
+    }
+
 
     .weekday-row,
     .calendar-grid {
@@ -750,6 +854,11 @@ export class PanchangComponent implements OnInit {
   gocharError = "";
   isLoading = false;
   errorMessage = '';
+  yearlyEclipses: PanchangEclipse[] = [];
+  yearlyEclipseYear = new Date().getFullYear();
+  isEclipsesLoading = false;
+  eclipseError = '';
+  showEclipseDetails = false;
   locationQuery = 'Bangalore, Karnataka, India';
   locationResults: PanchangLocationResult[] = [];
   selectedLocation: PanchangLocation = {
@@ -760,6 +869,9 @@ export class PanchangComponent implements OnInit {
   };
   private locationSearchTimer?: ReturnType<typeof setTimeout>;
   private gocharRequestId = 0;
+  private eclipseRequestId = 0;
+  private eclipseSubscription?: Subscription;
+  private loadedEclipseKey = '';
 
   constructor(
     private readonly panchangApi: PanchangApiService,
@@ -870,17 +982,17 @@ export class PanchangComponent implements OnInit {
           this.cdr.detectChanges();
         },
       });
-    }, 350);
+    }, 500);
   }
 
   selectLocation(place: PanchangLocationResult): void {
     this.selectedLocation = {
-      name: place.display_name,
-      latitude: Number(place.lat),
-      longitude: Number(place.lon),
+      name: place.displayName,
+      latitude: Number(place.latitude),
+      longitude: Number(place.longitude),
       timezone: 'Asia/Kolkata',
     };
-    this.locationQuery = place.display_name;
+    this.locationQuery = place.displayName;
     this.locationResults = [];
     this.loadCalendarPanchang();
   }
@@ -895,15 +1007,15 @@ export class PanchangComponent implements OnInit {
     const markers: SpecialTithiMarker[] = [];
 
     if (tithi.includes('amavasya') || tithi.includes('amavas')) {
-      markers.push({ kind: 'amavasya', icon: '●', label: 'Amavasya' });
+      markers.push({ kind: 'amavasya', icon: '?', label: 'Amavasya' });
     }
 
     if (tithi.includes('purnima') || tithi.includes('poornima') || tithi.includes('paurnima')) {
-      markers.push({ kind: 'purnima', icon: '●', label: 'Purnima' });
+      markers.push({ kind: 'purnima', icon: '?', label: 'Purnima' });
     }
 
     if (tithi.includes('ekadashi')) {
-      markers.push({ kind: 'ekadashi', icon: 'ॐ', label: 'Ekadashi' });
+      markers.push({ kind: 'ekadashi', icon: '?', label: 'Ekadashi' });
     }
 
     if (tithi.includes('chaturthi')) {
@@ -939,6 +1051,33 @@ export class PanchangComponent implements OnInit {
 
   formatGocharDate(value: string | Date): string {
     return this.formatShortDate(this.parseDate(String(value)));
+  }
+  formatEclipseName(eclipse: PanchangEclipse): string {
+    return `${eclipse.type} ${this.t(`panchang.eclipse.${eclipse.kind}`)}`.trim();
+  }
+
+  formatEclipseDate(value: string): string {
+    return new Date(value).toLocaleDateString(this.activeLocale, {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+  }
+
+  formatEclipseClock(value: string): string {
+    return new Date(value).toLocaleTimeString(this.activeLocale, {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  }
+
+  formatEclipseRange(startValue: string | null | undefined, endValue: string | null | undefined): string {
+    if (!startValue || !endValue) {
+      return '-';
+    }
+
+    return `${this.formatEclipseClock(startValue)} - ${this.formatEclipseClock(endValue)}`;
   }
 
   formatFullDate(date: Date): string {
@@ -1001,6 +1140,9 @@ export class PanchangComponent implements OnInit {
 
   private loadCalendarPanchang(): void {
     this.isLoading = true;
+    if (this.showEclipseDetails) {
+      this.loadYearlyEclipses(this.currentDate.getFullYear());
+    }
     this.errorMessage = '';
     this.selectedPanchangForView = undefined;
 
@@ -1033,6 +1175,71 @@ export class PanchangComponent implements OnInit {
   }
 
 
+
+  toggleEclipseDetails(): void {
+    this.showEclipseDetails = !this.showEclipseDetails;
+
+    if (!this.showEclipseDetails) {
+      this.eclipseSubscription?.unsubscribe();
+      this.eclipseSubscription = undefined;
+      this.isEclipsesLoading = false;
+      return;
+    }
+
+    this.loadYearlyEclipses(this.currentDate.getFullYear());
+  }
+
+  private loadYearlyEclipses(year: number): void {
+    const requestKey = [
+      year,
+      this.selectedLocation.latitude.toFixed(4),
+      this.selectedLocation.longitude.toFixed(4),
+      this.selectedLocation.timezone,
+    ].join('|');
+
+    this.yearlyEclipseYear = year;
+    if (requestKey === this.loadedEclipseKey && !this.eclipseError) {
+      return;
+    }
+
+    this.eclipseSubscription?.unsubscribe();
+    const requestId = ++this.eclipseRequestId;
+    this.isEclipsesLoading = true;
+    this.eclipseError = '';
+    this.yearlyEclipses = [];
+
+    this.eclipseSubscription = this.panchangApi.getYearlyEclipses(
+      year,
+      this.selectedLocation.latitude,
+      this.selectedLocation.longitude,
+      this.selectedLocation.timezone,
+    ).subscribe({
+      next: (response) => {
+        if (requestId !== this.eclipseRequestId || !this.showEclipseDetails) {
+          return;
+        }
+
+        const payload = response?.data ?? response;
+        this.yearlyEclipses = Array.isArray(payload?.eclipses) ? payload.eclipses : [];
+        this.loadedEclipseKey = requestKey;
+        this.isEclipsesLoading = false;
+        this.eclipseSubscription = undefined;
+        this.cdr.detectChanges();
+      },
+      error: (error: Error) => {
+        if (requestId !== this.eclipseRequestId || !this.showEclipseDetails) {
+          return;
+        }
+
+        this.yearlyEclipses = [];
+        this.loadedEclipseKey = '';
+        this.eclipseError = error.message || 'Unable to load yearly eclipses.';
+        this.isEclipsesLoading = false;
+        this.eclipseSubscription = undefined;
+        this.cdr.detectChanges();
+      },
+    });
+  }
   private loadSelectedGochar(date: Date = this.currentDate): void {
     const requestId = ++this.gocharRequestId;
     const selectedDate = new Date(date);
@@ -1144,6 +1351,14 @@ export class PanchangComponent implements OnInit {
     'panchang.locationSearch': 'Search city for Panchang',
     'panchang.locationAria': 'Search Panchang location',
     'panchang.loadingDaily': 'Loading daily Panchang...',
+    'panchang.eclipseTitle': 'Eclipses in',
+    'panchang.loadingEclipses': 'Loading yearly eclipses...',
+    'panchang.eclipseUnavailable': 'Yearly eclipse timings are not available for this location yet.',
+    'panchang.eclipse.solar': 'Solar Eclipse',
+    'panchang.eclipse.lunar': 'Lunar Eclipse',
+    'panchang.eclipseWindow': 'Eclipse',
+    'panchang.maximum': 'Maximum',
+    'panchang.sutak': 'Sutak',
     'panchang.noData': 'No Panchang data',
     'panchang.today': 'Today',
     'panchang.previous': 'Previous period',
@@ -1187,9 +1402,11 @@ interface PanchangLocation {
 }
 
 interface PanchangLocationResult {
-  display_name: string;
-  lat: string;
-  lon: string;
+  id: string;
+  name: string;
+  displayName: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface SpecialTithiMarker {
@@ -1205,41 +1422,6 @@ interface CalendarDay {
   isCurrentMonth: boolean;
   isToday: boolean;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

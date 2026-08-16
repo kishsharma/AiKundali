@@ -1,3 +1,5 @@
+﻿using KundaliEngine.Domain.Models.Muhurtha;
+
 namespace KundaliEngine.API.Services.Muhurtha.Models;
 
 public class MuhurthaDayContext
@@ -11,6 +13,8 @@ public class MuhurthaDayContext
     public DateTimeOffset DayStart { get; set; }
 
     public DateTimeOffset DayEnd { get; set; }
+
+    public MuhurthaLocation Location { get; set; } = new();
 
     public List<MuhurthaTimeWindow> TimeWindows { get; set; } = new();
 }

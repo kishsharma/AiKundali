@@ -1,5 +1,9 @@
-<div class="auth-page">
-  <div class="auth-card">
+<div class="auth-page language-onboarding">
+  <div class="auth-card language-card">
+    <div class="language-brand" aria-label="HoraLife">
+      <app-brand-logo variant="iconText" tone="white"></app-brand-logo>
+    </div>
+
     <h1>Select your preferred language</h1>
     <p>This helps us show your dashboard and reports in the right language.</p>
 
@@ -8,35 +12,42 @@
         type="button"
         class="language-option"
         [class.active]="selectedLanguage === 'en'"
+        [attr.aria-checked]="selectedLanguage === 'en'"
+        role="radio"
         (click)="selectedLanguage = 'en'"
       >
         <span class="name">English</span>
-        <small class="code">en</small>
+        <small class="code">EN</small>
       </button>
 
       <button
         type="button"
         class="language-option"
         [class.active]="selectedLanguage === 'hi'"
+        [attr.aria-checked]="selectedLanguage === 'hi'"
+        role="radio"
         (click)="selectedLanguage = 'hi'"
       >
         <span class="name">हिंदी</span>
-        <small class="code">hi</small>
+        <small class="code">HI</small>
       </button>
 
       <button
         type="button"
         class="language-option"
         [class.active]="selectedLanguage === 'kn'"
+        [attr.aria-checked]="selectedLanguage === 'kn'"
+        role="radio"
         (click)="selectedLanguage = 'kn'"
       >
         <span class="name">ಕನ್ನಡ</span>
-        <small class="code">kn</small>
+        <small class="code">KN</small>
       </button>
     </div>
 
-    <button type="button" (click)="savePreferredLanguage()" [disabled]="isSaving">
+    <button class="continue-button" type="button" (click)="savePreferredLanguage()" [disabled]="isSaving">
       {{ isSaving ? 'Saving...' : 'Continue' }}
     </button>
   </div>
 </div>
+

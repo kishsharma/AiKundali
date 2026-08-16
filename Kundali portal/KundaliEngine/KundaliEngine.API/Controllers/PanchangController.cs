@@ -2,6 +2,7 @@ using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.Astrology.Astronomy;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.API.Services.Muhurtha;
+using KundaliEngine.API.Services.Panchang;
 using KundaliEngine.Domain.Models.Muhurtha;
 using KundaliEngine.Domain.Enums;
 using KundaliEngine.Domain.Models;
@@ -22,17 +23,20 @@ namespace KundaliEngine.API.Controllers
         private readonly IEphemerisProvider _ephemerisProvider;
         private readonly IMuhurthaSunriseSunsetService _sunriseSunsetService;
         private readonly NakshatraMetadataService _nakshatraMetadataService;
+        private readonly IPanchangEclipseService _panchangEclipseService;
 
         public PanchangController(
             PanchangService panchangService,
             IEphemerisProvider ephemerisProvider,
             IMuhurthaSunriseSunsetService sunriseSunsetService,
-            NakshatraMetadataService nakshatraMetadataService)
+            NakshatraMetadataService nakshatraMetadataService,
+            IPanchangEclipseService panchangEclipseService)
         {
             _panchangService = panchangService;
             _ephemerisProvider = ephemerisProvider;
             _sunriseSunsetService = sunriseSunsetService;
             _nakshatraMetadataService = nakshatraMetadataService;
+            _panchangEclipseService = panchangEclipseService;
         }
 
         [HttpGet("calendar")]
@@ -147,6 +151,46 @@ namespace KundaliEngine.API.Controllers
             });
         }
 
+        [HttpGet("eclipses")]
+        public ActionResult<PanchangApiResponse<PanchangEclipseYearResponseDto>> GetYearlyEclipses(
+            [FromQuery] int? year = null,
+            [FromQuery] double latitude = DefaultLatitude,
+            [FromQuery] double longitude = DefaultLongitude,
+            [FromQuery] string timezone = DefaultTimezone)
+        {
+            if (!IsValidLocation(latitude, longitude))
+            {
+                return BadRequest(new PanchangApiResponse<PanchangEclipseYearResponseDto>
+                {
+                    Success = false,
+                    Message = "Latitude must be between -90 and 90, and longitude must be between -180 and 180."
+                });
+            }
+
+            var targetYear = year ?? DateTime.Today.Year;
+            if (targetYear < 1900 || targetYear > 2100)
+            {
+                return BadRequest(new PanchangApiResponse<PanchangEclipseYearResponseDto>
+                {
+                    Success = false,
+                    Message = "Year must be between 1900 and 2100."
+                });
+            }
+
+            var eclipses = _panchangEclipseService.GetYearlyEclipses(targetYear, latitude, longitude, timezone);
+            return Ok(new PanchangApiResponse<PanchangEclipseYearResponseDto>
+            {
+                Success = true,
+                Data = new PanchangEclipseYearResponseDto
+                {
+                    Year = targetYear,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Timezone = timezone,
+                    Eclipses = eclipses.ToList()
+                }
+            });
+        }
         private List<PanchangCalendarDayDto> BuildPanchangDays(
             DateOnly startDate,
             DateOnly endDate,
@@ -658,3 +702,5 @@ namespace KundaliEngine.API.Controllers
         }
     }
 }
+
+

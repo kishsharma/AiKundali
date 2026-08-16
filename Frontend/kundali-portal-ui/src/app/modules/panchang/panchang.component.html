@@ -1,4 +1,4 @@
-﻿<app-page-header
+<app-page-header
   [title]="t('panchang.title')"
   [compact]="true"
 ></app-page-header>
@@ -57,7 +57,7 @@
               *ngFor="let place of locationResults"
               (click)="selectLocation(place)"
             >
-              {{ place.display_name }}
+              {{ place.displayName }}
             </button>
           </div>
         </div>
@@ -66,7 +66,6 @@
         <ng-container *ngIf="isLoading">{{ t('panchang.loadingDaily') }}</ng-container>
         <ng-container *ngIf="!isLoading && errorMessage">{{ errorMessage }}</ng-container>
       </div>
-
       <div class="weekday-row" [class.single-day]="calendarMode === 'daily'">
         <div class="weekday" *ngFor="let weekday of weekdays">{{ weekday }}</div>
       </div>
@@ -277,14 +276,41 @@
     </div>
   </app-section-card>
 </div>
+<section class="eclipse-details-section">
+  <button
+    class="eclipse-details-toggle"
+    type="button"
+    (click)="toggleEclipseDetails()"
+    [attr.aria-expanded]="showEclipseDetails"
+    aria-controls="yearly-eclipse-details"
+  >
+    <span>{{ t('panchang.eclipseTitle') }} {{ currentDate.getFullYear() }}</span>
+    <span aria-hidden="true">{{ showEclipseDetails ? '−' : '+' }}</span>
+  </button>
 
-
-
-
-
-
-
-
-
-
+  <div class="eclipse-panel" id="yearly-eclipse-details" *ngIf="showEclipseDetails">
+    <div class="eclipse-header">
+      <strong>{{ t('panchang.eclipseTitle') }} {{ yearlyEclipseYear }}</strong>
+      <small>{{ selectedLocation.name }}</small>
+    </div>
+    <div class="eclipse-status" *ngIf="isEclipsesLoading">{{ t('panchang.loadingEclipses') }}</div>
+    <div class="eclipse-status error" *ngIf="!isEclipsesLoading && eclipseError">{{ eclipseError }}</div>
+    <div class="eclipse-list" *ngIf="!isEclipsesLoading && !eclipseError && yearlyEclipses.length; else noEclipses">
+      <article class="eclipse-row" *ngFor="let eclipse of yearlyEclipses">
+        <div class="eclipse-row-head">
+          <span class="eclipse-name">{{ formatEclipseName(eclipse) }}</span>
+          <span class="eclipse-date">{{ formatEclipseDate(eclipse.maximumTime) }}</span>
+        </div>
+        <div class="eclipse-meta">{{ t('panchang.eclipseWindow') }}: {{ formatEclipseRange(eclipse.startTime, eclipse.endTime) }}</div>
+        <div class="eclipse-meta">{{ t('panchang.maximum') }}: {{ formatEclipseClock(eclipse.maximumTime) }}</div>
+        <div class="eclipse-meta" *ngIf="eclipse.sutakStartTime && eclipse.sutakEndTime">
+          {{ t('panchang.sutak') }}: {{ formatEclipseRange(eclipse.sutakStartTime, eclipse.sutakEndTime) }}
+        </div>
+      </article>
+    </div>
+    <ng-template #noEclipses>
+      <p class="eclipse-empty" *ngIf="!isEclipsesLoading && !eclipseError">{{ t('panchang.eclipseUnavailable') }}</p>
+    </ng-template>
+  </div>
+</section>
 

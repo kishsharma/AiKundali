@@ -1,4 +1,11 @@
 <div class="dhruva-assistant" [class.open]="isOpen" [class.expanded]="isExpanded">
+  <button
+    type="button"
+    class="dhruva-expanded-backdrop"
+    *ngIf="isOpen && isExpanded"
+    (click)="restoreCompact()"
+    aria-label="Return Dhruva to compact mode"
+  ></button>
   <section
     class="dhruva-panel"
     [class.expanded]="isExpanded"
@@ -61,8 +68,8 @@
     <div class="dhruva-panel-content">
       <div class="dhruva-scroll-content">
         <div class="dhruva-chat-stack">
-          <p class="dhruva-chat-message bot">{{ 'dhruva.welcomeMessage' | transloco }}</p>
-          <p class="dhruva-chat-message user" *ngIf="typedQuestion.trim()">{{ typedQuestion }}</p>
+          <p class="dhruva-chat-message bot">{{ welcomeMessage }}</p>
+          <p class="dhruva-chat-message user" *ngIf="latestQuestionText">{{ latestQuestionText }}</p>
 
           <ng-container *ngIf="displayedAnswer as answer">
             <section
@@ -97,22 +104,156 @@
             </section>
 
             <ng-template #standardDhruvaAnswer>
-              <p
-                class="dhruva-chat-message bot dhruva-answer"
-                data-dhruva-response
-                *ngIf="answer.key && (answer.key | transloco: answer.params) as answerText"
-                role="status"
-                aria-live="polite"
-                [attr.aria-busy]="isTypingResponse"
-              >
-                <span class="dhruva-visually-hidden">{{ answerText }}</span>
-                <span class="dhruva-typing-indicator" *ngIf="isTypingResponse" aria-hidden="true">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-                <span *ngIf="!isTypingResponse" aria-hidden="true">{{ animatedResponseText(answerText) }}</span>
-              </p>
+              <ng-container *ngIf="answer.kind === 'custom-question'; else translatedDhruvaAnswer">
+                <section
+                  class="dhruva-chat-message bot dhruva-custom-answer"
+                  data-dhruva-response
+                  role="status"
+                  aria-live="polite"
+                  [attr.aria-busy]="answer.customQuestion?.state === 'loading'"
+                >
+                  <ng-container *ngIf="answer.customQuestion as customQuestion">
+                    <div class="dhruva-custom-answer-head">
+                      <div>
+                        <span class="dhruva-custom-kicker">{{ customQuestion.title }}</span>
+                        <p class="dhruva-custom-summary" *ngIf="customQuestion.summary">{{ animatedResponseText(customQuestion.summary) }}</p>
+                      </div>
+                      <span class="dhruva-outcome-pill" [ngClass]="getOutcomeToneClass(customQuestion.outcome)">
+                        {{ customQuestion.outcome || 'Loading' }}
+                      </span>
+                    </div>
+
+                    <div class="dhruva-custom-loading" *ngIf="customQuestion.state === 'loading'">
+                      <span class="dhruva-typing-indicator" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </span>
+                      <p>Dhruva is reading the chart.</p>
+                    </div>
+
+                    <div class="dhruva-custom-loading" *ngIf="shouldShowCustomQuestionTyping(customQuestion)">
+                      <span class="dhruva-typing-indicator" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </span>
+                      <p>Dhruva is shaping the synthesis.</p>
+                    </div>
+
+                    <div class="dhruva-custom-error" *ngIf="customQuestion.state === 'error'">
+                      <p>{{ customQuestion.errorMessage || 'Unable to load the answer right now.' }}</p>
+                    </div>
+
+                    <ng-container *ngIf="customQuestion.state === 'ready'">
+                      <div class="dhruva-custom-factor-grid" *ngIf="shouldShowCustomQuestionDetails(customQuestion) && customQuestion.kind === 'possibility'">
+                        <section class="dhruva-custom-factor-card supportive" *ngIf="customQuestion.supportiveReasons.length">
+                          <h4>Supportive factors</h4>
+                          <ul class="dhruva-custom-factor-list">
+                            <li *ngFor="let reason of customQuestion.supportiveReasons">{{ reason.label }}</li>
+                          </ul>
+                        </section>
+
+                        <section class="dhruva-custom-factor-card challenging" *ngIf="customQuestion.challengingReasons.length">
+                          <h4>Challenges</h4>
+                          <ul class="dhruva-custom-factor-list">
+                            <li *ngFor="let reason of customQuestion.challengingReasons">{{ reason.label }}</li>
+                          </ul>
+                        </section>
+                      </div>
+
+                      <div class="dhruva-custom-timing-grid" *ngIf="shouldShowCustomQuestionDetails(customQuestion) && customQuestion.kind === 'timing' && customQuestion.timingWindows.length; else emptyTimingWindows">
+                        <article class="dhruva-timing-window highlight earliest" *ngIf="customQuestion.earliestIndication as earliestWindow">
+                          <span class="dhruva-timing-label">Earliest indication</span>
+                          <div class="dhruva-timing-window-head">
+                            <strong>{{ earliestWindow.title }}</strong>
+                            <span>{{ earliestWindow.strength }}</span>
+                          </div>
+                          <p class="dhruva-timing-window-planets" *ngIf="earliestWindow.triggerLabel">{{ earliestWindow.triggerLabel }}</p>
+                        </article>
+
+                        <article class="dhruva-timing-window highlight strongest" *ngIf="customQuestion.strongestNearTermWindow as strongestWindow">
+                          <span class="dhruva-timing-label">Strongest near-term window</span>
+                          <div class="dhruva-timing-window-head">
+                            <strong>{{ strongestWindow.title }}</strong>
+                            <span>{{ strongestWindow.strength }}</span>
+                          </div>
+                          <p class="dhruva-timing-window-planets" *ngIf="strongestWindow.triggerLabel">{{ strongestWindow.triggerLabel }}</p>
+                        </article>
+
+                        <article class="dhruva-timing-window highlight next" *ngIf="customQuestion.nextStrongWindow as nextWindow">
+                          <span class="dhruva-timing-label">Next strong window</span>
+                          <div class="dhruva-timing-window-head">
+                            <strong>{{ nextWindow.title }}</strong>
+                            <span>{{ nextWindow.strength }}</span>
+                          </div>
+                          <p class="dhruva-timing-window-planets" *ngIf="nextWindow.triggerLabel">{{ nextWindow.triggerLabel }}</p>
+                        </article>
+                      </div>
+
+                      <ng-template #emptyTimingWindows>
+                        <p class="dhruva-custom-empty" *ngIf="shouldShowCustomQuestionDetails(customQuestion) && customQuestion.kind === 'timing'">No timing windows are available for this chart yet.</p>
+                      </ng-template>
+
+                      <details class="dhruva-custom-details" *ngIf="shouldShowCustomQuestionDetails(customQuestion) && customQuestion.kind === 'timing' && customQuestion.laterWindows.length">
+                        <summary>Later windows</summary>
+                        <div class="dhruva-custom-details-grid">
+                          <article class="dhruva-timing-window" *ngFor="let window of customQuestion.laterWindows">
+                            <div class="dhruva-timing-window-head">
+                              <strong>{{ window.title }}</strong>
+                              <span>{{ window.strength }}</span>
+                            </div>
+                            <p class="dhruva-timing-window-planets" *ngIf="window.triggerLabel">{{ window.triggerLabel }}</p>
+                          </article>
+                        </div>
+                      </details>
+
+                      <details class="dhruva-custom-details" *ngIf="shouldShowCustomQuestionDetails(customQuestion) && (customQuestion.technicalReasonLabels.length || customQuestion.technicalEvidenceLabels.length || customQuestion.technicalWindowEvidence.length)">
+                        <summary>Technical evidence</summary>
+                        <div class="dhruva-custom-details-grid technical">
+                          <div *ngIf="customQuestion.technicalReasonLabels.length">
+                            <strong>Chart rules considered</strong>
+                            <ul>
+                              <li *ngFor="let reasonLabel of customQuestion.technicalReasonLabels">{{ reasonLabel }}</li>
+                            </ul>
+                          </div>
+                          <div *ngIf="customQuestion.technicalEvidenceLabels.length">
+                            <strong>Chart factors involved</strong>
+                            <ul>
+                              <li *ngFor="let evidenceLabel of customQuestion.technicalEvidenceLabels">{{ evidenceLabel }}</li>
+                            </ul>
+                          </div>
+                          <div *ngIf="customQuestion.kind === 'timing' && customQuestion.technicalWindowEvidence.length">
+                            <strong>Timing window factors</strong>
+                            <ul>
+                              <li *ngFor="let windowEvidence of customQuestion.technicalWindowEvidence">{{ windowEvidence }}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </details>
+                    </ng-container>
+                  </ng-container>
+                </section>
+              </ng-container>
+
+              <ng-template #translatedDhruvaAnswer>
+                <p
+                  class="dhruva-chat-message bot dhruva-answer"
+                  data-dhruva-response
+                  *ngIf="answer.key && (answer.key | transloco: answer.params) as answerText"
+                  role="status"
+                  aria-live="polite"
+                  [attr.aria-busy]="isTypingResponse"
+                >
+                  <span class="dhruva-visually-hidden">{{ answerText }}</span>
+                  <span class="dhruva-typing-indicator" *ngIf="isTypingResponse" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                  <span *ngIf="!isTypingResponse" aria-hidden="true">{{ animatedResponseText(answerText) }}</span>
+                </p>
+              </ng-template>
             </ng-template>
           </ng-container>
         </div>
@@ -127,12 +268,27 @@
           <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="selectPersonalQuestion('mahadasha')">
             {{ 'dhruva.personal.mahadashaQuestion' | transloco }}
           </button>
-          <button type="button" class="dhruva-chip" (click)="selectGeneralQuestion('kundali')">
-            {{ 'dhruva.general.kundaliQuestion' | transloco }}
-          </button>
           <button type="button" class="dhruva-chip" (click)="startTour()">
             Portal Tour
           </button>
+        </div>
+
+        <div class="dhruva-custom-guide" *ngIf="hasCustomQuestionSource">
+          <h3>Relationship questions</h3>
+          <div class="dhruva-question-list" role="list">
+            <button
+              type="button"
+              class="dhruva-question"
+              role="listitem"
+              *ngFor="let question of customQuestions"
+              [class.active]="isCustomQuestionActive(question.id)"
+              [attr.aria-pressed]="isCustomQuestionActive(question.id)"
+              [disabled]="isCustomQuestionLoading"
+              (click)="askCustomQuestion(question.id)"
+            >
+              {{ question.label }}
+            </button>
+          </div>
         </div>
 
         <div class="dhruva-personal-guide" *ngIf="hasKundaliContext">
@@ -152,36 +308,7 @@
           </div>
         </div>
 
-        <div class="dhruva-general-guide">
-          <button
-            type="button"
-            class="dhruva-section-toggle"
-            *ngIf="hasKundaliContext; else generalHeading"
-            (click)="toggleGeneralQuestions()"
-            [attr.aria-expanded]="shouldShowGeneralQuestions"
-          >
-            <span>{{ 'dhruva.general.heading' | transloco }}</span>
-            <span aria-hidden="true">{{ shouldShowGeneralQuestions ? '-' : '+' }}</span>
-          </button>
-          <ng-template #generalHeading>
-            <h3>{{ 'dhruva.general.heading' | transloco }}</h3>
-          </ng-template>
-
-          <div class="dhruva-question-list" role="list" *ngIf="shouldShowGeneralQuestions">
-            <button
-              type="button"
-              class="dhruva-question"
-              role="listitem"
-              *ngFor="let question of generalQuestions"
-              [class.active]="question.id === selectedGeneralQuestionId && !selectedPersonalQuestionId"
-              [attr.aria-pressed]="question.id === selectedGeneralQuestionId && !selectedPersonalQuestionId"
-              (click)="selectGeneralQuestion(question.id)"
-            >
-              {{ question.questionKey | transloco }}
-            </button>
-          </div>
         </div>
-      </div>
 
       <div class="dhruva-panel-footer">
         <form class="dhruva-ask-form" (ngSubmit)="submitTypedQuestion()">
@@ -281,3 +408,10 @@
     </div>
   </section>
 </div>
+
+
+
+
+
+
+

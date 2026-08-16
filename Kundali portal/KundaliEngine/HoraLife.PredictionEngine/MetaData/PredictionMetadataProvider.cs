@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using HoraLife.PredictionEngine.Enums;
 
@@ -11,11 +11,9 @@ internal sealed class PredictionMetadataProvider
     private readonly PredictionMetadataRoot _root;
     private readonly HouseMetadataRoot _houseRoot;
 
-
     public PredictionMetadataProvider(string metadataPath)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(metadataPath);
-
 
         if (!File.Exists(metadataPath))
         {
@@ -23,6 +21,7 @@ internal sealed class PredictionMetadataProvider
                 "Prediction metadata file was not found.",
                 metadataPath);
         }
+
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -42,13 +41,12 @@ internal sealed class PredictionMetadataProvider
 
         _lifeAreas = _root.LifeAreas.ToDictionary(area => area.LifeArea);
 
-
         var metadataDirectory =
             Path.GetDirectoryName(metadataPath)
             ?? throw new InvalidOperationException(
                 $"Unable to resolve metadata directory from '{metadataPath}'.");
 
-        var houseMetadataPath = Path.Combine(metadataDirectory,"house-significations.json");
+        var houseMetadataPath = Path.Combine(metadataDirectory, "house-significations.json");
 
         if (!File.Exists(houseMetadataPath))
         {
@@ -71,7 +69,8 @@ internal sealed class PredictionMetadataProvider
     public PredictionLifeAreaMetadata GetLifeArea(PredictionLifeArea lifeArea)
     {
         return _lifeAreas.TryGetValue(lifeArea, out var metadata)
-            ? metadata  : throw new NotSupportedException($"Prediction metadata for '{lifeArea}' is not defined.");
+            ? metadata
+            : throw new NotSupportedException($"Prediction metadata for '{lifeArea}' is not defined.");
     }
 
     private static void Validate(PredictionMetadataRoot root)
@@ -91,6 +90,37 @@ internal sealed class PredictionMetadataProvider
             if (area.PrimaryHouses.Concat(area.SupportingHouses).Any(house => house is < 1 or > 12))
             {
                 throw new InvalidOperationException($"'{area.LifeArea}' contains an invalid house number.");
+            }
+
+            var duplicateFocus = area.CustomQuestionTiming
+                .GroupBy(item => item.FocusKey, StringComparer.OrdinalIgnoreCase)
+                .FirstOrDefault(group => group.Count() > 1);
+
+            if (duplicateFocus is not null)
+            {
+                throw new InvalidOperationException(
+                    $"'{area.LifeArea}' contains duplicate custom timing metadata for focus '{duplicateFocus.Key}'.");
+            }
+
+            foreach (var timing in area.CustomQuestionTiming)
+            {
+                if (string.IsNullOrWhiteSpace(timing.FocusKey))
+                {
+                    throw new InvalidOperationException(
+                        $"'{area.LifeArea}' contains a custom timing metadata entry without FocusKey.");
+                }
+
+                if (timing.FutureHorizonYears is <= 0)
+                {
+                    throw new InvalidOperationException(
+                        $"'{area.LifeArea}' custom timing metadata for focus '{timing.FocusKey}' must have a positive FutureHorizonYears.");
+                }
+
+                if (timing.MaxWindows <= 0)
+                {
+                    throw new InvalidOperationException(
+                        $"'{area.LifeArea}' custom timing metadata for focus '{timing.FocusKey}' must have a positive MaxWindows.");
+                }
             }
         }
 

@@ -1,6 +1,6 @@
-﻿using HoraLife.PredictionEngine.Models;
+﻿using HoraLife.PredictionEngine.Enums;
+using HoraLife.PredictionEngine.Models;
 using KundaliEngine.API.DTOs.Responses;
-using HoraLife.PredictionEngine.Enums;
 
 namespace KundaliEngine.API.Prediction.Mappers;
 
@@ -14,11 +14,9 @@ public class PredictionContextMapper
         {
             Houses = MapHouses(source.Houses),
             Planets = MapPlanets(source.Planets),
-
-
             DashaTimeline = MapDashaTimeline(source.MahadashaPeriods),
-
-              Yogas = MapYogas(source.Yogas),
+            DivisionalCharts = MapDivisionalCharts(source),
+            Yogas = MapYogas(source.Yogas),
             Doshas = MapDoshas(source.Doshas)
         };
     }
@@ -36,25 +34,20 @@ public class PredictionContextMapper
                 HouseNumber = house.HouseNumber,
                 Sign = house.Sign,
                 HouseLord = house.HouseOwner,
-
                 Occupants = house.Occupants?.ToArray()
                     ?? Array.Empty<string>(),
-
                 AspectedBy = house.AspectedBy?.ToArray()
                     ?? Array.Empty<string>(),
-
                 HasBeneficAspect = house.HasBeneficAspect,
                 HasMaleficAspect = house.HasMaleficAspect,
-
                 StrengthScore = house.Score,
-
                 DominantThemes = house.DominantThemes?.ToArray()
                     ?? Array.Empty<string>()
             })
             .ToArray();
     }
 
-    private static IReadOnlyList<PlanetPredictionData> MapPlanets( IReadOnlyList<PlanetDto>? planets)
+    private static IReadOnlyList<PlanetPredictionData> MapPlanets(IReadOnlyList<PlanetDto>? planets)
     {
         if (planets is null || planets.Count == 0)
         {
@@ -67,27 +60,69 @@ public class PredictionContextMapper
                 Planet = planet.Planet,
                 Sign = planet.Sign,
                 HouseNumber = planet.House,
-
                 Longitude = planet.Longitude,
                 Degree = planet.Degree,
                 Minute = planet.Minute,
-
                 Nakshatra = planet.Nakshatra,
                 Pada = planet.Pada,
-
                 IsCombust = planet.IsCombust,
                 IsRetrograde = planet.IsRetrograde,
-
                 AspectedBy = planet.AspectedBy?.ToArray()
                     ?? Array.Empty<string>(),
-
                 HasBeneficAspect = planet.HasBeneficAspect,
                 HasMaleficAspect = planet.HasMaleficAspect,
-
                 DetailedStrength = planet.DetailedStrength,
                 ConditionTone = planet.ConditionTone
             })
             .ToArray();
+    }
+
+    private static IReadOnlyList<DivisionalChartPredictionData> MapDivisionalCharts(
+        GenerateKundaliResponse source)
+    {
+        var charts = new List<DivisionalChartPredictionData>();
+
+        if (source.D9Chart is not null)
+        {
+            charts.Add(MapDivisionalChart(source.D9Chart));
+        }
+
+        return charts;
+    }
+
+    private static DivisionalChartPredictionData MapDivisionalChart(
+        DivisionalChartDto source)
+    {
+        return new DivisionalChartPredictionData
+        {
+            ChartType = source.ChartType,
+            AscendantSign = ParseAscendantSign(source.Ascendant),
+            Houses = source.Houses?.Select(house => new DivisionalHousePredictionData
+            {
+                HouseNumber = house.HouseNumber,
+                Sign = house.Sign,
+                HouseLord = house.HouseOwner,
+                Occupants = house.Occupants?.ToArray()
+                    ?? Array.Empty<string>()
+            }).ToArray() ?? Array.Empty<DivisionalHousePredictionData>(),
+            Planets = source.Planets?.Select(planet => new DivisionalPlanetPredictionData
+            {
+                Planet = planet.Planet,
+                Sign = planet.Sign,
+                HouseNumber = planet.House
+            }).ToArray() ?? Array.Empty<DivisionalPlanetPredictionData>()
+        };
+    }
+
+    private static string ParseAscendantSign(string? ascendant)
+    {
+        if (string.IsNullOrWhiteSpace(ascendant))
+        {
+            return string.Empty;
+        }
+
+        var parts = ascendant.Split('-', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length == 0 ? ascendant.Trim() : parts[^1];
     }
 
     private static DashaTimeline MapDashaTimeline(IReadOnlyList<MahadashaPeriodDto>? mahadashas)
@@ -101,8 +136,7 @@ public class PredictionContextMapper
 
         foreach (var maha in mahadashas)
         {
-            var mahaId =
-                $"MD:{maha.Planet}:{maha.Start:O}";
+            var mahaId = $"MD:{maha.Planet}:{maha.Start:O}";
 
             periods.Add(new DashaPeriod
             {
@@ -116,8 +150,7 @@ public class PredictionContextMapper
 
             foreach (var antar in maha.Antardashas)
             {
-                var antarId =
-                    $"AD:{maha.Planet}:{antar.SubPlanet}:{antar.StartDate:O}";
+                var antarId = $"AD:{maha.Planet}:{antar.SubPlanet}:{antar.StartDate:O}";
 
                 periods.Add(new DashaPeriod
                 {
@@ -131,8 +164,7 @@ public class PredictionContextMapper
 
                 foreach (var pratyantar in antar.Pratyantardashas)
                 {
-                    var pratyantarId =
-                        $"PD:{maha.Planet}:{antar.SubPlanet}:{pratyantar.InnerPlanet}:{pratyantar.StartDate:O}";
+                    var pratyantarId = $"PD:{maha.Planet}:{antar.SubPlanet}:{pratyantar.InnerPlanet}:{pratyantar.StartDate:O}";
 
                     periods.Add(new DashaPeriod
                     {
@@ -167,20 +199,16 @@ public class PredictionContextMapper
                 Name = yoga.Name,
                 Category = yoga.Category,
                 Strength = yoga.Strength,
-
                 InvolvedPlanets = yoga.InvolvedPlanets?.ToArray()
                     ?? Array.Empty<string>(),
-
                 InvolvedHouses = yoga.InvolvedHouses?.ToArray()
                     ?? Array.Empty<int>(),
-
                 Reason = yoga.Reason
             })
             .ToArray();
     }
 
-
-    private static IReadOnlyList<DoshaPredictionData> MapDoshas(  IReadOnlyList<DoshaDto>? doshas)
+    private static IReadOnlyList<DoshaPredictionData> MapDoshas(IReadOnlyList<DoshaDto>? doshas)
     {
         if (doshas is null || doshas.Count == 0)
         {
@@ -195,13 +223,10 @@ public class PredictionContextMapper
                 Name = dosha.Name,
                 Category = dosha.Category,
                 Severity = dosha.Severity,
-
                 InvolvedPlanets = dosha.InvolvedPlanets?.ToArray()
                     ?? Array.Empty<string>(),
-
                 InvolvedHouses = dosha.InvolvedHouses?.ToArray()
                     ?? Array.Empty<int>(),
-
                 Reason = dosha.Reason
             })
             .ToArray();

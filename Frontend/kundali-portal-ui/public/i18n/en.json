@@ -654,12 +654,22 @@
   "dhruva.tour.finish": "Finish",
   "dhruva.tour.dashboardTitle": "Dashboard",
   "dhruva.tour.dashboardBody": "Start here for the main portal overview and your usual entry point after login.",
+  "dhruva.tour.dashboardOverviewTitle": "Today at a glance",
+  "dhruva.tour.dashboardOverviewBody": "See your current date, latest chart context, and today's Panchang details in one place.",
+  "dhruva.tour.dashboardQuickActionsTitle": "Quick actions",
+  "dhruva.tour.dashboardQuickActionsBody": "Open Kundali, Compatibility, Panchang, Muhurtha, Dasha, and Learning directly from these shortcuts.",
+  "dhruva.tour.dashboardJourneyTitle": "Continue your journey",
+  "dhruva.tour.dashboardJourneyBody": "Resume your latest Kundali, current Dasha, learning path, or recent report from here.",
+  "dhruva.tour.dashboardCollectionTitle": "Your collection",
+  "dhruva.tour.dashboardCollectionBody": "Review saved Kundalis, matches, Muhurthas, reports, and study progress from this area.",
   "dhruva.tour.createKundaliTitle": "Create Kundali",
   "dhruva.tour.createKundaliBody": "Use this area to enter birth details and generate a Kundali when you are ready.",
   "dhruva.tour.savedKundalisTitle": "Saved Kundalis",
   "dhruva.tour.savedKundalisBody": "Return to Kundalis you have already saved from this menu.",
   "dhruva.tour.compatibilityTitle": "Compatibility",
   "dhruva.tour.compatibilityBody": "Open compatibility tools from here when you want to compare two birth profiles.",
+  "dhruva.tour.panchangTitle": "Panchang",
+  "dhruva.tour.panchangBody": "Open the daily, weekly, or monthly Hindu calendar with location-based Panchang, transits, and eclipse details.",
   "dhruva.tour.muhurthaTitle": "Muhurtha",
   "dhruva.tour.muhurthaBody": "Use Muhurtha to work with auspicious timing features already available in the portal.",
   "dhruva.tour.learningTitle": "Learning",
@@ -901,7 +911,8 @@
     "dashaSystem": "Dasha",
     "references": "References",
     "calculations": "Calculations",
-    "notes": "Notes"
+    "notes": "Notes",
+    "panchang": "Panchang"
   },
   "house.meaningLabel": "Meaning",
   "house.name.1": "Lagna",
@@ -1355,3 +1366,5 @@
     "voiceOnly": "Voice note only"
   }
 }
+
+

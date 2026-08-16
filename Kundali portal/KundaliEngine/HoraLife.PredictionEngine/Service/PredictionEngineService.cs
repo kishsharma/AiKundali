@@ -21,9 +21,10 @@ public sealed class PredictionEngineService
     private readonly PredictionAreaProfileProviderService _profileService;
     private readonly DashaPeriodSelectorService _dashaSelector = new();
     private readonly PredictionEvidenceSelectorService _evidenceSelector = new();
+    private readonly PredictionQuestionAnalyzerService _questionAnalyzer = new();
     private readonly CareerClaimGeneratorService _careerGenerator = new();
-    private readonly CareerDashaClaimGeneratorService   _careerDashaGenerator = new();
-    private readonly PredictionClaimConsolidatorService  _claimConsolidator = new();
+    private readonly CareerDashaClaimGeneratorService _careerDashaGenerator = new();
+    private readonly PredictionClaimConsolidatorService _claimConsolidator = new();
     private readonly PredictionSynthesisService _synthesisService;
     private readonly FinanceClaimGeneratorService _financeGenerator = new();
     private readonly FinanceDashaClaimGeneratorService _financeDashaGenerator = new();
@@ -38,36 +39,44 @@ public sealed class PredictionEngineService
     private readonly HealthClaimGeneratorService _healthGenerator = new();
     private readonly HealthDashaClaimGeneratorService _healthDashaGenerator = new();
 
-    internal PredictionEngineService(PredictionAreaProfileProviderService profileService, PredictionSynthesisService synthesisService)
+    internal PredictionEngineService(
+        PredictionAreaProfileProviderService profileService,
+        PredictionSynthesisService synthesisService)
     {
         _profileService = profileService;
         _synthesisService = synthesisService;
     }
-
 
     public PredictionResult Generate(PredictionRequest request, PredictionContext context)
     {
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(context);
 
+        return request.Mode switch
+        {
+            PredictionMode.Report => GenerateReportResult(request, context),
+            PredictionMode.CustomQuestion => GenerateCustomQuestionResult(request, context),
+            _ => throw new NotSupportedException($"Prediction mode '{request.Mode}' is not supported.")
+        };
+    }
+
+    private PredictionResult GenerateReportResult(PredictionRequest request, PredictionContext context)
+    {
         var profile = _profileService.Get(request.LifeArea);
-
         var dashaPeriods = _dashaSelector.Select(context.DashaTimeline, request);
-
-         var evidence = _evidenceSelector.Select(context, profile, dashaPeriods);
-
-        var sourceClaims = GenerateClaims(        request,      evidence);
-        var consolidatedClaim = _claimConsolidator.Consolidate(  request, sourceClaims);
+        var evidence = _evidenceSelector.Select(context, request, profile, dashaPeriods);
+        var sourceClaims = GenerateClaims(request, evidence);
+        var consolidatedClaim = _claimConsolidator.Consolidate(request, sourceClaims);
 
         var finalClaims = consolidatedClaim is null
-        ? sourceClaims
-        :
-        [
-            .. sourceClaims,
-            consolidatedClaim
-        ];
+            ? sourceClaims
+            :
+            [
+                .. sourceClaims,
+                consolidatedClaim
+            ];
 
-        var synthesis = _synthesisService.Build(request, evidence,finalClaims);
+        var synthesis = _synthesisService.Build(request, evidence, finalClaims);
 
         return new PredictionResult
         {
@@ -82,131 +91,157 @@ public sealed class PredictionEngineService
         };
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateClaims( PredictionRequest request,  PredictionEvidenceSet evidence)
+    private PredictionResult GenerateCustomQuestionResult(PredictionRequest request, PredictionContext context)
+    {
+        var profile = _profileService.Get(request.LifeArea);
+        var dashaPeriods = _dashaSelector.Select(context.DashaTimeline, request);
+        var evidence = _evidenceSelector.Select(context, request, profile, dashaPeriods);
+        var answer = _questionAnalyzer.Analyze(request, profile, evidence);
+        var claims = BuildCustomQuestionClaims(request, answer);
+
+        return new PredictionResult
+        {
+            LifeArea = request.LifeArea,
+            FocusKey = request.FocusKey,
+            TimeScope = request.TimeScope,
+            ReferenceDate = request.ReferenceDate,
+            FromDate = request.FromDate,
+            ToDate = request.ToDate,
+            Claims = claims,
+            Answer = answer,
+            Synthesis = null
+        };
+    }
+
+    private static IReadOnlyList<PredictionClaim> BuildCustomQuestionClaims(
+        PredictionRequest request,
+        PredictionAnswer answer)
+    {
+        return
+        [
+            new PredictionClaim
+            {
+                Key = $"{request.LifeArea.ToString().ToLowerInvariant()}_{request.FocusKey}_{answer.Outcome.ToLowerInvariant()}",
+                LifeArea = request.LifeArea,
+                FocusKey = request.FocusKey,
+                Tone = ResolveTone(answer.Outcome),
+                Stage = PredictionClaimStage.Consolidated,
+                RuleIds = answer.ReasonKeys,
+                EvidenceKeys = answer.EvidenceKeys
+            }
+        ];
+    }
+
+    private static PredictionTone ResolveTone(string outcome)
+    {
+        return outcome switch
+        {
+            "Supported" => PredictionTone.Supportive,
+            "Challenging" => PredictionTone.Challenging,
+            _ => PredictionTone.Mixed
+        };
+    }
+
+    private IReadOnlyList<PredictionClaim> GenerateClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
         return request.LifeArea switch
         {
             PredictionLifeArea.Career => GenerateCareerClaims(request, evidence),
-
             PredictionLifeArea.Finance => GenerateFinanceClaims(request, evidence),
-
             PredictionLifeArea.Relationships => GenerateRelationshipsClaims(request, evidence),
-
             PredictionLifeArea.Education => GenerateEducationClaims(request, evidence),
-
             PredictionLifeArea.Family => GenerateFamilyClaims(request, evidence),
-
             PredictionLifeArea.Property => GeneratePropertyClaims(request, evidence),
-
             PredictionLifeArea.Health => GenerateHealthClaims(request, evidence),
-
             _ => throw new NotSupportedException(
                 $"Prediction area '{request.LifeArea}' is not implemented.")
         };
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateCareerClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateCareerClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _careerGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _careerDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _careerGenerator.Generate(request, evidence);
+        var dashaClaims = _careerDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateFinanceClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateFinanceClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _financeGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _financeDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _financeGenerator.Generate(request, evidence);
+        var dashaClaims = _financeDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateRelationshipsClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateRelationshipsClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _relationshipsGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _relationshipsDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _relationshipsGenerator.Generate(request, evidence);
+        var dashaClaims = _relationshipsDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateEducationClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateEducationClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _educationGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _educationDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _educationGenerator.Generate(request, evidence);
+        var dashaClaims = _educationDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateFamilyClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateFamilyClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _familyGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _familyDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _familyGenerator.Generate(request, evidence);
+        var dashaClaims = _familyDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 
-    private IReadOnlyList<PredictionClaim> GeneratePropertyClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GeneratePropertyClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _propertyGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _propertyDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _propertyGenerator.Generate(request, evidence);
+        var dashaClaims = _propertyDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 
-    private IReadOnlyList<PredictionClaim> GenerateHealthClaims( PredictionRequest request, PredictionEvidenceSet evidence)
+    private IReadOnlyList<PredictionClaim> GenerateHealthClaims(
+        PredictionRequest request,
+        PredictionEvidenceSet evidence)
     {
-        var natalClaims = _healthGenerator.Generate(
-            request,
-            evidence);
-
-        var dashaClaims = _healthDashaGenerator.Generate(
-            request,
-            evidence);
+        var natalClaims = _healthGenerator.Generate(request, evidence);
+        var dashaClaims = _healthDashaGenerator.Generate(request, evidence);
 
         return natalClaims
             .Concat(dashaClaims)
             .ToArray();
     }
 }
+
