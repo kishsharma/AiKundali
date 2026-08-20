@@ -1,4 +1,4 @@
-﻿namespace KundaliEngine.API.DTOs.Responses
+namespace KundaliEngine.API.DTOs.Responses
 {
     public class PanchangApiResponse<T>
     {
@@ -69,6 +69,21 @@
         public bool IsAuspicious { get; set; }
         public string Summary { get; set; } = string.Empty;
         public List<AuspiciousTimingDto> AuspiciousTimings { get; set; } = new();
+    }
+
+    public class PanchangLagnaTimingsResponseDto
+    {
+        public DateOnly Date { get; set; }
+        public DateTimeOffset Sunrise { get; set; }
+        public DateTimeOffset NextSunrise { get; set; }
+        public List<LagnaTimingDto> Timings { get; set; } = new();
+    }
+
+    public class LagnaTimingDto
+    {
+        public string Sign { get; set; } = string.Empty;
+        public string Lord { get; set; } = string.Empty;
+        public DateTimeOffset EndTime { get; set; }
     }
 
     public class NakshatraPadaTimingDto

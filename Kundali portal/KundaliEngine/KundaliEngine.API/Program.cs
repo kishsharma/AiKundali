@@ -2,6 +2,7 @@ using HoraLife.PredictionEngine;
 using HoraLife.PredictionEngine.Services;
 using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
+using KundaliEngine.API.DTOs.Responses.Numerology;
 using KundaliEngine.API.Prediction.Mappers;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.AdvancedStrength;
@@ -14,8 +15,8 @@ using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Gochar;
 using KundaliEngine.API.Services.Learning;
 using KundaliEngine.API.Services.Locations;
-using KundaliEngine.API.Services.Panchang;
 using KundaliEngine.API.Services.Muhurtha;
+using KundaliEngine.API.Services.Panchang;
 using KundaliEngine.API.Services.Recommendations;
 using KundaliEngine.API.Services.ReportPdf;
 using KundaliEngine.API.Services.ReportPdf.Html;
@@ -44,7 +45,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
-
+using KundaliEngine.KnowledgeBase.Services.Numerology;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -198,7 +199,10 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<PredictionContextMapper>();
 
 builder.Services.AddSingleton(_ => PredictionEngineFactory.CreateDefault());
+builder.Services.AddScoped<NumerologyCalculator>();
 
+
+builder.Services.AddSingleton<NumerologyMetadataService>();
 
 builder.Services.AddStoreApplication();
 builder.Services.AddStoreInfrastructure(builder.Configuration);

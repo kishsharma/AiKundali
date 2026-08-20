@@ -25,6 +25,7 @@ export interface GenerateKundaliRequest {
   latitude: number;
   longitude: number;
   timeZoneOffset: number;
+  referenceDate?: string;
 }
 
 @Injectable({

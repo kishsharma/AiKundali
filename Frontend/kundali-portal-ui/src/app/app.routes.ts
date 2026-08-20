@@ -130,6 +130,13 @@ export const routes: Routes = [
         data: { title: 'Notes' },
       },
       {
+        path: 'numerology',
+        loadComponent: () =>
+          import('./modules/numerology/numerology.component')
+            .then(m => m.NumerologyComponent),
+        data: { title: 'Numerology' },
+      },
+      {
         path: 'mahadasha',
         component: MahadashaPageComponent,
         data: { title: 'Maha Dasha Analysis' },
@@ -211,6 +218,11 @@ export const routes: Routes = [
   {
     path: 'notes',
     redirectTo: 'app/notes',
+    pathMatch: 'full',
+  },
+  {
+    path: 'numerology',
+    redirectTo: 'app/numerology',
     pathMatch: 'full',
   },
   {

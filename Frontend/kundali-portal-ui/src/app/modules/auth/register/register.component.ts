@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { isValidEmailAddress } from '../email-validation';
 
 type RegistrationMode = 'otp' | 'password';
 type RegistrationStep = 'contact' | 'code' | 'profile';
@@ -40,6 +41,7 @@ export class RegisterComponent implements OnDestroy {
   isLoading = false;
   isExiting = false;
   errorMessage = '';
+  emailTouched = false;
 
   private resendTimer?: ReturnType<typeof setInterval>;
   private navigationTimer?: ReturnType<typeof setTimeout>;
@@ -57,6 +59,14 @@ export class RegisterComponent implements OnDestroy {
     if (this.navigationTimer) {
       clearTimeout(this.navigationTimer);
     }
+  }
+
+  get emailFormatInvalid(): boolean {
+    return this.emailTouched && !!this.email.trim() && !isValidEmailAddress(this.email);
+  }
+
+  onEmailBlur(): void {
+    this.emailTouched = true;
   }
 
   get otpContactLabel(): string {
@@ -152,6 +162,12 @@ export class RegisterComponent implements OnDestroy {
       return;
     }
 
+    if (this.email.trim() && !isValidEmailAddress(this.email)) {
+      this.emailTouched = true;
+      this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
+
     this.isLoading = true;
     this.authService.completeOtpRegistration({
       registrationToken: this.registrationToken,
@@ -170,8 +186,14 @@ export class RegisterComponent implements OnDestroy {
 
   registerWithPassword(): void {
     this.errorMessage = '';
+    this.emailTouched = true;
     if (!this.fullName.trim() || !this.email.trim() || !this.password) {
       this.errorMessage = 'Please enter full name, email and password.';
+      return;
+    }
+
+    if (!isValidEmailAddress(this.email)) {
+      this.errorMessage = 'Please enter a valid email address.';
       return;
     }
 
@@ -234,8 +256,14 @@ export class RegisterComponent implements OnDestroy {
     }
 
     const email = this.email.trim();
+    this.emailTouched = true;
     if (!email) {
       this.errorMessage = 'Please enter your email.';
+      return null;
+    }
+
+    if (!isValidEmailAddress(email)) {
+      this.errorMessage = 'Please enter a valid email address.';
       return null;
     }
 

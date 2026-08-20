@@ -90,7 +90,14 @@ namespace KundaliEngine.API.Controllers
             {
                 var indiaZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
                 DateTime birthUtc = TimeZoneInfo.ConvertTimeToUtc(request.BirthDateTime, indiaZone);
-                DateTime nowUtc = DateTime.UtcNow;
+                DateTime nowUtc = request.ReferenceDate.HasValue
+                    ? request.ReferenceDate.Value.Kind switch
+                    {
+                        DateTimeKind.Utc => request.ReferenceDate.Value,
+                        DateTimeKind.Local => request.ReferenceDate.Value.ToUniversalTime(),
+                        _ => DateTime.SpecifyKind(request.ReferenceDate.Value, DateTimeKind.Utc)
+                    }
+                    : DateTime.UtcNow;
 
                 var planets = _chartService.GenerateChart(birthUtc, request.Latitude, request.Longitude);
                 var moonPos = planets.First(p => p.Planet == Planet.Moon);

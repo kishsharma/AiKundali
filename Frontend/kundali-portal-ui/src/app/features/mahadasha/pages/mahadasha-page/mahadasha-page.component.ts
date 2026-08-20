@@ -31,6 +31,12 @@ interface MahadashaPageState {
   error: string | null;
 }
 
+interface TimelineSelectionKeys {
+  mahadasha: string | null;
+  antardasha: string | null;
+  pratyantardasha: string | null;
+}
+
 @Component({
   selector: 'app-mahadasha-page',
   standalone: true,
@@ -45,6 +51,11 @@ export class MahadashaPageComponent {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
   private readonly analysisPayload$ = new BehaviorSubject<GenerateKundaliRequest | undefined>(undefined);
+  private baseAnalysisPayload?: GenerateKundaliRequest;
+  private actualCurrentMahadashaIndex = 0;
+  private actualCurrentAntardashaIndex = 0;
+  private actualCurrentPratyantardashaIndex = 0;
+  private pendingTimelineSelection: TimelineSelectionKeys | null = null;
   private readonly mahadashaWindowSize = 7;
   private readonly antardashaWindowSize = 5;
   private readonly pratyantardashaWindowSize = 5;
@@ -55,6 +66,8 @@ export class MahadashaPageComponent {
   selectedChartId: string | null = null;
   exportingPdf = false;
   isNotesOpen = false;
+  isSelectedAnalysis = false;
+  analysisReferenceDate: string | null = null;
 
   readonly state$: Observable<MahadashaPageState> = this.analysisPayload$.pipe(
     switchMap((payload) => {
@@ -139,7 +152,10 @@ export class MahadashaPageComponent {
   ] as const;
   onSavedChartSelected(chart: SavedKundaliDetail): void {
     this.selectedChartId = chart.id;
-    this.analysisPayload$.next(this.savedChartMapper.toGenerateKundaliRequest(chart));
+    this.baseAnalysisPayload = this.savedChartMapper.toGenerateKundaliRequest(chart);
+    this.isSelectedAnalysis = false;
+    this.analysisReferenceDate = null;
+    this.analysisPayload$.next(this.baseAnalysisPayload);
   }
 
   previousMahadasha(analysis: MahadashaAnalysis): void {
@@ -164,7 +180,8 @@ export class MahadashaPageComponent {
     }
 
     this.selectedAntardashaIndex--;
-    this.selectedPratyantardashaIndex = this.defaultPratyantardashaIndex(this.selectedAntardasha(analysis));
+    this.resetPratyantardashaSelection(analysis);
+    this.requestSelectedAnalysis(analysis);
   }
 
   nextAntardasha(analysis: MahadashaAnalysis): void {
@@ -173,14 +190,16 @@ export class MahadashaPageComponent {
     }
 
     this.selectedAntardashaIndex++;
-    this.selectedPratyantardashaIndex = this.defaultPratyantardashaIndex(this.selectedAntardasha(analysis));
+    this.resetPratyantardashaSelection(analysis);
+    this.requestSelectedAnalysis(analysis);
   }
-  previousPratyantardasha(): void {
+  previousPratyantardasha(analysis: MahadashaAnalysis): void {
     if (!this.canPreviousPratyantardasha()) {
       return;
     }
 
     this.selectedPratyantardashaIndex--;
+    this.requestSelectedAnalysis(analysis);
   }
 
   nextPratyantardasha(analysis: MahadashaAnalysis): void {
@@ -189,12 +208,13 @@ export class MahadashaPageComponent {
     }
 
     this.selectedPratyantardashaIndex++;
+    this.requestSelectedAnalysis(analysis);
   }
 
   selectMahadasha(analysis: MahadashaAnalysis, period: MahadashaPeriod): void {
     const index = analysis.timeline.mahadasha.findIndex((item) => item === period);
 
-    if (index >= 0) {
+    if (index >= 0 && index !== this.selectedMahadashaIndex) {
       this.setSelectedMahadashaIndex(analysis, index);
     }
   }
@@ -202,16 +222,18 @@ export class MahadashaPageComponent {
   selectAntardasha(analysis: MahadashaAnalysis, period: AntardashaPeriod): void {
     const index = this.selectedAntardashas(analysis).findIndex((item) => item === period);
 
-    if (index >= 0) {
+    if (index >= 0 && index !== this.selectedAntardashaIndex) {
       this.selectedAntardashaIndex = index;
-      this.selectedPratyantardashaIndex = this.defaultPratyantardashaIndex(this.selectedAntardasha(analysis));
+      this.resetPratyantardashaSelection(analysis);
+      this.requestSelectedAnalysis(analysis);
     }
   }
   selectPratyantardasha(analysis: MahadashaAnalysis, period: PratyantardashaPeriod): void {
     const index = this.selectedPratyantardashas(analysis).findIndex((item) => item === period);
 
-    if (index >= 0) {
+    if (index >= 0 && index !== this.selectedPratyantardashaIndex) {
       this.selectedPratyantardashaIndex = index;
+      this.requestSelectedAnalysis(analysis);
     }
   }
 
@@ -265,17 +287,17 @@ export class MahadashaPageComponent {
     return this.selectedPratyantardashas(analysis)[this.selectedPratyantardashaIndex] ?? null;
   }
 
-  isViewingCurrentMahadasha(analysis: MahadashaAnalysis): boolean {
-    return this.selectedMahadashaIndex === analysis.timeline.currentMahadashaIndex;
+  isViewingCurrentMahadasha(_: MahadashaAnalysis): boolean {
+    return this.selectedMahadashaIndex === this.actualCurrentMahadashaIndex;
   }
 
   isViewingCurrentAntardasha(analysis: MahadashaAnalysis): boolean {
     return this.isViewingCurrentMahadasha(analysis)
-      && this.selectedAntardashaIndex === analysis.timeline.currentAntardashaIndex;
+      && this.selectedAntardashaIndex === this.actualCurrentAntardashaIndex;
   }
   isViewingCurrentPratyantardasha(analysis: MahadashaAnalysis): boolean {
     return this.isViewingCurrentAntardasha(analysis)
-      && this.selectedPratyantardashaIndex === analysis.timeline.currentPratyantardashaIndex;
+      && this.selectedPratyantardashaIndex === this.actualCurrentPratyantardashaIndex;
   }
 
   visibleMahadashas(analysis: MahadashaAnalysis): MahadashaPeriod[] {
@@ -287,6 +309,20 @@ export class MahadashaPageComponent {
   }
   visiblePratyantardashas(analysis: MahadashaAnalysis): PratyantardashaPeriod[] {
     return this.windowAround(this.selectedPratyantardashas(analysis), this.selectedPratyantardashaIndex, this.pratyantardashaWindowSize);
+  }
+
+  isActualCurrentMahadasha(analysis: MahadashaAnalysis, period: MahadashaPeriod): boolean {
+    return analysis.timeline.mahadasha[this.actualCurrentMahadashaIndex] === period;
+  }
+
+  isActualCurrentAntardasha(analysis: MahadashaAnalysis, period: AntardashaPeriod): boolean {
+    return this.isViewingCurrentMahadasha(analysis)
+      && this.selectedAntardashas(analysis)[this.actualCurrentAntardashaIndex] === period;
+  }
+
+  isActualCurrentPratyantardasha(analysis: MahadashaAnalysis, period: PratyantardashaPeriod): boolean {
+    return this.isViewingCurrentAntardasha(analysis)
+      && this.selectedPratyantardashas(analysis)[this.actualCurrentPratyantardashaIndex] === period;
   }
 
   isSelectedMahadasha(analysis: MahadashaAnalysis, period: MahadashaPeriod): boolean {
@@ -458,7 +494,7 @@ export class MahadashaPageComponent {
   periodCompletedPercent(start?: string, end?: string): number {
     const startDate = this.parseDate(start);
     const endDate = this.parseDate(end);
-    const now = Date.now();
+    const now = this.analysisTime();
 
     if (!startDate || !endDate || endDate <= startDate) {
       return 0;
@@ -479,7 +515,7 @@ export class MahadashaPageComponent {
       return this.t('dashaPage.notAvailable');
     }
 
-    const remainingMs = endDate - Date.now();
+    const remainingMs = endDate - this.analysisTime();
 
     if (remainingMs <= 0) {
       return this.t('dashaPage.completed');
@@ -842,8 +878,11 @@ export class MahadashaPageComponent {
 
   private setSelectedMahadashaIndex(analysis: MahadashaAnalysis, index: number): void {
     this.selectedMahadashaIndex = this.clampIndex(index, analysis.timeline.mahadasha.length);
-    this.selectedAntardashaIndex = this.defaultAntardashaIndex(this.selectedMahadasha(analysis));
-    this.selectedPratyantardashaIndex = this.defaultPratyantardashaIndex(this.selectedAntardasha(analysis));
+    this.selectedAntardashaIndex = this.isViewingCurrentMahadasha(analysis)
+      ? this.actualCurrentAntardashaIndex
+      : this.defaultAntardashaIndex(this.selectedMahadasha(analysis));
+    this.resetPratyantardashaSelection(analysis);
+    this.requestSelectedAnalysis(analysis);
   }
 
   private async waitForPdfFonts(): Promise<void> {
@@ -1094,7 +1133,67 @@ export class MahadashaPageComponent {
     ].findIndex((item) => month.toLowerCase().startsWith(item));
   }
 
+  private resetPratyantardashaSelection(analysis: MahadashaAnalysis): void {
+    this.selectedPratyantardashaIndex = this.isViewingCurrentAntardasha(analysis)
+      ? this.actualCurrentPratyantardashaIndex
+      : this.defaultPratyantardashaIndex(this.selectedAntardasha(analysis));
+  }
+
+  private requestSelectedAnalysis(analysis: MahadashaAnalysis): void {
+    if (!this.baseAnalysisPayload) {
+      return;
+    }
+
+    const isCurrentSelection = this.isViewingCurrentPratyantardasha(analysis);
+    const referenceDate = isCurrentSelection ? null : this.selectedPeriodReferenceDate(analysis);
+
+    if (!isCurrentSelection && !referenceDate) {
+      return;
+    }
+
+    this.isSelectedAnalysis = !isCurrentSelection;
+    this.analysisReferenceDate = referenceDate;
+    this.pendingTimelineSelection = this.captureTimelineSelection(analysis);
+    this.analysisPayload$.next(referenceDate
+      ? { ...this.baseAnalysisPayload, referenceDate }
+      : this.baseAnalysisPayload);
+  }
+
+  private selectedPeriodReferenceDate(analysis: MahadashaAnalysis): string | null {
+    const period = this.selectedPratyantardasha(analysis)
+      ?? this.selectedAntardasha(analysis)
+      ?? this.selectedMahadasha(analysis);
+    const start = this.parseDate(period?.start);
+    const end = this.parseDate(period?.end);
+
+    if (start === null) {
+      return null;
+    }
+
+    const referenceTime = end !== null && end > start
+      ? start + Math.floor((end - start) / 2)
+      : start + 43_200_000;
+    return new Date(referenceTime).toISOString();
+  }
+
+  private analysisTime(): number {
+    return this.analysisReferenceDate
+      ? new Date(this.analysisReferenceDate).getTime()
+      : Date.now();
+  }
+
   private initializeTimelineSelection(analysis: MahadashaAnalysis): void {
+    if (!this.isSelectedAnalysis) {
+      this.actualCurrentMahadashaIndex = analysis.timeline.currentMahadashaIndex;
+      this.actualCurrentAntardashaIndex = analysis.timeline.currentAntardashaIndex;
+      this.actualCurrentPratyantardashaIndex = analysis.timeline.currentPratyantardashaIndex;
+    }
+    if (this.isSelectedAnalysis && this.pendingTimelineSelection) {
+      this.restoreTimelineSelection(analysis, this.pendingTimelineSelection);
+      this.pendingTimelineSelection = null;
+      return;
+    }
+
     this.selectedMahadashaIndex = this.clampIndex(
       analysis.timeline.currentMahadashaIndex,
       analysis.timeline.mahadasha.length
@@ -1109,6 +1208,46 @@ export class MahadashaPageComponent {
     );
   }
 
+  private captureTimelineSelection(analysis: MahadashaAnalysis): TimelineSelectionKeys {
+    return {
+      mahadasha: this.periodKey(this.selectedMahadasha(analysis)),
+      antardasha: this.periodKey(this.selectedAntardasha(analysis)),
+      pratyantardasha: this.periodKey(this.selectedPratyantardasha(analysis)),
+    };
+  }
+
+  private restoreTimelineSelection(analysis: MahadashaAnalysis, selection: TimelineSelectionKeys): void {
+    this.selectedMahadashaIndex = this.findPeriodIndex(
+      analysis.timeline.mahadasha,
+      selection.mahadasha,
+      analysis.timeline.currentMahadashaIndex
+    );
+    this.selectedAntardashaIndex = this.findPeriodIndex(
+      this.selectedAntardashas(analysis),
+      selection.antardasha,
+      analysis.timeline.currentAntardashaIndex
+    );
+    this.selectedPratyantardashaIndex = this.findPeriodIndex(
+      this.selectedPratyantardashas(analysis),
+      selection.pratyantardasha,
+      analysis.timeline.currentPratyantardashaIndex
+    );
+  }
+
+  private findPeriodIndex<T extends { planet: string; start?: string; end?: string }>(
+    periods: T[],
+    key: string | null,
+    fallbackIndex: number
+  ): number {
+    const matchingIndex = key
+      ? periods.findIndex((period) => this.periodKey(period) === key)
+      : -1;
+    return this.clampIndex(matchingIndex >= 0 ? matchingIndex : fallbackIndex, periods.length);
+  }
+
+  private periodKey(period: { planet: string; start?: string; end?: string } | null): string | null {
+    return period ? `${period.planet}|${period.start ?? ''}|${period.end ?? ''}` : null;
+  }
   private defaultAntardashaIndex(period: MahadashaPeriod): number {
     const antardashas = period.antardashas ?? [];
     const currentIndex = antardashas.findIndex((antardasha) => antardasha.status === 'current');

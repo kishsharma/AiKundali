@@ -1,4 +1,4 @@
-﻿namespace KundaliEngine.API.DTOs.Requests
+namespace KundaliEngine.API.DTOs.Requests
 {
     public class GenerateKundaliRequest
     {
@@ -13,6 +13,8 @@
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
+        public DateTime? ReferenceDate { get; set; }
         public double TimeZoneOffset { get; internal set; }
     }
 }

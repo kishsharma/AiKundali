@@ -106,14 +106,7 @@
                 <span class="panchang-label">Na</span>
                 <span class="panchang-value">{{ translatePanchangValue('nakshatra', panchang.nakshatra) || '-' }}</span>
               </span>
-              <span class="panchang-line">
-                <span class="panchang-label">Yo</span>
-                <span class="panchang-value">{{ translatePanchangValue('yoga', panchang.yoga) || '-' }}</span>
-              </span>
-              <span class="panchang-line">
-                <span class="panchang-label">Ka</span>
-                <span class="panchang-value">{{ translatePanchangValue('karana', panchang.karana) || '-' }}</span>
-              </span>
+
             </span>
           </ng-container>
           <ng-template #noPanchang>
@@ -248,8 +241,10 @@
                   <strong>{{ translatePlanet(planet.planet) }}</strong>
                   <span class="retrograde-chip" *ngIf="planet.isRetrograde">{{ t('panchang.retrogradeShort') }}</span>
                 </span>
-                <span class="gochar-planet-sign">{{ translateSign(planet.signName) }}</span>
-                <span class="gochar-planet-degree">{{ formatDegree(planet) }}</span>
+                <span class="gochar-planet-sign">
+                  <span>{{ translateSign(planet.signName) }}</span>
+                  <small>{{ formatDegree(planet) }}</small>
+                </span>
               </div>
             </div>
           </ng-container>
@@ -276,6 +271,47 @@
     </div>
   </app-section-card>
 </div>
+
+<section class="lagna-panel" aria-labelledby="lagna-timings-title">
+  <div class="lagna-header">
+    <strong id="lagna-timings-title">{{ t('panchang.lagnaTimings') }}</strong>
+    <span class="lagna-note">{{ t('panchang.lagnaNote') }}</span>
+    <span *ngIf="isLagnaLoading">{{ t('panchang.loadingLagna') }}</span>
+  </div>
+
+  <p class="lagna-status error" *ngIf="!isLagnaLoading && lagnaError">{{ lagnaError }}</p>
+  <ng-container *ngIf="!isLagnaLoading && currentLagna as current">
+    <div class="lagna-focus-row">
+      <div class="lagna-current">
+        <strong>{{ translateSign(current.sign) }}</strong>
+        <span>{{ t('panchang.current') }}</span>
+        <span>{{ t('panchang.until') }} {{ formatLagnaTime(current.endTime) }}</span>
+        <span>{{ t('panchang.lord') }} {{ translatePlanet(current.lord) }}</span>
+      </div>
+      <div class="lagna-next" *ngIf="nextLagna as next">
+        <span>{{ t('panchang.nextLagna') }}</span>
+        <strong>{{ translateSign(next.sign) }}</strong>
+        <span>{{ t('panchang.until') }} {{ formatLagnaTime(next.endTime) }}</span>
+        <span>{{ t('panchang.lord') }} {{ translatePlanet(next.lord) }}</span>
+      </div>
+    </div>
+
+    <div class="lagna-timeline" #lagnaTimeline>
+      <div
+        class="lagna-timeline-item"
+        *ngFor="let timing of lagnaTimings; let index = index"
+        [class.current]="index === currentLagnaIndex"
+        [attr.data-current]="index === currentLagnaIndex"
+      >
+        <strong>{{ translateSign(timing.sign) }}</strong>
+        <span>{{ t('panchang.till') }} {{ formatLagnaTime(timing.endTime) }}</span>
+      </div>
+    </div>
+
+  </ng-container>
+
+</section>
+
 <section class="eclipse-details-section">
   <button
     class="eclipse-details-toggle"

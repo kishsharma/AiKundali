@@ -1689,4 +1689,258 @@ footer {
 .signup-panel .btn-primary {
   border-radius: 6px;
 }
+/* Android native landing */
+.native-only {
+  display: none;
+}
 
+:host(.native-app-landing) {
+  min-height: 100dvh;
+  padding-top: calc(64px + env(safe-area-inset-top, 0px));
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(201, 162, 75, 0.1), transparent 32%),
+    var(--ink);
+}
+
+:host(.native-app-landing) .native-only {
+  display: block;
+}
+
+:host(.native-app-landing) .north-star,
+:host(.native-app-landing) .shloka-strip,
+:host(.native-app-landing) .mobile-core-features,
+:host(.native-app-landing) .public-tools,
+:host(.native-app-landing) .process,
+:host(.native-app-landing) .astrologer-validation,
+:host(.native-app-landing) .evaluators,
+:host(.native-app-landing) #preview,
+:host(.native-app-landing) .milan,
+:host(.native-app-landing) .philosophy,
+:host(.native-app-landing) .cta-section,
+:host(.native-app-landing) footer,
+:host(.native-app-landing) .stars,
+:host(.native-app-landing) .deva-field,
+:host(.native-app-landing) .moving-saturn,
+:host(.native-app-landing) .web-hero-copy,
+:host(.native-app-landing) .hero-ctas,
+:host(.native-app-landing) .hero-note {
+  display: none;
+}
+
+:host(.native-app-landing) header,
+:host(.native-app-landing) header.is-scrolled {
+  top: 0;
+  padding-top: env(safe-area-inset-top, 0px);
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(22, 36, 77, 0.94);
+  box-shadow: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+:host(.native-app-landing) .nav,
+:host(.native-app-landing) header.is-scrolled .nav {
+  width: 100%;
+  height: 64px;
+  justify-content: center;
+  padding-inline: 18px;
+}
+
+:host(.native-app-landing) .nav-links,
+:host(.native-app-landing) .nav-actions {
+  display: none;
+}
+
+:host(.native-app-landing) .brand,
+:host(.native-app-landing) header.is-scrolled .brand {
+  --brand-logo-mark-size: 36px;
+  --brand-logo-name-size: 24px;
+  --brand-logo-descriptor-size: 8px;
+}
+
+:host(.native-app-landing) .hero {
+  display: flex;
+  min-height: calc(100dvh - 64px - env(safe-area-inset-top, 0px));
+  align-items: center;
+  padding: 20px 0 calc(126px + env(safe-area-inset-bottom, 0px));
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+:host(.native-app-landing) .hero .wrap {
+  width: 100%;
+  padding-inline: 22px;
+}
+
+:host(.native-app-landing) .hero-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  text-align: center;
+}
+
+:host(.native-app-landing) .native-hero-copy {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+:host(.native-app-landing) .native-kicker {
+  display: inline-block;
+  color: var(--brass);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+:host(.native-app-landing) .native-hero-copy h1 {
+  margin: 10px 0 10px;
+  font-size: clamp(31px, 9vw, 38px);
+  line-height: 1;
+}
+
+:host(.native-app-landing) .native-hero-copy h1 em {
+  color: var(--brass);
+  font-style: italic;
+}
+
+:host(.native-app-landing) .native-hero-copy > p {
+  max-width: 330px;
+  margin: 0 auto;
+  color: var(--parchment-dim);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+:host(.native-app-landing) .native-benefits {
+  display: grid;
+  max-width: 330px;
+  gap: 1px;
+  margin: 16px auto 0;
+  border-block: 1px solid var(--line-soft);
+}
+
+:host(.native-app-landing) .native-benefits span {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 10px;
+  color: var(--parchment);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+}
+
+:host(.native-app-landing) .native-benefits strong {
+  width: 28px;
+  color: var(--brass-soft);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+:host(.native-app-landing) .chart-stage {
+  min-height: 0;
+  order: 2;
+}
+
+:host(.native-app-landing) .chart-frame {
+  width: min(42vw, 168px);
+  margin-inline: auto;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.2));
+}
+
+:host(.native-app-landing) .chart-frame .chip {
+  display: none;
+}
+
+:host(.native-app-landing) .native-app-actions {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 80;
+  display: grid;
+  gap: 8px;
+  padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: rgba(18, 31, 68, 0.96);
+  box-shadow: 0 -14px 34px rgba(4, 8, 24, 0.28);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+:host(.native-app-landing) .native-primary-action {
+  display: grid;
+  min-height: 50px;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--brass);
+  color: var(--ink);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+:host(.native-app-landing) .native-primary-action:active {
+  transform: scale(0.985);
+}
+
+:host(.native-app-landing) .native-login-action {
+  display: block;
+  min-height: 28px;
+  padding: 3px 0;
+  color: var(--parchment-dim);
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+}
+
+:host(.native-app-landing) .native-login-action strong {
+  color: var(--brass);
+  font-weight: 600;
+}
+
+@media (max-height: 700px) {
+  :host(.native-app-landing) .hero {
+    align-items: flex-start;
+    padding-top: 14px;
+  }
+
+  :host(.native-app-landing) .native-hero-copy h1 {
+    font-size: 29px;
+  }
+
+  :host(.native-app-landing) .native-benefits {
+    margin-top: 11px;
+  }
+
+  :host(.native-app-landing) .native-benefits span {
+    min-height: 28px;
+  }
+
+  :host(.native-app-landing) .chart-frame {
+    width: min(34vw, 132px);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  :host(.native-app-landing) .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 150px;
+    gap: 18px;
+    text-align: left;
+  }
+
+  :host(.native-app-landing) .native-hero-copy,
+  :host(.native-app-landing) .native-hero-copy > p,
+  :host(.native-app-landing) .native-benefits {
+    margin-left: 0;
+  }
+
+  :host(.native-app-landing) .chart-frame {
+    width: 132px;
+  }
+}

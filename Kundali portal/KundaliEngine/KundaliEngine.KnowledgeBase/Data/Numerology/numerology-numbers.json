@@ -1,0 +1,410 @@
+{
+  "version": "1.0",
+  "system": "IndianNumerology",
+  "description": "HoraLife canonical metadata for numerology numbers 1 to 9.",
+  "numbers": [
+    {
+      "number": 1,
+      "planet": "Sun",
+      "planetKey": "sun",
+      "summary": "Independent, ambitious and leadership-oriented, with a strong desire to create an individual identity.",
+      "traits": [
+        "independent",
+        "ambitious",
+        "confident",
+        "self-reliant",
+        "authoritative",
+        "pioneering"
+      ],
+      "strengths": [
+        "leadership",
+        "initiative",
+        "self-confidence",
+        "determination",
+        "decision-making",
+        "originality"
+      ],
+      "challenges": [
+        "ego",
+        "impatience",
+        "stubbornness",
+        "dominance",
+        "difficulty accepting criticism"
+      ],
+      "favourableNumbers": [
+        1,
+        2,
+        3,
+        5,
+        9
+      ],
+      "favourableDays": [
+        "Sunday"
+      ],
+      "favourableColours": [
+        "Orange",
+        "Golden Yellow",
+        "Yellow"
+      ]
+    },
+    {
+      "number": 2,
+      "planet": "Moon",
+      "planetKey": "moon",
+      "summary": "Sensitive, intuitive and cooperative, with a natural inclination toward relationships, harmony and emotional understanding.",
+      "traits": [
+        "sensitive",
+        "intuitive",
+        "cooperative",
+        "diplomatic",
+        "emotional",
+        "receptive"
+      ],
+      "strengths": [
+        "empathy",
+        "adaptability",
+        "cooperation",
+        "imagination",
+        "relationship-building",
+        "diplomacy"
+      ],
+      "challenges": [
+        "emotional sensitivity",
+        "indecisiveness",
+        "mood fluctuations",
+        "dependence on approval",
+        "overthinking"
+      ],
+      "favourableNumbers": [
+        1,
+        2,
+        3,
+        5,
+        7
+      ],
+      "favourableDays": [
+        "Monday"
+      ],
+      "favourableColours": [
+        "White",
+        "Cream",
+        "Light Green"
+      ]
+    },
+    {
+      "number": 3,
+      "planet": "Jupiter",
+      "planetKey": "jupiter",
+      "summary": "Knowledge-oriented, expressive and optimistic, with an inclination toward learning, guidance, growth and structured progress.",
+      "traits": [
+        "optimistic",
+        "knowledge-seeking",
+        "expressive",
+        "disciplined",
+        "idealistic",
+        "growth-oriented"
+      ],
+      "strengths": [
+        "wisdom",
+        "learning",
+        "communication",
+        "planning",
+        "guidance",
+        "organisation"
+      ],
+      "challenges": [
+        "overconfidence",
+        "rigidity",
+        "excessive expectations",
+        "being overly opinionated",
+        "difficulty accepting limitations"
+      ],
+      "favourableNumbers": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        9
+      ],
+      "favourableDays": [
+        "Thursday"
+      ],
+      "favourableColours": [
+        "Yellow",
+        "Golden Yellow",
+        "Violet"
+      ]
+    },
+    {
+      "number": 4,
+      "planet": "Rahu",
+      "planetKey": "rahu",
+      "summary": "Unconventional, practical and independent-minded, often inclined to question established patterns and approach problems differently.",
+      "traits": [
+        "unconventional",
+        "practical",
+        "independent-minded",
+        "analytical",
+        "persistent",
+        "rebellious"
+      ],
+      "strengths": [
+        "problem-solving",
+        "original thinking",
+        "persistence",
+        "organisation",
+        "adaptability to unusual situations",
+        "ability to challenge convention"
+      ],
+      "challenges": [
+        "restlessness",
+        "stubbornness",
+        "unpredictability",
+        "rebelliousness",
+        "feeling misunderstood",
+        "tendency toward extremes"
+      ],
+      "favourableNumbers": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "favourableDays": [
+        "Saturday"
+      ],
+      "favourableColours": [
+        "Blue",
+        "Grey",
+        "Brown"
+      ]
+    },
+    {
+      "number": 5,
+      "planet": "Mercury",
+      "planetKey": "mercury",
+      "summary": "Versatile, curious and communicative, with a strong attraction toward learning, movement, variety and new experiences.",
+      "traits": [
+        "adaptable",
+        "curious",
+        "communicative",
+        "quick-thinking",
+        "versatile",
+        "energetic"
+      ],
+      "strengths": [
+        "communication",
+        "learning",
+        "networking",
+        "adaptability",
+        "analytical thinking",
+        "quick decision-making"
+      ],
+      "challenges": [
+        "restlessness",
+        "inconsistency",
+        "impulsiveness",
+        "difficulty maintaining routine",
+        "scattered focus"
+      ],
+      "favourableNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "favourableDays": [
+        "Wednesday"
+      ],
+      "favourableColours": [
+        "Green",
+        "Light Green",
+        "White"
+      ]
+    },
+    {
+      "number": 6,
+      "planet": "Venus",
+      "planetKey": "venus",
+      "summary": "Harmonious, affectionate and aesthetically inclined, with an attraction toward relationships, comfort, beauty and creative expression.",
+      "traits": [
+        "affectionate",
+        "charming",
+        "artistic",
+        "responsible",
+        "harmonious",
+        "relationship-oriented"
+      ],
+      "strengths": [
+        "creativity",
+        "relationship-building",
+        "sense of beauty",
+        "care for others",
+        "social skills",
+        "diplomacy"
+      ],
+      "challenges": [
+        "over-attachment",
+        "indulgence",
+        "possessiveness",
+        "difficulty setting boundaries",
+        "dependence on comfort"
+      ],
+      "favourableNumbers": [
+        3,
+        5,
+        6,
+        8,
+        9
+      ],
+      "favourableDays": [
+        "Friday"
+      ],
+      "favourableColours": [
+        "White",
+        "Pink",
+        "Light Blue"
+      ]
+    },
+    {
+      "number": 7,
+      "planet": "Ketu",
+      "planetKey": "ketu",
+      "summary": "Introspective, analytical and spiritually inclined, with a tendency to search beneath the surface and seek deeper meaning.",
+      "traits": [
+        "introspective",
+        "analytical",
+        "spiritual",
+        "independent",
+        "observant",
+        "research-oriented"
+      ],
+      "strengths": [
+        "deep thinking",
+        "intuition",
+        "research",
+        "observation",
+        "self-reflection",
+        "spiritual exploration"
+      ],
+      "challenges": [
+        "isolation",
+        "over-analysis",
+        "detachment",
+        "difficulty expressing emotions",
+        "skepticism",
+        "withdrawal"
+      ],
+      "favourableNumbers": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ],
+      "favourableDays": [
+        "Monday"
+      ],
+      "favourableColours": [
+        "White",
+        "Grey",
+        "Light Blue"
+      ]
+    },
+    {
+      "number": 8,
+      "planet": "Saturn",
+      "planetKey": "saturn",
+      "summary": "Disciplined, persistent and responsibility-oriented, often progressing through patience, endurance and sustained effort.",
+      "traits": [
+        "disciplined",
+        "persistent",
+        "serious",
+        "responsible",
+        "practical",
+        "resilient"
+      ],
+      "strengths": [
+        "endurance",
+        "discipline",
+        "organisation",
+        "responsibility",
+        "long-term planning",
+        "resilience"
+      ],
+      "challenges": [
+        "pessimism",
+        "rigidity",
+        "workaholism",
+        "emotional reserve",
+        "frustration with slow progress",
+        "excessive seriousness"
+      ],
+      "favourableNumbers": [
+        5,
+        6,
+        8
+      ],
+      "favourableDays": [
+        "Saturday"
+      ],
+      "favourableColours": [
+        "Dark Blue",
+        "Navy Blue",
+        "Purple"
+      ]
+    },
+    {
+      "number": 9,
+      "planet": "Mars",
+      "planetKey": "mars",
+      "summary": "Energetic, courageous and action-oriented, with strong motivation to act, compete, protect and pursue objectives.",
+      "traits": [
+        "courageous",
+        "energetic",
+        "passionate",
+        "competitive",
+        "protective",
+        "action-oriented"
+      ],
+      "strengths": [
+        "courage",
+        "initiative",
+        "determination",
+        "physical energy",
+        "leadership under pressure",
+        "ability to take action"
+      ],
+      "challenges": [
+        "anger",
+        "impatience",
+        "impulsiveness",
+        "aggression",
+        "conflict-proneness",
+        "difficulty slowing down"
+      ],
+      "favourableNumbers": [
+        1,
+        2,
+        3,
+        5,
+        9
+      ],
+      "favourableDays": [
+        "Tuesday"
+      ],
+      "favourableColours": [
+        "Red",
+        "Crimson",
+        "Scarlet"
+      ]
+    }
+  ]
+}

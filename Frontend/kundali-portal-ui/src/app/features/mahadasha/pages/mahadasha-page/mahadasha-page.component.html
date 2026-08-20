@@ -1,5 +1,5 @@
 <ng-container *ngIf="state$ | async as state">
-  <section class="mahadasha-page" *ngIf="state.analysis as analysis; else nonAnalysisState">
+  <section class="mahadasha-page" [class.is-selected-analysis]="isSelectedAnalysis" *ngIf="state.analysis as analysis; else nonAnalysisState">
     <div class="page-toolbar">
       <app-page-header
         [title]="'dashaPage.title' | transloco"
@@ -50,7 +50,7 @@
           <h2>{{ getDashaOwnerName(analysis) }}</h2>
           <p>
             {{ 'dashaPage.birthSummary' | transloco: { date: formatBirthDateTime(chart.birthDateTime), place: chart.birthPlace || ('dashaPage.birthplaceUnavailable' | transloco) } }}
-            {{ 'dashaPage.runningSummary' | transloco: { mahadasha: translatePlanet(analysis.summary.currentMahadasha), antardasha: translatePlanet(analysis.summary.currentAntardasha), pratyantardasha: translatePlanet(analysis.summary.currentPratyantardasha || analysis.currentPratyantardasha.planet) } }}
+            {{ (isSelectedAnalysis ? 'dashaPage.selectedRunningSummary' : 'dashaPage.runningSummary') | transloco: { mahadasha: translatePlanet(analysis.summary.currentMahadasha), antardasha: translatePlanet(analysis.summary.currentAntardasha), pratyantardasha: translatePlanet(analysis.summary.currentPratyantardasha || analysis.currentPratyantardasha.planet) } }}
           </p>
         </div>
 
@@ -76,7 +76,7 @@
 
       <section class="surface hero-grid" [attr.aria-label]="'dashaPage.currentOverviewAria' | transloco">
         <div class="current-dasha">
-          <h2>{{ 'dashaPage.currentDasha' | transloco }}</h2>
+          <h2>{{ (isSelectedAnalysis ? 'dashaPage.selectedDashaAnalysis' : 'dashaPage.currentDasha') | transloco }}</h2>
           <div class="current-row current-row--maha">
             <div class="planet-orb" [style.--planet-color]="analysis.currentMahadasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentMahadasha.planet)" [label]="translatePlanet(analysis.currentMahadasha.planet)" [decorative]="false"></app-astrology-icon></div>
             <div><strong>{{ translatePlanet(analysis.summary.currentMahadasha) }} {{ 'dashaPage.mahadasha' | transloco }}</strong></div>
@@ -138,6 +138,38 @@
               <p>{{ 'dashaPage.viewingMahadasha' | transloco: { planet: translatePlanet(selectedMahadasha(analysis).planet) } }}</p>
             </div>
             <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentMahadasha(analysis)">{{ isViewingCurrentMahadasha(analysis) ? ('dashaPage.currentMahadasha' | transloco) : ('dashaPage.timelineFocus' | transloco) }}</span>
+          </div>
+          <div class="timeline-track timeline-track--maha">
+            <button type="button" class="nav-dot nav-dot--prev" aria-label="Previous Mahadasha" (click)="previousMahadasha(analysis)" [disabled]="!canPreviousMahadasha()"></button>
+            <article class="planet-step" *ngFor="let period of visibleMahadashas(analysis); trackBy: trackMahadasha" [class.is-current]="isActualCurrentMahadasha(analysis, period)" [class.is-selected]="isSelectedMahadasha(analysis, period)" [attr.aria-current]="isActualCurrentMahadasha(analysis, period) ? 'period' : null" [attr.aria-selected]="isSelectedMahadasha(analysis, period)" role="button" tabindex="0" (click)="selectMahadasha(analysis, period)" (keydown.enter)="selectMahadasha(analysis, period)" (keydown.space)="selectMahadasha(analysis, period)">
+              <div class="planet-orb planet-orb--small" [attr.data-planet]="period.planet"><app-astrology-icon [name]="getPlanetIconName(period.planet)" [label]="translatePlanet(period.planet)" [decorative]="false"></app-astrology-icon></div>
+              <strong>{{ translatePlanet(period.planet) }}</strong><span>{{ formatPeriod(period.start, period.end) }}</span>
+            </article>
+            <button type="button" class="nav-dot nav-dot--next" aria-label="Next Mahadasha" (click)="nextMahadasha(analysis)" [disabled]="!canNextMahadasha(analysis)"></button>
+          </div>
+
+          <div class="timeline-heading timeline-heading--antar">
+            <div><h2>{{ 'dashaPage.antardasha' | transloco }}</h2><p>{{ translatePlanet(selectedMahadasha(analysis).planet) }} {{ 'dashaPage.mahadasha' | transloco }}</p></div>
+            <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentAntardasha(analysis)">{{ translatePlanet(selectedMahadasha(analysis).planet) }} / {{ translatePlanet(selectedAntardasha(analysis)?.planet) }}</span>
+          </div>
+          <div class="timeline-track timeline-track--antar">
+            <button type="button" class="nav-dot nav-dot--prev" aria-label="Previous Antardasha" (click)="previousAntardasha(analysis)" [disabled]="!canPreviousAntardasha()"></button>
+            <article class="antar-step" *ngFor="let period of visibleAntardashas(analysis); trackBy: trackAntardasha" [class.is-current]="isActualCurrentAntardasha(analysis, period)" [class.is-selected]="isSelectedAntardasha(analysis, period)" [attr.aria-current]="isActualCurrentAntardasha(analysis, period) ? 'period' : null" [attr.aria-selected]="isSelectedAntardasha(analysis, period)" role="button" tabindex="0" (click)="selectAntardasha(analysis, period)" (keydown.enter)="selectAntardasha(analysis, period)" (keydown.space)="selectAntardasha(analysis, period)">
+              <strong class="dasha-period-label"><app-astrology-icon class="period-icon" [name]="getPlanetIconName(selectedMahadasha(analysis).planet)"></app-astrology-icon><span>{{ translatePlanet(selectedMahadasha(analysis).planet) }}</span><span>/</span><app-astrology-icon class="period-icon" [name]="getPlanetIconName(period.planet)"></app-astrology-icon><span>{{ translatePlanet(period.planet) }}</span></strong><span>{{ formatPeriod(period.start, period.end) }}</span>
+            </article>
+            <button type="button" class="nav-dot nav-dot--next" aria-label="Next Antardasha" (click)="nextAntardasha(analysis)" [disabled]="!canNextAntardasha(analysis)"></button>
+          </div>
+
+          <div class="timeline-heading timeline-heading--pratyantar">
+            <div><h2>{{ 'dashaPage.pratyantardasha' | transloco }}</h2><p>{{ translatePlanet(selectedMahadasha(analysis).planet) }} / {{ translatePlanet(selectedAntardasha(analysis)?.planet) }}</p></div>
+            <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentPratyantardasha(analysis)">{{ translatePlanet(selectedMahadasha(analysis).planet) }} / {{ translatePlanet(selectedAntardasha(analysis)?.planet) }} / {{ translatePlanet(selectedPratyantardasha(analysis)?.planet) }}</span>
+          </div>
+          <div class="timeline-track timeline-track--pratyantar" *ngIf="selectedPratyantardashas(analysis).length">
+            <button type="button" class="nav-dot nav-dot--prev" aria-label="Previous Pratyantardasha" (click)="previousPratyantardasha(analysis)" [disabled]="!canPreviousPratyantardasha()"></button>
+            <article class="pratyantar-step" *ngFor="let period of visiblePratyantardashas(analysis); trackBy: trackPratyantardasha" [class.is-current]="isActualCurrentPratyantardasha(analysis, period)" [class.is-selected]="isSelectedPratyantardasha(analysis, period)" [attr.aria-current]="isActualCurrentPratyantardasha(analysis, period) ? 'period' : null" [attr.aria-selected]="isSelectedPratyantardasha(analysis, period)" role="button" tabindex="0" (click)="selectPratyantardasha(analysis, period)" (keydown.enter)="selectPratyantardasha(analysis, period)" (keydown.space)="selectPratyantardasha(analysis, period)">
+              <strong class="dasha-period-label"><app-astrology-icon class="period-icon" [name]="getPlanetIconName(selectedAntardasha(analysis)?.planet || '')"></app-astrology-icon><span>{{ translatePlanet(selectedAntardasha(analysis)?.planet) }}</span><span>/</span><app-astrology-icon class="period-icon" [name]="getPlanetIconName(period.planet)"></app-astrology-icon><span>{{ translatePlanet(period.planet) }}</span></strong><span>{{ formatDetailedPeriod(period.start, period.end) }}</span>
+            </article>
+            <button type="button" class="nav-dot nav-dot--next" aria-label="Next Pratyantardasha" (click)="nextPratyantardasha(analysis)" [disabled]="!canNextPratyantardasha(analysis)"></button>
           </div>
         </div>
       </section>

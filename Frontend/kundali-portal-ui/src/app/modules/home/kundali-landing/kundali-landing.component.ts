@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BrandLogoComponent } from '../../../shared/components/brand-logo/brand-logo.component';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-kundali-landing',
@@ -10,6 +11,8 @@ import { BrandLogoComponent } from '../../../shared/components/brand-logo/brand-
   styleUrl: './kundali-landing.component.scss',
 })
 export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
+  @HostBinding('class.native-app-landing')
+  readonly isNativeApp = Capacitor.getPlatform() === 'android';
   private readonly zodiacSymbols = [
     '\u2648', '\u2649', '\u264A', '\u264B', '\u264C', '\u264D',
     '\u264E', '\u264F', '\u2650', '\u2651', '\u2652', '\u2653',
@@ -35,6 +38,11 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.updateNavScrolledState();
+
+    if (this.isNativeApp) {
+      return;
+    }
+
     this.scatter('deva-hero', 10);
     this.scatter('deva-tools', 6);
     this.scatter('deva-process', 6);

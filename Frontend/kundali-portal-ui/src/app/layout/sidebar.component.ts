@@ -40,10 +40,10 @@ export interface NavItem {
           </svg>
         </button>
 
-        <button class="close-btn" (click)="onClose.emit()" *ngIf="mobileView" [attr.aria-label]="'common.close' | transloco" [title]="'common.close' | transloco">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
+        <button class="close-btn" type="button" (click)="onClose.emit()" *ngIf="mobileView" [attr.aria-label]="'common.close' | transloco" [title]="'common.close' | transloco">
+          <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 12H5"></path>
+            <path d="m12 19-7-7 7-7"></path>
           </svg>
         </button>
       </div>
@@ -115,7 +115,10 @@ export interface NavItem {
                         [disabled]="deletingKundaliIds.has(item.id)"
                         [attr.aria-label]="'sidebar.deleteSavedKundaliNamed' | transloco: { name: item.displayName }"
                         [title]="deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : ('sidebar.deleteSavedKundali' | transloco)">
-                        {{ deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : 'X' }}
+                        <span *ngIf="deletingKundaliIds.has(item.id)">{{ 'sidebar.deleting' | transloco }}</span>
+                        <svg *ngIf="!deletingKundaliIds.has(item.id)" class="saved-delete-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5M14 11v5"></path>
+                        </svg>
                       </button>
                     </div>
                     <span class="saved-status" *ngIf="deleteStatusMessage">{{ deleteStatusMessage }}</span>
@@ -160,7 +163,10 @@ export interface NavItem {
                         [disabled]="deletingCompatibilityIds.has(item.id)"
                         [attr.aria-label]="'sidebar.deleteSavedMatchNamed' | transloco: { name: (item.displayName || item.personAName + ' and ' + item.personBName) }"
                         [title]="deletingCompatibilityIds.has(item.id) ? ('sidebar.deleting' | transloco) : ('sidebar.deleteSavedMatch' | transloco)">
-                        {{ deletingCompatibilityIds.has(item.id) ? ('sidebar.deleting' | transloco) : 'X' }}
+                        <span *ngIf="deletingCompatibilityIds.has(item.id)">{{ 'sidebar.deleting' | transloco }}</span>
+                        <svg *ngIf="!deletingCompatibilityIds.has(item.id)" class="saved-delete-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5M14 11v5"></path>
+                        </svg>
                       </button>
                     </div>
                     <span class="saved-status" *ngIf="compatibilityDeleteStatusMessage">{{ compatibilityDeleteStatusMessage }}</span>
@@ -199,6 +205,18 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item">
+              <a routerLink="/app/numerology" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round">
+                    <path d="M9 3 7 21"></path>
+                    <path d="m17 3-2 18"></path>
+                    <path d="M4 9h16"></path>
+                    <path d="M3 15h16"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.numerology' | transloco }}</span>
+              </a>
+            </li>            <li class="nav-item">
               <a routerLink="/app/learning" routerLinkActive="active" data-dhruva-tour="learning" data-tour-id="portal-learning" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -647,6 +665,12 @@ export interface NavItem {
       font-size: 0.68rem;
       font-weight: 700;
       line-height: 1;
+    }
+
+    .saved-delete-icon {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
     }
 
     .saved-delete-btn:hover:not(:disabled) {
@@ -1297,12 +1321,48 @@ export interface NavItem {
 
       .sidebar-nav {
         overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
+      }
+
+      .sidebar-nav::-webkit-scrollbar,
+      .saved-list::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+
+      .saved-list {
+        scrollbar-width: none;
       }
 
       .close-btn {
         display: flex;
+        width: 40px;
+        height: 40px;
         margin-left: auto;
+        padding: 0;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--theme-text) 5%, transparent);
+      }
+
+      .close-btn:hover,
+      .close-btn:focus-visible {
+        color: var(--theme-accent);
+        background: color-mix(in srgb, var(--theme-accent) 10%, transparent);
+        outline: none;
+      }
+
+      .close-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .saved-delete-btn {
+        min-width: 34px;
+        height: 34px;
+        padding: 0;
       }
 
       .sidebar-overlay {

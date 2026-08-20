@@ -6,6 +6,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/auth.service';
 import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { isValidEmailAddress } from '../email-validation';
 
 type LoginMode = 'otp' | 'password';
 type OtpStep = 'contact' | 'code';
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
   isExiting = false;
   errorMessage = '';
+  emailTouched = false;
 
   private resendTimer?: ReturnType<typeof setInterval>;
   private navigationTimer?: ReturnType<typeof setTimeout>;
@@ -60,6 +62,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.navigationTimer) {
       clearTimeout(this.navigationTimer);
     }
+  }
+
+  get emailFormatInvalid(): boolean {
+    return this.emailTouched && !!this.email.trim() && !isValidEmailAddress(this.email);
+  }
+
+  onEmailBlur(): void {
+    this.emailTouched = true;
   }
 
   get otpContactLabel(): string {
@@ -146,8 +156,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(): void {
     this.errorMessage = '';
 
+    this.emailTouched = true;
     if (!this.email || !this.password) {
       this.errorMessage = 'Please enter email and password.';
+      return;
+    }
+
+    if (!isValidEmailAddress(this.email)) {
+      this.errorMessage = 'Please enter a valid email address.';
       return;
     }
 
@@ -204,8 +220,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     const email = this.email.trim();
+    this.emailTouched = true;
     if (!email) {
       this.errorMessage = 'Please enter your email.';
+      return null;
+    }
+
+    if (!isValidEmailAddress(email)) {
+      this.errorMessage = 'Please enter a valid email address.';
       return null;
     }
 

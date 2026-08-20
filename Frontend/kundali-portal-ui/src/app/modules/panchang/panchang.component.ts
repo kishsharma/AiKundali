@@ -1,12 +1,12 @@
 // Panchang Module - Panchang Viewer Page
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { SectionCardComponent } from '../../shared/components/section-card.component';
-import { Panchang, PanchangApiService, PanchangCalendarMode, PanchangEclipse } from '../../core/services/panchang-api.service';
+import { LagnaTiming, Panchang, PanchangApiService, PanchangCalendarMode, PanchangEclipse } from '../../core/services/panchang-api.service';
 import { GocharApiService, GocharDailyResponse, GocharPlanet } from '../../core/services/gochar-api.service';
 import { LocationService } from '../../core/services/location.service';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
@@ -320,7 +320,7 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
       display: flex;
       flex-direction: column;
       gap: 0.46rem;
-      min-height: 7.7rem;
+      min-height: 5.7rem;
       padding: 0.62rem 0.58rem;
       border: 0;
       background: var(--theme-surface);
@@ -676,6 +676,141 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
 
 
 
+    .lagna-panel {
+      display: grid;
+      gap: 0.5rem;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.5rem;
+      background: var(--theme-surface);
+    }
+
+    .lagna-header {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--theme-text);
+      font-size: 0.8rem;
+    }
+
+    .lagna-header .lagna-note {
+      text-align: left;
+    }
+
+    .lagna-focus-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.4rem;
+    }
+
+    .lagna-header span,
+    .lagna-status,
+    .lagna-note {
+      margin: 0;
+      color: var(--theme-text-muted);
+      font-size: 0.64rem;
+    }
+
+    .lagna-status.error {
+      color: var(--theme-danger, #b42318);
+    }
+
+    .lagna-current {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      padding: 0.52rem 0.58rem;
+      border-left: 3px solid var(--theme-accent);
+      background: color-mix(in srgb, var(--theme-accent) 8%, var(--theme-surface));
+      color: var(--theme-text);
+      font-size: 0.7rem;
+    }
+
+    .lagna-current strong {
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    .lagna-current span:not(:last-child)::after {
+      content: ' •';
+      color: var(--theme-text-muted);
+    }
+
+    .lagna-next {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      padding: 0.52rem 0.58rem;
+      border-left: 3px solid var(--theme-line);
+      background: color-mix(in srgb, var(--theme-line) 28%, var(--theme-surface));
+      color: var(--theme-text-muted);
+      font-size: 0.66rem;
+    }
+
+    .lagna-next strong {
+      color: var(--theme-text);
+      font-weight: 600;
+    }
+
+    .lagna-next span:not(:last-child)::after {
+      content: ' •';
+      color: var(--theme-text-muted);
+    }
+
+    .lagna-timeline {
+      display: flex;
+      gap: 0.28rem;
+      overflow-x: auto;
+      padding: 0.12rem 0 0.32rem;
+      scroll-snap-type: x proximity;
+      scrollbar-width: thin;
+    }
+
+    .lagna-timeline-item {
+      position: relative;
+      display: grid;
+      flex: 0 0 auto;
+      gap: 0.1rem;
+      min-width: 6.4rem;
+      padding: 0.42rem 0.5rem;
+      border: 1px solid var(--theme-line);
+      border-radius: 0.4rem;
+      background: var(--theme-surface);
+      color: var(--theme-text);
+      scroll-snap-align: center;
+    }
+
+    .lagna-timeline-item:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      top: 50%;
+      right: -0.34rem;
+      z-index: 1;
+      color: var(--theme-text-muted);
+      transform: translate(50%, -50%);
+    }
+
+    .lagna-timeline-item strong {
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+
+    .lagna-timeline-item span {
+      color: var(--theme-text-muted);
+      font-size: 0.58rem;
+    }
+
+    .lagna-timeline-item.current {
+      border-color: var(--theme-accent);
+      background: color-mix(in srgb, var(--theme-accent) 10%, var(--theme-surface));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--theme-accent) 20%, transparent);
+    }
+
     .gochar-panel {
       display: grid;
       gap: 0.48rem;
@@ -714,7 +849,7 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
 
     .gochar-planets {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.24rem;
     }
 
@@ -726,9 +861,10 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
     .gochar-planet-row {
       position: relative;
       display: grid;
-      grid-template-rows: auto auto auto;
-      gap: 0.08rem;
-      min-height: 3.15rem;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      align-items: center;
+      gap: 0.4rem;
+      min-height: 2.1rem;
       padding: 0.32rem 0.42rem;
       border: 1px solid var(--theme-line);
       border-radius: 0.45rem;
@@ -766,16 +902,21 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
       min-width: 0;
     }
 
-    .gochar-planet-sign,
-    .gochar-planet-degree {
+    .gochar-planet-sign {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.3rem;
       color: var(--theme-text-muted);
       font-size: 0.58rem;
       font-weight: 400;
     }
 
-    .gochar-planet-degree {
+    .gochar-planet-sign small {
       color: var(--theme-text);
+      font-size: 0.56rem;
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .gochar-planet-row span,
@@ -806,7 +947,7 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
     }
 
       .date-cell {
-        min-height: 6.7rem;
+        min-height: 5.25rem;
         padding: 0.48rem;
       }
 
@@ -840,6 +981,7 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
   `],
 })
 export class PanchangComponent implements OnInit {
+  @ViewChild('lagnaTimeline') private lagnaTimeline?: ElementRef<HTMLElement>;
   readonly weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   readonly calendarModes: PanchangCalendarMode[] = ['daily', 'weekly', 'monthly'];
 
@@ -851,7 +993,10 @@ export class PanchangComponent implements OnInit {
   selectedPanchangForView?: Panchang;
   selectedGochar?: GocharDailyResponse;
   isGocharLoading = false;
-  gocharError = "";
+  gocharError = '';
+  lagnaTimings: LagnaTiming[] = [];
+  isLagnaLoading = false;
+  lagnaError = '';
   isLoading = false;
   errorMessage = '';
   yearlyEclipses: PanchangEclipse[] = [];
@@ -869,6 +1014,7 @@ export class PanchangComponent implements OnInit {
   };
   private locationSearchTimer?: ReturnType<typeof setTimeout>;
   private gocharRequestId = 0;
+  private lagnaRequestId = 0;
   private eclipseRequestId = 0;
   private eclipseSubscription?: Subscription;
   private loadedEclipseKey = '';
@@ -913,6 +1059,27 @@ export class PanchangComponent implements OnInit {
     return this.selectedPanchangForView || this.panchangByDate.get(this.selectedDateKey);
   }
 
+  get currentLagnaIndex(): number {
+    if (!this.lagnaTimings.length) {
+      return -1;
+    }
+
+    if (this.selectedDateKey !== this.toDateKey(new Date())) {
+      return 0;
+    }
+
+    const now = Date.now();
+    const index = this.lagnaTimings.findIndex((timing) => new Date(timing.endTime).getTime() > now);
+    return index >= 0 ? index : 0;
+  }
+
+  get currentLagna(): LagnaTiming | undefined {
+    return this.lagnaTimings[this.currentLagnaIndex];
+  }
+
+  get nextLagna(): LagnaTiming | undefined {
+    return this.lagnaTimings[this.currentLagnaIndex + 1];
+  }
   get calendarHeaderPanchang(): Panchang | undefined {
     const currentMonthDay = this.calendarDays.find((day) => day.isCurrentMonth && this.panchangByDate.has(day.dateKey));
     const firstLoadedDay = this.calendarDays.find((day) => this.panchangByDate.has(day.dateKey));
@@ -951,6 +1118,7 @@ export class PanchangComponent implements OnInit {
     this.currentDate = new Date(day.date);
     this.applySelectedPanchang();
     this.loadSelectedGochar();
+    this.loadSelectedLagna();
     this.cdr.markForCheck();
   }
 
@@ -1043,6 +1211,14 @@ export class PanchangComponent implements OnInit {
 
   translateSign(value: unknown): string {
     return this.apiTerms.translateSign(value);
+  }
+
+  formatLagnaTime(value: string): string {
+    return new Date(value).toLocaleTimeString(this.activeLocale, {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
   }
 
   formatDegree(planet: GocharPlanet): string {
@@ -1161,6 +1337,7 @@ export class PanchangComponent implements OnInit {
         this.syncSelectedDateAfterLoad(panchangList);
         this.applySelectedPanchang();
         this.loadSelectedGochar();
+        this.loadSelectedLagna();
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -1238,6 +1415,47 @@ export class PanchangComponent implements OnInit {
         this.eclipseSubscription = undefined;
         this.cdr.detectChanges();
       },
+    });
+  }
+  private loadSelectedLagna(date: Date = this.currentDate): void {
+    const requestId = ++this.lagnaRequestId;
+    this.isLagnaLoading = true;
+    this.lagnaError = '';
+    this.lagnaTimings = [];
+
+    this.panchangApi.getLagnaTimings(
+      new Date(date),
+      this.selectedLocation.latitude,
+      this.selectedLocation.longitude,
+      this.selectedLocation.timezone,
+    ).subscribe({
+      next: (response) => {
+        if (requestId !== this.lagnaRequestId) {
+          return;
+        }
+
+        this.lagnaTimings = response?.data?.timings || [];
+        this.isLagnaLoading = false;
+        this.cdr.detectChanges();
+        this.scrollCurrentLagnaIntoView();
+      },
+      error: (error: Error) => {
+        if (requestId !== this.lagnaRequestId) {
+          return;
+        }
+
+        this.lagnaTimings = [];
+        this.lagnaError = error.message || 'Unable to load Lagna timings.';
+        this.isLagnaLoading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  private scrollCurrentLagnaIntoView(): void {
+    setTimeout(() => {
+      const current = this.lagnaTimeline?.nativeElement.querySelector<HTMLElement>('[data-current="true"]');
+      current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
   }
   private loadSelectedGochar(date: Date = this.currentDate): void {
@@ -1351,7 +1569,18 @@ export class PanchangComponent implements OnInit {
     'panchang.locationSearch': 'Search city for Panchang',
     'panchang.locationAria': 'Search Panchang location',
     'panchang.loadingDaily': 'Loading daily Panchang...',
-    'panchang.eclipseTitle': 'Eclipses in',
+    'panchang.lagnaTimings': 'Lagna Timings',
+    'panchang.loadingLagna': 'Loading Lagna timings...',
+    'panchang.current': 'Current',
+    'panchang.until': 'Until',
+    'panchang.till': 'till',
+    'panchang.lord': 'Lord',
+    'panchang.nextLagna': 'Next Lagna',
+    'panchang.viewFullDay': 'View Full Day',
+    'panchang.lagna': 'Lagna',
+    'panchang.endsAt': 'Ends At',
+    'panchang.lordLabel': 'Lord',
+    'panchang.lagnaNote': 'Timings are shown from today’s sunrise until next day’s sunrise.',    'panchang.eclipseTitle': 'Eclipses in',
     'panchang.loadingEclipses': 'Loading yearly eclipses...',
     'panchang.eclipseUnavailable': 'Yearly eclipse timings are not available for this location yet.',
     'panchang.eclipse.solar': 'Solar Eclipse',

@@ -23,6 +23,7 @@ namespace KundaliEngine.API.Controllers
         private readonly IEphemerisProvider _ephemerisProvider;
         private readonly IMuhurthaSunriseSunsetService _sunriseSunsetService;
         private readonly NakshatraMetadataService _nakshatraMetadataService;
+        private readonly RashiMetadataService _rashiMetadataService;
         private readonly IPanchangEclipseService _panchangEclipseService;
 
         public PanchangController(
@@ -30,12 +31,14 @@ namespace KundaliEngine.API.Controllers
             IEphemerisProvider ephemerisProvider,
             IMuhurthaSunriseSunsetService sunriseSunsetService,
             NakshatraMetadataService nakshatraMetadataService,
+            RashiMetadataService rashiMetadataService,
             IPanchangEclipseService panchangEclipseService)
         {
             _panchangService = panchangService;
             _ephemerisProvider = ephemerisProvider;
             _sunriseSunsetService = sunriseSunsetService;
             _nakshatraMetadataService = nakshatraMetadataService;
+            _rashiMetadataService = rashiMetadataService;
             _panchangEclipseService = panchangEclipseService;
         }
 
@@ -109,6 +112,48 @@ namespace KundaliEngine.API.Controllers
             });
         }
 
+        [HttpGet("lagna-timings/{date}")]
+        public ActionResult<PanchangApiResponse<PanchangLagnaTimingsResponseDto>> GetLagnaTimings(
+            DateOnly date,
+            [FromQuery] double latitude = DefaultLatitude,
+            [FromQuery] double longitude = DefaultLongitude,
+            [FromQuery] string timezone = DefaultTimezone)
+        {
+            if (!IsValidLocation(latitude, longitude))
+            {
+                return BadRequest(new PanchangApiResponse<PanchangLagnaTimingsResponseDto>
+                {
+                    Success = false,
+                    Message = "Latitude must be between -90 and 90, and longitude must be between -180 and 180."
+                });
+            }
+
+            var location = new GeoLocation(latitude, longitude);
+            var localDateTime = date.ToDateTime(new TimeOnly(6, 0));
+            var offset = GetTimezoneOffset(localDateTime, timezone);
+            var muhurthaLocation = new MuhurthaLocation
+            {
+                Latitude = latitude,
+                Longitude = longitude,
+                Timezone = timezone
+            };
+            var sunrise = _sunriseSunsetService.Calculate(date, muhurthaLocation, offset).Sunrise;
+            var nextDate = date.AddDays(1);
+            var nextOffset = GetTimezoneOffset(nextDate.ToDateTime(new TimeOnly(6, 0)), timezone);
+            var nextSunrise = _sunriseSunsetService.Calculate(nextDate, muhurthaLocation, nextOffset).Sunrise;
+
+            return Ok(new PanchangApiResponse<PanchangLagnaTimingsResponseDto>
+            {
+                Success = true,
+                Data = new PanchangLagnaTimingsResponseDto
+                {
+                    Date = date,
+                    Sunrise = sunrise,
+                    NextSunrise = nextSunrise,
+                    Timings = BuildLagnaTimings(sunrise, nextSunrise, location)
+                }
+            });
+        }
         [HttpGet("range")]
         public ActionResult<PanchangApiResponse<List<PanchangCalendarDayDto>>> GetRange(
             [FromQuery] DateOnly startDate,
@@ -231,6 +276,7 @@ namespace KundaliEngine.API.Controllers
             var nakshatraPadas = BuildNakshatraPadas(details.Nakshatra, details.Pada, midpoint, panchangIntervals["nakshatra"], location);
             var lunarEvents = CalculateMoonRiseSet(date, location, offset);
 
+
             return new PanchangCalendarDayDto
             {
                 Id = date.ToString("yyyy-MM-dd"),
@@ -262,6 +308,83 @@ namespace KundaliEngine.API.Controllers
             };
         }
 
+        private List<LagnaTimingDto> BuildLagnaTimings(
+            DateTimeOffset sunrise,
+            DateTimeOffset nextSunrise,
+            GeoLocation location)
+        {
+            var timings = new List<LagnaTimingDto>();
+            var periodStart = sunrise;
+            var sign = AscendantSign(periodStart.UtcDateTime, location);
+
+            while (periodStart < nextSunrise)
+            {
+                var transition = FindNextLagnaTransition(periodStart, nextSunrise, sign, location);
+                var metadata = _rashiMetadataService.GetRashiBySign(sign.ToString());
+                timings.Add(new LagnaTimingDto
+                {
+                    Sign = metadata?.Name ?? sign.ToString(),
+                    Lord = metadata?.Ruler ?? string.Empty,
+                    EndTime = transition
+                });
+
+                if (transition >= nextSunrise)
+                {
+                    break;
+                }
+
+                periodStart = transition.AddSeconds(1);
+                sign = AscendantSign(periodStart.UtcDateTime, location);
+            }
+
+            return timings;
+        }
+
+        private DateTimeOffset FindNextLagnaTransition(
+            DateTimeOffset start,
+            DateTimeOffset limit,
+            ZodiacSign sign,
+            GeoLocation location)
+        {
+            var inside = start;
+            var outside = start.AddMinutes(10);
+
+            while (outside < limit && AscendantSign(outside.UtcDateTime, location) == sign)
+            {
+                inside = outside;
+                outside = outside.AddMinutes(10);
+            }
+
+            if (outside >= limit)
+            {
+                outside = limit;
+                if (AscendantSign(outside.UtcDateTime, location) == sign)
+                {
+                    return limit;
+                }
+            }
+
+            for (var i = 0; i < 24; i++)
+            {
+                var probe = new DateTimeOffset(inside.Ticks + ((outside.Ticks - inside.Ticks) / 2), inside.Offset);
+                if (AscendantSign(probe.UtcDateTime, location) == sign)
+                {
+                    inside = probe;
+                }
+                else
+                {
+                    outside = probe;
+                }
+            }
+
+            return outside;
+        }
+
+        private ZodiacSign AscendantSign(DateTime utc, GeoLocation location)
+        {
+            var longitude = _ephemerisProvider.GetAscendant(utc, location).Longitude;
+            return (ZodiacSign)(Math.Floor(NormalizeLongitude(longitude) / 30.0) + 1);
+        }
         private List<NakshatraPadaTimingDto> BuildNakshatraPadas(
             string nakshatraName,
             int currentPada,

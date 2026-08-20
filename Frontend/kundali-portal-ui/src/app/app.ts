@@ -9,6 +9,8 @@ import { ThemeService } from './core/services/theme.service';
 import { BrandLogoComponent } from './shared/components/brand-logo/brand-logo.component';
 import { NotificationService } from './shared/services/notification.service';
 import { NotificationToastComponent } from './shared/components/notification-toast/notification-toast.component';
+import { Capacitor } from '@capacitor/core';
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,8 @@ import { NotificationToastComponent } from './shared/components/notification-toa
 })
 
 export class App {
+
+  showAndroidSplash = signal(Capacitor.getPlatform() === 'android');
   readonly languages: ReadonlyArray<{ code: PreferredLanguage; label: string }> = [
     { code: 'en', label: 'English' },
     { code: 'hi', label: 'Hindi' },
@@ -54,6 +58,13 @@ export class App {
       .subscribe((event) => this.updateShellMode(event.urlAfterRedirects));
   }
 
+  ngOnInit(): void {
+  if (this.showAndroidSplash()) {
+    setTimeout(() => {
+      this.showAndroidSplash.set(false);  
+    }, 1500);
+  }
+}
   changeLanguage(lang: PreferredLanguage) {
     if (lang === this.activeLanguage) {
       return;

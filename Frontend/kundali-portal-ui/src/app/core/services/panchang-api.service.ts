@@ -43,6 +43,18 @@ export interface Panchang {
   auspiciousTimings: AuspiciousTiming[];
 }
 
+export interface LagnaTiming {
+  sign: string;
+  lord: string;
+  endTime: string;
+}
+
+export interface PanchangLagnaTimingsResponse {
+  date: string;
+  sunrise: string;
+  nextSunrise: string;
+  timings: LagnaTiming[];
+}
 export interface PanchangCalendarResponse {
   mode: PanchangCalendarMode;
   startDate: string;
@@ -109,6 +121,20 @@ export class PanchangApiService extends BaseApiService {
     });
   }
 
+  getLagnaTimings(
+    date: Date,
+    latitude?: number,
+    longitude?: number,
+    timezone?: string
+  ): Observable<ApiResponse<PanchangLagnaTimingsResponse>> {
+    return this.get<PanchangLagnaTimingsResponse>(`${this.endpoint}/lagna-timings/${this.formatDate(date)}`, {
+      params: {
+        latitude: latitude ?? 12.9716,
+        longitude: longitude ?? 77.5946,
+        timezone: timezone || 'Asia/Kolkata',
+      },
+    });
+  }
   /**
    * Get yearly visible eclipses for the selected location.
    */

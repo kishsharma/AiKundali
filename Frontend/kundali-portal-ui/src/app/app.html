@@ -1,4 +1,7 @@
 <!-- Application Root -->
+ <div class="android-splash" *ngIf="showAndroidSplash()">
+  <img src="assets/splash.png" alt="HoraLife" />
+</div>
 <div class="root-shell" [class.public-shell]="isPublicLanding">
   <header class="app-topbar" [class.hidden]="!showAppTopbar">
     <button

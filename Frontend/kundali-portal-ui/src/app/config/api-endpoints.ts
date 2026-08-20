@@ -30,4 +30,7 @@ export const apiEndpoints = {
   prediction: {
     question: 'Prediction/question',
   },
+  numerology: {
+    calculate: 'numerology/calculate',
+  },
 } as const;

@@ -191,6 +191,10 @@ import { IonDatetime } from '@ionic/angular/standalone';
 
       .wheel-dialog {
         width: min(100vw - 8px, 100%);
+        max-height: calc(100dvh - 8px);
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
         border-radius: 18px 18px 0 0;
       }
     }
