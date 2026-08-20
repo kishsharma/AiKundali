@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - ci/initial-github-actions
+
+permissions:
+  contents: read
+
+jobs:
+  backend-build:
+    name: Backend Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Kundali portal/KundaliEngine
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 and 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Restore backend solution
+        run: dotnet restore KundaliEngine.sln
+
+      - name: Build backend solution
+        run: dotnet build KundaliEngine.sln --configuration Release --no-restore
+
+  frontend-build:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Frontend/kundali-portal-ui
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Frontend/kundali-portal-ui/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Angular production bundle
+        run: npm run build -- --configuration production
