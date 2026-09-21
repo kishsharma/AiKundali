@@ -1651,21 +1651,17 @@
 }
 
 .house-details-row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   width: 100%;
   min-width: 0;
-  min-height: 40px;
+  min-height: 44px;
   border: 0;
-  border-top: 1px solid var(--line-soft);
+  border-top: 1px solid var(--line);
   border-radius: 0;
-  padding: 8px 10px;
-  background: color-mix(in srgb, var(--theme-surface) 88%, transparent);
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--theme-surface) 42%, transparent);
 }
 
 .house-details-row app-house-details-card {
@@ -1761,7 +1757,7 @@
   width: 100%;
   min-width: 0;
   min-height: min(78vh, 860px);
-  padding: 2.75rem 0.4rem 3.4rem;
+  padding: 2.75rem 0.4rem 0.65rem;
 }
 
 .chart-surface.kundali-chart-fill {

@@ -600,16 +600,6 @@
                   (houseSelected)="selectedHouseData = $event"></app-western-chart>
               </div>
             </div>
-            <div class="house-details-row screen-house-details">
-              <ng-container *ngIf="selectedHouseData; else noHouseSelected">
-                <app-house-details-card [houseData]="selectedHouseData" [compact]="true" [inline]="true"></app-house-details-card>
-              </ng-container>
-              <ng-template #noHouseSelected>
-                <p class="house-placeholder">
-                  {{ 'kundali.selectHousePrompt' | transloco }}
-                </p>
-              </ng-template>
-            </div>
           </div>
 
           <div class="gochar screen-gochar-chart" aria-label="Gochar Kundali">
@@ -662,6 +652,17 @@
                 [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-western-chart>
               </div>
             </app-section-card>
+          </div>
+
+          <div class="house-details-row screen-house-details">
+            <ng-container *ngIf="selectedHouseData; else noHouseSelected">
+              <app-house-details-card [houseData]="selectedHouseData" [compact]="true" [inline]="true"></app-house-details-card>
+            </ng-container>
+            <ng-template #noHouseSelected>
+              <p class="house-placeholder">
+                {{ 'kundali.selectHousePrompt' | transloco }}
+              </p>
+            </ng-template>
           </div>
         </div>
       </app-section-card>
