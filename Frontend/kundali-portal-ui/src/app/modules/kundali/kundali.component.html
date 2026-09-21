@@ -633,29 +633,13 @@
                 </div>
                 <small class="gochar-date" *ngIf="gocharCalculatedAt">{{ gocharCalculatedAt }}</small>
                 <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
-                  <app-north-indian-chart
-                    class="kundali-main-chart"
-                    *ngIf="activeChartType === 'north'"
-                    [planets]="gocharPlanets"
-                    [ascendant]="gocharAscendant"
-                    [housesData]="d1Houses"
-                    [showDegrees]="showGocharDegrees">
-                  </app-north-indian-chart>
-                  <app-south-indian-chart
-                    class="kundali-main-chart"
-                    *ngIf="activeChartType === 'south'"
-                    [planets]="gocharPlanets"
-                    [ascendant]="gocharAscendant"
-                    [housesData]="d1Houses"
-                    [showDegrees]="showGocharDegrees">
-                  </app-south-indian-chart>
                   <app-western-chart
                     class="kundali-main-chart"
-                    *ngIf="activeChartType === 'western'"
                     [planets]="gocharPlanets"
                     [ascendant]="gocharAscendant"
                     [housesData]="d1Houses"
-                    [showDegrees]="showGocharDegrees">
+                    [showDegrees]="showGocharDegrees"
+                    [placeByDegree]="true">
                   </app-western-chart>
                 </ng-container>
                 <ng-template #gocharUnavailable>

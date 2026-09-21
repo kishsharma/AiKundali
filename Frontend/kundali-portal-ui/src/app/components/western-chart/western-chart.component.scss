@@ -67,24 +67,30 @@
   font-size: 0.75rem;
   font-weight: 700;
   fill: var(--theme-info);
+  pointer-events: none;
 }
 
+.planet-text.tone-supportive,
 .planet-text .tone-supportive {
   fill: var(--theme-success);
 }
 
+.planet-text.tone-neutral,
 .planet-text .tone-neutral {
   fill: var(--theme-info);
 }
 
+.planet-text.tone-mixed,
 .planet-text .tone-mixed {
   fill: var(--theme-copper);
 }
 
+.planet-text.tone-challenging,
 .planet-text .tone-challenging {
   fill: var(--theme-danger);
 }
 
+.planet-text.tone-special,
 .planet-text .tone-special {
   fill: var(--theme-success);
 }

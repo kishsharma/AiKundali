@@ -3,6 +3,13 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { formatPlanetDegreeInSign } from '../../shared/utils/common.utils';
 
+type PlacedPlanet = {
+  planet: any;
+  x: number;
+  y: number;
+  angle: number;
+};
+
 type WheelSegment = {
   sign: number;
   label: string;
@@ -31,6 +38,7 @@ export class WesternChartComponent implements OnChanges {
   @Input() ascendant: string = '';
   @Input() housesData: any[] = [];
   @Input() showDegrees = false;
+  @Input() placeByDegree = false;
   @Output() houseSelected = new EventEmitter<any>();
 
   hoveredHouse: number | null = null;
@@ -59,6 +67,7 @@ export class WesternChartComponent implements OnChanges {
   readonly segments: WheelSegment[] = this.buildSegments();
 
   housePlanets: Record<number, any[]> = {};
+  placedPlanets: PlacedPlanet[] = [];
 
   private readonly shortNames: Record<string, string> = {
     Sun: 'Su',
@@ -94,8 +103,9 @@ export class WesternChartComponent implements OnChanges {
       this.ascendantSign = this.getSignNumber(this.ascendant);
     }
 
-    if (changes['planets']) {
+    if (changes['planets'] || changes['placeByDegree']) {
       this.mapPlanetsToSigns();
+      this.mapPlanetsByDegree();
     }
   }
 
@@ -220,7 +230,7 @@ export class WesternChartComponent implements OnChanges {
     }
 
     this.planets?.forEach((planet: any) => {
-      const sign = this.getSignNumber(planet.sign);
+      const sign = this.getSignNumber(planet.sign ?? planet.Sign);
 
       if (!sign) {
         return;
@@ -228,6 +238,70 @@ export class WesternChartComponent implements OnChanges {
 
       this.housePlanets[sign].push(planet);
     });
+  }
+
+  private mapPlanetsByDegree(): void {
+    this.placedPlanets = [];
+
+    if (!this.placeByDegree) {
+      return;
+    }
+
+    const baseRadius = 110;
+    const clusterGap = 8;
+    const radiusStep = 14;
+    const items = (this.planets ?? [])
+      .map(planet => {
+        const longitude = this.getPlanetAbsoluteLongitude(planet);
+        return longitude == null ? null : { planet, longitude };
+      })
+      .filter((item): item is { planet: any; longitude: number } => item != null)
+      .sort((left, right) => left.longitude - right.longitude);
+
+    items.forEach((item, index) => {
+      let radius = baseRadius;
+      const previous = items[index - 1];
+      if (previous && this.longitudeDistance(item.longitude, previous.longitude) < clusterGap) {
+        const stacked = this.placedPlanets[this.placedPlanets.length - 1];
+        const previousRadius = stacked
+          ? Math.hypot(stacked.x - this.center, stacked.y - this.center)
+          : baseRadius;
+        radius = previousRadius + radiusStep;
+      }
+
+      const angle = -90 + item.longitude;
+      const point = this.pointOnCircle(angle, radius);
+      this.placedPlanets.push({
+        planet: item.planet,
+        x: point.x,
+        y: point.y,
+        angle
+      });
+    });
+  }
+
+  getPlanetAbsoluteLongitude(planet: any): number | null {
+    const longitude = Number(planet?.longitude ?? planet?.Longitude);
+    if (Number.isFinite(longitude)) {
+      return ((longitude % 360) + 360) % 360;
+    }
+
+    const sign = this.getSignNumber(planet?.sign ?? planet?.Sign);
+    if (!sign) {
+      return null;
+    }
+
+    const degreeLabel = Number(formatPlanetDegreeInSign(planet));
+    if (!Number.isFinite(degreeLabel)) {
+      return null;
+    }
+
+    return ((sign - 1) * 30 + degreeLabel + 360) % 360;
+  }
+
+  private longitudeDistance(left: number, right: number): number {
+    const delta = Math.abs(left - right) % 360;
+    return Math.min(delta, 360 - delta);
   }
 
   private getPlanetName(planet: any): string {

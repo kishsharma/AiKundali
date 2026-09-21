@@ -35,4 +35,38 @@ describe('WesternChartComponent', () => {
     expect(component.getHouseForSign(8)).toBe(2);
     expect(component.getHouseForSign(6)).toBe(12);
   });
+
+  it('places gochar planets on ecliptic longitude while keeping natal houses', () => {
+    component.ascendant = '7 - Libra';
+    component.placeByDegree = true;
+    component.planets = [
+      { planet: 'Sun', sign: 'Aries', longitude: 15 }
+    ];
+    component.ngOnChanges({
+      ascendant: {
+        currentValue: component.ascendant,
+        previousValue: '',
+        firstChange: true,
+        isFirstChange: () => true
+      },
+      placeByDegree: {
+        currentValue: true,
+        previousValue: false,
+        firstChange: true,
+        isFirstChange: () => true
+      },
+      planets: {
+        currentValue: component.planets,
+        previousValue: [],
+        firstChange: true,
+        isFirstChange: () => true
+      }
+    });
+
+    expect(component.getPlanetAbsoluteLongitude(component.planets[0])).toBe(15);
+    expect(component.placedPlanets.length).toBe(1);
+    expect(component.placedPlanets[0].angle).toBe(-75);
+    expect(component.getHouseForSign(7)).toBe(1);
+    expect(component.getHouseForSign(1)).toBe(7);
+  });
 });

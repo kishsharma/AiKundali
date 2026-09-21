@@ -43,6 +43,7 @@
         [attr.y]="segment.planetY"
         class="planet-text"
         text-anchor="middle"
+        *ngIf="!placeByDegree"
       >
         <tspan
           *ngFor="let planet of getPlanets(segment.sign); let planetIndex = index"
@@ -58,8 +59,25 @@
       </text>
     </g>
 
-    <text x="250" y="238" text-anchor="middle" class="center-title">{{ 'chartTypes.western' | transloco }}</text>
-    <text x="250" y="262" text-anchor="middle" class="center-subtitle">{{ 'chart.rashiWheel' | transloco }}</text>
+    <g *ngIf="placeByDegree" class="degree-placed-planets">
+      <text
+        *ngFor="let item of placedPlanets"
+        [attr.x]="item.x"
+        [attr.y]="item.y"
+        class="planet-text"
+        text-anchor="middle"
+        [ngClass]="getPlanetToneClass(item.planet)"
+      >
+        <title>{{ getPlanetTooltip(item.planet) }}</title>
+        {{ getPlanetShortName(item.planet) }}<tspan
+          *ngIf="showDegrees && getPlanetDegreeLabel(item.planet)"
+          class="planet-degree"
+        > {{ getPlanetDegreeLabel(item.planet) }}°</tspan>
+      </text>
+    </g>
+
+    <text x="250" y="238" text-anchor="middle" class="center-title">{{ (placeByDegree ? 'chart.gocharWheel' : 'chartTypes.western') | transloco }}</text>
+    <text x="250" y="262" text-anchor="middle" class="center-subtitle">{{ (placeByDegree ? 'chart.gocharDegreeWheel' : 'chart.rashiWheel') | transloco }}</text>
   </svg>
 </div>
 
