@@ -285,11 +285,12 @@
   align-items: center;
   gap: 8px 12px;
   padding: 0;
-  overflow-x: auto;
+  overflow: hidden;
 }
 
 .house-details-card.compact.inline .card-header {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
   flex-direction: row;
   align-items: center;
   gap: 8px;
@@ -299,6 +300,8 @@
 .house-details-card.compact.inline .card-header h3 {
   font-size: 14px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .house-details-card.compact.inline .house-title-block .house-meaning {
@@ -312,11 +315,14 @@
   grid-template-columns: none;
   gap: 6px;
   margin: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .house-details-card.compact.inline .simple-info > div,
 .house-details-card.compact.inline .aspect-section {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
   flex-direction: row;
   align-items: center;
   gap: 6px;
@@ -324,9 +330,18 @@
   white-space: nowrap;
 }
 
+.house-details-card.compact.inline .simple-info strong,
+.house-details-card.compact.inline .simple-text-section .simple-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .house-details-card.compact.inline .tag-section {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 .house-details-card.compact.inline .tag-section label {
@@ -336,7 +351,6 @@
 
 .house-details-card.compact.inline .simple-text-section .simple-text {
   display: inline;
-  white-space: nowrap;
 }
 
 .house-details-card.compact.inline .tag-section.simple-text-section:not(.aspect-section) {
