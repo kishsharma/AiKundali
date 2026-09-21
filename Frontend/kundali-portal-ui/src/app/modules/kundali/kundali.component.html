@@ -638,18 +638,6 @@
           </div>
 
           <div class="right">
-            <div class="house-details-panel screen-house-details compact-house-rail">
-              <ng-container *ngIf="selectedHouseData; else noHouseSelected">
-                <app-house-details-card [houseData]="selectedHouseData" [compact]="true"></app-house-details-card>
-              </ng-container>
-
-              <ng-template #noHouseSelected>
-                <p class="house-placeholder">
-                  {{ 'kundali.selectHousePrompt' | transloco }}
-                </p>
-              </ng-template>
-            </div>
-
             <app-section-card class="house-details-card-container pdf-d9-chart-card" *ngIf="d9Chart">
               <div class="chart-surface chart-surface-d9">
               <div class="chart-title">Navamsa Kundali (D9)</div>
@@ -664,6 +652,17 @@
                 [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-western-chart>
               </div>
             </app-section-card>
+          </div>
+
+          <div class="house-details-row screen-house-details">
+            <ng-container *ngIf="selectedHouseData; else noHouseSelected">
+              <app-house-details-card [houseData]="selectedHouseData" [compact]="true" [inline]="true"></app-house-details-card>
+            </ng-container>
+            <ng-template #noHouseSelected>
+              <p class="house-placeholder">
+                {{ 'kundali.selectHousePrompt' | transloco }}
+              </p>
+            </ng-template>
           </div>
         </div>
       </app-section-card>

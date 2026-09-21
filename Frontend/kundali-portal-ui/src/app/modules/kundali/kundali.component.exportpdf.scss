@@ -50,13 +50,17 @@
   gap: 0.35rem;
   margin-top: 0.2rem;
   align-items: start;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 .pdf-mode .division-tabs,
 .pdf-mode .screen-house-details,
 .pdf-mode .screen-gochar-chart {
   display: none !important;
 }
-.pdf-mode .pdf-d9-chart-card {
+.pdf-mode .chart-with-house-details .right {
   display: block !important;
 }
 .pdf-mode .chart-wrapper,
