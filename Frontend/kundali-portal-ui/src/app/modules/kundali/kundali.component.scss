@@ -1563,6 +1563,37 @@
 .pinned-chart-header{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line-soft);padding:8px 10px;color:var(--brass);font-size:11px;font-weight:800}
 .pinned-chart-surface{display:grid;place-items:center;min-height:230px;padding:8px}
 .pinned-chart-surface app-north-indian-chart,.pinned-chart-surface app-south-indian-chart,.pinned-chart-surface app-western-chart{width:min(100%,230px)}
+.current-dasha-rail {
+  position: fixed;
+  top: 118px;
+  right: 16px;
+  z-index: 720;
+  display: flex;
+  flex-direction: column;
+  width: min(320px, calc(100vw - 32px));
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--brass) 42%, var(--line));
+  border-radius: var(--theme-radius-card);
+  padding: 10px;
+  background: color-mix(in srgb, var(--theme-surface) 94%, transparent);
+  box-shadow: 0 12px 28px var(--theme-shadow);
+}
+
+.current-dasha-rail-header {
+  margin-bottom: 8px;
+  color: var(--brass);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.current-dasha-rail .gochar-placeholder {
+  margin: 8px 0 0;
+}
+
 .chart-pin-button.compact{margin-left:0;padding:0 8px}.chart-with-house-details {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1595,43 +1626,8 @@
 }
 
 .chart-with-house-details .gochar {
-  container-name: gochar-chart-panel;
-}
-
-.gochar-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(210px, 0.85fr);
-  gap: 8px;
-  width: 100%;
-  flex: 1 1 auto;
-  min-width: 0;
-  min-height: 0;
-  align-items: stretch;
-}
-
-.gochar-wheel {
   container-type: inline-size;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-}
-
-.current-dasha-rail {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 0;
-  overflow: auto;
-  border-left: 1px solid var(--line-soft);
-  padding: 2.1rem 8px 8px;
-}
-
-.current-dasha-rail .dasha-rail-title {
-  position: static;
-  align-self: flex-start;
-  margin-bottom: 8px;
+  container-name: gochar-chart-panel;
 }
 
 .chart-with-house-details .right {
@@ -1810,8 +1806,6 @@
 
 .gochar-chart-surface {
   padding-top: 2.1rem;
-  align-items: stretch;
-  justify-content: stretch;
 }
 
 
@@ -3622,16 +3616,6 @@
     border-top: 1px solid var(--line);
   }
 
-  .gochar-split {
-    grid-template-columns: 1fr;
-  }
-
-  .current-dasha-rail {
-    border-left: 0;
-    border-top: 1px solid var(--line-soft);
-    padding-top: 12px;
-  }
-
   .chart-control-bar {
     flex-wrap: wrap;
     gap: 8px;
@@ -4256,6 +4240,7 @@
   .janma-story-rail {
     display: none;
   }.pinned-chart-reference,
+  .current-dasha-rail,
   .chandra-rashi-watermark {
     display: none;
   }

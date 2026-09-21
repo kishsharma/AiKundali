@@ -526,6 +526,17 @@
           <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-western-chart>
         </div>
       </aside>
+      <aside class="current-dasha-rail screen-current-dasha" *ngIf="showChart && kundaliResponse" aria-label="Current Mahadasha">
+        <div class="current-dasha-rail-header">{{ 'kundali.currentDashaTitle' | transloco }}</div>
+        <app-mahadasha-antardasha
+          *ngIf="currentMahadashaPeriods.length; else noCurrentDasha"
+          [mahadashas]="currentMahadashaPeriods"
+          [compact]="true">
+        </app-mahadasha-antardasha>
+        <ng-template #noCurrentDasha>
+          <p class="gochar-placeholder">{{ 'kundali.currentDashaUnavailable' | transloco }}</p>
+        </ng-template>
+      </aside>
       <app-section-card id="kundali-chart" [title]="'kundali.chart' | transloco">
         <div class="chart-control-bar" aria-label="Kundali chart controls">
           <div class="division-tabs" role="tablist" aria-label="Kundali divisional chart">
@@ -632,34 +643,19 @@
                   </button>
                 </div>
                 <small class="gochar-date" *ngIf="gocharCalculatedAt">{{ gocharCalculatedAt }}</small>
-                <div class="gochar-split">
-                  <div class="gochar-wheel">
-                    <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
-                      <app-western-chart
-                        class="kundali-main-chart"
-                        [planets]="gocharPlanets"
-                        [ascendant]="gocharAscendant"
-                        [housesData]="d1Houses"
-                        [showDegrees]="showGocharDegrees"
-                        [placeByDegree]="true">
-                      </app-western-chart>
-                    </ng-container>
-                    <ng-template #gocharUnavailable>
-                      <p class="gochar-placeholder">{{ 'kundali.gocharUnavailable' | transloco }}</p>
-                    </ng-template>
-                  </div>
-                  <aside class="current-dasha-rail screen-current-dasha" aria-label="Current Mahadasha">
-                    <div class="chart-title dasha-rail-title">{{ 'kundali.currentDashaTitle' | transloco }}</div>
-                    <app-mahadasha-antardasha
-                      *ngIf="currentMahadashaPeriods.length; else noCurrentDasha"
-                      [mahadashas]="currentMahadashaPeriods"
-                      [compact]="true">
-                    </app-mahadasha-antardasha>
-                    <ng-template #noCurrentDasha>
-                      <p class="gochar-placeholder">{{ 'kundali.currentDashaUnavailable' | transloco }}</p>
-                    </ng-template>
-                  </aside>
-                </div>
+                <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
+                  <app-western-chart
+                    class="kundali-main-chart"
+                    [planets]="gocharPlanets"
+                    [ascendant]="gocharAscendant"
+                    [housesData]="d1Houses"
+                    [showDegrees]="showGocharDegrees"
+                    [placeByDegree]="true">
+                  </app-western-chart>
+                </ng-container>
+                <ng-template #gocharUnavailable>
+                  <p class="gochar-placeholder">{{ 'kundali.gocharUnavailable' | transloco }}</p>
+                </ng-template>
               </div>
             </div>
           </div>
