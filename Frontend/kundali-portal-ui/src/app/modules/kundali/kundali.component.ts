@@ -74,6 +74,34 @@ interface PredictionOutlookCard {
   toneClass: string;
 }
 
+interface PredictionClaimParams {
+  name: string;
+  area: string;
+  theme: string;
+  planet: string;
+  lord: string;
+  house: string;
+  houses: string;
+  place: string;
+  sourceHouse: string;
+  targetHouse: string;
+  lordPlacement: string;
+  dashaSubject: string;
+  level: string;
+  period: string;
+  periodSuffix: string;
+}
+
+interface PredictionUserStory {
+  about: string;
+  headline: string;
+  meaning: string;
+  now: string;
+  helps: string[];
+  watch: string[];
+  chartNote: string;
+}
+
 interface PredictionAreaDetailCard extends PredictionOutlookCard {
   prediction: any | null;
   supportClaims: any[];
@@ -84,6 +112,8 @@ interface PredictionAreaDetailCard extends PredictionOutlookCard {
   timingClaims: any[];
   houseConnections: any[];
   effectivePeriod: string;
+  briefing: string[];
+  story: PredictionUserStory;
 }
 
 
@@ -196,7 +226,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   openDoshaIndex: number | null = null;
   activeReportSection = '';
   openPredictionLifeArea = 'Career';
-  activeStrengthView: 'summary' | 'ashtakavarga' = 'summary';
+  activeStrengthView: 'summary' | 'shadbala' | 'ashtakavarga' = 'summary';
 
   get hasReportStatus(): boolean {
     return !!(this.saveMessage || this.generationMessage || this.pdfDownloadMessage || this.shareMessage);
@@ -560,19 +590,37 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   getPredictionToneLabel(tone: string | null | undefined): string {
     const normalized = this.firstText(tone).toLowerCase();
     const key = normalized === 'supportive'
-      ? 'kundali.predictions.favorable'
+      ? 'kundali.predictions.plain.tone.help'
       : normalized === 'challenging'
-        ? 'kundali.predictions.needsAttention'
+        ? 'kundali.predictions.plain.tone.care'
         : normalized === 'mixed'
-          ? 'kundali.predictions.mixed'
-          : 'kundali.predictions.neutral';
+          ? 'kundali.predictions.plain.tone.mixed'
+          : 'kundali.predictions.plain.tone.quiet';
 
-    return this.translocoService.translate(key);
+    const translated = this.translocoService.translate(key);
+    if (translated && translated !== key) {
+      return translated;
+    }
+
+    return this.getPredictionToneFallback(normalized);
   }
 
   getPredictionToneClass(tone: string | null | undefined): string {
     const normalized = this.firstText(tone).toLowerCase();
     return ['supportive', 'mixed', 'challenging'].includes(normalized) ? normalized : 'neutral';
+  }
+
+  private getPredictionToneFallback(normalized: string): string {
+    if (normalized === 'supportive') {
+      return 'Helping now';
+    }
+    if (normalized === 'challenging') {
+      return 'Go carefully';
+    }
+    if (normalized === 'mixed') {
+      return 'Mixed now';
+    }
+    return 'Quiet now';
   }
 
   formatPredictionDate(value: string | null | undefined): string {
@@ -608,8 +656,10 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       ) ?? null;
       const claims = Array.isArray(prediction?.claims) ? prediction.claims : [];
       const tone = this.firstText(this.readNestedProp(prediction, 'synthesis', 'overallTone'), 'Neutral');
-
-      return {
+      const dashaClaims = this.getPredictionDashaClaims(claims);
+      const natalClaims = this.dedupePredictionClaims(this.getPredictionClaimsByStage(claims, 'natal'));
+      const houseConnections = this.limitList(this.readNestedProp(prediction, 'synthesis', 'houseConnections'), 3);
+      const card: PredictionAreaDetailCard = {
         lifeArea,
         prediction,
         tone,
@@ -618,12 +668,25 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
         supportClaims: this.getPredictionClaimsByTone(claims, 'supportive'),
         challengeClaims: this.getPredictionClaimsByTone(claims, 'challenging'),
         mixedClaims: this.getPredictionClaimsByTone(claims, 'mixed'),
-        dashaClaims: this.getPredictionDashaClaims(claims),
-        natalClaims: this.getPredictionClaimsByStage(claims, 'natal'),
+        dashaClaims,
+        natalClaims,
         timingClaims: this.getPredictionTimingClaims(claims),
-        houseConnections: this.limitList(this.readNestedProp(prediction, 'synthesis', 'houseConnections'), 3),
-        effectivePeriod: this.formatPredictionPeriod(this.readNestedProp(prediction, 'synthesis', 'effectiveFrom'), this.readNestedProp(prediction, 'synthesis', 'effectiveTo'))
+        houseConnections,
+        effectivePeriod: this.formatPredictionPeriod(this.readNestedProp(prediction, 'synthesis', 'effectiveFrom'), this.readNestedProp(prediction, 'synthesis', 'effectiveTo')),
+        briefing: [],
+        story: {
+          about: '',
+          headline: '',
+          meaning: '',
+          now: '',
+          helps: [],
+          watch: [],
+          chartNote: ''
+        }
       };
+      card.briefing = this.buildPredictionBriefing(card);
+      card.story = this.buildPredictionUserStory(card);
+      return card;
     });
   }
 
@@ -647,8 +710,11 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   getPredictionClaimsByTone(claims: any[], tone: string): any[] {
-    return claims.filter((claim: any) =>
-      this.firstText(this.readProp(claim, 'tone')).toLowerCase() === tone
+    return this.dedupePredictionClaims(
+      claims.filter((claim: any) =>
+        this.firstText(this.readProp(claim, 'tone')).toLowerCase() === tone
+        && !this.isPredictionTimingClaim(claim)
+      )
     ).slice(0, 3);
   }
 
@@ -753,13 +819,659 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       return this.translocoService.translate('kundali.predictions.claim.default');
     }
 
+    const params = this.getPredictionClaimParams(claim);
+    const patternKey = this.getPredictionClaimPatternKey(key);
+    if (patternKey) {
+      const patterned = this.translocoService.translate(patternKey, params);
+      if (patterned && patterned !== patternKey) {
+        return patterned;
+      }
+    }
+
     const translationKey = 'kundali.predictions.claim.' + key;
-    const translated = this.translocoService.translate(translationKey);
+    const translated = this.translocoService.translate(translationKey, params);
     if (translated && translated !== translationKey) {
       return translated;
     }
 
+    return this.buildPredictionClaimFallback(key, params);
+  }
+
+  private buildPredictionBriefing(area: PredictionAreaDetailCard): string[] {
+    const lines: string[] = [];
+    const areaLabel = this.getPredictionAreaLabel(area.lifeArea);
+    const name = this.formatPersonName(this.kundaliForm?.value?.fullName);
+    const md = area.dashaClaims.find(claim =>
+      this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'mahadasha'
+    );
+    const ad = area.dashaClaims.find(claim =>
+      this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'antardasha'
+    );
+    const mdPlanet = this.translatePlanetName(this.readProp(md, 'dashaPlanet'));
+    const adPlanet = this.translatePlanetName(this.readProp(ad, 'dashaPlanet'));
+    const period = area.effectivePeriod
+      || this.getPredictionClaimPeriod(ad)
+      || this.getPredictionClaimPeriod(md);
+    const windowParams = {
+      name,
+      area: areaLabel,
+      md: mdPlanet,
+      ad: adPlanet,
+      period,
+      periodSuffix: period ? ` (${period})` : '',
+      running: ''
+    };
+
+    if (name && mdPlanet && adPlanet) {
+      lines.push(this.storyText(
+        'kundali.predictions.briefing.windowNamed',
+        windowParams,
+        `${name}, ${mdPlanet} Mahadasha / ${adPlanet} Antardasha${windowParams.periodSuffix} is the active ${areaLabel} window.`
+      ));
+    } else if (mdPlanet || adPlanet) {
+      const running = [mdPlanet && `${mdPlanet} Mahadasha`, adPlanet && `${adPlanet} Antardasha`].filter(Boolean).join(' / ');
+      lines.push(this.storyText(
+        'kundali.predictions.briefing.window',
+        { ...windowParams, running },
+        `${running}${windowParams.periodSuffix} is the active ${areaLabel} window.`
+      ));
+    }
+
+    const natalSupport = area.supportClaims[0];
+    const natalChallenge = area.challengeClaims[0] || area.mixedClaims[0];
+    const connection = area.houseConnections[0];
+    const because = natalSupport
+      ? this.getPredictionClaimLabel(natalSupport)
+      : connection
+        ? this.getHouseConnectionTitle(connection)
+        : '';
+    const toneLabel = area.toneLabel;
+
+    if (because) {
+      lines.push(this.storyText(
+        'kundali.predictions.briefing.verdictBecause',
+        { area: areaLabel, tone: toneLabel, because },
+        `${areaLabel} looks ${toneLabel.toLowerCase()} in this window because ${this.lowerFirst(because)}`
+      ));
+    } else {
+      lines.push(this.storyText(
+        'kundali.predictions.briefing.verdict',
+        { area: areaLabel, tone: toneLabel },
+        `${areaLabel} looks ${toneLabel.toLowerCase()} from the current natal and Dasha factors.`
+      ));
+    }
+
+    if (natalChallenge && natalChallenge !== natalSupport) {
+      lines.push(this.getPredictionClaimLabel(natalChallenge));
+    }
+
+    if (connection && natalSupport) {
+      const themes = this.getHouseConnectionThemes(connection);
+      const title = this.getHouseConnectionTitle(connection);
+      lines.push(this.storyText(
+        'kundali.predictions.briefing.houseLink',
+        { link: title, themes },
+        themes ? `${title} ties ${themes}.` : title
+      ));
+    }
+
+    return [...new Set(lines.filter(line => this.firstText(line)))].slice(0, 4);
+  }
+
+  private buildPredictionUserStory(area: PredictionAreaDetailCard): PredictionUserStory {
+    const areaKey = this.firstText(area.lifeArea).toLowerCase() || 'career';
+    const areaLabel = this.getPredictionAreaLabel(area.lifeArea);
+    const tone = this.getPredictionToneClass(area.tone);
+    const name = this.formatPersonName(this.kundaliForm?.value?.fullName);
+    const md = area.dashaClaims.find(claim =>
+      this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'mahadasha'
+    );
+    const ad = area.dashaClaims.find(claim =>
+      this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'antardasha'
+    );
+    const pd = area.dashaClaims.find(claim =>
+      this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'pratyantardasha'
+    );
+    const mdPlanet = this.translatePlanetName(this.readProp(md, 'dashaPlanet'));
+    const adPlanet = this.translatePlanetName(this.readProp(ad, 'dashaPlanet'));
+    const pdPlanet = this.translatePlanetName(this.readProp(pd, 'dashaPlanet'));
+    const period = area.effectivePeriod
+      || this.getPredictionClaimPeriod(ad)
+      || this.getPredictionClaimPeriod(md);
+    const periodSuffix = period ? ` (${period})` : '';
+    const connection = area.houseConnections[0];
+    const sourceTheme = this.getConnectionSignificationLabels(this.readProp(connection, 'sourceSignificationKeys'), 1)[0] || areaLabel;
+    const targetTheme = this.getConnectionSignificationLabels(this.readProp(connection, 'targetSignificationKeys'), 1)[0] || '';
+    const linkPlanet = this.translatePlanetName(this.readProp(connection, 'lordPlanet'));
+
+    const headline = this.storyText(
+      `kundali.predictions.plain.headline.${tone}`,
+      { area: areaLabel },
+      tone === 'challenging'
+        ? `${areaLabel} is under pressure in this period.`
+        : tone === 'mixed'
+          ? `${areaLabel} has both help and friction in this period.`
+          : `${areaLabel} has more help than friction in this period.`
+    );
+
+    let meaning = this.storyText(
+      `kundali.predictions.plain.meaning.${areaKey}.${tone}`,
+      { name, area: areaLabel, planet: adPlanet || mdPlanet, sourceTheme, targetTheme, linkPlanet },
+      this.getPredictionDefaultMeaning(areaKey, tone, areaLabel)
+    );
+    const pacePlanet = adPlanet || mdPlanet;
+    if (pacePlanet && !meaning.toLowerCase().includes(pacePlanet.toLowerCase())) {
+      meaning = `${meaning.replace(/\s+$/, '')} ${this.storyText(
+        'kundali.predictions.plain.pacePlanet',
+        { planet: pacePlanet },
+        `${pacePlanet} is setting the pace.`
+      )}`;
+    }
+
+    let now = '';
+    if (mdPlanet && adPlanet) {
+      now = this.storyText(
+        'kundali.predictions.plain.nowNamed',
+        {
+          name,
+          area: areaLabel,
+          md: mdPlanet,
+          ad: adPlanet,
+          pd: pdPlanet,
+          periodSuffix
+        },
+        `${name ? `${name}, ` : ''}the longer chapter is ${mdPlanet}, and the current chapter is ${adPlanet}${periodSuffix}. That timing is what this ${areaLabel.toLowerCase()} reading is about.`
+      );
+    } else if (mdPlanet || adPlanet) {
+      const running = mdPlanet || adPlanet;
+      now = this.storyText(
+        'kundali.predictions.plain.now',
+        { name, area: areaLabel, running, periodSuffix },
+        `The current chapter is ${running}${periodSuffix}. Read this ${areaLabel.toLowerCase()} outlook against that period.`
+      );
+    }
+
+    const helps = this.collectPredictionPlainPoints(area.supportClaims, 'help', areaLabel, meaning)
+      .slice(0, tone === 'mixed' ? 2 : 1);
+    const watch = this.collectPredictionPlainPoints(
+      [...area.challengeClaims, ...area.mixedClaims],
+      'watch',
+      areaLabel,
+      `${meaning} ${headline}`
+    ).slice(0, tone === 'mixed' ? 2 : 1);
+
+    let chartNote = '';
+    if (linkPlanet && targetTheme) {
+      chartNote = this.storyText(
+        'kundali.predictions.plain.chartNote',
+        { planet: linkPlanet, sourceTheme, targetTheme, area: areaLabel },
+        `${linkPlanet} connects ${sourceTheme.toLowerCase()} with ${targetTheme.toLowerCase()}, so ${areaLabel.toLowerCase()} results may show up through ${targetTheme.toLowerCase()}.`
+      );
+    } else if (helps.length && watch.length) {
+      chartNote = this.storyText(
+        'kundali.predictions.plain.chartNoteMixed',
+        { area: areaLabel },
+        `The birth chart and the current period do not fully agree, which is why ${areaLabel.toLowerCase()} looks mixed.`
+      );
+    }
+
+    return {
+      about: this.storyText(
+        `kundali.predictions.plain.about.${areaKey}`,
+        { area: areaLabel },
+        this.getPredictionDefaultAbout(areaKey)
+      ),
+      headline,
+      meaning,
+      now,
+      helps,
+      watch,
+      chartNote
+    };
+  }
+
+  getPredictionTimeHint(claim: any): string {
+    const level = this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase();
+    if (level && level !== 'antardasha') {
+      return '';
+    }
+
+    const tone = this.getPredictionToneClass(this.readProp(claim, 'tone'));
+    const planet = this.translatePlanetName(this.readProp(claim, 'dashaPlanet')) || 'This planet';
+    return this.storyText(
+      `kundali.predictions.plain.time.${tone}`,
+      { planet },
+      tone === 'challenging'
+        ? `${planet} asks you to go slower.`
+        : tone === 'mixed'
+          ? `${planet} brings both movement and delay.`
+          : `${planet} is helping this area.`
+    );
+  }
+
+  getPredictionChapterLabel(level: string | null | undefined): string {
+    const normalized = this.firstText(level).toLowerCase();
+    const key = normalized === 'mahadasha'
+      ? 'kundali.predictions.plain.chapter.long'
+      : normalized === 'antardasha'
+        ? 'kundali.predictions.plain.chapter.current'
+        : normalized === 'pratyantardasha'
+          ? 'kundali.predictions.plain.chapter.near'
+          : 'kundali.predictions.plain.chapter.now';
+    return this.storyText(key, {}, this.getDashaLevelLabel(level));
+  }
+
+  private collectPredictionPlainPoints(
+    claims: any[],
+    kind: 'help' | 'watch',
+    areaLabel: string,
+    alreadySaid = ''
+  ): string[] {
+    const ranked = [...claims].sort((left, right) =>
+      this.getPredictionPointRank(right) - this.getPredictionPointRank(left)
+    );
+    const seenFamilies = new Set<string>();
+    const points: string[] = [];
+    let said = this.normalizePredictionText(alreadySaid);
+
+    for (const claim of ranked) {
+      const family = this.getPredictionClaimFamily(this.firstText(this.readProp(claim, 'key')));
+      if (!family || seenFamilies.has(family)) {
+        continue;
+      }
+
+      const point = this.getPredictionPlainPoint(claim, kind, areaLabel);
+      const normalizedPoint = this.normalizePredictionText(point);
+      if (!point || this.predictionTextOverlaps(normalizedPoint, said)) {
+        continue;
+      }
+
+      seenFamilies.add(family);
+      points.push(point);
+      said = `${said} ${normalizedPoint}`.trim();
+    }
+
+    return points;
+  }
+
+  private getPredictionClaimFamily(key: string): string {
+    return key
+      .toLowerCase()
+      .replace(/_(support|pressure|mixed)$/i, '')
+      .replace(/_dignity$/i, '')
+      .replace(/_lord$/i, '');
+  }
+
+  private getPredictionPointRank(claim: any): number {
+    const key = this.firstText(this.readProp(claim, 'key')).toLowerCase();
+    const params = this.getPredictionClaimParams(claim);
+    let rank = 0;
+    if (params.planet) {
+      rank += 4;
+    }
+    if (key.includes('_lord_')) {
+      rank += 3;
+    }
+    if (key.includes('_dignity_')) {
+      rank += 2;
+    }
+    if (key.includes('_dasha_')) {
+      rank += 1;
+    }
+    return rank;
+  }
+
+  private normalizePredictionText(value: string): string {
+    return this.firstText(value)
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]+/g, ' ')
+      .replace(/\b(needs|need|attention|care|patience|careful|caution|slow|slower|pressure|mixed|help|helping|support|supported)\b/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  private predictionTextOverlaps(point: string, alreadySaid: string): boolean {
+    if (!point) {
+      return true;
+    }
+    if (!alreadySaid) {
+      return false;
+    }
+    if (alreadySaid.includes(point)) {
+      return true;
+    }
+
+    const pointWords = new Set(point.split(' ').filter(word => word.length > 3));
+    if (!pointWords.size) {
+      return true;
+    }
+
+    let shared = 0;
+    for (const word of pointWords) {
+      if (alreadySaid.includes(word)) {
+        shared += 1;
+      }
+    }
+
+    return shared / pointWords.size >= 0.55;
+  }
+
+  private getPredictionPlainPoint(claim: any, kind: 'help' | 'watch', areaLabel: string): string {
+    const key = this.firstText(this.readProp(claim, 'key'));
+    const params = this.getPredictionClaimParams(claim);
+    const tone = this.getPredictionKeyTone(key) || (kind === 'watch' ? 'pressure' : 'support');
+    const pattern = key.includes('_dasha_')
+      ? 'dasha'
+      : key.includes('_dignity_')
+        ? 'dignity'
+        : key.includes('_lord_')
+          ? 'lord'
+          : 'natal';
+    const pointKey = `kundali.predictions.plain.point.${pattern}.${tone}`;
+    const fallback = this.buildPredictionPlainPointFallback(pattern, tone, params, areaLabel);
+    return this.storyText(pointKey, { ...params, area: areaLabel, theme: this.getPredictionPlainTheme(key) }, fallback);
+  }
+
+  private getPredictionPlainTheme(key: string): string {
+    const family = key
+      .replace(/_(support|pressure|mixed)$/i, '')
+      .replace(/_dignity$/i, '')
+      .replace(/_lord$/i, '');
+    const themeKey = `kundali.predictions.plain.theme.${family}`;
+    const translated = this.translocoService.translate(themeKey);
+    if (translated && translated !== themeKey) {
+      return translated;
+    }
+
+    return this.getPredictionClaimTheme(key);
+  }
+
+  private buildPredictionPlainPointFallback(
+    pattern: string,
+    tone: string,
+    params: PredictionClaimParams,
+    areaLabel: string
+  ): string {
+    const planet = params.planet || params.lord || 'This planet';
+    const theme = params.theme || areaLabel.toLowerCase();
+
+    if (pattern === 'dasha') {
+      if (tone === 'pressure') {
+        return `${planet}'s current period can slow or test ${areaLabel.toLowerCase()}.`;
+      }
+      if (tone === 'mixed') {
+        return `${planet}'s current period is mixed for ${areaLabel.toLowerCase()} — some movement, some delay.`;
+      }
+      return `${planet}'s current period is helping ${areaLabel.toLowerCase()}.`;
+    }
+
+    if (pattern === 'lord') {
+      if (tone === 'pressure') {
+        return `${planet} is placed in a way that can delay ${theme}.`;
+      }
+      if (tone === 'mixed') {
+        return `${planet} is placed in a way that both helps and complicates ${theme}.`;
+      }
+      return `${planet} is placed in a way that helps ${theme} show in real life.`;
+    }
+
+    if (pattern === 'dignity') {
+      return tone === 'pressure'
+        ? `${planet} is not at full strength for ${theme}.`
+        : `${planet} is strong enough to help ${theme}.`;
+    }
+
+    if (tone === 'pressure') {
+      return `Your birth chart asks for patience with ${theme}.`;
+    }
+    if (tone === 'mixed') {
+      return `Your birth chart gives mixed signals for ${theme}.`;
+    }
+    return `Your birth chart supports ${theme}.`;
+  }
+
+  private getPredictionDefaultAbout(areaKey: string): string {
+    switch (areaKey) {
+      case 'finance':
+        return 'Money in, savings, and day-to-day financial decisions.';
+      case 'relationships':
+        return 'Partnership, marriage, and close one-to-one bonds.';
+      case 'education':
+        return 'Study, skills, exams, and how easily learning sticks.';
+      case 'family':
+        return 'Home, parents, and family support.';
+      case 'property':
+        return 'House, land, and your living situation.';
+      case 'health':
+        return 'Energy, body, and daily vitality.';
+      default:
+        return 'Work, reputation, and how your effort is seen.';
+    }
+  }
+
+  private getPredictionDefaultMeaning(areaKey: string, tone: string, areaLabel: string): string {
+    if (tone === 'challenging') {
+      return `${areaLabel} may feel slower or heavier now. Protect what you already have, finish open work, and avoid rushed moves.`;
+    }
+    if (tone === 'mixed') {
+      return `${areaLabel} has both lift and friction. Lean on what is already working, and stay patient where results lag.`;
+    }
+    return `${areaLabel} has more backing than usual. This is a better window to be visible, take responsibility, and let effort be noticed.`;
+  }
+
+  private getPredictionClaimParams(claim: any): PredictionClaimParams {
+    const key = this.firstText(this.readProp(claim, 'key'));
+    const evidence = this.readPredictionEvidenceList(claim);
+    let sourceHouse = '';
+    let targetHouse = '';
+    let lordPlanet = '';
+    const houses: string[] = [];
+    let evidencePlanet = '';
+
+    for (const item of evidence) {
+      const lordMatch = item.match(/^house-lord:(\d+):([^:]+):house:(\d+)$/i);
+      if (lordMatch) {
+        sourceHouse = lordMatch[1];
+        lordPlanet = lordMatch[2];
+        targetHouse = lordMatch[3];
+        houses.push(lordMatch[1], lordMatch[3]);
+        continue;
+      }
+
+      const houseMatch = item.match(/^house:(\d+)/i);
+      if (houseMatch) {
+        houses.push(houseMatch[1]);
+      }
+
+      const planetMatch = item.match(/^planet:([^:]+)$/i);
+      if (planetMatch) {
+        evidencePlanet = planetMatch[1];
+      }
+    }
+
+    const dashaPlanet = this.firstText(this.readProp(claim, 'dashaPlanet'), evidencePlanet);
+    const planetName = this.translatePlanetName(this.firstText(lordPlanet, dashaPlanet, evidencePlanet));
+    const uniqueHouses = [...new Set(houses.filter(Boolean))].map(house => this.formatOrdinalHouse(house));
+    const period = this.getPredictionClaimPeriod(claim);
+    const areaKey = key.split('_')[0] || '';
+    const areaName = this.predictionLifeAreas.find(area => area.toLowerCase() === areaKey)
+      ?? areaKey;
+    const sourceLabel = sourceHouse ? this.formatOrdinalHouse(sourceHouse) : '';
+    const targetLabel = targetHouse ? this.formatOrdinalHouse(targetHouse) : '';
+    const lordName = this.translatePlanetName(lordPlanet) || planetName;
+    const housesLabel = uniqueHouses.join(', ');
+    const lordPlacement = lordName && sourceLabel && targetLabel
+      ? `${lordName} as ${sourceLabel} lord in the ${targetLabel}`
+      : lordName;
+    const dashaSubject = [
+      this.getDashaLevelLabel(this.readProp(claim, 'dashaLevel')),
+      planetName && `of ${planetName}`
+    ].filter(Boolean).join(' ') || 'Current Dasha';
+
+    return {
+      name: this.formatPersonName(this.kundaliForm?.value?.fullName),
+      area: this.getPredictionAreaLabel(areaName),
+      theme: this.getPredictionClaimTheme(key),
+      planet: planetName,
+      lord: lordName,
+      house: uniqueHouses[0] || '',
+      houses: housesLabel,
+      place: housesLabel ? ` around ${housesLabel}` : '',
+      sourceHouse: sourceLabel,
+      targetHouse: targetLabel,
+      lordPlacement,
+      dashaSubject,
+      level: this.getDashaLevelLabel(this.readProp(claim, 'dashaLevel')),
+      period,
+      periodSuffix: period ? ` (${period})` : ''
+    };
+  }
+
+  private getPredictionClaimPatternKey(key: string): string {
+    const tone = this.getPredictionKeyTone(key);
+    if (!tone) {
+      return '';
+    }
+
+    if (key.includes('_current_outlook_')) {
+      return `kundali.predictions.sentence.outlook.${tone}`;
+    }
+    if (key.includes('_dasha_')) {
+      return `kundali.predictions.sentence.dasha.${tone}`;
+    }
+    if (key.includes('_dignity_')) {
+      return `kundali.predictions.sentence.dignity.${tone}`;
+    }
+    if (key.includes('_lord_')) {
+      return `kundali.predictions.sentence.lord.${tone}`;
+    }
+    if (key.includes('_foundation_')) {
+      return `kundali.predictions.sentence.foundation.${tone}`;
+    }
+
+    return `kundali.predictions.sentence.natal.${tone}`;
+  }
+
+  private getPredictionKeyTone(key: string): 'support' | 'pressure' | 'mixed' | '' {
+    if (key.endsWith('_support')) {
+      return 'support';
+    }
+    if (key.endsWith('_pressure')) {
+      return 'pressure';
+    }
+    if (key.endsWith('_mixed')) {
+      return 'mixed';
+    }
+    return '';
+  }
+
+  private getPredictionClaimTheme(key: string): string {
+    const family = key
+      .replace(/_(support|pressure|mixed)$/i, '')
+      .replace(/_dignity$/i, '')
+      .replace(/_lord$/i, '');
+    const themeKey = `kundali.predictions.theme.${family}`;
+    const translated = this.translocoService.translate(themeKey);
+    if (translated && translated !== themeKey) {
+      return translated;
+    }
+
+    return this.humanizePredictionKey(family);
+  }
+
+  private buildPredictionClaimFallback(key: string, params: PredictionClaimParams): string {
+    const tone = this.getPredictionKeyTone(key);
+    const area = params.area || this.humanizePredictionKey(key.split('_')[0] || 'chart');
+    const planet = params.planet;
+    const houses = params.houses;
+    const theme = params.theme;
+    const periodSuffix = params.periodSuffix || '';
+    const level = params.level;
+
+    if (key.includes('_dasha_')) {
+      const subject = [level, planet && `of ${planet}`].filter(Boolean).join(' ') || 'Current Dasha';
+      if (tone === 'pressure') {
+        return `${subject}${periodSuffix} asks for caution in ${area}.`;
+      }
+      if (tone === 'mixed') {
+        return `${subject}${periodSuffix} gives mixed factors for ${area}.`;
+      }
+      return `${subject}${periodSuffix} supports ${area}.`;
+    }
+
+    if (key.includes('_current_outlook_')) {
+      if (tone === 'pressure') {
+        return `Current ${area} outlook needs attention.`;
+      }
+      if (tone === 'mixed') {
+        return `Current ${area} outlook is mixed.`;
+      }
+      return `Current ${area} outlook is supportive.`;
+    }
+
+    if (key.includes('_lord_')) {
+      const lord = params.lord || planet || 'The area lord';
+      const placement = params.sourceHouse && params.targetHouse
+        ? `, ${params.sourceHouse} lord in the ${params.targetHouse}`
+        : houses ? ` (${houses})` : '';
+      if (tone === 'pressure') {
+        return `${lord}${placement} needs careful handling for ${theme || area}.`;
+      }
+      if (tone === 'mixed') {
+        return `${lord}${placement} gives mixed signals for ${theme || area}.`;
+      }
+      return `${lord}${placement} supports ${theme || area}.`;
+    }
+
+    const place = houses ? ` around ${houses}` : '';
+    if (tone === 'pressure') {
+      return `${theme || area}${place} needs patience.`;
+    }
+    if (tone === 'mixed') {
+      return `${theme || area}${place} carries both support and pressure.`;
+    }
+    if (tone === 'support') {
+      return `${theme || area}${place} is supported.`;
+    }
+
     return this.humanizePredictionKey(key);
+  }
+
+  private readPredictionEvidenceList(claim: any): string[] {
+    const value = this.readProp(claim, 'evidenceKeys') ?? this.readProp(claim, 'evidence');
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value.map(item => this.firstText(item)).filter(Boolean);
+  }
+
+  private dedupePredictionClaims(claims: any[]): any[] {
+    const seen = new Set<string>();
+
+    return claims.filter(claim => {
+      const family = this.firstText(this.readProp(claim, 'key'))
+        .toLowerCase()
+        .replace(/_(support|pressure|mixed)$/i, '')
+        .replace(/_dignity$/i, '')
+        .replace(/_lord$/i, '');
+      const identity = family || this.firstText(this.readProp(claim, 'key')).toLowerCase();
+      if (!identity || seen.has(identity)) {
+        return false;
+      }
+
+      seen.add(identity);
+      return true;
+    });
+  }
+
+  private lowerFirst(value: string): string {
+    const text = this.firstText(value);
+    if (!text) {
+      return '';
+    }
+
+    return text.charAt(0).toLowerCase() + text.slice(1);
   }
 
   getPredictionStageLabel(stage: string | null | undefined): string {
@@ -1319,15 +2031,62 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   getStrengthClass(value: string | null | undefined): Record<string, boolean> {
-    const normalized = this.normalizeStrength(value);
-    const isWeak = normalized.includes('Weak') || normalized.includes('Enemy') || normalized.includes('Debilitated');
-    const isStrong = !isWeak && (normalized.includes('Own') || normalized.includes('Exalted'));
+    const normalized = this.normalizeStrength(value).toLowerCase();
+    const isWeak = normalized.includes('weak')
+      || normalized.includes('enemy')
+      || normalized.includes('debilitated')
+      || normalized.includes('poor')
+      || normalized.includes('low');
+    const isStrong = !isWeak && (
+      normalized.includes('own')
+      || normalized.includes('exalted')
+      || normalized.includes('strong')
+      || normalized.includes('high')
+      || normalized.includes('good')
+      || normalized.includes('excellent')
+    );
 
     return {
       strong: isStrong,
-      neutral: !isStrong && !isWeak && (normalized.includes('Neutral') || normalized.includes('NotApplicable')),
+      neutral: !isStrong && !isWeak && (
+        normalized.includes('neutral')
+        || normalized.includes('notapplicable')
+        || normalized.includes('moderate')
+        || normalized.includes('medium')
+        || normalized.includes('average')
+      ),
       weak: isWeak
     };
+  }
+
+  getStrengthToneColor(value: string | null | undefined): string | null {
+    const normalized = (value ?? '').toLowerCase();
+    if (!normalized) {
+      return null;
+    }
+
+    if (['weak', 'low', 'poor', 'enemy', 'debilitated'].some(token => normalized.includes(token))) {
+      return 'var(--theme-danger)';
+    }
+
+    if (['strong', 'high', 'good', 'excellent', 'own', 'exalted'].some(token => normalized.includes(token))) {
+      return 'var(--theme-success)';
+    }
+
+    if (['moderate', 'medium', 'average', 'neutral'].some(token => normalized.includes(token))) {
+      return 'var(--theme-warning)';
+    }
+
+    return null;
+  }
+
+  formatVirupa(value: number | string | null | undefined): string {
+    if (value == null || value === '') {
+      return '—';
+    }
+
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric.toFixed(1) : '—';
   }
 
   getPlanetGlyph(planet: string | null | undefined): string {
