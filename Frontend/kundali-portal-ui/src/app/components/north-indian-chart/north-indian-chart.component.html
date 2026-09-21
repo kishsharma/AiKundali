@@ -1,8 +1,9 @@
 <!-- kundali-chart.component.html -->
-<div class="chart-wrapper">
+<div class="north-chart-canvas">
 
   <svg
     viewBox="35 35 430 430"
+    width="100%"
     preserveAspectRatio="xMidYMid meet"
     class="kundali-svg"
   >
@@ -308,7 +309,10 @@
       [ngClass]="getPlanetToneClass(planet)"
     >
       <title>{{ getPlanetTooltip(planet) }}</title>
-      {{ getPlanetShortName(planet) }}
+      {{ getPlanetShortName(planet) }}<tspan
+        *ngIf="showDegrees && getPlanetDegreeLabel(planet)"
+        class="planet-degree"
+      > {{ getPlanetDegreeLabel(planet) }}°</tspan>
     </text>
 
   </ng-container>

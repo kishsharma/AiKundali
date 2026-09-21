@@ -11,6 +11,9 @@
   <ng-container *ngIf="session && currentScene as scene">
     <button type="button" class="exit-link" (click)="exitHoraverse()">{{ t('horaverse.controls.exit') }}</button>
     <div class="voice-ritual" [style.--voice-color]="activeVoiceColor">
+      <button type="button" (click)="toggleMusic()">
+        {{ musicButtonLabel }}
+      </button>
       <button type="button" (click)="toggleVoiceover()" [disabled]="!voiceAvailable">
         {{ voiceButtonLabel }}
       </button>
@@ -38,7 +41,7 @@
           <span>{{ t('horaverse.awakening.heartbeat') }}</span>
         </div>
 
-        <div *ngIf="scene.kind === 'solar-ring'" class="solar-ring-stage">
+        <div *ngIf="showLivingChart" class="solar-ring-stage">
           <div class="solar-ring-shadow" aria-hidden="true"></div>
           <div class="solar-ring-plane">
           <svg
@@ -56,7 +59,7 @@
           </defs>
 
           <circle class="ring-halo" [attr.cx]="center" [attr.cy]="center" r="260"></circle>
-          <path *ngFor="let arc of houseArcs" class="house-arc" [class.ascendant-house]="arc.house === 1" [attr.d]="arc.path"></path>
+          <path *ngFor="let arc of houseArcs" class="house-arc" [class.ascendant-house]="arc.house === 1" [class.focused-house]="arc.house === focusedHouseNumber" [attr.d]="arc.path" (click)="focusHouse(arc.house, $event)"></path>
           <line
             *ngFor="let arc of houseArcs"
             class="house-ray"
@@ -68,13 +71,22 @@
           <text *ngFor="let label of zodiacArcLabels" class="zodiac-arc-label" [class.ascendant-zodiac-label]="label.house === 1">
             <textPath [attr.href]="'#' + label.pathId" startOffset="50%" text-anchor="middle">{{ translateSign(label.sign) }}</textPath>
           </text>
-          <text *ngFor="let arc of houseArcs" class="house-label" [class.ascendant-label]="arc.house === 1" [attr.x]="arc.labelX" [attr.y]="arc.labelY">
+          <text *ngFor="let arc of houseArcs" class="house-label" [class.ascendant-label]="arc.house === 1" [class.focused-label]="arc.house === focusedHouseNumber" [attr.x]="arc.labelX" [attr.y]="arc.labelY" (click)="focusHouse(arc.house, $event)">
             {{ arc.house }}
           </text>
+          <line
+            *ngFor="let ray of visibleAspectRays"
+            class="aspect-ray"
+            [class.benefic]="ray.tone === 'benefic'"
+            [class.malefic]="ray.tone === 'malefic'"
+            [attr.x1]="ray.x1"
+            [attr.y1]="ray.y1"
+            [attr.x2]="ray.x2"
+            [attr.y2]="ray.y2"></line>
           <circle class="solar-core" [attr.cx]="center" [attr.cy]="center" r="42"></circle>
           <circle class="solar-dot" [attr.cx]="center" [attr.cy]="center" r="10"></circle>
 
-          <g *ngFor="let point of planetPoints" class="planet-node">
+          <g *ngFor="let point of planetPoints" class="planet-node" [class.is-focused]="focusedPlanet?.planet === point.planet" [class.is-supportive]="point.supportTone === 'supportive'" [class.is-challenging]="point.supportTone === 'challenging'" (click)="focusPlanet(point, $event)">
             <line class="planet-orbit-line" [attr.x1]="center" [attr.y1]="center" [attr.x2]="point.x" [attr.y2]="point.y"></line>
             <circle class="planet-glow" [attr.cx]="point.x" [attr.cy]="point.y" r="17" [attr.fill]="getPlanetColor(point)"></circle>
             <g class="planet-marker" [ngClass]="'planet-' + getPlanetKey(point)" [attr.transform]="'translate(' + point.x + ' ' + point.y + ')'">
@@ -121,9 +133,45 @@
               </ng-container>
             </g>
             <text class="planet-label" [ngClass]="'planet-label-' + getPlanetKey(point)" [attr.x]="point.x" [attr.y]="point.y - 24">{{ getPlanetAbbreviation(point) }}</text>
+            <text class="planet-degree" [attr.x]="point.x" [attr.y]="point.y + 28">{{ point.degreeLabel }}</text>
           </g>
           </svg>
           </div>
+          <aside class="living-hud" *ngIf="scene.kind === 'solar-ring' && focusedPlanet as planet">
+            <span class="hud-kicker">{{ translatePlanet(planet.planet) }}</span>
+            <strong>{{ planet.degreeLabel }} {{ translateSign(planet.sign) }}</strong>
+            <p>{{ t('horaverse.innerFocus.house', { house: planet.house || '?' }) }} · {{ supportLabel(planet.supportTone) }} · {{ natureLabel(planet.nature) }}</p>
+            <p *ngIf="planet.strength">{{ t('horaverse.hud.strength') }}: {{ planet.strength }}</p>
+            <p *ngIf="planet.aspectedBy.length">{{ t('horaverse.hud.aspectedBy') }}: {{ formatJoinedPlanets(planet.aspectedBy) }}</p>
+            <p *ngIf="planet.isRetrograde || planet.isCombust">
+              {{ planet.isRetrograde ? t('horaverse.voice.retrogradeMotion') : '' }}
+              {{ planet.isCombust ? t('horaverse.voice.combustion') : '' }}
+            </p>
+          </aside>
+          <aside class="living-hud" *ngIf="scene.kind === 'house-walk' && focusedHouse as house">
+            <span class="hud-kicker">{{ t('horaverse.innerFocus.house', { house: house.house }) }}</span>
+            <strong>{{ house.name || houseMeaning(house.house) }}</strong>
+            <p>{{ translateSign(house.sign) }} · {{ t('horaverse.hud.lord') }} {{ translatePlanet(house.lord) || t('horaverse.common.unknown') }}</p>
+            <p>{{ t('horaverse.hud.occupants') }}: {{ formatJoinedPlanets(house.occupants) || t('horaverse.hud.emptyOccupants') }}</p>
+            <p>{{ t('horaverse.hud.aspectedBy') }}: {{ formatJoinedPlanets(house.aspectedBy) || t('horaverse.common.quiet') }}</p>
+            <p>
+              {{ house.hasBeneficAspect ? t('horaverse.hud.beneficAspect') : '' }}
+              {{ house.hasMaleficAspect ? t('horaverse.hud.maleficAspect') : '' }}
+              {{ house.score != null ? t('horaverse.hud.score') + ' ' + house.score : '' }}
+            </p>
+          </aside>
+          <nav class="house-rail" *ngIf="scene.kind === 'house-walk'" aria-label="{{ t('horaverse.controls.scenesAria') }}">
+            <button
+              type="button"
+              *ngFor="let house of houseInsights"
+              [class.active]="house.house === focusedHouseNumber"
+              [class.benefic]="house.hasBeneficAspect && !house.hasMaleficAspect"
+              [class.malefic]="house.hasMaleficAspect && !house.hasBeneficAspect"
+              [class.mixed]="house.hasBeneficAspect && house.hasMaleficAspect"
+              (click)="focusHouse(house.house, $event)">
+              {{ house.house }}
+            </button>
+          </nav>
         </div>
 
         <svg *ngIf="scene.kind === 'kaala'" class="kaala-figure" viewBox="0 0 520 520" role="img" [attr.aria-label]="t('horaverse.aria.kaala')">
@@ -304,31 +352,29 @@
           </g>
         </svg>
 
-        <div class="inner-focus" *ngIf="scene.kind === 'inner-focus'">
-          <svg class="focus-orbit" [attr.viewBox]="viewBox" aria-hidden="true">
-            <circle class="focus-ring moon-ring" [attr.cx]="center" [attr.cy]="center" r="172"></circle>
-            <circle class="focus-ring" [attr.cx]="center" [attr.cy]="center" r="112"></circle>
-            <g *ngIf="moonPoint as moon">
-              <circle class="focus-planet moon" [attr.cx]="moon.x" [attr.cy]="moon.y" r="18"></circle>
-              <text class="focus-label" [attr.x]="moon.x" [attr.y]="moon.y - 30">{{ translatePlanet('Moon') }}</text>
-            </g>
-            <g *ngIf="saturnPoint as saturn">
-              <line class="saturn-aspect" [attr.x1]="center" [attr.y1]="center" [attr.x2]="saturn.x" [attr.y2]="saturn.y"></line>
-              <circle class="focus-planet saturn" [attr.cx]="saturn.x" [attr.cy]="saturn.y" r="14"></circle>
-              <text class="focus-label saturn-text" [attr.x]="saturn.x" [attr.y]="saturn.y - 24">{{ translatePlanet('Saturn') }}</text>
-            </g>
-          </svg>
-          <div class="focus-whisper">
-            <span>{{ t('horaverse.innerFocus.moonRoom') }}</span>
-            <strong>{{ translateSign(moonPoint?.sign || session.report?.summary?.moonSign) || translatePlanet('Moon') }}</strong>
-            <p>{{ t('horaverse.innerFocus.house', { house: moonPoint?.house || '?' }) }}</p>
+        <div class="dasha-river" *ngIf="scene.kind === 'kaala' && dashaInsight">
+          <div class="dasha-chip">{{ currentDashaLabel }}</div>
+          <div class="dasha-progress">
+            <span>{{ t('horaverse.dasha.maha') }}</span>
+            <div class="score-track"><i [style.width]="getMetricWidth(dashaInsight.mahaProgress)"></i></div>
+            <small>{{ formatHudDate(dashaInsight.mahaStart) }} {{ t('horaverse.common.to') }} {{ formatHudDate(dashaInsight.mahaEnd) }}</small>
+          </div>
+          <div class="dasha-progress">
+            <span>{{ t('horaverse.dasha.antar') }}</span>
+            <div class="score-track"><i class="antar" [style.width]="getMetricWidth(dashaInsight.antarProgress)"></i></div>
+            <small>{{ formatHudDate(dashaInsight.antarStart) }} {{ t('horaverse.common.to') }} {{ formatHudDate(dashaInsight.antarEnd) }}</small>
+          </div>
+          <div class="antar-strip" *ngIf="dashaInsight.antars.length">
+            <button
+              type="button"
+              *ngFor="let antar of dashaInsight.antars"
+              [class.current]="antar.current">
+              {{ translatePlanet(antar.planet) }}
+            </button>
           </div>
         </div>
 
         <div class="door-ahead" *ngIf="scene.kind === 'door-ahead'">
-          <div class="door-portal" aria-hidden="true">
-            <span></span>
-          </div>
           <div class="dasha-chip">{{ currentDashaLabel }}</div>
           <div class="score-thread">
             <div class="score-line" *ngFor="let metric of scoreMetrics">

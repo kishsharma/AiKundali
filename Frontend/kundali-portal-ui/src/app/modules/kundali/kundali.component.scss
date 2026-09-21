@@ -11,6 +11,9 @@
   --line: var(--theme-line);
   --line-soft: var(--theme-line-soft);
   display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
   min-height: 100vh;
   color: var(--parchment);
   background:
@@ -25,9 +28,9 @@
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 12px;
-  max-width: 1360px;
+  max-width: none;
   margin: 0 auto;
-  padding: 18px 28px 0;
+  padding: 8px 0 0;
 }
 
 :host ::ng-deep .page-actions-bar app-page-header .page-header {
@@ -505,9 +508,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 1360px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding: 20px 28px 40px;
+  padding: 12px 0 40px;
 }
 
 .primary-sections,
@@ -600,6 +604,19 @@
   scroll-margin-top: 64px;
 }
 
+:host ::ng-deep #kundali-chart,
+:host ::ng-deep #kundali-chart > .card,
+:host ::ng-deep #kundali-chart > .card > .card-content {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+:host ::ng-deep #kundali-chart > .card {
+  padding: 8px 8px 0;
+}
+
 :host ::ng-deep #kundali-report > .report-header + app-section-card > .card {
   border-top: 0;
   border-top-left-radius: 0;
@@ -608,6 +625,8 @@
 
 :host ::ng-deep app-section-card {
   display: block;
+  width: 100%;
+  max-width: none;
   min-width: 0;
 }
 
@@ -814,7 +833,7 @@
 }
 
 .prediction-outlook-card.tone-mixed .prediction-tone-label {
-  color: #f3d28b;
+  color: var(--parchment);
 }
 
 .prediction-outlook-card.tone-challenging .prediction-tone-label {
@@ -1075,6 +1094,214 @@
   border-top: 1px solid color-mix(in srgb, #7c3aed 16%, var(--line));
   padding: 10px;
   background: color-mix(in srgb, var(--theme-bg) 10%, transparent);
+}
+
+.prediction-story {
+  display: grid;
+  gap: 14px;
+  padding: 16px 18px 18px;
+}
+
+.prediction-story-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(196px, 240px);
+  gap: 16px 28px;
+  align-items: start;
+}
+
+.prediction-story-copy {
+  min-width: 0;
+}
+
+.prediction-story-about {
+  margin: 0 0 4px;
+  color: var(--parchment-dim);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.prediction-story-copy h3 {
+  margin: 0 0 8px;
+  color: var(--parchment);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 24px;
+  font-weight: 650;
+  line-height: 1.22;
+}
+
+.prediction-story-meaning,
+.prediction-story-now {
+  margin: 0;
+  max-width: 72ch;
+  color: var(--parchment);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.prediction-story-now {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--parchment-dim);
+}
+
+.prediction-story-aside {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  justify-items: start;
+}
+
+.prediction-story-aside small {
+  color: var(--parchment-dim);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.prediction-story-status {
+  margin: 0;
+  color: var(--parchment);
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.prediction-story-status.tone-supportive {
+  color: var(--theme-success);
+}
+
+.prediction-story-status.tone-mixed {
+  color: var(--parchment);
+}
+
+.prediction-story-status.tone-challenging {
+  color: var(--sindoor);
+}
+
+.prediction-story-status.tone-neutral {
+  color: var(--parchment-dim);
+}
+
+.prediction-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.prediction-point-card {
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-surface) 86%, var(--theme-bg));
+}
+
+.prediction-point-card.help {
+  border-color: color-mix(in srgb, var(--theme-success) 28%, var(--line));
+}
+
+.prediction-point-card.watch {
+  border-color: color-mix(in srgb, var(--sindoor) 24%, var(--line));
+}
+
+.prediction-point-card h4 {
+  margin: 0 0 8px;
+  color: var(--parchment);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.prediction-point-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 16px;
+}
+
+.prediction-point-card li {
+  color: var(--parchment);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.prediction-time-story h4 {
+  margin: 0 0 8px;
+  color: var(--parchment);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.prediction-time-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--theme-radius-control);
+  overflow: hidden;
+  background: color-mix(in srgb, var(--theme-surface) 82%, var(--theme-bg));
+}
+
+.prediction-time-flow li {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 14px;
+  border-left: 3px solid color-mix(in srgb, #7c3aed 40%, var(--line));
+}
+
+.prediction-time-chapter {
+  color: var(--parchment-dim);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.prediction-time-flow strong {
+  color: var(--parchment);
+  font-size: 15px;
+}
+
+.prediction-time-flow small,
+.prediction-time-flow p {
+  margin: 0;
+  color: var(--parchment-dim);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.prediction-chart-note {
+  margin: 0;
+  max-width: 80ch;
+  color: var(--parchment-dim);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.prediction-briefing {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, #7c3aed 18%, var(--line));
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-surface) 88%, #7c3aed);
+}
+
+.prediction-briefing p {
+  margin: 0;
+  color: var(--parchment);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.prediction-dasha-copy {
+  margin: 6px 0 0;
+  color: var(--parchment-dim);
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .prediction-context-grid {
@@ -1494,7 +1721,8 @@
 }
 
 
-.chart-pin-button {
+.chart-pin-button,
+.chart-degree-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1516,7 +1744,9 @@
 }
 
 .chart-pin-button:hover,
-.chart-pin-button.active {
+.chart-pin-button.active,
+.chart-degree-toggle:hover,
+.chart-degree-toggle.active {
   border-color: color-mix(in srgb, var(--brass) 72%, transparent);
   color: var(--brass);
   background: color-mix(in srgb, var(--brass) 16%, var(--theme-input-bg));
@@ -1541,33 +1771,91 @@
 .pinned-chart-header{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line-soft);padding:8px 10px;color:var(--brass);font-size:11px;font-weight:800}
 .pinned-chart-surface{display:grid;place-items:center;min-height:230px;padding:8px}
 .pinned-chart-surface app-north-indian-chart,.pinned-chart-surface app-south-indian-chart,.pinned-chart-surface app-western-chart{width:min(100%,230px)}
+.current-dasha-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: auto;
+  border-left: 1px solid var(--line);
+  padding: 10px 10px 8px;
+  background: color-mix(in srgb, var(--theme-surface) 52%, transparent);
+}
+
+.current-dasha-panel-header {
+  margin-bottom: 8px;
+  color: var(--brass);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.current-dasha-panel .gochar-placeholder {
+  margin: 8px 0 0;
+}
+
+:host ::ng-deep .current-dasha-panel app-mahadasha-antardasha,
+:host ::ng-deep .current-dasha-panel .dasha-container,
+:host ::ng-deep .current-dasha-panel .mahadasha-card {
+  width: 100%;
+  min-width: 0;
+}
+
+:host ::ng-deep .current-dasha-panel .antardasha-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+:host ::ng-deep .current-dasha-panel .antardasha-table th,
+:host ::ng-deep .current-dasha-panel .antardasha-table td {
+  white-space: nowrap;
+}
+
 .chart-pin-button.compact{margin-left:0;padding:0 8px}.chart-with-house-details {
   display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(380px, 1.1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(360px, 380px);
   gap: 0;
   align-items: stretch;
+  width: 100%;
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 0 0 var(--theme-radius-structural, var(--theme-radius-card)) var(--theme-radius-structural, var(--theme-radius-card));
+  border-radius: var(--theme-radius-structural, var(--theme-radius-card));
   background: color-mix(in srgb, var(--theme-input-bg) 68%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-text) 2%, transparent);
 }
 
-.chart-with-house-details .left {
+.chart-with-house-details .left,
+.chart-with-house-details .gochar {
+  position: relative;
   display: flex;
-  min-height: 100%;
-  border-right: 1px solid var(--line);
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
   background: color-mix(in srgb, var(--theme-input-bg) 58%, transparent);
 }
 
+.chart-with-house-details .left {
+  container-type: inline-size;
+  container-name: kundali-chart-panel;
+  border-right: 1px solid var(--line);
+}
+
+.chart-with-house-details .gochar {
+  container-type: inline-size;
+  container-name: gochar-chart-panel;
+}
+
 .chart-with-house-details .right {
-  display: flex;
-  min-height: 100%;
-  background: color-mix(in srgb, var(--theme-surface) 36%, transparent);
+  display: none;
 }
 
 .left,
 .right,
+.gochar,
 .house-details-card-container,
 .house-details-panel {
   min-width: 0;
@@ -1585,15 +1873,21 @@
 
 .chart-wrapper {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
   width: 100%;
-  padding: 12px;
+  min-width: 0;
+  padding: 8px;
 }
 
 .chart-with-house-details .chart-wrapper {
-  min-height: 360px;
+  flex: 0 0 auto;
+  align-items: stretch;
+  min-height: 0;
+  padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1602,12 +1896,54 @@
 
 .house-details-panel {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   width: 100%;
-  min-height: 100%;
-  padding: 12px;
+  min-height: 0;
+  padding: 10px 8px;
   border-left: 0;
   background: transparent;
+}
+
+.house-details-row {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  max-width: 100%;
+  overflow: visible;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--theme-surface) 42%, transparent);
+}
+
+.house-details-row app-house-details-card {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+}
+
+.house-details-row .house-placeholder {
+  margin: 0;
+}
+
+:host ::ng-deep .house-details-row .house-details-card {
+  height: auto;
+  max-width: 100%;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.house-details-panel.compact-house-rail {
+  align-items: flex-start;
 }
 
 .house-details-panel app-house-details-card {
@@ -1616,12 +1952,31 @@
 }
 
 :host ::ng-deep .house-details-panel .house-details-card {
-  height: 100%;
+  height: auto;
   border: 0;
   border-radius: 0;
   padding: 0;
   background: transparent;
   box-shadow: none;
+}
+
+.gochar-date {
+  position: absolute;
+  left: 12px;
+  top: 32px;
+  z-index: 2;
+  color: var(--parchment-dim);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.gochar-placeholder,
+.house-placeholder {
+  margin: 48px 12px 12px;
+  color: var(--parchment-dim);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .chandra-rashi-watermark {
@@ -1654,25 +2009,86 @@
 
 .chart-surface {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
-  min-height: 318px;
-  padding: 16px 4px 4px;
+  min-width: 0;
+  min-height: 0;
+  padding: 1.85rem 0.4rem 0.3rem;
+}
+
+.chart-surface.kundali-chart-fill {
+  flex: 0 0 auto;
+}
+
+.gochar-chart-surface {
+  padding-top: 1.85rem;
 }
 
 
-.chart-surface > .chart-pin-button {
+.chart-surface > .chart-surface-actions {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .chart-surface app-north-indian-chart,
 .chart-surface app-south-indian-chart,
-.chart-surface app-western-chart {
+.chart-surface app-western-chart,
+.chart-surface .kundali-main-chart {
   display: block;
-  width: min(100%, 318px);
+  width: 80%;
+  width: 80cqw;
+  max-width: 80%;
+  max-width: 80cqw;
+  min-width: 0;
+  height: auto;
+  margin: 0 auto;
+}
+
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill app-north-indian-chart,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill app-south-indian-chart,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill app-western-chart {
+  display: block !important;
+  width: 80% !important;
+  width: 80cqw !important;
+  max-width: 80% !important;
+  max-width: 80cqw !important;
+  min-width: 0 !important;
+  margin: 0 auto;
+}
+
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .north-chart-canvas,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .south-chart-wrapper,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .western-chart-wrapper {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+:host-context(body:not(.pdf-mode)) ::ng-deep .gochar-chart-surface .kundali-main-chart,
+:host-context(body:not(.pdf-mode)) ::ng-deep .gochar-chart-surface app-western-chart {
+  width: 80% !important;
+  width: 80cqw !important;
+  max-width: 80% !important;
+  max-width: 80cqw !important;
+}
+
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-svg,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .western-svg,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .south-chart {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
 }
 
 .chart-surface-d9 {
@@ -3386,6 +3802,12 @@
   display: none;
 }
 
+@media (max-width: 1480px) {
+  .chart-with-house-details {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(320px, 340px);
+  }
+}
+
 @media (max-width: 1100px) {
   .activation-period-header {
     flex-direction: column;
@@ -3406,6 +3828,23 @@
   .chart-with-house-details,
   .impact-grid {
     grid-template-columns: 1fr;
+  }
+
+  .chart-with-house-details .left,
+  .chart-with-house-details .gochar,
+  .chart-with-house-details .chart-wrapper {
+    min-height: 0;
+    border-right: 0;
+  }
+
+  .chart-with-house-details .gochar {
+    border-top: 1px solid var(--line);
+  }
+
+  .chart-with-house-details .current-dasha-panel {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+    max-height: 360px;
   }
 
   .chart-control-bar {
@@ -3430,12 +3869,17 @@
   }
 
   .chart-wrapper {
-    padding: 20px 12px;
+    padding: 10px 8px;
   }
 
-  .house-details-panel {
+  .chart-with-house-details .chart-wrapper,
+  .chart-surface {
+    min-height: 0;
+  }
+
+  .house-details-panel,
+  .house-details-row {
     border-left: 0;
-    border-top: 1px solid var(--line);
   }
 
   .chandra-rashi-watermark {
@@ -4027,6 +4471,8 @@
   .janma-story-rail {
     display: none;
   }.pinned-chart-reference,
+  .current-dasha-panel,
+  .current-dasha-rail,
   .chandra-rashi-watermark {
     display: none;
   }
@@ -4563,6 +5009,14 @@
 #advancedStrengthSection .advanced-strength-table .strength-text.neutral { color: var(--theme-info) !important; }
 #advancedStrengthSection .advanced-strength-table .strength-text.weak { color: var(--theme-danger) !important; }
 
+.shadbala-table td {
+  white-space: nowrap;
+}
+
+.shadbala-percent {
+  font-weight: 700;
+}
+
 .house-support-primary small {
   display: block;
   margin-top: 4px;
@@ -4651,7 +5105,8 @@
     .prediction-context-grid,
   .prediction-detail-grid,
   .prediction-dasha-list,
-  .prediction-why-grid {
+  .prediction-why-grid,
+  .prediction-story-hero {
     grid-template-columns: 1fr;
   }
 

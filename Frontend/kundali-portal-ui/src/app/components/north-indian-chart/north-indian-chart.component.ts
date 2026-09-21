@@ -3,6 +3,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoService } from '@jsverse/transloco';
+import { formatPlanetDegreeInSign } from '../../shared/utils/common.utils';
 
 @Component({
   selector: 'app-north-indian-chart',
@@ -21,6 +22,7 @@ export class NorthIndianChartComponent implements OnChanges {
 @Input() planets: any[] = [];
 @Input() ascendant: string | undefined = '';
 @Input() housesData: any[] = [];
+@Input() showDegrees = false;
 @Output() houseSelected = new EventEmitter<any>();
 selectedHouseData: any = null;
 zodiacNumbers: number[] = [];
@@ -208,6 +210,10 @@ this.housePlanets[house].push(planet);
     }
 
     return 'tone-neutral';
+  }
+
+  getPlanetDegreeLabel(planet: any): string {
+    return formatPlanetDegreeInSign(planet);
   }
 
   getPlanetTooltip(planet: any): string {
@@ -431,7 +437,7 @@ getPlanetX(house: number, index: number): number {
 
   }
 
-  return (this.planetPositions[house]?.x || 0) + (index * 18);
+  return (this.planetPositions[house]?.x || 0) + (index * (this.showDegrees ? 28 : 18));
 }
 
 getPlanetY(house: number, index: number): number {
@@ -446,7 +452,7 @@ getPlanetY(house: number, index: number): number {
 
   if (verticalHouses.includes(house)) {
 
-    return (this.planetPositions[house]?.y || 0) + (index * 18);
+    return (this.planetPositions[house]?.y || 0) + (index * (this.showDegrees ? 16 : 18));
 
   }
 

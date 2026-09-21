@@ -1,30 +1,51 @@
 :host {
   display: block;
-  width: min(100%, 720px);
+  width: 100%;
+  max-width: none;
+  min-width: 0;
   overflow: visible;
 }
 
 .western-chart-wrapper {
+  display: block;
   width: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 100%;
   padding: 0;
   overflow: visible;
 }
 
 .western-svg {
+  display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 1;
-  display: block;
   overflow: visible;
 }
 
 .outer-ring,
-.inner-ring {
+.inner-ring,
+.transit-ring {
   fill: var(--theme-input-bg);
   stroke: var(--theme-accent);
   stroke-width: 2;
+}
+
+.transit-ring {
+  fill: none;
+  stroke: color-mix(in srgb, var(--theme-accent) 62%, transparent);
+  stroke-width: 1.25;
+  stroke-dasharray: 3 4;
+}
+
+.transit-degree-tick {
+  stroke: color-mix(in srgb, var(--theme-accent) 70%, transparent);
+  stroke-width: 1.15;
+  pointer-events: none;
+}
+
+.planet-text.transit-planet {
+  font-size: 0.72rem;
 }
 
 .wheel-segment {
@@ -64,26 +85,37 @@
   font-size: 0.75rem;
   font-weight: 700;
   fill: var(--theme-info);
+  pointer-events: none;
 }
 
+.planet-text.tone-supportive,
 .planet-text .tone-supportive {
   fill: var(--theme-success);
 }
 
+.planet-text.tone-neutral,
 .planet-text .tone-neutral {
   fill: var(--theme-info);
 }
 
+.planet-text.tone-mixed,
 .planet-text .tone-mixed {
   fill: var(--theme-copper);
 }
 
+.planet-text.tone-challenging,
 .planet-text .tone-challenging {
   fill: var(--theme-danger);
 }
 
+.planet-text.tone-special,
 .planet-text .tone-special {
   fill: var(--theme-success);
+}
+
+.planet-degree {
+  font-size: 0.7em;
+  font-weight: 700;
 }
 
 .center-title {

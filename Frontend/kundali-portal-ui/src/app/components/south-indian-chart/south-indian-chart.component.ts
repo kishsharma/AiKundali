@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { formatPlanetDegreeInSign } from '../../shared/utils/common.utils';
 
 type ChartCell = {
   sign: number;
@@ -22,6 +23,7 @@ export class SouthIndianChartComponent implements OnChanges {
   @Input() planets: any[] = [];
   @Input() ascendant: string = '';
   @Input() housesData: any[] = [];
+  @Input() showDegrees = false;
   @Output() houseSelected = new EventEmitter<any>();
 
   hoveredHouse: number | null = null;
@@ -128,6 +130,10 @@ export class SouthIndianChartComponent implements OnChanges {
     }
 
     return 'tone-neutral';
+  }
+
+  getPlanetDegreeLabel(planet: any): string {
+    return formatPlanetDegreeInSign(planet);
   }
 
   getPlanetTooltip(planet: any): string {

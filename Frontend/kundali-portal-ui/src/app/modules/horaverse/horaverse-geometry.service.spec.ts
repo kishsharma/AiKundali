@@ -1,10 +1,12 @@
+import { beforeEach, describe, expect, it } from 'vitest';
 import { HoraverseGeometryService } from './horaverse-geometry.service';
+import { HoraverseInsightService } from './horaverse-insight.service';
 
 describe('HoraverseGeometryService', () => {
   let service: HoraverseGeometryService;
 
   beforeEach(() => {
-    service = new HoraverseGeometryService();
+    service = new HoraverseGeometryService(new HoraverseInsightService());
   });
 
   it('builds twelve 30 degree house arcs', () => {
@@ -36,7 +38,8 @@ describe('HoraverseGeometryService', () => {
     expect(moon.radius).toBeGreaterThan(184);
     expect(moon.x).toBeGreaterThan(0);
     expect(moon.y).toBeGreaterThan(0);
-    expect(moon.tone).toBe('moon');
+    expect(moon.label).toContain('Moon');
+    expect(moon.degreeLabel).toContain('0.2');
   });
 
   it('spreads overlapping planets while keeping exact labels intact', () => {

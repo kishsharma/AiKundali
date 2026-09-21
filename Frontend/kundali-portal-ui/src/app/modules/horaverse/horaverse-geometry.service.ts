@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HoraverseInsightService } from './horaverse-insight.service';
 import { HoraverseHouseArc, HoraversePlanetPoint } from './horaverse-models';
 
 @Injectable({ providedIn: 'root' })
@@ -8,6 +9,8 @@ export class HoraverseGeometryService {
   private readonly basePlanetRadius = 184;
   private readonly minPlanetRadius = 152;
   private readonly maxPlanetRadius = 216;
+
+  constructor(private readonly insight: HoraverseInsightService) {}
 
   buildHouseArcs(): HoraverseHouseArc[] {
     return Array.from({ length: 12 }, (_, index) => {
@@ -63,13 +66,13 @@ export class HoraverseGeometryService {
     const radius = Math.max(this.minPlanetRadius, Math.min(this.maxPlanetRadius, this.basePlanetRadius + latitudeOffset));
     const point = this.pointOnCircle(angle, radius);
     const planetName = String(planet?.planet ?? planet?.planetName ?? `P${index + 1}`);
-    const degree = planet?.degree != null ? `${planet.degree}deg` : `${longitude.toFixed(2)}deg`;
-    const minute = planet?.minute != null ? ` ${planet.minute}'` : '';
+    const degreeLabel = this.insight.degreeLabelOf(planet, longitude);
+    const strength = String(planet?.detailedStrength ?? planet?.DetailedStrength ?? '');
 
     return {
       planet: planetName,
-      sign: String(planet?.sign ?? ''),
-      house: Number.isFinite(Number(planet?.house)) ? Number(planet.house) : null,
+      sign: String(planet?.sign ?? planet?.Sign ?? ''),
+      house: Number.isFinite(Number(planet?.house ?? planet?.House)) ? Number(planet?.house ?? planet?.House) : null,
       longitude,
       latitude: Number.isFinite(latitude) ? latitude : 0,
       angle,
@@ -77,7 +80,16 @@ export class HoraverseGeometryService {
       x: point.x,
       y: point.y,
       tone: this.inferTone(planet),
-      label: `${planetName} ${degree}${minute}`
+      label: `${planetName} ${degreeLabel}`.trim(),
+      degreeLabel,
+      strength,
+      supportTone: this.insight.supportToneOf(planet),
+      nature: this.insight.natureOf(planetName),
+      hasBeneficAspect: Boolean(planet?.hasBeneficAspect ?? planet?.HasBeneficAspect),
+      hasMaleficAspect: Boolean(planet?.hasMaleficAspect ?? planet?.HasMaleficAspect),
+      aspectedBy: this.insight.toList(planet?.aspectedBy ?? planet?.AspectedBy),
+      isRetrograde: Boolean(planet?.isRetrograde ?? planet?.IsRetrograde),
+      isCombust: Boolean(planet?.isCombust ?? planet?.IsCombust)
     };
   }
 
@@ -126,15 +138,17 @@ export class HoraverseGeometryService {
   private inferTone(planet: any): string {
     const strength = String(planet?.detailedStrength ?? planet?.conditionTone ?? '');
 
-    if (planet?.planet === 'Moon') {
+    const planetName = String(planet?.planet ?? planet?.planetName ?? '');
+    if (planetName.toLowerCase() === 'moon') {
       return 'moon';
     }
 
-    if (planet?.planet === 'Saturn') {
+    if (planetName.toLowerCase() === 'saturn') {
       return 'saturn';
     }
 
-    if (planet?.isCombust || /Weak|Enemy|Debilitated|Challenging/i.test(strength)) {
+    const support = this.insight.supportToneOf(planet);
+    if (support === 'challenging' || planet?.isCombust || /Weak|Enemy|Debilitated|Challenging/i.test(strength)) {
       return 'challenging';
     }
 

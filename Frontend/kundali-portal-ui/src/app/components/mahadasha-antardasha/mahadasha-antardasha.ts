@@ -7,12 +7,24 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
   imports: [CommonModule, TranslocoPipe],
   templateUrl: './mahadasha-antardasha.html',
   styleUrls: ['./mahadasha-antardasha.scss'],
+  host: {
+    '[class.compact-dasha]': 'compact'
+  }
 })
 export class MahadashaAntardasha {
 
   constructor(private translocoService: TranslocoService) {}
 
   @Input() mahadashas: any[] = [];
+  @Input() compact = false;
+
+  get displayedMahadashas(): any[] {
+    if (!this.compact) {
+      return (this.mahadashas ?? []).slice(0, 6);
+    }
+
+    return this.mahadashas ?? [];
+  }
 
   isCurrentPeriod(start: string | Date | null, end: string | Date | null): boolean {
     const startDate = this.toDate(start);

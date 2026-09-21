@@ -219,6 +219,147 @@
   font-weight: 700;
 }
 
+.house-details-card.compact {
+  padding: 0;
+  font-size: 11px;
+}
+
+.house-details-card.compact .card-header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-bottom: 0.55rem;
+}
+
+.house-details-card.compact .card-header h3 {
+  font-size: 15px;
+}
+
+.house-details-card.compact .house-title-block .house-meaning {
+  font-size: 11px;
+}
+
+.house-details-card.compact .sign-badge {
+  padding: 3px 7px;
+  font-size: 10px;
+}
+
+.house-details-card.compact .simple-info {
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.house-details-card.compact .simple-info > div,
+.house-details-card.compact .aspect-section {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.house-details-card.compact .simple-info span,
+.house-details-card.compact .tag-section label {
+  font-size: 9px;
+}
+
+.house-details-card.compact .simple-info strong,
+.house-details-card.compact .simple-text-section .simple-text {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.house-details-card.compact .tag-section {
+  margin-top: 0.45rem;
+}
+
+.house-details-card.compact .tooltip-box {
+  left: auto;
+  right: 0;
+  width: min(280px, 70vw);
+}
+
+.house-details-card.compact.inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 0;
+  overflow: visible;
+}
+
+.house-details-card.compact.inline .card-header {
+  flex: 0 1 auto;
+  min-width: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.house-details-card.compact.inline .card-header h3 {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.house-details-card.compact.inline .house-title-block .house-meaning {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.house-details-card.compact.inline .simple-info {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  grid-template-columns: none;
+  gap: 6px;
+  margin: 0;
+  min-width: 0;
+  overflow: visible;
+}
+
+.house-details-card.compact.inline .simple-info > div,
+.house-details-card.compact.inline .aspect-section {
+  flex: 0 1 auto;
+  min-width: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+
+.house-details-card.compact.inline .simple-info strong,
+.house-details-card.compact.inline .simple-text-section .simple-text {
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+}
+
+.house-details-card.compact.inline .tag-section {
+  flex: 1 1 180px;
+  min-width: 0;
+  margin: 0;
+  overflow: visible;
+}
+
+.house-details-card.compact.inline .tag-section label {
+  display: inline;
+  margin: 0 6px 0 0;
+}
+
+.house-details-card.compact.inline .simple-text-section .simple-text {
+  display: inline;
+}
+
+.house-details-card.compact.inline .tooltip-box {
+  left: 0;
+  right: auto;
+}
+
 @media (max-width: 576px) {
   .card-header {
     flex-direction: column;

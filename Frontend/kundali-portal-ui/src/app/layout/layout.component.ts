@@ -1,7 +1,9 @@
 // Main Layout Shell Component
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, RouterModule } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
 import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/dhruva-assistant.component';
@@ -28,7 +30,7 @@ import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/
 
         <!-- Content Area -->
         <main class="content" [class.sidebar-open]="toggleSidebar() && isMobileView()">
-          <div class="content-wrapper">
+          <div class="content-wrapper" [class.content-wrapper--wide]="wideContent()">
             <router-outlet></router-outlet>
           </div>
         </main>
@@ -65,6 +67,12 @@ import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/
       max-width: 1400px;
       margin: 0 auto;
       width: 100%;
+      min-width: 0;
+    }
+
+    .content-wrapper--wide {
+      max-width: 1680px;
+      padding: 1.15rem 1.5rem 2rem;
     }
 
     @media (max-width: 768px) {
@@ -128,10 +136,18 @@ import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/
   `],
 })
 export class LayoutComponent {
+  private readonly router = inject(Router);
   toggleSidebar = signal(false);
   compactSidebar = signal(false);
   isMobileView = signal(window.innerWidth < 768);
   userInitials = 'US';
+  readonly wideContent = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => this.isWideContentUrl(event.urlAfterRedirects))
+    ),
+    { initialValue: this.isWideContentUrl(this.router.url) }
+  );
 
   constructor() {
     // Handle window resize
@@ -153,6 +169,10 @@ export class LayoutComponent {
     }
 
     this.compactSidebar.set(!this.compactSidebar());
+  }
+
+  private isWideContentUrl(url: string): boolean {
+    return url.includes('/app/kundali');
   }
 
   @HostListener('window:app-menu-toggle')

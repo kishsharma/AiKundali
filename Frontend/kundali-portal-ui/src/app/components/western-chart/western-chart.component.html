@@ -1,12 +1,15 @@
 <div class="western-chart-wrapper">
   <svg
-    viewBox="35 35 430 430"
+    viewBox="-20 -20 540 540"
+    width="100%"
     preserveAspectRatio="xMidYMid meet"
     class="western-svg"
+    [class.has-outer-transits]="placeByDegree"
     [attr.aria-label]="'chart.westernAriaLabel' | transloco"
   >
     <circle cx="250" cy="250" r="210" class="outer-ring" />
     <circle cx="250" cy="250" r="72" class="inner-ring" />
+    <circle *ngIf="placeByDegree" cx="250" cy="250" r="232" class="transit-ring" />
 
     <g *ngFor="let segment of segments">
       <path
@@ -42,20 +45,50 @@
         [attr.y]="segment.planetY"
         class="planet-text"
         text-anchor="middle"
+        *ngIf="!placeByDegree"
       >
         <tspan
           *ngFor="let planet of getPlanets(segment.sign); let planetIndex = index"
           [attr.x]="segment.planetX"
-          [attr.dy]="planetIndex === 0 ? 0 : 13"
+          [attr.dy]="planetIndex === 0 ? 0 : (showDegrees ? 16 : 13)"
           [ngClass]="getPlanetToneClass(planet)">
           <title>{{ getPlanetTooltip(planet) }}</title>
-          {{ getPlanetShortName(planet) }}
+          {{ getPlanetShortName(planet) }}<tspan
+            *ngIf="showDegrees && getPlanetDegreeLabel(planet)"
+            class="planet-degree"
+          > {{ getPlanetDegreeLabel(planet) }}°</tspan>
         </tspan>
       </text>
     </g>
 
-    <text x="250" y="238" text-anchor="middle" class="center-title">{{ 'chartTypes.western' | transloco }}</text>
-    <text x="250" y="262" text-anchor="middle" class="center-subtitle">{{ 'chart.rashiWheel' | transloco }}</text>
+    <g *ngIf="placeByDegree" class="degree-placed-planets">
+      <line
+        *ngFor="let item of placedPlanets"
+        class="transit-degree-tick"
+        [attr.x1]="item.tickInnerX"
+        [attr.y1]="item.tickInnerY"
+        [attr.x2]="item.tickOuterX"
+        [attr.y2]="item.tickOuterY"
+      />
+      <text
+        *ngFor="let item of placedPlanets"
+        [attr.x]="item.x"
+        [attr.y]="item.y"
+        class="planet-text transit-planet"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        [ngClass]="getPlanetToneClass(item.planet)"
+      >
+        <title>{{ getPlanetTooltip(item.planet) }}</title>
+        {{ getPlanetShortName(item.planet) }}<tspan
+          *ngIf="showDegrees && getPlanetDegreeLabel(item.planet)"
+          class="planet-degree"
+        > {{ getPlanetDegreeLabel(item.planet) }}°</tspan>
+      </text>
+    </g>
+
+    <text x="250" y="238" text-anchor="middle" class="center-title">{{ (placeByDegree ? 'chart.gocharWheel' : 'chartTypes.western') | transloco }}</text>
+    <text x="250" y="262" text-anchor="middle" class="center-subtitle">{{ (placeByDegree ? 'chart.gocharDegreeWheel' : 'chart.rashiWheel') | transloco }}</text>
   </svg>
 </div>
 

@@ -376,9 +376,6 @@
               <span class="prediction-premium-badge premium-unlocked-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumUnlockedBadge' | transloco }}</span>
               <p class="prediction-section-copy">{{ 'kundali.predictions.premiumCopy' | transloco }}</p>
             </div>
-            <span class="prediction-period" *ngIf="predictionEffectivePeriod">
-              {{ 'kundali.predictions.period' | transloco }}: {{ predictionEffectivePeriod }}
-            </span>
           </div>
           <div class="prediction-outlook-grid" role="tablist" aria-label="Premium prediction life areas">
             <button
@@ -396,87 +393,48 @@
           </div>
 
           <article class="prediction-area-detail selected-panel" *ngIf="selectedPredictionArea as area" [class]="'prediction-area-detail selected-panel tone-' + area.toneClass">
-
-            <div class="prediction-detail-body">
-              <div class="prediction-context-grid" *ngIf="area.effectivePeriod">
-                <section class="prediction-detail-group" *ngIf="area.effectivePeriod">
-                  <h4>{{ 'kundali.predictions.currentEffectivePeriod' | transloco }}</h4>
-                  <p class="prediction-effective-line">{{ area.effectivePeriod }}</p>
-                </section>
-
+            <div class="prediction-story">
+              <div class="prediction-story-hero">
+                <div class="prediction-story-copy">
+                  <p class="prediction-story-about">{{ area.story.about }}</p>
+                  <h3>{{ area.story.headline }}</h3>
+                  <p class="prediction-story-meaning">{{ area.story.meaning }}</p>
+                  <p class="prediction-story-now" *ngIf="area.story.now">{{ area.story.now }}</p>
+                </div>
+                <aside class="prediction-story-aside">
+                  <small>{{ 'kundali.predictions.plain.status' | transloco }}</small>
+                  <strong class="prediction-story-status" [class]="'tone-' + area.toneClass">{{ area.toneLabel }}</strong>
+                </aside>
               </div>
 
-              <div class="prediction-detail-grid">
-                <section class="prediction-detail-group" *ngIf="area.supportClaims.length">
-                  <h4>{{ 'kundali.predictions.support' | transloco }}</h4>
+              <div class="prediction-points" *ngIf="area.story.helps.length || area.story.watch.length">
+                <section class="prediction-point-card help" *ngIf="area.story.helps.length">
+                  <h4>{{ 'kundali.predictions.plain.helpsTitle' | transloco }}</h4>
                   <ul>
-                    <li *ngFor="let claim of area.supportClaims">
-                      <span>{{ getPredictionClaimLabel(claim) }}</span>
-                    </li>
+                    <li *ngFor="let point of area.story.helps">{{ point }}</li>
                   </ul>
                 </section>
-
-                <section class="prediction-detail-group" *ngIf="area.challengeClaims.length">
-                  <h4>{{ 'kundali.predictions.needsAttention' | transloco }}</h4>
+                <section class="prediction-point-card watch" *ngIf="area.story.watch.length">
+                  <h4>{{ 'kundali.predictions.plain.watchTitle' | transloco }}</h4>
                   <ul>
-                    <li *ngFor="let claim of area.challengeClaims">
-                      <span>{{ getPredictionClaimLabel(claim) }}</span>
-                    </li>
-                  </ul>
-                </section>
-
-                <section class="prediction-detail-group" *ngIf="area.mixedClaims.length">
-                  <h4>{{ 'kundali.predictions.mixedFactors' | transloco }}</h4>
-                  <ul>
-                    <li *ngFor="let claim of area.mixedClaims">
-                      <span>{{ getPredictionClaimLabel(claim) }}</span>
-                    </li>
+                    <li *ngFor="let point of area.story.watch">{{ point }}</li>
                   </ul>
                 </section>
               </div>
 
-              <section class="prediction-detail-group full prediction-dasha-panel" *ngIf="area.dashaClaims.length">
-                <h4>{{ 'kundali.predictions.currentDashaInfluence' | transloco }}</h4>
-                <div class="prediction-dasha-list">
-                  <article class="prediction-dasha-row" *ngFor="let claim of area.dashaClaims">
-                    <div class="prediction-dasha-line">
-                      <strong>{{ getDashaLevelLabel(readProp(claim, 'dashaLevel')) }}</strong>
-                      <small *ngIf="getPredictionClaimPeriod(claim)">{{ getPredictionClaimPeriod(claim) }}</small>
-                    </div>
-                    <div class="prediction-dasha-line meta">
-                      <span>{{ translatePlanetName(readProp(claim, 'dashaPlanet')) || '-' }}</span>
-                      <span [class]="'prediction-mini-tone tone-' + getPredictionToneClass(readProp(claim, 'tone'))">{{ getPredictionToneLabel(readProp(claim, 'tone')) }}</span>
-                    </div>
-                  </article>
-                </div>
+              <section class="prediction-time-story" *ngIf="area.dashaClaims.length">
+                <h4>{{ 'kundali.predictions.plain.timingTitle' | transloco }}</h4>
+                <ol class="prediction-time-flow">
+                  <li *ngFor="let claim of area.dashaClaims">
+                    <span class="prediction-time-chapter">{{ getPredictionChapterLabel(readProp(claim, 'dashaLevel')) }}</span>
+                    <strong>{{ translatePlanetName(readProp(claim, 'dashaPlanet')) || '-' }}</strong>
+                    <small *ngIf="getPredictionClaimPeriod(claim)">{{ getPredictionClaimPeriod(claim) }}</small>
+                    <p *ngIf="getPredictionTimeHint(claim)">{{ getPredictionTimeHint(claim) }}</p>
+                  </li>
+                </ol>
               </section>
 
-              <section class="prediction-why" *ngIf="area.natalClaims.length || area.timingClaims.length || area.houseConnections.length">
-                <div class="prediction-why-head">
-                  <h4>{{ 'kundali.predictions.whyResult' | transloco }}</h4>
-                  <p class="prediction-why-intro">{{ 'kundali.predictions.whyResultIntro' | transloco }}</p>
-                </div>
-                <div class="prediction-why-grid">
-                  <section *ngIf="area.natalClaims.length">
-                    <h5>{{ 'kundali.predictions.natalFactors' | transloco }}</h5>
-                    <p *ngFor="let claim of area.natalClaims">{{ getPredictionClaimLabel(claim) }}</p>
-                  </section>
-                  <section *ngIf="area.timingClaims.length">
-                    <h5>{{ 'kundali.predictions.currentTiming' | transloco }}</h5>
-                    <p *ngFor="let claim of area.timingClaims">{{ getPredictionClaimLabel(claim) }}</p>
-                  </section>
-                  <section *ngIf="area.houseConnections.length">
-                    <h5>{{ 'kundali.predictions.houseConnections' | transloco }}</h5>
-                    <article class="prediction-connection-row why" *ngFor="let connection of area.houseConnections">
-                      <strong>{{ getHouseConnectionTitle(connection) }}</strong>
-                      <span *ngIf="getHouseConnectionThemes(connection)">{{ getHouseConnectionThemes(connection) }}</span>
-                      <div class="prediction-connection-tags" *ngIf="getHouseConnectionLabels(connection).length">
-                        <small *ngFor="let label of getHouseConnectionLabels(connection)">{{ label }}</small>
-                    </div>
-                    </article>
-                  </section>
-                </div>
-              </section>
+              <p class="prediction-chart-note" *ngIf="area.story.chartNote">{{ area.story.chartNote }}</p>
             </div>
           </article>
         </ng-container>
@@ -521,9 +479,9 @@
           </button>
         </div>
         <div class="pinned-chart-surface">
-          <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-north-indian-chart>
-          <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-south-indian-chart>
-          <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-western-chart>
+          <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-north-indian-chart>
+          <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-south-indian-chart>
+          <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-western-chart>
         </div>
       </aside>
       <app-section-card id="kundali-chart" [title]="'kundali.chart' | transloco">
@@ -565,8 +523,18 @@
         <div class="chart-with-house-details">
           <div class="left">
             <div class="chart-wrapper">
-              <div class="chart-surface">
+              <div class="chart-surface kundali-chart-fill">
                 <div class="chart-title">{{ primaryChartTitle }}</div>
+          <div class="chart-surface-actions">
+          <button
+            type="button"
+            class="chart-degree-toggle"
+            [class.active]="showLagnaDegrees"
+            [attr.aria-pressed]="showLagnaDegrees"
+            [attr.title]="showLagnaDegrees ? ('kundali.degreeToggleHide' | transloco) : ('kundali.degreeToggleShow' | transloco)"
+            (click)="toggleLagnaDegrees()">
+            <span>{{ 'kundali.degreeToggle' | transloco }}</span>
+          </button>
           <button type="button" class="chart-pin-button" [class.active]="isChartPinned"
             [attr.aria-pressed]="isChartPinned" [attr.title]="isChartPinned ? 'Unpin chart reference' : 'Pin chart reference'"
             (click)="toggleChartPin()">
@@ -575,34 +543,83 @@
             </svg>
             <span>{{ isChartPinned ? 'Unpin' : 'Pin' }}</span>
           </button>
-                <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets"
-                  [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
+          </div>
+                <app-north-indian-chart
+                  class="kundali-main-chart"
+                  *ngIf="activeChartType === 'north'"
+                  [planets]="primaryChartPlanets"
+                  [ascendant]="primaryChartAscendant"
+                  [housesData]="primaryChartHouses"
+                  [showDegrees]="showLagnaDegrees"
                   (houseSelected)="selectedHouseData = $event"></app-north-indian-chart>
 
-                <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets"
-                  [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
+                <app-south-indian-chart
+                  class="kundali-main-chart"
+                  *ngIf="activeChartType === 'south'"
+                  [planets]="primaryChartPlanets"
+                  [ascendant]="primaryChartAscendant"
+                  [housesData]="primaryChartHouses"
+                  [showDegrees]="showLagnaDegrees"
                   (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
 
-                <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets"
-                  [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
+                <app-western-chart
+                  class="kundali-main-chart"
+                  *ngIf="activeChartType === 'western'"
+                  [planets]="primaryChartPlanets"
+                  [ascendant]="primaryChartAscendant"
+                  [housesData]="primaryChartHouses"
+                  [showDegrees]="showLagnaDegrees"
                   (houseSelected)="selectedHouseData = $event"></app-western-chart>
               </div>
             </div>
           </div>
 
-          <div class="right">
-            <div class="house-details-panel screen-house-details">
-              <ng-container *ngIf="selectedHouseData; else noHouseSelected">
-                <app-house-details-card [houseData]="selectedHouseData"></app-house-details-card>
-              </ng-container>
-
-              <ng-template #noHouseSelected>
-                <p class="house-placeholder">
-                  {{ 'kundali.selectHousePrompt' | transloco }}
-                </p>
-              </ng-template>
+          <div class="gochar screen-gochar-chart" aria-label="Gochar Kundali">
+            <div class="chart-wrapper">
+              <div class="chart-surface kundali-chart-fill gochar-chart-surface">
+                <div class="chart-title">{{ 'kundali.gocharTitle' | transloco }}</div>
+                <div class="chart-surface-actions">
+                  <button
+                    type="button"
+                    class="chart-degree-toggle"
+                    [class.active]="showGocharDegrees"
+                    [attr.aria-pressed]="showGocharDegrees"
+                    [attr.title]="showGocharDegrees ? ('kundali.degreeToggleHide' | transloco) : ('kundali.degreeToggleShow' | transloco)"
+                    (click)="toggleGocharDegrees()">
+                    <span>{{ 'kundali.degreeToggle' | transloco }}</span>
+                  </button>
+                </div>
+                <small class="gochar-date" *ngIf="gocharCalculatedAt">{{ gocharCalculatedAt }}</small>
+                <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
+                  <app-western-chart
+                    class="kundali-main-chart"
+                    [planets]="gocharPlanets"
+                    [ascendant]="gocharAscendant"
+                    [housesData]="d1Houses"
+                    [showDegrees]="showGocharDegrees"
+                    [placeByDegree]="true">
+                  </app-western-chart>
+                </ng-container>
+                <ng-template #gocharUnavailable>
+                  <p class="gochar-placeholder">{{ 'kundali.gocharUnavailable' | transloco }}</p>
+                </ng-template>
+              </div>
             </div>
+          </div>
 
+          <aside class="current-dasha-panel screen-current-dasha" aria-label="Current Mahadasha">
+            <div class="current-dasha-panel-header">{{ 'kundali.currentDashaTitle' | transloco }}</div>
+            <app-mahadasha-antardasha
+              *ngIf="currentMahadashaPeriods.length; else noCurrentDasha"
+              [mahadashas]="currentMahadashaPeriods"
+              [compact]="true">
+            </app-mahadasha-antardasha>
+            <ng-template #noCurrentDasha>
+              <p class="gochar-placeholder">{{ 'kundali.currentDashaUnavailable' | transloco }}</p>
+            </ng-template>
+          </aside>
+
+          <div class="right">
             <app-section-card class="house-details-card-container pdf-d9-chart-card" *ngIf="d9Chart">
               <div class="chart-surface chart-surface-d9">
               <div class="chart-title">Navamsa Kundali (D9)</div>
@@ -617,6 +634,17 @@
                 [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-western-chart>
               </div>
             </app-section-card>
+          </div>
+
+          <div class="house-details-row screen-house-details">
+            <ng-container *ngIf="selectedHouseData; else noHouseSelected">
+              <app-house-details-card [houseData]="selectedHouseData" [compact]="true" [inline]="true"></app-house-details-card>
+            </ng-container>
+            <ng-template #noHouseSelected>
+              <p class="house-placeholder">
+                {{ 'kundali.selectHousePrompt' | transloco }}
+              </p>
+            </ng-template>
           </div>
         </div>
       </app-section-card>
@@ -1139,6 +1167,16 @@
             <button
               type="button"
               class="advanced-strength-tab"
+              [class.active]="activeStrengthView === 'shadbala'"
+              role="tab"
+              [attr.aria-selected]="activeStrengthView === 'shadbala'"
+              *ngIf="strengthTables.shadbala?.length"
+              (click)="activeStrengthView = 'shadbala'">
+              Shadbala
+            </button>
+            <button
+              type="button"
+              class="advanced-strength-tab"
               [class.active]="activeStrengthView === 'ashtakavarga'"
               role="tab"
               [attr.aria-selected]="activeStrengthView === 'ashtakavarga'"
@@ -1146,16 +1184,13 @@
               (click)="activeStrengthView = 'ashtakavarga'">
               Ashtakavarga Support
             </button>
-            <button type="button" class="advanced-strength-tab is-disabled" disabled>
-              Shadbala Coming Soon
-            </button>
           </div>
 
           <div class="advanced-strength-grid">
             <section class="advanced-strength-block" *ngIf="activeStrengthView === 'summary' && strengthTables.planetaryStrengths?.length">
               <div class="advanced-strength-heading">
                 <h4>Planetary Strengths</h4>
-                <span>Shadbala-ready</span>
+                <span>Overview</span>
               </div>
               <div class="planet-table-wrapper advanced-table-wrapper">
                 <table class="planet-table advanced-strength-table">
@@ -1185,6 +1220,57 @@
                       <td>{{ row.naisargikaBala }}</td>
                       <td>{{ row.drikBala }}</td>
                       <td class="advanced-reading">{{ row.interpretation }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="advanced-strength-block" *ngIf="activeStrengthView === 'shadbala' && strengthTables.shadbala?.length">
+              <div class="advanced-strength-heading">
+                <h4>Shadbala</h4>
+                <span>Virupas vs required strength</span>
+              </div>
+              <div class="planet-table-wrapper advanced-table-wrapper">
+                <table class="planet-table advanced-strength-table shadbala-table">
+                  <thead>
+                    <tr>
+                      <th>Planet</th>
+                      <th>Sthana</th>
+                      <th>Dig</th>
+                      <th>Kala</th>
+                      <th>Cheshta</th>
+                      <th>Naisargika</th>
+                      <th>Drik</th>
+                      <th>Total</th>
+                      <th>Required</th>
+                      <th>%</th>
+                      <th>Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of strengthTables.shadbala">
+                      <td class="planet-cell">
+                        <span class="planet-icon" [attr.data-planet]="row.planet">{{ getPlanetGlyph(row.planet) }}</span>
+                        <span class="planet-name">{{ translatePlanetName(row.planet) }}</span>
+                      </td>
+                      <td>{{ formatVirupa(row.sthanaBala) }}</td>
+                      <td>{{ formatVirupa(row.digBala) }}</td>
+                      <td>{{ formatVirupa(row.kalaBala) }}</td>
+                      <td>{{ formatVirupa(row.cheshtaBala) }}</td>
+                      <td>{{ formatVirupa(row.naisargikaBala) }}</td>
+                      <td>{{ formatVirupa(row.drikBala) }}</td>
+                      <td><strong>{{ formatVirupa(row.total) }}</strong></td>
+                      <td>{{ formatVirupa(row.required) }}</td>
+                      <td class="shadbala-percent">{{ row.percent }}%</td>
+                      <td>
+                        <span
+                          class="strength-text"
+                          [ngClass]="getStrengthClass(row.strengthLevel)"
+                          [style.color]="getStrengthToneColor(row.strengthLevel)">
+                          {{ translateControlledValue('strength', row.strengthLevel) }}
+                        </span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

@@ -1,12 +1,14 @@
 :host {
   display: block;
-  width: min(100%, 720px);
+  width: 100%;
+  max-width: none;
+  min-width: 0;
 }
 
 .south-chart-wrapper {
+  display: block;
   width: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 100%;
   padding: 0;
 }
 
@@ -102,6 +104,11 @@
 
 .planet-token.tone-special {
   color: var(--theme-success);
+}
+
+.planet-degree {
+  font-size: 0.62em;
+  font-weight: 700;
 }
 
 .chart-center {

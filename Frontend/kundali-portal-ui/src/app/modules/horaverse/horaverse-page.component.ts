@@ -6,7 +6,16 @@ import { Subscription, startWith, switchMap } from 'rxjs';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 import { HoraverseGeometryService } from './horaverse-geometry.service';
 import { HoraverseStoryService } from './horaverse-story.service';
-import { HoraverseHouseArc, HoraversePlanetPoint, HoraverseScene, HoraverseSession } from './horaverse-models';
+import { HoraverseInsightService } from './horaverse-insight.service';
+import {
+  HoraverseAspectRay,
+  HoraverseDashaInsight,
+  HoraverseHouseArc,
+  HoraverseHouseInsight,
+  HoraversePlanetPoint,
+  HoraverseScene,
+  HoraverseSession
+} from './horaverse-models';
 
 type Star = {
   x: number;
@@ -48,6 +57,12 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
   houseArcs: HoraverseHouseArc[] = [];
   zodiacArcLabels: ZodiacArcLabel[] = [];
   planetPoints: HoraversePlanetPoint[] = [];
+  houseInsights: HoraverseHouseInsight[] = [];
+  aspectRays: HoraverseAspectRay[] = [];
+  dashaInsight: HoraverseDashaInsight | null = null;
+  focusedPlanetName = '';
+  focusedHouseNumber = 1;
+  musicEnabled = false;
   voiceEnabled = false;
   voiceAvailable = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
   isSpeaking = false;
@@ -110,6 +125,8 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
   private planetVoiceIndex = 0;
   private speechTimer = 0;
   private languageSubscription?: Subscription;
+  private cinemaTimer = 0;
+  private atmosphereUnlocked = false;
   private musicContext?: AudioContext;
   private musicGain?: GainNode;
   private musicOscillators: OscillatorNode[] = [];
@@ -131,7 +148,8 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
     public readonly geometry: HoraverseGeometryService,
     private readonly story: HoraverseStoryService,
     private readonly translocoService: TranslocoService,
-    private readonly termTranslation: ApiTermTranslationService
+    private readonly termTranslation: ApiTermTranslationService,
+    private readonly insight: HoraverseInsightService
   ) {}
 
   ngOnInit(): void {
@@ -164,6 +182,8 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     this.stopVoiceover();
+    this.stopCinemaCycle();
+    this.stopDefaultMusic();
     this.languageSubscription?.unsubscribe();
   }
 
@@ -178,6 +198,14 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.activeSceneIndex = Math.max(0, Math.min(this.activeSceneIndex, this.scenes.length - 1));
     this.zodiacArcLabels = this.buildZodiacArcLabels(summary.ascendant);
     this.planetPoints = this.geometry.buildPlanetPoints(report.planets, summary.ascendantLongitude ?? report.ascendantLongitude);
+    this.houseInsights = this.insight.readHouses(this.session);
+    this.aspectRays = this.insight.buildAspectRays(this.houseInsights, this.planetPoints, this.houseArcs);
+    this.dashaInsight = this.insight.readCurrentDasha(this.session);
+    this.focusedPlanetName = this.currentScene?.focusPlanet
+      || this.planetPoints[0]?.planet
+      || '';
+    this.focusedHouseNumber = this.currentScene?.focusHouse || this.moonPoint?.house || 1;
+    this.restartCinemaCycle();
   }
   private buildZodiacArcLabels(ascendant: string | null | undefined): ZodiacArcLabel[] {
     const zodiacSigns = [
@@ -224,12 +252,44 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   get currentDashaLabel(): string {
-    const currentDasha = this.session?.report?.currentDasha;
+    const currentDasha = this.dashaInsight ?? this.session?.report?.currentDasha;
     const summary = this.session?.report?.summary;
     const maha = this.translatePlanet(currentDasha?.mahadasha ?? summary?.currentMahadasha) || this.t('horaverse.dasha.current');
     const antar = this.translatePlanet(currentDasha?.antardasha ?? summary?.currentAntardasha) || this.t('horaverse.dasha.inner');
 
     return `${maha} / ${antar}`;
+  }
+
+  get focusedPlanet(): HoraversePlanetPoint | null {
+    return this.insight.findPlanetPoint(this.planetPoints, this.focusedPlanetName) ?? this.planetPoints[0] ?? null;
+  }
+
+  get focusedHouse(): HoraverseHouseInsight | null {
+    return this.insight.findHouse(this.houseInsights, this.focusedHouseNumber);
+  }
+
+  get showLivingChart(): boolean {
+    const kind = this.currentScene?.kind;
+    return kind === 'solar-ring' || kind === 'house-walk' || kind === 'door-ahead';
+  }
+
+  get showAspectRays(): boolean {
+    const kind = this.currentScene?.kind;
+    return kind === 'house-walk' || kind === 'door-ahead';
+  }
+
+  get visibleAspectRays(): HoraverseAspectRay[] {
+    if (!this.showAspectRays) {
+      return [];
+    }
+    if (this.currentScene?.kind === 'house-walk') {
+      return this.aspectRays.filter(ray => ray.toHouse === this.focusedHouseNumber);
+    }
+    return this.aspectRays;
+  }
+
+  get musicButtonLabel(): string {
+    return this.musicEnabled ? this.t('horaverse.music.off') : this.t('horaverse.music.on');
   }
 
   get scoreMetrics(): Array<{ label: string; value: number; color: string }> {
@@ -288,6 +348,7 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
       return;
     }
 
+    this.unlockAtmosphere();
     this.nextScene();
   }
 
@@ -347,12 +408,71 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
     return `${safeValue}%`;
   }
 
+  focusPlanet(point: HoraversePlanetPoint, event?: Event): void {
+    event?.stopPropagation();
+    this.focusedPlanetName = point.planet;
+    if (point.house) {
+      this.focusedHouseNumber = point.house;
+    }
+    this.restartCinemaCycle();
+  }
+
+  focusHouse(houseNumber: number, event?: Event): void {
+    event?.stopPropagation();
+    this.focusedHouseNumber = houseNumber;
+    const occupant = this.planetPoints.find(point => point.house === houseNumber);
+    if (occupant) {
+      this.focusedPlanetName = occupant.planet;
+    }
+    this.restartCinemaCycle();
+  }
+
+  toggleMusic(): void {
+    this.musicEnabled = !this.musicEnabled;
+    if (this.musicEnabled) {
+      this.startDefaultMusic();
+      return;
+    }
+    this.stopDefaultMusic();
+  }
+
+  supportLabel(tone: string | null | undefined): string {
+    return this.t(`horaverse.hud.${tone || 'neutral'}`);
+  }
+
+  natureLabel(nature: string | null | undefined): string {
+    if (nature === 'benefic') {
+      return this.t('horaverse.hud.natureBenefic');
+    }
+    if (nature === 'shadow') {
+      return this.t('horaverse.hud.natureShadow');
+    }
+    return this.t('horaverse.hud.natureMalefic');
+  }
+
+  houseMeaning(house: number | null | undefined): string {
+    const number = Number(house);
+    if (!Number.isInteger(number) || number < 1 || number > 12) {
+      return this.t('horaverse.houseMeaning.unknown');
+    }
+    return this.t(`horaverse.houseMeaning.${number}`);
+  }
+
+  formatJoinedPlanets(values: string[] | undefined): string {
+    return (values ?? []).map(value => this.translatePlanet(value)).filter(Boolean).join(', ');
+  }
+
+  formatHudDate(value: string | null | undefined): string {
+    return value ? this.formatSceneDate(value) : this.t('horaverse.common.unknown');
+  }
+
   toggleVoiceover(): void {
     if (!this.voiceAvailable) {
       return;
     }
 
     this.voiceEnabled = !this.voiceEnabled;
+    this.unlockAtmosphere();
 
     if (this.voiceEnabled) {
       this.speakCurrentScene(true);
@@ -368,10 +488,80 @@ export class HoraversePageComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     this.activeSceneIndex = index;
+    this.syncFocusToScene();
+    this.restartCinemaCycle();
 
     if (this.voiceEnabled) {
       this.speakCurrentScene(includePlanetInterlude);
     }
+  }
+
+  private syncFocusToScene(): void {
+    const scene = this.currentScene;
+    if (scene?.kind === 'solar-ring') {
+      this.focusedPlanetName = scene.focusPlanet || this.planetPoints[0]?.planet || this.focusedPlanetName;
+      return;
+    }
+    if (scene?.kind === 'house-walk') {
+      this.focusedHouseNumber = scene.focusHouse || this.moonPoint?.house || this.focusedHouseNumber || 1;
+    }
+  }
+
+  private restartCinemaCycle(): void {
+    this.stopCinemaCycle();
+    const kind = this.currentScene?.kind;
+    if (kind !== 'solar-ring' && kind !== 'house-walk') {
+      return;
+    }
+    this.cinemaTimer = window.setInterval(() => this.advanceCinemaFocus(), 4200);
+  }
+
+  private stopCinemaCycle(): void {
+    if (this.cinemaTimer) {
+      window.clearInterval(this.cinemaTimer);
+      this.cinemaTimer = 0;
+    }
+  }
+
+  private advanceCinemaFocus(): void {
+    if (this.currentScene?.kind === 'solar-ring' && this.planetPoints.length) {
+      const index = Math.max(0, this.planetPoints.findIndex(point => point.planet === this.focusedPlanetName));
+      const next = this.planetPoints[(index + 1) % this.planetPoints.length];
+      this.focusedPlanetName = next.planet;
+      if (next.house) {
+        this.focusedHouseNumber = next.house;
+      }
+      return;
+    }
+
+    if (this.currentScene?.kind === 'house-walk') {
+      this.focusedHouseNumber = this.focusedHouseNumber >= 12 ? 1 : this.focusedHouseNumber + 1;
+    }
+  }
+
+  private unlockAtmosphere(): void {
+    if (!this.atmosphereUnlocked) {
+      this.atmosphereUnlocked = true;
+      this.musicEnabled = true;
+      this.startDefaultMusic();
+      return;
+    }
+
+    if (this.musicEnabled) {
+      this.unlockDefaultMusic();
+    }
+  }
+
+  private formatSceneDate(value: string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+    return date.toLocaleDateString(this.voiceLocale() === 'en-IN' ? 'en-GB' : this.voiceLocale(), {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
   }
 
   private speakCurrentScene(includePlanetInterlude: boolean): void {
