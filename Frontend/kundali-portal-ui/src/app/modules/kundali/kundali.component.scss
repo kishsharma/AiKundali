@@ -1562,7 +1562,7 @@
 .pinned-chart-surface app-north-indian-chart,.pinned-chart-surface app-south-indian-chart,.pinned-chart-surface app-western-chart{width:min(100%,230px)}
 .chart-pin-button.compact{margin-left:0;padding:0 8px}.chart-with-house-details {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0;
   align-items: stretch;
   width: 100%;
@@ -1577,6 +1577,7 @@
 .chart-with-house-details .left,
 .chart-with-house-details .gochar {
   container-type: inline-size;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -1650,6 +1651,11 @@
 }
 
 .house-details-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
   display: flex;
   align-items: center;
   width: 100%;
@@ -1658,8 +1664,8 @@
   border: 0;
   border-top: 1px solid var(--line-soft);
   border-radius: 0;
-  padding: 8px 10px 2px;
-  background: transparent;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--theme-surface) 88%, transparent);
 }
 
 .house-details-row app-house-details-card {
@@ -1755,14 +1761,7 @@
   width: 100%;
   min-width: 0;
   min-height: min(78vh, 860px);
-  padding: 2.75rem 0.4rem 0.65rem;
-}
-
-.chart-surface > .house-details-row {
-  flex: 0 0 auto;
-  align-self: stretch;
-  width: 100%;
-  margin-top: 0.45rem;
+  padding: 2.75rem 0.4rem 3.4rem;
 }
 
 .chart-surface.kundali-chart-fill {
@@ -1770,7 +1769,7 @@
 }
 
 .gochar-chart-surface {
-  padding-top: 3.15rem;
+  padding-top: 2.75rem;
 }
 
 
