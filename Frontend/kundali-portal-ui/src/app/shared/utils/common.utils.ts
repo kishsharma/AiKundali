@@ -122,6 +122,37 @@ export function decimalToDMS(decimal: number, type: 'lat' | 'lon'): string {
 }
 
 /**
+ * Format a planet's in-sign longitude to one decimal degree.
+ */
+export function formatPlanetDegreeInSign(planet: any): string {
+  if (!planet || typeof planet === 'string') {
+    return '';
+  }
+
+  const degreeInSign = Number(planet.degreeInSign ?? planet.DegreeInSign);
+  if (Number.isFinite(degreeInSign)) {
+    return degreeInSign.toFixed(1);
+  }
+
+  const hasDegree = planet.degree != null || planet.Degree != null;
+  const hasMinute = planet.minute != null || planet.Minute != null;
+  if (hasDegree || hasMinute) {
+    const degree = Number(planet.degree ?? planet.Degree ?? 0);
+    const minute = Number(planet.minute ?? planet.Minute ?? 0);
+    if (Number.isFinite(degree) && Number.isFinite(minute)) {
+      return (degree + minute / 60).toFixed(1);
+    }
+  }
+
+  const longitude = Number(planet.longitude ?? planet.Longitude);
+  if (Number.isFinite(longitude)) {
+    return ((((longitude % 30) + 30) % 30)).toFixed(1);
+  }
+
+  return '';
+}
+
+/**
  * Deep clone object
  */
 export function deepClone<T>(obj: T): T {

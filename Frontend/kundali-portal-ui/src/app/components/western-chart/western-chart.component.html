@@ -47,10 +47,13 @@
         <tspan
           *ngFor="let planet of getPlanets(segment.sign); let planetIndex = index"
           [attr.x]="segment.planetX"
-          [attr.dy]="planetIndex === 0 ? 0 : 13"
+          [attr.dy]="planetIndex === 0 ? 0 : (showDegrees ? 16 : 13)"
           [ngClass]="getPlanetToneClass(planet)">
           <title>{{ getPlanetTooltip(planet) }}</title>
-          {{ getPlanetShortName(planet) }}
+          {{ getPlanetShortName(planet) }}<tspan
+            *ngIf="showDegrees && getPlanetDegreeLabel(planet)"
+            class="planet-degree"
+          > {{ getPlanetDegreeLabel(planet) }}°</tspan>
         </tspan>
       </text>
     </g>

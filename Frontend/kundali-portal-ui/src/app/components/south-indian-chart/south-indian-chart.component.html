@@ -24,7 +24,10 @@
           *ngFor="let planet of getPlanets(cell.sign)"
           [ngClass]="getPlanetToneClass(planet)"
           [attr.title]="getPlanetTooltip(planet)">
-          {{ getPlanetShortName(planet) }}
+          {{ getPlanetShortName(planet) }}<span
+            class="planet-degree"
+            *ngIf="showDegrees && getPlanetDegreeLabel(planet)"
+          > {{ getPlanetDegreeLabel(planet) }}°</span>
         </span>
       </span>
     </button>

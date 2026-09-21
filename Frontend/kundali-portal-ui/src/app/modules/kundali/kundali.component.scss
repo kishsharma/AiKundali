@@ -1513,7 +1513,8 @@
 }
 
 
-.chart-pin-button {
+.chart-pin-button,
+.chart-degree-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1535,7 +1536,9 @@
 }
 
 .chart-pin-button:hover,
-.chart-pin-button.active {
+.chart-pin-button.active,
+.chart-degree-toggle:hover,
+.chart-degree-toggle.active {
   border-color: color-mix(in srgb, var(--brass) 72%, transparent);
   color: var(--brass);
   background: color-mix(in srgb, var(--brass) 16%, var(--theme-input-bg));
@@ -1774,11 +1777,14 @@
 }
 
 
-.chart-surface > .chart-pin-button {
+.chart-surface > .chart-surface-actions {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .chart-surface app-north-indian-chart,
 .chart-surface app-south-indian-chart,

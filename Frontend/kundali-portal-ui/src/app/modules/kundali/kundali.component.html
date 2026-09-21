@@ -521,9 +521,9 @@
           </button>
         </div>
         <div class="pinned-chart-surface">
-          <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-north-indian-chart>
-          <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-south-indian-chart>
-          <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"></app-western-chart>
+          <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-north-indian-chart>
+          <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-south-indian-chart>
+          <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-western-chart>
         </div>
       </aside>
       <app-section-card id="kundali-chart" [title]="'kundali.chart' | transloco">
@@ -567,6 +567,16 @@
             <div class="chart-wrapper">
               <div class="chart-surface kundali-chart-fill">
                 <div class="chart-title">{{ primaryChartTitle }}</div>
+          <div class="chart-surface-actions">
+          <button
+            type="button"
+            class="chart-degree-toggle"
+            [class.active]="showLagnaDegrees"
+            [attr.aria-pressed]="showLagnaDegrees"
+            [attr.title]="showLagnaDegrees ? ('kundali.degreeToggleHide' | transloco) : ('kundali.degreeToggleShow' | transloco)"
+            (click)="toggleLagnaDegrees()">
+            <span>{{ 'kundali.degreeToggle' | transloco }}</span>
+          </button>
           <button type="button" class="chart-pin-button" [class.active]="isChartPinned"
             [attr.aria-pressed]="isChartPinned" [attr.title]="isChartPinned ? 'Unpin chart reference' : 'Pin chart reference'"
             (click)="toggleChartPin()">
@@ -575,12 +585,14 @@
             </svg>
             <span>{{ isChartPinned ? 'Unpin' : 'Pin' }}</span>
           </button>
+          </div>
                 <app-north-indian-chart
                   class="kundali-main-chart"
                   *ngIf="activeChartType === 'north'"
                   [planets]="primaryChartPlanets"
                   [ascendant]="primaryChartAscendant"
                   [housesData]="primaryChartHouses"
+                  [showDegrees]="showLagnaDegrees"
                   (houseSelected)="selectedHouseData = $event"></app-north-indian-chart>
 
                 <app-south-indian-chart
@@ -589,6 +601,7 @@
                   [planets]="primaryChartPlanets"
                   [ascendant]="primaryChartAscendant"
                   [housesData]="primaryChartHouses"
+                  [showDegrees]="showLagnaDegrees"
                   (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
 
                 <app-western-chart
@@ -597,6 +610,7 @@
                   [planets]="primaryChartPlanets"
                   [ascendant]="primaryChartAscendant"
                   [housesData]="primaryChartHouses"
+                  [showDegrees]="showLagnaDegrees"
                   (houseSelected)="selectedHouseData = $event"></app-western-chart>
               </div>
             </div>
@@ -606,6 +620,17 @@
             <div class="chart-wrapper">
               <div class="chart-surface kundali-chart-fill gochar-chart-surface">
                 <div class="chart-title">{{ 'kundali.gocharTitle' | transloco }}</div>
+                <div class="chart-surface-actions">
+                  <button
+                    type="button"
+                    class="chart-degree-toggle"
+                    [class.active]="showGocharDegrees"
+                    [attr.aria-pressed]="showGocharDegrees"
+                    [attr.title]="showGocharDegrees ? ('kundali.degreeToggleHide' | transloco) : ('kundali.degreeToggleShow' | transloco)"
+                    (click)="toggleGocharDegrees()">
+                    <span>{{ 'kundali.degreeToggle' | transloco }}</span>
+                  </button>
+                </div>
                 <small class="gochar-date" *ngIf="gocharCalculatedAt">{{ gocharCalculatedAt }}</small>
                 <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
                   <app-north-indian-chart
@@ -613,21 +638,24 @@
                     *ngIf="activeChartType === 'north'"
                     [planets]="gocharPlanets"
                     [ascendant]="gocharAscendant"
-                    [housesData]="d1Houses">
+                    [housesData]="d1Houses"
+                    [showDegrees]="showGocharDegrees">
                   </app-north-indian-chart>
                   <app-south-indian-chart
                     class="kundali-main-chart"
                     *ngIf="activeChartType === 'south'"
                     [planets]="gocharPlanets"
                     [ascendant]="gocharAscendant"
-                    [housesData]="d1Houses">
+                    [housesData]="d1Houses"
+                    [showDegrees]="showGocharDegrees">
                   </app-south-indian-chart>
                   <app-western-chart
                     class="kundali-main-chart"
                     *ngIf="activeChartType === 'western'"
                     [planets]="gocharPlanets"
                     [ascendant]="gocharAscendant"
-                    [housesData]="d1Houses">
+                    [housesData]="d1Houses"
+                    [showDegrees]="showGocharDegrees">
                   </app-western-chart>
                 </ng-container>
                 <ng-template #gocharUnavailable>

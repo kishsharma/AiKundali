@@ -163,6 +163,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   loadingSavedKundali = false;
   horaverseOpenError = '';
   isChartPinned = false;
+  showLagnaDegrees = false;
+  showGocharDegrees = false;
   displayPersonName = '';
   janmaStoryLines: string[] = [];
   displayedJanmaStoryLines: string[] = [];
@@ -1222,6 +1224,10 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   toggleChartPin(): void { this.isChartPinned = !this.isChartPinned; }
+
+  toggleLagnaDegrees(): void { this.showLagnaDegrees = !this.showLagnaDegrees; }
+
+  toggleGocharDegrees(): void { this.showGocharDegrees = !this.showGocharDegrees; }
 
   scrollToReportSection(event: MouseEvent, sectionId: string): void {
     event.preventDefault();
