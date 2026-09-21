@@ -5,18 +5,19 @@
 }
 
 .chart-wrapper {
+  display: block;
   width: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 100%;
   padding: 0;
   overflow: visible;
 }
 
 .kundali-svg {
+  display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 1;
-  display: block;
   overflow: visible;
 }
 

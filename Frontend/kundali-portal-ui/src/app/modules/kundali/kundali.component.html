@@ -565,7 +565,7 @@
         <div class="chart-with-house-details">
           <div class="left">
             <div class="chart-wrapper">
-              <div class="chart-surface">
+              <div class="chart-surface kundali-chart-fill">
                 <div class="chart-title">{{ primaryChartTitle }}</div>
           <button type="button" class="chart-pin-button" [class.active]="isChartPinned"
             [attr.aria-pressed]="isChartPinned" [attr.title]="isChartPinned ? 'Unpin chart reference' : 'Pin chart reference'"
@@ -575,16 +575,28 @@
             </svg>
             <span>{{ isChartPinned ? 'Unpin' : 'Pin' }}</span>
           </button>
-                <app-north-indian-chart *ngIf="activeChartType === 'north'" [planets]="primaryChartPlanets"
-                  [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
+                <app-north-indian-chart
+                  class="kundali-main-chart"
+                  *ngIf="activeChartType === 'north'"
+                  [planets]="primaryChartPlanets"
+                  [ascendant]="primaryChartAscendant"
+                  [housesData]="primaryChartHouses"
                   (houseSelected)="selectedHouseData = $event"></app-north-indian-chart>
 
-                <app-south-indian-chart *ngIf="activeChartType === 'south'" [planets]="primaryChartPlanets"
-                  [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
+                <app-south-indian-chart
+                  class="kundali-main-chart"
+                  *ngIf="activeChartType === 'south'"
+                  [planets]="primaryChartPlanets"
+                  [ascendant]="primaryChartAscendant"
+                  [housesData]="primaryChartHouses"
                   (houseSelected)="selectedHouseData = $event"></app-south-indian-chart>
 
-                <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets"
-                  [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses"
+                <app-western-chart
+                  class="kundali-main-chart"
+                  *ngIf="activeChartType === 'western'"
+                  [planets]="primaryChartPlanets"
+                  [ascendant]="primaryChartAscendant"
+                  [housesData]="primaryChartHouses"
                   (houseSelected)="selectedHouseData = $event"></app-western-chart>
               </div>
             </div>
