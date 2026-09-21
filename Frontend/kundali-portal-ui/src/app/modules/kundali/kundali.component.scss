@@ -11,6 +11,9 @@
   --line: var(--theme-line);
   --line-soft: var(--theme-line-soft);
   display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
   min-height: 100vh;
   color: var(--parchment);
   background:
@@ -505,9 +508,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 1360px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding: 20px 28px 40px;
+  padding: 12px 0 40px;
 }
 
 .primary-sections,
@@ -600,12 +604,17 @@
   scroll-margin-top: 64px;
 }
 
-:host ::ng-deep #kundali-chart > .card {
-  padding: 8px 8px 0;
+:host ::ng-deep #kundali-chart,
+:host ::ng-deep #kundali-chart > .card,
+:host ::ng-deep #kundali-chart > .card > .card-content {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
 }
 
-:host ::ng-deep #kundali-chart > .card > .card-content {
-  min-width: 0;
+:host ::ng-deep #kundali-chart > .card {
+  padding: 8px 8px 0;
 }
 
 :host ::ng-deep #kundali-report > .report-header + app-section-card > .card {
@@ -616,6 +625,8 @@
 
 :host ::ng-deep app-section-card {
   display: block;
+  width: 100%;
+  max-width: none;
   min-width: 0;
 }
 
@@ -1551,9 +1562,11 @@
 .pinned-chart-surface app-north-indian-chart,.pinned-chart-surface app-south-indian-chart,.pinned-chart-surface app-western-chart{width:min(100%,230px)}
 .chart-pin-button.compact{margin-left:0;padding:0 8px}.chart-with-house-details {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 32%);
+  grid-template-columns: minmax(0, 1fr) 300px;
   gap: 0;
   align-items: stretch;
+  width: 100%;
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 0 0 var(--theme-radius-structural, var(--theme-radius-card)) var(--theme-radius-structural, var(--theme-radius-card));
@@ -1562,8 +1575,11 @@
 }
 
 .chart-with-house-details .left {
+  container-type: inline-size;
+  container-name: kundali-chart-panel;
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-width: 0;
   min-height: min(78vh, 860px);
   border-right: 1px solid var(--line);
@@ -1572,6 +1588,8 @@
 
 .chart-with-house-details .right {
   display: flex;
+  width: 100%;
+  min-width: 0;
   min-height: 100%;
   background: color-mix(in srgb, var(--theme-surface) 36%, transparent);
 }
@@ -1697,9 +1715,12 @@
 .chart-surface .kundali-main-chart {
   display: block;
   width: 90%;
+  width: 90cqw;
   max-width: 90%;
+  max-width: 90cqw;
   min-width: 0;
   height: auto;
+  margin: 0 auto;
 }
 
 :host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart,
@@ -1708,17 +1729,20 @@
 :host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill app-western-chart {
   display: block !important;
   width: 90% !important;
+  width: 90cqw !important;
   max-width: 90% !important;
+  max-width: 90cqw !important;
   min-width: 0 !important;
   margin: 0 auto;
 }
 
-:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .chart-wrapper,
+:host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .north-chart-canvas,
 :host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .south-chart-wrapper,
 :host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-main-chart .western-chart-wrapper {
   display: block !important;
   width: 100% !important;
   max-width: none !important;
+  min-width: 0 !important;
 }
 
 :host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-svg,

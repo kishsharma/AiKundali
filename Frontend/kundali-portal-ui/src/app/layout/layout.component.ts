@@ -65,6 +65,7 @@ import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/
       max-width: 1400px;
       margin: 0 auto;
       width: 100%;
+      min-width: 0;
     }
 
     @media (max-width: 768px) {

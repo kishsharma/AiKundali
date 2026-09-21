@@ -24,7 +24,12 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .card {
+      display: block;
+      width: 100%;
+      max-width: none;
+      min-width: 0;
       background: #FFFFFF;
+      padding: 0.3rem;
       // border-radius: 1rem;
       // box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       padding: 0.3rem;
@@ -75,7 +80,18 @@ import { CommonModule } from '@angular/common';
 
     /* Runtime theme card */
     :host {
+      display: block;
+      width: 100%;
+      max-width: none;
+      min-width: 0;
       color: var(--theme-text);
+    }
+
+    .card,
+    .card-content {
+      width: 100%;
+      max-width: none;
+      min-width: 0;
     }
 
     .card {
