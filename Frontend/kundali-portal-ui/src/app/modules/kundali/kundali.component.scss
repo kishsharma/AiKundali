@@ -1585,7 +1585,7 @@
   flex-direction: column;
   width: 100%;
   min-width: 0;
-  min-height: min(78vh, 860px);
+  min-height: min(70vh, 774px);
   background: color-mix(in srgb, var(--theme-input-bg) 58%, transparent);
 }
 
@@ -1635,7 +1635,7 @@
 .chart-with-house-details .chart-wrapper {
   flex: 1 1 auto;
   align-items: stretch;
-  min-height: min(78vh, 860px);
+  min-height: min(70vh, 774px);
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -1764,8 +1764,8 @@
   justify-content: center;
   width: 100%;
   min-width: 0;
-  min-height: min(78vh, 860px);
-  padding: 2.75rem 0.4rem 0.65rem;
+  min-height: min(70vh, 774px);
+  padding: 2.1rem 0.35rem 0.4rem;
 }
 
 .chart-surface.kundali-chart-fill {
@@ -1773,7 +1773,7 @@
 }
 
 .gochar-chart-surface {
-  padding-top: 2.75rem;
+  padding-top: 2.1rem;
 }
 
 
@@ -3568,7 +3568,7 @@
   .chart-with-house-details .left,
   .chart-with-house-details .gochar,
   .chart-with-house-details .chart-wrapper {
-    min-height: min(90vw, 560px);
+    min-height: min(81vw, 504px);
     border-right: 0;
   }
 
@@ -3603,7 +3603,7 @@
 
   .chart-with-house-details .chart-wrapper,
   .chart-surface {
-    min-height: min(90vw, 560px);
+    min-height: min(81vw, 504px);
   }
 
   .house-details-panel,
