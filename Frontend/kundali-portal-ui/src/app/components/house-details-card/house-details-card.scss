@@ -281,11 +281,11 @@
 
 .house-details-card.compact.inline {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px 12px;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .house-details-card.compact.inline .card-header {
@@ -300,28 +300,30 @@
 .house-details-card.compact.inline .card-header h3 {
   font-size: 14px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .house-details-card.compact.inline .house-title-block .house-meaning {
-  display: none;
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: normal;
 }
 
 .house-details-card.compact.inline .simple-info {
   display: flex;
   flex: 1 1 auto;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   grid-template-columns: none;
   gap: 6px;
   margin: 0;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .house-details-card.compact.inline .simple-info > div,
 .house-details-card.compact.inline .aspect-section {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
   flex-direction: row;
   align-items: center;
@@ -332,16 +334,16 @@
 
 .house-details-card.compact.inline .simple-info strong,
 .house-details-card.compact.inline .simple-text-section .simple-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
 }
 
 .house-details-card.compact.inline .tag-section {
-  flex: 1 1 auto;
+  flex: 1 1 180px;
   min-width: 0;
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .house-details-card.compact.inline .tag-section label {
@@ -351,10 +353,6 @@
 
 .house-details-card.compact.inline .simple-text-section .simple-text {
   display: inline;
-}
-
-.house-details-card.compact.inline .tag-section.simple-text-section:not(.aspect-section) {
-  display: none;
 }
 
 .house-details-card.compact.inline .tooltip-box {
@@ -374,13 +372,5 @@
 
   .tooltip-box {
     width: 100%;
-  }
-
-  .house-details-card.compact.inline {
-    flex-wrap: wrap;
-  }
-
-  .house-details-card.compact.inline .simple-info {
-    flex-wrap: wrap;
   }
 }

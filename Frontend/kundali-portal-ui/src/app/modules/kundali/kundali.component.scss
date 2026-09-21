@@ -1653,12 +1653,12 @@
 .house-details-row {
   grid-column: 1 / -1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   min-width: 0;
   min-height: 44px;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
   border: 0;
   border-top: 1px solid var(--line);
   border-radius: 0;
@@ -1670,7 +1670,7 @@
   display: block;
   width: 100%;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .house-details-row .house-placeholder {
@@ -1679,6 +1679,8 @@
 
 :host ::ng-deep .house-details-row .house-details-card {
   height: auto;
+  max-width: 100%;
+  overflow: visible;
   border: 0;
   border-radius: 0;
   padding: 0;
