@@ -66,6 +66,10 @@ describe('WesternChartComponent', () => {
     expect(component.getPlanetAbsoluteLongitude(component.planets[0])).toBe(15);
     expect(component.placedPlanets.length).toBe(1);
     expect(component.placedPlanets[0].angle).toBe(-75);
+    expect(Math.round(Math.hypot(
+      component.placedPlanets[0].x - component.center,
+      component.placedPlanets[0].y - component.center
+    ))).toBe(component.transitLabelRadius);
     expect(component.getHouseForSign(7)).toBe(1);
     expect(component.getHouseForSign(1)).toBe(7);
   });

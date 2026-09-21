@@ -7,7 +7,12 @@ type PlacedPlanet = {
   planet: any;
   x: number;
   y: number;
+  tickInnerX: number;
+  tickInnerY: number;
+  tickOuterX: number;
+  tickOuterY: number;
   angle: number;
+  longitude: number;
 };
 
 type WheelSegment = {
@@ -49,6 +54,9 @@ export class WesternChartComponent implements OnChanges {
   readonly center = 250;
   readonly outerRadius = 210;
   readonly innerRadius = 72;
+  readonly transitRingRadius = 232;
+  readonly transitTickInnerRadius = 210;
+  readonly transitLabelRadius = 248;
   readonly signLabels: Record<number, string> = {
     1: 'Aries',
     2: 'Taurus',
@@ -247,8 +255,8 @@ export class WesternChartComponent implements OnChanges {
       return;
     }
 
-    const baseRadius = 110;
-    const clusterGap = 8;
+    const labelRadius = this.transitLabelRadius;
+    const clusterGap = 7;
     const radiusStep = 14;
     const items = (this.planets ?? [])
       .map(planet => {
@@ -259,23 +267,30 @@ export class WesternChartComponent implements OnChanges {
       .sort((left, right) => left.longitude - right.longitude);
 
     items.forEach((item, index) => {
-      let radius = baseRadius;
+      let radius = labelRadius;
       const previous = items[index - 1];
       if (previous && this.longitudeDistance(item.longitude, previous.longitude) < clusterGap) {
         const stacked = this.placedPlanets[this.placedPlanets.length - 1];
         const previousRadius = stacked
           ? Math.hypot(stacked.x - this.center, stacked.y - this.center)
-          : baseRadius;
+          : labelRadius;
         radius = previousRadius + radiusStep;
       }
 
       const angle = -90 + item.longitude;
       const point = this.pointOnCircle(angle, radius);
+      const tickInner = this.pointOnCircle(angle, this.transitTickInnerRadius);
+      const tickOuter = this.pointOnCircle(angle, this.transitRingRadius);
       this.placedPlanets.push({
         planet: item.planet,
         x: point.x,
         y: point.y,
-        angle
+        tickInnerX: tickInner.x,
+        tickInnerY: tickInner.y,
+        tickOuterX: tickOuter.x,
+        tickOuterY: tickOuter.y,
+        angle,
+        longitude: item.longitude
       });
     });
   }
