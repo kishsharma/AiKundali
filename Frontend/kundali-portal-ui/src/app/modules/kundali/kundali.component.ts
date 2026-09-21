@@ -1475,6 +1475,35 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return this.exportingPdf ? 'Lagna Kundali' : this.chartTitle;
   }
 
+  get gocharInsight(): any {
+    return this.kundaliResponse?.transitInsight ?? this.kundaliResponse?.TransitInsight ?? null;
+  }
+
+  get gocharPlanets(): any[] {
+    const insight = this.gocharInsight;
+    const planets = insight?.planets ?? insight?.Planets;
+    return Array.isArray(planets) ? planets : [];
+  }
+
+  get gocharAscendant(): string {
+    const insight = this.gocharInsight;
+    return this.firstText(
+      insight?.natalAscendant,
+      insight?.NatalAscendant,
+      this.primaryChartAscendant
+    );
+  }
+
+  get hasGocharChart(): boolean {
+    return this.gocharPlanets.length > 0;
+  }
+
+  get gocharCalculatedAt(): string {
+    const insight = this.gocharInsight;
+    const raw = this.firstText(insight?.calculatedAtUtc, insight?.CalculatedAtUtc);
+    return raw ? this.formatPredictionDate(raw) : '';
+  }
+
   setActiveDivisionalChart(chart: 'd1' | 'd9'): void {
     if (chart === 'd9' && !this.d9Chart) {
       return;

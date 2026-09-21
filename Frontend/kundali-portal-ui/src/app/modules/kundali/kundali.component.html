@@ -602,10 +602,45 @@
             </div>
           </div>
 
+          <div class="gochar screen-gochar-chart" aria-label="Gochar Kundali">
+            <div class="chart-wrapper">
+              <div class="chart-surface kundali-chart-fill gochar-chart-surface">
+                <div class="chart-title">{{ 'kundali.gocharTitle' | transloco }}</div>
+                <small class="gochar-date" *ngIf="gocharCalculatedAt">{{ gocharCalculatedAt }}</small>
+                <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
+                  <app-north-indian-chart
+                    class="kundali-main-chart"
+                    *ngIf="activeChartType === 'north'"
+                    [planets]="gocharPlanets"
+                    [ascendant]="gocharAscendant"
+                    [housesData]="d1Houses">
+                  </app-north-indian-chart>
+                  <app-south-indian-chart
+                    class="kundali-main-chart"
+                    *ngIf="activeChartType === 'south'"
+                    [planets]="gocharPlanets"
+                    [ascendant]="gocharAscendant"
+                    [housesData]="d1Houses">
+                  </app-south-indian-chart>
+                  <app-western-chart
+                    class="kundali-main-chart"
+                    *ngIf="activeChartType === 'western'"
+                    [planets]="gocharPlanets"
+                    [ascendant]="gocharAscendant"
+                    [housesData]="d1Houses">
+                  </app-western-chart>
+                </ng-container>
+                <ng-template #gocharUnavailable>
+                  <p class="gochar-placeholder">{{ 'kundali.gocharUnavailable' | transloco }}</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
           <div class="right">
-            <div class="house-details-panel screen-house-details">
+            <div class="house-details-panel screen-house-details compact-house-rail">
               <ng-container *ngIf="selectedHouseData; else noHouseSelected">
-                <app-house-details-card [houseData]="selectedHouseData"></app-house-details-card>
+                <app-house-details-card [houseData]="selectedHouseData" [compact]="true"></app-house-details-card>
               </ng-container>
 
               <ng-template #noHouseSelected>

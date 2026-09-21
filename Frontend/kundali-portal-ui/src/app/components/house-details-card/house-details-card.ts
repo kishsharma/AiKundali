@@ -11,6 +11,7 @@ import { ApiTermTranslationService } from '../../core/services/api-term-translat
 })
 export class HouseDetailsCard {
   @Input() houseData: any;
+  @Input() compact = false;
 
   constructor(private readonly translocoService: TranslocoService, private readonly apiTerms: ApiTermTranslationService) {}
 

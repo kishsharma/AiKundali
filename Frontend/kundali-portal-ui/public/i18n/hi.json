@@ -15,6 +15,8 @@
   "kundali.generateButton": "कुंडली बनाएं",
   "kundali.generating": "बनाया जा रहा है...",
   "kundali.chart": "कुंडली चार्ट",
+  "kundali.gocharTitle": "गोचर कुंडली",
+  "kundali.gocharUnavailable": "इस कुंडली के लिए वर्तमान गोचर उपलब्ध नहीं है।",
   "kundali.summary": "कुंडली सारांश",
   "kundali.panchang": "पंचांग विवरण",
   "kundali.planetPositions": "ग्रह स्थिति",
