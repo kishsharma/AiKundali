@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
+import { HoraverseInsightService } from './horaverse-insight.service';
 import { HoraverseScene, HoraverseSession } from './horaverse-models';
 
 @Injectable({ providedIn: 'root' })
 export class HoraverseStoryService {
   constructor(
     private readonly translocoService: TranslocoService,
-    private readonly termTranslation: ApiTermTranslationService
+    private readonly termTranslation: ApiTermTranslationService,
+    private readonly insight: HoraverseInsightService
   ) {}
 
   buildScenes(session: HoraverseSession): HoraverseScene[] {
     const report = session.report ?? {};
     const summary = report.summary ?? {};
     const planets = report.planets ?? [];
-    const houses = report.houses ?? [];
     const scores = report.scores ?? {};
-    const currentDasha = report.currentDasha ?? {};
+    const houses = this.insight.readHouses(session);
+    const currentDasha = this.insight.readCurrentDasha(session) ?? report.currentDasha ?? {};
     const birth = session.birthProfile;
     const panchang = report.panchang ?? {};
     const moon = this.findPlanet(planets, 'Moon');
     const saturn = this.findPlanet(planets, 'Saturn');
-    const focusHouse = this.findHouse(houses, moon?.house);
+    const moonHouse = this.insight.findHouse(houses, moon?.house);
     const moonSign = this.translateSign(moon?.sign ?? summary.moonSign);
     const ascendant = this.translateSign(summary.ascendant);
-    const saturnLine = saturn
-      ? this.t('horaverse.kaala.saturnLine', {
-          house: saturn.house ?? this.t('horaverse.common.unknown'),
-          strength: this.cleanStrength(saturn.detailedStrength)
-        })
-      : this.t('horaverse.kaala.saturnQuiet');
+    const dashaMaha = this.translatePlanet(currentDasha.mahadasha ?? summary.currentMahadasha) || this.t('horaverse.kaala.stillUnfolding');
+    const dashaAntar = this.translatePlanet(currentDasha.antardasha ?? summary.currentAntardasha) || this.t('horaverse.kaala.smallerCurrent');
+    const strongestHouse = [...houses].sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
+    const pressuredHouse = [...houses].sort((a, b) => Number(b.hasMaleficAspect) - Number(a.hasMaleficAspect) || (a.score ?? 50) - (b.score ?? 50))[0];
 
     return [
       {
@@ -64,13 +64,43 @@ export class HoraverseStoryService {
           this.t('horaverse.solarRing.line1'),
           this.t('horaverse.solarRing.line2', {
             sign: moonSign || this.t('horaverse.solarRing.signFallback'),
-            house: moon?.house ?? this.t('horaverse.common.unknown')
+            house: moon?.house ?? this.t('horaverse.common.unknown'),
+            houseMeaning: this.houseMeaning(moon?.house)
           }),
           this.t('horaverse.solarRing.line3', {
             overall: scores.overall ?? this.t('horaverse.common.a'),
             growth: scores.growth ?? this.t('horaverse.common.unknown'),
-            challenge: scores.challenge ?? this.t('horaverse.common.unknown')
+            challenge: scores.challenge ?? this.t('horaverse.common.unknown'),
+            direction: this.scoreDirection(scores)
           })
+        ]
+      },
+      {
+        kind: 'house-walk',
+        kicker: this.t('horaverse.houseWalk.kicker'),
+        title: this.t('horaverse.houseWalk.title'),
+        accent: '#62e9ff',
+        focusPlanet: 'Moon',
+        focusHouse: Number(moon?.house) || 1,
+        lines: [
+          this.t('horaverse.houseWalk.line1'),
+          this.t('horaverse.houseWalk.line2', {
+            house: moonHouse?.house ?? moon?.house ?? this.t('horaverse.common.unknown'),
+            meaning: this.houseMeaning(moonHouse?.house ?? moon?.house),
+            occupants: this.formatPlanetList(moonHouse?.occupants) || this.t('horaverse.hud.emptyOccupants')
+          }),
+          this.t('horaverse.houseWalk.line3', {
+            house: strongestHouse?.house ?? this.t('horaverse.common.unknown'),
+            support: this.houseAspectLabel(strongestHouse),
+            pressureHouse: pressuredHouse?.house ?? this.t('horaverse.common.unknown'),
+            pressure: this.houseAspectLabel(pressuredHouse)
+          }),
+          saturn
+            ? this.t('horaverse.kaala.saturnLine', {
+                house: saturn.house ?? this.t('horaverse.common.unknown'),
+                strength: this.cleanStrength(saturn.detailedStrength)
+              })
+            : this.t('horaverse.kaala.saturnQuiet')
         ]
       },
       {
@@ -81,32 +111,11 @@ export class HoraverseStoryService {
         lines: [
           this.t('horaverse.kaala.line1'),
           this.t('horaverse.kaala.line2', {
-            mahadasha: this.translatePlanet(currentDasha.mahadasha ?? summary.currentMahadasha) || this.t('horaverse.kaala.stillUnfolding')
+            mahadasha: dashaMaha
           }),
           this.t('horaverse.kaala.line3', {
-            antardasha: this.translatePlanet(currentDasha.antardasha ?? summary.currentAntardasha) || this.t('horaverse.kaala.smallerCurrent')
+            antardasha: dashaAntar
           })
-        ]
-      },
-      {
-        kind: 'inner-focus',
-        kicker: this.t('horaverse.innerFocus.kicker'),
-        title: this.t('horaverse.innerFocus.title', { moonSign: moonSign || this.t('horaverse.innerFocus.focusFallback') }),
-        accent: '#62e9ff',
-        focusPlanet: 'Moon',
-        lines: [
-          this.t('horaverse.innerFocus.line1'),
-          this.t('horaverse.innerFocus.line2', {
-            house: moon?.house ?? this.t('horaverse.common.unknown'),
-            houseName: focusHouse?.houseName ? ` - ${focusHouse.houseName}` : ''
-          }),
-          moon?.nakshatra
-            ? this.t('horaverse.innerFocus.nakshatraLine', {
-                nakshatra: this.translateNakshatra(moon.nakshatra),
-                pada: moon.pada ?? '?'
-              })
-            : this.t('horaverse.innerFocus.moonDoorway'),
-          saturnLine
         ]
       },
       {
@@ -146,7 +155,10 @@ export class HoraverseStoryService {
     const strengths = this.toList(scores.dominantStrengths);
     const weaknesses = this.toList(scores.dominantWeaknesses);
     const factors = this.toList(scores.factors ?? scores.growthFactors ?? scores.challengeFactors);
-    const dashaWindow = this.formatWindow(currentDasha?.startDate, currentDasha?.endDate);
+    const dashaWindow = this.formatWindow(
+      currentDasha?.mahaStart ?? currentDasha?.startDate,
+      currentDasha?.mahaEnd ?? currentDasha?.endDate
+    );
 
     return [
       strengths[0]
@@ -168,9 +180,21 @@ export class HoraverseStoryService {
     return planets.find(item => String(item?.planet ?? item?.planetName ?? '').toLowerCase() === planetName.toLowerCase()) ?? null;
   }
 
-  private findHouse(houses: any[], houseNumber: number | string | null | undefined): any | null {
-    const numericHouse = Number(houseNumber);
-    return houses.find(item => Number(item?.houseNumber) === numericHouse) ?? null;
+  private formatPlanetList(values: string[] | undefined): string {
+    return (values ?? []).map(value => this.translatePlanet(value)).filter(Boolean).join(', ');
+  }
+
+  private houseAspectLabel(house: { hasBeneficAspect?: boolean; hasMaleficAspect?: boolean } | null | undefined): string {
+    if (house?.hasBeneficAspect && house?.hasMaleficAspect) {
+      return this.t('horaverse.hud.mixed');
+    }
+    if (house?.hasBeneficAspect) {
+      return this.t('horaverse.hud.beneficAspect');
+    }
+    if (house?.hasMaleficAspect) {
+      return this.t('horaverse.hud.maleficAspect');
+    }
+    return this.t('horaverse.hud.neutral');
   }
 
   private toList(value: any): string[] {

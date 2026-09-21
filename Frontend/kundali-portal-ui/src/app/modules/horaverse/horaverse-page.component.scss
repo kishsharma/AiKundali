@@ -337,6 +337,201 @@ h1 {
 
 .planet-node {
   animation: planetArrive 860ms ease both;
+  cursor: pointer;
+}
+
+.planet-node.is-focused .planet-glow {
+  opacity: 0.42;
+  r: 22;
+}
+
+.planet-node.is-supportive .planet-glow {
+  opacity: 0.28;
+}
+
+.planet-node.is-challenging .planet-glow {
+  opacity: 0.3;
+}
+
+.planet-degree {
+  fill: rgba(248, 243, 231, 0.72);
+  font-size: 9px;
+  font-weight: 700;
+  text-anchor: middle;
+  letter-spacing: 0.4px;
+  pointer-events: none;
+}
+
+.house-arc {
+  cursor: pointer;
+}
+
+.house-arc.focused-house {
+  fill: rgba(98, 233, 255, 0.16);
+  stroke: rgba(98, 233, 255, 0.78);
+  filter: drop-shadow(0 0 16px rgba(98, 233, 255, 0.28));
+}
+
+.house-label {
+  cursor: pointer;
+}
+
+.house-label.focused-label {
+  fill: #62e9ff;
+  font-size: 16px;
+}
+
+.aspect-ray {
+  fill: none;
+  stroke-width: 1.4;
+  stroke-dasharray: 5 8;
+  animation: aspectFlow 2.4s linear infinite;
+  pointer-events: none;
+}
+
+.aspect-ray.benefic {
+  stroke: rgba(103, 245, 191, 0.72);
+  filter: drop-shadow(0 0 8px rgba(103, 245, 191, 0.35));
+}
+
+.aspect-ray.malefic {
+  stroke: rgba(255, 106, 122, 0.72);
+  filter: drop-shadow(0 0 8px rgba(255, 106, 122, 0.35));
+}
+
+@keyframes aspectFlow {
+  to {
+    stroke-dashoffset: -52;
+  }
+}
+
+.living-hud {
+  position: absolute;
+  left: 12px;
+  bottom: 18px;
+  z-index: 4;
+  max-width: min(320px, 86%);
+  padding: 14px 16px;
+  border: 1px solid rgba(247, 191, 99, 0.22);
+  background: rgba(5, 8, 18, 0.72);
+  backdrop-filter: blur(12px);
+  animation: copyReveal 640ms ease both;
+}
+
+.living-hud .hud-kicker {
+  display: block;
+  color: var(--accent, #f7bf63);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.living-hud strong {
+  display: block;
+  margin: 8px 0 6px;
+  color: #fff8e6;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.living-hud p {
+  margin: 0 0 4px;
+  color: rgba(248, 243, 231, 0.72);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.house-rail {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  z-index: 4;
+  display: grid;
+  gap: 6px;
+  transform: translateY(-50%);
+}
+
+.house-rail button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(248, 243, 231, 0.18);
+  border-radius: 50%;
+  color: rgba(248, 243, 231, 0.78);
+  background: rgba(5, 8, 18, 0.55);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.house-rail button.active {
+  color: #03040b;
+  background: #62e9ff;
+  border-color: #62e9ff;
+}
+
+.house-rail button.benefic {
+  box-shadow: 0 0 10px rgba(103, 245, 191, 0.45);
+}
+
+.house-rail button.malefic {
+  box-shadow: 0 0 10px rgba(255, 106, 122, 0.45);
+}
+
+.house-rail button.mixed {
+  box-shadow: 0 0 10px rgba(247, 191, 99, 0.45);
+}
+
+.dasha-river {
+  display: grid;
+  gap: 14px;
+  width: min(520px, 92vw);
+  margin-top: -24px;
+}
+
+.dasha-progress {
+  display: grid;
+  gap: 6px;
+}
+
+.dasha-progress span {
+  color: rgba(200, 144, 255, 0.9);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.dasha-progress small {
+  color: rgba(248, 243, 231, 0.55);
+  font-size: 11px;
+}
+
+.dasha-progress .score-track i,
+.dasha-progress .score-track i.antar {
+  background: linear-gradient(90deg, #c890ff, #54f0d7);
+}
+
+.antar-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.antar-strip button {
+  border: 1px solid rgba(200, 144, 255, 0.28);
+  padding: 6px 10px;
+  color: rgba(248, 243, 231, 0.78);
+  background: rgba(12, 10, 24, 0.55);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.antar-strip button.current {
+  color: #03040b;
+  background: #c890ff;
+  box-shadow: 0 0 18px rgba(200, 144, 255, 0.35);
 }
 
 .planet-glow {
