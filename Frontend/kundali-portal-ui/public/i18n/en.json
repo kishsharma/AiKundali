@@ -17,6 +17,8 @@
   "kundali.chart": "Kundali Chart",
   "kundali.gocharTitle": "Gochar Kundali",
   "kundali.gocharUnavailable": "Current Gochar is not available for this chart.",
+  "kundali.currentDashaTitle": "Current Dasha",
+  "kundali.currentDashaUnavailable": "Current Mahadasha is not available for this chart.",
   "kundali.degreeToggle": "Degree",
   "kundali.degreeToggleShow": "Show planet degrees",
   "kundali.degreeToggleHide": "Hide planet degrees",

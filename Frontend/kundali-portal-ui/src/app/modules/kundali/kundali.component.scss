@@ -1579,7 +1579,6 @@
 
 .chart-with-house-details .left,
 .chart-with-house-details .gochar {
-  container-type: inline-size;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1590,12 +1589,49 @@
 }
 
 .chart-with-house-details .left {
+  container-type: inline-size;
   container-name: kundali-chart-panel;
   border-right: 1px solid var(--line);
 }
 
 .chart-with-house-details .gochar {
   container-name: gochar-chart-panel;
+}
+
+.gochar-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(210px, 0.85fr);
+  gap: 8px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.gochar-wheel {
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.current-dasha-rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  border-left: 1px solid var(--line-soft);
+  padding: 2.1rem 8px 8px;
+}
+
+.current-dasha-rail .dasha-rail-title {
+  position: static;
+  align-self: flex-start;
+  margin-bottom: 8px;
 }
 
 .chart-with-house-details .right {
@@ -1774,6 +1810,8 @@
 
 .gochar-chart-surface {
   padding-top: 2.1rem;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
 
@@ -1820,6 +1858,14 @@
   width: 100% !important;
   max-width: none !important;
   min-width: 0 !important;
+}
+
+:host-context(body:not(.pdf-mode)) ::ng-deep .gochar-chart-surface .kundali-main-chart,
+:host-context(body:not(.pdf-mode)) ::ng-deep .gochar-chart-surface app-western-chart {
+  width: 96% !important;
+  width: 96cqw !important;
+  max-width: 96% !important;
+  max-width: 96cqw !important;
 }
 
 :host-context(body:not(.pdf-mode)) ::ng-deep .chart-surface.kundali-chart-fill .kundali-svg,
@@ -3574,6 +3620,16 @@
 
   .chart-with-house-details .gochar {
     border-top: 1px solid var(--line);
+  }
+
+  .gochar-split {
+    grid-template-columns: 1fr;
+  }
+
+  .current-dasha-rail {
+    border-left: 0;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 12px;
   }
 
   .chart-control-bar {

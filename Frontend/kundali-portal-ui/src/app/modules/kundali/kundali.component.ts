@@ -1510,6 +1510,17 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return raw ? this.formatPredictionDate(raw) : '';
   }
 
+  get currentMahadashaPeriods(): any[] {
+    const now = new Date();
+    const current = (this.mahadashaPeriods ?? []).find((period: any) => {
+      const start = new Date(period.startDate ?? period.start ?? period.from);
+      const end = new Date(period.endDate ?? period.end ?? period.to);
+      return !Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime()) && now >= start && now <= end;
+    });
+
+    return current ? [current] : [];
+  }
+
   setActiveDivisionalChart(chart: 'd1' | 'd9'): void {
     if (chart === 'd9' && !this.d9Chart) {
       return;

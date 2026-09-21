@@ -17,6 +17,8 @@
   "kundali.chart": "कुंडली चार्ट",
   "kundali.gocharTitle": "गोचर कुंडली",
   "kundali.gocharUnavailable": "इस कुंडली के लिए वर्तमान गोचर उपलब्ध नहीं है।",
+  "kundali.currentDashaTitle": "वर्तमान दशा",
+  "kundali.currentDashaUnavailable": "इस कुंडली के लिए वर्तमान महादशा उपलब्ध नहीं है।",
   "kundali.degreeToggle": "अंश",
   "kundali.degreeToggleShow": "ग्रह अंश दिखाएं",
   "kundali.degreeToggleHide": "ग्रह अंश छिपाएं",

@@ -632,19 +632,34 @@
                   </button>
                 </div>
                 <small class="gochar-date" *ngIf="gocharCalculatedAt">{{ gocharCalculatedAt }}</small>
-                <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
-                  <app-western-chart
-                    class="kundali-main-chart"
-                    [planets]="gocharPlanets"
-                    [ascendant]="gocharAscendant"
-                    [housesData]="d1Houses"
-                    [showDegrees]="showGocharDegrees"
-                    [placeByDegree]="true">
-                  </app-western-chart>
-                </ng-container>
-                <ng-template #gocharUnavailable>
-                  <p class="gochar-placeholder">{{ 'kundali.gocharUnavailable' | transloco }}</p>
-                </ng-template>
+                <div class="gochar-split">
+                  <div class="gochar-wheel">
+                    <ng-container *ngIf="hasGocharChart; else gocharUnavailable">
+                      <app-western-chart
+                        class="kundali-main-chart"
+                        [planets]="gocharPlanets"
+                        [ascendant]="gocharAscendant"
+                        [housesData]="d1Houses"
+                        [showDegrees]="showGocharDegrees"
+                        [placeByDegree]="true">
+                      </app-western-chart>
+                    </ng-container>
+                    <ng-template #gocharUnavailable>
+                      <p class="gochar-placeholder">{{ 'kundali.gocharUnavailable' | transloco }}</p>
+                    </ng-template>
+                  </div>
+                  <aside class="current-dasha-rail screen-current-dasha" aria-label="Current Mahadasha">
+                    <div class="chart-title dasha-rail-title">{{ 'kundali.currentDashaTitle' | transloco }}</div>
+                    <app-mahadasha-antardasha
+                      *ngIf="currentMahadashaPeriods.length; else noCurrentDasha"
+                      [mahadashas]="currentMahadashaPeriods"
+                      [compact]="true">
+                    </app-mahadasha-antardasha>
+                    <ng-template #noCurrentDasha>
+                      <p class="gochar-placeholder">{{ 'kundali.currentDashaUnavailable' | transloco }}</p>
+                    </ng-template>
+                  </aside>
+                </div>
               </div>
             </div>
           </div>
