@@ -28,6 +28,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public List<YogaDto> Yogas { get; set; } = new();
         public List<DoshaDto> Doshas { get; set; } = new();
         public DivisionalChartDto? D9Chart { get; set; }
+        public List<DivisionalChartDto> DivisionalCharts { get; set; } = new();
         public SudarshanChakraDto? SudarshanChakra { get; set; }
         public AdvancedStrengthTableDto? AdvancedStrengthTables { get; set; }
         public List<PredictionResponseDto> Predictions { get; set; } = new();

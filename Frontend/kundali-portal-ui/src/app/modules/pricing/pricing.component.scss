@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+  color: var(--theme-text);
+}
+
+.plans-kicker {
+  margin: 0 0 6px;
+  color: var(--theme-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+header p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.cycle-switch {
+  display: inline-flex;
+  gap: 6px;
+  margin: 18px 0;
+  padding: 4px;
+  border: 1px solid var(--theme-line);
+  border-radius: 999px;
+  background: var(--theme-surface);
+}
+
+.cycle-switch button,
+.plan-card button {
+  border: 0;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.cycle-switch button {
+  min-height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--theme-text);
+}
+
+.cycle-switch button.is-on {
+  background: var(--theme-accent);
+  color: #1c1408;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.plan-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-card);
+  background: var(--theme-surface);
+}
+
+.plan-card h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.plan-card p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.plan-price {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.plan-price span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--theme-text-muted);
+}
+
+.plan-card button {
+  justify-self: start;
+  min-height: 36px;
+  margin-top: 8px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--theme-accent);
+  color: #1c1408;
+}
+
+@media (max-width: 800px) {
+  .plan-grid {
+    grid-template-columns: 1fr;
+  }
+}

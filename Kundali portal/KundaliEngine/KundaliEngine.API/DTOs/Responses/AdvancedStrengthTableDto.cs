@@ -1,9 +1,12 @@
+using System.Text.Json.Serialization;
+
 namespace KundaliEngine.API.DTOs.Responses
 {
     public class AdvancedStrengthTableDto
     {
         public string MethodNote { get; set; } = string.Empty;
         public List<PlanetaryStrengthRowDto> PlanetaryStrengths { get; set; } = new();
+        [JsonPropertyName("shadbala")]
         public List<ShadbalaRowDto> Shadbala { get; set; } = new();
         public List<HouseSupportRowDto> HouseSupport { get; set; } = new();
     }

@@ -321,7 +321,9 @@
 
 :host.compact-dasha .mahadasha-card {
   min-width: 0;
-  overflow: auto;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 :host.compact-dasha .mahadasha-header {
@@ -337,10 +339,126 @@
 
 :host.compact-dasha .period-summary {
   justify-content: flex-start;
+  flex-wrap: wrap;
+  white-space: normal;
 }
 
 :host.compact-dasha .antardasha-table th,
 :host.compact-dasha .antardasha-table td {
   padding: 4px 6px;
   font-size: 10px;
+}
+
+.dasha-tone-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  grid-column: 1 / -1;
+}
+
+.tone-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.tone-chip.tone-favourable {
+  background: #e7f6ec;
+  color: #146c36;
+}
+
+.mahadasha-card.tone-favourable .mahadasha-header,
+.antardasha-table tbody tr.tone-favourable td {
+  background: #e7f6ec;
+}
+
+.tone-chip.tone-unfavourable {
+  background: #fff1d6;
+  color: #8a5a00;
+}
+
+.mahadasha-card.tone-unfavourable .mahadasha-header,
+.antardasha-table tbody tr.tone-unfavourable td {
+  background: #fff1d6;
+}
+
+.tone-chip.tone-neutral {
+  background: #f4f6fb;
+  color: #4b5568;
+}
+
+.tone-hint {
+  width: 100%;
+  margin: 0;
+  color: var(--theme-text-muted, #667085);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.mahadasha-card.tone-favourable {
+  border-color: #b7e4c7;
+}
+
+.mahadasha-card.tone-unfavourable {
+  border-color: #f3d7a1;
+}
+
+.tone-chip.tone-best {
+  background: #b7e8c6;
+  color: #0b5a2a;
+  font-weight: 700;
+}
+
+.antardasha-table tbody tr.tone-best td {
+  background: #b7e8c6;
+  color: #0b5a2a;
+  font-weight: 400;
+}
+
+.antardasha-table tbody tr.tone-best td:first-child {
+  box-shadow: inset 3px 0 0 #15803d;
+}
+
+.best-mark {
+  display: inline-flex;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: #15803d;
+  color: #fff;
+  padding: 1px 6px;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  vertical-align: 1px;
+}
+
+.antardasha-table tbody tr.tone-favourable:hover td {
+  background: #d7f0e0;
+}
+
+.antardasha-table tbody tr.tone-best:hover td {
+  background: #a7dfba;
+}
+
+.antardasha-table tbody tr.tone-unfavourable:hover td {
+  background: #ffe6b8;
+}
+
+.antardasha-table tbody tr.tone-neutral:hover td {
+  background: #f7f8fc;
+}
+
+.antardasha-table tbody tr.active-maha td {
+  font-weight: 700;
+}
+
+.antardasha-table tbody tr.active-maha td:first-child {
+  box-shadow: inset 3px 0 0 #d97706;
 }

@@ -88,12 +88,31 @@ export interface DashaTimeline {
   pratyantardasha: PratyantardashaPeriod[];
 }
 
+export type LifeAreaLink = 'occupies' | 'rules' | 'aspects' | 'none';
+
+export interface LifeAreaFactor {
+  kind: 'lord' | 'mahadasha' | 'antardasha';
+  weight: number;
+  planet: string;
+  score: number;
+  base: number;
+  change: string;
+  dignity: string;
+  house: number;
+  placedHouse: number;
+  link: LifeAreaLink;
+  linkedHouse: number;
+}
+
 export interface LifeArea {
   name: string;
   score: number;
   rating: number;
   status: string;
   icon: string;
+  fact?: string;
+  formula?: string;
+  factors?: LifeAreaFactor[];
 }
 
 export interface DashaLevelStrength {
@@ -181,6 +200,29 @@ export interface UpcomingDasha {
   summary: string;
 }
 
+export interface DashaPeriodFact {
+  planet: string;
+  tone: 'Support' | 'Pressure' | 'Neutral' | string;
+  text: string;
+  score: number;
+}
+
+export interface DashaGocharPlanet {
+  planet: string;
+  sign: string;
+  houseFromLagna: number;
+  houseFromMoon: number;
+  aspectedHouses: number[];
+}
+
+export interface DashaPlanetReading {
+  planet: string;
+  description: string;
+  house?: number;
+  strength: DashaLevelStrength;
+  facts?: DashaPeriodFact[];
+}
+
 export interface MahadashaAnalysis {
   summary: MahadashaSummary;
   birthChart: BirthChartSummary;
@@ -198,6 +240,8 @@ export interface MahadashaAnalysis {
   transitImpact: TransitImpact;
   remedies: Remedies;
   upcomingDasha: UpcomingDasha;
+  planetReadings?: DashaPlanetReading[];
+  gochar?: DashaGocharPlanet[];
 }
 
 

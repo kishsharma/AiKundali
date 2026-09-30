@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { environment } from '../../config/environment/environment';
+import { AuthService } from '../../core/auth/auth.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 type RemedySelection = {
   remedyType?: string;
@@ -61,6 +64,11 @@ export class RemediesRecommendationComponent {
   private recommendationData: any;
   expandedPanel: 'analysis' | 'remedies' | 'avoid' | null = null;
 
+  constructor(
+    private readonly themes: ThemeService,
+    private readonly auth: AuthService
+  ) {}
+
   @Input() set recommendation(value: any) {
     this.recommendationData = value;
   }
@@ -87,6 +95,34 @@ export class RemediesRecommendationComponent {
 
   get hasRecommendation(): boolean {
     return !!(this.primary || this.alternative || this.categories.length || this.avoid.length);
+  }
+
+  get certifiedGemstoneUrl(): string | null {
+    const catalog = this.getRemedyCatalog(this.primary);
+    const name = catalog?.gemstone?.primary?.name || this.primary?.name;
+    return this.gemstoneUrl(name, this.primary?.confidence);
+  }
+
+  gemstoneUrl(name: string | null | undefined, score: number | null | undefined, area?: string | null): string | null {
+    const slug = gemstoneStoreSlug(name);
+    if (!slug) {
+      return null;
+    }
+
+    const safeScore = Math.max(0, Math.min(100, Math.round(Number(score ?? 0))));
+    const params = new URLSearchParams({
+      kundaliMatch: '1',
+      score: String(safeScore)
+    });
+    const areaLabel = formatRemedyArea(area);
+    if (areaLabel) {
+      params.set('area', areaLabel);
+    }
+
+    const base = environment.storeBaseUrl.replace(/\/$/, '');
+    params.set('gemstone', slug);
+    params.set('theme', this.themes.mode());
+    return `${base}/?${params.toString()}`;
   }
 
   getRemedyCatalog(selection: RemedySelection | null): RemedyCatalog | null {
@@ -124,4 +160,55 @@ export class RemediesRecommendationComponent {
   joinValues(values: string[] | null | undefined): string {
     return values?.filter(Boolean).join(', ') || '-';
   }
+
+  openCertifiedGemstone(event: MouseEvent, url: string): void {
+    if (!this.auth.isLoggedIn() || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    event.preventDefault();
+    this.auth.issueStoreHandoff().subscribe({
+      next: (handoff) => {
+        const target = new URL(url);
+        target.searchParams.set('handoff', handoff.code);
+        window.open(target.toString(), '_blank', 'noopener,noreferrer');
+      },
+      error: () => window.open(url, '_blank', 'noopener,noreferrer')
+    });
+  }
+}
+
+const GEMSTONE_STORE_SLUGS: Record<string, string> = {
+  ruby: 'ruby-manikya',
+  manik: 'ruby-manikya',
+  manikya: 'ruby-manikya',
+  pearl: 'pearl-moti',
+  moti: 'pearl-moti',
+  redcoral: 'red-coral-moonga',
+  moonga: 'red-coral-moonga',
+  emerald: 'emerald-panna',
+  panna: 'emerald-panna',
+  yellowsapphire: 'yellow-sapphire-pukhraj',
+  pukhraj: 'yellow-sapphire-pukhraj',
+  whitesapphire: 'white-sapphire-safed-pukhraj',
+  bluesapphire: 'blue-sapphire-neelam',
+  neelam: 'blue-sapphire-neelam',
+  hessonite: 'hessonite-gomed',
+  gomed: 'hessonite-gomed',
+  catseye: 'cats-eye-lehsunia',
+  lehsunia: 'cats-eye-lehsunia'
+};
+
+function gemstoneStoreSlug(name: string | null | undefined): string | null {
+  const key = (name ?? '').toLowerCase().replace(/[^a-z]/g, '');
+  return GEMSTONE_STORE_SLUGS[key] ?? null;
+}
+
+function formatRemedyArea(area: string | null | undefined): string {
+  const label = (area ?? '')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\s+based$/i, '')
+    .trim();
+
+  return label.slice(0, 40);
 }

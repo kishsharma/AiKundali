@@ -24,12 +24,15 @@
 
   <ItemGroup>
     <Content Include="Templates\Reports\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Prompts\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\KundaliEngine.KnowledgeBase\LearningContent\**\*.json" Link="LearningContent\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controllers\WeatherForecastController.cs" />
+    <Content Remove=".env" />
+    <None Include=".env" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" Condition="Exists('.env')" />
   </ItemGroup>
 
 </Project>

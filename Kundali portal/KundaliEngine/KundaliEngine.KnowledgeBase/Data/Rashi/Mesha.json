@@ -1,4 +1,4 @@
-﻿{
+{
   "id": 1,
   "name": "Mesha",
   "englishName": "Aries",
@@ -55,5 +55,16 @@
       "padas": [ 1 ]
     }
   ],
-  "description": "Mesha is the first sign of the zodiac, representing beginnings, courage, initiative, and dynamic energy. Ruled by Mars, it symbolizes action, determination, and pioneering spirit."
+  "description": "Mesha is the first sign of the zodiac, representing beginnings, courage, initiative, and dynamic energy. Ruled by Mars, it symbolizes action, determination, and pioneering spirit.",
+  "ghatChakra": {
+    "month": "kartik",
+    "tithi": "nanda",
+    "tithiNumbers": "1, 6, 11",
+    "weekday": "sunday",
+    "nakshatra": "Magha",
+    "yoga": "vishkambha",
+    "karana": "bava",
+    "moonMale": "Aries",
+    "moonFemale": "Aries"
+  }
 }

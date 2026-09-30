@@ -11,6 +11,7 @@ public class ReportPdfService : IReportPdfService
 {
     private readonly IReportHtmlTemplateService _htmlTemplateService;
     private readonly IHtmlReportPdfRenderer _htmlPdfRenderer;
+    private readonly ReportLifeChapterBuilder _lifeChapterBuilder;
     private readonly ILogger<ReportPdfService> _logger;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -21,10 +22,12 @@ public class ReportPdfService : IReportPdfService
     public ReportPdfService(
         IReportHtmlTemplateService htmlTemplateService,
         IHtmlReportPdfRenderer htmlPdfRenderer,
+        ReportLifeChapterBuilder lifeChapterBuilder,
         ILogger<ReportPdfService> logger)
     {
         _htmlTemplateService = htmlTemplateService;
         _htmlPdfRenderer = htmlPdfRenderer;
+        _lifeChapterBuilder = lifeChapterBuilder;
         _logger = logger;
     }
 
@@ -43,11 +46,30 @@ public class ReportPdfService : IReportPdfService
         var report = request.Report.Deserialize<GenerateKundaliResponse>(JsonOptions)
             ?? throw new InvalidOperationException("Report data is not valid.");
 
+        var includePremium = string.Equals(request.Audience, "paid", StringComparison.OrdinalIgnoreCase);
+        if (!includePremium)
+        {
+            ApplyFreeReport(report);
+        }
+
+        IReadOnlyList<Html.ReportLifeChapter> chapters = Array.Empty<Html.ReportLifeChapter>();
+        if (includePremium)
+        {
+            try
+            {
+                chapters = _lifeChapterBuilder.Build(request.BirthProfile, report);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Life chapter reading failed. The report will continue without life chapters.");
+            }
+        }
+
         if (ShouldUseCorporateHtml(request.Mode))
         {
             try
             {
-                var html = _htmlTemplateService.BuildCorporateHtml(request.BirthProfile, report);
+                var html = _htmlTemplateService.BuildCorporateHtml(request.BirthProfile, report, includePremium, chapters);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -60,7 +82,7 @@ public class ReportPdfService : IReportPdfService
         {
             try
             {
-                var html = _htmlTemplateService.BuildPrintBlackWhiteHtml(request.BirthProfile, report);
+                var html = _htmlTemplateService.BuildPrintBlackWhiteHtml(request.BirthProfile, report, includePremium, chapters);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -73,7 +95,7 @@ public class ReportPdfService : IReportPdfService
         {
             try
             {
-                var html = _htmlTemplateService.BuildMobileFriendlyHtml(request.BirthProfile, report);
+                var html = _htmlTemplateService.BuildMobileFriendlyHtml(request.BirthProfile, report, includePremium, chapters);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -86,7 +108,7 @@ public class ReportPdfService : IReportPdfService
         {
             try
             {
-                var html = _htmlTemplateService.BuildDesktopColorHtml(request.BirthProfile, report);
+                var html = _htmlTemplateService.BuildDesktopColorHtml(request.BirthProfile, report, includePremium, chapters);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -106,9 +128,29 @@ public class ReportPdfService : IReportPdfService
             return SanitizeFileName(request.FileName!);
         }
 
-        var name = GetString(request.BirthProfile, "fullName", "name");
+        var name = BuildPersonDisplayName(request.BirthProfile, GetString(request.BirthProfile, "fullName", "name"));
         var safeName = string.IsNullOrWhiteSpace(name) ? "kundali" : name;
         return SanitizeFileName($"{safeName}-kundali-report.pdf");
+    }
+
+    private static void ApplyFreeReport(GenerateKundaliResponse report)
+    {
+        report.SudarshanChakra = null;
+        report.Predictions = new();
+
+        foreach (var yoga in report.Yogas ?? new List<YogaDto>())
+        {
+            yoga.Impact = string.Empty;
+            yoga.ImpactAreas = new();
+            yoga.ActivationPeriods = null;
+        }
+
+        foreach (var dosha in report.Doshas ?? new List<DoshaDto>())
+        {
+            dosha.ImpactAreas = new();
+            dosha.ActivationPeriods = null;
+            dosha.Remedies = new();
+        }
     }
 
     private static bool ShouldUseCorporateHtml(string? mode)
@@ -139,11 +181,12 @@ public class ReportPdfService : IReportPdfService
 
     private static PdfDocument BuildDocument(JsonElement birthProfile, GenerateKundaliResponse report)
     {
-        var name = ValueOrDash(GetString(birthProfile, "fullName", "name") ?? report.Summary?.Name);
+        var name = ValueOrDash(BuildPersonDisplayName(birthProfile, report.Summary?.Name));
         var birthDate = ValueOrDash(GetString(birthProfile, "birthDate", "dateOfBirth"));
         var birthTime = ValueOrDash(GetString(birthProfile, "birthTime", "timeOfBirth"));
         var birthPlace = ValueOrDash(GetString(birthProfile, "birthPlace", "placeOfBirth", "birthplace"));
         var summary = report.Summary;
+        var familyCells = BuildFamilyProfileCells(birthProfile);
 
         var lines = new List<PdfLine>
         {
@@ -154,10 +197,16 @@ public class ReportPdfService : IReportPdfService
             PdfLine.Space(8),
             PdfLine.Section("Birth Profile"),
             PdfLine.Grid("Name", name, "Date", birthDate),
-            PdfLine.Grid("Time", birthTime, "Place", birthPlace),
-            PdfLine.Space(5),
-            PdfLine.Section("Core Identity")
+            PdfLine.Grid("Time", birthTime, "Place", birthPlace)
         };
+
+        if (familyCells.Length > 0)
+        {
+            lines.Add(PdfLine.Grid(familyCells));
+        }
+
+        lines.Add(PdfLine.Space(5));
+        lines.Add(PdfLine.Section("Core Identity"));
 
         if (summary is not null)
         {
@@ -642,6 +691,51 @@ public class ReportPdfService : IReportPdfService
 
         return "-";
     }
+    private static string? BuildPersonDisplayName(JsonElement birthProfile, string? fallback)
+    {
+        var givenName = GetString(birthProfile, "fullName", "name");
+        if (string.IsNullOrWhiteSpace(givenName))
+        {
+            givenName = fallback;
+        }
+
+        givenName = string.IsNullOrWhiteSpace(givenName) ? null : givenName.Trim();
+        var surname = GetString(birthProfile, "surname", "Surname");
+        surname = string.IsNullOrWhiteSpace(surname) ? null : surname.Trim();
+
+        if (givenName is null)
+        {
+            return surname;
+        }
+
+        if (surname is null || givenName.EndsWith(surname, StringComparison.OrdinalIgnoreCase))
+        {
+            return givenName;
+        }
+
+        return $"{givenName} {surname}";
+    }
+
+    private static string[] BuildFamilyProfileCells(JsonElement birthProfile)
+    {
+        var cells = new List<string>();
+        void add(string label, params string[] names)
+        {
+            var value = GetString(birthProfile, names);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                cells.Add(label);
+                cells.Add(value.Trim());
+            }
+        }
+
+        add("Surname", "surname", "Surname");
+        add("Father", "fatherName", "FatherName");
+        add("Mother", "motherName", "MotherName");
+        add("Gotra", "gotra", "Gotra");
+        return cells.ToArray();
+    }
+
     private static string? GetString(JsonElement element, params string[] names)
     {
         if (element.ValueKind != JsonValueKind.Object)

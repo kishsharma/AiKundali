@@ -28,13 +28,15 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using KundaliEngine.Infrastructure.Data;
 using KundaliEngine.Domain.Entities;
-using KundaliEngine.Astrology.Services.DivisionalCharts.Calculators;
+using KundaliEngine.Astrology.Services.DivisionalCharts;
+using KundaliEngine.Domain.Models.DivisionalCharts;
 using Microsoft.AspNetCore.Authorization;
 using HoraLife.PredictionEngine.Services;
 using KundaliEngine.API.Prediction.Mappers;
 using HoraLife.PredictionEngine.Enums;
 using HoraLife.PredictionEngine.Models;
 using KundaliEngine.API.Prediction.DTOs;
+using KundaliEngine.API.Services.KundaliSave;
 
 namespace KundaliEngine.API.Controllers
 {
@@ -65,6 +67,7 @@ namespace KundaliEngine.API.Controllers
         private readonly PredictionContextMapper _predictionContextMapper;
         private readonly PredictionEngineService _predictionEngineService;
         private readonly IEntitlementService _entitlementService;
+        private readonly DivisionalChartService _divisionalChartService;
         public KundaliController(ChartService chartService, PanchangService panchangService, PlanetScoreService planetScoreService,
             HouseScoreService houseScoreService, DashaService dashaService,
             OverallKundaliScoreService overallScoreService,
@@ -84,7 +87,8 @@ namespace KundaliEngine.API.Controllers
             IAuditLogService auditLogService,
             PredictionContextMapper predictionContextMapper,
             PredictionEngineService predictionEngineService,
-            IEntitlementService entitlementService
+            IEntitlementService entitlementService,
+            DivisionalChartService divisionalChartService
             )
         {
             _chartService = chartService;
@@ -110,6 +114,7 @@ namespace KundaliEngine.API.Controllers
             _predictionContextMapper = predictionContextMapper;
             _predictionEngineService = predictionEngineService;
             _entitlementService = entitlementService;
+            _divisionalChartService = divisionalChartService;
         }
         [Authorize]
         [HttpPost("generate")]
@@ -163,7 +168,8 @@ namespace KundaliEngine.API.Controllers
             int ascendantIndex = (int)(ascendantLongitude / 30.0);
             ZodiacSign ascendantSign = (ZodiacSign)((ascendantIndex % 12) + 1);
             double ascendantDegreeInSign = NormalizeDegreeInSign(ascendantLongitude);
-            var d9Chart = BuildD9Chart(planets, ascendantSign, ascendantDegreeInSign);
+            var divisionalCharts = BuildDivisionalCharts(planets, ascendantSign, ascendantDegreeInSign);
+            var d9Chart = divisionalCharts.FirstOrDefault(chart => chart.ChartType == DivisionalChartType.D9.ToString());
 
             // Houses and house scores
             var aspectResult = _aspectService.CalculateGrahaDrishti(planets);
@@ -437,6 +443,7 @@ namespace KundaliEngine.API.Controllers
                 Yogas = yogas,
                 Doshas = doshas,
                 D9Chart = d9Chart,
+                DivisionalCharts = divisionalCharts,
                 SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra),
                 AdvancedStrengthTables = _advancedStrengthTableService.Build(planets, houseDtos, aspectResult)
             };
@@ -512,6 +519,65 @@ namespace KundaliEngine.API.Controllers
                 return Unauthorized();
             }
 
+            var dateOfBirth = DateOnly.FromDateTime(request.BirthDateTime);
+            var timeOfBirth = TimeOnly.FromDateTime(request.BirthDateTime);
+            var latitude = Convert.ToDecimal(request.Latitude);
+            var longitude = Convert.ToDecimal(request.Longitude);
+            var mode = KundaliBirthMatcher.ParseMode(request.OnDuplicate);
+
+            var sameDay = await _dbContext.Kundalis
+                .AsNoTracking()
+                .Where(k => k.UserId == userId.Value && k.DateOfBirth == dateOfBirth)
+                .ToListAsync();
+
+            var match = KundaliBirthMatcher.FindNewest(
+                sameDay,
+                userId.Value,
+                dateOfBirth,
+                timeOfBirth,
+                latitude,
+                longitude);
+
+            switch (KundaliBirthMatcher.Plan(match is not null, mode))
+            {
+                case KundaliSaveOutcome.AlreadySaved when match is not null:
+                    return Conflict(new
+                    {
+                        code = "KundaliAlreadySaved",
+                        existingId = match.Id,
+                        fullName = match.FullName,
+                        dateOfBirth = match.DateOfBirth.ToString("yyyy-MM-dd"),
+                        timeOfBirth = match.TimeOfBirth.ToString("HH:mm"),
+                        birthPlace = match.BirthPlace
+                    });
+
+                case KundaliSaveOutcome.ReuseExisting when match is not null:
+                    var reused = MapSavedKundaliDetail(match);
+                    reused.ReusedExisting = true;
+                    return Ok(reused);
+
+                case KundaliSaveOutcome.Update when match is not null:
+                    var tracked = await _dbContext.Kundalis
+                        .FirstOrDefaultAsync(k => k.Id == match.Id && k.UserId == userId.Value);
+                    if (tracked == null)
+                    {
+                        return NotFound();
+                    }
+
+                    ApplySaveFields(tracked, request);
+                    await _dbContext.SaveChangesAsync();
+                    await _auditLogService.LogAsync(new AuditLogEntry
+                    {
+                        Action = "KundaliUpdated",
+                        Category = "DataChange",
+                        EntityType = "Kundali",
+                        EntityId = tracked.Id.ToString(),
+                        Description = $"Kundali updated for {tracked.FullName}.",
+                        Status = "Success"
+                    });
+                    return Ok(MapSavedKundaliDetail(tracked));
+            }
+
             var savedKundaliCount = await _dbContext.Kundalis
                 .CountAsync(k => k.UserId == userId.Value);
 
@@ -519,25 +585,19 @@ namespace KundaliEngine.API.Controllers
             {
                 return Conflict(new
                 {
+                    code = "KundaliSaveLimit",
                     message = $"Saved Kundali limit reached. This user can save up to {user.KundaliSaveLimit} Kundalis.",
                     savedCount = savedKundaliCount,
                     kundaliSaveLimit = user.KundaliSaveLimit
                 });
             }
+
             var kundali = new Kundali
             {
                 UserId = userId.Value,
-                FullName = request.Name.Trim(),
-                Gender = string.IsNullOrWhiteSpace(request.Gender) ? null : request.Gender.Trim(),
-                DateOfBirth = DateOnly.FromDateTime(request.BirthDateTime),
-                TimeOfBirth = TimeOnly.FromDateTime(request.BirthDateTime),
-                BirthPlace = request.BirthPlace.Trim(),
-                Latitude = Convert.ToDecimal(request.Latitude),
-                Longitude = Convert.ToDecimal(request.Longitude),
-                TimeZone = FormatTimeZoneOffset(request.TimeZoneOffset),
-                ChartDataJson = request.ChartData.GetRawText(),
                 CreatedAt = DateTime.UtcNow
             };
+            ApplySaveFields(kundali, request);
 
             _dbContext.Kundalis.Add(kundali);
             await _dbContext.SaveChangesAsync();
@@ -746,12 +806,33 @@ namespace KundaliEngine.API.Controllers
 
             return null;
         }
+        private static void ApplySaveFields(Kundali kundali, SaveKundaliRequest request)
+        {
+            kundali.FullName = request.Name.Trim();
+            kundali.Surname = NormalizeOptional(request.Surname, 150);
+            kundali.FatherName = NormalizeOptional(request.FatherName, 150);
+            kundali.MotherName = NormalizeOptional(request.MotherName, 150);
+            kundali.Gotra = NormalizeOptional(request.Gotra, 100);
+            kundali.Gender = string.IsNullOrWhiteSpace(request.Gender) ? null : request.Gender.Trim();
+            kundali.DateOfBirth = DateOnly.FromDateTime(request.BirthDateTime);
+            kundali.TimeOfBirth = TimeOnly.FromDateTime(request.BirthDateTime);
+            kundali.BirthPlace = request.BirthPlace.Trim();
+            kundali.Latitude = Convert.ToDecimal(request.Latitude);
+            kundali.Longitude = Convert.ToDecimal(request.Longitude);
+            kundali.TimeZone = FormatTimeZoneOffset(request.TimeZoneOffset);
+            kundali.ChartDataJson = request.ChartData.GetRawText();
+        }
+
         private static SavedKundaliDetailDto MapSavedKundaliDetail(Kundali kundali)
         {
             return new SavedKundaliDetailDto
             {
                 Id = kundali.Id,
                 FullName = kundali.FullName,
+                Surname = kundali.Surname,
+                FatherName = kundali.FatherName,
+                MotherName = kundali.MotherName,
+                Gotra = kundali.Gotra,
                 Gender = kundali.Gender,
                 DateOfBirth = kundali.DateOfBirth,
                 TimeOfBirth = kundali.TimeOfBirth,
@@ -762,6 +843,17 @@ namespace KundaliEngine.API.Controllers
                 ChartData = JsonSerializer.Deserialize<JsonElement>(kundali.ChartDataJson),
                 CreatedAt = kundali.CreatedAt
             };
+        }
+
+        private static string? NormalizeOptional(string? value, int maxLength)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+
+            var trimmed = value.Trim();
+            return trimmed.Length <= maxLength ? trimmed : trimmed[..maxLength];
         }
 
         private static string FormatTimeZoneOffset(double offset)
@@ -801,7 +893,29 @@ namespace KundaliEngine.API.Controllers
                 Color = rashi.Color,
                 LuckyNumbers = rashi.LuckyNumbers,
                 FavorableDay = rashi.FavorableDay,
-                FavorableDirection = rashi.FavorableDirection
+                FavorableDirection = rashi.FavorableDirection,
+                GhatChakra = MapGhatChakra(rashi.GhatChakra)
+            };
+        }
+
+        private static GhatChakraDto? MapGhatChakra(RashiMetadataService.GhatChakraMeta? ghat)
+        {
+            if (ghat == null)
+            {
+                return null;
+            }
+
+            return new GhatChakraDto
+            {
+                Month = ghat.Month,
+                Tithi = ghat.Tithi,
+                TithiNumbers = ghat.TithiNumbers,
+                Weekday = ghat.Weekday,
+                Nakshatra = ghat.Nakshatra,
+                Yoga = ghat.Yoga,
+                Karana = ghat.Karana,
+                MoonMale = ghat.MoonMale,
+                MoonFemale = ghat.MoonFemale
             };
         }
 
@@ -888,8 +1002,9 @@ namespace KundaliEngine.API.Controllers
             }
 
             var transitAspectResult = _aspectService.CalculateGrahaDrishti(transitPlanets);
+            var moonSign = natalPlanets.First(planet => planet.Planet == Planet.Moon).Sign;
             var activations = transitPlanets
-                .Select(planet => BuildTransitActivation(planet, natalPlanets, natalHouses, currentDasha))
+                .Select(planet => BuildTransitActivation(planet, natalPlanets, natalHouses, currentDasha, moonSign))
                 .OrderByDescending(GetTransitPriority)
                 .ThenBy(item => item.NatalHouse)
                 .ToList();
@@ -909,7 +1024,8 @@ namespace KundaliEngine.API.Controllers
             PlanetPosition transitPlanet,
             List<PlanetPosition> natalPlanets,
             List<DTOs.Responses.HouseDto> natalHouses,
-            CurrentDashaDto currentDasha)
+            CurrentDashaDto currentDasha,
+            ZodiacSign moonSign)
         {
             var natalHouse = (int)transitPlanet.House;
             var natalPlanetsInHouse = natalPlanets
@@ -926,6 +1042,7 @@ namespace KundaliEngine.API.Controllers
                 Planet = transitPlanet.Planet.ToString(),
                 Sign = transitPlanet.Sign.ToString(),
                 NatalHouse = natalHouse,
+                HouseFromMoon = (int)CalculateHouseFromAscendant(transitPlanet.Sign, moonSign),
                 FocusArea = GetTransitFocusArea(natalHouse),
                 NatalPlanetsInHouse = natalPlanetsInHouse,
                 NatalHouseLord = houseLord,
@@ -1020,29 +1137,35 @@ namespace KundaliEngine.API.Controllers
             };
         }
 
-        private static DivisionalChartDto BuildD9Chart(
+        private List<DivisionalChartDto> BuildDivisionalCharts(
             List<PlanetPosition> d1Planets,
             ZodiacSign d1AscendantSign,
             double ascendantDegreeInSign)
         {
-            var navamsaCalculator = new NavamsaCalculator();
-            var d9Planets = navamsaCalculator.Calculate(d1Planets);
-            var d9AscendantSign = NavamsaCalculator.CalculateNavamsaSign(d1AscendantSign, ascendantDegreeInSign);
-
-            foreach (var planet in d9Planets)
+            var baseChart = new KundaliChart
             {
-                planet.House = CalculateHouseFromAscendant(planet.Sign, d9AscendantSign);
-            }
+                AscendantSign = d1AscendantSign,
+                PlanetPositions = d1Planets
+            };
 
-            var houses = BuildDivisionalHouseDtos(d9AscendantSign, d9Planets);
+            return _divisionalChartService.SupportedChartTypes
+                .OrderBy(chartType => (int)chartType)
+                .Select(chartType => MapDivisionalChart(
+                    _divisionalChartService.GenerateDivisionalChart(baseChart, chartType, ascendantDegreeInSign)))
+                .ToList();
+        }
+
+        private static DivisionalChartDto MapDivisionalChart(DivisionalChart chart)
+        {
+            var houses = BuildDivisionalHouseDtos(chart.AscendantSign, chart.PlanetPositions);
 
             return new DivisionalChartDto
             {
-                ChartType = DivisionalChartType.D9.ToString(),
-                Ascendant = $"{(int)d9AscendantSign} - {d9AscendantSign}",
-                Planets = d9Planets.Select(planet => MapPlanetDto(planet)).ToList(),
+                ChartType = chart.ChartType.ToString(),
+                Ascendant = $"{(int)chart.AscendantSign} - {chart.AscendantSign}",
+                Planets = chart.PlanetPositions.Select(planet => MapPlanetDto(planet)).ToList(),
                 Houses = houses,
-                Description = "Navamsa divisional chart"
+                Description = chart.Description
             };
         }
 

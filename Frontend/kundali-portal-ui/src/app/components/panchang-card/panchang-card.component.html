@@ -48,7 +48,7 @@
 
     <!-- NAKSHATRA -->
 
-    <div class="panchang-item">
+    <div class="panchang-item nakshatra-item">
 
       <div class="panchang-icon">
         ✨
@@ -60,7 +60,7 @@
 
         <strong>
           {{ translatePanchang('nakshatra', panchang.nakshatra) }}
-          Pada {{ panchang.pada }}
+          {{ 'panchang.pada' | transloco }} {{ panchang.pada }}<span class="pada-letter" *ngIf="padaLetter">{{ padaLetter }}</span>
         </strong>
 
       </div>

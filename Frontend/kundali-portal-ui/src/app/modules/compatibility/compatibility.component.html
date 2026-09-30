@@ -2,55 +2,58 @@
   [title]="'compatibility.title' | transloco"
   [compact]="true"
   [showActions]="showReport">
-  <div page-actions class="compatibility-actions" *ngIf="showReport" aria-label="Compatibility report actions">
-    <button type="button" class="report-action-btn" (click)="editBirthDetails()" title="Edit Details">
+  <div page-actions class="compatibility-actions" *ngIf="showReport" [attr.aria-label]="'reportAction.compatibilityActions' | transloco">
+    <button type="button" class="report-action-btn" (click)="editBirthDetails()" [title]="'reportAction.editDetails' | transloco">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17z"></path><path d="M13.5 6.5l4 4"></path></svg>
-      <span>Edit Details</span>
+      <span>{{ 'reportAction.editDetails' | transloco }}</span>
     </button>
     <button
       type="button"
       class="report-action-btn save-action"
       (click)="saveCompatibility()"
       [disabled]="savingCompatibility || loading || !result"
-      [attr.aria-label]="savingCompatibility ? 'Saving compatibility' : (savedCompatibilityId ? 'Save compatibility again' : 'Save compatibility')"
-      title="Save Compatibility">
+      [attr.aria-label]="savingCompatibility ? ('reportAction.savingCompatibility' | transloco) : (savedCompatibilityId ? ('reportAction.saveCompatibilityAgain' | transloco) : ('reportAction.saveCompatibility' | transloco))"
+      [title]="'reportAction.saveCompatibility' | transloco">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M5 3h12l2 2v16H5z"></path>
         <path d="M8 3v6h8V3"></path>
         <path d="M8 17h8"></path>
       </svg>
-      <span>{{ savingCompatibility ? 'Saving' : (savedCompatibilityId ? 'Save Again' : 'Save') }}</span>
+      <span>{{ savingCompatibility ? ('reportAction.saving' | transloco) : (savedCompatibilityId ? ('reportAction.saveAgain' | transloco) : ('reportAction.save' | transloco)) }}</span>
     </button>
     <button
       type="button"
       class="report-action-btn notes-action"
       (click)="openNotes()"
-      title="Notes"
-      aria-label="Open compatibility notes">
+      [attr.title]="isPremiumUser ? ('reportAction.notes' | transloco) : ('reportAction.notesPremium' | transloco)"
+      [attr.aria-label]="isPremiumUser ? ('reportAction.openCompatibilityNotes' | transloco) : ('reportAction.notesPremium' | transloco)">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M5 4h14v16H5z"></path>
         <path d="M8 8h8"></path>
         <path d="M8 12h8"></path>
         <path d="M8 16h5"></path>
       </svg>
-      <span>Notes</span>
+      <span>{{ 'reportAction.notes' | transloco }}</span>
+      <span class="report-lock" *ngIf="!isPremiumUser" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="10" rx="2"></rect><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path></svg>
+      </span>
     </button>
-    <button type="button" class="report-action-btn" (click)="downloadPdf()" [disabled]="exportingPdf" title="Download PDF">
+    <button type="button" class="report-action-btn" (click)="downloadPdf()" [disabled]="exportingPdf" [title]="'reportAction.downloadPdf' | transloco">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
-      <span>{{ exportingPdf ? 'Preparing' : 'PDF' }}</span>
+      <span>{{ exportingPdf ? ('reportAction.preparing' | transloco) : ('reportAction.pdf' | transloco) }}</span>
     </button>
     <details #emailSharePicker class="share-email-picker" (toggle)="onReportPickerToggle($event)">
       <summary
         class="report-action-btn share-action email-share-action"
-        aria-label="Share compatibility report by email"
-        title="Share report by email">
+        [attr.aria-label]="'reportAction.shareCompatibilityEmail' | transloco"
+        [title]="'reportAction.shareEmail' | transloco">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>
-        <span>Email</span>
+        <span>{{ 'reportAction.email' | transloco }}</span>
       </summary>
 
       <form class="share-email-panel share-panel" (submit)="$event.preventDefault(); sendCompatibilityReportByEmail()" novalidate>
         <label class="share-email-field share-field">
-          <span>Email</span>
+          <span>{{ 'reportAction.email' | transloco }}</span>
           <input
             type="email"
             name="compatibilityShareEmail"
@@ -63,29 +66,43 @@
             [attr.aria-invalid]="showShareEmailError"
             aria-describedby="compatibilityShareEmailFeedback" />
         </label>
-        <button type="submit" class="share-send-btn" [disabled]="shareSending || exportingPdf">{{ shareSending ? 'Sending' : 'Send' }}</button>
+        <button type="submit" class="share-send-btn" [disabled]="shareSending || exportingPdf">{{ shareSending ? ('reportAction.sending' | transloco) : ('reportAction.send' | transloco) }}</button>
         <small id="compatibilityShareEmailFeedback" class="share-email-feedback share-feedback" [class.error]="showShareEmailError">
-          {{ showShareEmailError ? 'Enter a valid email address.' : '' }}
+          {{ showShareEmailError ? ('reportAction.invalidEmail' | transloco) : '' }}
         </small>
       </form>
     </details>
-    <button type="button" class="report-action-btn" (click)="shareCompatibilityOnWhatsApp()" title="Share on WhatsApp">
+    <button type="button" class="report-action-btn" (click)="shareCompatibilityOnWhatsApp()" [title]="'reportAction.shareWhatsapp' | transloco">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4a8 8 0 0 0-6.95 11.97L4 20l4.16-1.02A8 8 0 1 0 12 4z"></path><path d="M9.3 8.8c.2-.45.42-.48.72-.48h.52c.17 0 .4.06.6.44.22.47.72 1.62.78 1.75.06.14.1.3.02.48-.1.2-.16.32-.32.5l-.22.24c-.12.13-.25.28-.1.55.16.28.7 1.15 1.5 1.86 1.04.92 1.9 1.2 2.18 1.34.28.14.45.12.62-.08.18-.2.72-.84.92-1.14.2-.3.38-.24.64-.14.26.1 1.66.78 1.94.92.28.14.48.22.54.34.06.12.06.7-.16 1.36-.22.66-1.28 1.25-1.78 1.3-.46.04-1.04.06-1.68-.1-.38-.1-.88-.28-1.52-.56-2.68-1.15-4.42-3.82-4.56-4-.14-.18-1.08-1.44-1.08-2.74 0-1.3.68-1.94.92-2.2z"></path></svg>
-      <span>WhatsApp</span>
+      <span>{{ 'reportAction.whatsapp' | transloco }}</span>
     </button>
   </div>
 </app-page-header>
 
 <app-portal-notes
-  *ngIf="showReport"
+  *ngIf="showReport && isPremiumUser"
   [open]="isNotesOpen"
   (closed)="closeNotes()"
   contextType="Compatibility"
   [contextId]="savedCompatibilityId"
-  title="Compatibility Notes"
-  subtitle="Private notes saved for this compatibility report."
-  pendingMessage="Write notes now. They will be saved when you save this compatibility report.">
+  [title]="'reportAction.compatibilityNotesTitle' | transloco"
+  [subtitle]="'reportAction.compatibilityNotesSubtitle' | transloco"
+  [pendingMessage]="'reportAction.compatibilityNotesPending' | transloco">
 </app-portal-notes>
+<app-result-feedback
+  *ngIf="showReport"
+  surface="compatibility"
+  [contextKey]="compatibilityFeedbackContext"
+  prompt="Was this match clear?"
+  [topics]="compatibilityFeedbackTopics">
+</app-result-feedback>
+<app-result-feedback
+  *ngIf="reportFeedbackReady"
+  surface="report"
+  [contextKey]="compatibilityFeedbackContext"
+  prompt="Was this report ready to share?"
+  [topics]="reportFeedbackTopics">
+</app-result-feedback>
 
 <div class="compatibility-page">
   <section class="input-panel" *ngIf="showBirthDetailsForm">

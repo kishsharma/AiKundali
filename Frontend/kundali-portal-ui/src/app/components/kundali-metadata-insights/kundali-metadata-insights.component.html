@@ -33,4 +33,32 @@
       </div>
     </div>
   </section>
+
+  <section class="metadata-card" *ngIf="ghatFacts.length">
+    <div class="metadata-card-header">
+      <span>{{ 'metadata.ghatTitle' | transloco }}</span>
+      <strong>{{ 'metadata.avoid' | transloco }}</strong>
+    </div>
+
+    <div class="metadata-rows">
+      <div class="metadata-row" *ngFor="let row of ghatFacts">
+        <span class="metadata-label">{{ row.labelKey | transloco }}</span>
+        <strong class="metadata-value">{{ displayValue(row) }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="metadata-card" *ngIf="taraGroups.length">
+    <div class="metadata-card-header">
+      <span>{{ 'metadata.taraTitle' | transloco }}</span>
+      <strong>{{ 'metadata.avoid' | transloco }}</strong>
+    </div>
+
+    <div class="metadata-rows">
+      <div class="metadata-row" *ngFor="let group of taraGroups">
+        <span class="metadata-label">{{ group.labelKey | transloco }}</span>
+        <strong class="metadata-value">{{ group.stars }}</strong>
+      </div>
+    </div>
+  </section>
 </div>

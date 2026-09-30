@@ -1,0 +1,91 @@
+<div
+  class="subscription-backdrop"
+  *ngIf="isOpen"
+  (click)="onBackdropClick($event)"
+  role="presentation">
+  <section
+    class="subscription-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="subscription-title"
+    (click)="$event.stopPropagation()">
+    <button type="button" class="close-btn" (click)="close()" aria-label="Close plans">×</button>
+
+    <header class="pricing-hero">
+      <p class="eyebrow">HoraLife membership</p>
+      <h1 id="subscription-title">Choose your <span>jyotisha</span> plan</h1>
+      <p class="lede">Start free. Unlock full reports on Premium. Put your name on client PDFs with Plus.</p>
+      <div class="cycle-toggle" role="group" aria-label="Billing cycle">
+        <button type="button" [class.active]="billingCycle === 'monthly'" (click)="setBillingCycle('monthly')">Monthly</button>
+        <button type="button" [class.active]="billingCycle === 'yearly'" (click)="setBillingCycle('yearly')">Yearly</button>
+      </div>
+
+      <form class="coupon-box" *ngIf="isLoggedIn" (ngSubmit)="applyCoupon()">
+        <div class="coupon-controls">
+          <label for="plan-coupon">Coupon code</label>
+          <input id="plan-coupon" name="coupon" [(ngModel)]="couponCode" placeholder="Enter code" autocomplete="off" />
+          <button type="submit" [disabled]="couponBusy">{{ couponBusy ? 'Checking...' : 'Apply' }}</button>
+        </div>
+        <p *ngIf="couponMessage" [class.is-error]="couponError">{{ couponMessage }}</p>
+      </form>
+    </header>
+
+    <div class="status-note" *ngIf="status?.isPaid">
+      <span>
+        You are on {{ currentPlanCode }}{{ currentCycle ? ' ' + currentCycleLabel() : '' }}.
+        Active until {{ status?.planExpiresAt | date: 'mediumDate' }}.
+        <ng-container *ngIf="currentCycle && currentCycle !== billingCycle">
+          Choose the same plan on {{ billingCycle === 'yearly' ? 'Yearly' : 'Monthly' }} to switch billing.
+        </ng-container>
+      </span>
+      <button type="button" *ngIf="status?.canCancel" (click)="cancelSubscription()">Cancel at period end</button>
+    </div>
+
+    <div class="plan-grid" *ngIf="!loading; else loadingTpl">
+      <article
+        class="plan-card"
+        *ngFor="let plan of plans"
+        [class.featured]="isFeatured(plan)"
+        [class.current]="isCurrent(plan)"
+        [attr.data-plan]="plan.code">
+        <span class="popular-ribbon" *ngIf="isFeatured(plan)">Most chosen</span>
+        <span class="card-shine" aria-hidden="true"></span>
+
+        <header class="plan-card-head">
+          <div class="plan-card-top">
+            <h2>{{ plan.name }}</h2>
+            <span class="current-badge" *ngIf="isCurrent(plan)">Current{{ currentCycle ? ' · ' + currentCycleLabel() : '' }}</span>
+          </div>
+          <p class="tagline">{{ plan.tagline }}</p>
+          <p class="price">
+            <span class="price-was" *ngIf="discountedAmount(plan)">{{ priceAmount(plan) }}</span>
+            <span class="price-amount">{{ discountedAmount(plan) || priceAmount(plan) }}</span>
+            <span class="price-cycle" *ngIf="!isFree(plan)">{{ priceCycle }}</span>
+          </p>
+        </header>
+
+        <ul class="plan-features">
+          <li *ngFor="let row of comparison" [attr.data-tone]="featureTone(featureFor(plan, row))">
+            <span class="feat-mark" aria-hidden="true"></span>
+            <span class="feat-label">{{ row.label }}</span>
+            <span class="feat-value">{{ featureFor(plan, row) }}</span>
+          </li>
+        </ul>
+
+        <button
+          type="button"
+          class="plan-cta"
+          [disabled]="isCtaDisabled(plan)"
+          (click)="choosePlan(plan)">
+          {{ checkoutPlanCode === plan.code ? 'Opening checkout...' : ctaLabel(plan) }}
+        </button>
+      </article>
+    </div>
+
+    <p class="pricing-footnote">Secure Razorpay checkout · Paid plans can be cancelled before the next cycle</p>
+
+    <ng-template #loadingTpl>
+      <p class="loading">Loading plans...</p>
+    </ng-template>
+  </section>
+</div>

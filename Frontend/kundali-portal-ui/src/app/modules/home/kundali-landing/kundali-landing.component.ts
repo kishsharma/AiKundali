@@ -1,15 +1,41 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BrandLogoComponent } from '../../../shared/components/brand-logo/brand-logo.component';
+import { SiteFooterComponent } from '../../../shared/components/site-footer/site-footer.component';
+import { SubscriptionModalService } from '../../../core/services/subscription-modal.service';
+import { environment } from '../../../config/environment/environment';
+
+interface StoreShowcaseItem {
+  slug: string;
+  name: string;
+  type: 'Gemstone' | 'Yantra' | 'Rudraksha';
+  image: string;
+}
 
 @Component({
   selector: 'app-kundali-landing',
   standalone: true,
-  imports: [RouterLink, BrandLogoComponent],
+  imports: [RouterLink, BrandLogoComponent, SiteFooterComponent],
   templateUrl: './kundali-landing.component.html',
   styleUrl: './kundali-landing.component.scss',
 })
 export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
+  readonly storeHomeUrl = environment.storeBaseUrl.replace(/\/$/, '');
+  readonly storeItems: StoreShowcaseItem[] = [
+    { slug: 'yellow-sapphire-pukhraj', name: 'Yellow Sapphire', type: 'Gemstone', image: 'assets/store-showcase/yellow-sapphire-pukhraj.png' },
+    { slug: 'blue-sapphire-neelam', name: 'Blue Sapphire', type: 'Gemstone', image: 'assets/store-showcase/blue-sapphire-neelam.png' },
+    { slug: 'ruby-manikya', name: 'Ruby', type: 'Gemstone', image: 'assets/store-showcase/ruby-manikya.png' },
+    { slug: 'emerald-panna', name: 'Emerald', type: 'Gemstone', image: 'assets/store-showcase/emerald-panna.png' },
+    { slug: 'pearl-moti', name: 'Pearl', type: 'Gemstone', image: 'assets/store-showcase/pearl-moti.png' },
+    { slug: 'red-coral-moonga', name: 'Red Coral', type: 'Gemstone', image: 'assets/store-showcase/red-coral-moonga.png' },
+    { slug: 'hessonite-gomed', name: 'Hessonite', type: 'Gemstone', image: 'assets/store-showcase/hessonite-gomed.png' },
+    { slug: 'white-sapphire-safed-pukhraj', name: 'White Sapphire', type: 'Gemstone', image: 'assets/store-showcase/white-sapphire.webp' },
+    { slug: 'cats-eye-lehsunia', name: "Cat's Eye", type: 'Gemstone', image: 'assets/store-showcase/cats-eye-lehsunia.webp' },
+    { slug: 'shree-yantra', name: 'Shree Yantra', type: 'Yantra', image: 'assets/store-showcase/shree-yantra.webp' },
+    { slug: 'navagraha-yantra', name: 'Navagraha Yantra', type: 'Yantra', image: 'assets/store-showcase/navagraha-yantra.webp' },
+    { slug: 'five-mukhi-rudraksha', name: '5 Mukhi Rudraksha', type: 'Rudraksha', image: 'assets/store-showcase/five-mukhi-rudraksha.webp' },
+  ];
+
   private readonly zodiacSymbols = [
     '\u2648', '\u2649', '\u264A', '\u264B', '\u264C', '\u264D',
     '\u264E', '\u264F', '\u2650', '\u2651', '\u2652', '\u2653',
@@ -30,8 +56,17 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
   isNavScrolled = false;
 
   private astrologerScrollTimer?: ReturnType<typeof window.setInterval>;
+  private readonly subscriptionModal = inject(SubscriptionModalService);
 
   constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
+
+  openPlans(): void {
+    this.subscriptionModal.open();
+  }
+
+  storeHref(slug: string): string {
+    return `${this.storeHomeUrl}/products/${encodeURIComponent(slug)}`;
+  }
 
   ngAfterViewInit(): void {
     this.updateNavScrolledState();
@@ -43,6 +78,7 @@ export class KundaliLandingComponent implements AfterViewInit, OnDestroy {
     this.scatter('deva-preview', 7);
     this.scatter('deva-milan', 7);
     this.scatter('deva-philosophy', 5);
+    this.scatter('deva-store', 6);
     this.scatter('deva-cta', 7);
     this.scatter('deva-footer', 4);
     this.scatterStars();

@@ -1,0 +1,23 @@
+<article class="plans-page">
+  <header>
+    <p class="plans-kicker">{{ business.brandName }}</p>
+    <h1>Plans</h1>
+    <p>{{ business.relationship }} Payments are processed by Razorpay.</p>
+  </header>
+
+  <div class="cycle-switch" role="group" aria-label="Billing cycle">
+    <button type="button" [class.is-on]="billingCycle === 'monthly'" (click)="setCycle('monthly')">Monthly</button>
+    <button type="button" [class.is-on]="billingCycle === 'yearly'" (click)="setCycle('yearly')">Yearly</button>
+  </div>
+
+  <div class="plan-grid">
+    <article class="plan-card" *ngFor="let plan of plans">
+      <h2>{{ plan.name }}</h2>
+      <p>{{ plan.tagline }}</p>
+      <p class="plan-price">{{ priceLabel(plan) }} <span>{{ cycleLabel(plan) }}</span></p>
+      <button type="button" *ngIf="!isFree(plan)" (click)="openCheckout(plan)">Continue to checkout</button>
+    </article>
+  </div>
+</article>
+
+<app-site-footer tone="app"></app-site-footer>

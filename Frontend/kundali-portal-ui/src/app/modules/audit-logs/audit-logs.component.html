@@ -45,10 +45,6 @@
             <option *ngFor="let category of auditCategories" [value]="category">{{ category || 'All' }}</option>
           </select>
         </label>
-        <label>
-          <span>Entity</span>
-          <input type="text" name="entityType" [(ngModel)]="filters.entityType" placeholder="User, Kundali, Report" />
-        </label>
       </ng-container>
 
       <ng-template #communicationFilters>
@@ -91,17 +87,13 @@
         <span>Time</span>
         <span>Action</span>
         <span>User</span>
-        <span>Entity</span>
         <span>Status</span>
-        <span>Description</span>
       </div>
       <div class="table-row" *ngFor="let log of auditLogs; trackBy: trackById">
         <span class="muted">{{ formatDate(log.createdAt) }}</span>
         <strong>{{ log.action }}</strong>
         <span class="muted">{{ log.userName || log.userId || '-' }}</span>
-        <span class="muted">{{ log.entityType || '-' }}<small *ngIf="log.entityId">{{ log.entityId }}</small></span>
         <span class="status-pill" [class.failed]="log.status === 'Failed'">{{ log.status }}</span>
-        <span class="muted wrap">{{ log.failureReason || log.description || '-' }}</span>
       </div>
     </div>
 
@@ -129,5 +121,13 @@
       <span>Page {{ page }}</span>
       <button type="button" class="secondary-btn" (click)="nextPage()" [disabled]="!canGoNext">Next</button>
     </div>
+
+    <section class="action-guide" *ngIf="activeTab === 'audit'" aria-label="What each action means">
+      <h2>What each action means</h2>
+      <div class="action-guide-row" *ngFor="let item of actionGuide">
+        <strong>{{ item.action }}</strong>
+        <span>{{ item.description }}</span>
+      </div>
+    </section>
   </section>
 </section>

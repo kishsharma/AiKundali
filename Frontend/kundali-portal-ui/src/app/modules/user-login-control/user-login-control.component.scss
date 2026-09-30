@@ -462,9 +462,22 @@
 
 .premium-control {
   display: grid;
-  grid-template-columns: auto minmax(132px, 1fr) auto;
+  grid-template-columns: minmax(120px, 1fr) minmax(132px, 1fr) auto;
   align-items: center;
   gap: 8px;
+}
+
+.premium-control select {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--theme-line, #d9deee);
+  border-radius: var(--theme-radius-control, 6px);
+  padding: 0 8px;
+  color: var(--theme-text, #10143d);
+  background: var(--theme-surface-2, #fbfcff);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .premium-check {

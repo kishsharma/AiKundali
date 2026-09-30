@@ -17,6 +17,7 @@ public static class StoreApplicationServiceCollectionExtensions
         services.AddScoped<IStoreOrderService,StoreOrderService>();
         services.AddScoped<IStoreOrderItemService, StoreOrderItemService>();
         services.AddScoped<IStoreInventoryReservationService, StoreInventoryReservationService>();
+        services.AddScoped<IStoreInventoryAdminService, StoreInventoryAdminService>();
         services.AddScoped<IStoreCartConversionService,StoreCartConversionService>();
 
         return services;

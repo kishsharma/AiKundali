@@ -1,7 +1,7 @@
 <section class="user-login-page">
   <app-page-header
     title="User Login Control"
-    subtitle="Enable login access, Kundali limits, and Premium entitlement for users"
+        subtitle="Enable login access, Kundali limits, and subscription plans for users"
     [breadcrumbs]="[
       { label: 'Home', routerLink: '/' },
       { label: 'User Login Control', active: true }
@@ -34,7 +34,7 @@
         <span>Mobile</span>
         <span>Status</span>
         <span>Plan</span>
-        <span>Premium Access</span>
+        <span>Plan Access</span>
         <span>Kundali Limit</span>
         <span>Login Access</span>
       </div>
@@ -49,22 +49,23 @@
         <span class="status-pill" [class.inactive]="!user.isActive">
           {{ user.isActive ? 'Active' : 'Inactive' }}
         </span>
-        <span class="status-pill plan-pill" [class.inactive]="!user.isPremium">
+        <span class="status-pill plan-pill" [class.inactive]="!user.isPaid && !user.isPremium">
           {{ getPlanLabel(user) }}
         </span>
         <div class="premium-control" [class.busy]="isSavingPlan(user.id)">
-          <label class="premium-check">
-            <input
-              type="checkbox"
-              [ngModel]="user.isPremium"
-              [disabled]="isSavingPlan(user.id)"
-              (ngModelChange)="onPremiumToggle(user, $event)" />
-          </label>
+          <select
+            [ngModel]="user.planCode"
+            [disabled]="isSavingPlan(user.id)"
+            (ngModelChange)="onPlanChange(user, $event)">
+            <option value="Free">Free</option>
+            <option value="Premium">Premium</option>
+            <option value="PremiumPlus">Premium Plus</option>
+          </select>
           <input
             type="date"
             [(ngModel)]="planExpiryInputs[user.id]"
-            [disabled]="!user.isPremium || isSavingPlan(user.id)"
-            aria-label="Premium expiry date" />
+            [disabled]="user.planCode === 'Free' || isSavingPlan(user.id)"
+            aria-label="Plan expiry date" />
           <button
             type="button"
             class="limit-save-btn"
@@ -114,23 +115,23 @@
           <span class="status-pill" [class.inactive]="!user.isActive">
             {{ user.isActive ? 'Active' : 'Inactive' }}
           </span>
-          <span class="status-pill plan-pill" [class.inactive]="!user.isPremium">
+          <span class="status-pill plan-pill" [class.inactive]="!user.isPaid && !user.isPremium">
             {{ getPlanLabel(user) }}
           </span>
           <div class="premium-control premium-control--mobile" [class.busy]="isSavingPlan(user.id)">
-            <label class="premium-check">
-              <input
-                type="checkbox"
-                [ngModel]="user.isPremium"
-                [disabled]="isSavingPlan(user.id)"
-                (ngModelChange)="onPremiumToggle(user, $event)" />
-              <span>Premium</span>
-            </label>
+            <select
+              [ngModel]="user.planCode"
+              [disabled]="isSavingPlan(user.id)"
+              (ngModelChange)="onPlanChange(user, $event)">
+              <option value="Free">Free</option>
+              <option value="Premium">Premium</option>
+              <option value="PremiumPlus">Premium Plus</option>
+            </select>
             <input
               type="date"
               [(ngModel)]="planExpiryInputs[user.id]"
-              [disabled]="!user.isPremium || isSavingPlan(user.id)"
-              aria-label="Premium expiry date" />
+              [disabled]="user.planCode === 'Free' || isSavingPlan(user.id)"
+              aria-label="Plan expiry date" />
             <button
               type="button"
               class="limit-save-btn"

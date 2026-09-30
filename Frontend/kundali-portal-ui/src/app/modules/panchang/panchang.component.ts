@@ -1,5 +1,5 @@
 // Panchang Module - Panchang Viewer Page
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -839,8 +839,16 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
     }
   `],
 })
-export class PanchangComponent implements OnInit {
-  readonly weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export class PanchangComponent implements OnInit, OnDestroy {
+  private readonly weekdayKeys = [
+    'panchang.weekday.sun',
+    'panchang.weekday.mon',
+    'panchang.weekday.tue',
+    'panchang.weekday.wed',
+    'panchang.weekday.thu',
+    'panchang.weekday.fri',
+    'panchang.weekday.sat'
+  ];
   readonly calendarModes: PanchangCalendarMode[] = ['daily', 'weekly', 'monthly'];
 
   calendarDays: CalendarDay[] = [];
@@ -882,9 +890,23 @@ export class PanchangComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef
   ) {}
 
+  private languageSubscription?: Subscription;
+
   ngOnInit(): void {
+    this.languageSubscription = this.translocoService.langChanges$.subscribe(() => {
+      this.buildCalendar();
+      this.cdr.markForCheck();
+    });
     this.buildCalendar();
     this.loadCalendarPanchang();
+  }
+
+  ngOnDestroy(): void {
+    this.languageSubscription?.unsubscribe();
+  }
+
+  get weekdays(): string[] {
+    return this.weekdayKeys.map((key) => this.translocoService.translate(key));
   }
 
   get calendarTitle(): string {

@@ -8,6 +8,8 @@ namespace KundaliEngine.API.DTOs.Responses
 
         public int NatalHouse { get; set; }
 
+        public int HouseFromMoon { get; set; }
+
         public string FocusArea { get; set; } = string.Empty;
 
         public List<string> NatalPlanetsInHouse { get; set; } = new();

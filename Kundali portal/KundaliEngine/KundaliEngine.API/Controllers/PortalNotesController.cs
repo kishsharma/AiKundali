@@ -4,14 +4,51 @@ using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Infrastructure.Data;
+using KundaliEngine.API.Services.Entitlements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KundaliEngine.API.Controllers;
 
+public sealed class PaidPlanAttribute : Attribute, IAsyncActionFilter
+{
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {
+        var userIdValue = context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!Guid.TryParse(userIdValue, out var userId))
+        {
+            context.Result = new UnauthorizedResult();
+            return;
+        }
+
+        var dbContext = context.HttpContext.RequestServices.GetRequiredService<KundaliDbContext>();
+        var entitlements = context.HttpContext.RequestServices.GetRequiredService<IEntitlementService>();
+        var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(item => item.Id == userId);
+        if (user == null || !user.IsActive)
+        {
+            context.Result = new UnauthorizedResult();
+            return;
+        }
+
+        if (!entitlements.IsPaid(user))
+        {
+            context.Result = new ObjectResult(new { message = "Notes are available on Premium." })
+            {
+                StatusCode = StatusCodes.Status402PaymentRequired
+            };
+            return;
+        }
+
+        await next();
+    }
+}
+
 [Authorize]
 [ApiController]
+[PaidPlan]
 [Route("api/[controller]")]
 public class PortalNotesController : ControllerBase
 {
@@ -328,7 +365,8 @@ public class PortalNotesController : ControllerBase
             return BadRequest($"Voice recording can be up to {MaxVoiceFileBytes} bytes.");
         }
 
-        if (!AllowedVoiceContentTypes.Contains(file.ContentType))
+        var contentType = NormalizeVoiceContentType(file.ContentType);
+        if (!AllowedVoiceContentTypes.Contains(contentType))
         {
             return BadRequest("Unsupported voice recording format.");
         }
@@ -345,7 +383,7 @@ public class PortalNotesController : ControllerBase
             return NotFound();
         }
 
-        var extension = GetAudioExtension(file.ContentType, file.FileName);
+        var extension = GetAudioExtension(contentType, file.FileName);
         var storageDirectory = GetVoiceStorageDirectory(userId.Value, normalizedContextType, normalizedContextId);
         Directory.CreateDirectory(storageDirectory);
 
@@ -363,7 +401,7 @@ public class PortalNotesController : ControllerBase
             ContextType = normalizedContextType,
             ContextId = normalizedContextId,
             FileName = string.IsNullOrWhiteSpace(file.FileName) ? storedFileName : Path.GetFileName(file.FileName),
-            ContentType = file.ContentType,
+            ContentType = contentType,
             StoragePath = storagePath,
             DurationSeconds = durationSeconds,
             CreatedAt = DateTime.UtcNow
@@ -535,6 +573,12 @@ public class PortalNotesController : ControllerBase
             return new List<string>();
         }
     }
+    private static string NormalizeVoiceContentType(string? contentType)
+    {
+        var value = (contentType ?? string.Empty).Split(';')[0].Trim();
+        return value.Equals("video/webm", StringComparison.OrdinalIgnoreCase) ? "audio/webm" : value;
+    }
+
     private static string GetAudioExtension(string contentType, string fileName)
     {
         var extension = Path.GetExtension(fileName);

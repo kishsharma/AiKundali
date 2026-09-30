@@ -19,6 +19,10 @@ import { ThemeService } from '../../core/services/theme.service';
 import { SavedChartSelectorComponent } from '../../shared/components/saved-chart-selector/saved-chart-selector.component';
 import { SavedChartMapperService, SavedKundaliDetail } from '../../shared/services/saved-chart-mapper.service';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
+import { ResultFeedbackComponent } from '../../shared/components/result-feedback/result-feedback.component';
+import { AuthService } from '../../core/auth/auth.service';
+import { isPaidUser } from '../../core/auth/plan.util';
+import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 
 interface PersonSummary {
   role: 'Boy' | 'Girl';
@@ -52,7 +56,7 @@ interface CompatibilityDoshaCard extends CompatibilityDoshaItem {
 @Component({
   selector: 'app-compatibility',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe, SavedChartSelectorComponent, PortalNotesComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, NorthIndianChartComponent, AstrologyIconComponent, ScoreDetailsModalComponent, TranslocoPipe, SavedChartSelectorComponent, PortalNotesComponent, ResultFeedbackComponent],
   templateUrl: './compatibility.component.html',
   styleUrls: ['./compatibility.component.scss'],
 })
@@ -68,6 +72,8 @@ export class CompatibilityComponent {
   private notifications = inject(NotificationService);
   private readonly themeService = inject(ThemeService);
   private readonly savedChartMapper = inject(SavedChartMapperService);
+  private readonly authService = inject(AuthService);
+  private readonly subscriptionModal = inject(SubscriptionModalService);
 
   get reportBrandLogoSrc(): string {
     return this.themeService.mode() === 'dark'
@@ -83,6 +89,16 @@ export class CompatibilityComponent {
   shareFailed = false;
   loadingSavedCompatibility = false;
   savedCompatibilityId: string | null = null;
+  reportFeedbackReady = false;
+  readonly compatibilityFeedbackTopics = [
+    { key: 'score', label: 'Score' },
+    { key: 'explanation', label: 'Explanation' },
+    { key: 'layout', label: 'Layout' },
+  ];
+  readonly reportFeedbackTopics = [
+    { key: 'content', label: 'Report' },
+    { key: 'delivery', label: 'Sending' },
+  ];
   isNotesOpen = false;
   selectedBoyChartId: string | null = null;
   selectedGirlChartId: string | null = null;
@@ -117,6 +133,19 @@ export class CompatibilityComponent {
     girlLatitude: [19.8762, Validators.required],
     girlLongitude: [75.3433, Validators.required],
   });
+
+  get compatibilityFeedbackContext(): string {
+    if (this.savedCompatibilityId) {
+      return this.savedCompatibilityId;
+    }
+
+    const value = this.form.getRawValue();
+    const key = [value.boyName, value.boyBirthDate, value.girlName, value.girlBirthDate]
+      .map((item) => String(item || '').trim())
+      .filter(Boolean)
+      .join('|');
+    return (key || 'compatibility').slice(0, 200);
+  }
 
   ngOnInit(): void {
     this.form.controls.boyBirthPlace.valueChanges
@@ -444,7 +473,16 @@ export class CompatibilityComponent {
       }
     });
   }
+  get isPremiumUser(): boolean {
+    return isPaidUser(this.authService.getCurrentUser());
+  }
+
   openNotes(): void {
+    if (!this.isPremiumUser) {
+      this.subscriptionModal.open();
+      return;
+    }
+
     this.isNotesOpen = true;
   }
 
@@ -529,6 +567,11 @@ export class CompatibilityComponent {
     this.shareEmailTouched = true;
     this.shareFailed = false;
 
+    if (!isPaidUser(this.authService.getCurrentUser())) {
+      this.subscriptionModal.open();
+      return;
+    }
+
     if (!this.isShareEmailValid || this.shareSending) {
       return;
     }
@@ -569,6 +612,7 @@ export class CompatibilityComponent {
       }));
 
       this.shareFailed = false;
+      this.reportFeedbackReady = true;
       this.notifications.success('Compatibility report email submitted for delivery.');
       document
         .querySelectorAll<HTMLDetailsElement>('.compatibility-actions details[open]')
@@ -590,6 +634,7 @@ export class CompatibilityComponent {
 
     const text = this.getCompatibilityShareText();
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    this.reportFeedbackReady = true;
   }
 
   private getCompatibilityShareText(): string {
@@ -683,6 +728,11 @@ export class CompatibilityComponent {
   }
 
   async downloadPdf(): Promise<void> {
+    if (!isPaidUser(this.authService.getCurrentUser())) {
+      this.subscriptionModal.open();
+      return;
+    }
+
     if (!this.showReport || this.exportingPdf) {
       return;
     }
@@ -693,6 +743,7 @@ export class CompatibilityComponent {
     try {
       const pdf = await this.buildCompatibilityPdfDocument();
       pdf.save(this.getCompatibilityPdfFileName());
+      this.reportFeedbackReady = true;
       this.notifications.success('Compatibility PDF downloaded.');
     } catch (error) {
       console.error('Compatibility PDF export failed:', error);
@@ -1227,7 +1278,8 @@ export class CompatibilityComponent {
   private formatDate(value: string | null | undefined): string {
     if (!value) return '—';
     const [year, month, day] = value.split('-').map(Number);
-    const locale = this.transloco.getActiveLang() === 'hi' ? 'hi-IN' : 'en-GB';
+    const lang = this.transloco.getActiveLang();
+    const locale = lang === 'hi' ? 'hi-IN' : lang === 'kn' ? 'kn-IN' : 'en-GB';
     return new Date(year, month - 1, day).toLocaleDateString(locale, {
       day: '2-digit',
       month: 'short',

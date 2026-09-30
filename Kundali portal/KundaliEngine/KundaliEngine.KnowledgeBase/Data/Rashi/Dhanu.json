@@ -57,5 +57,16 @@
       "padas": [ 1 ]
     }
   ],
-  "description": "Dhanu is the ninth sign of the zodiac, symbolizing wisdom, righteousness, higher education, philosophy, and spiritual growth. Ruled by Jupiter, it represents optimism, generosity, moral values, and the pursuit of truth and knowledge."
+  "description": "Dhanu is the ninth sign of the zodiac, symbolizing wisdom, righteousness, higher education, philosophy, and spiritual growth. Ruled by Jupiter, it represents optimism, generosity, moral values, and the pursuit of truth and knowledge.",
+  "ghatChakra": {
+    "month": "shravana",
+    "tithi": "jaya",
+    "tithiNumbers": "3, 8, 13",
+    "weekday": "friday",
+    "nakshatra": "Bharani",
+    "yoga": "vajra",
+    "karana": "taitila",
+    "moonMale": "Pisces",
+    "moonFemale": "Virgo"
+  }
 }

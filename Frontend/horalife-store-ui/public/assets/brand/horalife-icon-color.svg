@@ -1,0 +1,69 @@
+<!-- <svg width="512" height="512" viewBox="-55.2 -55.2 110.4 110.4" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HoraLife icon">
+  <g transform="translate(-1.399,0)">
+    <circle cx="0" cy="0" r="48" fill="none" stroke="#1E2B5A" stroke-width="4.304"/>
+    <line x1="-53.779" y1="-15.483" x2="47.937" y2="2.453" stroke="#1E2B5A" stroke-width="3.304" stroke-linecap="round"/>
+    <circle cx="-45.885" cy="-14.091" r="2.88" fill="#FFFFFF" stroke="#1E2B5A" stroke-width="1.382"/>
+    <circle cx="42.353" cy="-10.95" r="2.88" fill="#C2C8D1"/>
+    <circle cx="47.937" cy="2.453" r="8.64" fill="#B8924A"/>
+  </g>
+</svg> -->
+
+<svg
+  width="512"
+  height="512"
+  viewBox="-55.2 -55.2 110.4 120.4"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="HoraLife icon">
+
+  <g transform="translate(-1.399, 0)">
+
+    <!-- Celestial sphere / observer frame -->
+    <circle
+      cx="0"
+      cy="0"
+      r="48"
+      fill="none"
+      stroke="#1E2B5A"
+      stroke-width="4.304"/>
+
+    <!-- Ascendant / eastern horizon line -->
+    <line
+      x1="-53.779"
+      y1="-15.483"
+      x2="47.937"
+      y2="2.453"
+      stroke="#1E2B5A"
+      stroke-width="4.5"
+      stroke-linecap="round"/>
+
+    <!-- Rising Sun -->
+    <circle
+      cx="-45.885"
+      cy="-14.091"
+      r="5.4"
+      fill="#D9A441"
+      stroke="#1E2B5A"
+      stroke-width="1.5"/>
+
+    <!-- Moon -->
+    <circle
+      cx="34.353"
+      cy="-16.95"
+      r="4.5"
+      fill="#C2C8D1"
+      stroke="#1E2B5A"
+      stroke-width="0.9"/>
+
+
+    <!-- Earth -->
+    <circle
+      cx="47.937"
+      cy="2.453"
+      r="11"
+      fill="#3F6FA3"
+      stroke="#C69A3A"
+      stroke-width="2.6"/>
+
+  </g>
+</svg>

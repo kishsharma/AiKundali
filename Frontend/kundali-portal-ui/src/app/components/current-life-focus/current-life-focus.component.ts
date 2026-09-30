@@ -27,7 +27,7 @@ export class CurrentLifeFocusComponent implements OnChanges {
   @Input() kundaliId: string | null = null;
   @Input() savePayload: any | null = null;
   @Input() resetKey: number | string | null = null;
-  @Output() kundaliSaved = new EventEmitter<string>();
+  @Output() kundaliSaved = new EventEmitter<{ id: string; reusedExisting: boolean }>();
 
   state: CurrentLifeFocusState = 'initial';
   topResponse: CurrentLifeFocusResponse | null = null;
@@ -36,6 +36,7 @@ export class CurrentLifeFocusComponent implements OnChanges {
   selectedConcernKey = '';
   errorMessage = '';
   analysisDate = '';
+  reusedExistingNote = false;
 
   private inFlight = false;
 
@@ -234,6 +235,7 @@ export class CurrentLifeFocusComponent implements OnChanges {
     this.selectedConcernKey = '';
     this.errorMessage = '';
     this.analysisDate = '';
+    this.reusedExistingNote = false;
     this.inFlight = false;
     this.cdr.markForCheck();
   }
@@ -263,10 +265,13 @@ export class CurrentLifeFocusComponent implements OnChanges {
       return of(this.kundaliId);
     }
 
-    return this.kundaliService.saveKundali(this.savePayload).pipe(
+    return this.kundaliService.saveKundali({ ...this.savePayload, onDuplicate: 'reuse' }).pipe(
+      tap(saved => {
+        this.reusedExistingNote = !!saved?.reusedExisting;
+      }),
       map(saved => String(saved?.id ?? saved?.kundaliId ?? '').trim()),
       switchMap(savedId => savedId ? of(savedId) : throwError(() => new Error('Kundali save did not return an id.'))),
-      tap(savedId => this.kundaliSaved.emit(savedId))
+      tap(savedId => this.kundaliSaved.emit({ id: savedId, reusedExisting: this.reusedExistingNote }))
     );
   }
 

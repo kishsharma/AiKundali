@@ -8,6 +8,14 @@ public class SavedKundaliDetailDto
 
     public string FullName { get; set; } = string.Empty;
 
+    public string? Surname { get; set; }
+
+    public string? FatherName { get; set; }
+
+    public string? MotherName { get; set; }
+
+    public string? Gotra { get; set; }
+
     public string? Gender { get; set; }
 
     public DateOnly DateOfBirth { get; set; }
@@ -25,4 +33,6 @@ public class SavedKundaliDetailDto
     public JsonElement ChartData { get; set; }
 
     public DateTime CreatedAt { get; set; }
+
+    public bool ReusedExisting { get; set; }
 }

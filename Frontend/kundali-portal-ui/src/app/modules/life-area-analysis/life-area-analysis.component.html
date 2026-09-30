@@ -1,0 +1,119 @@
+<section class="life-area-page">
+  <app-page-header
+    [title]="'lifeArea.title' | transloco"
+    [subtitle]="'lifeArea.subtitle' | transloco"
+    [breadcrumbs]="[
+      { label: ('lifeArea.home' | transloco), routerLink: '/app/dashboard' },
+      { label: ('lifeArea.title' | transloco), active: true }
+    ]">
+  </app-page-header>
+
+  <p class="status" *ngIf="loadingCharts || loadingAreas">{{ 'lifeArea.loading' | transloco }}</p>
+  <p class="status error" *ngIf="errorMessage && !loadingReport">{{ errorMessage }}</p>
+
+  <div class="empty-card" *ngIf="!loadingCharts && charts.length === 0">
+    <p>{{ 'lifeArea.noChart' | transloco }}</p>
+    <a routerLink="/app/kundali">{{ 'lifeArea.createChart' | transloco }}</a>
+  </div>
+
+  <ng-container *ngIf="!loadingCharts && charts.length > 0">
+    <label class="chart-picker">
+      <span>{{ 'lifeArea.chart' | transloco }}</span>
+      <select [(ngModel)]="selectedChartId" (ngModelChange)="onChartChange()">
+        <option *ngFor="let chart of charts" [value]="chart.id">{{ chartLabel(chart) }}</option>
+      </select>
+    </label>
+
+    <div class="area-grid" *ngIf="!loadingAreas">
+      <button
+        type="button"
+        class="area-tile"
+        *ngFor="let area of areas"
+        [class.active]="selectedArea === area.key"
+        (click)="selectArea(area.key)">
+        <span class="tile-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path [attr.d]="areaMark(area.key)" /></svg>
+        </span>
+        <span class="tile-copy">
+          <strong>{{ area.name }}</strong>
+          <small>{{ (area.primaryCharts || []).join(' · ') }}</small>
+        </span>
+      </button>
+    </div>
+
+    <p class="status" *ngIf="!selectedArea && !loadingReport">{{ 'lifeArea.pickArea' | transloco }}</p>
+    <p class="status" *ngIf="loadingReport">{{ 'lifeArea.reading' | transloco }}</p>
+
+    <article class="report" *ngIf="report && !loadingReport">
+      <header class="verdict" [attr.data-verdict]="report.verdict">
+        <span>{{ 'lifeArea.verdict' | transloco }}</span>
+        <h2>{{ report.areaName }}</h2>
+        <p>{{ report.verdictText }}</p>
+      </header>
+
+      <section>
+        <h3>{{ 'lifeArea.chartsConsulted' | transloco }}</h3>
+        <p>{{ report.chartsConsulted.join(', ') }}</p>
+      </section>
+
+      <section>
+        <h3>{{ 'lifeArea.factors' | transloco }}</h3>
+        <div class="factor" *ngFor="let factor of report.factors" [attr.data-tone]="factor.tone">
+          <div class="factor-top">
+            <strong>{{ factor.subject }}</strong>
+            <em>{{ ('lifeArea.tone.' + factor.tone) | transloco }}</em>
+          </div>
+          <p class="factor-places">{{ factor.natalSign }} · {{ factor.natalDignity }} · {{ factor.specialistChart }} {{ factor.specialistSign }} · {{ factor.specialistDignity }}</p>
+          <p>{{ factor.reading }}</p>
+        </div>
+      </section>
+
+      <section>
+        <h3>{{ 'lifeArea.crossCheck' | transloco }}</h3>
+        <p>{{ report.crossValidation }}</p>
+      </section>
+
+      <section>
+        <h3>{{ 'lifeArea.timing' | transloco }}</h3>
+        <p>{{ report.timing }}</p>
+        <div class="period" *ngFor="let period of report.periods ?? []" [attr.data-tone]="period.tone">
+          <div class="factor-top">
+            <strong>{{ period.label }}</strong>
+            <em>{{ ('lifeArea.tone.' + (period.tone === 'support' ? 'support' : 'pressure')) | transloco }}</em>
+          </div>
+          <p>{{ period.planet }} · {{ period.reading }}</p>
+        </div>
+      </section>
+
+      <p class="note" *ngIf="report.note">{{ report.note }}</p>
+
+      <section class="plain-meaning" *ngIf="report.plainMeaning">
+        <h3>{{ 'lifeArea.plainMeaning' | transloco }}</h3>
+        <p>{{ report.plainMeaning }}</p>
+      </section>
+
+      <section class="ai-insight" [attr.data-state]="insightState">
+        <header>
+          <span class="ai-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3.2 13.4 8l4.8 1.4L13.4 10.8 12 15.6 10.6 10.8 5.8 9.4 10.6 8z" />
+              <path d="M18 14.2 18.7 16.4 19.9 17.1 18.7 17.8 18 20l-.7-2.2L15.1 17.1l2.2-.7z" />
+              <path d="M6.2 13.4 6.7 15l1.6.5-1.6.5-.5 1.6-.5-1.6-1.6-.5 1.6-.5z" />
+            </svg>
+          </span>
+          <div>
+            <h3>{{ 'lifeArea.aiInsights' | transloco }}</h3>
+            <p class="ai-kicker">{{ 'lifeArea.aiKicker' | transloco }}</p>
+          </div>
+        </header>
+        <button type="button" class="ai-action" *ngIf="insightState === 'idle' || insightState === 'unavailable'" (click)="writeInsight()">
+          {{ 'lifeArea.aiAction' | transloco }}
+        </button>
+        <p *ngIf="insightState === 'loading'">{{ 'lifeArea.aiLoading' | transloco }}</p>
+        <p class="insight-text" *ngIf="insightState === 'ready'">{{ insight }}</p>
+        <p *ngIf="insightState === 'locked'">{{ 'lifeArea.aiLocked' | transloco }}</p>
+        <p *ngIf="insightState === 'unavailable'">{{ 'lifeArea.aiUnavailable' | transloco }}</p>
+      </section>
+    </article>
+  </ng-container>
+</section>

@@ -7,11 +7,12 @@ import { filter, map } from 'rxjs/operators';
 import { NavbarComponent } from './navbar.component';
 import { SidebarComponent } from './sidebar.component';
 import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/dhruva-assistant.component';
+import { FeedbackBadgeComponent } from '../shared/components/feedback-badge/feedback-badge.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent, DhruvaAssistantComponent],
+  imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent, DhruvaAssistantComponent, FeedbackBadgeComponent],
   template: `
     <div class="app-shell">
       <!-- Top Navbar -->
@@ -37,6 +38,7 @@ import { DhruvaAssistantComponent } from '../shared/components/dhruva-assistant/
       </div>
 
       <app-dhruva-assistant></app-dhruva-assistant>
+      <app-feedback-badge></app-feedback-badge>
     </div>
   `,
   styles: [`

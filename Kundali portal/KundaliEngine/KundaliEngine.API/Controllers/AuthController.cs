@@ -15,12 +15,18 @@ namespace KundaliEngine.API.Controllers
         private readonly IAuthService _authService;
         private readonly IAuthOtpService _authOtpService;
         private readonly IAuditLogService _auditLogService;
+        private readonly IStoreHandoffService _storeHandoffService;
 
-        public AuthController(IAuthService authService, IAuthOtpService authOtpService, IAuditLogService auditLogService)
+        public AuthController(
+            IAuthService authService,
+            IAuthOtpService authOtpService,
+            IAuditLogService auditLogService,
+            IStoreHandoffService storeHandoffService)
         {
             _authService = authService;
             _authOtpService = authOtpService;
             _auditLogService = auditLogService;
+            _storeHandoffService = storeHandoffService;
         }
 
         [HttpPost("register")]
@@ -263,6 +269,68 @@ namespace KundaliEngine.API.Controllers
             }
             catch (UnauthorizedAccessException ex)
             {
+                return Unauthorized(new { message = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPost("store-handoff")]
+        public async Task<IActionResult> IssueStoreHandoff()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(userId, out var parsedUserId))
+            {
+                return Unauthorized();
+            }
+
+            var response = _storeHandoffService.Issue(parsedUserId);
+            await _auditLogService.LogAsync(new AuditLogEntry
+            {
+                Action = "StoreHandoffIssued",
+                Category = "Authentication",
+                UserId = parsedUserId,
+                UserName = User.Identity?.Name,
+                EntityType = "User",
+                EntityId = parsedUserId.ToString(),
+                Description = "Issued a one-time HoraLife store sign-in from the active portal session.",
+                Status = "Success"
+            });
+
+            return Ok(response);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("store-handoff/redeem")]
+        public async Task<IActionResult> RedeemStoreHandoff(StoreHandoffRedeemRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await _storeHandoffService.RedeemAsync(request.Code, cancellationToken);
+                await _auditLogService.LogAsync(new AuditLogEntry
+                {
+                    Action = "StoreAutoLogin",
+                    Category = "Authentication",
+                    UserId = response.UserId,
+                    UserName = response.FullName,
+                    EntityType = "User",
+                    EntityId = response.UserId.ToString(),
+                    Description = $"User {response.Email} entered the HoraLife store from an active HoraLife session.",
+                    Status = "Success"
+                });
+
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                await _auditLogService.LogAsync(new AuditLogEntry
+                {
+                    Action = "StoreAutoLoginFailed",
+                    Category = "Authentication",
+                    Description = "HoraLife store auto sign-in failed.",
+                    Status = "Failed",
+                    FailureReason = ex.Message
+                });
+
                 return Unauthorized(new { message = ex.Message });
             }
         }

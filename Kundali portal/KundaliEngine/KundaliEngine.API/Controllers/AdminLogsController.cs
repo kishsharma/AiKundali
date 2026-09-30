@@ -7,7 +7,7 @@ namespace KundaliEngine.API.Controllers;
 
 [ApiController]
 [Route("api/admin/logs")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class AdminLogsController : ControllerBase
 {
     private readonly KundaliDbContext _dbContext;

@@ -14,5 +14,7 @@ public sealed class PredictionQuestionRequestDto
 
     public DateTimeOffset? ReferenceDate { get; set; }
 
+    public DateTimeOffset? BirthDate { get; set; }
+
     public GenerateKundaliResponse? KundaliData { get; set; }
 }

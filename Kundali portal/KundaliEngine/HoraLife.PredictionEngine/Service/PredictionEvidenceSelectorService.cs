@@ -23,10 +23,14 @@ internal sealed class PredictionEvidenceSelectorService
         ArgumentNullException.ThrowIfNull(profile);
         ArgumentNullException.ThrowIfNull(dashaPeriods);
 
-        var primaryHouseNumbers = profile.PrimaryHouses.ToHashSet();
+        var focus = request.Mode == PredictionMode.CustomQuestion
+            ? LifeQuestionCatalog.Find(request.LifeArea, request.FocusKey)
+            : null;
+
+        var primaryHouseNumbers = (focus?.PrimaryHouses ?? profile.PrimaryHouses).ToHashSet();
         var supportingHouseNumbers = profile.SupportingHouses.ToHashSet();
 
-        var significatorNames = profile.NaturalSignificators.ToHashSet(
+        var significatorNames = (focus?.Significators ?? profile.NaturalSignificators).ToHashSet(
             StringComparer.OrdinalIgnoreCase);
 
         var primaryHouses = context.Houses
@@ -149,32 +153,21 @@ internal sealed class PredictionEvidenceSelectorService
             return Array.Empty<DivisionalQuestionFocusMetadata>();
         }
 
-        var focusKey = request.FocusKey.Trim().ToLowerInvariant();
-
-        return (request.LifeArea, focusKey) switch
+        var focus = LifeQuestionCatalog.Find(request.LifeArea, request.FocusKey);
+        if (focus is null || string.IsNullOrWhiteSpace(focus.DivisionalChart) || focus.DivisionalHouses.Length == 0)
         {
-            (PredictionLifeArea.Relationships, "marriage_possibility") =>
-            [
-                new DivisionalQuestionFocusMetadata
-                {
-                    ChartType = "D9",
-                    HouseNumbers = [7],
-                    SignificatorPlanets = ["Venus"]
-                }
-            ],
+            return Array.Empty<DivisionalQuestionFocusMetadata>();
+        }
 
-            (PredictionLifeArea.Relationships, "marriage_timing") =>
-            [
-                new DivisionalQuestionFocusMetadata
-                {
-                    ChartType = "D9",
-                    HouseNumbers = [7],
-                    SignificatorPlanets = ["Venus"]
-                }
-            ],
-
-            _ => Array.Empty<DivisionalQuestionFocusMetadata>()
-        };
+        return
+        [
+            new DivisionalQuestionFocusMetadata
+            {
+                ChartType = focus.DivisionalChart,
+                HouseNumbers = focus.DivisionalHouses,
+                SignificatorPlanets = focus.DivisionalSignificators
+            }
+        ];
     }
 
     private static DivisionalHouseFocusEvidence? ResolveDivisionalHouseFocusEvidence(

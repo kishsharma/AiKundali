@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using HoraLife.Store.Application.Interfaces;
+using HoraLife.Store.Application.Inventory.Dtos;
+using HoraLife.Store.Application.Inventory.Models;
 using HoraLife.Store.Application.Orders.Dtos;
 using HoraLife.Store.Application.Orders.Models;
 using KundaliEngine.Api.DTOs.Store.Orders;
@@ -14,11 +16,14 @@ namespace KundaliEngine.Api.Controllers.Store;
 public sealed class StoreOrdersController : ControllerBase
 {
     private readonly IStoreOrderService _orderService;
+    private readonly IStoreInventoryReservationService _inventoryService;
 
     public StoreOrdersController(
-        IStoreOrderService orderService)
+        IStoreOrderService orderService,
+        IStoreInventoryReservationService inventoryService)
     {
         _orderService = orderService;
+        _inventoryService = inventoryService;
     }
 
     [HttpPost]
@@ -61,6 +66,96 @@ public sealed class StoreOrdersController : ControllerBase
         }
 
         return ToErrorResult(result);
+    }
+
+    /// <summary>
+    /// Marks payment as paid and confirms reserved inventory (stock deduct).
+    /// </summary>
+    [HttpPost("{orderId:guid}/mark-paid")]
+    [ProducesResponseType(typeof(InventoryLifecycleDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<InventoryLifecycleDto>> MarkPaid(
+        Guid orderId,
+        CancellationToken cancellationToken)
+    {
+        if (!TryGetUserId(out var userId))
+        {
+            return InvalidUserClaim();
+        }
+
+        var result = await _inventoryService.ConfirmAsync(
+            orderId,
+            userId,
+            User.IsInRole("Admin"),
+            cancellationToken);
+
+        if (result.Succeeded)
+        {
+            return Ok(result.Value);
+        }
+
+        return ToInventoryError(result.ErrorCode, result.ErrorMessage);
+    }
+
+    /// <summary>
+    /// Cancels the order and releases reserved inventory.
+    /// </summary>
+    [HttpPost("{orderId:guid}/cancel")]
+    [ProducesResponseType(typeof(InventoryLifecycleDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<InventoryLifecycleDto>> Cancel(
+        Guid orderId,
+        [FromBody] InventoryReleaseRequestDto? request,
+        CancellationToken cancellationToken)
+    {
+        if (!TryGetUserId(out var userId))
+        {
+            return InvalidUserClaim();
+        }
+
+        var reason = string.IsNullOrWhiteSpace(request?.Reason)
+            ? "cancelled"
+            : request.Reason.Trim();
+
+        var result = await _inventoryService.ReleaseAsync(
+            orderId,
+            userId,
+            User.IsInRole("Admin"),
+            reason,
+            cancellationToken);
+
+        if (result.Succeeded)
+        {
+            return Ok(result.Value);
+        }
+
+        return ToInventoryError(result.ErrorCode, result.ErrorMessage);
+    }
+
+    private ActionResult ToInventoryError(
+        InventoryReservationErrorCode errorCode,
+        string? errorMessage)
+    {
+        if (errorCode == InventoryReservationErrorCode.OrderNotFound)
+        {
+            return NotFound(new ProblemDetails
+            {
+                Title = "Order not found",
+                Detail = errorMessage,
+                Status = StatusCodes.Status404NotFound
+            });
+        }
+
+        return Conflict(new ProblemDetails
+        {
+            Title = "Inventory status update failed",
+            Detail = errorMessage,
+            Status = StatusCodes.Status409Conflict
+        });
     }
 
     private ObjectResult ToErrorResult(

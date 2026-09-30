@@ -72,8 +72,26 @@ export interface FormValidationResult {
   errors: ValidationError[];
 }
 
-export type PredictionLifeArea = 'Relationships';
-export type PredictionFocusKey = 'marriage_possibility' | 'marriage_timing';
+export type PredictionLifeArea = 'Relationships' | 'Career' | 'Finance' | 'Education' | 'Health' | 'Family' | 'Property';
+export type PredictionFocusKey =
+  | 'marriage_possibility'
+  | 'marriage_timing'
+  | 'career_possibility'
+  | 'career_timing'
+  | 'income_possibility'
+  | 'income_timing'
+  | 'savings_possibility'
+  | 'savings_timing'
+  | 'property_possibility'
+  | 'property_timing'
+  | 'education_possibility'
+  | 'education_timing'
+  | 'children_possibility'
+  | 'children_timing'
+  | 'health_possibility'
+  | 'health_timing'
+  | 'family_possibility'
+  | 'family_timing';
 export type PredictionTimeScope = 'Current' | 'Future';
 
 export interface PredictionQuestionRequest {
@@ -81,6 +99,7 @@ export interface PredictionQuestionRequest {
   focusKey: PredictionFocusKey;
   timeScope: PredictionTimeScope;
   referenceDate?: string;
+  birthDate?: string;
   kundaliData: any;
 }
 

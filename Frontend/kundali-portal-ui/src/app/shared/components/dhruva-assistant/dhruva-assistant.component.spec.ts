@@ -28,6 +28,17 @@ describe('DhruvaAssistantComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('addresses the logged-in user about the chosen chart person', () => {
+    window.localStorage.setItem('kundali_user', JSON.stringify({ firstName: 'Kishore' }));
+    contextService.setContext(buildContext());
+
+    expect(component.welcomeMessage).toBe("Hi Kishore. I am reading Umesh's kundali. How can I guide you?");
+    expect(component.chartReplyLead).toBe('Kishore, the kundali of Umesh shows:');
+
+    component.selectPersonalQuestion('moon-sign');
+    expect(component.showChartReplyLead).toBe(true);
+  });
+
   it('moves between floating, compact, and expanded panel states', () => {
     expect(component.isOpen).toBe(false);
     expect(component.isExpanded).toBe(false);
@@ -504,6 +515,14 @@ describe('DhruvaAssistantComponent', () => {
     expect(component.animatedResponseText('Dhruva response')).toBe('Dhruva r');
   });
 
+  it('shows narration as plain sentences without markup', () => {
+    component.responseVisibleLength = 400;
+
+    expect(component.animatedResponseText('## Career\n**The nearer stretch is supportive.**\n- Saturn presses the house')).toBe(
+      'Career\nThe nearer stretch is supportive.\nSaturn presses the house',
+    );
+  });
+
   it('scrolls the latest Dhruva response into view when typing begins', () => {
     vi.useFakeTimers();
     installBrowserFakes(() => reportTargets);
@@ -585,6 +604,9 @@ function buildContext() {
     panchangYoga: { value: 'Siddhi', status: 'available' as const },
     panchangKarana: { value: 'Bava', status: 'available' as const },
     panchangVaar: { value: 'Monday', status: 'available' as const },
+    personName: { value: 'Umesh', status: 'available' as const },
+    birthDate: { value: '1990-08-12', status: 'available' as const },
+    birthPlace: { value: 'Bengaluru', status: 'available' as const },
     yogas: [
       {
         name: 'Gaja Kesari Yoga',

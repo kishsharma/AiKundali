@@ -57,5 +57,16 @@
       "padas": [ 1, 2 ]
     }
   ],
-  "description": "Makara is the tenth sign of the zodiac, representing discipline, perseverance, responsibility, and achievement. Ruled by Saturn, it symbolizes patience, endurance, practical wisdom, and the ability to build lasting success through dedication and hard work."
+  "description": "Makara is the tenth sign of the zodiac, representing discipline, perseverance, responsibility, and achievement. Ruled by Saturn, it symbolizes patience, endurance, practical wisdom, and the ability to build lasting success through dedication and hard work.",
+  "ghatChakra": {
+    "month": "vaishakha",
+    "tithi": "rikta",
+    "tithiNumbers": "4, 9, 14",
+    "weekday": "tuesday",
+    "nakshatra": "Rohini",
+    "yoga": "vaidhriti",
+    "karana": "shakuni",
+    "moonMale": "Leo",
+    "moonFemale": "Scorpio"
+  }
 }

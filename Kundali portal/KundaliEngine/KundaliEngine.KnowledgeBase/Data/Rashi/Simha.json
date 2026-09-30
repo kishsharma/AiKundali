@@ -57,5 +57,16 @@
       "padas": [ 1 ]
     }
   ],
-  "description": "Simha is the fifth sign of the zodiac, symbolizing authority, courage, self-expression, honor, and leadership. Ruled by the Sun, it represents vitality, confidence, generosity, and the desire to inspire and lead others."
+  "description": "Simha is the fifth sign of the zodiac, symbolizing authority, courage, self-expression, honor, and leadership. Ruled by the Sun, it represents vitality, confidence, generosity, and the desire to inspire and lead others.",
+  "ghatChakra": {
+    "month": "jyeshtha",
+    "tithi": "jaya",
+    "tithiNumbers": "3, 8, 13",
+    "weekday": "saturday",
+    "nakshatra": "Mula",
+    "yoga": "dhriti",
+    "karana": "bava",
+    "moonMale": "Capricorn",
+    "moonFemale": "Scorpio"
+  }
 }

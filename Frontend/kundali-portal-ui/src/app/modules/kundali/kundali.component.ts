@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, HostListener, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KundaliService } from './kundali.service';
 import { PageHeaderComponent } from "../../shared/components/page-header.component";
 import { SectionCardComponent } from "../../shared/components/section-card.component";
@@ -27,12 +27,14 @@ import { KundaliSummary } from "../../components/kundali-summary/kundali-summary
 import { PanchangCardComponent } from "../../components/panchang-card/panchang-card.component";
 import { KundaliScoreCard } from "../../components/kundali-score-card/kundali-score-card";
 import { MahadashaAntardasha } from "../../components/mahadasha-antardasha/mahadasha-antardasha";
+import { buildDashaPlanetScores } from "../../components/mahadasha-antardasha/dasha-period-tone";
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { HouseScoreOverview } from "../../components/house-score-overview/house-score-overview";
 import { KundaliMetadataInsightsComponent } from "../../components/kundali-metadata-insights/kundali-metadata-insights.component";
 import { TransitInsightComponent } from "../../components/transit-insight/transit-insight.component";
 import { CurrentLifeFocusComponent } from "../../components/current-life-focus/current-life-focus.component";
 import { mapDhruvaKundaliContext } from '../../shared/components/dhruva-assistant/dhruva-kundali-context.mapper';
+import { DoshaAttentionReport, rankDoshaAttention, rankYogaAttention } from './dosha-attention';
 import { DhruvaKundaliContextService } from '../../shared/components/dhruva-assistant/dhruva-kundali-context.service';
 import { RemediesRecommendationComponent } from "../../components/remedies-recommendation/remedies-recommendation.component";
 import {
@@ -42,7 +44,10 @@ import {
 import { NotificationService } from '../../shared/services/notification.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { isPaidUser } from '../../core/auth/plan.util';
+import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
+import { ResultFeedbackComponent } from '../../shared/components/result-feedback/result-feedback.component';
 import { PortalWheelPickerComponent } from '../../shared/components/portal-wheel-picker.component';
 
 type KundaliPdfMode = 'desktop' | 'mobile' | 'print-bw' | 'corporate';
@@ -97,9 +102,14 @@ interface PredictionUserStory {
   headline: string;
   meaning: string;
   now: string;
+  scope: string;
+  scopeKind: 'window' | 'chart';
   helps: string[];
   watch: string[];
   chartNote: string;
+  fitTitle: string;
+  direction: string;
+  fields: string[];
 }
 
 interface PredictionAreaDetailCard extends PredictionOutlookCard {
@@ -141,7 +151,8 @@ interface PredictionAreaDetailCard extends PredictionOutlookCard {
     CurrentLifeFocusComponent,
     RemediesRecommendationComponent,
     PortalNotesComponent,
-    PortalWheelPickerComponent
+    PortalWheelPickerComponent,
+    ResultFeedbackComponent
   ],
   templateUrl: './kundali.component.html',
   styleUrls: ['./kundali.component.scss', './kundali.component.exportpdf.scss']
@@ -162,7 +173,9 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   private readonly notifications = inject(NotificationService);
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
+  private readonly subscriptionModal = inject(SubscriptionModalService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   locationResults: any[] = [];
   kundaliResponse: any = null;
   brandingSettings: AstrologerBrandingSetting | null = null;
@@ -173,6 +186,24 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   mahadashaPeriods: any[] = [];
   savingKundali = false;
   savedKundaliId: string | null = null;
+  duplicateSavePrompt: {
+    existingId: string;
+    fullName: string;
+    dateOfBirth: string;
+    timeOfBirth: string;
+    birthPlace: string;
+  } | null = null;
+  private openBirthKey: string | null = null;
+  reportFeedbackReady = false;
+  readonly kundaliFeedbackTopics = [
+    { key: 'chart', label: 'Chart' },
+    { key: 'prediction', label: 'Prediction' },
+    { key: 'layout', label: 'Layout' },
+  ];
+  readonly reportFeedbackTopics = [
+    { key: 'content', label: 'Report' },
+    { key: 'delivery', label: 'Sending' },
+  ];
   isNotesOpen = false;
   currentLifeFocusResetKey = 0;
   saveMessage = '';
@@ -193,7 +224,10 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   loadingSavedKundali = false;
   horaverseOpenError = '';
   isChartPinned = false;
+  chartDashaExpanded = false;
+  dashaSideboxOpen = false;
   showLagnaDegrees = false;
+  showDivisionalDegrees = false;
   showGocharDegrees = false;
   displayPersonName = '';
   janmaStoryLines: string[] = [];
@@ -201,13 +235,17 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   isJanmaStoryRailCollapsed = true;
   janmaStoryHighlightTerms: Array<{ value: string; type: string }> = [];
   private janmaStoryTimers: ReturnType<typeof setTimeout>[] = [];
-  readonly kundaliPreparationSteps = [
-    'Mapping planetary positions',
-    'Reading house strengths',
-    'Preparing yogas and doshas',
-    'Opening dasha timeline',
-    'Composing your report'
-  ];
+  loaderZooming = false;
+  loaderScoreReady = false;
+  loaderLeaving = false;
+  private kundaliLoaderTimer: ReturnType<typeof setTimeout> | null = null;
+  private kundaliLoaderStartedAt = 0;
+  /** Draw, fade the mark, reveal scores one by one, then fade. Delays match the loader CSS. */
+  private readonly kundaliLoaderDrawMs = 1600;
+  readonly loaderStageFadeMs = 520;
+  readonly loaderScoreStepMs = 440;
+  private readonly loaderScoreHoldMs = 720;
+  private readonly kundaliLoaderFadeMs = 720;
   readonly predictionLifeAreas = [
     'Career',
     'Finance',
@@ -226,7 +264,70 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   openDoshaIndex: number | null = null;
   activeReportSection = '';
   openPredictionLifeArea = 'Career';
-  activeStrengthView: 'summary' | 'shadbala' | 'ashtakavarga' = 'summary';
+  activeStrengthView: 'positions' | 'summary' | 'shadbala' | 'ashtakavarga' = 'positions';
+
+  get advancedStrengthTables(): any | null {
+    const raw = this.kundaliResponse?.advancedStrengthTables
+      ?? this.kundaliResponse?.AdvancedStrengthTables
+      ?? null;
+    if (!raw) {
+      return null;
+    }
+
+    return {
+      methodNote: this.firstText(raw.methodNote, raw.MethodNote),
+      planetaryStrengths: this.asStrengthRows(raw.planetaryStrengths ?? raw.PlanetaryStrengths),
+      shadbala: this.resolveShadbalaRows(raw),
+      houseSupport: this.asStrengthRows(raw.houseSupport ?? raw.HouseSupport)
+    };
+  }
+
+  get hasShadbalaTable(): boolean {
+    return (this.advancedStrengthTables?.shadbala?.length ?? 0) > 0;
+  }
+
+  private resolveShadbalaRows(raw: any): any[] {
+    const virupaRows = this.asStrengthRows(
+      raw.shadbala ?? raw.Shadbala ?? raw.shadBala ?? raw.ShadBala
+    );
+    if (virupaRows.length) {
+      return virupaRows;
+    }
+
+    return this.asStrengthRows(raw.planetaryStrengths ?? raw.PlanetaryStrengths)
+      .filter((row: any) => {
+        const planet = this.firstText(row?.planet, row?.Planet).toLowerCase();
+        return planet && planet !== 'rahu' && planet !== 'ketu';
+      });
+  }
+
+  formatBalaCell(value: number | string | null | undefined): string {
+    if (value == null || value === '') {
+      return '—';
+    }
+
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      if (!trimmed) {
+        return '—';
+      }
+      if (!/^-?\d+(\.\d+)?$/.test(trimmed)) {
+        return trimmed;
+      }
+      return Number(trimmed).toFixed(1);
+    }
+
+    return this.formatVirupa(value);
+  }
+
+  formatShadbalaPercent(row: any): string {
+    const value = row?.percent ?? row?.Percent;
+    return value == null || value === '' ? '—' : `${value}%`;
+  }
+
+  private asStrengthRows(value: unknown): any[] {
+    return Array.isArray(value) ? value : [];
+  }
 
   get hasReportStatus(): boolean {
     return !!(this.saveMessage || this.generationMessage || this.pdfDownloadMessage || this.shareMessage);
@@ -263,35 +364,76 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   get natalDoshaItems(): NatalGroupedItem[] {
     return this.getNatalOnlyItems(this.doshas);
   }
+
+  get doshaAttention(): DoshaAttentionReport {
+    return rankDoshaAttention(this.doshas, {
+      formatPeriod: (activation) => this.formatActivationPeriod(activation),
+      planet: (name) => this.translatePlanetName(name)
+    });
+  }
+
+  get doshaQuietNames(): string {
+    return this.doshaAttention.quiet.map((entry) => entry.name).join(', ');
+  }
+
+  get yogaAttention(): DoshaAttentionReport {
+    return rankYogaAttention(this.yogas, {
+      formatPeriod: (activation) => this.formatActivationPeriod(activation),
+      planet: (name) => this.translatePlanetName(name)
+    });
+  }
+
+  get yogaQuietNames(): string {
+    return this.yogaAttention.quiet.map((entry) => entry.name).join(', ');
+  }
   selectedHouseData: any;
   activeChartType: 'north' | 'south' | 'western' = 'north';
-  activeDivisionalChart: 'd1' | 'd9' = 'd1';
+  activeDivisionalChart = 'D9';
+  readonly divisionalChartOptions = [
+    { id: 'D1', label: 'D1 Rashi' },
+    { id: 'D2', label: 'D2 Hora' },
+    { id: 'D3', label: 'D3 Drekkana' },
+    { id: 'D4', label: 'D4 Chaturthamsa' },
+    { id: 'D7', label: 'D7 Saptamsa' },
+    { id: 'D9', label: 'D9 Navamsa' },
+    { id: 'D10', label: 'D10 Dashamsa' },
+    { id: 'D12', label: 'D12 Dwadashamsa' },
+    { id: 'D16', label: 'D16 Shodasamsa' },
+    { id: 'D20', label: 'D20 Vimsamsa' },
+    { id: 'D24', label: 'D24 Siddhamsa' },
+    { id: 'D27', label: 'D27 Bhamsa' },
+    { id: 'D30', label: 'D30 Trimsamsa' },
+    { id: 'D40', label: 'D40 Khavedamsa' },
+    { id: 'D45', label: 'D45 Akshavedamsa' },
+    { id: 'D60', label: 'D60 Shashtiamsa' }
+  ];
   d1Planets: any[] = [];
   d1Houses: any[] = [];
   d1Ascendant: string | undefined = '';
   d9Chart: any = null;
+  divisionalCharts: any[] = [];
   today: Date = new Date();
   exportingPdf = false;
-  readonly pdfModes: Array<{ mode: KundaliPdfMode; label: string; description: string }> = [
+  readonly pdfModes: Array<{ mode: KundaliPdfMode; labelKey: string; descriptionKey: string }> = [
     {
       mode: 'desktop',
-      label: 'Color Desktop',
-      description: 'Current colorful report'
+      labelKey: 'kundali.pdf.desktop',
+      descriptionKey: 'kundali.pdf.desktopHint'
     },
     {
       mode: 'mobile',
-      label: 'Mobile Friendly',
-      description: 'Larger single-column PDF'
+      labelKey: 'kundali.pdf.mobile',
+      descriptionKey: 'kundali.pdf.mobileHint'
     },
     {
       mode: 'print-bw',
-      label: 'Black & White Print',
-      description: 'High-contrast printer PDF'
+      labelKey: 'kundali.pdf.print',
+      descriptionKey: 'kundali.pdf.printHint'
     },
     {
       mode: 'corporate',
-      label: 'Corporate Advisory',
-      description: 'Professional advisory-style report'
+      labelKey: 'kundali.pdf.corporate',
+      descriptionKey: 'kundali.pdf.corporateHint'
     }
   ];
 
@@ -419,6 +561,19 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return this.brandingSettings?.isActive ? this.brandingSettings : null;
   }
 
+  get kundaliFeedbackContext(): string {
+    if (this.savedKundaliId) {
+      return this.savedKundaliId;
+    }
+
+    const value = this.kundaliForm.getRawValue();
+    const key = [value.fullName, value.birthDate, value.birthTime, value.birthPlace]
+      .map((item) => String(item || '').trim())
+      .filter(Boolean)
+      .join('|');
+    return (key || 'kundali').slice(0, 200);
+  }
+
   get showChartBranding(): boolean {
     return !!this.activeBranding?.showOnChartPage;
   }
@@ -492,6 +647,10 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     const value = this.kundaliForm.getRawValue();
     return {
       name: value.fullName ?? '',
+      surname: this.optionalText(value.surname),
+      fatherName: this.optionalText(value.fatherName),
+      motherName: this.optionalText(value.motherName),
+      gotra: this.optionalText(value.gotra),
       gender: value.gender ?? '',
       birthDateTime: `${value.birthDate ?? ''}T${value.birthTime ?? '00:00'}:00`,
       birthplace: value.birthPlace ?? '',
@@ -500,6 +659,26 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       longitude: this.toNumber(value.longitude),
       timeZoneOffset: 5.30
     };
+  }
+
+  get reportDisplayName(): string {
+    const name = this.formatPersonName(this.kundaliForm.value.fullName);
+    const surname = this.formatPersonName(this.kundaliForm.value.surname);
+    if (!name && !surname) {
+      return '-';
+    }
+    if (!surname || name.toLowerCase().endsWith(surname.toLowerCase())) {
+      return name || surname;
+    }
+    return `${name} ${surname}`.trim();
+  }
+
+  get reportFamilyDetails(): Array<{ label: string; value: string }> {
+    return [
+      { label: this.translocoService.translate('kundali.fatherName'), value: this.formatPersonName(this.kundaliForm.value.fatherName) },
+      { label: this.translocoService.translate('kundali.motherName'), value: this.formatPersonName(this.kundaliForm.value.motherName) },
+      { label: this.translocoService.translate('kundali.gotra'), value: this.firstText(this.kundaliForm.value.gotra) }
+    ].filter(detail => !!detail.value);
   }
 
   get currentLifeFocusSavePayload(): any | null {
@@ -519,28 +698,37 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return '';
   }
 
+  private optionalText(value: unknown): string | undefined {
+    const text = String(value ?? '').trim();
+    return text || undefined;
+  }
+
   private toNumber(value: unknown): number {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
   }
 
+  private currentBirthKey(): string {
+    const value = this.kundaliForm.getRawValue();
+    return [
+      String(value.birthDate ?? '').slice(0, 10),
+      String(value.birthTime ?? '').slice(0, 5),
+      this.roundCoordinate(value.latitude),
+      this.roundCoordinate(value.longitude)
+    ].join('|');
+  }
+
+  private roundCoordinate(value: unknown): string {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed.toFixed(4) : '';
+  }
+
+  private rememberOpenBirthKey(): void {
+    this.openBirthKey = this.currentBirthKey();
+  }
+
   get isPremiumUser(): boolean {
-    const user = this.authService.getCurrentUser();
-    if (!user) {
-      return false;
-    }
-
-    if (user.isPremium === true) {
-      return true;
-    }
-
-    const planCode = this.firstText(user.planCode).toLowerCase();
-    if (planCode !== 'premium') {
-      return false;
-    }
-
-    const expiresAt = this.firstText(user.planExpiresAt);
-    return !expiresAt || new Date(expiresAt).getTime() > Date.now();
+    return isPaidUser(this.authService.getCurrentUser());
   }
 
   get premiumPredictionOutlook(): PredictionOutlookCard[] {
@@ -642,7 +830,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   onUnlockPremium(): void {
-    this.notifications.info(this.translocoService.translate('kundali.predictions.unlockSoon'));
+    this.subscriptionModal.open();
   }
 
   get premiumPredictionAreaCards(): PredictionAreaDetailCard[] {
@@ -679,9 +867,14 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
           headline: '',
           meaning: '',
           now: '',
+          scope: '',
+          scopeKind: 'chart',
           helps: [],
           watch: [],
-          chartNote: ''
+          chartNote: '',
+          fitTitle: '',
+          direction: '',
+          fields: []
         }
       };
       card.briefing = this.buildPredictionBriefing(card);
@@ -929,12 +1122,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     const ad = area.dashaClaims.find(claim =>
       this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'antardasha'
     );
-    const pd = area.dashaClaims.find(claim =>
-      this.firstText(this.readProp(claim, 'dashaLevel')).toLowerCase() === 'pratyantardasha'
-    );
     const mdPlanet = this.translatePlanetName(this.readProp(md, 'dashaPlanet'));
     const adPlanet = this.translatePlanetName(this.readProp(ad, 'dashaPlanet'));
-    const pdPlanet = this.translatePlanetName(this.readProp(pd, 'dashaPlanet'));
     const period = area.effectivePeriod
       || this.getPredictionClaimPeriod(ad)
       || this.getPredictionClaimPeriod(md);
@@ -968,28 +1157,20 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       )}`;
     }
 
-    let now = '';
-    if (mdPlanet && adPlanet) {
-      now = this.storyText(
-        'kundali.predictions.plain.nowNamed',
-        {
-          name,
-          area: areaLabel,
-          md: mdPlanet,
-          ad: adPlanet,
-          pd: pdPlanet,
-          periodSuffix
-        },
-        `${name ? `${name}, ` : ''}the longer chapter is ${mdPlanet}, and the current chapter is ${adPlanet}${periodSuffix}. That timing is what this ${areaLabel.toLowerCase()} reading is about.`
-      );
-    } else if (mdPlanet || adPlanet) {
-      const running = mdPlanet || adPlanet;
-      now = this.storyText(
-        'kundali.predictions.plain.now',
-        { name, area: areaLabel, running, periodSuffix },
-        `The current chapter is ${running}${periodSuffix}. Read this ${areaLabel.toLowerCase()} outlook against that period.`
-      );
-    }
+    const windowPlanet = adPlanet || mdPlanet;
+    const scopeKind: 'window' | 'chart' = windowPlanet && period ? 'window' : 'chart';
+    const scope = scopeKind === 'window'
+      ? this.storyText(
+          'kundali.predictions.reading.window',
+          { who: name ? `${name}, ` : '', area: areaLabel, planet: windowPlanet, period },
+          `${name ? `${name}, this` : 'This'} ${areaLabel.toLowerCase()} outlook is for ${windowPlanet} (${period}). Notes marked from the birth chart stay true beyond these dates.`
+        )
+      : this.storyText(
+          'kundali.predictions.reading.general',
+          { who: name ? `${name}, ` : '', area: areaLabel },
+          `${name ? `${name}, this` : 'This'} ${areaLabel.toLowerCase()} reading is general, from the birth chart.`
+        );
+    const now = '';
 
     const helps = this.collectPredictionPlainPoints(area.supportClaims, 'help', areaLabel, meaning)
       .slice(0, tone === 'mixed' ? 2 : 1);
@@ -1015,6 +1196,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       );
     }
 
+    const areaFit = this.buildAreaFit(area);
+
     return {
       about: this.storyText(
         `kundali.predictions.plain.about.${areaKey}`,
@@ -1024,10 +1207,388 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       headline,
       meaning,
       now,
+      scope,
+      scopeKind,
       helps,
       watch,
-      chartNote
+      chartNote,
+      fitTitle: areaFit.fitTitle,
+      direction: areaFit.direction,
+      fields: areaFit.fields
     };
+  }
+
+  private buildAreaFit(area: PredictionAreaDetailCard): { fitTitle: string; direction: string; fields: string[] } {
+    const lifeArea = this.firstText(area.lifeArea).toLowerCase();
+    if (lifeArea === 'career') {
+      return { fitTitle: this.fitTitle('career'), ...this.buildCareerFit(area) };
+    }
+
+    if (lifeArea === 'education') {
+      return { fitTitle: this.fitTitle('education'), ...this.buildEducationFit(area) };
+    }
+
+    return { fitTitle: '', direction: '', fields: [] };
+  }
+
+  private fitTitle(lifeArea: 'career' | 'education'): string {
+    return lifeArea === 'education'
+      ? this.storyText('kundali.predictions.educationFit.title', {}, 'Suitable study')
+      : this.storyText('kundali.predictions.careerFit.title', {}, 'Suitable work');
+  }
+
+  private buildEducationFit(area: PredictionAreaDetailCard): { direction: string; fields: string[] } {
+    const fromClaims = this.educationFitFromClaims(area);
+    if (fromClaims.direction || fromClaims.fields.length) {
+      return fromClaims;
+    }
+
+    return this.educationFitFromChart();
+  }
+
+  private educationFitFromClaims(area: PredictionAreaDetailCard): { direction: string; fields: string[] } {
+    const claims: any[] = Array.isArray(area.prediction?.claims) ? area.prediction.claims : [];
+    const pathKey = this.firstText(this.readProp(
+      claims.find((claim: any) => this.firstText(this.readProp(claim, 'key')).startsWith('education_path_')),
+      'key'
+    ));
+    const fields = [...new Set(claims
+      .map((claim: any) => this.firstText(this.readProp(claim, 'key')))
+      .filter((key: string) => key.startsWith('education_field_'))
+      .map((key: string) => this.educationFieldLabel(key.slice('education_field_'.length).toLowerCase()))
+      .filter((label: string) => !!label))];
+
+    return { direction: this.educationDirectionLabel(pathKey), fields };
+  }
+
+  private educationFitFromChart(): { direction: string; fields: string[] } {
+    const planets: any[] = this.planets?.length ? this.planets : (this.kundaliResponse?.planets ?? []);
+    const houses: any[] = this.houseScores?.length ? this.houseScores : (this.kundaliResponse?.houses ?? []);
+    const planetByName = new Map<string, any>();
+    planets.forEach((planet: any) => {
+      const name = this.firstText(this.readProp(planet, 'planet')).toLowerCase();
+      if (name && !planetByName.has(name)) {
+        planetByName.set(name, planet);
+      }
+    });
+    const houseByNumber = new Map<number, any>();
+    houses.forEach((house: any) => {
+      const number = Number(this.readProp(house, 'houseNumber'));
+      if (Number.isFinite(number)) {
+        houseByNumber.set(number, house);
+      }
+    });
+
+    if ((!houseByNumber.has(4) && !houseByNumber.has(5)) || planetByName.size === 0) {
+      return { direction: '', fields: [] };
+    }
+
+    const houseOf = (planet: any) => Number(this.readProp(planet, 'house'));
+    const nameOf = (planet: any) => this.firstText(this.readProp(planet, 'planet')).toLowerCase();
+    const lordOf = (houseNumber: number) => {
+      const house = houseByNumber.get(houseNumber);
+      const name = this.firstText(this.readProp(house, 'houseOwner') || this.readProp(house, 'houseSwamy')).toLowerCase();
+      return planetByName.get(name);
+    };
+
+    let higher = 0;
+    let skill = 0;
+    const addLord = (sourceHouse: number, pointsFor: (house: number) => number, side: 'higher' | 'skill') => {
+      const lord = lordOf(sourceHouse);
+      if (!lord) {
+        return;
+      }
+      const points = pointsFor(houseOf(lord));
+      if (points <= 0) {
+        return;
+      }
+      if (side === 'higher') {
+        higher += points;
+      } else {
+        skill += points;
+      }
+    };
+
+    addLord(5, house => house === 9 ? 3 : (house === 4 || house === 5 ? 2 : 0), 'higher');
+    addLord(9, house => house === 4 || house === 5 ? 3 : (house === 9 ? 2 : 0), 'higher');
+    addLord(4, house => house === 3 || house === 6 || house === 10 ? 3 : (house === 4 ? 2 : 0), 'skill');
+    addLord(3, house => house === 4 || house === 5 ? 2 : 0, 'skill');
+
+    planetByName.forEach(planet => {
+      const house = houseOf(planet);
+      const name = nameOf(planet);
+      if (name === 'jupiter' && (house === 4 || house === 5 || house === 9)) {
+        higher += 2;
+      }
+      if (name === 'mercury' && (house === 3 || house === 4 || house === 5 || house === 6 || house === 10)) {
+        skill += 2;
+      }
+      if (name === 'mars' && (house === 3 || house === 4 || house === 5)) {
+        skill += 1;
+      }
+    });
+
+    const pathKey = Math.max(higher, skill) < 2
+      ? ''
+      : higher >= skill + 2
+        ? 'education_path_higher'
+        : skill >= higher + 2
+          ? 'education_path_skill'
+          : 'education_path_both';
+
+    const weights = new Map<string, number>();
+    const consider = (planet: any, weight: number) => {
+      const name = nameOf(planet);
+      if (!name || weight <= (weights.get(name) ?? 0)) {
+        return;
+      }
+      weights.set(name, weight);
+    };
+    planetByName.forEach(planet => {
+      if ([4, 5, 9].includes(houseOf(planet))) {
+        consider(planet, 50);
+      }
+    });
+    [4, 5, 9].forEach(houseNumber => {
+      const lord = lordOf(houseNumber);
+      if (lord) {
+        consider(lord, 40);
+      }
+    });
+
+    const fields = [...weights.entries()]
+      .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+      .slice(0, 3)
+      .map(([planet]) => this.educationFieldLabel(planet))
+      .filter((label: string) => !!label);
+
+    return { direction: this.educationDirectionLabel(pathKey), fields };
+  }
+
+  private educationDirectionLabel(pathKey: string): string {
+    const directionFallbacks: Record<string, string> = {
+      education_path_higher: 'The chart leans toward higher study, research, or teaching more than a short skill course.',
+      education_path_skill: 'The chart leans toward practical skill and applied training more than a long academic path.',
+      education_path_both: 'The chart can support both formal study and practical skill. The stronger path depends on which learning houses are active.'
+    };
+    return directionFallbacks[pathKey]
+      ? this.storyText(`kundali.predictions.educationFit.${pathKey}`, {}, directionFallbacks[pathKey])
+      : '';
+  }
+
+  private educationFieldLabel(planet: string): string {
+    const fieldFallbacks: Record<string, string> = {
+      sun: 'Administration, political study, and leadership',
+      moon: 'Psychology, care, literature, and public learning',
+      mars: 'Engineering, technical training, surgery, and sports',
+      mercury: 'Languages, accounts, writing, commerce, and technology',
+      jupiter: 'Law, teaching, philosophy, and higher knowledge',
+      venus: 'Arts, design, music, and media',
+      saturn: 'Structure, history, discipline, and long study',
+      rahu: 'Research, foreign study, and unconventional subjects',
+      ketu: 'Specialized research, mathematics, healing, and analysis'
+    };
+    const fallback = fieldFallbacks[planet];
+    return fallback
+      ? this.storyText(`kundali.predictions.educationFit.field.${planet}`, {}, fallback)
+      : '';
+  }
+
+  private buildCareerFit(area: PredictionAreaDetailCard): { direction: string; fields: string[] } {
+    if (this.firstText(area.lifeArea).toLowerCase() !== 'career') {
+      return { direction: '', fields: [] };
+    }
+
+    const fromClaims = this.careerFitFromClaims(area);
+    if (fromClaims.direction || fromClaims.fields.length) {
+      return fromClaims;
+    }
+
+    return this.careerFitFromChart();
+  }
+
+  private careerFitFromClaims(area: PredictionAreaDetailCard): { direction: string; fields: string[] } {
+    const claims: any[] = Array.isArray(area.prediction?.claims) ? area.prediction.claims : [];
+    const pathKey = this.firstText(this.readProp(
+      claims.find((claim: any) => this.firstText(this.readProp(claim, 'key')).startsWith('career_path_')),
+      'key'
+    ));
+    const fields = [...new Set(claims
+      .map((claim: any) => this.firstText(this.readProp(claim, 'key')))
+      .filter((key: string) => key.startsWith('career_field_'))
+      .map((key: string) => key.slice('career_field_'.length).toLowerCase())
+      .map((planet: string) => this.careerFieldLabel(planet))
+      .filter((label: string) => !!label))];
+
+    return {
+      direction: this.careerDirectionLabel(pathKey),
+      fields
+    };
+  }
+
+  private careerFitFromChart(): { direction: string; fields: string[] } {
+    const planets: any[] = this.planets?.length ? this.planets : (this.kundaliResponse?.planets ?? []);
+    const houses: any[] = this.houseScores?.length ? this.houseScores : (this.kundaliResponse?.houses ?? []);
+    const planetByName = new Map<string, any>();
+    planets.forEach((planet: any) => {
+      const name = this.firstText(this.readProp(planet, 'planet')).toLowerCase();
+      if (name && !planetByName.has(name)) {
+        planetByName.set(name, planet);
+      }
+    });
+    const houseByNumber = new Map<number, any>();
+    houses.forEach((house: any) => {
+      const number = Number(this.readProp(house, 'houseNumber'));
+      if (Number.isFinite(number)) {
+        houseByNumber.set(number, house);
+      }
+    });
+
+    if (!houseByNumber.has(10) || planetByName.size === 0) {
+      return { direction: '', fields: [] };
+    }
+
+    const houseOf = (planet: any) => Number(this.readProp(planet, 'house'));
+    const nameOf = (planet: any) => this.firstText(this.readProp(planet, 'planet')).toLowerCase();
+    const lordOf = (houseNumber: number) => {
+      const house = houseByNumber.get(houseNumber);
+      const name = this.firstText(this.readProp(house, 'houseOwner') || this.readProp(house, 'houseSwamy')).toLowerCase();
+      return planetByName.get(name);
+    };
+    const service = new Set(['sun', 'saturn', 'mars']);
+    const trade = new Set(['mercury', 'venus', 'jupiter']);
+    let job = 0;
+    let business = 0;
+
+    const tenthLord = lordOf(10);
+    if (tenthLord) {
+      const house = houseOf(tenthLord);
+      if (house === 6) {
+        job += 3;
+      } else if (house === 7) {
+        business += 3;
+      } else if (house === 3) {
+        business += 2;
+      } else if (house === 10 || house === 11) {
+        job += 1;
+        business += 1;
+      }
+      if (service.has(nameOf(tenthLord))) {
+        job += 1;
+      }
+      if (trade.has(nameOf(tenthLord))) {
+        business += 1;
+      }
+    }
+
+    const addLord = (sourceHouse: number, pointsFor: (house: number) => number, side: 'job' | 'business') => {
+      const lord = lordOf(sourceHouse);
+      if (!lord) {
+        return;
+      }
+      const points = pointsFor(houseOf(lord));
+      if (points <= 0) {
+        return;
+      }
+      if (side === 'job') {
+        job += points;
+      } else {
+        business += points;
+      }
+    };
+
+    addLord(6, house => house === 10 ? 3 : (house === 1 || house === 6 ? 2 : 0), 'job');
+    addLord(7, house => house === 10 ? 3 : (house === 2 || house === 7 || house === 11 ? 2 : 0), 'business');
+    addLord(3, house => house === 7 || house === 10 ? 2 : 0, 'business');
+
+    planetByName.forEach(planet => {
+      const house = houseOf(planet);
+      const name = nameOf(planet);
+      if (house === 10 && service.has(name)) {
+        job += 2;
+      }
+      if (house === 10 && trade.has(name)) {
+        business += 2;
+      }
+      if (house === 6 && service.has(name)) {
+        job += 1;
+      }
+      if (house === 7 && trade.has(name)) {
+        business += 2;
+      }
+      if ((house === 7 || house === 10) && name === 'rahu') {
+        business += 1;
+      }
+    });
+
+    const pathKey = Math.max(job, business) < 2
+      ? ''
+      : business >= job + 2
+        ? 'career_path_business'
+        : job >= business + 2
+          ? 'career_path_job'
+          : 'career_path_both';
+
+    const weights = new Map<string, number>();
+    const consider = (planet: any, weight: number) => {
+      const name = nameOf(planet);
+      if (!name || weight <= (weights.get(name) ?? 0)) {
+        return;
+      }
+      weights.set(name, weight);
+    };
+    planetByName.forEach(planet => {
+      if (houseOf(planet) === 10) {
+        consider(planet, 50);
+      }
+    });
+    if (tenthLord) {
+      consider(tenthLord, 40);
+    }
+    planetByName.forEach(planet => {
+      const house = houseOf(planet);
+      const name = nameOf(planet);
+      if ((house === 6 || house === 7) && (service.has(name) || trade.has(name) || name === 'moon' || name === 'rahu' || name === 'ketu')) {
+        consider(planet, 20);
+      }
+    });
+
+    const fields = [...weights.entries()]
+      .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+      .slice(0, 3)
+      .map(([planet]) => this.careerFieldLabel(planet))
+      .filter((label: string) => !!label);
+
+    return { direction: this.careerDirectionLabel(pathKey), fields };
+  }
+
+  private careerDirectionLabel(pathKey: string): string {
+    const directionFallbacks: Record<string, string> = {
+      career_path_job: 'The chart leans toward a job or service role more than independent business.',
+      career_path_business: 'The chart leans toward business, trade, or self-led work more than a salaried job.',
+      career_path_both: 'The chart can support both a job and a business. The stronger path depends on which career houses are active.'
+    };
+    return directionFallbacks[pathKey]
+      ? this.storyText(`kundali.predictions.careerFit.${pathKey}`, {}, directionFallbacks[pathKey])
+      : '';
+  }
+
+  private careerFieldLabel(planet: string): string {
+    const fieldFallbacks: Record<string, string> = {
+      sun: 'Administration, government, and leadership',
+      moon: 'Public-facing work, care, hospitality, and liquids',
+      mars: 'Engineering, defense, surgery, property, and sports',
+      mercury: 'Communication, accounts, commerce, writing, and technology',
+      jupiter: 'Teaching, law, advisory work, and guidance',
+      venus: 'Arts, design, luxury, media, and hospitality',
+      saturn: 'Structure, manufacturing, labor, and long service',
+      rahu: 'Research, technology, foreign work, and unconventional fields',
+      ketu: 'Specialized research, analysis, healing, and craft'
+    };
+    const fallback = fieldFallbacks[planet];
+    return fallback
+      ? this.storyText(`kundali.predictions.careerFit.field.${planet}`, {}, fallback)
+      : '';
   }
 
   getPredictionTimeHint(claim: any): string {
@@ -1596,11 +2157,16 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return Array.isArray(value) ? value.slice(0, count) : [];
   }
 
-  onCurrentLifeFocusSaved(kundaliId: string): void {
-    this.savedKundaliId = kundaliId;
-    this.saveDraftNotesForSavedKundali(kundaliId);
+  onCurrentLifeFocusSaved(event: { id: string; reusedExisting: boolean }): void {
+    this.savedKundaliId = event.id;
+    this.rememberOpenBirthKey();
+    this.saveDraftNotesForSavedKundali(event.id);
     this.saveFailed = false;
-    this.notifications.success('Kundali saved for Current Life Focus.');
+    if (event.reusedExisting) {
+      this.notifications.info(this.translocoService.translate('currentLifeFocus.usingSavedKundali'));
+    } else {
+      this.notifications.success(this.translocoService.translate('kundali.saved'));
+    }
     window.dispatchEvent(new CustomEvent('kundali-saved'));
     this.cdr.detectChanges();
   }
@@ -1620,25 +2186,56 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     event.preventDefault();
     event.returnValue = '';
   }
-  saveCurrentKundali(): void {
+  get updatesOpenKundali(): boolean {
+    return !!this.savedKundaliId && this.openBirthKey === this.currentBirthKey();
+  }
+
+  get saveActionLabelKey(): string {
+    if (this.savingKundali) {
+      return 'reportAction.saving';
+    }
+
+    return this.updatesOpenKundali || !this.savedKundaliId
+      ? 'reportAction.save'
+      : 'reportAction.saveAgain';
+  }
+
+  saveCurrentKundali(onDuplicate?: 'ask' | 'update' | 'create'): void {
     if (!this.kundaliResponse || this.savingKundali) { return; }
+    const mode = onDuplicate ?? (this.updatesOpenKundali ? 'update' : 'ask');
     this.savingKundali = true;
     this.saveMessage = '';
     this.saveFailed = false;
-    const payload = { ...this.buildKundaliPayload(), chartData: this.kundaliResponse };
+    const payload = { ...this.buildKundaliPayload(), chartData: this.kundaliResponse, onDuplicate: mode };
     this.kundaliService.saveKundali(payload).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? saved?.kundaliId ?? this.savedKundaliId;
+        this.rememberOpenBirthKey();
+        this.duplicateSavePrompt = null;
         if (this.savedKundaliId) {
           this.saveDraftNotesForSavedKundali(this.savedKundaliId);
         }
         this.saveFailed = false;
-        this.notifications.success('Kundali saved.');
+        this.notifications.success(this.translocoService.translate(mode === 'update' ? 'kundali.duplicate.updated' : 'kundali.saved'));
         this.savingKundali = false;
         window.dispatchEvent(new CustomEvent('kundali-saved'));
         this.cdr.detectChanges();
       },
       error: (error) => {
+        if (error?.error?.code === 'KundaliAlreadySaved') {
+          this.duplicateSavePrompt = {
+            existingId: String(error.error.existingId ?? ''),
+            fullName: String(error.error.fullName ?? ''),
+            dateOfBirth: String(error.error.dateOfBirth ?? ''),
+            timeOfBirth: String(error.error.timeOfBirth ?? ''),
+            birthPlace: String(error.error.birthPlace ?? '')
+          };
+          this.saveFailed = false;
+          this.savingKundali = false;
+          this.cdr.detectChanges();
+          return;
+        }
+
         const message = this.getSaveErrorMessage(error);
         this.saveFailed = true;
         this.notifications.error(message);
@@ -1648,7 +2245,34 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     });
   }
 
+  confirmDuplicateSave(mode: 'update' | 'create'): void {
+    this.saveCurrentKundali(mode);
+  }
+
+  openSavedDuplicate(): void {
+    const existingId = this.duplicateSavePrompt?.existingId;
+    if (!existingId) {
+      return;
+    }
+
+    this.duplicateSavePrompt = null;
+    this.router.navigate(['/app/kundali/saved', existingId]);
+  }
+
+  dismissDuplicateSave(): void {
+    if (this.savingKundali) {
+      return;
+    }
+
+    this.duplicateSavePrompt = null;
+  }
+
   openNotes(): void {
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
+
     this.isNotesOpen = true;
   }
 
@@ -1663,6 +2287,10 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.portalNotes.saveForContext(kundaliId);
   }
   private getSaveErrorMessage(error: any): string {
+    if (error?.error?.code === 'KundaliAlreadySaved') {
+      return '';
+    }
+
     if (typeof error?.error === 'string' && error.error.trim()) {
       return error.error;
     }
@@ -1735,44 +2363,124 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       .querySelectorAll<HTMLDetailsElement>('.report-actions details[open]')
       .forEach(picker => picker.removeAttribute('open'));
   }
-  onReportPickerToggle(event: Event, ...otherPickers: HTMLDetailsElement[]): void {
+  onReportPickerToggle(event: Event): void {
     const currentPicker = event.currentTarget as HTMLDetailsElement | null;
     if (!currentPicker?.open) {
       return;
     }
 
-    otherPickers.forEach(picker => picker.removeAttribute('open'));
+    document
+      .querySelectorAll<HTMLDetailsElement>('.report-actions details[open]')
+      .forEach(picker => {
+        if (picker !== currentPicker) {
+          picker.removeAttribute('open');
+        }
+      });
   }
-  shareReportOnWhatsApp(): void {
+  async shareReportOnWhatsApp(): Promise<void> {
     this.shareWhatsAppTouched = true;
     this.shareWhatsAppMessage = '';
 
-    if (!this.isShareWhatsAppValid) {
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
+
+    if (!this.isShareWhatsAppValid || this.shareSending) {
       return;
     }
 
     if (!this.kundaliResponse) {
-      this.shareWhatsAppMessage = 'Generate a report before sharing.';
+      this.shareWhatsAppMessage = this.translocoService.translate('reportAction.generateBeforeShare');
       return;
     }
 
-    const reportName = this.kundaliForm.value.fullName || 'Kundali';
-    const birthDate = this.kundaliForm.value.birthDate || '';
-    const message = [
-      `Kundali report is ready for ${reportName}.`,
-      birthDate ? `Birth date: ${birthDate}` : '',
-      this.savedKundaliId ? `Saved report ID: ${this.savedKundaliId}` : '',
-      'PDF attachment is available from HoraLife report email/download.'
-    ].filter(Boolean).join('\n\n');
-    const url = `https://wa.me/${this.normalizedShareWhatsAppNumber}?text=${encodeURIComponent(message)}`;
+    const summary = this.buildWhatsAppSummary();
+    const fileName = this.getPdfFilename(this.selectedEmailPdfMode);
+    this.shareSending = true;
+    this.exportingPdf = true;
+
+    let pdfBlob: Blob;
+    try {
+      pdfBlob = await firstValueFrom(this.kundaliService.generateReportPdf(this.buildReportPdfPayload(this.selectedEmailPdfMode)));
+    } catch (error) {
+      console.error('WhatsApp report PDF error:', error);
+      const message = await this.resolveReportDownloadError(error);
+      this.shareWhatsAppMessage = message && message !== '\u2014'
+        ? message
+        : this.translocoService.translate('reportAction.pdfTimeout');
+      return;
+    } finally {
+      this.shareSending = false;
+      setTimeout(() => {
+        this.exportingPdf = false;
+        this.cdr.detectChanges();
+      }, 150);
+    }
+
+    await this.deliverWhatsAppPdf(pdfBlob, fileName, summary);
+  }
+
+  private async deliverWhatsAppPdf(pdfBlob: Blob, fileName: string, summary: string): Promise<void> {
+    const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+    const shareData: ShareData = { files: [file], text: summary, title: fileName };
+    let canShareFile = false;
+
+    try {
+      canShareFile = typeof navigator.share === 'function' && !!navigator.canShare?.(shareData);
+    } catch {
+      canShareFile = false;
+    }
+
+    if (canShareFile) {
+      try {
+        await navigator.share(shareData);
+        this.shareWhatsAppMessage = this.translocoService.translate('reportAction.shareSheetOpened');
+        this.reportFeedbackReady = true;
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
+      }
+    }
+
+    this.saveBlob(pdfBlob, fileName);
+    const fallback = `${summary}\n\nThe PDF was downloaded. Attach that file in this chat.`;
+    const url = `https://wa.me/${this.normalizedShareWhatsAppNumber}?text=${encodeURIComponent(fallback)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
-    this.shareWhatsAppMessage = 'Opening WhatsApp.';
+    this.shareWhatsAppMessage = this.translocoService.translate('reportAction.pdfDownloadedWhatsapp');
+    this.reportFeedbackReady = true;
+  }
+
+  private buildWhatsAppSummary(): string {
+    const reportName = this.reportDisplayName !== '-' ? this.reportDisplayName : 'Kundali';
+    const summary = this.kundaliResponse?.summary ?? {};
+    const moon = summary.moonSign || summary.MoonSign || '';
+    const lagna = summary.ascendant || summary.Ascendant || '';
+    const dasha = [summary.currentMahadasha || summary.CurrentMahadasha, summary.currentAntardasha || summary.CurrentAntardasha]
+      .filter(Boolean)
+      .join(' / ');
+    const birthDate = this.kundaliForm.value.birthDate || '';
+
+    return [
+      `Kundali of ${reportName}.`,
+      birthDate ? `Birth date: ${birthDate}` : '',
+      lagna ? `Lagna: ${lagna}` : '',
+      moon ? `Moon: ${moon}` : '',
+      dasha ? `Current period: ${dasha}` : ''
+    ].filter(Boolean).join('\n');
   }
 
   async sendReportByEmail(): Promise<void> {
     this.shareEmailTouched = true;
     this.shareMessage = '';
     this.shareFailed = false;
+
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
 
     if (!this.isShareEmailValid || this.shareSending) {
       return;
@@ -1788,12 +2496,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.exportingPdf = true;
 
     try {
-      const reportName = this.kundaliForm.value.fullName || 'Kundali';
+      const reportName = this.reportDisplayName !== '-' ? this.reportDisplayName : 'Kundali';
       const birthDate = this.kundaliForm.value.birthDate || '';
       const birthTime = this.kundaliForm.value.birthTime || '';
       const birthPlace = this.kundaliForm.value.birthPlace || '';
       const isCorporateReport = this.selectedEmailPdfMode === 'corporate';
-      const reportFormatLabel = this.pdfModes.find(pdfMode => pdfMode.mode === this.selectedEmailPdfMode)?.label || 'Kundali';
+      const reportFormatLabel = this.translocoService.translate(this.pdfModes.find(pdfMode => pdfMode.mode === this.selectedEmailPdfMode)?.labelKey || 'kundali.pageTitle');
       const birthDetails = [birthDate, birthTime, birthPlace].filter(Boolean).join(' | ');
       const subject = isCorporateReport
         ? `Personal Vedic Astrology Advisory Report for ${reportName}`
@@ -1814,6 +2522,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       }));
 
       this.shareFailed = false;
+      this.reportFeedbackReady = true;
       this.notifications.success('Report email submitted for delivery.');
     } catch (error) {
       console.error('Report share email error:', error);
@@ -1937,7 +2646,23 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   toggleChartPin(): void { this.isChartPinned = !this.isChartPinned; }
 
+  toggleChartDashaExpanded(): void {
+    this.chartDashaExpanded = !this.chartDashaExpanded;
+    if (this.chartDashaExpanded) {
+      this.dashaSideboxOpen = false;
+    }
+  }
+
+  toggleDashaSidebox(): void {
+    if (this.chartDashaExpanded) {
+      return;
+    }
+
+    this.dashaSideboxOpen = !this.dashaSideboxOpen;
+  }
+
   toggleLagnaDegrees(): void { this.showLagnaDegrees = !this.showLagnaDegrees; }
+  toggleDivisionalDegrees(): void { this.showDivisionalDegrees = !this.showDivisionalDegrees; }
 
   toggleGocharDegrees(): void { this.showGocharDegrees = !this.showGocharDegrees; }
 
@@ -1978,6 +2703,10 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
   kundaliForm = this.fb.group({
     fullName: ['', Validators.required],
+    surname: [''],
+    fatherName: [''],
+    motherName: [''],
+    gotra: [''],
     gender: ['', Validators.required],
     birthDate: ['', Validators.required],
     birthTime: ['', Validators.required],
@@ -2200,44 +2929,44 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return [];
   }
 
-  get activeChartPlanets(): any[] {
-    return this.activeDivisionalChart === 'd9'
-      ? this.d9Chart?.planets ?? []
-      : this.d1Planets;
-  }
-
-  get activeChartHouses(): any[] {
-    return this.activeDivisionalChart === 'd9'
-      ? this.d9Chart?.houses ?? []
-      : this.d1Houses;
-  }
-
-  get activeChartAscendant(): string {
-    return this.activeDivisionalChart === 'd9'
-      ? this.d9Chart?.ascendant ?? ''
-      : this.d1Ascendant ?? '';
-  }
-
-  get chartTitle(): string {
-    return this.activeDivisionalChart === 'd9'
-      ? 'Navamsa Kundali (D9)'
-      : 'Lagna Kundali';
-  }
-
   get primaryChartPlanets(): any[] {
-    return this.exportingPdf ? this.d1Planets : this.activeChartPlanets;
+    return this.d1Planets;
   }
 
   get primaryChartHouses(): any[] {
-    return this.exportingPdf ? this.d1Houses : this.activeChartHouses;
+    return this.d1Houses;
   }
 
   get primaryChartAscendant(): string {
-    return this.exportingPdf ? this.d1Ascendant ?? '' : this.activeChartAscendant;
+    return this.d1Ascendant ?? '';
   }
 
   get primaryChartTitle(): string {
-    return this.exportingPdf ? 'Lagna Kundali' : this.chartTitle;
+    return 'D1 Rashi';
+  }
+
+  get showSelectedDivisionalChart(): boolean {
+    return !this.exportingPdf;
+  }
+
+  get divisionalChartChoices(): Array<{ id: string; label: string }> {
+    return this.divisionalChartOptions.filter(option => option.id !== 'D1');
+  }
+
+  get divisionalChartTitle(): string {
+    return this.divisionalChartOptions.find(option => option.id === this.activeDivisionalChart)?.label ?? '';
+  }
+
+  get divisionalChartPlanets(): any[] {
+    return this.selectedDivisionalPlanets;
+  }
+
+  get divisionalChartHouses(): any[] {
+    return this.selectedDivisionalHouses;
+  }
+
+  get divisionalChartAscendant(): string {
+    return this.selectedDivisionalAscendant;
   }
 
   get gocharInsight(): any {
@@ -2280,8 +3009,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     return current ? [current] : [];
   }
 
-  setActiveDivisionalChart(chart: 'd1' | 'd9'): void {
-    if (chart === 'd9' && !this.d9Chart) {
+  get dashaPlanetScores(): Record<string, number> {
+    return buildDashaPlanetScores(this.advancedStrengthTables, this.planets);
+  }
+
+  setActiveDivisionalChart(chart: string): void {
+    if (chart !== 'D1' && !this.findDivisionalChart(chart)) {
       return;
     }
 
@@ -2289,11 +3022,47 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.setDefaultHouseSelection();
   }
 
+  hasDivisionalChart(chart: string): boolean {
+    return chart === 'D1' || !!this.findDivisionalChart(chart);
+  }
+
+  private get selectedDivisionalPlanets(): any[] {
+    return this.findDivisionalChart(this.activeDivisionalChart)?.planets
+      ?? this.findDivisionalChart(this.activeDivisionalChart)?.Planets
+      ?? [];
+  }
+
+  private get selectedDivisionalHouses(): any[] {
+    return this.findDivisionalChart(this.activeDivisionalChart)?.houses
+      ?? this.findDivisionalChart(this.activeDivisionalChart)?.Houses
+      ?? [];
+  }
+
+  private get selectedDivisionalAscendant(): string {
+    const chart = this.findDivisionalChart(this.activeDivisionalChart);
+    return chart?.ascendant ?? chart?.Ascendant ?? '';
+  }
+
+  private findDivisionalChart(chartType: string): any | null {
+    const match = this.divisionalCharts.find(chart =>
+      String(chart?.chartType ?? chart?.ChartType ?? '').toUpperCase() === chartType.toUpperCase());
+    if (match) {
+      return match;
+    }
+
+    return chartType.toUpperCase() === 'D9' ? this.d9Chart : null;
+  }
+
+  private readDivisionalCharts(response: any): any[] {
+    const charts = response?.divisionalCharts ?? response?.DivisionalCharts;
+    return Array.isArray(charts) ? charts : [];
+  }
+
   generateKundali(): void {
     this.showChart = false;
     this.dhruvaKundaliContext.clearContext();
     this.selectedHouseData = null;
-    this.activeDivisionalChart = 'd1';
+    this.activeDivisionalChart = 'D9';
     this.currentLifeFocusResetKey++;
     this.generationMessage = '';
     this.generationFailed = false;
@@ -2304,6 +3073,11 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       return;
     }
 
+    this.clearKundaliLoaderTimer();
+    this.loaderZooming = false;
+    this.loaderScoreReady = false;
+    this.loaderLeaving = false;
+    this.kundaliLoaderStartedAt = Date.now();
     this.loading = true;
     const payload = this.buildKundaliPayload();
     this.kundaliService.generateKundali(payload)
@@ -2311,7 +3085,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
         next: (response) => {
           console.log('Generated:', response);
           this.kundaliResponse = response;
-          this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(response), response);
+          this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({
+            ...response,
+            fullName: this.kundaliForm.value.fullName,
+            dateOfBirth: this.kundaliForm.value.birthDate,
+            birthPlace: this.kundaliForm.value.birthPlace,
+          }), response);
           console.log(response);
 console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.planets = response.planets;
@@ -2320,6 +3099,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.summary = response.summary;
           this.d1Ascendant = response.summary?.ascendant;
           this.d9Chart = response.d9Chart ?? null;
+          this.divisionalCharts = this.readDivisionalCharts(response);
           this.scores = response.scores;
           this.yogas = this.extractYogas(response);
           this.doshas = this.extractDoshas(response);
@@ -2330,13 +3110,14 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           this.showChart = true;
           this.showBirthDetailsForm = false;
           this.savedKundaliId = null;
+          this.openBirthKey = null;
+          this.duplicateSavePrompt = null;
           this.saveMessage = '';
-          this.notifications.success('Kundali generated.');
           this.generationFailed = false;
           this.latestKundaliStorage.save(payload);
           this.prepareJanmaStory(response);
           this.setDefaultHouseSelection();
-          this.cdr.detectChanges();
+          this.revealKundaliAfterLoader();
           console.log('houseScoreslog'  , this.houseScores);
           console.log('houseScoreslog2'  ,  response.houses);
           console.log(this.planets);
@@ -2346,7 +3127,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
               console.log('Mahadasha periods:', mahaResponse);
               this.mahadashaPeriods = mahaResponse;
               this.prepareJanmaStory(response);
-              this.loading = false;
               this.cdr.detectChanges();
               console.log('Mahadasha periods:', this.mahadashaPeriods);
             },
@@ -2354,7 +3134,6 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
               console.error('Mahadasha periods error:', error);
               this.generationFailed = true;
               this.notifications.warning('Kundali generated, but the Dasha timeline could not be loaded right now.');
-              this.loading = false;
               this.cdr.detectChanges();
             }
           });
@@ -2363,6 +3142,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           console.error('Kundali generation error:', error);
           this.resetGeneratedKundaliState();
           this.generationFailed = true;
+          this.clearKundaliLoaderTimer();
           this.resolveKundaliGenerationError(error).then(message => {
             this.notifications.error(message);
             this.loading = false;
@@ -2371,6 +3151,90 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         }
       });
   }
+  get loaderScoreItems(): Array<{ label: string; value: string }> {
+    const scores = this.scores as any;
+    if (!scores) {
+      return [];
+    }
+
+    if (Array.isArray(scores)) {
+      return scores
+        .filter((item: any) => item?.value != null && item.value !== '')
+        .slice(0, 4)
+        .map((item: any) => ({
+          label: String(item.name ?? 'Score'),
+          value: this.formatLoaderScore(item.value)
+        }));
+    }
+
+    return (['stability', 'overall', 'growth', 'challenge'] as const)
+      .filter(key => scores[key] != null && scores[key] !== '' && !Array.isArray(scores[key]))
+      .map(key => ({
+        label: key.charAt(0).toUpperCase() + key.slice(1),
+        value: this.formatLoaderScore(scores[key])
+      }));
+  }
+
+  private formatLoaderScore(value: unknown): string {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) {
+      return String(value ?? '');
+    }
+
+    return Number.isInteger(numeric) ? String(numeric) : String(Math.round(numeric));
+  }
+
+  private revealKundaliAfterLoader(): void {
+    const drawRemaining = this.kundaliLoaderDrawMs - (Date.now() - this.kundaliLoaderStartedAt);
+    const startScores = () => {
+      this.kundaliLoaderTimer = null;
+      this.loaderZooming = false;
+      const scoreCount = this.loaderScoreItems.length;
+      this.loaderScoreReady = scoreCount > 0;
+      this.cdr.detectChanges();
+      const lastScoreStart = scoreCount > 0
+        ? this.loaderStageFadeMs + (scoreCount - 1) * this.loaderScoreStepMs
+        : 0;
+      const hold = scoreCount > 0 ? lastScoreStart + 420 + this.loaderScoreHoldMs : 280;
+      this.kundaliLoaderTimer = setTimeout(startFade, hold);
+    };
+    const startFade = () => {
+      this.kundaliLoaderTimer = null;
+      this.loaderZooming = false;
+      this.loaderLeaving = true;
+      this.cdr.detectChanges();
+      this.kundaliLoaderTimer = setTimeout(() => {
+        this.kundaliLoaderTimer = null;
+        this.loaderScoreReady = false;
+        this.loaderLeaving = false;
+        this.loading = false;
+        this.notifications.success('Kundali generated.');
+        this.cdr.detectChanges();
+      }, this.kundaliLoaderFadeMs);
+    };
+
+    if (drawRemaining <= 0) {
+      startScores();
+      return;
+    }
+
+    this.kundaliLoaderTimer = setTimeout(startScores, drawRemaining);
+  }
+
+  private clearKundaliLoaderTimer(): void {
+    if (this.kundaliLoaderTimer) {
+      clearTimeout(this.kundaliLoaderTimer);
+      this.kundaliLoaderTimer = null;
+    }
+    this.loaderZooming = false;
+    this.loaderScoreReady = false;
+    this.loaderLeaving = false;
+  }
+
+  ngOnDestroy(): void {
+    this.clearKundaliLoaderTimer();
+  }
+
   private resetGeneratedKundaliState(): void {
     this.kundaliResponse = null;
     this.planets = [];
@@ -2379,6 +3243,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.summary = null;
     this.d1Ascendant = '';
     this.d9Chart = null;
+    this.divisionalCharts = [];
     this.scores = [];
     this.yogas = [];
     this.doshas = [];
@@ -2390,6 +3255,8 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.showBirthDetailsForm = true;
     this.selectedHouseData = null;
     this.savedKundaliId = null;
+    this.openBirthKey = null;
+    this.duplicateSavePrompt = null;
     this.dhruvaKundaliContext.clearContext();
   }
 
@@ -2441,7 +3308,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.showBirthDetailsForm = false;
     this.dhruvaKundaliContext.clearContext();
     this.selectedHouseData = null;
-    this.activeDivisionalChart = 'd1';
+    this.activeDivisionalChart = 'D9';
     this.saveMessage = '';
 
     this.kundaliService.getSavedKundali(id).subscribe({
@@ -2449,6 +3316,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         this.savedKundaliId = saved?.id ?? id;
         this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(saved), saved?.chartData ?? null);
         this.patchFormFromSavedKundali(saved);
+        this.rememberOpenBirthKey();
         this.applyKundaliResponse(saved?.chartData ?? null);
         this.mahadashaPeriods = saved?.chartData?.mahadashaPeriods ?? [];
         this.latestKundaliStorage.save(this.buildKundaliPayload());
@@ -2475,6 +3343,10 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
     this.kundaliForm.patchValue({
       fullName: saved?.fullName ?? '',
+      surname: saved?.surname ?? '',
+      fatherName: saved?.fatherName ?? '',
+      motherName: saved?.motherName ?? '',
+      gotra: saved?.gotra ?? '',
       gender: saved?.gender ?? '',
       birthDate,
       birthTime,
@@ -2495,13 +3367,20 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
     this.currentLifeFocusResetKey++;
     this.kundaliResponse = response;
-    this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({ kundaliId: this.savedKundaliId, chartData: response }), response);
+    this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({
+      kundaliId: this.savedKundaliId,
+      fullName: this.kundaliForm.value.fullName,
+      dateOfBirth: this.kundaliForm.value.birthDate,
+      birthPlace: this.kundaliForm.value.birthPlace,
+      chartData: response,
+    }), response);
     this.planets = response.planets ?? [];
     this.d1Planets = response.planets ?? [];
     this.d1Houses = response.houses ?? [];
     this.summary = response.summary;
     this.d1Ascendant = response.summary?.ascendant;
     this.d9Chart = response.d9Chart ?? null;
+    this.divisionalCharts = this.readDivisionalCharts(response);
     this.scores = response.scores;
     this.yogas = this.extractYogas(response);
     this.doshas = this.extractDoshas(response);
@@ -2518,8 +3397,8 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.cdr.detectChanges();
   }
   setDefaultHouseSelection(): void {
-    const availableHouses = this.activeChartHouses?.length
-      ? this.activeChartHouses
+    const availableHouses = this.primaryChartHouses?.length
+      ? this.primaryChartHouses
       : this.kundaliResponse?.houses ?? this.houseScores ?? [];
     const defaultHouse = availableHouses.find((item: any) => item?.houseNumber != null) ?? availableHouses[0] ?? null;
     this.selectedHouseData = defaultHouse;
@@ -2709,9 +3588,13 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   getActivationPlanetLabel(activation: any, key: 'mahadashaPlanet' | 'antardashaPlanet'): string {
-    const pascalKey = key.charAt(0).toUpperCase() + key.slice(1);
-    const value = activation?.[key] ?? activation?.[pascalKey];
+    const value = this.getActivationPlanetRaw(activation, key);
     return value ? this.translatePlanetName(value) : '';
+  }
+
+  getActivationPlanetRaw(activation: any, key: 'mahadashaPlanet' | 'antardashaPlanet'): string {
+    const pascalKey = key.charAt(0).toUpperCase() + key.slice(1);
+    return String(activation?.[key] ?? activation?.[pascalKey] ?? '').trim();
   }
 
   private buildActivationPeriodGroups(items: any[], mode: 'current' | 'upcoming', title: string): ActivationPeriodGroup[] {
@@ -2846,6 +3729,10 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     return activation?.activationLevel ?? activation?.ActivationLevel ?? '';
   }
 
+  isStrongActivation(activation: any): boolean {
+    return this.getRawActivationLevel(activation).toLowerCase() === 'strong';
+  }
+
   getActivationLevelClass(activation: any): Record<string, boolean> {
     const level = this.getRawActivationLevel(activation).toLowerCase();
 
@@ -2908,6 +3795,34 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
   isDoshaDetailsOpen(index: number): boolean {
     return this.openDoshaIndex === index;
+  }
+
+  isPriorityDosha(index: number): boolean {
+    return this.doshaAttention.focus?.index === index;
+  }
+
+  isPriorityYoga(index: number): boolean {
+    return this.yogaAttention.focus?.index === index;
+  }
+
+  openYogaFocus(index: number): void {
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
+
+    this.openYogaIndex = index;
+    document.querySelector('.yoga-item.needs-attention')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  openDoshaFocus(index: number): void {
+    if (!this.isPremiumUser) {
+      this.onUnlockPremium();
+      return;
+    }
+
+    this.openDoshaIndex = index;
+    document.querySelector('.dosha-item.needs-attention')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   hasImpactDetails(item: any): boolean {
@@ -2973,6 +3888,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
       const fileName = this.getPdfFilename(mode);
       const pdfBlob = await firstValueFrom(this.kundaliService.generateReportPdf(this.buildReportPdfPayload(mode)));
       this.saveBlob(pdfBlob, fileName);
+      this.reportFeedbackReady = true;
       this.notifications.success('Report PDF downloaded.');
     } catch (error) {
       console.error('Report PDF download error:', error);
@@ -2997,16 +3913,16 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
 
     if (error && typeof error === 'object') {
       const status = 'status' in error ? Number((error as { status?: unknown }).status) : 0;
+      const responseError = 'error' in error ? (error as { error?: unknown }).error : null;
 
       if (status === 429) {
-        return this.buildReportRateLimitMessage(error);
+        const limitMessage = await this.extractReportErrorMessage(responseError);
+        return limitMessage || this.buildReportRateLimitMessage(error);
       }
 
-      if (!('error' in error)) {
+      if (!responseError) {
         return fallbackMessage;
       }
-
-      const responseError = (error as { error?: unknown }).error;
 
       if (responseError instanceof Blob) {
         return await this.readReportErrorBlob(responseError, fallbackMessage);
@@ -3050,6 +3966,10 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
       birthProfile: {
         ...this.buildKundaliPayload(),
         fullName: this.kundaliForm.value.fullName || '',
+        surname: this.optionalText(this.kundaliForm.value.surname) || '',
+        fatherName: this.optionalText(this.kundaliForm.value.fatherName) || '',
+        motherName: this.optionalText(this.kundaliForm.value.motherName) || '',
+        gotra: this.optionalText(this.kundaliForm.value.gotra) || '',
         birthDate: this.kundaliForm.value.birthDate || '',
         birthTime: this.kundaliForm.value.birthTime || '',
         birthPlace: this.kundaliForm.value.birthPlace || '',
@@ -3074,7 +3994,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     const storyResponse = response ?? this.kundaliResponse;
     const lines = this.buildJanmaStoryLines(storyResponse);
     this.clearJanmaStoryTimers();
-    this.displayPersonName = this.formatPersonName(this.kundaliForm.value.fullName);
+    this.displayPersonName = this.reportDisplayName === '-' ? '' : this.reportDisplayName;
     this.janmaStoryLines = lines;
     this.displayedJanmaStoryLines = lines.map(() => '');
     this.janmaStoryHighlightTerms = this.buildJanmaStoryHighlightTerms(storyResponse);
@@ -3178,7 +4098,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   private buildJanmaStoryLines(response: any): string[] {
     const personName = this.firstText(
       this.displayPersonName,
-      this.formatPersonName(this.kundaliForm.value.fullName),
+      this.reportDisplayName === '-' ? '' : this.reportDisplayName,
       this.storyText('janmaStory.unknownNative', {}, 'This native')
     );
     const ascendant = this.firstText(response?.summary?.ascendant, this.summary?.ascendant, this.d1Ascendant, this.storyText('janmaStory.risingSign', {}, 'the rising sign'));
@@ -3407,6 +4327,10 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         createdAt: new Date().toISOString(),
         birthProfile: {
           name: formValue.fullName ?? '',
+          surname: formValue.surname ?? '',
+          fatherName: formValue.fatherName ?? '',
+          motherName: formValue.motherName ?? '',
+          gotra: formValue.gotra ?? '',
           gender: formValue.gender ?? '',
           birthDate: formValue.birthDate ?? '',
           birthTime: formValue.birthTime ?? '',

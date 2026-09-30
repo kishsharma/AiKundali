@@ -20,7 +20,7 @@
       </span>
       <span *ngIf="item.sanskritName">{{ item.sanskritName }}</span>
       <span *ngIf="item.strengthLevel">{{ item.strengthLevel }}</span>
-      <span>View certified gemstone</span>
+      <a *ngIf="certifiedGemstoneUrl as url" class="gemstone-link" [href]="url" target="_blank" rel="noopener noreferrer" (click)="openCertifiedGemstone($event, url)">View certified gemstone</a>
     </div>
   </div>
 
@@ -55,6 +55,13 @@
         </div>
         <h4>{{ category.recommendedRemedy || '-' }}</h4>
         <p>{{ category.planet }} &middot; {{ getSuitabilityLabel(category.suitability) }}</p>
+        <a
+          *ngIf="gemstoneUrl(category.recommendedRemedy, category.score, category.category) as url"
+          class="gemstone-link"
+          [href]="url"
+          target="_blank"
+          rel="noopener noreferrer"
+          (click)="openCertifiedGemstone($event, url)">View certified gemstone</a>
         <ul *ngIf="category.reasons?.length">
           <li *ngFor="let reason of category.reasons | slice:0:2">{{ reason }}</li>
         </ul>

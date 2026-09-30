@@ -276,10 +276,84 @@ public sealed class CustomQuestionPredictionTests
                 window.StartDate == new DateTimeOffset(2029, 7, 1, 0, 0, 0, TimeSpan.Zero) ||
                 window.StartDate == new DateTimeOffset(2029, 8, 1, 0, 0, 0, TimeSpan.Zero)));
     }
+
+    [Fact]
+    public void Generate_MarriageTiming_ClampsOpenWindowsToTheReferenceDate()
+    {
+        var referenceDate = new DateTimeOffset(2026, 12, 1, 0, 0, 0, TimeSpan.Zero);
+        var request = CreateQuestionRequest("marriage_timing", PredictionTimeScope.Future, referenceDate);
+        var context = CreateRelationshipsContext(
+            dashaPeriods: CreateTimingPeriods(),
+            divisionalCharts: [CreateD9Chart()]);
+
+        var answer = PredictionEngineFactory.CreateDefault().Generate(request, context).Answer;
+
+        Assert.NotNull(answer);
+        Assert.All(answer.TimingWindows, window => Assert.True(window.StartDate >= referenceDate));
+        Assert.All(answer.TimingWindows, window => Assert.True(window.EndDate > window.StartDate));
+    }
+
+    [Fact]
+    public void Generate_MarriageTiming_HoldsWindowsUntilTheEighteenthBirthday()
+    {
+        var referenceDate = new DateTimeOffset(2026, 12, 1, 0, 0, 0, TimeSpan.Zero);
+        var request = CreateQuestionRequest(
+            "marriage_timing",
+            PredictionTimeScope.Future,
+            referenceDate,
+            new DateTimeOffset(2012, 1, 1, 0, 0, 0, TimeSpan.Zero));
+        var context = CreateRelationshipsContext(
+            dashaPeriods: CreateTimingPeriods(),
+            divisionalCharts: [CreateD9Chart()]);
+
+        var answer = PredictionEngineFactory.CreateDefault().Generate(request, context).Answer;
+
+        Assert.NotNull(answer);
+        Assert.Contains("relationships.age.before_ready", answer.ReasonKeys);
+        Assert.DoesNotContain("relationships.age.later_years", answer.ReasonKeys);
+        Assert.All(answer.TimingWindows, window =>
+            Assert.True(window.StartDate >= new DateTimeOffset(2030, 1, 1, 0, 0, 0, TimeSpan.Zero)));
+    }
+
+    [Fact]
+    public void Generate_MarriageTiming_NotesLaterYearsAfterThirtyTwo()
+    {
+        var request = CreateQuestionRequest(
+            "marriage_timing",
+            PredictionTimeScope.Future,
+            new DateTimeOffset(2026, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            new DateTimeOffset(1990, 1, 1, 0, 0, 0, TimeSpan.Zero));
+        var context = CreateRelationshipsContext(
+            dashaPeriods: CreateTimingPeriods(),
+            divisionalCharts: [CreateD9Chart()]);
+
+        var answer = PredictionEngineFactory.CreateDefault().Generate(request, context).Answer;
+
+        Assert.NotNull(answer);
+        Assert.Contains("relationships.age.later_years", answer.ReasonKeys);
+        Assert.DoesNotContain("relationships.age.before_ready", answer.ReasonKeys);
+        Assert.Contains(answer.TimingWindows, window => window.StartDate == new DateTimeOffset(2029, 7, 1, 0, 0, 0, TimeSpan.Zero));
+    }
+
+    [Fact]
+    public void Generate_MarriageTiming_SkipsAgeNotesWhenBirthDateIsMissing()
+    {
+        var request = CreateQuestionRequest("marriage_timing", PredictionTimeScope.Future);
+        var context = CreateRelationshipsContext(
+            dashaPeriods: CreateTimingPeriods(),
+            divisionalCharts: [CreateD9Chart()]);
+
+        var answer = PredictionEngineFactory.CreateDefault().Generate(request, context).Answer;
+
+        Assert.NotNull(answer);
+        Assert.DoesNotContain(answer.ReasonKeys, key => key.Contains(".age.", StringComparison.Ordinal));
+    }
+
     private static PredictionRequest CreateQuestionRequest(
         string focusKey,
         PredictionTimeScope timeScope,
-        DateTimeOffset? referenceDate = null)
+        DateTimeOffset? referenceDate = null,
+        DateTimeOffset? birthDate = null)
     {
         return new PredictionRequest
         {
@@ -287,7 +361,8 @@ public sealed class CustomQuestionPredictionTests
             LifeArea = PredictionLifeArea.Relationships,
             TimeScope = timeScope,
             FocusKey = focusKey,
-            ReferenceDate = referenceDate ?? new DateTimeOffset(2026, 12, 1, 0, 0, 0, TimeSpan.Zero)
+            ReferenceDate = referenceDate ?? new DateTimeOffset(2026, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            BirthDate = birthDate
         };
     }
 

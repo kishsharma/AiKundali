@@ -14,27 +14,15 @@
       <app-brand-logo variant="iconText" tone="auto"></app-brand-logo>
     </div>
 
-    <div class="language-switcher topbar-control" *ngIf="showPublicPreferenceControls" aria-label="Select language">
-      <button
-        type="button"
-        *ngFor="let language of languages"
-        [class.active]="activeLanguage === language.code"
-        (click)="changeLanguage(language.code)"
-      >{{ language.label }}</button>
-    </div>
-
-    <div class="theme-selector topbar-control" *ngIf="showThemeSelector" aria-label="Select theme">
-      <span class="theme-mode-label">{{ themeToggleLabel }}</span>
-      <button
-        type="button"
-        class="theme-toggle-button"
-        (click)="toggleTheme()"
-        [title]="themeToggleTitle"
-        [attr.aria-label]="themeToggleTitle"
-      >{{ themeToggleIcon }}</button>
-    </div>
-
     <div class="topbar-right" *ngIf="showUserMenu" [class.menu-open]="isUserMenuOpen">
+      <button
+        type="button"
+        class="theme-toggle"
+        (click)="toggleTheme()"
+        [attr.aria-label]="themeToggleTitle"
+        [title]="themeToggleTitle">
+        {{ themeToggleIcon }}
+      </button>
       <div
         class="user-menu"
         role="button"
@@ -52,8 +40,14 @@
         </div>
 
         <div class="user-info">
-          <span class="user-name">{{ userName }}</span>
-          <small>{{ userEmail }}</small>
+          <div class="user-name-row">
+            <span class="user-name" [attr.data-plan]="planCode">{{ userName }}</span>
+            <span class="user-admin-tag" *ngIf="isAdminUser">Admin</span>
+            <span class="user-plan-mark" *ngIf="planCode !== 'Free'" [attr.data-plan]="planCode">
+              <span class="user-plan-star" aria-hidden="true"></span>
+              {{ planCode === 'PremiumPlus' ? 'Plus' : 'Premium' }}
+            </span>
+          </div>
         </div>
 
         <span class="chevron" aria-hidden="true"></span>
@@ -96,6 +90,17 @@
   role="menu"
   *ngIf="isUserMenuOpen"
 >
+  <div class="dropdown-account">
+    <small>{{ userEmail }}</small>
+    <div class="dropdown-plan-row">
+      <div class="dropdown-plan-tags">
+        <span class="user-admin-tag" *ngIf="isAdminUser">Admin</span>
+        <app-plan-chip variant="toolbar"></app-plan-chip>
+      </div>
+      <span class="user-plan-fee" [attr.data-plan]="planCode">{{ planFee }}</span>
+    </div>
+  </div>
+
   <!-- <div class="dropdown-header">
     <div class="dropdown-avatar" aria-hidden="true">
       {{ userInitial }}
@@ -111,7 +116,7 @@
   <button
     type="button"
     role="menuitem"
-    routerLink="/profile"
+    routerLink="/app/profile"
     (click)="closeUserMenu()"
   >
     <svg
@@ -168,10 +173,26 @@
     <span>Change Password</span>
   </button>
 
+  <button
+    type="button"
+    role="menuitem"
+    (click)="openPlans()"
+  >
+    <svg
+      class="menu-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.9 7.2 18.9l.9-5.4L4.2 9.7l5.4-.8L12 3z"></path>
+    </svg>
+    <span>{{ isPlusUser ? 'Manage plan' : 'Upgrade plan' }}</span>
+  </button>
+
   <!-- White-label Settings -->
   <button
     type="button"
     role="menuitem"
+    *ngIf="isPlusUser"
     routerLink="/app/white-label-settings"
     (click)="closeUserMenu()"
   >
@@ -186,37 +207,21 @@
 
     <span>White-label Settings</span>
   </button>
-  <div class="dropdown-divider dropdown-divider--mobile" role="separator"></div>
+  <div class="dropdown-divider" role="separator"></div>
 
-  <section class="mobile-preferences" aria-label="Display preferences">
-    <div class="mobile-preference-group">
-      <span class="mobile-preference-title">Language</span>
-      <div class="mobile-option-list mobile-option-list--language">
-        <button
-          type="button"
-          *ngFor="let language of languages"
-          [class.active]="activeLanguage === language.code"
-          (click)="changeLanguage(language.code)"
-        >{{ language.label }}</button>
-      </div>
-    </div>
-
-    <div class="mobile-preference-group">
-      <span class="mobile-preference-title">Theme</span>
-      <div class="mobile-option-list mobile-option-list--theme">
-        <button
-          type="button"
-          *ngFor="let theme of themes"
-          [class.active]="themeService.mode() === theme.mode"
-          (click)="themeService.setTheme(theme.mode)"
-          [title]="theme.label + ' theme'"
-        >
-          <span>{{ theme.icon }}</span>
-          <small>{{ theme.label }}</small>
-        </button>
-      </div>
-    </div>
-  </section>
+  <div class="menu-prefs">
+    <label class="menu-pref">
+      <span>Language</span>
+      <select
+        class="menu-lang"
+        [value]="activeLanguage"
+        (change)="changeLanguage($any($event.target).value)"
+        aria-label="Language"
+      >
+        <option *ngFor="let language of languages" [value]="language.code">{{ language.label }}</option>
+      </select>
+      </label>
+  </div>
 
   <div class="dropdown-divider" role="separator"></div>
 
@@ -248,6 +253,7 @@
     <router-outlet></router-outlet>
   </main>
   <app-notification-toast></app-notification-toast>
+  <app-subscription-modal></app-subscription-modal>
 </div>
 
 

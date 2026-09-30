@@ -34,7 +34,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 };
 
 function shouldHandleSessionExpiry(error: HttpErrorResponse, requestUrl: string): boolean {
-  if (error.status !== 401 && error.status !== 403) {
+  if (error.status !== 401) {
     return false;
   }
 

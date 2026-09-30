@@ -67,6 +67,9 @@ describe('mapDhruvaKundaliContext', () => {
   it('maps saved Kundali wrappers without exposing raw chart data', () => {
     const context = mapDhruvaKundaliContext({
       id: 'saved-456',
+      fullName: 'Umesh',
+      dateOfBirth: '1990-08-12',
+      birthPlace: 'Bengaluru',
       chartData: {
         summary: {
           lagna: 'Leo',
@@ -90,6 +93,9 @@ describe('mapDhruvaKundaliContext', () => {
       },
     });
 
+    expect(context.personName).toEqual({ value: 'Umesh', status: 'available' });
+    expect(context.birthDate).toEqual({ value: '1990-08-12', status: 'available' });
+    expect(context.birthPlace).toEqual({ value: 'Bengaluru', status: 'available' });
     expect(context.kundaliId).toEqual({ value: 'saved-456', status: 'available' });
     expect(context.ascendant).toEqual({ value: 'Leo', status: 'available' });
     expect(context.moonSign).toEqual({ value: 'Cancer', status: 'available' });

@@ -25,35 +25,81 @@ internal sealed class PredictionQuestionAnalyzerService
         ArgumentNullException.ThrowIfNull(profile);
         ArgumentNullException.ThrowIfNull(evidence);
 
-        return (request.LifeArea, request.FocusKey) switch
-        {
-            (PredictionLifeArea.Relationships, "marriage_possibility") =>
-                AnalyzeMarriagePossibility(evidence),
+        var focus = LifeQuestionCatalog.Find(request.LifeArea, request.FocusKey)
+            ?? throw new NotSupportedException(
+                $"Custom question '{request.FocusKey}' for life area '{request.LifeArea}' is not supported.");
 
-            (PredictionLifeArea.Relationships, "marriage_timing") =>
-                AnalyzeMarriageTiming(request, profile, evidence),
-
-            _ => throw new NotSupportedException(
-                $"Custom question '{request.FocusKey}' for life area '{request.LifeArea}' is not supported.")
-        };
+        return focus.IsTiming
+            ? AnalyzeTiming(request, profile, evidence, focus)
+            : AnalyzePossibility(evidence, focus);
     }
 
-    private PredictionAnswer AnalyzeMarriageTiming(
+    private PredictionAnswer AnalyzeTiming(
         PredictionRequest request,
         PredictionAreaProfile profile,
-        PredictionEvidenceSet evidence)
+        PredictionEvidenceSet evidence,
+        LifeQuestionFocus focus)
     {
-        var natalAnswer = AnalyzeMarriagePossibility(evidence);
-        var windows = _timingAnalyzer.Analyze(request, profile, evidence);
+        var natalAnswer = AnalyzePossibility(evidence, focus);
+        var windows = ApplyAgeWindow( _timingAnalyzer.Analyze(request, profile, evidence), request, focus, out var ageReasons);
+        var reasonKeys = natalAnswer.ReasonKeys.Concat(ageReasons).Distinct(StringComparer.Ordinal).ToArray();
 
         return natalAnswer with
         {
+            ReasonKeys = reasonKeys,
             TimingWindows = windows
         };
     }
 
-    private static PredictionAnswer AnalyzeMarriagePossibility(
-        PredictionEvidenceSet evidence)
+    private static IReadOnlyList<PredictionTimingWindow> ApplyAgeWindow(
+        IReadOnlyList<PredictionTimingWindow> windows,
+        PredictionRequest request,
+        LifeQuestionFocus focus,
+        out IReadOnlyList<string> ageReasons)
+    {
+        var reasons = new List<string>();
+        var floor = request.ReferenceDate;
+
+        if (focus.MinimumAgeYears is int minimumAge && request.BirthDate is DateTimeOffset birthDate)
+        {
+            var readyOn = birthDate.AddYears(minimumAge);
+            if (readyOn > floor)
+            {
+                floor = readyOn;
+            }
+
+            var age = CalculateAge(birthDate, request.ReferenceDate);
+            if (age < minimumAge)
+            {
+                reasons.Add($"{focus.ReasonPrefix}.age.before_ready");
+            }
+            else if (age >= focus.LaterAgeYears)
+            {
+                reasons.Add($"{focus.ReasonPrefix}.age.later_years");
+            }
+        }
+
+        ageReasons = reasons;
+        return windows
+            .Select(window => window.StartDate < floor ? window with { StartDate = floor } : window)
+            .Where(window => window.EndDate > window.StartDate && window.StartDate >= request.ReferenceDate)
+            .ToArray();
+    }
+
+    private static int CalculateAge(DateTimeOffset birthDate, DateTimeOffset onDate)
+    {
+        var age = onDate.Year - birthDate.Year;
+        if (onDate.Month < birthDate.Month || (onDate.Month == birthDate.Month && onDate.Day < birthDate.Day))
+        {
+            age--;
+        }
+
+        return age;
+    }
+
+    private static PredictionAnswer AnalyzePossibility(
+        PredictionEvidenceSet evidence,
+        LifeQuestionFocus focus)
     {
         var supportiveReasons = new List<string>();
         var challengingReasons = new List<string>();
@@ -65,7 +111,8 @@ internal sealed class PredictionQuestionAnalyzerService
         var secondaryChallenge = 0;
 
         var primaryHouse = evidence.PrimaryHouses
-            .OrderBy(house => house.HouseNumber)
+            .OrderByDescending(house => house.StrengthScore)
+            .ThenBy(house => house.HouseNumber)
             .FirstOrDefault();
 
         if (primaryHouse is not null)
@@ -75,13 +122,13 @@ internal sealed class PredictionQuestionAnalyzerService
             if (primaryHouse.StrengthScore >= 60)
             {
                 majorSupport += 1;
-                supportiveReasons.Add("relationships.primary_house.strong");
+                supportiveReasons.Add($"{focus.ReasonPrefix}.primary_house.strong");
                 evidenceKeys.Add($"house:{primaryHouse.HouseNumber}:strength:{primaryHouse.StrengthScore}");
             }
             else if (primaryHouse.StrengthScore < 40)
             {
                 majorChallenge += 1;
-                challengingReasons.Add("relationships.primary_house.weak");
+                challengingReasons.Add($"{focus.ReasonPrefix}.primary_house.weak");
                 evidenceKeys.Add($"house:{primaryHouse.HouseNumber}:strength:{primaryHouse.StrengthScore}");
             }
         }
@@ -93,14 +140,14 @@ internal sealed class PredictionQuestionAnalyzerService
         if (primaryHouseAspect?.HasBeneficAspect == true)
         {
             secondarySupport += 1;
-            supportiveReasons.Add("relationships.primary_house.benefic_aspect");
+            supportiveReasons.Add($"{focus.ReasonPrefix}.primary_house.benefic_aspect");
             evidenceKeys.Add($"house:{primaryHouseAspect.HouseNumber}:benefic_aspect");
         }
 
         if (primaryHouseAspect?.HasMaleficAspect == true)
         {
             secondaryChallenge += 1;
-            challengingReasons.Add("relationships.primary_house.malefic_aspect");
+            challengingReasons.Add($"{focus.ReasonPrefix}.primary_house.malefic_aspect");
             evidenceKeys.Add($"house:{primaryHouseAspect.HouseNumber}:malefic_aspect");
         }
 
@@ -112,13 +159,13 @@ internal sealed class PredictionQuestionAnalyzerService
             if (HasStrongDignity(primaryHouseLord))
             {
                 majorSupport += 1;
-                supportiveReasons.Add("relationships.primary_house_lord.strong_dignity");
+                supportiveReasons.Add($"{focus.ReasonPrefix}.primary_house_lord.strong_dignity");
                 evidenceKeys.Add($"planet:{primaryHouseLord.Planet}:dignity:{primaryHouseLord.DetailedStrength}");
             }
             else if (HasWeakDignity(primaryHouseLord))
             {
                 majorChallenge += 1;
-                challengingReasons.Add("relationships.primary_house_lord.weak_dignity");
+                challengingReasons.Add($"{focus.ReasonPrefix}.primary_house_lord.weak_dignity");
                 evidenceKeys.Add($"planet:{primaryHouseLord.Planet}:dignity:{primaryHouseLord.DetailedStrength}");
             }
 
@@ -128,14 +175,14 @@ internal sealed class PredictionQuestionAnalyzerService
             if (lordAspect?.HasBeneficAspect == true)
             {
                 secondarySupport += 1;
-                supportiveReasons.Add("relationships.primary_house_lord.benefic_aspect");
+                supportiveReasons.Add($"{focus.ReasonPrefix}.primary_house_lord.benefic_aspect");
                 evidenceKeys.Add($"planet:{primaryHouseLord.Planet}:benefic_aspect");
             }
 
             if (lordAspect?.HasMaleficAspect == true)
             {
                 secondaryChallenge += 1;
-                challengingReasons.Add("relationships.primary_house_lord.malefic_aspect");
+                challengingReasons.Add($"{focus.ReasonPrefix}.primary_house_lord.malefic_aspect");
                 evidenceKeys.Add($"planet:{primaryHouseLord.Planet}:malefic_aspect");
             }
         }
@@ -149,7 +196,7 @@ internal sealed class PredictionQuestionAnalyzerService
         if (supportiveSignificators.Length > 0)
         {
             secondarySupport += 1;
-            supportiveReasons.Add("relationships.natural_significator.supportive");
+            supportiveReasons.Add($"{focus.ReasonPrefix}.natural_significator.supportive");
             evidenceKeys.AddRange(supportiveSignificators.Select(planet => $"planet:{planet}:natural_significator"));
         }
 
@@ -162,12 +209,13 @@ internal sealed class PredictionQuestionAnalyzerService
         if (challengingSignificators.Length > 0)
         {
             secondaryChallenge += 1;
-            challengingReasons.Add("relationships.natural_significator.challenging");
+            challengingReasons.Add($"{focus.ReasonPrefix}.natural_significator.challenging");
             evidenceKeys.AddRange(challengingSignificators.Select(planet => $"planet:{planet}:natural_significator"));
         }
 
         var divisionalConfirmation = ApplyDivisionalConfirmation(
             evidence,
+            focus,
             supportiveReasons,
             challengingReasons,
             evidenceKeys);
@@ -198,38 +246,42 @@ internal sealed class PredictionQuestionAnalyzerService
 
     private static DivisionalConfirmationResult ApplyDivisionalConfirmation(
         PredictionEvidenceSet evidence,
+        LifeQuestionFocus focus,
         List<string> supportiveReasons,
         List<string> challengingReasons,
         List<string> evidenceKeys)
     {
-        var d9Evidence = evidence.DivisionalFocusEvidence
-            .FirstOrDefault(item => item.ChartType.Equals("D9", StringComparison.OrdinalIgnoreCase));
-
-        if (d9Evidence is null)
+        if (string.IsNullOrWhiteSpace(focus.DivisionalChart) || focus.DivisionalHouses.Length == 0)
         {
             return DivisionalConfirmationResult.Empty;
         }
 
-        evidenceKeys.AddRange(d9Evidence.NaturalSignificatorEvidenceKeys);
+        var chartKey = focus.DivisionalChart.ToLowerInvariant();
+        var divisionalEvidence = evidence.DivisionalFocusEvidence
+            .FirstOrDefault(item => item.ChartType.Equals(focus.DivisionalChart, StringComparison.OrdinalIgnoreCase));
 
-        var seventhHouse = d9Evidence.Houses
-            .FirstOrDefault(house => house.HouseNumber == 7);
-
-        if (seventhHouse is null)
+        if (divisionalEvidence is null)
         {
             return DivisionalConfirmationResult.Empty;
         }
 
-        evidenceKeys.Add(seventhHouse.HouseEvidenceKey);
-        evidenceKeys.Add(seventhHouse.HouseLordEvidenceKey);
-        evidenceKeys.AddRange(seventhHouse.OccupantEvidenceKeys);
+        evidenceKeys.AddRange(divisionalEvidence.NaturalSignificatorEvidenceKeys);
 
-        var venus = d9Evidence.NaturalSignificators
-            .FirstOrDefault(planet => planet.Planet.Equals("Venus", StringComparison.OrdinalIgnoreCase));
+        var focusHouse = divisionalEvidence.Houses
+            .FirstOrDefault(house => focus.DivisionalHouses.Contains(house.HouseNumber));
+
+        if (focusHouse is null)
+        {
+            return DivisionalConfirmationResult.Empty;
+        }
+
+        evidenceKeys.Add(focusHouse.HouseEvidenceKey);
+        evidenceKeys.Add(focusHouse.HouseLordEvidenceKey);
+        evidenceKeys.AddRange(focusHouse.OccupantEvidenceKeys);
 
         var result = DivisionalConfirmationResult.Empty;
 
-        if (seventhHouse.HouseLordPlanet?.HouseNumber is int lordHouseNumber)
+        if (focusHouse.HouseLordPlanet?.HouseNumber is int lordHouseNumber)
         {
             if (SupportiveDivisionalHouses.Contains(lordHouseNumber))
             {
@@ -242,14 +294,22 @@ internal sealed class PredictionQuestionAnalyzerService
             }
         }
 
-        if (venus?.HouseNumber is int venusHouseNumber)
+        foreach (var significatorName in focus.DivisionalSignificators)
         {
-            if (SupportiveDivisionalHouses.Contains(venusHouseNumber))
+            var significator = divisionalEvidence.NaturalSignificators
+                .FirstOrDefault(planet => planet.Planet.Equals(significatorName, StringComparison.OrdinalIgnoreCase));
+
+            if (significator?.HouseNumber is not int significatorHouse)
+            {
+                continue;
+            }
+
+            if (SupportiveDivisionalHouses.Contains(significatorHouse))
             {
                 result = result with { MajorSupport = result.MajorSupport + 1 };
             }
 
-            if (ChallengingDivisionalHouses.Contains(venusHouseNumber))
+            if (ChallengingDivisionalHouses.Contains(significatorHouse))
             {
                 result = result with { MajorChallenge = result.MajorChallenge + 1 };
             }
@@ -257,15 +317,15 @@ internal sealed class PredictionQuestionAnalyzerService
 
         if (result.MajorSupport > 0)
         {
-            supportiveReasons.Add("relationships.d9.confirmation.supportive");
+            supportiveReasons.Add($"{focus.ReasonPrefix}.{chartKey}.confirmation.supportive");
         }
 
         if (result.MajorChallenge > 0)
         {
-            challengingReasons.Add("relationships.d9.confirmation.challenging");
+            challengingReasons.Add($"{focus.ReasonPrefix}.{chartKey}.confirmation.challenging");
         }
 
-        var supportiveOccupants = seventhHouse.Occupants
+        var supportiveOccupants = focusHouse.Occupants
             .Select(occupant => occupant.Planet)
             .Where(planetName => SupportiveOccupantPlanets.Any(planet => string.Equals(planet, planetName, StringComparison.OrdinalIgnoreCase)))
             .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -274,10 +334,10 @@ internal sealed class PredictionQuestionAnalyzerService
         if (supportiveOccupants.Length > 0)
         {
             result = result with { SecondarySupport = result.SecondarySupport + 1 };
-            supportiveReasons.Add("relationships.d9.occupants.supportive");
+            supportiveReasons.Add($"{focus.ReasonPrefix}.{chartKey}.occupants.supportive");
         }
 
-        var challengingOccupants = seventhHouse.Occupants
+        var challengingOccupants = focusHouse.Occupants
             .Select(occupant => occupant.Planet)
             .Where(planetName => ChallengingOccupantPlanets.Any(planet => string.Equals(planet, planetName, StringComparison.OrdinalIgnoreCase)))
             .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -286,7 +346,7 @@ internal sealed class PredictionQuestionAnalyzerService
         if (challengingOccupants.Length > 0)
         {
             result = result with { SecondaryChallenge = result.SecondaryChallenge + 1 };
-            challengingReasons.Add("relationships.d9.occupants.challenging");
+            challengingReasons.Add($"{focus.ReasonPrefix}.{chartKey}.occupants.challenging");
         }
 
         return result;

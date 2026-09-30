@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+  color: var(--theme-text);
+}
+
+.company-page {
+  max-width: 760px;
+}
+
+.company-kicker {
+  margin: 0 0 6px;
+  color: var(--theme-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+h2 {
+  margin: 22px 0 8px;
+  font-size: 18px;
+}
+
+p {
+  margin: 0 0 12px;
+  color: var(--theme-text);
+  line-height: 1.6;
+}
+
+.company-identity {
+  margin-top: 8px;
+  padding: 16px;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-card);
+  background: var(--theme-surface);
+}
+
+dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+dl div {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+}
+
+dt {
+  color: var(--theme-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+dd {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  dl div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}

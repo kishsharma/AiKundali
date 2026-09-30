@@ -8,10 +8,13 @@
     ]">
   </app-page-header>
 
-  <div class="status-banner loading" *ngIf="loading">Loading branding settings...</div>
+  <div class="status-banner error" *ngIf="!canEditBranding">
+    White-label branding is included with Premium Plus.
+    <button type="button" class="text-link" (click)="openPlans()">Upgrade to Premium Plus</button>
+  </div>
 
   <div class="settings-layout">
-    <form class="settings-panel" [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+    <form class="settings-panel" [formGroup]="settingsForm" (ngSubmit)="saveSettings()" [attr.aria-disabled]="!canEditBranding">
       <div class="panel-header">
         <div>
           <h2>Astrologer Branding</h2>

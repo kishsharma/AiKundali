@@ -146,6 +146,11 @@ namespace KundaliEngine.API.Controllers
                 int overallStrength = mahadashaStrength.OverallStrength;
                 string overallResult = mahadashaStrength.OverallResult;
                 var upcomingMaha = mahadashaTimeline.Skip(currentMahaIndex + 1).FirstOrDefault();
+                var factLords = new List<Planet> { currentMaha.Planet, currentAntar.SubPlanet };
+                if (currentPratyantar != null)
+                {
+                    factLords.Add(currentPratyantar.InnerPlanet);
+                }
 
                 var analysis = new MahadashaAnalysisDto
                 {
@@ -257,7 +262,7 @@ namespace KundaliEngine.API.Controllers
                             })
                             .ToList()
                     },
-                    LifeAreas = BuildLifeAreas(overallStrength, currentMaha.Planet, currentAntar.SubPlanet),
+                    LifeAreas = BuildLifeAreas(planets, ascendant, currentMaha.Planet, currentAntar.SubPlanet),
                     Strength = new DashaStrengthDto
                     {
                         OverallStrength = overallStrength,
@@ -276,10 +281,19 @@ namespace KundaliEngine.API.Controllers
                         Antardasha = antardashaStrength,
                         Pratyantardasha = pratyantardashaStrength
                     },
-                    PositiveInfluences = BuildPositiveInfluences(currentMaha.Planet, currentAntar.SubPlanet, mahaPosition, overallResult),
-                    Challenges = BuildChallenges(currentMaha.Planet, currentAntar.SubPlanet),
-                    Prediction = BuildPrediction(currentMaha.Planet, currentAntar.SubPlanet, currentAntar.StartDate, currentAntar.EndDate, overallStrength),
-                    RecommendedActions = BuildRecommendedActions(currentMaha.Planet),
+                    PositiveInfluences = SelectFactTexts(planets, factLords, "Support"),
+                    Challenges = SelectFactTexts(planets, factLords, "Pressure"),
+                    Prediction = BuildPrediction(
+                        planets,
+                        ascendant,
+                        currentAntar.SubPlanet,
+                        currentAntar.StartDate,
+                        currentAntar.EndDate,
+                        antardashaTimeline.Skip(Math.Max(0, antardashaTimeline.IndexOf(currentAntar) + 1)).FirstOrDefault()?.SubPlanet,
+                        currentPratyantar?.InnerPlanet,
+                        currentPratyantar?.StartDate,
+                        currentPratyantar?.EndDate),
+                    RecommendedActions = BuildRecommendedActions(currentMaha.Planet, planets, factLords, ascendant),
                     ImportantDates = new List<ImportantDateDto>
                     {
                         new() { Title = "Mahadasha Start", Date = currentMaha.StartDate },
@@ -296,7 +310,9 @@ namespace KundaliEngine.API.Controllers
                             new() { Planet = currentAntar.SubPlanet.ToString(), Impact = "Immediate antardasha influence" }
                         }
                     },
-                    Remedies = BuildRemedies(currentMaha.Planet),
+                    Remedies = BuildRemedies(currentMaha.Planet, planets, ascendant),
+                    PlanetReadings = BuildPlanetReadings(planets),
+                    Gochar = BuildGochar(nowUtc, request.Latitude, request.Longitude, ascendant, moonPos.Sign),
                     UpcomingDasha = upcomingMaha == null
                         ? new UpcomingDashaDto()
                         : new UpcomingDashaDto
@@ -439,6 +455,29 @@ namespace KundaliEngine.API.Controllers
             if (months > 0) parts.Add($"{months} {(months == 1 ? "Month" : "Months")}");
             if (days > 0 || parts.Count == 0) parts.Add($"{days} {(days == 1 ? "Day" : "Days")}");
             return string.Join(", ", parts);
+        }
+
+        private List<DashaPlanetReadingDto> BuildPlanetReadings(IReadOnlyCollection<PlanetPosition> planets)
+        {
+            return DashaRules.VimshottariOrder.Select(item =>
+            {
+                var position = planets.FirstOrDefault(planet => planet.Planet == item.Planet);
+                var dignity = position == null
+                    ? PlanetStrength.Neutral
+                    : _planetStrengthService.GetStrength(position.Planet, position.Sign);
+                var description = position == null
+                    ? $"{item.Planet} dasha {_predictionService.GetDashaPrediction(item.Planet)}"
+                    : _predictionService.GetDashaActivatedPrediction(position, item.Planet, dignity);
+
+                return new DashaPlanetReadingDto
+                {
+                    Planet = item.Planet.ToString(),
+                    Description = description,
+                    House = position == null ? 0 : (int)position.House,
+                    Strength = BuildDashaLevelStrength("Planet", item.Planet, planets),
+                    Facts = BuildPeriodFacts(item.Planet, planets)
+                };
+            }).ToList();
         }
 
         private static int DashaYears(Planet planet)
@@ -670,157 +709,439 @@ namespace KundaliEngine.API.Controllers
             return "Challenging";
         }
 
-        private static List<LifeAreaDto> BuildLifeAreas(int baseScore, Planet maha, Planet antar)
+        private List<LifeAreaDto> BuildLifeAreas(IReadOnlyCollection<PlanetPosition> planets, ZodiacSign lagna, Planet maha, Planet antar)
         {
-            var areas = new[]
+            var areas = new (string Name, string Icon, int[] Houses)[]
             {
-                ("Career", "work", maha is Planet.Sun or Planet.Saturn or Planet.Mars or Planet.Jupiter ? 8 : 0),
-                ("Finance", "payments", maha is Planet.Jupiter or Planet.Venus or Planet.Mercury ? 8 : 0),
-                ("Relationships", "favorite", maha is Planet.Venus or Planet.Moon or Planet.Jupiter ? 8 : -2),
-                ("Marriage", "diversity_3", antar is Planet.Venus or Planet.Jupiter or Planet.Moon ? 8 : -2),
-                ("Health", "health_and_safety", maha is Planet.Mars or Planet.Saturn or Planet.Rahu or Planet.Ketu ? -8 : 0),
-                ("Education", "school", maha is Planet.Jupiter or Planet.Mercury or Planet.Ketu ? 8 : 0),
-                ("Spirituality", "self_improvement", maha is Planet.Jupiter or Planet.Ketu or Planet.Saturn ? 8 : 0),
-                ("Travel", "flight", maha is Planet.Rahu or Planet.Moon or Planet.Mercury ? 8 : 0)
+                ("Career", "work", new[] { 10 }),
+                ("Finance", "payments", new[] { 2, 11 }),
+                ("Relationships", "favorite", new[] { 7 }),
+                ("Marriage", "diversity_3", new[] { 7 }),
+                ("Health", "health_and_safety", new[] { 1, 6 }),
+                ("Education", "school", new[] { 5 }),
+                ("Spirituality", "self_improvement", new[] { 9, 12 }),
+                ("Travel", "flight", new[] { 3, 9, 12 })
             };
 
-            return areas
-                .Select(area =>
+            return areas.Select(area => ScoreLifeArea(planets, lagna, maha, antar, area.Name, area.Icon, area.Houses)).ToList();
+        }
+
+        private LifeAreaDto ScoreLifeArea(
+            IReadOnlyCollection<PlanetPosition> planets,
+            ZodiacSign lagna,
+            Planet maha,
+            Planet antar,
+            string name,
+            string icon,
+            IReadOnlyList<int> houses)
+        {
+            var lordScores = new List<int>();
+            var facts = new List<string>();
+
+            foreach (var house in houses)
+            {
+                var sign = HouseSign(lagna, house);
+                var lord = SignLord(sign);
+                var lordPosition = planets.FirstOrDefault(planet => planet.Planet == lord);
+                var lordDignity = lordPosition == null
+                    ? PlanetStrength.Neutral
+                    : _planetStrengthService.GetStrength(lordPosition.Planet, lordPosition.Sign);
+                lordScores.Add(StrengthToScore(lordDignity, lordPosition));
+                facts.Add(lordPosition == null
+                    ? $"{Ordinal(house)} lord {lord} has no placed chart position."
+                    : $"{Ordinal(house)} lord {lord} is {StrengthLabel(lordDignity)} in the {FormatHousePlacement(lordPosition.House)}.");
+
+                var occupant = planets.FirstOrDefault(planet => (int)planet.House == house && planet.Planet != lord);
+                if (occupant != null)
                 {
-                    int score = Math.Clamp(baseScore + area.Item3, 35, 96);
-                    return new LifeAreaDto
+                    facts.Add($"{occupant.Planet} occupies the {Ordinal(house)}.");
+                }
+            }
+
+            var score = (int)Math.Round(
+                lordScores.DefaultIfEmpty(60).Average() * 0.5
+                + PeriodLinkScore(planets, lagna, maha, houses) * 0.3
+                + PeriodLinkScore(planets, lagna, antar, houses) * 0.2);
+            score = Math.Clamp(score, 25, 96);
+
+            return new LifeAreaDto
+            {
+                Name = name,
+                Icon = icon,
+                Score = score,
+                Rating = Math.Max(1, (int)Math.Round(score / 20.0)),
+                Status = ScoreToResult(score),
+                Fact = string.Join(" ", facts.Take(2))
+            };
+        }
+
+        private int PeriodLinkScore(IReadOnlyCollection<PlanetPosition> planets, ZodiacSign lagna, Planet planet, IReadOnlyList<int> houses)
+        {
+            var position = planets.FirstOrDefault(item => item.Planet == planet);
+            var dignity = position == null
+                ? PlanetStrength.Neutral
+                : _planetStrengthService.GetStrength(position.Planet, position.Sign);
+            var linked = houses.Any(house =>
+                (position != null && (int)position.House == house)
+                || SignLord(HouseSign(lagna, house)) == planet
+                || (position != null && AspectOffsets(planet).Contains(HouseDistance(position.House, (HouseNumber)house))));
+
+            return Math.Clamp(StrengthToScore(dignity, position) + (linked ? 8 : -6), 25, 96);
+        }
+
+        private static ZodiacSign HouseSign(ZodiacSign lagna, int house)
+        {
+            var index = ((int)lagna - 1 + house - 1) % 12;
+            return (ZodiacSign)(index + 1);
+        }
+
+        private static Planet SignLord(ZodiacSign sign)
+        {
+            return PlanetStrengthRules.OwnSigns.FirstOrDefault(pair => pair.Value.Contains(sign)).Key;
+        }
+
+        private static string Ordinal(int house)
+        {
+            var suffix = house switch
+            {
+                1 => "st",
+                2 => "nd",
+                3 => "rd",
+                _ => "th"
+            };
+            return $"{house}{suffix}";
+        }
+
+        private List<string> SelectFactTexts(IReadOnlyCollection<PlanetPosition> planets, IEnumerable<Planet> lords, string tone)
+        {
+            return lords
+                .SelectMany(lord => BuildPeriodFacts(lord, planets))
+                .Where(fact => fact.Tone == tone)
+                .Select(fact => fact.Text)
+                .Distinct()
+                .ToList();
+        }
+
+        private List<DashaPeriodFactDto> BuildPeriodFacts(Planet planet, IReadOnlyCollection<PlanetPosition> planets)
+        {
+            var position = planets.FirstOrDefault(item => item.Planet == planet);
+            var dignity = position == null
+                ? PlanetStrength.Neutral
+                : _planetStrengthService.GetStrength(position.Planet, position.Sign);
+            var score = StrengthToScore(dignity, position);
+            var tone = score >= 65 ? "Support" : score < 50 ? "Pressure" : "Neutral";
+            var text = position == null
+                ? $"{planet} has no placed chart position. Chart score {score}."
+                : $"{planet} is {StrengthLabel(dignity)} in the {FormatHousePlacement(position.House)} in {position.Sign}. Chart score {score}.";
+            if (position?.IsCombust == true)
+            {
+                text += " Combust.";
+            }
+            if (position?.IsRetrograde == true)
+            {
+                text += " Retrograde.";
+            }
+
+            var facts = new List<DashaPeriodFactDto>
+            {
+                new()
+                {
+                    Planet = planet.ToString(),
+                    Tone = tone,
+                    Score = score,
+                    Text = text
+                }
+            };
+
+            foreach (var detail in BuildPlanetaryAssociation(planet, planets).Details)
+            {
+                var detailTone = detail.StartsWith("Benefic:", StringComparison.Ordinal)
+                    ? "Support"
+                    : detail.StartsWith("Malefic:", StringComparison.Ordinal) ? "Pressure" : "Neutral";
+                var detailText = detail;
+                if (detailText.StartsWith("Benefic: ", StringComparison.Ordinal))
+                {
+                    detailText = detailText["Benefic: ".Length..];
+                }
+                else if (detailText.StartsWith("Malefic: ", StringComparison.Ordinal))
+                {
+                    detailText = detailText["Malefic: ".Length..];
+                }
+
+                facts.Add(new DashaPeriodFactDto
+                {
+                    Planet = planet.ToString(),
+                    Tone = detailTone,
+                    Score = score,
+                    Text = detailText
+                });
+            }
+
+            return facts;
+        }
+
+        private PredictionAnalysisDto BuildPrediction(
+            IReadOnlyCollection<PlanetPosition> planets,
+            ZodiacSign lagna,
+            Planet antar,
+            DateTime start,
+            DateTime end,
+            Planet? nextAntar,
+            Planet? pratyantar,
+            DateTime? pratyantarStart,
+            DateTime? pratyantarEnd)
+        {
+            DateTime firstEnd = start.AddTicks((end - start).Ticks / 3);
+            DateTime secondEnd = start.AddTicks((end - start).Ticks * 2 / 3);
+            var areaNames = LifeAreaLinks(planets, lagna, antar)
+                .Select(link => link.Split(':')[0])
+                .Distinct()
+                .ToList();
+            var opening = areaNames.Count > 0
+                ? $"{JoinNames(areaNames)} become active in this opening third."
+                : "This opening third carries the Antardasha lord without a direct life-area link.";
+            var startPoints = new List<string> { opening };
+            var middlePoints = new List<string>();
+            var endPoints = new List<string>
+            {
+                nextAntar == null
+                    ? $"This Antardasha ends on {end:yyyy-MM-dd}."
+                    : $"Next Antardasha is {nextAntar}, after this one ends on {end:yyyy-MM-dd}."
+            };
+
+            AddPratyantarMarker(start, firstEnd, secondEnd, end, pratyantar, pratyantarStart, pratyantarEnd, startPoints, middlePoints, endPoints);
+            if (middlePoints.Count == 0)
+            {
+                middlePoints.Add("No Pratyantardasha begins in this third.");
+            }
+
+            return new PredictionAnalysisDto
+            {
+                SelectedCategory = string.Empty,
+                Categories = new List<PredictionCategoryDto>(),
+                PhaseAnalysis = new Dictionary<string, PredictionPhaseDto>
+                {
+                    ["start"] = new() { Title = "Opening", Period = $"{start:MMM yyyy} - {firstEnd:MMM yyyy}", Points = startPoints },
+                    ["middle"] = new() { Title = "Middle", Period = $"{firstEnd:MMM yyyy} - {secondEnd:MMM yyyy}", Points = middlePoints },
+                    ["end"] = new() { Title = "Closing", Period = $"{secondEnd:MMM yyyy} - {end:MMM yyyy}", Points = endPoints }
+                }
+            };
+        }
+
+        private static void AddPratyantarMarker(
+            DateTime start,
+            DateTime firstEnd,
+            DateTime secondEnd,
+            DateTime end,
+            Planet? pratyantar,
+            DateTime? pratyantarStart,
+            DateTime? pratyantarEnd,
+            List<string> startPoints,
+            List<string> middlePoints,
+            List<string> endPoints)
+        {
+            if (pratyantar == null || pratyantarStart == null || pratyantarStart < start || pratyantarStart >= end)
+            {
+                return;
+            }
+
+            var line = pratyantarEnd == null
+                ? $"{pratyantar} Pratyantardasha, from {pratyantarStart:yyyy-MM-dd}."
+                : $"{pratyantar} Pratyantardasha, {pratyantarStart:yyyy-MM-dd} to {pratyantarEnd:yyyy-MM-dd}.";
+            if (pratyantarStart < firstEnd) startPoints.Add(line);
+            else if (pratyantarStart < secondEnd) middlePoints.Add(line);
+            else endPoints.Add(line);
+        }
+
+        private static string JoinNames(IReadOnlyList<string> names)
+        {
+            if (names.Count == 1)
+            {
+                return names[0];
+            }
+
+            return $"{string.Join(", ", names.Take(names.Count - 1))} and {names[^1]}";
+        }
+
+        private static IEnumerable<string> LifeAreaLinks(IReadOnlyCollection<PlanetPosition> planets, ZodiacSign lagna, Planet planet)
+        {
+            var position = planets.FirstOrDefault(item => item.Planet == planet);
+            var planetHouse = position == null ? 0 : (int)position.House;
+            var areas = new (string Name, int[] Houses)[]
+            {
+                ("Career", new[] { 10 }),
+                ("Finance", new[] { 2, 11 }),
+                ("Health", new[] { 1, 6 }),
+                ("Education", new[] { 5 }),
+                ("Spirituality", new[] { 9, 12 }),
+                ("Travel", new[] { 3, 9, 12 })
+            };
+
+            foreach (var area in areas)
+            {
+                foreach (var house in area.Houses)
+                {
+                    var link = planetHouse == house
+                        ? "occupies"
+                        : SignLord(HouseSign(lagna, house)) == planet
+                            ? "rules"
+                            : position != null && AspectOffsets(planet).Contains(HouseDistance(position.House, (HouseNumber)house))
+                                ? "aspects"
+                                : null;
+                    if (link != null)
                     {
-                        Name = area.Item1,
-                        Icon = area.Item2,
-                        Score = score,
-                        Rating = Math.Max(1, (int)Math.Round(score / 20.0)),
-                        Status = ScoreToResult(score)
+                        yield return $"{area.Name}: {Ordinal(house)} house, {link}.";
+                    }
+                }
+            }
+        }
+
+        private List<DashaGocharPlanetDto> BuildGochar(DateTime nowUtc, double latitude, double longitude, ZodiacSign lagna, ZodiacSign moonSign)
+        {
+            return _chartService.GenerateChart(nowUtc, latitude, longitude)
+                .Select(planet =>
+                {
+                    var fromLagna = (((int)planet.Sign - (int)lagna + 12) % 12) + 1;
+                    return new DashaGocharPlanetDto
+                    {
+                        Planet = planet.Planet.ToString(),
+                        Sign = planet.Sign.ToString(),
+                        HouseFromLagna = fromLagna,
+                        HouseFromMoon = (((int)planet.Sign - (int)moonSign + 12) % 12) + 1,
+                        AspectedHouses = AspectOffsets(planet.Planet)
+                            .Select(offset => ((fromLagna - 1 + offset - 1) % 12) + 1)
+                            .ToList()
                     };
                 })
                 .ToList();
         }
 
-        private static List<string> BuildPositiveInfluences(Planet maha, Planet antar, PlanetPosition? mahaPosition, string result)
+        private RecommendedActionsDto BuildRecommendedActions(Planet planet, IReadOnlyCollection<PlanetPosition> planets, IEnumerable<Planet> lords, ZodiacSign lagna)
         {
-            var placement = mahaPosition == null
-                ? $"{maha} activates its natural dasha themes."
-                : $"{maha} activates matters of the {(int)mahaPosition.House} house in {mahaPosition.Sign}.";
-
-            return new List<string>
+            var remedies = BuildRemedies(planet, planets, lagna);
+            var pressure = SelectFactTexts(planets, lords, "Pressure");
+            var dos = new List<string>
             {
-                placement,
-                $"{antar} Antardasha shapes the immediate results of this Mahadasha.",
-                $"{result} timing is indicated by the current dasha strength.",
-                "Use this period for conscious planning, disciplined action, and timely decisions.",
-                "Results improve when choices align with the active planetary themes."
+                $"Japa: {remedies.Mantra}. Beej of {planet}, on {remedies.Fast}.",
+                $"Daan: {remedies.Donation}. {remedies.Charity}.",
+                remedies.LifestyleAdvice
             };
-        }
-
-        private static List<string> BuildChallenges(Planet maha, Planet antar)
-        {
-            return new List<string>
+            if (remedies.Gemstone != "Not advised")
             {
-                $"Avoid overdoing the lower expression of {maha}.",
-                $"{antar} can bring short-term fluctuations within the larger Mahadasha.",
-                "Do not judge results from dasha alone; confirm with chart strength and transits.",
-                "Keep routines steady during major period transitions.",
-                "Avoid impulsive decisions near Antardasha start and end dates."
-            };
-        }
+                dos.Add($"{remedies.Gemstone}. {remedies.Deity}");
+            }
 
-        private static PredictionAnalysisDto BuildPrediction(Planet maha, Planet antar, DateTime start, DateTime end, int score)
-        {
-            DateTime firstEnd = start.AddTicks((end - start).Ticks / 3);
-            DateTime secondEnd = start.AddTicks((end - start).Ticks * 2 / 3);
-
-            return new PredictionAnalysisDto
-            {
-                SelectedCategory = "Career",
-                Categories = BuildLifeAreas(score, maha, antar)
-                    .Select(area => new PredictionCategoryDto
-                    {
-                        Name = area.Name,
-                        Score = area.Score,
-                        Prediction = $"{area.Name} gives {area.Status.ToLowerInvariant()} results during {maha} / {antar}."
-                    })
-                    .ToList(),
-                PhaseAnalysis = new Dictionary<string, PredictionPhaseDto>
-                {
-                    ["start"] = new()
-                    {
-                        Title = "Start Phase",
-                        Period = $"{start:MMM yyyy} - {firstEnd:MMM yyyy}",
-                        Points = new()
-                        {
-                            "The Antardasha themes begin to surface.",
-                            "Observe new responsibilities, people, and opportunities.",
-                            "Start with measured decisions rather than sudden commitments."
-                        }
-                    },
-                    ["middle"] = new()
-                    {
-                        Title = "Middle Phase",
-                        Period = $"{firstEnd:MMM yyyy} - {secondEnd:MMM yyyy}",
-                        Points = new()
-                        {
-                            "The period becomes more active and visible.",
-                            "Results improve through consistent effort.",
-                            "Use feedback from early events to adjust direction."
-                        }
-                    },
-                    ["end"] = new()
-                    {
-                        Title = "End Phase",
-                        Period = $"{secondEnd:MMM yyyy} - {end:MMM yyyy}",
-                        Points = new()
-                        {
-                            "The Antardasha starts preparing the next transition.",
-                            "Complete pending work and reduce avoidable risk.",
-                            "Reflect on lessons before the next sub-period begins."
-                        }
-                    }
-                }
-            };
-        }
-
-        private static RecommendedActionsDto BuildRecommendedActions(Planet planet)
-        {
-            var remedies = BuildRemedies(planet);
             return new RecommendedActionsDto
             {
-                Dos = new List<string>
-                {
-                    $"Respect the constructive qualities of {planet}.",
-                    $"Recite '{remedies.Mantra}' with steady intention.",
-                    $"Use {remedies.Color.ToLowerInvariant()} thoughtfully on supportive days.",
-                    $"Practice charity through {remedies.Charity.ToLowerInvariant()}.",
-                    "Keep decisions practical and documented."
-                },
-                Donts = new List<string>
-                {
-                    "Avoid fear-based decisions.",
-                    "Avoid shortcuts in career, money, and relationships.",
-                    "Avoid starting conflicts during emotional highs.",
-                    "Do not rely on remedies without disciplined action.",
-                    "Avoid ignoring health and routine."
-                }
+                Dos = dos,
+                Donts = pressure.Count > 0
+                    ? pressure
+                    : new List<string> { "No pressure fact is recorded for the running period lords." }
             };
         }
 
-        private static RemediesDto BuildRemedies(Planet planet)
+        private RemediesDto BuildRemedies(Planet planet, IReadOnlyCollection<PlanetPosition> planets, ZodiacSign lagna)
         {
-            return planet switch
+            var (mantra, weekday, daan, recipient, ratna, color) = planet switch
             {
-                Planet.Sun => new RemediesDto { Mantra = "Om Suryaya Namah", Fast = "Sunday", Gemstone = "Ruby", Color = "Red", Donation = "Wheat, jaggery", Deity = "Surya", Charity = "Support father figures or public service", LifestyleAdvice = "Practice humility while accepting responsibility." },
-                Planet.Moon => new RemediesDto { Mantra = "Om Somaya Namah", Fast = "Monday", Gemstone = "Pearl", Color = "White", Donation = "Rice, milk", Deity = "Shiva", Charity = "Support mothers and caregivers", LifestyleAdvice = "Stabilize sleep, food, and emotional routine." },
-                Planet.Mars => new RemediesDto { Mantra = "Om Mangalaya Namah", Fast = "Tuesday", Gemstone = "Red Coral", Color = "Red", Donation = "Lentils", Deity = "Hanuman", Charity = "Support soldiers, athletes, or emergency workers", LifestyleAdvice = "Channel anger into disciplined effort." },
-                Planet.Rahu => new RemediesDto { Mantra = "Om Rahave Namah", Fast = "Saturday", Gemstone = "Hessonite", Color = "Smoky Blue", Donation = "Blankets, sesame", Deity = "Durga", Charity = "Help marginalized people", LifestyleAdvice = "Avoid obsession and verify unusual opportunities." },
-                Planet.Jupiter => new RemediesDto { Mantra = "Om Brim Brihaspataye Namah", Fast = "Thursday", Gemstone = "Yellow Sapphire", Color = "Yellow", Donation = "Turmeric, yellow clothes", Deity = "Vishnu", Charity = "Donate books to students", LifestyleAdvice = "Respect teachers, keep learning, and avoid ego." },
-                Planet.Saturn => new RemediesDto { Mantra = "Om Sham Shanicharaya Namah", Fast = "Saturday", Gemstone = "Blue Sapphire", Color = "Dark Blue", Donation = "Black sesame, oil", Deity = "Shani", Charity = "Serve workers, elders, and the poor", LifestyleAdvice = "Be punctual, patient, and consistent." },
-                Planet.Mercury => new RemediesDto { Mantra = "Om Bum Budhaya Namah", Fast = "Wednesday", Gemstone = "Emerald", Color = "Green", Donation = "Green gram", Deity = "Vishnu", Charity = "Support education and communication access", LifestyleAdvice = "Think clearly, write things down, and avoid nervous haste." },
-                Planet.Ketu => new RemediesDto { Mantra = "Om Ketave Namah", Fast = "Tuesday", Gemstone = "Cat's Eye", Color = "Grey", Donation = "Multi-colored cloth", Deity = "Ganesha", Charity = "Support spiritual or animal welfare causes", LifestyleAdvice = "Meditate and detach from unnecessary control." },
-                Planet.Venus => new RemediesDto { Mantra = "Om Shukraya Namah", Fast = "Friday", Gemstone = "Diamond", Color = "White", Donation = "White sweets, clothes", Deity = "Lakshmi", Charity = "Support women, artists, or marriage aid", LifestyleAdvice = "Balance pleasure with responsibility." },
-                _ => new RemediesDto { Mantra = "Om Namah Shivaya", Fast = "Monday", Gemstone = "Consult astrologer", Color = "White", Donation = "Food", Deity = "Shiva", Charity = "Serve those in need", LifestyleAdvice = "Keep life simple and disciplined." }
+                Planet.Sun => ("Om Hraam Hreem Hraum Sah Suryaya Namah", "Sunday", "Wheat, jaggery, and copper", "a person in public service", "Ruby (Manikya)", "Red"),
+                Planet.Moon => ("Om Shraam Shreem Shraum Sah Chandraya Namah", "Monday", "Rice, milk, and white cloth", "a caregiver", "Pearl (Mukta)", "White"),
+                Planet.Mars => ("Om Kraam Kreem Kraum Sah Bhaumaya Namah", "Tuesday", "Red lentils and red cloth", "someone who can use them", "Red coral (Vidruma)", "Red"),
+                Planet.Mercury => ("Om Braam Breem Braum Sah Budhaya Namah", "Wednesday", "Green gram and green cloth", "a student", "Emerald (Marakata)", "Green"),
+                Planet.Jupiter => ("Om Graam Greem Graum Sah Gurave Namah", "Thursday", "Turmeric, chana, ghee, and yellow cloth", "a teacher or student", "Yellow sapphire (Pushyaraga)", "Yellow"),
+                Planet.Venus => ("Om Draam Dreem Draum Sah Shukraya Namah", "Friday", "White cloth, rice, and sugar", "someone who can use them", "Diamond (Vajra)", "White"),
+                Planet.Saturn => ("Om Praam Preem Praum Sah Shanaischaraya Namah", "Saturday", "Black sesame, oil, and a blanket", "a worker or elder", "Blue sapphire (Neelam)", "Dark blue"),
+                Planet.Rahu => ("Om Bhraam Bhreem Bhraum Sah Rahave Namah", "Saturday", "Sesame, black cloth, and a blanket", "a person left without support", "Hessonite (Gomed)", "Smoky blue"),
+                Planet.Ketu => ("Om Sraam Sreem Sraum Sah Ketave Namah", "Tuesday", "Sesame and a blanket", "a person left without support", "Cat's eye (Vaidurya)", "Grey"),
+                _ => ("Om Namah Shivaya", "Monday", "Food", "someone who can use it", "Not named", "White")
+            };
+
+            var position = planets.FirstOrDefault(item => item.Planet == planet);
+            var dignity = position == null ? PlanetStrength.Neutral : _planetStrengthService.GetStrength(position.Planet, position.Sign);
+            var score = StrengthToScore(dignity, position);
+            var role = GrahaRole(planet, lagna);
+            var combust = position?.IsCombust == true;
+            var strong = dignity is PlanetStrength.Exalted or PlanetStrength.OwnSign || score >= 65;
+            var desirable = role is "benefic" or "yogakaraka";
+            var blocked = !desirable || combust;
+            var gemstone = blocked ? "Not advised" : ratna;
+            var reason = role == "node"
+                ? $"{planet} does not rule a house, so its ratna is not used to strengthen the period."
+                : combust
+                    ? $"{planet} is combust, so the ratna is not used to strengthen an afflicted graha."
+                    : !desirable
+                        ? $"{planet} is {RoleLabel(role)} for this lagna, so its ratna is not used to strengthen it."
+                        : strong
+                            ? "The graha is already strong, so the ratna is named and not added."
+                            : $"Strengthening a weak {RoleLabel(role)} may be considered with a practitioner. This result does not prescribe wearing it.";
+            var daanReason = combust || role is "malefic" or "maraka" or "node"
+                ? "Given as shanti, to pacify the lord, not to increase it."
+                : strong
+                    ? "Given to sustain the significations of a lord that is already strong."
+                    : "Given as shanti while the lord is not strong.";
+            var conduct = combust
+                ? $"Keep the matters of {planet} modest while it is combust."
+                : role is "malefic" or "maraka" or "node"
+                    ? $"Meet the duties of {planet} on time. Do not expand the houses this lord pressures."
+                    : strong
+                        ? $"Use the strength of {planet} in the houses it rules."
+                        : $"Support {planet} by repetition and a steady weekday practice.";
+
+            return new RemediesDto
+            {
+                Mantra = mantra,
+                Fast = weekday,
+                Gemstone = gemstone,
+                Color = color,
+                Donation = daan,
+                Deity = $"{ratna} is the navaratna of {planet}. {reason} Natal score {score}.",
+                Charity = $"On {weekday}, to {recipient}. {daanReason}",
+                LifestyleAdvice = conduct
+            };
+        }
+
+        private static string GrahaRole(Planet planet, ZodiacSign lagna)
+        {
+            if (planet is Planet.Rahu or Planet.Ketu)
+            {
+                return "node";
+            }
+
+            var houses = Enumerable.Range(1, 12).Where(house => SignLord(HouseSign(lagna, house)) == planet).ToList();
+            var trikona = houses.Any(house => house is 1 or 5 or 9);
+            var kendra = houses.Any(house => house is 4 or 7 or 10);
+            var dusthana = houses.Any(house => house is 6 or 8 or 12);
+            var maraka = houses.Any(house => house is 2 or 7);
+            if (kendra && houses.Any(house => house is 5 or 9))
+            {
+                return "yogakaraka";
+            }
+            if (trikona)
+            {
+                return "benefic";
+            }
+            if (dusthana)
+            {
+                return "malefic";
+            }
+            if (maraka)
+            {
+                return "maraka";
+            }
+
+            return "neutral";
+        }
+
+        private static string RoleLabel(string role)
+        {
+            return role switch
+            {
+                "yogakaraka" => "yogakaraka",
+                "benefic" => "a functional benefic",
+                "malefic" => "a functional malefic",
+                "maraka" => "a maraka",
+                "node" => "a node",
+                _ => "neutral by ownership"
             };
         }
     }

@@ -1,0 +1,129 @@
+<app-page-header [title]="'Plans and offers'"></app-page-header>
+
+<section class="offers-page" *ngIf="!loading; else loadingTpl">
+  <article class="plan-board">
+    <header class="plan-board__hero">
+      <p class="eyebrow">HoraLife membership</p>
+      <h2>Plan <span>configuration</span></h2>
+      <p>Name and tagline sit in the first column. Free, Premium, and Premium Plus stay in their own columns.</p>
+    </header>
+
+    <div class="plan-columns">
+      <div class="plan-labels">
+        <span></span>
+        <span>Name</span>
+        <span>Tagline</span>
+        <span>Monthly ₹</span>
+        <span>Yearly ₹</span>
+        <span>Kundali saves</span>
+        <span>Match saves</span>
+        <span>AI chat</span>
+        <span>Life questions / day</span>
+        <span>Open for checkout</span>
+      </div>
+
+      <article
+        class="plan-column"
+        *ngFor="let plan of orderedPlans()"
+        [attr.data-plan]="plan.code"
+        [class.featured]="plan.code === 'Premium'">
+        <h3>{{ planTitle(plan) }}</h3>
+        <input [(ngModel)]="plan.name" [attr.aria-label]="planTitle(plan) + ' name'" />
+        <input [(ngModel)]="plan.tagline" [attr.aria-label]="planTitle(plan) + ' tagline'" />
+        <input class="num-input" type="number" min="0" [value]="rupees(plan.monthlyAmountPaise)" (change)="setRupees(plan, 'monthly', $any($event.target).value)" [disabled]="plan.code === 'Free'" [attr.aria-label]="planTitle(plan) + ' monthly price'" />
+        <input class="num-input" type="number" min="0" [value]="rupees(plan.yearlyAmountPaise)" (change)="setRupees(plan, 'yearly', $any($event.target).value)" [disabled]="plan.code === 'Free'" [attr.aria-label]="planTitle(plan) + ' yearly price'" />
+        <input class="num-input" type="number" min="0" [(ngModel)]="plan.kundaliSaveLimit" [attr.aria-label]="planTitle(plan) + ' kundali saves'" />
+        <input class="num-input" type="number" min="0" [(ngModel)]="plan.matchSaveLimit" [attr.aria-label]="planTitle(plan) + ' match saves'" />
+        <button
+          type="button"
+          class="switch"
+          [class.on]="plan.aiChatEnabled"
+          (click)="plan.aiChatEnabled = !plan.aiChatEnabled"
+          [attr.aria-pressed]="plan.aiChatEnabled"
+          [attr.aria-label]="planTitle(plan) + ' AI chat'">
+          <i></i>
+        </button>
+        <input class="num-input" type="number" min="0" [(ngModel)]="plan.lifeQuestionLimit" placeholder="Unlimited" [attr.aria-label]="planTitle(plan) + ' life questions per day'" />
+        <button
+          type="button"
+          class="switch"
+          [class.on]="plan.checkoutOpen"
+          [disabled]="plan.code === 'Free'"
+          (click)="toggleCheckout(plan)"
+          [attr.aria-pressed]="plan.checkoutOpen"
+          [attr.aria-label]="planTitle(plan) + ' checkout'">
+          <i></i>
+        </button>
+      </article>
+    </div>
+
+    <div class="plan-save">
+      <button type="button" (click)="savePlans()" [disabled]="savingPlans">{{ savingPlans ? 'Saving...' : 'Save plans' }}</button>
+    </div>
+  </article>
+
+  <article class="plan-board">
+    <header class="plan-board__hero">
+      <p class="eyebrow">HoraLife membership</p>
+      <h2>{{ couponDraft.id ? 'Edit' : 'New' }} <span>offer</span></h2>
+      <p>One coupon code, and a percentage off Premium, Premium Plus, or both.</p>
+    </header>
+
+    <form class="offer-sheet" (ngSubmit)="saveCoupon()">
+      <div class="offer-fields">
+        <label>Offer name <input name="offerName" [(ngModel)]="couponDraft.name" required /></label>
+        <label>Code <input name="offerCode" [(ngModel)]="couponDraft.code" required /></label>
+        <label>Percent off <input class="num-input" name="percent" type="number" min="1" max="99" [(ngModel)]="couponDraft.percentOff" required /></label>
+        <label>Redemption cap <input class="num-input" name="cap" type="number" min="1" [(ngModel)]="couponDraft.maxRedemptions" placeholder="No cap" /></label>
+        <label>Starts <input name="starts" type="datetime-local" [(ngModel)]="couponDraft.startsAt" /></label>
+        <label>Ends <input name="ends" type="datetime-local" [(ngModel)]="couponDraft.endsAt" /></label>
+      </div>
+
+      <div class="offer-rules">
+      <div class="offer-choice">
+        <span>Applies to</span>
+        <div class="choice-toggles">
+          <span>Premium <button type="button" class="switch" [class.on]="couponDraft.premium" (click)="couponDraft.premium = !couponDraft.premium" aria-label="Premium"><i></i></button></span>
+          <span>Premium Plus <button type="button" class="switch" [class.on]="couponDraft.plus" (click)="couponDraft.plus = !couponDraft.plus" aria-label="Premium Plus"><i></i></button></span>
+        </div>
+      </div>
+      <div class="offer-choice">
+        <span>Billing</span>
+        <div class="choice-toggles">
+          <span>Monthly <button type="button" class="switch" [class.on]="couponDraft.monthly" (click)="couponDraft.monthly = !couponDraft.monthly" aria-label="Monthly"><i></i></button></span>
+          <span>Yearly <button type="button" class="switch" [class.on]="couponDraft.yearly" (click)="couponDraft.yearly = !couponDraft.yearly" aria-label="Yearly"><i></i></button></span>
+        </div>
+      </div>
+      <div class="offer-choice offer-choice--active">
+        <span>Offer is live</span>
+        <button type="button" class="switch" [class.on]="couponDraft.active" (click)="couponDraft.active = !couponDraft.active" aria-label="Offer is live"><i></i></button>
+      </div>
+      </div>
+
+      <div class="plan-save">
+        <button type="button" class="ghost" *ngIf="couponDraft.id" (click)="resetDraft()">Cancel</button>
+        <button type="submit">{{ couponDraft.id ? 'Update offer' : 'Create offer' }}</button>
+      </div>
+    </form>
+
+    <div class="coupon-list">
+      <article *ngFor="let coupon of coupons" [class.off]="!coupon.active">
+        <div class="coupon-line">
+          <strong>{{ coupon.code }}</strong>
+          <span>{{ coupon.name }} · {{ coupon.percentOff }}%</span>
+          <small>{{ coupon.planCodes.join(' · ') }} · {{ coupon.billingCycles.join(', ') }} · {{ coupon.redeemedCount }} used{{ coupon.maxRedemptions ? ' / ' + coupon.maxRedemptions : '' }}</small>
+        </div>
+        <div class="row-actions">
+          <em [class.off]="!coupon.active">{{ coupon.active ? 'Active' : 'Inactive' }}</em>
+          <button type="button" (click)="editCoupon(coupon)">Edit</button>
+          <button type="button" *ngIf="coupon.active" (click)="deactivate(coupon)">Turn off</button>
+        </div>
+      </article>
+      <p *ngIf="!coupons.length">No offers yet.</p>
+    </div>
+  </article>
+</section>
+
+<ng-template #loadingTpl>
+  <p class="loading-line">Loading plans and offers...</p>
+</ng-template>

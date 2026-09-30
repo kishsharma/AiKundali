@@ -229,11 +229,20 @@
   }
 
   .nav-links{display:flex; flex-wrap:nowrap; gap:clamp(18px, 2vw, 32px); align-items:center; white-space:nowrap;}
-  .nav-links a{
+  .nav-links a,
+  .nav-links .nav-plans{
     font-size:14px; color:var(--parchment-dim);
     transition:color .2s ease;
   }
-  .nav-links a:hover{color:var(--brass);}
+  .nav-links .nav-plans{
+    border:0;
+    background:transparent;
+    padding:0;
+    font:inherit;
+    cursor:pointer;
+  }
+  .nav-links a:hover,
+  .nav-links .nav-plans:hover{color:var(--brass);}
   .nav-actions{display:flex; align-items:center; gap:10px;}
   .nav-login{
   font-size:13px;
@@ -958,6 +967,116 @@
     letter-spacing:.04em;
   }
 
+  /* ---------- Store showcase ---------- */
+  .store-showcase{
+    position:relative;
+    overflow:hidden;
+    padding:72px 0 64px;
+    border-bottom:1px solid var(--line-soft);
+    background:
+      radial-gradient(circle at 12% 18%, rgba(201,162,75,.14), transparent 42%),
+      linear-gradient(180deg, color-mix(in srgb, var(--ink-3) 88%, #10162c), var(--ink-2));
+  }
+  .store-showcase-head{
+    position:relative;
+    z-index:1;
+    max-width:720px;
+    margin-bottom:34px;
+  }
+  .store-showcase-head h2{
+    margin:10px 0 14px;
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(30px, 4vw, 42px);
+    font-weight:600;
+    line-height:1.15;
+    color:var(--parchment);
+  }
+  .store-showcase-head p{
+    color:var(--parchment-dim);
+    max-width:560px;
+  }
+  .store-marquee{
+    position:relative;
+    z-index:1;
+    overflow:hidden;
+    mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .store-marquee-track{
+    display:flex;
+    width:max-content;
+    gap:16px;
+    padding:8px 32px 18px;
+    animation:store-marquee 48s linear infinite;
+  }
+  .store-marquee:hover .store-marquee-track{
+    animation-play-state:paused;
+  }
+  .store-item{
+    display:grid;
+    gap:8px;
+    width:168px;
+    flex:0 0 auto;
+    color:inherit;
+  }
+  .store-item-media{
+    display:grid;
+    place-items:center;
+    aspect-ratio:1;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(239,230,211,.12), transparent 55%),
+      color-mix(in srgb, var(--ink) 78%, #12182c);
+    overflow:hidden;
+  }
+  .store-item-media img{
+    width:78%;
+    height:78%;
+    object-fit:contain;
+    transition:transform .35s ease;
+  }
+  .store-item:hover .store-item-media img{
+    transform:scale(1.06);
+  }
+  .store-item-type{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass-soft);
+  }
+  .store-item strong{
+    font-family:'Cormorant Garamond', serif;
+    font-size:18px;
+    font-weight:600;
+    line-height:1.2;
+  }
+  .store-showcase-ctas{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+    margin-top:10px;
+  }
+  @keyframes store-marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .store-marquee-track{animation:none;}
+  }
+  @media (max-width:700px){
+    .store-showcase{padding:56px 0 48px;}
+    .store-item{width:140px;}
+    .store-showcase-ctas{flex-direction:column; align-items:stretch;}
+    .store-showcase-ctas .btn-primary,
+    .store-showcase-ctas .btn-secondary,
+    .store-showcase-ctas .btn-ghost{text-align:center;}
+  }
+
   /* ---------- CTA / form ---------- */
   .cta-section{border-bottom:1px solid var(--line-soft);}
   .cta-grid{
@@ -1205,9 +1324,15 @@ section h3 {
   box-shadow:0 0 0 3px rgba(224,184,79,0.1);
 }
 
-footer {
+footer,
+.landing-foot {
   background:#0c1534;
   border-top:1px solid rgba(224,184,79,0.12);
+}
+
+.landing-foot {
+  padding:42px 0 32px;
+  position:relative;
 }
 
 @media (max-width:640px) {
@@ -1574,7 +1699,8 @@ footer {
     text-align: center;
   }
 
-  footer {
+  footer,
+  .landing-foot {
     padding: 28px 0 24px;
   }
 

@@ -69,6 +69,20 @@ namespace KundaliEngine.KnowledgeBase.Services
             public List<int> LuckyNumbers { get; set; } = new();
             public string FavorableDay { get; set; } = string.Empty;
             public string FavorableDirection { get; set; } = string.Empty;
+            public GhatChakraMeta? GhatChakra { get; set; }
+        }
+
+        public sealed class GhatChakraMeta
+        {
+            public string Month { get; set; } = string.Empty;
+            public string Tithi { get; set; } = string.Empty;
+            public string TithiNumbers { get; set; } = string.Empty;
+            public string Weekday { get; set; } = string.Empty;
+            public string Nakshatra { get; set; } = string.Empty;
+            public string Yoga { get; set; } = string.Empty;
+            public string Karana { get; set; } = string.Empty;
+            public string MoonMale { get; set; } = string.Empty;
+            public string MoonFemale { get; set; } = string.Empty;
         }
     }
 }

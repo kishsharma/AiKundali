@@ -3,7 +3,14 @@
     <a routerLink="/" class="auth-back-link" aria-label="Back to HoraLife home">
       <span aria-hidden="true">&larr;</span> Back to home
     </a>
-    <h1>Login to HoraLife</h1>
+    <div class="auth-brand-lockup" aria-label="HoraLife">
+      <img [src]="brandLogoSrc" class="auth-brand-logo" alt="HoraLife logo">
+      <div class="auth-brand-copy">
+        <p class="auth-brand-name"><span>Hora</span><span>Life</span></p>
+        <small>Precision Vedic Astrology</small>
+      </div>
+    </div>
+    <h1>Login</h1>
     <p>Access your saved kundalis, reports and insights.</p>
 
     <ng-container *ngIf="loginMode === 'otp'; else passwordLogin">
@@ -46,7 +53,6 @@
               (ngModelChange)="onOtpInput($event)"
               (keydown)="onOtpKeyDown($event)"
               autocomplete="one-time-code"
-              [disabled]="isLoading"
               aria-label="6 digit verification code"
             />
             <div class="otp-boxes" aria-hidden="true">

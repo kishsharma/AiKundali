@@ -9,5 +9,8 @@ public enum InventoryReservationErrorCode
     OrderItemProductMissing,
     InventoryRecordMissing,
     InsufficientStock,
-    InventoryAlreadyReserved
+    InventoryAlreadyReserved,
+    InventoryNotReserved,
+    InventoryAlreadyConfirmed,
+    InventoryAlreadyReleased
 }

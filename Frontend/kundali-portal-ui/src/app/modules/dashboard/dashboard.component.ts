@@ -13,13 +13,13 @@ import {
   DashboardCurrentDasha,
   DashboardInsight,
   DashboardKundali,
-  DashboardLearningLevel,
-  DashboardMuhurthaPreview,
   DashboardPanchang,
   DashboardSummary,
   RetrogradePlanet,
 } from '../../core/services/dashboard-api.service';
 import { LatestKundaliStorageService } from '../../core/services/latest-kundali-storage.service';
+import { DhruvaAllowance, DhruvaNarrationService } from '../../core/services/dhruva-narration.service';
+import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 
 interface QuickAction {
   labelKey: string;
@@ -370,7 +370,7 @@ interface QuickAction {
 
     .journey-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.85rem;
     }
 
@@ -432,9 +432,216 @@ interface QuickAction {
       background: color-mix(in srgb, var(--theme-warning) 10%, transparent);
     }
 
+    .usage-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(38, 63, 135, 0.18);
+      border-radius: var(--theme-radius-control);
+      background: rgba(38, 63, 135, 0.06);
+    }
+
+    .usage-banner[data-plan='Premium'] {
+      border-color: rgba(241, 184, 59, 0.4);
+      background: linear-gradient(90deg, rgba(248, 213, 106, 0.22), rgba(241, 184, 59, 0.06));
+    }
+
+    .usage-banner[data-plan='PremiumPlus'] {
+      border-color: rgba(225, 95, 61, 0.35);
+      background: linear-gradient(90deg, rgba(225, 95, 61, 0.12), rgba(241, 184, 59, 0.08));
+    }
+
+    .usage-banner__copy {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .usage-banner__copy > span {
+      color: var(--theme-text-muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .usage-plan-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: fit-content;
+      padding: 0.2rem 0.7rem 0.2rem 0.45rem;
+      border: 1px solid rgba(38, 63, 135, 0.28);
+      border-radius: 999px;
+      color: #263f87;
+      background: rgba(38, 63, 135, 0.08);
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .usage-plan-name::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #263f87;
+      box-shadow: 0 0 0 3px rgba(38, 63, 135, 0.14);
+    }
+
+    .usage-plan-name[data-plan='Premium'] {
+      padding: 0.28rem 0.95rem 0.28rem 0.55rem;
+      border: 1px solid #b8862a;
+      color: #5c3b08;
+      background: linear-gradient(180deg, #fff8dc 0%, #f6d56a 46%, #e2b23c 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 6px 14px rgba(184, 134, 42, 0.28);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .usage-plan-name[data-plan='Premium']::before {
+      width: 12px;
+      height: 12px;
+      border-radius: 0;
+      background: #8a5a10;
+      box-shadow: none;
+      clip-path: polygon(50% 0%, 62% 35%, 100% 38%, 70% 59%, 79% 96%, 50% 75%, 21% 96%, 30% 59%, 0 38%, 38% 35%);
+    }
+
+    .usage-plan-name[data-plan='PremiumPlus'] {
+      padding: 0.28rem 0.95rem 0.28rem 0.55rem;
+      border: 1px solid #8e3b23;
+      color: #fff6e8;
+      background: linear-gradient(180deg, #c45532 0%, #8e3b23 55%, #5c2616 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 220, 180, 0.45), 0 6px 14px rgba(142, 59, 35, 0.28);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .usage-plan-name[data-plan='PremiumPlus']::before {
+      width: 12px;
+      height: 12px;
+      border-radius: 0;
+      background: #f6d56a;
+      box-shadow: none;
+      clip-path: polygon(50% 0%, 62% 35%, 100% 38%, 70% 59%, 79% 96%, 50% 75%, 21% 96%, 30% 59%, 0 38%, 38% 35%);
+    }
+
+    .usage-upgrade {
+      flex: 0 0 auto;
+      align-self: center;
+      min-height: 34px;
+      padding: 0 0.9rem;
+      border: 1px solid rgba(225, 95, 61, 0.45);
+      border-radius: 999px;
+      color: #e15f3d;
+      background: #fff;
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .usage-upgrade:hover,
+    .usage-upgrade:focus-visible {
+      border-color: #e15f3d;
+      outline: none;
+    }
+
+    .usage-banner__copy p {
+      margin: 0;
+      min-width: 0;
+      color: var(--theme-text-muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .usage-meters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .usage-meter {
+      display: grid;
+      gap: 0.45rem;
+      align-content: start;
+      padding: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--theme-line);
+      border-radius: var(--theme-radius-control);
+      background: color-mix(in srgb, var(--theme-surface-2) 72%, transparent);
+    }
+
+    .usage-meter:hover {
+      border-color: color-mix(in srgb, var(--theme-accent) 56%, transparent);
+    }
+
+    .usage-meter__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .usage-meter__top span {
+      color: var(--theme-text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .usage-meter__top strong {
+      color: var(--theme-text);
+      font-size: 0.95rem;
+    }
+
+    .usage-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--theme-line) 80%, transparent);
+      overflow: hidden;
+    }
+
+    .usage-bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--theme-accent);
+    }
+
+    .usage-bar.is-tight span {
+      background: var(--theme-warning, #d97706);
+    }
+
+    .usage-bar.is-open span {
+      width: 100%;
+      background: color-mix(in srgb, var(--theme-success, #1d6b45) 70%, var(--theme-accent));
+    }
+
+    .usage-bar.is-locked {
+      background: color-mix(in srgb, var(--theme-line) 55%, transparent);
+    }
+
+    .usage-meter small {
+      color: var(--theme-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.35;
+    }
+
     .collection-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.75rem;
     }
 
@@ -458,10 +665,12 @@ interface QuickAction {
       line-height: 1;
     }
 
-    .collection-label {
+    .collection-label,
+    .collection-note {
       color: var(--theme-text-muted);
       font-size: 0.78rem;
       font-weight: 700;
+      line-height: 1.35;
     }
 
     .today-grid {
@@ -631,9 +840,19 @@ interface QuickAction {
 
     @media (max-width: 900px) {
       .panchang-strip,
-      .collection-grid,
+      .usage-meters,
       .today-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .usage-banner,
+      .usage-banner__copy {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .usage-upgrade {
+        align-self: flex-start;
       }
     }
 
@@ -650,7 +869,7 @@ interface QuickAction {
       .panchang-strip,
       .actions-grid,
       .journey-grid,
-      .collection-grid,
+      .usage-meters,
       .today-grid,
       .progress-layout {
         grid-template-columns: 1fr;
@@ -680,7 +899,9 @@ interface QuickAction {
 export class DashboardComponent implements OnInit, OnDestroy {
   private readonly dashboardApi = inject(DashboardApiService);
   private readonly latestKundaliStorage = inject(LatestKundaliStorageService);
+  private readonly dhruvaNarration = inject(DhruvaNarrationService);
   private readonly transloco = inject(TranslocoService);
+  private readonly subscriptionModal = inject(SubscriptionModalService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly subscriptions = new Subscription();
 
@@ -691,18 +912,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   latestKundali: DashboardKundali | null = null;
   panchang: DashboardPanchang | null = null;
   currentDasha: DashboardCurrentDasha | null = null;
-  learningLevels: DashboardLearningLevel[] = [];
   recentReport: DashboardSummary['recentReport'] = null;
   collectionStats: DashboardSummary['collectionStats'] = {
+    planCode: 'Free',
     savedKundalis: 0,
+    kundaliSaveLimit: 0,
+    kundaliSavesLeft: 0,
     savedMatches: 0,
-    savedMuhurthas: 0,
-    reports: 0,
-    studyLevels: 0,
+    matchSaveLimit: 0,
+    matchSavesLeft: 0,
+    pdfGenerated: 0,
+    pdfUsedToday: 0,
+    pdfDailyLimit: 1,
+    pdfLeftToday: 1,
+    emailsSent: 0,
+    emailIncluded: false,
   };
   insightCards: DashboardInsight[] = [];
   private usingFallbackInsights = false;
-  upcomingMuhurthas: DashboardMuhurthaPreview[] = [];
   retrogradePlanets: RetrogradePlanet[] = [];
   retrogradeError = '';
   loading = {
@@ -719,8 +946,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     { labelKey: 'dashboard.quick.jyotishStudy', captionKey: 'dashboard.quick.jyotishStudyCaption', routerLink: '/app/learning', icon: 'study', tone: 'study' },
   ];
 
+  allowance: DhruvaAllowance | null = null;
+  allowanceReady = false;
+
   ngOnInit(): void {
     this.loadDashboard();
+    this.loadAllowance();
     this.loadRetrogrades();
     this.subscriptions.add(this.transloco.langChanges$.subscribe(() => {
       if (!this.loading.dashboard && this.usingFallbackInsights) {
@@ -765,16 +996,92 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return this.latestKundali?.id ? ['/app/kundali/saved', this.latestKundali.id] : '/app/kundali';
   }
 
-  get learningSummary(): DashboardLearningLevel | null {
-    return this.learningLevels[0] ?? null;
+  get kundaliSavesLeft(): number {
+    return this.collectionStats.kundaliSavesLeft ?? 0;
   }
 
-  get learningProgress(): number {
-    if (!this.learningSummary) {
+  get matchSavesLeft(): number {
+    return this.collectionStats.matchSavesLeft ?? 0;
+  }
+
+  get paidPlan(): boolean {
+    return this.planCode !== 'Free';
+  }
+
+  get plusPlan(): boolean {
+    return this.planCode === 'PremiumPlus';
+  }
+
+  get questionsUnlimited(): boolean {
+    return !!this.allowance && this.allowance.lifeQuestionDailyLimit == null;
+  }
+
+  get questionsLeft(): number {
+    return this.allowance?.lifeQuestionsRemaining ?? 0;
+  }
+
+  get questionsUsed(): number {
+    const limit = this.allowance?.lifeQuestionDailyLimit;
+    if (limit == null) {
       return 0;
     }
+    return Math.max(0, limit - (this.allowance?.lifeQuestionsRemaining ?? 0));
+  }
 
-    return this.learningSummary.status?.toLowerCase() === 'completed' ? 100 : 20;
+  get aiIncluded(): boolean {
+    return !!this.allowance?.dhruvaAiEnabled;
+  }
+
+  get pdfUnlimited(): boolean {
+    const plan = this.collectionStats.planCode || '';
+    return this.collectionStats.pdfDailyLimit == null && plan !== '' && plan.toLowerCase() !== 'free';
+  }
+
+  get planCode(): 'Free' | 'Premium' | 'PremiumPlus' {
+    const plan = (this.collectionStats.planCode || 'Free').toLowerCase();
+    if (plan === 'premiumplus') {
+      return 'PremiumPlus';
+    }
+    if (plan === 'premium') {
+      return 'Premium';
+    }
+    return 'Free';
+  }
+
+  get planLabelKey(): string {
+    if (this.planCode === 'PremiumPlus') {
+      return 'dashboard.plan.premiumPlus';
+    }
+    if (this.planCode === 'Premium') {
+      return 'dashboard.plan.premium';
+    }
+    return 'dashboard.plan.free';
+  }
+
+  get planActionKey(): string {
+    return this.planCode === 'PremiumPlus' ? 'dashboard.managePlan' : 'dashboard.upgrade';
+  }
+
+  openPlans(): void {
+    this.subscriptionModal.open();
+  }
+
+  get planDetailKey(): string {
+    if (this.planCode === 'PremiumPlus') {
+      return 'dashboard.plan.premiumPlusDetail';
+    }
+    if (this.planCode === 'Premium') {
+      return 'dashboard.plan.premiumDetail';
+    }
+    return 'dashboard.plan.freeDetail';
+  }
+
+  usageShare(used: number | null | undefined, limit: number | null | undefined): number {
+    const cap = Number(limit) || 0;
+    if (cap <= 0) {
+      return 0;
+    }
+    return Math.max(0, Math.min(100, Math.round((Number(used) || 0) / cap * 100)));
   }
 
   formatDate(value: string | Date | undefined): string {
@@ -788,16 +1095,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       month: 'short',
       year: 'numeric',
     }).format(date);
-  }
-
-  formatDay(value: string | Date | undefined): string {
-    const date = this.toDate(value);
-    return date ? new Intl.DateTimeFormat(this.currentLocale, { day: '2-digit' }).format(date) : '--';
-  }
-
-  formatMonth(value: string | Date | undefined): string {
-    const date = this.toDate(value);
-    return date ? new Intl.DateTimeFormat(this.currentLocale, { month: 'short' }).format(date) : '';
   }
 
   get currentLocale(): string {
@@ -849,6 +1146,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscriptions.add(sub);
   }
 
+  private loadAllowance(): void {
+    this.dhruvaNarration.getAllowance().pipe(
+      catchError(() => of(null))
+    ).subscribe((allowance) => {
+      this.allowance = allowance;
+      this.allowanceReady = true;
+      this.cdr.markForCheck();
+    });
+  }
+
   private loadDashboard(): void {
     const sub = this.dashboardApi.getSummary().pipe(
       catchError((error) => {
@@ -871,13 +1178,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.panchang = summary.todayPanchang ?? null;
       this.latestKundali = summary.latestKundali ?? null;
       this.currentDasha = summary.currentDasha ?? null;
-      this.learningLevels = Array.isArray(summary.learningLevels) ? summary.learningLevels : [];
       this.recentReport = summary.recentReport ?? null;
       this.collectionStats = summary.collectionStats ?? this.collectionStats;
       this.savedKundalisCount = this.collectionStats.savedKundalis;
       this.usingFallbackInsights = !summary.dailyInsights?.length;
       this.insightCards = summary.dailyInsights?.length ? summary.dailyInsights : this.buildFallbackInsights();
-      this.upcomingMuhurthas = summary.upcomingMuhurthas ?? [];
       this.cdr.markForCheck();
     });
 

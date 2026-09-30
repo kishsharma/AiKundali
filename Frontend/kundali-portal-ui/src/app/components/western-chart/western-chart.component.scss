@@ -45,7 +45,11 @@
 }
 
 .planet-text.transit-planet {
-  font-size: 0.72rem;
+  font-size: 1.05rem;
+}
+
+.planet-text.transit-planet .planet-degree {
+  font-size: 0.9em;
 }
 
 .wheel-segment {

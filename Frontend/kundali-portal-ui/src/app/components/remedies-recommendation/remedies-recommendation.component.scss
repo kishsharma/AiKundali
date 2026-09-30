@@ -112,6 +112,12 @@
   line-height: 1;
 }
 
+.gemstone-link {
+  color: var(--theme-accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .suitability.strong {
   color: var(--theme-success);
   border-color: color-mix(in srgb, var(--theme-success) 44%, var(--theme-line));

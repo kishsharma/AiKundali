@@ -1,7 +1,7 @@
 <app-page-header [title]="'portalNotes.title' | transloco" [compact]="true"></app-page-header>
 
 <app-portal-notes
-  *ngIf="editingNote"
+  *ngIf="isPremiumUser && editingNote"
   [open]="isEditorOpen"
   [allowPageSave]="!editingNote.contextId"
   (closed)="closeEditor()"
@@ -11,7 +11,15 @@
   subtitle="Update this saved note and voice recordings.">
 </app-portal-notes>
 
-<section class="notes-page">
+<section class="notes-page" *ngIf="!isPremiumUser">
+  <div class="notes-page__intro">
+    <h2>{{ 'portalNotes.premiumTitle' | transloco }}</h2>
+    <p>{{ 'portalNotes.premiumCopy' | transloco }}</p>
+    <button type="button" class="note-action" (click)="unlockNotes()">{{ 'portalNotes.unlock' | transloco }}</button>
+  </div>
+</section>
+
+<section class="notes-page" *ngIf="isPremiumUser">
   <div class="notes-page__intro">
     <h2>{{ 'portalNotes.heading' | transloco }}</h2>
     <p>{{ 'portalNotes.description' | transloco }}</p>

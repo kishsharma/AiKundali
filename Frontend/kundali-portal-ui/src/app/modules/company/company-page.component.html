@@ -1,0 +1,37 @@
+<article class="company-page">
+  <header>
+    <p class="company-kicker">{{ business.brandName }}</p>
+    <h1>{{ page.title }}</h1>
+  </header>
+
+  <p *ngFor="let paragraph of page.intro">{{ paragraph }}</p>
+
+  <section *ngFor="let section of page.sections">
+    <h2>{{ section.heading }}</h2>
+    <p *ngFor="let paragraph of section.paragraphs">{{ paragraph }}</p>
+  </section>
+
+  <section class="company-identity" *ngIf="page.showLegalIds">
+    <h2>Legal identity</h2>
+    <dl>
+      <div><dt>Product</dt><dd>{{ business.brandName }}</dd></div>
+      <div><dt>Website</dt><dd>{{ business.domain }}</dd></div>
+      <div><dt>Legal name</dt><dd>{{ business.legalName }}</dd></div>
+      <div><dt>LLPIN</dt><dd>{{ business.llpin }}</dd></div>
+      <div><dt>PAN</dt><dd>{{ business.pan }}</dd></div>
+      <div><dt>GSTIN</dt><dd>{{ business.gstin }}</dd></div>
+      <div><dt>Registered address</dt><dd>{{ business.registeredAddress }}</dd></div>
+    </dl>
+  </section>
+
+  <section class="company-identity" *ngIf="page.showContact">
+    <h2>Contact</h2>
+    <p>These details are not yet updated.</p>
+    <dl>
+      <div><dt>Email</dt><dd>{{ business.supportEmail }}</dd></div>
+      <div><dt>Phone</dt><dd>{{ business.phone }}</dd></div>
+    </dl>
+  </section>
+</article>
+
+<app-site-footer tone="app"></app-site-footer>

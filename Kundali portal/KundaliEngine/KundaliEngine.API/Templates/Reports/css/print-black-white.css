@@ -538,3 +538,19 @@ body.report-shell {
 .print-bw-report .report-header .devotional-divider {
   margin: -6px 0 -6px;
 }
+
+.print-bw-report .tone-supported strong,
+.print-bw-report .tone-mixed strong,
+.print-bw-report .tone-needs-care strong {
+  color: #000;
+}
+
+.print-bw-report .life-chapter {
+  background: #fff;
+  border-color: #000;
+}
+
+.print-bw-report .report-contents {
+  columns: 2;
+  font-size: 12px;
+}

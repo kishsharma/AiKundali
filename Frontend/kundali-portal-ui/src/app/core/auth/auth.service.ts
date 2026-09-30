@@ -11,6 +11,10 @@ import {
   OtpChallengeResponse,
   RegisterRequest,
   StartEmailOtpRequest,
+  PracticeProfile,
+  UpdatePhoneNumberRequest,
+  UpdatePhoneNumberResponse,
+  UpdatePracticeProfileRequest,
   UpdatePreferredLanguageRequest,
   UpdatePreferredLanguageResponse,
   VerifyEmailOtpRequest,
@@ -111,6 +115,21 @@ export class AuthService {
     localStorage.removeItem(this.userKey);
   }
 
+  updatePhone(request: UpdatePhoneNumberRequest): Observable<UpdatePhoneNumberResponse> {
+    return this.http.patch<UpdatePhoneNumberResponse>(`${this.userApiUrl}/me/phone`, request)
+      .pipe(
+        tap((response) => this.updateCachedUser({ phoneNumber: response.phoneNumber }))
+      );
+  }
+
+  getPractice(): Observable<PracticeProfile> {
+    return this.http.get<PracticeProfile>(`${this.userApiUrl}/me/practice`);
+  }
+
+  savePractice(request: UpdatePracticeProfileRequest): Observable<PracticeProfile> {
+    return this.http.put<PracticeProfile>(`${this.userApiUrl}/me/practice`, request);
+  }
+
   getMe(): Observable<UserProfileResponse> {
     return this.http.get<UserProfileResponse>(`${this.userApiUrl}/me`)
       .pipe(
@@ -118,6 +137,10 @@ export class AuthService {
           this.updateCachedUser(profile);
         })
       );
+  }
+
+  issueStoreHandoff(): Observable<{ code: string; expiresAt: string }> {
+    return this.http.post<{ code: string; expiresAt: string }>(`${this.apiUrl}/store-handoff`, {});
   }
 
   private updateCachedUser(update: Partial<AuthResponse> | UserProfileResponse): void {

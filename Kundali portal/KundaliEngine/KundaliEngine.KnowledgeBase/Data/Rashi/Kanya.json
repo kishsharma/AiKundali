@@ -57,5 +57,16 @@
       "padas": [ 1, 2 ]
     }
   ],
-  "description": "Kanya is the sixth sign of the zodiac, representing wisdom, precision, discipline, and selfless service. Ruled by Mercury, it symbolizes intelligence, analytical thinking, organization, and the pursuit of perfection in every aspect of life."
+  "description": "Kanya is the sixth sign of the zodiac, representing wisdom, precision, discipline, and selfless service. Ruled by Mercury, it symbolizes intelligence, analytical thinking, organization, and the pursuit of perfection in every aspect of life.",
+  "ghatChakra": {
+    "month": "bhadrapada",
+    "tithi": "purna",
+    "tithiNumbers": "5, 10, 15",
+    "weekday": "saturday",
+    "nakshatra": "Shravana",
+    "yoga": "shukla",
+    "karana": "kaulava",
+    "moonMale": "Gemini",
+    "moonFemale": "Scorpio"
+  }
 }

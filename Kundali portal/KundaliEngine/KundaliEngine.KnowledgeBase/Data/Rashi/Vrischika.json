@@ -57,5 +57,16 @@
       "padas": [ 1, 2, 3, 4 ]
     }
   ],
-  "description": "Vrischika is the eighth sign of the zodiac, representing transformation, mystery, courage, and inner strength. Ruled by Mars, it signifies determination, emotional depth, resilience, and the power to overcome life's greatest challenges."
+  "description": "Vrischika is the eighth sign of the zodiac, representing transformation, mystery, courage, and inner strength. Ruled by Mars, it signifies determination, emotional depth, resilience, and the power to overcome life's greatest challenges.",
+  "ghatChakra": {
+    "month": "ashwin",
+    "tithi": "nanda",
+    "tithiNumbers": "1, 6, 11",
+    "weekday": "friday",
+    "nakshatra": "Revati",
+    "yoga": "vyatipata",
+    "karana": "gara",
+    "moonMale": "Taurus",
+    "moonFemale": "Sagittarius"
+  }
 }

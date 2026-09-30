@@ -57,5 +57,16 @@
       "padas": [ 1, 2, 3 ]
     }
   ],
-  "description": "Mithuna is the third sign of the zodiac, representing intellect, communication, curiosity, and versatility. Ruled by Mercury, it symbolizes learning, adaptability, social interaction, and the constant pursuit of knowledge."
+  "description": "Mithuna is the third sign of the zodiac, representing intellect, communication, curiosity, and versatility. Ruled by Mercury, it symbolizes learning, adaptability, social interaction, and the constant pursuit of knowledge.",
+  "ghatChakra": {
+    "month": "ashadha",
+    "tithi": "bhadra",
+    "tithiNumbers": "2, 7, 12",
+    "weekday": "monday",
+    "nakshatra": "Swati",
+    "yoga": "parigha",
+    "karana": "kaulava",
+    "moonMale": "Aquarius",
+    "moonFemale": "Sagittarius"
+  }
 }

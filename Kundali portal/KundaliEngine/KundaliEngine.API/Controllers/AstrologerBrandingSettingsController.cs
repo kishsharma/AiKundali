@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +16,12 @@ namespace KundaliEngine.API.Controllers
     public class AstrologerBrandingSettingsController : ControllerBase
     {
         private readonly KundaliDbContext _dbContext;
+        private readonly IEntitlementService _entitlementService;
 
-        public AstrologerBrandingSettingsController(KundaliDbContext dbContext)
+        public AstrologerBrandingSettingsController(KundaliDbContext dbContext, IEntitlementService entitlementService)
         {
             _dbContext = dbContext;
+            _entitlementService = entitlementService;
         }
 
         [HttpGet("me")]
@@ -44,6 +47,20 @@ namespace KundaliEngine.API.Controllers
             if (userId == null)
             {
                 return Unauthorized();
+            }
+
+            var user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(item => item.Id == userId.Value);
+            if (user == null || !user.IsActive)
+            {
+                return Unauthorized();
+            }
+
+            if (!_entitlementService.IsPlus(user))
+            {
+                return StatusCode(StatusCodes.Status402PaymentRequired, new
+                {
+                    message = "White-label branding is available on Premium Plus."
+                });
             }
 
             if (string.IsNullOrWhiteSpace(request.AstrologerName))

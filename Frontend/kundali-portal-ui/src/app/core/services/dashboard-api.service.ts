@@ -26,11 +26,19 @@ export interface DashboardPanchang {
 }
 
 export interface DashboardCollectionStats {
+  planCode?: string;
   savedKundalis: number;
+  kundaliSaveLimit?: number;
+  kundaliSavesLeft?: number;
   savedMatches: number;
-  savedMuhurthas: number;
-  reports: number;
-  studyLevels: number;
+  matchSaveLimit?: number;
+  matchSavesLeft?: number;
+  pdfGenerated?: number;
+  pdfUsedToday?: number;
+  pdfDailyLimit?: number | null;
+  pdfLeftToday?: number | null;
+  emailsSent?: number;
+  emailIncluded?: boolean;
 }
 
 export interface DashboardKundali {

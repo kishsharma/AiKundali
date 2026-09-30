@@ -33,7 +33,12 @@ available_quantity decreases
 It also writes an `order_reserved` inventory transaction with a negative
 `quantity_change`, representing the reduction in sellable availability.
 
-Permanent stock deduction should happen only after successful payment:
+Permanent stock deduction happens after successful payment via:
+
+```text
+POST /api/store/orders/{orderId}/inventory/confirm
+POST /api/store/orders/{orderId}/mark-paid
+```
 
 ```text
 stock_quantity     decreases
@@ -41,14 +46,28 @@ reserved_quantity  decreases
 transaction_type   order_confirmed
 ```
 
-Payment failure, cancellation, or timeout should later release the reservation
-with `reservation_released`. Those payment-lifecycle operations are outside
-the current eight-step checkpoint.
+Payment failure, cancellation, or timeout release the reservation via:
 
-## Endpoint
+```text
+POST /api/store/orders/{orderId}/inventory/release
+POST /api/store/orders/{orderId}/cancel
+POST /api/store/inventory/release-expired   (admin / sweeper)
+```
+
+```text
+stock_quantity     unchanged
+reserved_quantity  decreases
+transaction_type   reservation_released
+```
+
+## Endpoints
 
 ```text
 POST /api/store/orders/{orderId}/inventory/reserve
+POST /api/store/orders/{orderId}/inventory/confirm
+POST /api/store/orders/{orderId}/inventory/release
+POST /api/store/orders/{orderId}/mark-paid
+POST /api/store/orders/{orderId}/cancel
 ```
 
 Current test order:
@@ -57,7 +76,8 @@ Current test order:
 POST /api/store/orders/379e8f91-9938-4b08-983d-282c4e5a59b7/inventory/reserve
 ```
 
-No request body is required. Authentication is required.
+No request body is required for reserve/confirm. Release accepts optional
+`{ "reason": "cancelled" }`. Authentication is required.
 
 ## Transactional flow
 

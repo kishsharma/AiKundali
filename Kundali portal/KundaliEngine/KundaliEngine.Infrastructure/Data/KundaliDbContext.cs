@@ -24,6 +24,20 @@ public class KundaliDbContext : DbContext
 
     public DbSet<SavedCompatibility> SavedCompatibilities => Set<SavedCompatibility>();
 
+    public DbSet<UserSubscription> UserSubscriptions => Set<UserSubscription>();
+
+    public DbSet<DhruvaDailyUsage> DhruvaDailyUsages => Set<DhruvaDailyUsage>();
+
+    public DbSet<DhruvaQuestionLog> DhruvaQuestionLogs => Set<DhruvaQuestionLog>();
+
+    public DbSet<ProductFeedback> ProductFeedback => Set<ProductFeedback>();
+
+    public DbSet<BillingPlanConfig> BillingPlanConfigs => Set<BillingPlanConfig>();
+
+    public DbSet<CouponOffer> CouponOffers => Set<CouponOffer>();
+
+    public DbSet<CouponRedemption> CouponRedemptions => Set<CouponRedemption>();
+
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     public DbSet<CommunicationLog> CommunicationLogs => Set<CommunicationLog>();

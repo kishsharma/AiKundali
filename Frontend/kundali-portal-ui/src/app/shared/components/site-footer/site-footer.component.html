@@ -1,0 +1,14 @@
+<footer class="site-footer" [class.site-footer--landing]="tone === 'landing'">
+  <div class="site-footer-brand">
+    <a class="site-footer-name" routerLink="/">{{ business.brandName }}</a>
+    <p>{{ business.tagline }}</p>
+    <p class="site-footer-operator">{{ business.operatedBy }}</p>
+  </div>
+  <nav class="site-footer-nav" [attr.aria-label]="business.brandName + ' links'">
+    <div *ngFor="let group of groups">
+      <h2>{{ group.title }}</h2>
+      <a *ngFor="let link of group.links" [routerLink]="link.path">{{ link.label }}</a>
+    </div>
+  </nav>
+  <p class="site-footer-copy">© {{ year }} {{ business.brandName }}</p>
+</footer>

@@ -61,6 +61,10 @@ export interface AuthResponse {
   planCode?: string | null;
   planExpiresAt?: string | null;
   isPremium?: boolean | null;
+  isPaid?: boolean | null;
+  isPlus?: boolean | null;
+  kundaliSaveLimit?: number | null;
+  matchSaveLimit?: number | null;
   token: string;
 }
 
@@ -74,6 +78,10 @@ export interface UserProfileResponse {
   planCode?: string | null;
   planExpiresAt?: string | null;
   isPremium?: boolean | null;
+  isPaid?: boolean | null;
+  isPlus?: boolean | null;
+  kundaliSaveLimit?: number | null;
+  matchSaveLimit?: number | null;
 }
 
 export interface UpdatePreferredLanguageRequest {
@@ -82,6 +90,36 @@ export interface UpdatePreferredLanguageRequest {
 
 export interface UpdatePreferredLanguageResponse {
   preferredLanguage: PreferredLanguage;
+}
+
+export interface PracticeItem {
+  key: string;
+  label: string;
+}
+
+export interface PracticeGroup {
+  key: string;
+  title: string;
+  items: PracticeItem[];
+}
+
+export interface PracticeProfile {
+  groups: PracticeGroup[];
+  selected: string[];
+  note?: string | null;
+}
+
+export interface UpdatePracticeProfileRequest {
+  services: string[];
+  note?: string | null;
+}
+
+export interface UpdatePhoneNumberRequest {
+  phoneNumber: string;
+}
+
+export interface UpdatePhoneNumberResponse {
+  phoneNumber: string;
 }
 
 export interface ChangePasswordRequest {

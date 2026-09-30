@@ -3,6 +3,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { NotificationService } from '../../shared/services/notification.service';
+import { AuthService } from '../../core/auth/auth.service';
+import { isPlusUser } from '../../core/auth/plan.util';
+import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 import {
   AstrologerBrandingSetting,
   AstrologerBrandingSettingsService
@@ -19,11 +22,21 @@ export class WhiteLabelSettingsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly brandingSettingsService = inject(AstrologerBrandingSettingsService);
   private readonly notifications = inject(NotificationService);
+  private readonly authService = inject(AuthService);
+  private readonly subscriptionModal = inject(SubscriptionModalService);
 
   loading = false;
   saving = false;
   saveMessage = '';
   errorMessage = '';
+
+  get canEditBranding(): boolean {
+    return isPlusUser(this.authService.getCurrentUser());
+  }
+
+  openPlans(): void {
+    this.subscriptionModal.open();
+  }
 
   readonly settingsForm = this.fb.group({
     astrologerName: ['', [Validators.required, Validators.maxLength(150)]],
@@ -95,6 +108,12 @@ export class WhiteLabelSettingsComponent implements OnInit {
   saveSettings(): void {
     this.saveMessage = '';
     this.errorMessage = '';
+
+    if (!this.canEditBranding) {
+      this.errorMessage = 'White-label branding is available on Premium Plus.';
+      this.notifications.error(this.errorMessage);
+      return;
+    }
 
     if (this.settingsForm.invalid) {
       this.settingsForm.markAllAsTouched();

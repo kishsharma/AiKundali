@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -11,18 +11,38 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { SavedChartMapperService, SavedKundaliDetail } from '../../../../shared/services/saved-chart-mapper.service';
 import { PortalNotesComponent } from '../../../../shared/components/portal-notes/portal-notes.component';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { isPaidUser } from '../../../../core/auth/plan.util';
+import { SubscriptionModalService } from '../../../../core/services/subscription-modal.service';
 import { GenerateKundaliRequest } from '../../../../core/services/kundali-api.service';
 import { MahadashaService, MissingLatestKundaliPayloadError } from '../../services/mahadasha.service';
 import {
   AntardashaPeriod,
   DashaLevelStrength,
+  DashaPeriodFact,
   ImportantDate,
   LifeArea,
+  LifeAreaFactor,
   MahadashaAnalysis,
   MahadashaPeriod,
   PratyantardashaPeriod,
   PredictionPhase,
 } from '../../models/mahadasha.model';
+import { buildDashaLifeAreas, formatLifeHouse } from './dasha-life-areas';
+import { factsForPlanet, factsFromStrength } from './dasha-period-facts';
+import { buildSelectedDashaPhases, BuiltDashaPhase } from './dasha-phases';
+import { buildDashaGochar, DashaGocharArea, DashaGocharLine } from './dasha-gochar';
+import { remedyBasis, remedyCards, remedyDos, remedyDonts, RemedyCard } from './dasha-remedies';
+
+interface SelectedDashaCard {
+  level: string;
+  levelKey: string;
+  planet: string;
+  start?: string;
+  end?: string;
+  description: string;
+  strength: DashaLevelStrength | null;
+}
 
 interface MahadashaPageState {
   analysis: MahadashaAnalysis | null;
@@ -44,6 +64,8 @@ export class MahadashaPageComponent {
   private readonly notifications = inject(NotificationService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
+  private readonly authService = inject(AuthService);
+  private readonly subscriptionModal = inject(SubscriptionModalService);
   private readonly analysisPayload$ = new BehaviorSubject<GenerateKundaliRequest | undefined>(undefined);
   private readonly mahadashaWindowSize = 7;
   private readonly antardashaWindowSize = 5;
@@ -86,8 +108,38 @@ export class MahadashaPageComponent {
   );
 
   readonly phaseOrder: Array<'start' | 'middle' | 'end'> = ['start', 'middle', 'end'];
+  previewPremium = this.isPremiumUser;
+  private openLifeFact: string | null = null;
+
+  get isPremiumUser(): boolean {
+    return isPaidUser(this.authService.getCurrentUser());
+  }
+
+  get isAdminUser(): boolean {
+    return (this.authService.getCurrentUser()?.role || '').toLowerCase() === 'admin';
+  }
+
+  showPlanPreview(premium: boolean): void {
+    if (!this.isAdminUser) {
+      return;
+    }
+
+    this.previewPremium = premium;
+    if (!premium) {
+      this.openLifeFact = null;
+    }
+    this.cdr.markForCheck();
+  }
 
   openNotes(): void {
+    if (!this.previewPremium) {
+      return;
+    }
+    if (!this.isPremiumUser) {
+      this.subscriptionModal.open();
+      return;
+    }
+
     this.isNotesOpen = true;
   }
 
@@ -300,8 +352,191 @@ export class MahadashaPageComponent {
     return this.selectedPratyantardashas(analysis)[this.selectedPratyantardashaIndex] === period;
   }
 
-  getStars(rating: number): boolean[] {
-    return Array.from({ length: 5 }, (_, index) => index < Math.round(rating));
+  lifeAreaView(analysis: MahadashaAnalysis): { areas: LifeArea[]; mahadasha: string; antardasha: string } {
+    const mahadasha = this.selectedMahadasha(analysis)?.planet ?? analysis.summary.currentMahadasha;
+    const antardasha = this.selectedAntardasha(analysis)?.planet ?? analysis.summary.currentAntardasha;
+    const built = buildDashaLifeAreas({
+      lagna: analysis.birthChart?.lagna ?? '',
+      readings: analysis.planetReadings ?? [],
+      mahadasha,
+      antardasha,
+    });
+
+    return built
+      ? { areas: built, mahadasha, antardasha }
+      : {
+          areas: analysis.lifeAreas,
+          mahadasha: analysis.summary.currentMahadasha,
+          antardasha: analysis.summary.currentAntardasha,
+        };
+  }
+
+  toggleLifeFact(name: string, event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.previewPremium) {
+      return;
+    }
+
+    this.openLifeFact = this.openLifeFact === name ? null : name;
+  }
+
+  isLifeFactOpen(name: string): boolean {
+    return this.previewPremium && this.openLifeFact === name;
+  }
+
+  @HostListener('document:click')
+  closeLifeFact(): void {
+    this.openLifeFact = null;
+  }
+
+  predictionPhases(analysis: MahadashaAnalysis): BuiltDashaPhase[] {
+    const antardasha = this.selectedAntardasha(analysis);
+    const antardashas = this.selectedAntardashas(analysis);
+    const next = antardashas[this.selectedAntardashaIndex + 1];
+    const built = buildSelectedDashaPhases({
+      lagna: analysis.birthChart?.lagna ?? '',
+      readings: analysis.planetReadings ?? [],
+      antardasha: antardasha?.planet ?? analysis.summary.currentAntardasha,
+      start: antardasha?.start,
+      end: antardasha?.end,
+      nextAntardasha: next?.planet,
+      pratyantardashas: this.selectedPratyantardashas(analysis),
+    });
+
+    if (built) {
+      return built;
+    }
+
+    return (['start', 'middle', 'end'] as const).map((key) => {
+      const phase = analysis.prediction?.phaseAnalysis?.[key];
+      return {
+        key,
+        titleKey: key === 'start' ? 'dashaPage.phaseStart' : key === 'middle' ? 'dashaPage.phaseMiddle' : 'dashaPage.phaseEnd',
+        start: '',
+        end: '',
+        points: phase?.points ?? [],
+        periodLabel: phase?.period ?? '',
+      };
+    }).filter((phase) => phase.points.length);
+  }
+
+  gocharView(analysis: MahadashaAnalysis): { titleKey: string; planet: string; summary: string; areas: DashaGocharArea[]; lines: DashaGocharLine[] } {
+    const mahadasha = this.selectedMahadasha(analysis)?.planet || analysis.summary.currentMahadasha;
+    const antardasha = this.selectedAntardasha(analysis)?.planet || analysis.summary.currentAntardasha;
+    const built = buildDashaGochar({
+      gochar: analysis.gochar,
+      lagna: analysis.birthChart?.lagna ?? '',
+      readings: analysis.planetReadings ?? [],
+      mahadasha,
+      antardasha,
+    });
+    return {
+      titleKey: this.isViewingCurrentMahadasha(analysis) ? 'dashaPage.gocharCurrent' : 'dashaPage.gocharOnLord',
+      planet: mahadasha,
+      summary: built.summary,
+      areas: built.areas,
+      lines: built.lines,
+    };
+  }
+
+  remedyView(analysis: MahadashaAnalysis): { planet: string; basis: string; cards: RemedyCard[] } {
+    const planet = this.selectedMahadasha(analysis)?.planet || analysis.summary.currentMahadasha;
+    const lagna = analysis.birthChart?.lagna ?? '';
+    const reading = (analysis.planetReadings ?? []).find((item) => item.planet === planet);
+    return { planet, basis: remedyBasis(planet, lagna), cards: remedyCards(planet, reading, lagna) };
+  }
+
+  actionView(analysis: MahadashaAnalysis): { dos: string[]; donts: string[] } {
+    const planet = this.selectedMahadasha(analysis)?.planet || analysis.summary.currentMahadasha;
+    const lagna = analysis.birthChart?.lagna ?? '';
+    const reading = (analysis.planetReadings ?? []).find((item) => item.planet === planet);
+    const donts = remedyDonts(
+      this.selectedPeriodCards(analysis).flatMap((card) => this.factsForCard(analysis, card.planet)),
+      planet,
+      lagna,
+    );
+    return {
+      dos: remedyDos(planet, reading, lagna),
+      donts,
+    };
+  }
+
+  selectedDates(analysis: MahadashaAnalysis): Array<{ titleKey: string; date: string }> {
+    const maha = this.selectedMahadasha(analysis);
+    const antar = this.selectedAntardasha(analysis);
+    return [
+      { titleKey: 'dashaPage.dateMahaStart', date: maha?.start ?? '' },
+      { titleKey: 'dashaPage.dateMahaEnd', date: maha?.end ?? '' },
+      { titleKey: 'dashaPage.dateAntarStart', date: antar?.start ?? '' },
+      { titleKey: 'dashaPage.dateAntarEnd', date: antar?.end ?? '' },
+    ].filter((item) => Boolean(item.date));
+  }
+
+  isContactFact(fact: string): boolean {
+    return !fact.includes('Chart score');
+  }
+
+  periodFactView(analysis: MahadashaAnalysis): { support: string[]; pressure: string[]; why: string[] } {
+    const facts = this.selectedPeriodCards(analysis).flatMap((card) => this.factsForCard(analysis, card.planet));
+    if (!facts.length) {
+      return { support: [], pressure: [], why: [] };
+    }
+
+    return {
+      support: facts.filter((fact) => fact.tone === 'Support').map((fact) => fact.text),
+      pressure: facts.filter((fact) => fact.tone === 'Pressure').map((fact) => fact.text),
+      why: facts.map((fact) => fact.text),
+    };
+  }
+
+  private factsForCard(analysis: MahadashaAnalysis, planet: string): DashaPeriodFact[] {
+    const key = planet.trim().toLowerCase();
+    const reading = (analysis.planetReadings ?? []).find((item) => item.planet?.trim().toLowerCase() === key);
+    if (reading?.facts?.length || reading?.strength?.planet) {
+      return reading ? factsForPlanet(reading) : [];
+    }
+
+    const current = [analysis.strength?.mahadasha, analysis.strength?.antardasha, analysis.strength?.pratyantardasha]
+      .find((item) => item?.planet?.trim().toLowerCase() === key);
+    return factsFromStrength(planet, current);
+  }
+
+  lordFactors(area: LifeArea): LifeAreaFactor[] {
+    return (area.factors ?? []).filter((factor) => factor.kind === 'lord');
+  }
+
+  periodFactor(area: LifeArea, kind: 'mahadasha' | 'antardasha'): LifeAreaFactor | undefined {
+    return (area.factors ?? []).find((factor) => factor.kind === kind);
+  }
+
+  formatLifeHouse(house: number): string {
+    return house >= 1 ? formatLifeHouse(house) : '';
+  }
+
+  linkLabel(factor: LifeAreaFactor): string {
+    const house = this.formatLifeHouse(factor.linkedHouse);
+    if (factor.link === 'occupies') {
+      return this.t('dashaPage.scoreLinkOccupies', { house });
+    }
+    if (factor.link === 'rules') {
+      return this.t('dashaPage.scoreLinkRules', { house });
+    }
+    if (factor.link === 'aspects') {
+      return this.t('dashaPage.scoreLinkAspects', { house });
+    }
+    return this.t('dashaPage.scoreLinkNone');
+  }
+
+  translateDignity(label: string): string {
+    const keys: Record<string, string> = {
+      'Very Strong': 'compatibility.veryStrong',
+      Strong: 'apiTerm.strength.strong',
+      Weak: 'apiTerm.strength.weak',
+      Moderate: 'apiTerm.strength.moderate',
+    };
+    const key = keys[label];
+    return key ? this.translateIfExists(key, label) : label;
   }
 
   getPlanetMark(planet: string): string {
@@ -350,7 +585,27 @@ export class MahadashaPageComponent {
     return marks[area] ?? area.slice(0, 2);
   }
 
+  selectedPeriodCards(analysis: MahadashaAnalysis): SelectedDashaCard[] {
+    const mahadasha = this.selectedMahadasha(analysis);
+    const antardasha = this.selectedAntardasha(analysis);
+    const pratyantardasha = this.selectedPratyantardasha(analysis);
+
+    return [
+      this.periodCard('Mahadasha', 'dashaPage.mahadasha', mahadasha?.planet, mahadasha?.start, mahadasha?.end, analysis),
+      this.periodCard('Antardasha', 'dashaPage.antardasha', antardasha?.planet, antardasha?.start, antardasha?.end, analysis),
+      this.periodCard('Pratyantardasha', 'dashaPage.pratyantardasha', pratyantardasha?.planet, pratyantardasha?.start, pratyantardasha?.end, analysis),
+    ].filter((item): item is SelectedDashaCard => Boolean(item));
+  }
+
   getDashaStrengthLevels(analysis: MahadashaAnalysis): DashaLevelStrength[] {
+    const selected = this.selectedPeriodCards(analysis)
+      .map((item) => item.strength)
+      .filter((item): item is DashaLevelStrength => Boolean(item?.planet));
+
+    if (selected.length) {
+      return selected;
+    }
+
     const fallback: DashaLevelStrength = {
       level: 'Mahadasha',
       planet: analysis.strength.planet,
@@ -436,6 +691,56 @@ export class MahadashaPageComponent {
       hour: '2-digit',
       minute: '2-digit',
     }).format(date);
+  }
+
+  private periodCard(
+    level: string,
+    levelKey: string,
+    planet: string | undefined,
+    start: string | undefined,
+    end: string | undefined,
+    analysis: MahadashaAnalysis
+  ): SelectedDashaCard | null {
+    if (!planet) {
+      return null;
+    }
+
+    const reading = this.readingFor(analysis, planet);
+    const strength = reading?.strength
+      ? { ...reading.strength, level, planet }
+      : null;
+
+    return {
+      level,
+      levelKey,
+      planet,
+      start,
+      end,
+      description: reading?.description || '',
+      strength,
+    };
+  }
+
+  private readingFor(analysis: MahadashaAnalysis, planet: string): { description: string; strength: DashaLevelStrength } | null {
+    const key = planet.trim().toLowerCase();
+    const reading = (analysis.planetReadings ?? []).find((item) => item.planet?.trim().toLowerCase() === key);
+    if (reading?.strength?.planet) {
+      return { description: reading.description || '', strength: reading.strength };
+    }
+
+    const currentLevels = [analysis.strength?.mahadasha, analysis.strength?.antardasha, analysis.strength?.pratyantardasha];
+    const current = currentLevels.find((item) => item?.planet?.trim().toLowerCase() === key);
+    if (!current?.planet) {
+      return null;
+    }
+
+    const description = analysis.currentMahadasha?.planet?.trim().toLowerCase() === key
+      ? analysis.currentMahadasha.description
+      : analysis.currentAntardasha?.planet?.trim().toLowerCase() === key
+        ? analysis.currentAntardasha.description
+        : '';
+
+    return { description: description || '', strength: current };
   }
 
   getDashaOwnerName(analysis: MahadashaAnalysis): string {
@@ -564,6 +869,10 @@ export class MahadashaPageComponent {
     return `${date.title}-${date.date}`;
   }
 
+  trackGochar(_: number, line: { text: string }): string {
+    return line.text;
+  }
+
   trackText(_: number, text: string): string {
     return text;
   }
@@ -573,6 +882,11 @@ export class MahadashaPageComponent {
   }
 
   async downloadPdf(): Promise<void> {
+    if (!this.previewPremium) {
+      this.subscriptionModal.open();
+      return;
+    }
+
     if (this.exportingPdf) {
       return;
     }

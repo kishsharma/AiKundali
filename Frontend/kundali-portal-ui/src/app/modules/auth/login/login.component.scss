@@ -72,6 +72,65 @@
   pointer-events: none;
 }
 
+.auth-brand-lockup {
+  display: grid;
+  grid-template-columns: 57px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 0.35rem 0 1.15rem;
+}
+
+.auth-brand-logo {
+  width: 57px;
+  height: 57px;
+  object-fit: contain;
+}
+
+.auth-brand-name {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+  color: #263f87;
+}
+
+.auth-brand-name span:last-child {
+  color: #e15f3d;
+}
+
+.auth-brand-copy small {
+  display: block;
+  margin-top: 0;
+  color: #8e3b23;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+:host-context(body[data-theme='dark']) .auth-brand-name,
+:host-context(.dark-theme) .auth-brand-name,
+:host-context(.theme-dark) .auth-brand-name {
+  color: #fff7e6;
+}
+
+:host-context(body[data-theme='dark']) .auth-brand-name span:last-child,
+:host-context(.dark-theme) .auth-brand-name span:last-child,
+:host-context(.theme-dark) .auth-brand-name span:last-child {
+  color: #f1b83b;
+}
+
+:host-context(body[data-theme='dark']) .auth-brand-copy small,
+:host-context(.dark-theme) .auth-brand-copy small,
+:host-context(.theme-dark) .auth-brand-copy small {
+  color: rgba(255, 247, 230, 0.72);
+}
+
 .auth-card h1 {
   margin: 0;
   color: var(--theme-text);

@@ -18,6 +18,8 @@ namespace KundaliEngine.Domain.Entities
 
         public string? PreferredLanguage { get; set; }
 
+        public string? PracticeProfile { get; set; }
+
         public string? PasswordHash { get; set; }
 
         public string AuthProvider { get; set; } = "Local";

@@ -19,6 +19,18 @@ public class KundaliConfiguration : IEntityTypeConfiguration<Kundali>
             .HasMaxLength(150)
             .IsRequired();
 
+        entity.Property(x => x.Surname)
+            .HasMaxLength(150);
+
+        entity.Property(x => x.FatherName)
+            .HasMaxLength(150);
+
+        entity.Property(x => x.MotherName)
+            .HasMaxLength(150);
+
+        entity.Property(x => x.Gotra)
+            .HasMaxLength(100);
+
         entity.Property(x => x.Gender)
             .HasMaxLength(20);
 

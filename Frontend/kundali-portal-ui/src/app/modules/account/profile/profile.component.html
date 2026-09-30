@@ -1,0 +1,118 @@
+<section class="profile-page">
+  <h1 class="profile-title">{{ 'profile.title' | transloco }}</h1>
+
+  <p class="profile-status" *ngIf="loading">{{ 'profile.loading' | transloco }}</p>
+  <p class="profile-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="profile-stack" *ngIf="!loading && account">
+    <section class="profile-card">
+      <div class="identity">
+        <div class="avatar" aria-hidden="true">{{ initials() }}</div>
+        <div class="identity-copy">
+          <h2>{{ account.fullName }}</h2>
+          <p>{{ account.email || ('profile.emailMissing' | transloco) }}</p>
+        </div>
+        <span class="plan-mark" [attr.data-plan]="account.planCode || 'Free'">{{ planLabel() }}</span>
+      </div>
+
+      <dl class="account-facts">
+        <div class="fact">
+          <span class="fact-label">{{ 'profile.email' | transloco }}</span>
+          <span class="fact-value">{{ account.email || ('profile.notAdded' | transloco) }}</span>
+        </div>
+        <div class="fact fact--phone">
+          <div class="fact-top">
+            <span class="fact-label">{{ 'profile.mobile' | transloco }}</span>
+            <button type="button" class="text-action" *ngIf="!editingPhone" (click)="startPhoneEdit()">{{ 'profile.edit' | transloco }}</button>
+          </div>
+          <span class="fact-value" *ngIf="!editingPhone">{{ account.phoneNumber || ('profile.notAdded' | transloco) }}</span>
+          <div class="phone-editor" *ngIf="editingPhone">
+            <input
+              type="tel"
+              name="phoneNumber"
+              [(ngModel)]="phoneDraft"
+              inputmode="tel"
+              autocomplete="tel"
+              maxlength="18"
+              [placeholder]="'profile.phonePlaceholder' | transloco"
+            />
+            <div class="phone-actions">
+              <button type="button" class="primary" [disabled]="phoneSaving" (click)="savePhone()">
+                {{ phoneSaving ? ('profile.saving' | transloco) : ('profile.save' | transloco) }}
+              </button>
+              <button type="button" class="ghost" [disabled]="phoneSaving" (click)="cancelPhoneEdit()">{{ 'profile.cancel' | transloco }}</button>
+            </div>
+            <p class="profile-error" *ngIf="phoneError">{{ phoneError }}</p>
+          </div>
+        </div>
+        <div class="fact">
+          <span class="fact-label">{{ 'profile.plan' | transloco }}</span>
+          <span class="fact-value">{{ planLabel() }}</span>
+        </div>
+      </dl>
+
+      <div class="profile-prefs">
+        <div class="pref">
+          <span>{{ 'profile.language' | transloco }}</span>
+          <select
+            [value]="activeLanguage"
+            (change)="changeLanguage($any($event.target).value)"
+            [attr.aria-label]="'profile.language' | transloco"
+          >
+            <option *ngFor="let language of languages" [value]="language.code">{{ language.label }}</option>
+          </select>
+        </div>
+        <div class="pref">
+          <span>{{ 'profile.theme' | transloco }}</span>
+          <button
+            type="button"
+            *ngFor="let theme of themes"
+            [class.is-on]="themeMode() === theme.mode"
+            (click)="setTheme(theme.mode)"
+            [attr.aria-label]="theme.label | transloco"
+            [title]="theme.label | transloco"
+          >{{ theme.icon }}</button>
+        </div>
+      </div>
+    </section>
+
+    <form class="profile-card" *ngIf="groups.length" (ngSubmit)="savePractice()">
+      <div class="card-heading">
+        <div>
+          <h2>{{ 'profile.practice' | transloco }}</h2>
+          <p>{{ 'profile.practiceHelp' | transloco }}</p>
+        </div>
+        <span class="count-pill">{{ 'profile.selected' | transloco: { count: selectedCount() } }}</span>
+      </div>
+
+      <p class="profile-error" *ngIf="practiceError">{{ practiceError }}</p>
+
+      <section class="practice-group" *ngFor="let group of groups">
+        <h3>{{ group.title }}</h3>
+        <div class="practice-options">
+          <label class="service-chip" [class.is-on]="isSelected(item.key)" *ngFor="let item of group.items">
+            <input type="checkbox" [checked]="isSelected(item.key)" (change)="toggle(item.key)" />
+            <span>{{ item.label }}</span>
+          </label>
+        </div>
+      </section>
+
+      <label class="practice-note">
+        <span>{{ 'profile.noteLabel' | transloco }}</span>
+        <textarea name="practiceNote" [(ngModel)]="note" maxlength="400" rows="3" [placeholder]="'profile.notePlaceholder' | transloco"></textarea>
+      </label>
+
+      <button type="submit" class="primary" [disabled]="saving">{{ saving ? ('profile.saving' | transloco) : ('profile.savePractice' | transloco) }}</button>
+    </form>
+
+    <section class="profile-card" *ngIf="!groups.length">
+      <div class="card-heading">
+        <div>
+          <h2>{{ 'profile.practice' | transloco }}</h2>
+          <p>{{ 'profile.practiceHelp' | transloco }}</p>
+        </div>
+      </div>
+      <p class="profile-error">{{ practiceError || ('profile.practiceLoadError' | transloco) }}</p>
+    </section>
+  </div>
+</section>

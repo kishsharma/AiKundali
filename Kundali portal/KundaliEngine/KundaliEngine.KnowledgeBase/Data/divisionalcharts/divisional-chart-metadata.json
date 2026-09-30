@@ -1,0 +1,318 @@
+{
+  "schemaVersion": "1.0",
+  "schemaName": "HoraLife.DivisionalChartMetadata",
+  "principle": {
+    "foundation": "D1",
+    "specialization": "Relevant divisional chart",
+    "validation": [
+      "Planetary dignity",
+      "House strength",
+      "Lord strength",
+      "Planetary relationships",
+      "Cross-varga consistency"
+    ],
+    "timing": [
+      "Mahadasha",
+      "Antardasha",
+      "Transit",
+      "Relevant event triggers"
+    ]
+  },
+  "divisionalCharts": [
+    {
+      "code": "D1",
+      "name": "Rashi",
+      "sanskritName": "Rashi",
+      "division": 1,
+      "group": "Foundation",
+      "priority": "CORE",
+      "primaryDomains": ["Overall life", "Personality", "Body", "Health", "Life circumstances", "All houses", "All major yogas"],
+      "predictionRole": "Foundation chart for every prediction",
+      "requiredData": ["Lagna", "LagnaLord", "12Houses", "HouseLords", "Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu", "PlanetaryLongitudes", "PlanetaryDignity", "PlanetaryCombustion", "PlanetaryRetrogression", "PlanetaryConjunctions", "PlanetaryAspects", "HouseOccupancy", "HouseAspects", "Yogas", "Nakshatra", "Pada"],
+      "crossValidation": ["Relevant Varga", "Dasha", "Transit"]
+    },
+    {
+      "code": "D2",
+      "name": "Hora",
+      "division": 2,
+      "group": "Material",
+      "priority": "HIGH",
+      "primaryDomains": ["Wealth", "Income", "Financial resources", "Material sustenance"],
+      "predictionRole": "Specialized financial and resource chart",
+      "requiredData": ["Lagna", "LagnaLord", "2ndHouse", "2ndLord", "11thHouse", "11thLord", "PlanetaryPlacements", "PlanetaryStrength", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "D9", "Dasha", "Transit"]
+    },
+    {
+      "code": "D3",
+      "name": "Drekkana",
+      "division": 3,
+      "group": "Material",
+      "priority": "MEDIUM",
+      "primaryDomains": ["Siblings", "Courage", "Initiative", "Effort", "Enterprise", "Co-born relationships"],
+      "predictionRole": "Specialized chart for siblings and personal initiative",
+      "requiredData": ["Lagna", "LagnaLord", "3rdHouse", "3rdLord", "11thHouse", "11thLord", "PlanetaryPlacements", "PlanetaryStrength", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "Dasha", "Transit"]
+    },
+    {
+      "code": "D4",
+      "name": "Chaturthamsa",
+      "division": 4,
+      "group": "Material",
+      "priority": "HIGH",
+      "primaryDomains": ["Property", "Real estate", "Residence", "Home", "Fixed assets", "Fortune related to property"],
+      "predictionRole": "Specialized property and residence chart",
+      "requiredData": ["Lagna", "LagnaLord", "4thHouse", "4thLord", "2ndHouse", "11thHouse", "PlanetaryPlacements", "PlanetaryStrength", "HouseStrength", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "Dasha", "Transit"]
+    },
+    {
+      "code": "D7",
+      "name": "Saptamsa",
+      "division": 7,
+      "group": "Family",
+      "priority": "HIGH",
+      "primaryDomains": ["Children", "Progeny", "Parent-child relationship", "Children-related outcomes"],
+      "predictionRole": "Specialized progeny chart",
+      "requiredData": ["Lagna", "LagnaLord", "5thHouse", "5thLord", "Jupiter", "PlanetaryPlacements", "PlanetaryStrength", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "Dasha", "Transit"]
+    },
+    {
+      "code": "D9",
+      "name": "Navamsa",
+      "division": 9,
+      "group": "DharmaAndRelationship",
+      "priority": "CORE",
+      "primaryDomains": ["Marriage", "Spouse", "Dharma", "Planetary maturity", "Planetary strength", "Relationship quality"],
+      "predictionRole": "Marriage specialization and major planetary-strength validation",
+      "requiredData": ["Lagna", "LagnaLord", "7thHouse", "7thLord", "Venus", "Jupiter", "Sun", "Moon", "AllPlanetaryPlacements", "PlanetaryDignity", "VargottamaStatus", "PlanetaryConjunctions", "PlanetaryAspects", "HouseLords", "HouseStrength", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "Dasha", "Transit"]
+    },
+    {
+      "code": "D10",
+      "name": "Dasamsa",
+      "division": 10,
+      "group": "Career",
+      "priority": "CORE",
+      "primaryDomains": ["Career", "Profession", "Employment", "Business", "Authority", "Status", "Professional achievements"],
+      "predictionRole": "Specialized professional and career chart",
+      "requiredData": ["Lagna", "LagnaLord", "10thHouse", "10thLord", "6thHouse", "6thLord", "7thHouse", "7thLord", "11thHouse", "11thLord", "Sun", "Saturn", "Mercury", "Jupiter", "PlanetaryPlacements", "PlanetaryDignity", "HouseStrength", "PlanetaryAspects", "Conjunctions"],
+      "crossValidation": ["D1", "D9", "Dasha", "Transit"]
+    },
+    {
+      "code": "D12",
+      "name": "Dwadasamsa",
+      "division": 12,
+      "group": "Family",
+      "priority": "HIGH",
+      "primaryDomains": ["Father", "Mother", "Parents", "Ancestry", "Family lineage", "Parental influence"],
+      "predictionRole": "Specialized parental and lineage chart",
+      "requiredData": ["Lagna", "LagnaLord", "4thHouse", "4thLord", "9thHouse", "9thLord", "Sun", "Moon", "PlanetaryPlacements", "PlanetaryStrength", "HouseStrength", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "Dasha", "Transit"]
+    },
+    {
+      "code": "D16",
+      "name": "Shodasamsa",
+      "division": 16,
+      "group": "ComfortAndMind",
+      "priority": "MEDIUM",
+      "primaryDomains": ["Vehicles", "Conveyances", "Comforts", "Luxuries", "Happiness from material comforts"],
+      "predictionRole": "Specialized comforts and vehicle chart",
+      "requiredData": ["Lagna", "LagnaLord", "4thHouse", "4thLord", "Venus", "Moon", "PlanetaryPlacements", "PlanetaryStrength", "HouseStrength", "MaleficInfluence"],
+      "crossValidation": ["D1", "Dasha", "Transit"]
+    },
+    {
+      "code": "D20",
+      "name": "Vimsamsa",
+      "division": 20,
+      "group": "Spiritual",
+      "priority": "MEDIUM",
+      "primaryDomains": ["Spirituality", "Worship", "Meditation", "Religious practice", "Deity orientation", "Spiritual progress"],
+      "predictionRole": "Specialized spiritual-practice chart",
+      "requiredData": ["Lagna", "LagnaLord", "5thHouse", "5thLord", "9thHouse", "9thLord", "12thHouse", "12thLord", "Jupiter", "Ketu", "PlanetaryPlacements", "PlanetaryStrength", "HouseStrength"],
+      "crossValidation": ["D1", "D9", "Dasha"]
+    },
+    {
+      "code": "D24",
+      "name": "Chaturvimsamsa",
+      "division": 24,
+      "group": "Education",
+      "priority": "HIGH",
+      "primaryDomains": ["Education", "Learning", "Knowledge", "Academic achievement", "Higher studies", "Skills"],
+      "predictionRole": "Specialized education and learning chart",
+      "requiredData": ["Lagna", "LagnaLord", "4thHouse", "4thLord", "5thHouse", "5thLord", "9thHouse", "9thLord", "Mercury", "Jupiter", "PlanetaryPlacements", "PlanetaryStrength", "HouseStrength"],
+      "crossValidation": ["D1", "D9", "Dasha", "Transit"]
+    },
+    {
+      "code": "D27",
+      "name": "Saptavimsamsa",
+      "division": 27,
+      "group": "Strength",
+      "priority": "MEDIUM",
+      "primaryDomains": ["Physical strength", "Mental strength", "Weaknesses", "Resilience", "Inherent capabilities"],
+      "predictionRole": "Strength and weakness modifier",
+      "requiredData": ["Lagna", "LagnaLord", "AllPlanetaryPlacements", "PlanetaryStrength", "BeneficInfluence", "MaleficInfluence", "HouseStrength"],
+      "crossValidation": ["D1", "D9", "D30"]
+    },
+    {
+      "code": "D30",
+      "name": "Trimsamsa",
+      "division": 30,
+      "group": "Challenges",
+      "priority": "HIGH",
+      "primaryDomains": ["Adversity", "Difficulties", "Misfortune", "Obstacles", "Afflictions", "Certain disease tendencies", "Character challenges"],
+      "predictionRole": "Adversity and affliction modifier",
+      "requiredData": ["Lagna", "LagnaLord", "6thHouse", "6thLord", "8thHouse", "8thLord", "12thHouse", "12thLord", "PlanetaryPlacements", "PlanetaryStrength", "MaleficInfluence", "BeneficInfluence"],
+      "crossValidation": ["D1", "D27", "D60", "Dasha"]
+    },
+    {
+      "code": "D40",
+      "name": "Khavedamsa",
+      "division": 40,
+      "group": "LineageAndKarma",
+      "priority": "SPECIALIZED",
+      "primaryDomains": ["Auspicious influences", "Inauspicious influences", "Maternal lineage", "Maternal inheritance"],
+      "predictionRole": "Specialized lineage and auspiciousness modifier",
+      "requiredData": ["Lagna", "LagnaLord", "AllPlanetaryPlacements", "PlanetaryStrength", "HouseStrength", "BeneficInfluence", "MaleficInfluence", "RelevantHouseLords"],
+      "crossValidation": ["D1", "D12", "D60"]
+    },
+    {
+      "code": "D45",
+      "name": "Akshavedamsa",
+      "division": 45,
+      "group": "LineageAndKarma",
+      "priority": "SPECIALIZED",
+      "primaryDomains": ["Character", "Conduct", "General auspiciousness", "Paternal lineage", "Paternal inheritance"],
+      "predictionRole": "Character and paternal-lineage modifier",
+      "requiredData": ["Lagna", "LagnaLord", "AllPlanetaryPlacements", "PlanetaryStrength", "HouseStrength", "BeneficInfluence", "MaleficInfluence", "RelevantHouseLords"],
+      "crossValidation": ["D1", "D12", "D60"]
+    },
+    {
+      "code": "D60",
+      "name": "Shashtiamsa",
+      "division": 60,
+      "group": "Karmic",
+      "priority": "SPECIALIZED_HIGH_SENSITIVITY",
+      "primaryDomains": ["Karmic indications", "Deep-rooted tendencies", "Overall refinement of judgment", "Subtle influences"],
+      "predictionRole": "Deep-level validation/modifier across predictions",
+      "requiredData": ["Lagna", "LagnaLord", "AllPlanetaryPlacements", "PlanetaryDignity", "HouseLords", "HouseStrength", "PlanetaryStrength", "Conjunctions", "Aspects", "BeneficInfluence", "MaleficInfluence"],
+      "crossValidation": ["D1", "D9", "RelevantVarga", "Dasha"],
+      "birthTimeRequirement": "VERY_HIGH"
+    }
+  ],
+  "predictionAreas": {
+    "personality": {
+      "primaryCharts": ["D1", "D9"],
+      "supportingCharts": ["D27"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [1, 5, 9],
+      "requiredPlanets": ["LagnaLord", "Sun", "Moon", "Mercury", "Jupiter"]
+    },
+    "health": {
+      "primaryCharts": ["D1"],
+      "supportingCharts": ["D27", "D30"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [1, 6, 8, 12],
+      "requiredPlanets": ["LagnaLord", "Sun", "Moon", "Mars", "Saturn"],
+      "note": "Use as traditional astrological interpretation, not medical diagnosis."
+    },
+    "wealth": {
+      "primaryCharts": ["D1", "D2"],
+      "supportingCharts": ["D9"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [2, 5, 9, 11],
+      "requiredPlanets": ["2ndLord", "5thLord", "9thLord", "11thLord", "Jupiter", "Venus"]
+    },
+    "career": {
+      "primaryCharts": ["D1", "D10"],
+      "supportingCharts": ["D9"],
+      "timing": ["Mahadasha", "Antardasha", "Transit"],
+      "requiredHouses": [2, 6, 10, 11],
+      "requiredPlanets": ["10thLord", "6thLord", "11thLord", "Sun", "Saturn", "Mercury", "Jupiter"]
+    },
+    "business": {
+      "primaryCharts": ["D1", "D10"],
+      "supportingCharts": ["D9", "D2"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [2, 7, 10, 11],
+      "requiredPlanets": ["7thLord", "10thLord", "11thLord", "Mercury", "Jupiter", "Venus"]
+    },
+    "marriage": {
+      "primaryCharts": ["D1", "D9"],
+      "supportingCharts": [],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [2, 5, 7, 8, 11],
+      "requiredPlanets": ["7thLord", "Venus", "Jupiter", "Darakaraka"]
+    },
+    "children": {
+      "primaryCharts": ["D1", "D7"],
+      "supportingCharts": ["D9"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [5, 9, 11],
+      "requiredPlanets": ["5thLord", "Jupiter", "Putrakaraka"]
+    },
+    "property": {
+      "primaryCharts": ["D1", "D4"],
+      "supportingCharts": ["D9"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [2, 4, 11],
+      "requiredPlanets": ["4thLord", "Mars", "Venus", "Moon"]
+    },
+    "education": {
+      "primaryCharts": ["D1", "D24"],
+      "supportingCharts": ["D9"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [2, 4, 5, 9],
+      "requiredPlanets": ["4thLord", "5thLord", "9thLord", "Mercury", "Jupiter"]
+    },
+    "parents": {
+      "primaryCharts": ["D1", "D12"],
+      "supportingCharts": ["D9"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [4, 9],
+      "requiredPlanets": ["Sun", "Moon", "4thLord", "9thLord"]
+    },
+    "vehicles": {
+      "primaryCharts": ["D1", "D16"],
+      "supportingCharts": ["D4"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [4],
+      "requiredPlanets": ["4thLord", "Venus", "Moon", "Mars"]
+    },
+    "spirituality": {
+      "primaryCharts": ["D1", "D9", "D20"],
+      "supportingCharts": ["D60"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [5, 9, 12],
+      "requiredPlanets": ["Jupiter", "Ketu", "9thLord", "12thLord"]
+    },
+    "strengthAndResilience": {
+      "primaryCharts": ["D1", "D27"],
+      "supportingCharts": ["D9", "D30"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [1, 3, 6],
+      "requiredPlanets": ["LagnaLord", "Mars", "Sun", "Saturn"]
+    },
+    "adversity": {
+      "primaryCharts": ["D1", "D30"],
+      "supportingCharts": ["D27", "D60"],
+      "timing": ["Dasha", "Transit"],
+      "requiredHouses": [6, 8, 12],
+      "requiredPlanets": ["6thLord", "8thLord", "12thLord", "Saturn", "Mars", "Rahu", "Ketu"]
+    },
+    "ancestry": {
+      "primaryCharts": ["D1", "D12"],
+      "supportingCharts": ["D40", "D45", "D60"],
+      "timing": ["Dasha"],
+      "requiredHouses": [4, 9],
+      "requiredPlanets": ["Sun", "Moon", "4thLord", "9thLord"]
+    }
+  },
+  "commonPlanetData": {
+    "identity": ["Planet", "Longitude", "Sign", "Degree", "Nakshatra", "Pada", "House"],
+    "strength": ["Exaltation", "Debilitation", "OwnSign", "Moolatrikona", "FriendSign", "EnemySign", "Combustion", "Retrograde", "PlanetaryStrength", "VimsopakaBala"],
+    "relationships": ["Conjunctions", "Aspects", "MutualAspect", "Exchange", "Dispositor", "NakshatraLord"],
+    "houseData": ["HouseSign", "HouseLord", "OccupyingPlanets", "AspectingPlanets", "HouseStrength", "BeneficInfluence", "MaleficInfluence"]
+  },
+  "timingData": {
+    "required": ["VimshottariMahadasha", "Antardasha", "Pratyantardasha", "DashaLord", "DashaStart", "DashaEnd", "CurrentTransit", "TransitToNatal", "TransitToVarga"]
+  }
+}
