@@ -4,6 +4,14 @@
     {
         public string Name { get; set; }
 
+        public string? Surname { get; set; }
+
+        public string? FatherName { get; set; }
+
+        public string? MotherName { get; set; }
+
+        public string? Gotra { get; set; }
+
         public string Gender { get; set; }
 
         public DateTime BirthDateTime { get; set; }

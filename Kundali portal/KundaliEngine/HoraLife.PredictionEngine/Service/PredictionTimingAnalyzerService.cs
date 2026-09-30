@@ -284,6 +284,12 @@ internal sealed class PredictionTimingAnalyzerService
             return null;
         }
 
+        var startDate = period.StartDate > referenceDate ? period.StartDate : referenceDate;
+        if (period.EndDate <= startDate)
+        {
+            return null;
+        }
+
         var mahadashaPeriodId = hierarchy
             .FirstOrDefault(item => item.Level == DashaLevel.Mahadasha)?.PeriodId
             ?? period.PeriodId;
@@ -295,7 +301,7 @@ internal sealed class PredictionTimingAnalyzerService
         return new WindowScore(
             new PredictionTimingWindow
             {
-                StartDate = period.StartDate,
+                StartDate = startDate,
                 EndDate = period.EndDate,
                 Strength = strength,
                 TriggerPlanets = triggerPlanets.OrderBy(name => name).ToArray(),

@@ -1,12 +1,17 @@
 using System.Net.Mail;
+using System.Security.Claims;
 using KundaliEngine.API.DTOs.Requests;
 using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.API.Services.Audit;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.ReportPdf;
 using KundaliEngine.API.Services.ReportShare;
+using KundaliEngine.Domain.Entities;
+using KundaliEngine.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KundaliEngine.API.Controllers;
 
@@ -21,28 +26,57 @@ public class ReportShareController : ControllerBase
     private readonly IAuditLogService _auditLogService;
     private readonly ICommunicationLogService _communicationLogService;
     private readonly ILogger<ReportShareController> _logger;
+    private readonly KundaliDbContext _dbContext;
+    private readonly IEntitlementService _entitlementService;
 
     public ReportShareController(
         IReportShareEmailService reportShareEmailService,
         IReportPdfService reportPdfService,
         IAuditLogService auditLogService,
         ICommunicationLogService communicationLogService,
-        ILogger<ReportShareController> logger)
+        ILogger<ReportShareController> logger,
+        KundaliDbContext dbContext,
+        IEntitlementService entitlementService)
     {
         _reportShareEmailService = reportShareEmailService;
         _reportPdfService = reportPdfService;
         _auditLogService = auditLogService;
         _communicationLogService = communicationLogService;
         _logger = logger;
+        _dbContext = dbContext;
+        _entitlementService = entitlementService;
     }
 
     [HttpPost("pdf")]
+    [DisableRateLimiting]
     public async Task<ActionResult> GeneratePdf([FromBody] ReportPdfRequest request)
     {
         if (!ModelState.IsValid)
         {
             return ValidationProblem(ModelState);
         }
+
+        var user = await GetActiveUserAsync();
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        var isPaid = _entitlementService.IsPaid(user);
+        if (!isPaid)
+        {
+            var usedToday = await CountFreePdfDownloadsTodayAsync(user.Id);
+            if (usedToday >= 1)
+            {
+                return StatusCode(StatusCodes.Status429TooManyRequests, new SendReportEmailResponse
+                {
+                    Success = false,
+                    Message = "Free plan can download 1 Kundali PDF per day. Premium includes unlimited downloads, email, and WhatsApp."
+                });
+            }
+        }
+
+        request.Audience = isPaid ? "paid" : "free";
 
         try
         {
@@ -90,6 +124,12 @@ public class ReportShareController : ControllerBase
         if (!ModelState.IsValid)
         {
             return ValidationProblem(ModelState);
+        }
+
+        var paidCheck = await EnsurePaidAsync();
+        if (paidCheck != null)
+        {
+            return paidCheck;
         }
 
         try
@@ -162,6 +202,49 @@ public class ReportShareController : ControllerBase
                 Message = "Unable to send report email right now."
             });
         }
+    }
+
+    private async Task<ActionResult?> EnsurePaidAsync()
+    {
+        var user = await GetActiveUserAsync();
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        if (_entitlementService.IsPaid(user))
+        {
+            return null;
+        }
+
+        return StatusCode(StatusCodes.Status402PaymentRequired, new SendReportEmailResponse
+        {
+            Success = false,
+            Message = "Email and WhatsApp reports are available on Premium."
+        });
+    }
+
+    private async Task<User?> GetActiveUserAsync()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!Guid.TryParse(userId, out var parsedUserId))
+        {
+            return null;
+        }
+
+        var user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(item => item.Id == parsedUserId);
+        return user is { IsActive: true } ? user : null;
+    }
+
+    private Task<int> CountFreePdfDownloadsTodayAsync(Guid userId)
+    {
+        var indiaNow = DateTime.UtcNow.AddHours(5.5);
+        var startUtc = DateTime.SpecifyKind(indiaNow.Date.AddHours(-5.5), DateTimeKind.Utc);
+        return _dbContext.AuditLogs.CountAsync(log =>
+            log.UserId == userId
+            && log.Action == "PdfExported"
+            && log.Status == "Success"
+            && log.CreatedAt >= startUtc);
     }
 
     private Task LogPdfExportFailure(string reason)

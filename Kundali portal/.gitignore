@@ -1,2 +1,5 @@
 # Local development secrets
+.env
+**/.env
+!.env.example
 /KundaliEngine/KundaliEngine.API/appsettings.Development.json

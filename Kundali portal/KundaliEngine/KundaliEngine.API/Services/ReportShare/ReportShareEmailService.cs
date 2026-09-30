@@ -82,7 +82,8 @@ public class ReportShareEmailService : IReportShareEmailService
             BirthProfile = request.BirthProfile,
             Report = request.Report,
             FileName = FirstNonEmpty(request.FileName, request.AttachmentFileName),
-            Mode = request.Mode
+            Mode = request.Mode,
+            Audience = "paid"
         };
 
         return (
@@ -125,6 +126,7 @@ public class ReportShareEmailService : IReportShareEmailService
     {
         if (request.BirthProfile.ValueKind == System.Text.Json.JsonValueKind.Object)
         {
+            string? givenName = null;
             foreach (var propertyName in new[] { "fullName", "name" })
             {
                 if (request.BirthProfile.TryGetProperty(propertyName, out var value))
@@ -132,9 +134,35 @@ public class ReportShareEmailService : IReportShareEmailService
                     var text = value.ValueKind == System.Text.Json.JsonValueKind.String ? value.GetString() : value.ToString();
                     if (!string.IsNullOrWhiteSpace(text))
                     {
-                        return text.Trim();
+                        givenName = text.Trim();
+                        break;
                     }
                 }
+            }
+
+            string? surname = null;
+            foreach (var propertyName in new[] { "surname", "Surname" })
+            {
+                if (request.BirthProfile.TryGetProperty(propertyName, out var value))
+                {
+                    var text = value.ValueKind == System.Text.Json.JsonValueKind.String ? value.GetString() : value.ToString();
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        surname = text.Trim();
+                        break;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(givenName) && !string.IsNullOrWhiteSpace(surname)
+                && !givenName.EndsWith(surname, StringComparison.OrdinalIgnoreCase))
+            {
+                return $"{givenName} {surname}";
+            }
+
+            if (!string.IsNullOrWhiteSpace(givenName))
+            {
+                return givenName;
             }
         }
 

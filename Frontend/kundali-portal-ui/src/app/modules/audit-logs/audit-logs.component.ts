@@ -39,24 +39,44 @@ export class AuditLogsComponent implements OnInit {
     dateTo: '',
     action: '',
     category: '',
-    entityType: '',
     channel: '',
     status: '',
     messageType: '',
     recipient: ''
   };
 
-  readonly auditActions = [
-    '',
-    'LoginSuccess',
-    'LoginFailed',
-    'UserRegistered',
-    'PasswordChanged',
-    'KundaliCreated',
-    'KundaliDeleted',
-    'PdfExported',
-    'UserActiveStatusChanged'
+  readonly actionGuide: { action: string; description: string }[] = [
+    { action: 'LoginSuccess', description: 'A user signed in with email and password.' },
+    { action: 'LoginFailed', description: 'A sign-in with email and password did not succeed.' },
+    { action: 'OtpLoginRequested', description: 'A sign-in code was sent to the user\'s email.' },
+    { action: 'OtpLoginRequestFailed', description: 'Sending the sign-in code did not succeed.' },
+    { action: 'OtpLoginSuccess', description: 'A user signed in with an email code.' },
+    { action: 'OtpLoginFailed', description: 'Sign-in with an email code did not succeed.' },
+    { action: 'UserRegistered', description: 'A new account was created.' },
+    { action: 'UserRegistrationFailed', description: 'Creating an account did not succeed.' },
+    { action: 'OtpRegistrationRequested', description: 'A registration code was sent to the email.' },
+    { action: 'OtpRegistrationRequestFailed', description: 'Sending the registration code did not succeed.' },
+    { action: 'OtpRegistrationVerified', description: 'The registration email code was accepted.' },
+    { action: 'OtpRegistrationVerificationFailed', description: 'The registration email code was not accepted.' },
+    { action: 'OtpUserRegistered', description: 'A new account was created after the email code was verified.' },
+    { action: 'PasswordChanged', description: 'The user changed their password.' },
+    { action: 'PasswordChangeFailed', description: 'The password change did not succeed.' },
+    { action: 'StoreHandoffIssued', description: 'The portal prepared a one-time sign-in for the store.' },
+    { action: 'StoreAutoLogin', description: 'The same signed-in user opened the store.' },
+    { action: 'StoreAutoLoginFailed', description: 'Opening the store from the portal did not succeed.' },
+    { action: 'KundaliCreated', description: 'A kundali was saved.' },
+    { action: 'KundaliDeleted', description: 'A saved kundali was deleted.' },
+    { action: 'CompatibilitySaved', description: 'A compatibility match was saved.' },
+    { action: 'CompatibilityDeleted', description: 'A saved compatibility match was deleted.' },
+    { action: 'PdfExported', description: 'A report PDF was downloaded.' },
+    { action: 'PdfExportFailed', description: 'The report PDF download did not succeed.' },
+    { action: 'UserPreferredLanguageChanged', description: 'The user\'s language was changed.' },
+    { action: 'UserKundaliSaveLimitChanged', description: 'An admin changed how many kundalis the user can save.' },
+    { action: 'UserPremiumPlanChanged', description: 'An admin changed the user\'s plan.' },
+    { action: 'UserActiveStatusChanged', description: 'An admin turned the user account on or off.' }
   ];
+
+  readonly auditActions = ['', ...this.actionGuide.map((item) => item.action)];
 
   readonly auditCategories = ['', 'Authentication', 'Security', 'DataChange', 'Export', 'AdminAction'];
   readonly communicationChannels = ['', 'Email', 'WhatsApp', 'SMS'];
@@ -105,7 +125,6 @@ export class AuditLogsComponent implements OnInit {
       dateTo: '',
       action: '',
       category: '',
-      entityType: '',
       channel: '',
       status: '',
       messageType: '',
@@ -196,7 +215,6 @@ export class AuditLogsComponent implements OnInit {
     if (this.activeTab === 'audit') {
       query.action = this.filters.action;
       query.category = this.filters.category;
-      query.entityType = this.filters.entityType;
     } else {
       query.channel = this.filters.channel;
       query.messageType = this.filters.messageType;

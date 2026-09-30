@@ -285,6 +285,118 @@ AS
         FALSE,
         TRUE,
         TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-DIYA',
+        'brass-diya',
+        'Brass Diya',
+        'Brass lamp for daily aarti and home puja.',
+        'Small brass diya for home worship. Size and finish are listed on the variant. This is a puja supply.',
+        'puja_item',
+        199.00,
+        '{"material":"Brass","use":"Aarti","countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        TRUE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-THALI',
+        'brass-puja-thali',
+        'Brass Puja Thali',
+        'Brass plate for keeping daily puja items together.',
+        'Plain brass thali for home worship. Diya, kumkum and incense are listed separately.',
+        'puja_item',
+        549.00,
+        '{"material":"Brass","diameterInches":8,"countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        TRUE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-CAMPHOR',
+        'camphor-tablets',
+        'Camphor Tablets (Kapur)',
+        'Camphor tablets for aarti.',
+        'Pack of camphor tablets for a lamp offering. Pack weight is listed on the variant.',
+        'puja_item',
+        99.00,
+        '{"form":"Tablets","traditionalName":"Kapur","countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        FALSE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-KUMKUM',
+        'kumkum-haldi-set',
+        'Kumkum and Haldi Set',
+        'Kumkum and turmeric for tilak and puja.',
+        'Small set of kumkum and haldi powder for daily worship and simple offerings.',
+        'puja_item',
+        79.00,
+        '{"contents":["Kumkum","Haldi"],"countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        FALSE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-AGARBATTI',
+        'sandalwood-incense',
+        'Sandalwood Incense',
+        'Sandalwood agarbatti for puja.',
+        'Pack of sandalwood incense sticks. Stick count is listed on the variant.',
+        'puja_item',
+        149.00,
+        '{"fragrance":"Sandalwood","form":"Sticks","countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        FALSE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-KALAVA',
+        'mauli-kalava',
+        'Mauli Kalava',
+        'Red and yellow sacred thread for puja.',
+        'Reel of mauli thread used while tying a kalava during worship.',
+        'puja_item',
+        49.00,
+        '{"color":"Red and yellow","form":"Thread","countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        FALSE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-GANGAJAL',
+        'gangajal',
+        'Gangajal',
+        'Sealed bottle of Ganga water for puja.',
+        'Small sealed bottle labelled as Gangajal for sprinkling during worship. Volume is listed on the variant.',
+        'puja_item',
+        129.00,
+        '{"volumeMl":100,"sealed":true}'::JSONB,
+        FALSE,
+        FALSE,
+        TRUE
+    ),
+    (
+        'puja-remedy-items',
+        'HL-PUJA-HAVAN',
+        'havan-samagri',
+        'Havan Samagri',
+        'Mixed herbs and woods for a small home havan.',
+        'Packed havan samagri for a small home fire offering. Read the ingredient list on the pack. This is a puja supply.',
+        'puja_item',
+        299.00,
+        '{"use":"Havan","packed":true,"countryOfOrigin":"India"}'::JSONB,
+        FALSE,
+        TRUE,
+        TRUE
     )
 )
 INSERT INTO store.products
@@ -367,7 +479,15 @@ AS
 
     ('navagraha-yantra',              'HL-YAN-NAVA-CU-3',    'Copper, 3 inch',  '{"material":"Copper","sizeInches":3,"energised":false}'::JSONB, 1250.00, 120.000, TRUE),
     ('shree-yantra',                  'HL-YAN-SHREE-CU-3',   'Copper, 3 inch',  '{"material":"Copper","sizeInches":3,"energised":false}'::JSONB, 1450.00, 120.000, TRUE),
-    ('five-mukhi-rudraksha',          'HL-RUD-5M-STD',       'Standard bead',   '{"mukhi":5,"beadSizeMm":"14-18","certificateStatus":"Pending supplier upload"}'::JSONB, 499.00, 5.000, TRUE)
+    ('five-mukhi-rudraksha',          'HL-RUD-5M-STD',       'Standard bead',   '{"mukhi":5,"beadSizeMm":"14-18","certificateStatus":"Pending supplier upload"}'::JSONB, 499.00, 5.000, TRUE),
+    ('brass-diya',                    'HL-PUJA-DIYA-2IN',    'Small, 2 inch',   '{"material":"Brass","sizeInches":2}'::JSONB, 199.00, 80.000, TRUE),
+    ('brass-puja-thali',              'HL-PUJA-THALI-8IN',   '8 inch',          '{"material":"Brass","diameterInches":8}'::JSONB, 549.00, 280.000, TRUE),
+    ('camphor-tablets',               'HL-PUJA-CAMPHOR-50',  '50 g pack',       '{"weightGrams":50,"form":"Tablets"}'::JSONB, 99.00, 50.000, TRUE),
+    ('kumkum-haldi-set',              'HL-PUJA-KUMKUM-25',   '25 g each',       '{"kumkumGrams":25,"haldiGrams":25}'::JSONB, 79.00, 50.000, TRUE),
+    ('sandalwood-incense',            'HL-PUJA-AGAR-40',     '40 sticks',       '{"stickCount":40,"fragrance":"Sandalwood"}'::JSONB, 149.00, 80.000, TRUE),
+    ('mauli-kalava',                  'HL-PUJA-KALAVA-1',    '1 reel',          '{"form":"Reel","color":"Red and yellow"}'::JSONB, 49.00, 15.000, TRUE),
+    ('gangajal',                      'HL-PUJA-GANGA-100',   '100 ml',          '{"volumeMl":100,"sealed":true}'::JSONB, 129.00, 120.000, TRUE),
+    ('havan-samagri',                 'HL-PUJA-HAVAN-250',   '250 g pack',      '{"weightGrams":250,"use":"Havan"}'::JSONB, 299.00, 250.000, TRUE)
 )
 INSERT INTO store.product_variants
 (
@@ -409,14 +529,14 @@ WITH image_seed(product_slug, image_url, alt_text, display_order, is_primary)
 AS
 (
     VALUES
-    ('ruby-manikya',                 '/assets/store/products/ruby-manikya.webp',                 'Ruby Manikya gemstone',                  1, TRUE),
-    ('pearl-moti',                   '/assets/store/products/pearl-moti.webp',                   'Pearl Moti gemstone',                    1, TRUE),
-    ('red-coral-moonga',             '/assets/store/products/red-coral-moonga.webp',             'Red Coral Moonga gemstone',              1, TRUE),
-    ('emerald-panna',                '/assets/store/products/emerald-panna.webp',                'Emerald Panna gemstone',                 1, TRUE),
-    ('yellow-sapphire-pukhraj',      '/assets/store/products/yellow-sapphire-pukhraj.webp',      'Yellow Sapphire Pukhraj gemstone',       1, TRUE),
+    ('ruby-manikya',                 '/assets/store/products/ruby-manikya.png',                 'Ruby (Manik) gemstone',                  1, TRUE),
+    ('pearl-moti',                   '/assets/store/products/pearl-moti.png',                   'Pearl (Moti) gemstone',                    1, TRUE),
+    ('red-coral-moonga',             '/assets/store/products/red-coral-moonga.png',             'Red Coral (Moonga) gemstone',              1, TRUE),
+    ('emerald-panna',                '/assets/store/products/emerald-panna.png',                'Emerald (Panna) gemstone',                 1, TRUE),
+    ('yellow-sapphire-pukhraj',      '/assets/store/products/yellow-sapphire-pukhraj.png',      'Yellow Sapphire (Pukhraj) gemstone',       1, TRUE),
     ('white-sapphire-safed-pukhraj', '/assets/store/products/white-sapphire.webp',               'White Sapphire gemstone',                1, TRUE),
-    ('blue-sapphire-neelam',         '/assets/store/products/blue-sapphire-neelam.webp',         'Blue Sapphire Neelam gemstone',          1, TRUE),
-    ('hessonite-gomed',              '/assets/store/products/hessonite-gomed.webp',              'Hessonite Gomed gemstone',               1, TRUE),
+    ('blue-sapphire-neelam',         '/assets/store/products/blue-sapphire-neelam.png',         'Blue Sapphire (Neelam) gemstone',          1, TRUE),
+    ('hessonite-gomed',              '/assets/store/products/hessonite-gomed.png',              'Hessonite (Gomed) gemstone',               1, TRUE),
     ('cats-eye-lehsunia',            '/assets/store/products/cats-eye-lehsunia.webp',            'Cats Eye Lehsunia gemstone',             1, TRUE),
     ('navagraha-yantra',             '/assets/store/products/navagraha-yantra.webp',             'Copper Navagraha Yantra',                1, TRUE),
     ('shree-yantra',                 '/assets/store/products/shree-yantra.webp',                 'Copper Shree Yantra',                    1, TRUE),
@@ -467,6 +587,7 @@ SELECT
         WHEN p.product_type = 'gemstone' THEN 5
         WHEN p.product_type = 'yantra' THEN 15
         WHEN p.product_type = 'rudraksha' THEN 20
+        WHEN p.product_type = 'puja_item' THEN 40
         ELSE 10
     END,
     0,
@@ -506,7 +627,15 @@ AS
     ('cats-eye-lehsunia',            'ketu_support',       10, 80.00, 'Strict suitability review required before recommendation.'),
     ('navagraha-yantra',             'navagraha_balance',  20, 75.00, 'General candidate product; do not present as guaranteed outcome.'),
     ('shree-yantra',                 'spiritual_practice', 20, 70.00, 'General spiritual-practice product.'),
-    ('five-mukhi-rudraksha',         'spiritual_practice', 30, 65.00, 'General spiritual-practice product.')
+    ('five-mukhi-rudraksha',         'spiritual_practice', 30, 65.00, 'General spiritual-practice product.'),
+    ('brass-diya',                   'spiritual_practice', 40, 60.00, 'Daily puja supply.'),
+    ('brass-puja-thali',             'spiritual_practice', 40, 60.00, 'Daily puja supply.'),
+    ('camphor-tablets',              'spiritual_practice', 40, 55.00, 'Aarti supply.'),
+    ('kumkum-haldi-set',             'spiritual_practice', 40, 55.00, 'Tilak and offering supply.'),
+    ('sandalwood-incense',           'spiritual_practice', 40, 55.00, 'Puja fragrance supply.'),
+    ('mauli-kalava',                 'spiritual_practice', 40, 55.00, 'Thread used during worship.'),
+    ('gangajal',                     'spiritual_practice', 40, 55.00, 'Water used for sprinkling during puja.'),
+    ('havan-samagri',                'spiritual_practice', 40, 60.00, 'Supply for a small home havan.')
 )
 INSERT INTO store.product_remedy_mappings
 (

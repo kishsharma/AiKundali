@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
 
@@ -43,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private themeService: ThemeService,
     private router: Router,
     private route: ActivatedRoute,
     private translocoService: TranslocoService,
@@ -60,6 +62,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.navigationTimer) {
       clearTimeout(this.navigationTimer);
     }
+  }
+
+  get brandLogoSrc(): string {
+    return this.themeService.mode() === 'dark'
+      ? 'assets/brand/horalife/horalife-icon-white.svg'
+      : 'assets/brand/horalife/horalife-icon-color.svg';
   }
 
   get otpContactLabel(): string {
@@ -106,6 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.challengeId = response.challengeId;
         this.maskedDestination = response.maskedDestination;
         this.otpStep = 'code';
+        this.resetOtpDigits();
         this.startResendTimer(response.resendAfterSeconds || 60);
         setTimeout(() => this.focusOtpInput());
         this.notifications.success(response.message || 'Verification code sent.');

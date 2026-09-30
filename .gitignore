@@ -10,6 +10,11 @@ obj/
 # Temp / local verification output
 _temp_build/
 
+# Local secrets
+.env
+**/.env
+!.env.example
+
 # Accidental nested folder created during earlier edit typo
 GIT/
 /Kundali portal/KundaliEngine/KundaliEngine.API/WeatherForecast.cs

@@ -172,7 +172,8 @@ export class PortalNotesComponent implements OnChanges, OnDestroy {
 
     navigator.mediaDevices?.getUserMedia({ audio: true }).then((stream) => {
       this.recordingChunks = [];
-      this.mediaRecorder = new MediaRecorder(stream);
+      const mimeType = this.preferredRecordingMimeType();
+      this.mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
       this.mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           this.recordingChunks.push(event.data);
@@ -338,29 +339,71 @@ export class PortalNotesComponent implements OnChanges, OnDestroy {
           this.voiceRecordings = [savedRecording, ...this.voiceRecordings];
           this.removePendingVoiceRecording(recording.id);
           completed += 1;
-          this.finishPendingVoiceUploadIfDone(completed, pending.length, failed);
+          this.finishPendingVoiceUploadIfDone(completed, pending.length, failed, '');
         },
-        error: () => {
+        error: (error) => {
           failed = true;
           completed += 1;
-          this.finishPendingVoiceUploadIfDone(completed, pending.length, failed);
+          this.finishPendingVoiceUploadIfDone(completed, pending.length, failed, this.voiceUploadError(error));
         }
       });
     });
   }
 
-  private finishPendingVoiceUploadIfDone(completed: number, total: number, failed: boolean): void {
+  private finishPendingVoiceUploadIfDone(completed: number, total: number, failed: boolean, message: string): void {
     if (completed < total) {
       return;
     }
 
     this.uploadingVoice = false;
     if (failed) {
-      this.notifications.error('Some voice recordings could not be saved.');
+      this.notifications.error(message || 'Some voice recordings could not be saved.');
       return;
     }
 
     this.notifications.success('Voice recordings saved.');
+  }
+
+  private voiceUploadError(error: any): string {
+    const body = error?.error;
+    if (typeof body === 'string' && body.trim()) {
+      return body;
+    }
+
+    const message = body?.message || body?.title;
+    return typeof message === 'string' ? message : '';
+  }
+
+  private preferredRecordingMimeType(): string {
+    const candidates = ['audio/webm', 'audio/mp4', 'audio/ogg'];
+    return candidates.find((type) => MediaRecorder.isTypeSupported(type)) || '';
+  }
+
+  private normalizedVoiceContentType(value: string): string {
+    const base = value.split(';')[0].trim().toLowerCase();
+    if (base === 'video/webm') {
+      return 'audio/webm';
+    }
+
+    return ['audio/webm', 'audio/ogg', 'audio/mp4', 'audio/mpeg', 'audio/wav', 'audio/x-wav'].includes(base)
+      ? base
+      : 'audio/webm';
+  }
+
+  private voiceFileExtension(contentType: string): string {
+    switch (contentType) {
+      case 'audio/ogg':
+        return 'ogg';
+      case 'audio/mp4':
+        return 'm4a';
+      case 'audio/mpeg':
+        return 'mp3';
+      case 'audio/wav':
+      case 'audio/x-wav':
+        return 'wav';
+      default:
+        return 'webm';
+    }
   }
 
   private captureStoppedRecording(): void {
@@ -368,7 +411,7 @@ export class PortalNotesComponent implements OnChanges, OnDestroy {
       this.maxVoiceDurationSeconds,
       Math.max(1, Math.ceil((Date.now() - this.recordingStartedAt) / 1000))
     );
-    const contentType = this.mediaRecorder?.mimeType || 'audio/webm';
+    const contentType = this.normalizedVoiceContentType(this.mediaRecorder?.mimeType || 'audio/webm');
     const blob = new Blob(this.recordingChunks, { type: contentType });
     const audioUrl = URL.createObjectURL(blob);
 
@@ -377,7 +420,7 @@ export class PortalNotesComponent implements OnChanges, OnDestroy {
       {
         id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
         blob,
-        fileName: `voice-note-${new Date().toISOString().replace(/[:.]/g, '-')}.webm`,
+        fileName: `voice-note-${new Date().toISOString().replace(/[:.]/g, '-')}.${this.voiceFileExtension(contentType)}`,
         contentType,
         durationSeconds,
         audioUrl

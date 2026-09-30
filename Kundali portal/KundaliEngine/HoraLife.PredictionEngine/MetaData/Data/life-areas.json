@@ -9,6 +9,13 @@
         "Sun",
         "Saturn",
         "Mercury"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "career_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     },
     {
@@ -19,6 +26,18 @@
         "Jupiter",
         "Venus",
         "Mercury"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "income_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        },
+        {
+          "focusKey": "savings_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     },
     {
@@ -44,6 +63,18 @@
       "naturalSignificators": [
         "Mercury",
         "Jupiter"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "education_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        },
+        {
+          "focusKey": "children_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     },
     {
@@ -53,6 +84,13 @@
       "naturalSignificators": [
         "Moon",
         "Jupiter"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "family_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     },
     {
@@ -62,6 +100,13 @@
       "naturalSignificators": [
         "Mars",
         "Moon"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "property_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     },
     {
@@ -71,6 +116,13 @@
       "naturalSignificators": [
         "Sun",
         "Moon"
+      ],
+      "customQuestionTiming": [
+        {
+          "focusKey": "health_timing",
+          "futureHorizonYears": 10,
+          "maxWindows": 5
+        }
       ]
     }
   ]

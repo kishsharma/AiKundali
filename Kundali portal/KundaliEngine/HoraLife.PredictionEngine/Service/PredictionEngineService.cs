@@ -24,6 +24,7 @@ public sealed class PredictionEngineService
     private readonly PredictionQuestionAnalyzerService _questionAnalyzer = new();
     private readonly CareerClaimGeneratorService _careerGenerator = new();
     private readonly CareerDashaClaimGeneratorService _careerDashaGenerator = new();
+    private readonly CareerDirectionClaimGenerator _careerDirectionGenerator = new();
     private readonly PredictionClaimConsolidatorService _claimConsolidator = new();
     private readonly PredictionSynthesisService _synthesisService;
     private readonly FinanceClaimGeneratorService _financeGenerator = new();
@@ -32,6 +33,7 @@ public sealed class PredictionEngineService
     private readonly RelationshipsDashaClaimGeneratorService _relationshipsDashaGenerator = new();
     private readonly EducationClaimGeneratorService _educationGenerator = new();
     private readonly EducationDashaClaimGeneratorService _educationDashaGenerator = new();
+    private readonly EducationDirectionClaimGenerator _educationDirectionGenerator = new();
     private readonly FamilyClaimGeneratorService _familyGenerator = new();
     private readonly FamilyDashaClaimGeneratorService _familyDashaGenerator = new();
     private readonly PropertyClaimGeneratorService _propertyGenerator = new();
@@ -66,6 +68,23 @@ public sealed class PredictionEngineService
         var dashaPeriods = _dashaSelector.Select(context.DashaTimeline, request);
         var evidence = _evidenceSelector.Select(context, request, profile, dashaPeriods);
         var sourceClaims = GenerateClaims(request, evidence);
+        if (request.LifeArea == PredictionLifeArea.Career)
+        {
+            sourceClaims =
+            [
+                .. sourceClaims,
+                .. _careerDirectionGenerator.Generate(request, context)
+            ];
+        }
+        else if (request.LifeArea == PredictionLifeArea.Education)
+        {
+            sourceClaims =
+            [
+                .. sourceClaims,
+                .. _educationDirectionGenerator.Generate(request, context)
+            ];
+        }
+
         var consolidatedClaim = _claimConsolidator.Consolidate(request, sourceClaims);
 
         var finalClaims = consolidatedClaim is null

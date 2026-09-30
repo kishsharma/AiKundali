@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
+import { AuthService } from '../../core/auth/auth.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { UserLoginControlService, UserLoginControlUser } from '../../core/services/user-login-control.service';
 
@@ -15,6 +16,7 @@ import { UserLoginControlService, UserLoginControlUser } from '../../core/servic
 export class UserLoginControlComponent implements OnInit {
   private readonly userLoginControlService = inject(UserLoginControlService);
   private readonly notifications = inject(NotificationService);
+  private readonly authService = inject(AuthService);
 
   users: UserLoginControlUser[] = [];
   searchTerm = '';
@@ -129,13 +131,17 @@ export class UserLoginControlComponent implements OnInit {
     });
   }
 
-  onPremiumToggle(user: UserLoginControlUser, isPremium: boolean): void {
-    user.isPremium = isPremium;
-    user.planCode = isPremium ? 'Premium' : 'Free';
+  onPlanChange(user: UserLoginControlUser, planCode: string): void {
+    user.planCode = planCode;
+    user.isPremium = planCode !== 'Free';
+    user.isPaid = planCode !== 'Free';
+    user.isPlus = planCode === 'PremiumPlus';
 
-    if (isPremium && !this.planExpiryInputs[user.id]) {
+    if (planCode !== 'Free' && !this.planExpiryInputs[user.id]) {
       this.planExpiryInputs[user.id] = this.getDefaultPremiumExpiryDate();
     }
+
+    this.updatePremiumPlan(user);
   }
 
   updatePremiumPlan(user: UserLoginControlUser): void {
@@ -143,30 +149,25 @@ export class UserLoginControlComponent implements OnInit {
       return;
     }
 
-    const planExpiresAt = user.isPremium
-      ? this.toPlanExpiryIso(this.planExpiryInputs[user.id])
+    const planExpiresAt = user.planCode !== 'Free'
+      ? this.toPlanExpiryIso(this.planExpiryInputs[user.id] || this.getDefaultPremiumExpiryDate())
       : null;
-
-    if (user.isPremium && !planExpiresAt) {
-      this.errorMessage = 'Select a premium expiry date.';
-      this.notifications.error(this.errorMessage);
-      return;
-    }
 
     this.errorMessage = '';
     this.successMessage = '';
     this.savingPlanUserIds.add(user.id);
 
-    this.userLoginControlService.updatePremiumPlan(user.id, user.isPremium, planExpiresAt).subscribe({
+    this.userLoginControlService.updatePremiumPlan(user.id, user.planCode, planExpiresAt).subscribe({
       next: (updatedUser) => {
         const normalizedUser = this.normalizeUser(updatedUser);
         this.users = this.users.map(item => item.id === normalizedUser.id ? normalizedUser : item);
-        this.successMessage = `${normalizedUser.fullName || normalizedUser.email} is now ${normalizedUser.isPremium ? 'Premium' : 'Free'}.`;
+        this.successMessage = `${normalizedUser.fullName || normalizedUser.email} is now ${this.getPlanLabel(normalizedUser)}.`;
         this.notifications.success(this.successMessage);
         this.savingPlanUserIds.delete(user.id);
+        this.refreshSessionIfCurrentUser(normalizedUser);
       },
       error: (error) => {
-        this.errorMessage = this.getHttpErrorMessage(error, 'Unable to update premium plan.');
+        this.errorMessage = this.getHttpErrorMessage(error, 'Unable to update plan.');
         this.notifications.error(this.errorMessage);
         this.savingPlanUserIds.delete(user.id);
         this.loadUsers();
@@ -175,7 +176,15 @@ export class UserLoginControlComponent implements OnInit {
   }
 
   getPlanLabel(user: UserLoginControlUser): string {
-    return user.isPremium ? 'Premium' : 'Free';
+    if (user.planCode === 'PremiumPlus') {
+      return 'Premium Plus';
+    }
+
+    if (user.planCode === 'Premium') {
+      return 'Premium';
+    }
+
+    return 'Free';
   }
 
   private normalizeUser(user: UserLoginControlUser): UserLoginControlUser {
@@ -183,12 +192,23 @@ export class UserLoginControlComponent implements OnInit {
       ...user,
       email: user.email ?? '',
       planCode: user.planCode || (user.isPremium ? 'Premium' : 'Free'),
-      isPremium: Boolean(user.isPremium),
+      isPremium: Boolean(user.isPaid ?? user.isPremium),
+      isPaid: Boolean(user.isPaid ?? user.isPremium),
+      isPlus: Boolean(user.isPlus || user.planCode === 'PremiumPlus'),
       kundaliSaveLimit: Number.isFinite(Number(user.kundaliSaveLimit)) ? Number(user.kundaliSaveLimit) : 5
     };
 
     this.planExpiryInputs[normalizedUser.id] = this.toDateInputValue(normalizedUser.planExpiresAt);
     return normalizedUser;
+  }
+
+  private refreshSessionIfCurrentUser(user: UserLoginControlUser): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser?.userId || currentUser.userId !== user.id) {
+      return;
+    }
+
+    this.authService.getMe().subscribe();
   }
 
   private toDateInputValue(value?: string | null): string {

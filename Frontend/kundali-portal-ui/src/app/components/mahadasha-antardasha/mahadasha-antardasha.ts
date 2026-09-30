@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule} from "@angular/common";
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { DashaPeriodTone, blendDashaScores, dashaPeriodTone, isBestDashaPeriod } from './dasha-period-tone';
 @Component({
   selector: 'app-mahadasha-antardasha',
   standalone: true,
@@ -16,6 +17,7 @@ export class MahadashaAntardasha {
   constructor(private translocoService: TranslocoService) {}
 
   @Input() mahadashas: any[] = [];
+  @Input() planetScores: Record<string, number> | null = null;
   @Input() compact = false;
 
   get displayedMahadashas(): any[] {
@@ -62,6 +64,47 @@ getCurrentDashaSummary(): { mahadasha: any; antardasha: any | null; remainingEnd
 
 getPlanetName(period: any): string {
   return period?.subPlanet || period?.planet || '';
+}
+
+periodScore(planet: string | null | undefined, companion?: string | null): number | null {
+  return blendDashaScores(this.scoreOf(planet), companion ? this.scoreOf(companion) : null);
+}
+
+periodTone(planet: string | null | undefined, companion?: string | null): DashaPeriodTone {
+  return dashaPeriodTone(this.periodScore(planet, companion));
+}
+
+isBestPeriod(planet: string | null | undefined, companion?: string | null): boolean {
+  return isBestDashaPeriod(this.scoreOf(planet), companion ? this.scoreOf(companion) : null);
+}
+
+periodTitle(planet: string | null | undefined, companion?: string | null): string {
+  if (companion && this.isBestPeriod(planet, companion)) {
+    return this.translocoService.translate('mahadasha.toneBestTitle', {
+      maha: this.scoreOf(companion),
+      antar: this.scoreOf(planet)
+    });
+  }
+
+  const label = this.toneLabel(this.periodTone(planet, companion));
+  const score = this.periodScore(planet, companion);
+  return score == null ? label : `${label} · ${score}`;
+}
+
+toneLabel(tone: DashaPeriodTone): string {
+  const key = tone === 'favourable'
+    ? 'mahadasha.toneFavourable'
+    : tone === 'unfavourable'
+      ? 'mahadasha.toneUnfavourable'
+      : 'mahadasha.toneNeutral';
+  const translated = this.translocoService.translate(key);
+  return translated && translated !== key ? translated : tone;
+}
+
+private scoreOf(planet: string | null | undefined): number | null {
+  const key = (planet ?? '').trim().toLowerCase();
+  const value = key ? this.planetScores?.[key] : undefined;
+  return typeof value === 'number' && !Number.isNaN(value) ? value : null;
 }
 
 getCurrentDashaSentence(currentDasha: { mahadasha: any; antardasha: any | null; remainingEnd: string | Date | null }): string {

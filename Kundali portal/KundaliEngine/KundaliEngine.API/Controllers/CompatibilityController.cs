@@ -15,6 +15,7 @@ using KundaliEngine.KnowledgeBase.Services;
 using KundaliEngine.Infrastructure.Data;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.API.Services.Audit;
+using KundaliEngine.API.Services.Entitlements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -39,6 +40,7 @@ namespace KundaliEngine.API.Controllers
         private readonly IEphemerisProvider _ephemerisProvider;
         private readonly KundaliDbContext _dbContext;
         private readonly IAuditLogService _auditLogService;
+        private readonly IEntitlementService _entitlementService;
         public CompatibilityController(
             ChartService chartService,
             PanchangService panchangService,
@@ -51,7 +53,8 @@ namespace KundaliEngine.API.Controllers
             NakshatraMetadataService nakshatraMetadataService,
             IEphemerisProvider ephemerisProvider,
             KundaliDbContext dbContext,
-            IAuditLogService auditLogService)
+            IAuditLogService auditLogService,
+            IEntitlementService entitlementService)
         {
             _chartService = chartService;
             _panchangService = panchangService;
@@ -65,10 +68,11 @@ namespace KundaliEngine.API.Controllers
             _ephemerisProvider = ephemerisProvider;
             _dbContext = dbContext;
             _auditLogService = auditLogService;
+            _entitlementService = entitlementService;
         }
 
         [HttpPost("match")]
-        public ActionResult<CompatibilityResult> Match([FromBody] CompatibilityRequestDto request)
+        public async Task<ActionResult<CompatibilityResult>> Match([FromBody] CompatibilityRequestDto request)
         {
             if (request == null)
                 return BadRequest("Request is required");
@@ -95,6 +99,11 @@ namespace KundaliEngine.API.Controllers
                     personADoshas,
                     personBDoshas,
                     _doshaMetadataService);
+
+                if (!await IsCurrentUserPaidAsync())
+                {
+                    StripCompatibilityDetails(result);
+                }
 
                 return Ok(result);
             }
@@ -132,6 +141,23 @@ namespace KundaliEngine.API.Controllers
             if (userId == null)
             {
                 return Unauthorized();
+            }
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId.Value);
+            if (user == null || !user.IsActive)
+            {
+                return Unauthorized();
+            }
+
+            var savedMatchCount = await _dbContext.SavedCompatibilities.CountAsync(x => x.UserId == userId.Value);
+            var matchSaveLimit = _entitlementService.GetMatchSaveLimit(user);
+            if (savedMatchCount >= matchSaveLimit)
+            {
+                return BadRequest(new
+                {
+                    message = $"Saved match limit reached. This plan can save up to {matchSaveLimit} matches.",
+                    matchSaveLimit
+                });
             }
 
             var personA = request.Request.PersonA;
@@ -418,6 +444,48 @@ namespace KundaliEngine.API.Controllers
         {
             var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return Guid.TryParse(claimValue, out var userId) ? userId : null;
+        }
+
+        private async Task<bool> IsCurrentUserPaidAsync()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return false;
+            }
+
+            var user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == userId.Value);
+            return user != null && user.IsActive && _entitlementService.IsPaid(user);
+        }
+
+        private static void StripCompatibilityDetails(CompatibilityResult result)
+        {
+            result.Summary = string.Empty;
+            result.DominantStrengths = new List<string>();
+            result.DominantChallenges = new List<string>();
+            result.Factors = new List<string>();
+
+            foreach (var dimension in result.Dimensions)
+            {
+                dimension.Summary = string.Empty;
+                dimension.Factors = new List<string>();
+                dimension.ScoreBreakdown = new List<ScoreComponent>();
+            }
+
+            result.DoshaAnalysis.DoshaFactors = new List<string>();
+            result.DoshaAnalysis.DoshaRemedies = new List<string>();
+            result.DoshaAnalysis.ScoreBreakdown = new List<ScoreComponent>();
+            result.DoshaAnalysis.Items = result.DoshaAnalysis.Items.Select(item => new CompatibilityDoshaItem
+            {
+                Key = item.Key,
+                Name = item.Name,
+                Category = item.Category,
+                Status = item.Status,
+                CompatibilityScore = item.CompatibilityScore,
+                RiskScore = item.RiskScore,
+                Severity = item.Severity,
+                Tone = item.Tone
+            }).ToList();
         }
 
         private static SavedCompatibilityDetailDto MapSavedCompatibilityDetail(SavedCompatibility savedCompatibility)

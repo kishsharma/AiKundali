@@ -43,6 +43,7 @@
       <div class="transit-row transit-row-head">
         <span>{{ 'table.planet' | transloco }}</span>
         <span>{{ 'transit.natalHouse' | transloco }}</span>
+        <span>{{ 'transit.houseFromMoon' | transloco }}</span>
         <span>{{ 'transit.focusArea' | transloco }}</span>
         <span>{{ 'transit.natalActivation' | transloco }}</span>
         <span>{{ 'transit.dashaLink' | transloco }}</span>
@@ -59,6 +60,7 @@
           </i>
         </span>
         <span>{{ row.natalHouse }}</span>
+        <span>{{ row.houseFromMoon }}</span>
         <span>{{ translateHouseFocus(row.natalHouse, row.focusArea) }}</span>
         <span class="activation-cell">
           <strong>{{ natalActivationText(row) }}</strong>

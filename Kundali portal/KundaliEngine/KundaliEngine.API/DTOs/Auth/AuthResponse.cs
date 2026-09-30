@@ -14,5 +14,19 @@ public class AuthResponse
 
     public string Role { get; set; } = string.Empty;
 
+    public string PlanCode { get; set; } = "Free";
+
+    public DateTimeOffset? PlanExpiresAt { get; set; }
+
+    public bool IsPremium { get; set; }
+
+    public bool IsPaid { get; set; }
+
+    public bool IsPlus { get; set; }
+
+    public int KundaliSaveLimit { get; set; }
+
+    public int MatchSaveLimit { get; set; }
+
     public string Token { get; set; } = string.Empty;
 }

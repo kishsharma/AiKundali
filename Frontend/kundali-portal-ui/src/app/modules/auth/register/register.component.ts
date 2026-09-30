@@ -100,6 +100,7 @@ export class RegisterComponent implements OnDestroy {
         this.challengeId = response.challengeId;
         this.maskedDestination = response.maskedDestination;
         this.step = 'code';
+        this.resetOtpDigits();
         this.cdr.detectChanges();
         this.startResendTimer(response.resendAfterSeconds || 60);
         setTimeout(() => this.focusOtpInput());

@@ -57,5 +57,16 @@
       "padas": [ 1, 2, 3 ]
     }
   ],
-  "description": "Kumbha is the eleventh sign of the zodiac, symbolizing innovation, knowledge, humanitarian values, and social progress. Ruled by Saturn, it represents originality, intellectual growth, service to society, and the vision to create a better future."
+  "description": "Kumbha is the eleventh sign of the zodiac, symbolizing innovation, knowledge, humanitarian values, and social progress. Ruled by Saturn, it represents originality, intellectual growth, service to society, and the vision to create a better future.",
+  "ghatChakra": {
+    "month": "chaitra",
+    "tithi": "jaya",
+    "tithiNumbers": "3, 8, 13",
+    "weekday": "thursday",
+    "nakshatra": "Ardra",
+    "yoga": "ganda",
+    "karana": "kimstughna",
+    "moonMale": "Sagittarius",
+    "moonFemale": "Gemini"
+  }
 }

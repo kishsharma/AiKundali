@@ -1,6 +1,7 @@
 using KundaliEngine.API.DTOs.Auth;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.Email;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Sms;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Infrastructure.Data;
@@ -28,19 +29,22 @@ public sealed class AuthOtpService : IAuthOtpService
     private readonly IEmailSender _emailSender;
     private readonly ISmsOtpSender _smsOtpSender;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IEntitlementService _entitlementService;
 
     public AuthOtpService(
         KundaliDbContext dbContext,
         IJwtTokenGenerator jwtTokenGenerator,
         IEmailSender emailSender,
         ISmsOtpSender smsOtpSender,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IEntitlementService entitlementService)
     {
         _dbContext = dbContext;
         _jwtTokenGenerator = jwtTokenGenerator;
         _emailSender = emailSender;
         _smsOtpSender = smsOtpSender;
         _httpContextAccessor = httpContextAccessor;
+        _entitlementService = entitlementService;
     }
 
     public async Task<OtpChallengeResponse> StartOtpLoginAsync(StartEmailOtpRequest request, CancellationToken cancellationToken)
@@ -62,6 +66,7 @@ public sealed class AuthOtpService : IAuthOtpService
         var resendCount = await EnsureCanSendAsync(target.Channel, target.Destination, LoginPurpose, cancellationToken);
         var code = GenerateOtpCode();
         var now = DateTime.UtcNow;
+        await InvalidateOpenChallengesAsync(target.Channel, target.Destination, LoginPurpose, now, cancellationToken);
         var challenge = BuildChallenge(LoginPurpose, target.Channel, target.Destination, code, now, user.Id, resendCount);
 
         _dbContext.AuthOtpChallenges.Add(challenge);
@@ -124,6 +129,7 @@ public sealed class AuthOtpService : IAuthOtpService
         var resendCount = await EnsureCanSendAsync(target.Channel, target.Destination, RegistrationPurpose, cancellationToken);
         var code = GenerateOtpCode();
         var now = DateTime.UtcNow;
+        await InvalidateOpenChallengesAsync(target.Channel, target.Destination, RegistrationPurpose, now, cancellationToken);
         var challenge = BuildChallenge(RegistrationPurpose, target.Channel, target.Destination, code, now, null, resendCount);
 
         _dbContext.AuthOtpChallenges.Add(challenge);
@@ -265,10 +271,12 @@ public sealed class AuthOtpService : IAuthOtpService
     private async Task<int> EnsureCanSendAsync(string channel, string destination, string purpose, CancellationToken cancellationToken)
     {
         var now = DateTime.UtcNow;
-        var recentChallenge = await _dbContext.AuthOtpChallenges
-            .Where(x => x.Channel == channel && x.Purpose == purpose && x.DestinationNormalized == destination)
+        var recentRows = await _dbContext.AuthOtpChallenges
+            .Where(x => x.Channel == channel && x.Purpose == purpose)
             .OrderByDescending(x => x.LastSentAt)
-            .FirstOrDefaultAsync(cancellationToken);
+            .Take(40)
+            .ToListAsync(cancellationToken);
+        var recentChallenge = recentRows.FirstOrDefault(item => DestinationsMatch(item.Channel, item.DestinationNormalized, destination));
 
         if (recentChallenge != null)
         {
@@ -282,12 +290,10 @@ public sealed class AuthOtpService : IAuthOtpService
         }
 
         var windowStart = now.AddMinutes(-OtpExpiryMinutes);
-        var recentCount = await _dbContext.AuthOtpChallenges
-            .CountAsync(x => x.Channel == channel
-                && x.Purpose == purpose
-                && x.DestinationNormalized == destination
-                && x.CreatedAt >= windowStart
-                && x.CreatedAt <= now.AddSeconds(30), cancellationToken);
+        var recentCount = recentRows.Count(item =>
+            DestinationsMatch(item.Channel, item.DestinationNormalized, destination)
+            && NormalizeOtpTimestamp(item.CreatedAt, now) >= windowStart
+            && NormalizeOtpTimestamp(item.CreatedAt, now) <= now.AddSeconds(30));
 
         if (recentCount >= MaxRequestsPerWindow)
         {
@@ -313,13 +319,54 @@ public sealed class AuthOtpService : IAuthOtpService
         return timestamp;
     }
 
-    private async Task<AuthOtpChallenge> GetChallengeAsync(Guid challengeId, string purpose, string channel, string destination, CancellationToken cancellationToken)
+    private async Task InvalidateOpenChallengesAsync(
+        string channel,
+        string destination,
+        string purpose,
+        DateTime now,
+        CancellationToken cancellationToken)
     {
-        var challenge = await _dbContext.AuthOtpChallenges
-            .FirstOrDefaultAsync(x => x.Id == challengeId
-                && x.Channel == channel
+        var openChallenges = await _dbContext.AuthOtpChallenges
+            .Where(x => x.Channel == channel
                 && x.Purpose == purpose
-                && x.DestinationNormalized == destination, cancellationToken);
+                && x.ConsumedAt == null
+                && x.VerifiedAt == null)
+            .ToListAsync(cancellationToken);
+
+        foreach (var open in openChallenges.Where(item => DestinationsMatch(item.Channel, item.DestinationNormalized, destination)))
+        {
+            open.ConsumedAt = now;
+        }
+    }
+
+    private async Task<AuthOtpChallenge> GetChallengeAsync(
+        Guid challengeId,
+        string purpose,
+        string channel,
+        string destination,
+        CancellationToken cancellationToken)
+    {
+        AuthOtpChallenge? challenge = null;
+        if (challengeId != Guid.Empty)
+        {
+            challenge = await _dbContext.AuthOtpChallenges
+                .FirstOrDefaultAsync(x => x.Id == challengeId && x.Purpose == purpose, cancellationToken);
+        }
+
+        if (challenge == null
+            || !string.Equals(challenge.Channel, channel, StringComparison.OrdinalIgnoreCase)
+            || !DestinationsMatch(challenge.Channel, challenge.DestinationNormalized, destination))
+        {
+            var candidates = await _dbContext.AuthOtpChallenges
+                .Where(x => x.Channel == channel
+                    && x.Purpose == purpose
+                    && x.ConsumedAt == null
+                    && x.VerifiedAt == null)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(20)
+                .ToListAsync(cancellationToken);
+            challenge = candidates.FirstOrDefault(item => DestinationsMatch(item.Channel, item.DestinationNormalized, destination));
+        }
 
         if (challenge == null)
         {
@@ -327,6 +374,16 @@ public sealed class AuthOtpService : IAuthOtpService
         }
 
         return challenge;
+    }
+
+    private static void EnsureChallengeCanBeVerified(AuthOtpChallenge challenge)
+    {
+        var now = DateTime.UtcNow;
+        var expiresAt = NormalizeOtpTimestamp(challenge.ExpiresAt, now);
+        if (challenge.ConsumedAt != null || expiresAt <= now || challenge.AttemptCount >= MaxAttempts)
+        {
+            throw new UnauthorizedAccessException("Invalid or expired verification code.");
+        }
     }
 
     private async Task<User?> FindUserByTargetAsync(OtpTarget target, CancellationToken cancellationToken)
@@ -340,7 +397,7 @@ public sealed class AuthOtpService : IAuthOtpService
             .Where(x => x.PhoneNumber != null)
             .ToListAsync(cancellationToken);
 
-        return phoneUsers.FirstOrDefault(x => TryNormalizePhoneNumber(x.PhoneNumber) == target.Destination);
+        return phoneUsers.FirstOrDefault(x => DestinationsMatch(PhoneChannel, x.PhoneNumber ?? string.Empty, target.Destination));
     }
 
     private async Task<bool> UserExistsForTargetAsync(OtpTarget target, CancellationToken cancellationToken)
@@ -355,15 +412,7 @@ public sealed class AuthOtpService : IAuthOtpService
             .Select(x => x.PhoneNumber)
             .ToListAsync(cancellationToken);
 
-        return phoneUsers.Any(phoneNumber => TryNormalizePhoneNumber(phoneNumber) == target.Destination);
-    }
-
-    private static void EnsureChallengeCanBeVerified(AuthOtpChallenge challenge)
-    {
-        if (challenge.ConsumedAt != null || challenge.ExpiresAt <= DateTime.UtcNow || challenge.AttemptCount >= MaxAttempts)
-        {
-            throw new UnauthorizedAccessException("Invalid or expired verification code.");
-        }
+        return phoneUsers.Any(phoneNumber => DestinationsMatch(PhoneChannel, phoneNumber ?? string.Empty, target.Destination));
     }
 
     private async Task RegisterFailedAttemptAsync(AuthOtpChallenge challenge, CancellationToken cancellationToken)
@@ -374,7 +423,7 @@ public sealed class AuthOtpService : IAuthOtpService
 
     private static bool VerifyCode(string code, AuthOtpChallenge challenge)
     {
-        var normalizedCode = (code ?? string.Empty).Trim();
+        var normalizedCode = new string((code ?? string.Empty).Where(char.IsDigit).ToArray());
         return normalizedCode.Length == OtpDigits && BCrypt.Net.BCrypt.Verify(normalizedCode, challenge.CodeHash);
     }
 
@@ -382,7 +431,7 @@ public sealed class AuthOtpService : IAuthOtpService
     {
         if (target.Channel == PhoneChannel)
         {
-            await _smsOtpSender.SendOtpAsync(target.Destination, code, cancellationToken);
+            await _smsOtpSender.SendOtpAsync(FormatSmsPhoneNumber(target.Destination), code, cancellationToken);
             return;
         }
 
@@ -414,16 +463,7 @@ public sealed class AuthOtpService : IAuthOtpService
 
     private AuthResponse BuildAuthResponse(User user)
     {
-        return new AuthResponse
-        {
-            UserId = user.Id,
-            FullName = user.FullName,
-            Email = user.Email,
-            PhoneNumber = user.PhoneNumber,
-            PreferredLanguage = user.PreferredLanguage,
-            Role = user.Role,
-            Token = _jwtTokenGenerator.GenerateToken(user)
-        };
+        return AuthResponseFactory.Create(user, _jwtTokenGenerator.GenerateToken(user), _entitlementService);
     }
 
     private static OtpTarget ResolveOtpTarget(StartEmailOtpRequest request)
@@ -495,8 +535,34 @@ public sealed class AuthOtpService : IAuthOtpService
 
     private static string? TryNormalizePhoneNumber(string? phoneNumber)
     {
-        var normalized = new string((phoneNumber ?? string.Empty).Where(char.IsDigit).ToArray());
-        return normalized.Length is >= 10 and <= 15 ? normalized : null;
+        var digits = new string((phoneNumber ?? string.Empty).Where(char.IsDigit).ToArray());
+        if (digits.Length == 12 && digits.StartsWith("91", StringComparison.Ordinal))
+        {
+            digits = digits[2..];
+        }
+        else if (digits.Length == 11 && digits.StartsWith('0'))
+        {
+            digits = digits[1..];
+        }
+
+        return digits.Length is >= 10 and <= 15 ? digits : null;
+    }
+
+    private static bool DestinationsMatch(string channel, string stored, string requested)
+    {
+        if (string.Equals(channel, EmailChannel, StringComparison.OrdinalIgnoreCase))
+        {
+            return string.Equals(stored, requested, StringComparison.OrdinalIgnoreCase);
+        }
+
+        var left = TryNormalizePhoneNumber(stored);
+        var right = TryNormalizePhoneNumber(requested);
+        return left != null && right != null && left == right;
+    }
+
+    private static string FormatSmsPhoneNumber(string normalizedPhone)
+    {
+        return normalizedPhone.Length == 10 ? $"91{normalizedPhone}" : normalizedPhone;
     }
 
     private static string? NormalizeOptionalPhoneNumber(string? phoneNumber)

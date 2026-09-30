@@ -1,0 +1,55 @@
+<button type="button" class="improve-badge" *ngIf="!open" (click)="openPopup()">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3.2 14.1 8.8 20 9.4 15.6 13.4 16.8 19.2 12 16.2 7.2 19.2 8.4 13.4 4 9.4 9.9 8.8 12 3.2z"></path>
+  </svg>
+  <span>Help us improve</span>
+</button>
+
+<div class="improve-layer" *ngIf="open" (click)="closePopup()">
+  <section class="improve-popup" role="dialog" aria-modal="true" aria-labelledby="improve-title" (click)="$event.stopPropagation()">
+    <header>
+      <h2 id="improve-title">Help us improve</h2>
+      <button type="button" class="improve-close" (click)="closePopup()" aria-label="Close">Close</button>
+    </header>
+
+    <p class="improve-thanks" *ngIf="thanks">Thanks. This helps improve HoraLife.</p>
+
+    <ng-container *ngIf="!thanks && selected as current">
+      <div class="improve-surfaces" *ngIf="offers.length > 1">
+        <button
+          type="button"
+          *ngFor="let item of offers"
+          [class.is-on]="item.id === current.id"
+          (click)="choosePrompt(item.id)">
+          {{ surfaceLabel(item.surface) }}
+        </button>
+      </div>
+
+      <p class="improve-prompt">{{ current.prompt }}</p>
+      <div class="improve-choices">
+        <button type="button" [class.is-on]="sentiment === 'useful'" (click)="choose('useful')">Useful</button>
+        <button type="button" [class.is-on]="sentiment === 'needs_work'" (click)="choose('needs_work')">Needs work</button>
+      </div>
+
+      <div class="improve-topics" *ngIf="sentiment === 'needs_work' && current.topics.length">
+        <button
+          type="button"
+          *ngFor="let topic of current.topics"
+          [class.is-on]="topicKey === topic.key"
+          (click)="topicKey = topic.key">
+          {{ topic.label }}
+        </button>
+      </div>
+
+      <label class="improve-note" *ngIf="sentiment">
+        <span>Optional note</span>
+        <textarea name="feedbackNote" [(ngModel)]="note" maxlength="400" rows="3"></textarea>
+      </label>
+
+      <p class="improve-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <button type="button" class="improve-send" *ngIf="sentiment" [disabled]="saving" (click)="send()">
+        {{ saving ? 'Sending' : 'Send' }}
+      </button>
+    </ng-container>
+  </section>
+</div>

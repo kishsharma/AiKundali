@@ -1,21 +1,28 @@
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './core/auth/auth.service';
+import { DisplayPlanCode, isPlusUser as userHasPlusPlan, resolvePlanCode } from './core/auth/plan.util';
+import { BillingService } from './core/services/billing.service';
 import { PreferredLanguage } from './core/auth/auth.models';
 import { ThemeService } from './core/services/theme.service';
 import { BrandLogoComponent } from './shared/components/brand-logo/brand-logo.component';
+import { PlanChipComponent } from './shared/components/plan-chip/plan-chip.component';
 import { NotificationService } from './shared/services/notification.service';
 import { NotificationToastComponent } from './shared/components/notification-toast/notification-toast.component';
+import { SubscriptionModalComponent } from './shared/components/subscription-modal/subscription-modal.component';
+import { SubscriptionModalService } from './core/services/subscription-modal.service';
 
 @Component({
   selector: 'app-root',
   imports: [NgFor, NgIf, RouterOutlet,
   RouterLink,
   BrandLogoComponent,
-  NotificationToastComponent],
+  PlanChipComponent,
+  NotificationToastComponent,
+  SubscriptionModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -26,10 +33,6 @@ export class App {
     { code: 'hi', label: 'Hindi' },
     { code: 'kn', label: 'Kannada' }
   ];
-  readonly themes = [
-    { mode: 'dark', label: 'Dark', icon: '\u263E' },
-    { mode: 'light', label: 'Light', icon: '\u263C' }
-  ] as const;
   activeLanguage: string;
   isPublicLanding = true;
   isAuthPage = false;
@@ -40,14 +43,25 @@ export class App {
     private router: Router,
     public authService: AuthService,
     public themeService: ThemeService,
-    private notifications: NotificationService
+    private notifications: NotificationService,
+    private subscriptionModal: SubscriptionModalService,
+    private billingService: BillingService,
+    private cdr: ChangeDetectorRef
   ) {
     this.activeLanguage = this.translocoService.getActiveLang();
     this.translocoService.langChanges$.subscribe((lang) => {
       this.activeLanguage = lang;
+      document.documentElement.lang = lang;
     });
+    document.documentElement.lang = this.translocoService.getActiveLang();
     this.applyCachedPreferredLanguage();
     this.syncAuthenticatedUserLanguage();
+    this.loadPlanPricing();
+    this.subscriptionModal.isOpen$.subscribe((open) => {
+      if (open) {
+        this.closeUserMenu();
+      }
+    });
     this.updateShellMode(this.router.url);
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
@@ -72,6 +86,7 @@ export class App {
         this.translocoService.setActiveLang(previousLanguage);
         this.activeLanguage = previousLanguage;
         this.notifications.error(error?.error?.message || 'Unable to update preferred language.');
+        this.cdr.markForCheck();
       }
     });
   }
@@ -109,7 +124,30 @@ get showAppMenuToggle(): boolean {
 }
 
 get showUserMenu(): boolean {
-  return this.showAppTopbar && this.authService.isLoggedIn();
+  return this.showAppTopbar && this.authService.isLoggedIn() && !!this.currentUser;
+}
+
+get isPlusUser(): boolean {
+  return userHasPlusPlan(this.authService.getCurrentUser());
+}
+
+get isAdminUser(): boolean {
+  return (this.currentUser?.role ?? '').toLowerCase() === 'admin';
+}
+
+get planCode(): DisplayPlanCode {
+  return resolvePlanCode(this.currentUser);
+}
+
+get planFee(): string {
+  const amounts = this.planAmounts[this.planCode];
+  const paise = this.billingCycle === 'yearly' ? amounts.yearly : amounts.monthly;
+  if (!paise) {
+    return 'Free';
+  }
+
+  const amount = `₹${(paise / 100).toLocaleString('en-IN')}`;
+  return this.billingCycle === 'yearly' ? `${amount}/yr` : `${amount}/mo`;
 }
 
 toggleUserMenu(): void {
@@ -145,6 +183,11 @@ closeUserMenu(): void {
   this.isUserMenuOpen = false;
 }
 
+openPlans(): void {
+  this.closeUserMenu();
+  this.subscriptionModal.open();
+}
+
 @HostListener('document:keydown.escape')
 closeUserMenuOnEscape(): void {
   this.closeUserMenu();
@@ -157,6 +200,7 @@ toggleAppMenu(): void {
 logout(): void {
   this.isUserMenuOpen = false;
   this.authService.logout();
+  this.cdr.markForCheck();
   this.router.navigate(['/login']);
 }
 
@@ -183,6 +227,57 @@ logout(): void {
 
         this.translocoService.setActiveLang(user.preferredLanguage);
         this.activeLanguage = user.preferredLanguage;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  private billingCycle: 'monthly' | 'yearly' = 'monthly';
+  private planPricingLoaded = false;
+  private planAmounts: Record<DisplayPlanCode, { monthly: number; yearly: number }> = {
+    Free: { monthly: 0, yearly: 0 },
+    Premium: { monthly: 69900, yearly: 699900 },
+    PremiumPlus: { monthly: 99900, yearly: 999900 }
+  };
+
+  private loadPlanPricing(): void {
+    if (!this.authService.isLoggedIn() || this.planPricingLoaded) {
+      return;
+    }
+
+    this.planPricingLoaded = true;
+    this.billingService.getStatus().subscribe({
+      next: (status) => {
+        const subscriptionStatus = String(status.subscriptionStatus || '').trim().toLowerCase();
+        const paid = subscriptionStatus === 'active' || subscriptionStatus === 'authenticated' || subscriptionStatus === 'charged' || subscriptionStatus === 'cancelling';
+        const cycle = String(status.billingCycle || '').trim().toLowerCase();
+        if (paid && (cycle === 'yearly' || cycle === 'monthly')) {
+          this.billingCycle = cycle;
+        }
+        this.cdr.markForCheck();
+      }
+    });
+    this.billingService.getPlans().subscribe({
+      next: (plans) => {
+        for (const plan of plans) {
+          const code = String(plan.code || '').trim().toLowerCase();
+          const key: DisplayPlanCode | null = code === 'premiumplus' || code === 'premium plus'
+            ? 'PremiumPlus'
+            : code === 'premium'
+              ? 'Premium'
+              : code === 'free'
+                ? 'Free'
+                : null;
+          if (!key) {
+            continue;
+          }
+
+          this.planAmounts[key] = {
+            monthly: plan.monthlyAmountPaise || 0,
+            yearly: plan.yearlyAmountPaise || 0
+          };
+        }
+        this.cdr.markForCheck();
       }
     });
   }
@@ -192,6 +287,7 @@ logout(): void {
     this.isPublicLanding = path === '' || path === '/' || path === '/select-language';
     this.isAuthPage = path === '/login' || path === '/register';
     this.isUserMenuOpen = false;
+    this.cdr.markForCheck();
   }
   private formatDisplayName(name: string): string {
     return name

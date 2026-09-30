@@ -57,5 +57,16 @@
       "padas": [ 1, 2, 3, 4 ]
     }
   ],
-  "description": "Karka is the fourth sign of the zodiac, representing emotions, home, family, nourishment, and protection. Ruled by the Moon, it symbolizes compassion, intuition, sensitivity, and a deep connection to loved ones."
+  "description": "Karka is the fourth sign of the zodiac, representing emotions, home, family, nourishment, and protection. Ruled by the Moon, it symbolizes compassion, intuition, sensitivity, and a deep connection to loved ones.",
+  "ghatChakra": {
+    "month": "pausha",
+    "tithi": "bhadra",
+    "tithiNumbers": "2, 7, 12",
+    "weekday": "wednesday",
+    "nakshatra": "Anuradha",
+    "yoga": "vyaghata",
+    "karana": "naga",
+    "moonMale": "Leo",
+    "moonFemale": "Pisces"
+  }
 }

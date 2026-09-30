@@ -4,19 +4,24 @@ using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
 using KundaliEngine.API.Prediction.Mappers;
 using KundaliEngine.API.Security;
+using KundaliEngine.API.Services.Admin;
 using KundaliEngine.API.Services.AdvancedStrength;
 using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.Auth;
+using KundaliEngine.API.Services.Billing;
 using KundaliEngine.API.Services.CurrentLifeFocus;
 using KundaliEngine.API.Services.Dashboard;
 using KundaliEngine.API.Services.Email;
 using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Gochar;
 using KundaliEngine.API.Services.Learning;
+using KundaliEngine.API.Services.LifeArea;
 using KundaliEngine.API.Services.Locations;
 using KundaliEngine.API.Services.Panchang;
 using KundaliEngine.API.Services.Muhurtha;
+using KundaliEngine.API.Services.Muhurtha.GrahaPravesha;
 using KundaliEngine.API.Services.Recommendations;
+using KundaliEngine.API.Services.Dhruva;
 using KundaliEngine.API.Services.ReportPdf;
 using KundaliEngine.API.Services.ReportPdf.Html;
 using KundaliEngine.API.Services.ReportShare;
@@ -31,10 +36,13 @@ using KundaliEngine.Astrology.Services.KundaliDosha;
 using KundaliEngine.Astrology.Services.KundaliYoga;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
+using KundaliEngine.KnowledgeBase.Services;
 using KundaliEngine.Astrology.Services.SudarshanChakra;
 using KundaliEngine.Infrastructure;
-using KundaliEngine.KnowledgeBase.Services;
+using KundaliEngine.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +56,18 @@ using System.Threading.RateLimiting;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(3);
+    options.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(3);
+});
+DotEnvLoader.Load(
+    builder.Environment.ContentRootPath,
+    Directory.GetCurrentDirectory(),
+    AppContext.BaseDirectory);
+builder.Configuration.AddInMemoryCollection(
+    DotEnvLoader.GetRazorpayConfiguration()
+        .Where(pair => !string.IsNullOrWhiteSpace(pair.Value)));
 
 
 // Add services to the container.
@@ -87,6 +107,17 @@ builder.Services.AddSingleton<DivisionalChartService>();
 builder.Services.AddSingleton<YogaDoshaActivationService>();
 builder.Services.AddSingleton<AdvancedStrengthTableService>();
 builder.Services.AddSingleton<AstrologyKnowledgeService>();
+builder.Services.AddSingleton<DivisionalChartMetadataService>();
+builder.Services.AddScoped<LifeAreaAnalysisService>();
+builder.Services.AddHttpClient<LifeAreaInsightService>((serviceProvider, client) =>
+{
+    var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<DhruvaNarrationOptions>>().Value;
+    client.Timeout = TimeSpan.FromSeconds(Math.Max(1, options.TimeoutSeconds));
+    if (!string.IsNullOrWhiteSpace(options.ApiKey))
+    {
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", options.ApiKey);
+    }
+});
 builder.Services.AddSingleton<IYogaRule, GajakesariYogaRule>();
 builder.Services.AddSingleton<IYogaRule, BudhaAdityaYogaRule>();
 builder.Services.AddSingleton<IYogaRule, ChandraMangalaYogaRule>();
@@ -157,6 +188,14 @@ builder.Services.AddSingleton<IMuhurthaCandidateGenerator, MuhurthaCandidateGene
 builder.Services.AddSingleton<IMuhurthaScoringService, MuhurthaScoringService>();
 builder.Services.AddSingleton<IMuhurthaRecommendationService, MuhurthaRecommendationService>();
 builder.Services.AddSingleton<IMuhurthaService, MuhurthaService>();
+builder.Services.AddSingleton<IGrahaPraveshaProfileProvider>(_ =>
+    new GrahaPraveshaProfileProvider(Path.Combine(AppContext.BaseDirectory, "Data", "Muhurtha")));
+builder.Services.AddSingleton<IPanchangSnapshotReader, EphemerisPanchangSnapshotReader>();
+builder.Services.AddSingleton<GrahaPraveshaRuleEngine>();
+builder.Services.AddSingleton<IChakraRuleEvaluator, KalashaChakraEvaluator>();
+builder.Services.AddSingleton<IChakraRuleEvaluator, VrishaChakraEvaluator>();
+builder.Services.AddSingleton<IGrahaPraveshaBirthChartEvaluator, ChartGrahaPraveshaBirthEvaluator>();
+builder.Services.AddSingleton<IGrahaPraveshaMuhurthaService, GrahaPraveshaMuhurthaService>();
 builder.Services.AddSingleton(_ =>
 {
     var currentLifeFocusPath = Path.Combine(AppContext.BaseDirectory, "Data", "CurrentLifeFocus");
@@ -172,6 +211,7 @@ builder.Services.AddScoped<IRetrogradeTransitService, RetrogradeTransitService>(
 builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSection("ReportShare:Smtp"));
 builder.Services.Configure<SmsOtpOptions>(builder.Configuration.GetSection("TwoFactorSms"));
 builder.Services.AddSingleton<IReportHtmlTemplateService, ReportHtmlTemplateService>();
+builder.Services.AddSingleton<ReportLifeChapterBuilder>();
 builder.Services.AddSingleton<IHtmlReportPdfRenderer, ChromeHtmlReportPdfRenderer>();
 builder.Services.AddScoped<IReportPdfService, ReportPdfService>();
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
@@ -190,8 +230,62 @@ builder.Services.AddScoped<IDashboardSummaryService, DashboardSummaryService>();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthOtpService, AuthOtpService>();
+builder.Services.AddScoped<IStoreHandoffService, StoreHandoffService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.Configure<SubscriptionOptions>(builder.Configuration.GetSection("Subscriptions"));
+builder.Services.Configure<RazorpayOptions>(builder.Configuration.GetSection("Razorpay"));
+builder.Services.PostConfigure<RazorpayOptions>(options =>
+{
+    var overlay = DotEnvLoader.GetRazorpayConfiguration();
+    if (!string.IsNullOrWhiteSpace(overlay["Razorpay:KeyId"]))
+    {
+        options.KeyId = overlay["Razorpay:KeyId"]!;
+    }
+
+    if (!string.IsNullOrWhiteSpace(overlay["Razorpay:KeySecret"]))
+    {
+        options.KeySecret = overlay["Razorpay:KeySecret"]!;
+    }
+
+    if (!string.IsNullOrWhiteSpace(overlay["Razorpay:WebhookSecret"]))
+    {
+        options.WebhookSecret = overlay["Razorpay:WebhookSecret"]!;
+    }
+});
+builder.Services.Configure<DhruvaNarrationOptions>(builder.Configuration.GetSection("DhruvaNarration"));
+builder.Services.PostConfigure<DhruvaNarrationOptions>(options =>
+{
+    var apiKey = Environment.GetEnvironmentVariable("GROQ_API_KEY");
+    if (!string.IsNullOrWhiteSpace(apiKey))
+    {
+        options.ApiKey = apiKey;
+    }
+});
+builder.Services.AddHttpClient<IDhruvaNarrationService, DhruvaNarrationService>((serviceProvider, client) =>
+{
+    var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<DhruvaNarrationOptions>>().Value;
+    client.Timeout = TimeSpan.FromSeconds(Math.Max(1, options.TimeoutSeconds));
+    if (!string.IsNullOrWhiteSpace(options.ApiKey))
+    {
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", options.ApiKey);
+    }
+});
+builder.Services.AddRequestTimeouts(options =>
+{
+    options.AddPolicy("DhruvaNarration", TimeSpan.FromSeconds(180));
+});
+builder.Services.AddHttpClient<IRazorpayClient, RazorpayClient>(client =>
+{
+    client.BaseAddress = new Uri("https://api.razorpay.com/");
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
+builder.Services.AddSingleton<PlanCatalogCache>();
+builder.Services.AddScoped<IPlanCatalog, PlanCatalogService>();
+builder.Services.AddScoped<ICouponOfferService, CouponOfferService>();
+builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IEntitlementService, EntitlementService>();
+builder.Services.AddScoped<IDhruvaUsageService, DhruvaUsageService>();
+builder.Services.AddScoped<IUserAnalysisService, UserAnalysisService>();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -202,6 +296,9 @@ builder.Services.AddSingleton(_ => PredictionEngineFactory.CreateDefault());
 
 builder.Services.AddStoreApplication();
 builder.Services.AddStoreInfrastructure(builder.Configuration);
+builder.Services.Configure<HoraLife.Store.Application.Options.StoreInventoryOptions>(
+    builder.Configuration.GetSection(HoraLife.Store.Application.Options.StoreInventoryOptions.SectionName));
+builder.Services.AddHostedService<KundaliEngine.Api.Services.Store.StoreInventoryReservationExpiryHostedService>();
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -357,11 +454,154 @@ app.UseCors("HoraLifeFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
-
+app.UseRequestTimeouts();
 
 app.MapControllers();
 
+await EnsureUserSubscriptionsTableAsync(app);
+await EnsureKundaliFamilyColumnsAsync(app);
+await EnsureDhruvaDailyUsageTableAsync(app);
+await EnsureDhruvaQuestionLogTableAsync(app);
+await EnsureUserPracticeProfileColumnAsync(app);
+await EnsureProductFeedbackTableAsync(app);
+await EnsureBillingPlanDhruvaColumnsAsync(app);
+
 app.Run();
+
+static async Task EnsureUserSubscriptionsTableAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        CREATE TABLE IF NOT EXISTS public."UserSubscriptions" (
+            "Id" uuid NOT NULL,
+            "UserId" uuid NOT NULL,
+            "PlanCode" character varying(50) NOT NULL,
+            "BillingCycle" character varying(20) NOT NULL,
+            "Status" character varying(40) NOT NULL,
+            "RazorpaySubscriptionId" character varying(80) NULL,
+            "RazorpayOrderId" character varying(80) NULL,
+            "RazorpayPaymentId" character varying(80) NULL,
+            "CurrentPeriodEnd" timestamp with time zone NULL,
+            "CreatedAt" timestamp with time zone NOT NULL,
+            "UpdatedAt" timestamp with time zone NULL,
+            CONSTRAINT "PK_UserSubscriptions" PRIMARY KEY ("Id"),
+            CONSTRAINT "FK_UserSubscriptions_Users_UserId" FOREIGN KEY ("UserId") REFERENCES public."Users" ("Id") ON DELETE CASCADE
+        );
+        CREATE INDEX IF NOT EXISTS "IX_UserSubscriptions_UserId" ON public."UserSubscriptions" ("UserId");
+        CREATE INDEX IF NOT EXISTS "IX_UserSubscriptions_RazorpaySubscriptionId" ON public."UserSubscriptions" ("RazorpaySubscriptionId");
+        CREATE INDEX IF NOT EXISTS "IX_UserSubscriptions_RazorpayOrderId" ON public."UserSubscriptions" ("RazorpayOrderId");
+        """);
+}
+
+static async Task EnsureDhruvaDailyUsageTableAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        CREATE TABLE IF NOT EXISTS public."DhruvaDailyUsages" (
+            "Id" uuid NOT NULL,
+            "UserId" uuid NOT NULL,
+            "UsageDate" date NOT NULL,
+            "LifeQuestionCount" integer NOT NULL,
+            CONSTRAINT "PK_DhruvaDailyUsages" PRIMARY KEY ("Id")
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS "IX_DhruvaDailyUsages_UserId_UsageDate"
+            ON public."DhruvaDailyUsages" ("UserId", "UsageDate");
+        """);
+}
+
+static async Task EnsureDhruvaQuestionLogTableAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        CREATE TABLE IF NOT EXISTS public."DhruvaQuestionLogs" (
+            "Id" uuid NOT NULL,
+            "UserId" uuid NOT NULL,
+            "AskedAt" timestamp with time zone NOT NULL,
+            "IsAiMode" boolean NOT NULL,
+            "Kind" character varying(40) NOT NULL,
+            "Language" character varying(20) NOT NULL,
+            "PromptTokens" integer NOT NULL,
+            "CompletionTokens" integer NOT NULL,
+            "TotalTokens" integer NOT NULL,
+            CONSTRAINT "PK_DhruvaQuestionLogs" PRIMARY KEY ("Id")
+        );
+        CREATE INDEX IF NOT EXISTS "IX_DhruvaQuestionLogs_UserId"
+            ON public."DhruvaQuestionLogs" ("UserId");
+        """);
+}
+
+static async Task EnsureProductFeedbackTableAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        CREATE TABLE IF NOT EXISTS public."ProductFeedback" (
+            "Id" uuid NOT NULL,
+            "UserId" uuid NOT NULL,
+            "Surface" character varying(40) NOT NULL,
+            "ContextKey" character varying(200) NOT NULL,
+            "Sentiment" character varying(20) NOT NULL,
+            "Topic" character varying(40) NULL,
+            "Note" character varying(400) NULL,
+            "PlanCode" character varying(50) NOT NULL,
+            "FeedbackDate" date NOT NULL,
+            "CreatedAt" timestamp with time zone NOT NULL,
+            CONSTRAINT "PK_ProductFeedback" PRIMARY KEY ("Id"),
+            CONSTRAINT "FK_ProductFeedback_Users_UserId" FOREIGN KEY ("UserId") REFERENCES public."Users" ("Id") ON DELETE CASCADE
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS "IX_ProductFeedback_User_Surface_Context_Date"
+            ON public."ProductFeedback" ("UserId", "Surface", "ContextKey", "FeedbackDate");
+        CREATE INDEX IF NOT EXISTS "IX_ProductFeedback_CreatedAt"
+            ON public."ProductFeedback" ("CreatedAt");
+        """);
+}
+
+static async Task EnsureUserPracticeProfileColumnAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "PracticeProfile" text;
+        """);
+}
+
+static async Task EnsureBillingPlanDhruvaColumnsAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        DO $$
+        BEGIN
+            IF NOT EXISTS (
+                SELECT 1 FROM information_schema.columns
+                WHERE table_schema = 'public'
+                  AND table_name = 'BillingPlanConfigs'
+                  AND column_name = 'AiChatEnabled'
+            ) THEN
+                ALTER TABLE public."BillingPlanConfigs" ADD COLUMN "AiChatEnabled" boolean NOT NULL DEFAULT false;
+                ALTER TABLE public."BillingPlanConfigs" ADD COLUMN "LifeQuestionLimit" integer NULL;
+                UPDATE public."BillingPlanConfigs"
+                SET "AiChatEnabled" = ("Code" <> 'Free'),
+                    "LifeQuestionLimit" = CASE WHEN "Code" = 'Free' THEN 2 ELSE NULL END;
+            END IF;
+        END $$;
+        """);
+}
+
+static async Task EnsureKundaliFamilyColumnsAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        ALTER TABLE public."Kundalis" ADD COLUMN IF NOT EXISTS "Surname" character varying(150);
+        ALTER TABLE public."Kundalis" ADD COLUMN IF NOT EXISTS "FatherName" character varying(150);
+        ALTER TABLE public."Kundalis" ADD COLUMN IF NOT EXISTS "MotherName" character varying(150);
+        ALTER TABLE public."Kundalis" ADD COLUMN IF NOT EXISTS "Gotra" character varying(100);
+        """);
+}
 
 
 

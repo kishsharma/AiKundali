@@ -18,6 +18,10 @@ export interface Kundali {
 
 export interface GenerateKundaliRequest {
   name: string;
+  surname?: string;
+  fatherName?: string;
+  motherName?: string;
+  gotra?: string;
   gender?: string;
   birthDateTime: string; // ISO 8601 format: 2026-05-20T15:10:00.290Z
   birthPlace?: string;

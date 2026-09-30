@@ -16,4 +16,7 @@ public class ReportPdfRequest
 
     [MaxLength(40)]
     public string? Mode { get; set; }
+
+    [MaxLength(20)]
+    public string? Audience { get; set; }
 }

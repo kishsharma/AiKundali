@@ -13,6 +13,9 @@ import { NotificationService } from '../shared/services/notification.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { APP_VERSION } from '../config/app-version';
+import { PlanChipComponent } from '../shared/components/plan-chip/plan-chip.component';
+import { isPaidUser } from '../core/auth/plan.util';
+import { SubscriptionModalService } from '../core/services/subscription-modal.service';
 
 export interface NavItem {
   label: string;
@@ -25,7 +28,7 @@ export interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, AstrologyIconComponent, TranslocoPipe],
+  imports: [CommonModule, RouterModule, AstrologyIconComponent, TranslocoPipe, PlanChipComponent],
   template: `
     <aside class="sidebar" [class.open]="isOpen" [class.compact]="compact && !mobileView">
       <div class="sidebar-header">
@@ -67,7 +70,7 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item">
-              <a routerLink="/app/notes" routerLinkActive="active" (click)="onClose.emit()">
+              <a [routerLink]="isPremiumUser ? '/app/notes' : null" routerLinkActive="active" (click)="openNotes($event)">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 4h14v16H5z"></path>
@@ -77,6 +80,7 @@ export interface NavItem {
                   </svg>
                 </span>
                 <span class="nav-label">{{ 'sidebar.notes' | transloco }}</span>
+                <svg *ngIf="!isPremiumUser" class="nav-lock" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.1"><rect x="6" y="10" width="12" height="10" rx="2"></rect><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path></svg>
               </a>
             </li>
 
@@ -115,7 +119,13 @@ export interface NavItem {
                         [disabled]="deletingKundaliIds.has(item.id)"
                         [attr.aria-label]="'sidebar.deleteSavedKundaliNamed' | transloco: { name: item.displayName }"
                         [title]="deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : ('sidebar.deleteSavedKundali' | transloco)">
-                        {{ deletingKundaliIds.has(item.id) ? ('sidebar.deleting' | transloco) : 'X' }}
+                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M4 7h16"></path>
+                          <path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"></path>
+                          <path d="M7 7l1 13h8l1-13"></path>
+                          <path d="M10 11v6"></path>
+                          <path d="M14 11v6"></path>
+                        </svg>
                       </button>
                     </div>
                     <span class="saved-status" *ngIf="deleteStatusMessage">{{ deleteStatusMessage }}</span>
@@ -123,6 +133,26 @@ export interface NavItem {
                   </div>
                 </li>
               </ul>
+            </li>
+
+            <li class="nav-item">
+              <a routerLink="/app/dasha" routerLinkActive="active" (click)="onClose.emit()">
+                <app-astrology-icon name="dasha" class="nav-icon icon-md"></app-astrology-icon>
+                <span class="nav-label">{{ 'sidebar.dasha' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/app/life-area-analysis" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.lifeArea' | transloco }}</span>
+              </a>
             </li>
 
             <li class="nav-item nav-parent">
@@ -211,12 +241,6 @@ export interface NavItem {
                 <span class="nav-label">{{ 'sidebar.jyotishStudy' | transloco }}</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a routerLink="/app/dasha" routerLinkActive="active" (click)="onClose.emit()">
-                <app-astrology-icon name="dasha" class="nav-icon icon-md"></app-astrology-icon>
-                <span class="nav-label">{{ 'sidebar.dasha' | transloco }}</span>
-              </a>
-            </li>
           </ul>
         </div>
 
@@ -224,7 +248,7 @@ export interface NavItem {
           <h3 class="nav-section-title">{{ 'sidebar.settings' | transloco }}</h3>
           <ul class="nav-list">
 
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAdminUser">
               <a routerLink="/app/user-login-control" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -236,7 +260,17 @@ export interface NavItem {
                 <span class="nav-label">{{ 'sidebar.userLogin' | transloco }}</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAdminUser">
+              <a routerLink="/app/feedback" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 6h14v9H8l-3 3z"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.feedback' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="isAdminUser">
               <a routerLink="/app/audit-logs" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -249,6 +283,41 @@ export interface NavItem {
                   </svg>
                 </span>
                 <span class="nav-label">{{ 'sidebar.auditLogs' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="isAdminUser">
+              <a routerLink="/app/user-analysis" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19V5"></path>
+                    <path d="M4 19h16"></path>
+                    <path d="M8 16v-5"></path>
+                    <path d="M12 16V8"></path>
+                    <path d="M16 16v-3"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.userAnalysis' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="isAdminUser">
+              <a routerLink="/app/plan-offers" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5L12 14.8 7.5 16.8l.9-5L4.8 8.3l5-.7L12 3z"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.planOffers' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/app/profile" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l1.6 4.8L18.5 9.4 13.6 11 12 15.8 10.4 11 5.5 9.4 10.4 7.8 12 3z"></path>
+                    <path d="M18 14.2l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.myProfile' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item about-popover-host">
@@ -298,31 +367,31 @@ export interface NavItem {
           <dl class="about-popover-details about-popover-details--system">
             <div>
               <dt>{{ 'sidebar.system' | transloco }}</dt>
-              <dd>Classical Parāśari Jyotiṣa</dd>
+              <dd>{{ 'sidebar.systemValue.parashari' | transloco }}</dd>
             </div>
             <div>
               <dt>{{ 'sidebar.zodiac' | transloco }}</dt>
-              <dd>Sidereal</dd>
+              <dd>{{ 'sidebar.systemValue.sidereal' | transloco }}</dd>
             </div>
             <div>
               <dt>{{ 'sidebar.ayanamsha' | transloco }}</dt>
-              <dd>Lahiri / Chitrapaksha</dd>
+              <dd>{{ 'sidebar.systemValue.lahiri' | transloco }}</dd>
             </div>
             <div>
               <dt>{{ 'sidebar.houses' | transloco }}</dt>
-              <dd>Whole Sign</dd>
+              <dd>{{ 'sidebar.systemValue.wholeSign' | transloco }}</dd>
             </div>
             <div>
               <dt>{{ 'sidebar.dashaSystem' | transloco }}</dt>
-              <dd>Vimshottari</dd>
+              <dd>{{ 'sidebar.systemValue.vimshottari' | transloco }}</dd>
             </div>
             <div>
               <dt>{{ 'sidebar.references' | transloco }}</dt>
-              <dd>BPHS, Phaladeepika</dd>
+              <dd>{{ 'sidebar.systemValue.references' | transloco }}</dd>
             </div>
             <div>
               <dt>{{ 'sidebar.calculations' | transloco }}</dt>
-              <dd>Swiss Ephemeris</dd>
+              <dd>{{ 'sidebar.systemValue.swiss' | transloco }}</dd>
             </div>
           </dl>
               </div>
@@ -349,37 +418,11 @@ export interface NavItem {
             </div>
             <span class="mobile-account-chevron" [class.open]="mobileAccountMenuOpen"></span>
           </button>
+          <div class="mobile-account-plan">
+            <app-plan-chip variant="sidebar"></app-plan-chip>
+          </div>
 
           <div class="mobile-account-panel-body" [class.open]="mobileAccountMenuOpen">
-            <div class="mobile-preferences">
-              <div class="mobile-preference-group">
-                <span class="mobile-preference-title">{{ 'sidebar.language' | transloco }}</span>
-                <div class="mobile-option-list mobile-option-list--language">
-                  <button
-                    type="button"
-                    *ngFor="let language of languages"
-                    [class.active]="activeLanguage === language.code"
-                    (click)="changeLanguage(language.code)"
-                  >{{ language.label }}</button>
-                </div>
-              </div>
-
-              <div class="mobile-preference-group">
-                <span class="mobile-preference-title">{{ 'sidebar.theme' | transloco }}</span>
-                <div class="mobile-option-list mobile-option-list--theme">
-                  <button
-                    type="button"
-                    (click)="toggleTheme()"
-                    [title]="themeToggleTitle"
-                    [attr.aria-label]="themeToggleTitle"
-                  >
-                    <span>{{ themeToggleIcon }}</span>
-                    <small>{{ themeAvailableModes }}</small>
-                  </button>
-                </div>
-              </div>
-            </div>
-
             <div class="mobile-account-actions">
               <button class="logout-btn logout-btn--menu" type="button" (click)="logout()">
                 <span class="nav-icon" aria-hidden="true">
@@ -396,6 +439,7 @@ export interface NavItem {
         </div>
       </div>
       <div class="sidebar-footer" *ngIf="!mobileView">
+        <app-plan-chip [variant]="compact ? 'compact' : 'sidebar'"></app-plan-chip>
         <button class="logout-btn" type="button" (click)="logout()">
           <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -660,6 +704,11 @@ export interface NavItem {
       opacity: 0.72;
     }
 
+    .saved-delete-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
     .nav-dot {
       width: 6px;
       height: 6px;
@@ -798,6 +847,13 @@ export interface NavItem {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .nav-lock {
+      width: 14px;
+      height: 14px;
+      margin-left: auto;
+      flex: 0 0 auto;
     }
 
     .nav-popover-trigger {
@@ -1030,12 +1086,16 @@ export interface NavItem {
     }
 
     .mobile-account-meta small {
+      overflow: hidden;
       color: var(--theme-text-muted);
       font-size: 0.75rem;
-      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       line-height: 1.2;
+    }
+
+    .mobile-account-plan {
+      margin-top: 0.75rem;
     }
 
     .mobile-account-chevron {
@@ -1162,6 +1222,11 @@ export interface NavItem {
 
     .sidebar.compact .sidebar-footer {
       padding: 0.75rem 0.5rem;
+      justify-items: center;
+    }
+
+    .sidebar.compact .sidebar-footer app-plan-chip {
+      width: auto;
     }
 
     .logout-btn {
@@ -1370,6 +1435,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private compatibilityApi: CompatibilityApiService,
     private router: Router,
     private authService: AuthService,
+    private subscriptionModal: SubscriptionModalService,
     private translocoService: TranslocoService,
     private notifications: NotificationService,
     private cdr: ChangeDetectorRef,
@@ -1386,6 +1452,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.savedKundaliRefreshSub?.unsubscribe();
+  }
+
+  get isPremiumUser(): boolean {
+    return isPaidUser(this.currentUser);
+  }
+
+  get isAdminUser(): boolean {
+    return (this.currentUser?.role ?? '').toLowerCase() === 'admin';
+  }
+
+  openNotes(event: Event): void {
+    if (!this.isPremiumUser) {
+      event.preventDefault();
+      this.subscriptionModal.open();
+      return;
+    }
+
+    this.onClose.emit();
   }
 
   get currentUser() {
@@ -1622,6 +1706,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.authService.logout();
     this.onClose.emit();
+    this.cdr.markForCheck();
     this.router.navigate(['/login']);
   }
 }

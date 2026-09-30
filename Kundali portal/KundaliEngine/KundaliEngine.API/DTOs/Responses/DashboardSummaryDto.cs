@@ -67,15 +67,31 @@ public class DashboardPanchangDto
 
 public class DashboardCollectionStatsDto
 {
+    public string PlanCode { get; set; } = "Free";
+
     public int SavedKundalis { get; set; }
+
+    public int KundaliSaveLimit { get; set; }
+
+    public int KundaliSavesLeft { get; set; }
 
     public int SavedMatches { get; set; }
 
-    public int SavedMuhurthas { get; set; }
+    public int MatchSaveLimit { get; set; }
 
-    public int Reports { get; set; }
+    public int MatchSavesLeft { get; set; }
 
-    public int StudyLevels { get; set; }
+    public int PdfGenerated { get; set; }
+
+    public int PdfUsedToday { get; set; }
+
+    public int? PdfDailyLimit { get; set; }
+
+    public int? PdfLeftToday { get; set; }
+
+    public int EmailsSent { get; set; }
+
+    public bool EmailIncluded { get; set; }
 }
 
 public class DashboardRecentReportDto

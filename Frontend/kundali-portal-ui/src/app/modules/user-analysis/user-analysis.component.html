@@ -1,0 +1,87 @@
+<app-page-header
+  title="User analysis"
+  subtitle="Plan membership, remaining usage, and AI question activity"
+  [breadcrumbs]="[
+    { label: 'Home', routerLink: '/app/dashboard' },
+    { label: 'User analysis', active: true }
+  ]">
+</app-page-header>
+
+<section class="analysis-page">
+  <p class="analysis-note" *ngIf="!loading && !errorMessage">
+    Hindi, English, and other-language counts are AI custom questions. Other language means the question was not English and not Hindi.
+    Token totals are recorded when the model reports them. These counts start with questions asked after this page was added.
+  </p>
+
+  <div class="status-banner loading" *ngIf="loading">Loading user analysis...</div>
+  <div class="status-banner error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+
+  <div class="plan-tiles" *ngIf="!loading && !errorMessage">
+    <button
+      type="button"
+      class="plan-tile"
+      *ngFor="let plan of plans"
+      [class.active]="selectedPlan === plan.code"
+      [attr.data-plan]="plan.code"
+      (click)="selectPlan(plan.code)">
+      <span>{{ plan.name }}</span>
+      <strong>{{ plan.userCount }}</strong>
+      <small>{{ plan.userCount === 1 ? 'user' : 'users' }}</small>
+    </button>
+  </div>
+
+  <section class="analysis-card" *ngIf="!loading && !errorMessage">
+    <header>
+      <h2>{{ selectedPlanName }}</h2>
+      <button type="button" (click)="load()" [disabled]="loading">Refresh</button>
+    </header>
+
+    <p class="empty" *ngIf="selectedUsers.length === 0">No users on this plan.</p>
+
+    <div class="table-wrap" *ngIf="selectedUsers.length">
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Charts</th>
+            <th>Matches</th>
+            <th>Questions today</th>
+            <th>AI questions</th>
+            <th>Non-AI questions</th>
+            <th>Hindi</th>
+            <th>English</th>
+            <th>Other language</th>
+            <th>Tokens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of selectedUsers">
+            <td>
+              <strong>{{ user.fullName || 'User' }}</strong>
+              <small>{{ user.email || 'No email' }}</small>
+              <small>{{ languageLabel(user.preferredLanguage) }}{{ user.isActive ? '' : ' · inactive' }}</small>
+            </td>
+            <td>
+              {{ user.chartsUsed }} / {{ user.chartsLimit }}
+              <small>{{ left(user.chartsUsed, user.chartsLimit) }} left</small>
+            </td>
+            <td>
+              {{ user.matchesUsed }} / {{ user.matchesLimit }}
+              <small>{{ left(user.matchesUsed, user.matchesLimit) }} left</small>
+            </td>
+            <td>
+              {{ user.questionsUsedToday }} / {{ questionsLimit(user) }}
+              <small>{{ questionsLeft(user) }} left</small>
+            </td>
+            <td>{{ user.aiQuestions }}</td>
+            <td>{{ user.nonAiQuestions }}</td>
+            <td>{{ user.hindiQuestions }}</td>
+            <td>{{ user.englishQuestions }}</td>
+            <td>{{ user.otherLanguageQuestions }}</td>
+            <td>{{ user.totalTokens }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

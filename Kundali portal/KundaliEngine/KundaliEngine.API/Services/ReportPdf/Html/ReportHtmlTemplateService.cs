@@ -8,73 +8,71 @@ namespace KundaliEngine.API.Services.ReportPdf.Html;
 
 public interface IReportHtmlTemplateService
 {
-    string BuildDesktopColorHtml(JsonElement birthProfile, GenerateKundaliResponse report);
-    string BuildMobileFriendlyHtml(JsonElement birthProfile, GenerateKundaliResponse report);
-    string BuildCorporateHtml(JsonElement birthProfile, GenerateKundaliResponse report);
-    string BuildPrintBlackWhiteHtml(JsonElement birthProfile, GenerateKundaliResponse report);
+    string BuildDesktopColorHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters);
+    string BuildMobileFriendlyHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters);
+    string BuildCorporateHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters);
+    string BuildPrintBlackWhiteHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters);
 }
 
 public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
 {
     private readonly IWebHostEnvironment _environment;
+    private string? _ganeshaMarkup;
 
     public ReportHtmlTemplateService(IWebHostEnvironment environment)
     {
         _environment = environment;
     }
 
-    public string BuildDesktopColorHtml(JsonElement birthProfile, GenerateKundaliResponse report)
+    public string BuildDesktopColorHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters)
+    {
+        return ComposeHtml(
+            "HoraLife Kundali Report",
+            ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css"),
+            BuildReaderBody(birthProfile, report, includePremiumReadings, chapters, ReportSkin.Desktop));
+    }
+
+    public string BuildMobileFriendlyHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters)
+    {
+        return ComposeHtml(
+            "HoraLife Mobile Friendly Kundali Report",
+            ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css") + Environment.NewLine + ReadCss("mobile-friendly.css"),
+            BuildReaderBody(birthProfile, report, includePremiumReadings, chapters, ReportSkin.Mobile));
+    }
+
+    public string BuildCorporateHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters)
+    {
+        return ComposeHtml(
+            "Personal Vedic Astrology Advisory Report",
+            ReadCss("base.css") + Environment.NewLine + ReadCss("corporate-advisory.css"),
+            BuildReaderBody(birthProfile, report, includePremiumReadings, chapters, ReportSkin.Corporate));
+    }
+
+    public string BuildPrintBlackWhiteHtml(JsonElement birthProfile, GenerateKundaliResponse report, bool includePremiumReadings, IReadOnlyList<ReportLifeChapter> chapters)
+    {
+        return ComposeHtml(
+            "HoraLife Kundali Report",
+            ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css") + Environment.NewLine + ReadCss("print-black-white.css"),
+            BuildReaderBody(birthProfile, report, includePremiumReadings, chapters, ReportSkin.Print));
+    }
+
+    private string ComposeHtml(string title, string styles, string body)
     {
         var template = ReadTemplate("kundali-report.html");
-        var styles = ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css");
-        var body = BuildBody(birthProfile, report);
         return template
-            .Replace("{{Title}}", Html("HoraLife Kundali Report"), StringComparison.Ordinal)
+            .Replace("{{Title}}", Html(title), StringComparison.Ordinal)
             .Replace("{{Styles}}", styles, StringComparison.Ordinal)
             .Replace("{{Body}}", body, StringComparison.Ordinal);
     }
 
-    public string BuildMobileFriendlyHtml(JsonElement birthProfile, GenerateKundaliResponse report)
+    private string BuildReaderBody(
+        JsonElement birthProfile,
+        GenerateKundaliResponse report,
+        bool includePremiumReadings,
+        IReadOnlyList<ReportLifeChapter> chapters,
+        ReportSkin skin)
     {
-        var template = ReadTemplate("kundali-report.html");
-        var styles = ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css") + Environment.NewLine + ReadCss("mobile-friendly.css");
-        var body = BuildMobileFriendlyBody(birthProfile, report);
-        return template
-            .Replace("{{Title}}", Html("HoraLife Mobile Friendly Kundali Report"), StringComparison.Ordinal)
-            .Replace("{{Styles}}", styles, StringComparison.Ordinal)
-            .Replace("{{Body}}", body, StringComparison.Ordinal);
-    }
-    public string BuildCorporateHtml(JsonElement birthProfile, GenerateKundaliResponse report)
-    {
-        var template = ReadTemplate("kundali-report.html");
-        var styles = ReadCss("base.css") + Environment.NewLine + ReadCss("corporate-advisory.css");
-        var body = BuildCorporateBody(birthProfile, report);
-        return template
-            .Replace("{{Title}}", Html("Personal Vedic Astrology Advisory Report"), StringComparison.Ordinal)
-            .Replace("{{Styles}}", styles, StringComparison.Ordinal)
-            .Replace("{{Body}}", body, StringComparison.Ordinal);
-    }
-
-    public string BuildPrintBlackWhiteHtml(JsonElement birthProfile, GenerateKundaliResponse report)
-    {
-        var template = ReadTemplate("kundali-report.html");
-        var styles = ReadCss("base.css") + Environment.NewLine + ReadCss("desktop-color.css") + Environment.NewLine + ReadCss("print-black-white.css");
-        var body = BuildPrintBlackWhiteBody(birthProfile, report);
-        return template
-            .Replace("{{Title}}", Html("HoraLife Kundali Report"), StringComparison.Ordinal)
-            .Replace("{{Styles}}", styles, StringComparison.Ordinal)
-            .Replace("{{Body}}", body, StringComparison.Ordinal);
-    }
-    private string BuildMobileFriendlyBody(JsonElement birthProfile, GenerateKundaliResponse report)
-    {
-        var body = BuildBody(birthProfile, report, useLegacyHeader: true);
-        return body
-            .Replace("<main class=\"report-page\">", "<main class=\"report-page mobile-friendly-report\">", StringComparison.Ordinal)
-            .Replace("<span>Desktop color theme</span>", "<span>Mobile friendly theme</span>", StringComparison.Ordinal);
-    }
-    private string BuildBody(JsonElement birthProfile, GenerateKundaliResponse report, bool useLegacyHeader = false)
-    {
-        var name = ValueOrDash(GetString(birthProfile, "fullName", "name") ?? report.Summary?.Name);
+        var name = ValueOrDash(BuildPersonDisplayName(birthProfile, report.Summary?.Name));
         var birthDate = ValueOrDash(GetString(birthProfile, "birthDate", "dateOfBirth"));
         var birthTime = ValueOrDash(GetString(birthProfile, "birthTime", "timeOfBirth"));
         var birthPlace = ValueOrDash(GetString(birthProfile, "birthPlace", "placeOfBirth", "birthplace"));
@@ -84,203 +82,216 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         var astrologerDesignation = FirstNonEmpty(GetString(branding, "designation", "role"), "Astrologer & Vastu consultant");
         var astrologerAddress = FirstNonEmpty(GetString(branding, "address"), "Ram mandir, Bhalki, Dist. Bidar 585328, Karnataka");
         var astrologerContact = FirstNonEmpty(GetString(branding, "contactNumber", "phone", "mobile"), "9035909039");
+        var (mainClass, headerClass, title, tagline, footerNote) = SkinChrome(skin);
 
         var html = new StringBuilder();
-        html.AppendLine("<main class=\"report-page\">");
-        html.AppendLine(useLegacyHeader
-            ? BuildLegacyReportHeader("report-hero", "HoraLife Kundali Report", "Explainable Vedic Astrology", name, birthDate, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact)
-            : BuildReportHeader("report-hero", "HoraLife Kundali Report", "Explainable Vedic Astrology", name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact));
+        html.AppendLine($"<main class=\"{mainClass}\">");
+        if (skin == ReportSkin.Print)
+        {
+            html.AppendLine($"<div class=\"print-running-header\"><span>HoraLife Kundali Report</span><strong>{Html(name)}</strong><span>{Html(generatedOn)}</span></div>");
+            html.AppendLine("<div class=\"print-running-footer\"><span>Confidential - print copy</span><span>Generated by HoraLife</span><span class=\"page-counter\">Page </span></div>");
+        }
+        else if (skin == ReportSkin.Corporate)
+        {
+            html.AppendLine($"<div class=\"running-header\"><span>Personal Vedic Astrology Advisory Report</span><strong>{Html(name)}</strong><span>{Html(generatedOn)}</span></div>");
+            html.AppendLine("<div class=\"running-footer\"><span>Confidential advisory report</span><span>Generated by HoraLife</span><span class=\"page-counter\">Page </span></div>");
+        }
 
-        AppendSection(html, "Birth Profile", $"<div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>");
+        html.AppendLine(BuildReportHeader(headerClass, title, tagline, name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact, birthProfile, GaneshaMark()));
+        html.AppendLine($"<p class=\"cover-line\">{Html(BuildCoverSentence(report))}</p>");
+        AppendContents(html, includePremiumReadings);
+        AppendGlance(html, report);
+        if (includePremiumReadings)
+        {
+            AppendLifeNow(html, report.CurrentDasha, report.MahadashaPeriods);
+            AppendLifeChapters(html, chapters);
+        }
+
+        AppendCharts(html, report);
+        AppendPlanetAndHouseTables(html, report.Planets, report.Houses);
+        AppendYogasDoshas(html, report, namesOnly: !includePremiumReadings);
+        AppendDasha(html, report.CurrentDasha, report.MahadashaPeriods, report.AdvancedStrengthTables, report.Planets);
+        AppendRemedies(html, report.RemediesRecommendation);
         AppendCoreIdentity(html, report);
         AppendMetadataInsights(html, report.RashiInsight, report.NakshatraInsight);
-        AppendCharts(html, report);
         AppendScores(html, report.Scores);
         AppendBhavaScores(html, report.Houses);
-        AppendPlanetAndHouseTables(html, report.Planets, report.Houses);
-        AppendYogasDoshas(html, report);
-        AppendDasha(html, report.CurrentDasha, report.MahadashaPeriods);
-        AppendSudarshan(html, report);
         AppendTransit(html, report.TransitInsight);
-        AppendRemedies(html, report.RemediesRecommendation);
-
-        html.AppendLine("<footer class=\"report-footer\"><span>Confidential - generated by HoraLife</span><span>Desktop color theme</span></footer>");
-        html.AppendLine("</main>");
-        return html.ToString();
-    }
-
-    private string BuildPrintBlackWhiteBody(JsonElement birthProfile, GenerateKundaliResponse report)
-    {
-        var name = ValueOrDash(GetString(birthProfile, "fullName", "name") ?? report.Summary?.Name);
-        var birthDate = ValueOrDash(GetString(birthProfile, "birthDate", "dateOfBirth"));
-        var birthTime = ValueOrDash(GetString(birthProfile, "birthTime", "timeOfBirth"));
-        var birthPlace = ValueOrDash(GetString(birthProfile, "birthPlace", "placeOfBirth", "birthplace"));
-        var generatedOn = DateTime.Now.ToString("dd MMM yyyy, hh:mm tt", CultureInfo.InvariantCulture);
-        var branding = GetObject(birthProfile, "branding", "whiteLabel", "astrologerBranding");
-        var astrologerName = FirstNonEmpty(GetString(branding, "astrologerName", "name"), "Vasudev Sharna");
-        var astrologerDesignation = FirstNonEmpty(GetString(branding, "designation", "role"), "Astrologer & Vastu consultant");
-        var astrologerAddress = FirstNonEmpty(GetString(branding, "address"), "Ram mandir, Bhalki, Dist. Bidar 585328, Karnataka");
-        var astrologerContact = FirstNonEmpty(GetString(branding, "contactNumber", "phone", "mobile"), "9035909039");
-
-        var html = new StringBuilder();
-        html.AppendLine("<main class=\"report-page print-bw-report\">");
-        html.AppendLine($"<div class=\"print-running-header\"><span>HoraLife Kundali Report</span><strong>{Html(name)}</strong><span>{Html(generatedOn)}</span></div>");
-        html.AppendLine("<div class=\"print-running-footer\"><span>Confidential - print copy</span><span>Generated by HoraLife</span><span class=\"page-counter\">Page </span></div>");
-        html.AppendLine(BuildReportHeader("report-hero print-bw-hero", "HoraLife Kundali Report", "Minimalist black and white print format", name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact));
-
-        AppendSection(html, "Birth Profile", $"<div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>");
-        AppendCoreIdentity(html, report);
-        AppendMetadataInsights(html, report.RashiInsight, report.NakshatraInsight);
-        AppendCharts(html, report);
-        AppendScores(html, report.Scores);
-        AppendBhavaScores(html, report.Houses);
-        AppendPlanetAndHouseTables(html, report.Planets, report.Houses);
-        AppendYogasDoshas(html, report);
-        AppendDasha(html, report.CurrentDasha, report.MahadashaPeriods);
-        AppendSudarshan(html, report);
-        AppendTransit(html, report.TransitInsight);
-        AppendRemedies(html, report.RemediesRecommendation);
-
-        html.AppendLine("<footer class=\"report-footer print-document-footer\"><span>End of report</span><span>Black & white print format</span></footer>");
-        html.AppendLine("</main>");
-        return html.ToString();
-    }
-
-    private string BuildCorporateBody(JsonElement birthProfile, GenerateKundaliResponse report)
-    {
-        var name = ValueOrDash(GetString(birthProfile, "fullName", "name") ?? report.Summary?.Name);
-        var birthDate = ValueOrDash(GetString(birthProfile, "birthDate", "dateOfBirth"));
-        var birthTime = ValueOrDash(GetString(birthProfile, "birthTime", "timeOfBirth"));
-        var birthPlace = ValueOrDash(GetString(birthProfile, "birthPlace", "placeOfBirth", "birthplace"));
-        var generatedOn = DateTime.Now.ToString("dd MMM yyyy, hh:mm tt", CultureInfo.InvariantCulture);
-        var branding = GetObject(birthProfile, "branding", "whiteLabel", "astrologerBranding");
-        var astrologerName = FirstNonEmpty(GetString(branding, "astrologerName", "name"), "Vasudev Sharna");
-        var astrologerDesignation = FirstNonEmpty(GetString(branding, "designation", "role"), "Astrologer & Vastu consultant");
-        var astrologerAddress = FirstNonEmpty(GetString(branding, "address"), "Ram mandir, Bhalki, Dist. Bidar 585328, Karnataka");
-        var astrologerContact = FirstNonEmpty(GetString(branding, "contactNumber", "phone", "mobile"), "9035909039");
-
-        var html = new StringBuilder();
-        html.AppendLine("<main class=\"report-page corporate-report\">");
-        html.AppendLine($"<div class=\"running-header\"><span>Personal Vedic Astrology Advisory Report</span><strong>{Html(name)}</strong><span>{Html(generatedOn)}</span></div>");
-        html.AppendLine("<div class=\"running-footer\"><span>Confidential advisory report</span><span>Generated by HoraLife</span><span class=\"page-counter\">Page </span></div>");
-        html.AppendLine(BuildReportHeader("report-hero corporate-hero", "Personal Vedic Astrology Advisory Report", "Structured birth profile, planetary indicators, timing cycles, and practical guidance", name, birthDate, birthTime, birthPlace, generatedOn, astrologerName, astrologerDesignation, astrologerAddress, astrologerContact));
-
-        AppendSection(html, "Executive Summary", BuildCorporateExecutiveSummary(report));
-        AppendSection(html, "Birth Profile", $"<p class=\"report-text\">The birth profile establishes the reference point for all subsequent chart interpretation.</p><div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>");
-        AppendCorporateCoreIndicators(html, report);
-        AppendCorporatePlanetaryAnalysis(html, report.Planets);
-        AppendCorporateBhavaReview(html, report.Houses, report.Scores);
-        AppendCorporateYogasDoshas(html, report);
-        AppendCorporateCurrentPeriod(html, report.CurrentDasha, report.MahadashaPeriods);
-        AppendCorporateTransit(html, report.TransitInsight);
-        AppendCorporateRemedies(html, report.RemediesRecommendation);
-        AppendSection(html, "Conclusion", "<p class=\"report-text\">Jyotisha is treated here as a timing and reflection framework: the chart indicates tendencies, while choices shape outcomes. A strong period is most useful when paired with disciplined action; a sensitive period is best handled with planning and patience.</p>");
-
-        html.AppendLine("<footer class=\"report-footer document-footer\"><span>End of report</span><span>Confidential advisory report</span></footer>");
-        html.AppendLine("</main>");
-        return html.ToString();
-    }
-
-    private static string BuildCorporateExecutiveSummary(GenerateKundaliResponse report)
-    {
-        var summary = report.Summary;
-        var score = report.Scores is null ? "-" : report.Scores.Overall.ToString(CultureInfo.InvariantCulture);
-        var currentPeriod = summary is null ? "-" : $"{ValueOrDash(summary.CurrentMahadasha)} / {ValueOrDash(summary.CurrentAntardasha)}";
-        var lagna = ValueOrDash(summary?.Ascendant);
-        var moon = ValueOrDash(summary?.MoonSign);
-        var focusHouse = report.Houses?
-            .OrderByDescending(h => h.Score)
-            .Select(h => FirstNonEmpty(h.HouseName, $"House {h.HouseNumber}"))
-            .FirstOrDefault() ?? "-";
-        var sensitiveHouse = report.Houses?
-            .OrderBy(h => h.Score)
-            .Select(h => FirstNonEmpty(h.HouseName, $"House {h.HouseNumber}"))
-            .FirstOrDefault() ?? "-";
-        var narrative = $"This advisory report reads the chart from identity markers, house strength, planetary condition and timing cycles. The main orientation is {lagna} Lagna with Moon in {moon}. The strongest house theme is {focusHouse}, while {sensitiveHouse} needs more planning and conscious handling.";
-        return $"<p class=\"report-text\">{Html(narrative)}</p><div class=\"grid-3\">{Fact("Overall Indicator", score)}{Fact("Current Period", currentPeriod)}{Fact("Advisory Focus", $"Use strengths in {focusHouse}; manage {sensitiveHouse}")}</div>";
-    }
-
-    private static void AppendCorporateCoreIndicators(StringBuilder html, GenerateKundaliResponse report)
-    {
-        var summary = report.Summary;
-        var panchang = report.Panchang;
-        var content = new StringBuilder("<p class=\"report-text\">The core chart indicators show the primary temperament, direction, and recurring life themes.</p><div class=\"grid-3\">");
-        content.Append(Fact("Ascendant", ValueOrDash(summary?.Ascendant)));
-        content.Append(Fact("Moon Sign", ValueOrDash(summary?.MoonSign)));
-        content.Append(Fact("Sun Sign", ValueOrDash(summary?.SunSign)));
-        content.Append("</div><div style=\"height:7px\"></div><div class=\"grid-4\">");
-        content.Append(Fact("Nakshatra", ValueOrDash(summary?.Nakshatra)));
-        content.Append(Fact("Tithi", ValueOrDash(panchang?.Tithi)));
-        content.Append(Fact("Yoga", ValueOrDash(panchang?.Yoga)));
-        content.Append(Fact("Karana", ValueOrDash(panchang?.Karana)));
-        content.Append("</div>");
-        AppendSection(html, "Core Chart Indicators", content.ToString());
-    }
-
-    private static void AppendCorporatePlanetaryAnalysis(StringBuilder html, List<PlanetDto>? planets)
-    {
-        if (planets is null || planets.Count == 0) return;
-        var rows = planets.Take(18).Select(p => $"<tr><td>{Html(p.Planet)}</td><td>{Html(p.Sign)}</td><td>H{p.House}</td><td>{p.Degree}d {p.Minute:00}m</td><td>{Html(p.Nakshatra)} ({p.Pada})</td><td>{Html(PlanetStatus(p))}</td><td>{Html(ValueOrDash(p.DetailedStrength))}</td></tr>");
-        AppendSection(html, "Planetary Analysis", $"<p class=\"report-text\">Planetary placements are read as indicators of temperament, decision style, resources, and areas requiring conscious management.</p><table class=\"compact-table planet-position-table\"><thead><tr><th>Planet</th><th>Sign</th><th>House</th><th>Degree</th><th>Nakshatra</th><th>Status</th><th>Strength</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
-    }
-
-    private static void AppendCorporateBhavaReview(StringBuilder html, List<HouseDto>? houses, OverallScoreDto? scores)
-    {
-        if ((houses is null || houses.Count == 0) && scores is null) return;
-        var content = new StringBuilder("<p class=\"report-text\">The scoring layer converts chart factors into comparable strength and sensitivity indicators.</p>");
-        if (scores is not null)
+        AppendStrength(html, report.AdvancedStrengthTables);
+        if (includePremiumReadings)
         {
-            content.Append($"<div class=\"score-strip\">{ScoreBox("Overall", scores.Overall)}{ScoreBox("Stability", scores.Stability)}{ScoreBox("Growth", scores.Growth)}{ScoreBox("Challenge", scores.Challenge)}</div><div style=\"height:8px\"></div>");
+            AppendSudarshan(html, report);
         }
-        if (houses?.Count > 0)
+
+        html.AppendLine($"<footer class=\"report-footer\"><span>Confidential - generated by HoraLife</span><span>{Html(footerNote)}</span></footer>");
+        html.AppendLine("</main>");
+        return html.ToString();
+    }
+
+    private static (string MainClass, string HeaderClass, string Title, string Tagline, string FooterNote) SkinChrome(ReportSkin skin)
+    {
+        return skin switch
         {
-            var cards = houses.OrderBy(h => h.HouseNumber).Take(12).Select(h => $"<article class=\"bhava-card\"><div class=\"bhava-top\"><strong>H{h.HouseNumber}</strong><span>{Math.Clamp(h.Score, 0, 100)}</span></div><div class=\"score-meter\"><i style=\"width:{Math.Clamp(h.Score, 0, 100)}%\"></i></div><div class=\"bhava-meta\"><span>{Html(FirstNonEmpty(h.HouseName, h.Sign))}</span><span>{Html(FirstNonEmpty(h.HouseOwner, h.HouseSwamy, "-"))}</span></div><p>{Html(JoinCompact(h.DominantThemes, h.LifeAreas, 70))}</p><small>Observation: {Html(JoinCompact(h.Factors, h.AspectedBy, 80))}</small></article>");
-            content.Append($"<div class=\"bhava-score-grid\">{string.Join(string.Empty, cards)}</div>");
+            ReportSkin.Mobile => ("report-page mobile-friendly-report", "report-hero", "HoraLife Kundali Report", "Explainable Vedic Astrology", "Mobile friendly theme"),
+            ReportSkin.Print => ("report-page print-bw-report", "report-hero print-bw-hero", "HoraLife Kundali Report", "Minimalist black and white print format", "Black & white print format"),
+            ReportSkin.Corporate => ("report-page corporate-report", "report-hero corporate-hero", "Personal Vedic Astrology Advisory Report", "Structured birth profile, planetary indicators, timing cycles, and practical guidance", "Confidential advisory report"),
+            _ => ("report-page", "report-hero", "HoraLife Kundali Report", "Explainable Vedic Astrology", "Desktop color theme")
+        };
+    }
+
+    private enum ReportSkin
+    {
+        Desktop,
+        Mobile,
+        Print,
+        Corporate
+    }
+
+    private static readonly string[] HouseMeanings =
+    [
+        "self and vitality",
+        "savings and family",
+        "courage and siblings",
+        "home and study",
+        "children and learning",
+        "work pressure and health",
+        "marriage and partnership",
+        "change and longevity",
+        "fortune and guidance",
+        "work and reputation",
+        "income and gains",
+        "rest and expenses"
+    ];
+
+    private static void AppendContents(StringBuilder html, bool includePremiumReadings)
+    {
+        var titles = new List<string> { "At a glance" };
+        if (includePremiumReadings)
+        {
+            titles.Add("Your life now");
+            titles.Add("Life chapters");
         }
-        AppendSection(html, "House & Bhava Strength Review", content.ToString());
+
+        titles.Add("Kundali Charts");
+        titles.Add("Planet Positions & House Highlights");
+        titles.Add("Yogas & Doshas");
+        titles.Add("Mahadasha & Antardasha");
+        titles.Add("Remedies");
+        titles.Add("Panchang");
+        titles.Add("Rashi & Nakshatra Insights");
+        titles.Add("Kundali Scores");
+        titles.Add("12 Bhava Score");
+        titles.Add("Transit Insight");
+        titles.Add("Strength Summary");
+        titles.Add("Shadbala");
+        titles.Add("Ashtakavarga Support");
+        if (includePremiumReadings)
+        {
+            titles.Add("Sudarshan Chakra");
+        }
+
+        var items = string.Join(string.Empty, titles.Select(title => $"<li>{Html(title)}</li>"));
+        AppendSection(html, "Contents", $"<ol class=\"report-contents\">{items}</ol>");
     }
 
-    private static void AppendCorporateYogasDoshas(StringBuilder html, GenerateKundaliResponse report)
+    private static void AppendGlance(StringBuilder html, GenerateKundaliResponse report)
     {
-        var yogaItems = BuildObjectBullets(report.Yogas, "Name", "YogaName", "Description", "Reason", "Result", "Summary").Take(6).ToList();
-        var doshaItems = BuildObjectBullets(report.Doshas, "Name", "DoshaName", "Description", "Reason", "Result", "Summary").Take(6).ToList();
-        if (yogaItems.Count == 0 && doshaItems.Count == 0) return;
-        AppendSection(html, "Yogas & Doshas", $"<p class=\"report-text\">Yogas and doshas are presented as key combinations and risk indicators that qualify the baseline chart reading.</p><div class=\"two-col-report\"><div class=\"bullet-list\">{string.Join(string.Empty, yogaItems)}</div><div class=\"bullet-list\">{string.Join(string.Empty, doshaItems)}</div></div>");
+        var strongest = report.Houses?.OrderByDescending(house => house.Score).ThenBy(house => house.HouseNumber).FirstOrDefault();
+        var sensitive = report.Houses?.OrderBy(house => house.Score).ThenBy(house => house.HouseNumber).FirstOrDefault();
+        var period = report.Summary is null
+            ? "-"
+            : $"{ValueOrDash(report.Summary.CurrentMahadasha)} / {ValueOrDash(report.Summary.CurrentAntardasha)}";
+        var nextStep = strongest is null || sensitive is null
+            ? "Read the current period alongside the strongest and most sensitive houses."
+            : $"Use the strength in {HouseLabel(strongest.HouseNumber)}; give extra care to {HouseLabel(sensitive.HouseNumber)}.";
+
+        var content = $"<div class=\"glance-grid\">{Fact("Strongest theme", strongest is null ? "-" : HouseLabel(strongest.HouseNumber))}{Fact("Needs care", sensitive is null ? "-" : HouseLabel(sensitive.HouseNumber))}{Fact("Current period", period)}{Fact("Next step", nextStep)}</div>";
+        AppendSection(html, "At a glance", content);
     }
 
-    private static void AppendCorporateCurrentPeriod(StringBuilder html, CurrentDashaDto? current, List<MahadashaPeriodDto>? periods)
+    private static void AppendLifeNow(StringBuilder html, CurrentDashaDto? current, List<MahadashaPeriodDto>? periods)
     {
-        if (current is null && (periods is null || periods.Count == 0)) return;
-        var content = new StringBuilder("<p class=\"report-text\">The timing layer identifies which parts of the chart are more active in the current period.</p>");
+        if (current is null && (periods is null || periods.Count == 0))
+        {
+            return;
+        }
+
+        var now = DateTime.UtcNow;
+        var content = new StringBuilder();
         if (current is not null)
         {
-            content.Append($"<div class=\"grid-2\">{Fact("Mahadasha", $"{ValueOrDash(current.Mahadasha)} ({FormatDate(current.StartDate)} - {FormatDate(current.EndDate)})")}{Fact("Antardasha", $"{ValueOrDash(current.Antardasha)} ({FormatDate(current.AntardashaStartDate)} - {FormatDate(current.AntardashaEndDate)})")}</div>");
-            if (!string.IsNullOrWhiteSpace(current.Summary)) content.Append($"<p class=\"report-text\">{Html(Trim(current.Summary, 550))}</p>");
+            var continues = current.StartDate <= now
+                ? $"The {ValueOrDash(current.Mahadasha)} Mahadasha continues until {FormatDate(current.EndDate)}"
+                : $"The {ValueOrDash(current.Mahadasha)} Mahadasha runs {FormatDate(current.StartDate)} - {FormatDate(current.EndDate)}";
+            var antar = current.AntardashaStartDate <= now
+                ? $"with {ValueOrDash(current.Antardasha)} Antardasha continuing until {FormatDate(current.AntardashaEndDate)}"
+                : $"with {ValueOrDash(current.Antardasha)} Antardasha from {FormatDate(current.AntardashaStartDate)} to {FormatDate(current.AntardashaEndDate)}";
+            content.Append($"<p class=\"report-text\">{Html($"{continues}, {antar}.")}</p>");
+            if (!string.IsNullOrWhiteSpace(current.Summary))
+            {
+                content.Append($"<p class=\"report-text\">{Html(Trim(current.Summary, 420))}</p>");
+            }
         }
-        if (periods?.Count > 0)
+
+        var openPeriods = (periods ?? new List<MahadashaPeriodDto>())
+            .Where(period => period.End > now)
+            .OrderBy(period => period.Start)
+            .ToList();
+        if (openPeriods.Count > 0)
         {
-            var rows = periods.Take(8).Select(p => $"<tr><td>{Html(p.Planet)}</td><td>{FormatDate(p.Start)}</td><td>{FormatDate(p.End)}</td><td>{Html(JoinCompact(p.Antardashas?.Take(4).Select(a => a.SubPlanet), null, 90))}</td></tr>");
-            content.Append($"<div style=\"height:8px\"></div><table class=\"compact-table\"><thead><tr><th>Period</th><th>Start</th><th>End</th><th>Early Sub-periods</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+            var rows = openPeriods.Select(period =>
+            {
+                var when = period.Start <= now
+                    ? $"Continues until {FormatDate(period.End)}"
+                    : $"{FormatDate(period.Start)} - {FormatDate(period.End)}";
+                return $"<tr><td>{Html(period.Planet)}</td><td>{Html(when)}</td></tr>";
+            });
+            content.Append($"<table class=\"compact-table\"><thead><tr><th>Mahadasha</th><th>When</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
         }
-        AppendSection(html, "Current Period Analysis", content.ToString());
+
+        AppendSection(html, "Your life now", content.ToString());
     }
 
-    private static void AppendCorporateTransit(StringBuilder html, TransitInsightDto? transit)
+    private static void AppendLifeChapters(StringBuilder html, IReadOnlyList<ReportLifeChapter> chapters)
     {
-        if (transit is null) return;
-        var rows = transit.Activations.Take(10).Select(a => $"<tr><td>{Html(a.Planet)}</td><td>{Html(a.Sign)}</td><td>H{a.NatalHouse}</td><td>{Html(a.FocusArea)}</td><td>{Html(Trim(a.InterpretationHint, 120))}</td></tr>");
-        AppendSection(html, "Transit & Timing Outlook", $"<p class=\"report-text\">Transit indicators show near-term areas of attention when current planetary movement interacts with the natal chart.</p><div class=\"grid-2\">{Fact("Place", ValueOrDash(transit.Place))}{Fact("Natal Ascendant", ValueOrDash(transit.NatalAscendant))}</div><div style=\"height:8px\"></div><table class=\"compact-table\"><thead><tr><th>Planet</th><th>Sign</th><th>House</th><th>Focus</th><th>Guidance Hint</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        if (chapters.Count == 0)
+        {
+            AppendSection(html, "Life chapters", "<p class=\"report-text\">Life chapters could not be prepared from this chart.</p>");
+            return;
+        }
+
+        var cards = chapters.Select(chapter =>
+        {
+            var toneClass = chapter.Tone switch
+            {
+                "Supported" => "tone-supported",
+                "Needs care" => "tone-needs-care",
+                _ => "tone-mixed"
+            };
+            var window = string.IsNullOrWhiteSpace(chapter.Window)
+                ? string.Empty
+                : $"<p class=\"report-text life-window\">Next window: {Html(chapter.Window)}</p>";
+            return $"<article class=\"life-chapter {toneClass}\"><div class=\"insight-head\"><span>{Html(chapter.Title)}</span><strong>{Html(chapter.Tone)}</strong></div><p class=\"report-text\">{Html(chapter.Summary)}</p>{window}</article>";
+        });
+        AppendSection(html, "Life chapters", $"<div class=\"life-chapter-grid\">{string.Join(string.Empty, cards)}</div>");
     }
 
-    private static void AppendCorporateRemedies(StringBuilder html, RemediesRecommendationDto? remedies)
+    private static string BuildCoverSentence(GenerateKundaliResponse report)
     {
-        if (remedies is null) return;
-        var primary = remedies.Primary;
-        var alt = remedies.Alternative;
-        var content = $"<p class=\"report-text\">Recommendations are offered as supportive practices and should be applied with personal judgment.</p><div class=\"grid-2\">{Fact("Primary Recommendation", primary is null ? "-" : $"{FirstNonEmpty(primary.Name, primary.EnglishName, primary.RemedyType)} for {ValueOrDash(primary.Planet)}")}{Fact("Alternative", alt is null ? "-" : $"{FirstNonEmpty(alt.Name, alt.EnglishName, alt.RemedyType)} for {ValueOrDash(alt.Planet)}")}</div>";
-        if (!string.IsNullOrWhiteSpace(remedies.Summary)) content += $"<p class=\"report-text\">{Html(Trim(remedies.Summary, 650))}</p>";
-        AppendSection(html, "Remedial Guidance", content);
+        var lagna = ValueOrDash(report.Summary?.Ascendant);
+        var moon = ValueOrDash(report.Summary?.MoonSign);
+        var period = report.Summary is null
+            ? "-"
+            : $"{ValueOrDash(report.Summary.CurrentMahadasha)} / {ValueOrDash(report.Summary.CurrentAntardasha)}";
+        return $"This chart is read from {lagna} lagna with the Moon in {moon}. The current period is {period}.";
     }
+
+    private static string HouseLabel(int houseNumber)
+    {
+        var meaning = houseNumber is >= 1 and <= 12 ? HouseMeanings[houseNumber - 1] : "life theme";
+        return $"H{houseNumber}, {meaning}";
+    }
+
     private static void AppendCoreIdentity(StringBuilder html, GenerateKundaliResponse report)
     {
         var summary = report.Summary;
@@ -291,7 +302,7 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         content.Append(Fact("Moon Sign", ValueOrDash(summary?.MoonSign)));
         content.Append(Fact("Sun Sign", ValueOrDash(summary?.SunSign)));
         content.Append("</div><div style=\"height:7px\"></div><div class=\"grid-4\">");
-        content.Append(Fact("Nakshatra", ValueOrDash(summary?.Nakshatra)));
+        content.Append(Fact("Nakshatra", FormatNakshatra(summary?.Nakshatra, panchang)));
         content.Append(Fact("Tithi", ValueOrDash(panchang?.Tithi)));
         content.Append(Fact("Yoga", ValueOrDash(panchang?.Yoga)));
         content.Append(Fact("Dasha", $"{ValueOrDash(summary?.CurrentMahadasha)} / {ValueOrDash(summary?.CurrentAntardasha)}"));
@@ -301,7 +312,7 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
             content.Append($"<p class=\"report-text\">{Html(Trim(summary.Summary, 900))}</p>");
         }
 
-        AppendSection(html, "Core Identity & Panchang", content.ToString());
+        AppendSection(html, "Panchang", content.ToString());
     }
 
     private static void AppendCharts(StringBuilder html, GenerateKundaliResponse report)
@@ -354,6 +365,19 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         if (nakshatra is not null)
         {
             cards.Add($"<article class=\"insight-card\"><div class=\"insight-head\"><span>Nakshatra</span><strong>{Html(ValueOrDash(nakshatra.Name))} Pada {nakshatra.Pada}</strong></div><div class=\"insight-rows\">{InsightRow("Lord", nakshatra.Lord)}{InsightRow("Symbol", nakshatra.Symbol)}{InsightRow("Gana", nakshatra.Gana)}{InsightRow("Yoni", nakshatra.Yoni)}{InsightRow("Nadi", nakshatra.Nadi)}{InsightRow("Varna", nakshatra.Varna)}{InsightRow("Vashya", nakshatra.Vashya)}{InsightRow("Dosha", nakshatra.Dosha)}{InsightRow("Fasting", nakshatra.FastingDay)}{InsightRow("Business", nakshatra.BusinessSuitability)}</div></article>");
+            var tara = BuildTaraRows(nakshatra.Name);
+            if (!string.IsNullOrWhiteSpace(tara))
+            {
+                cards.Add($"<article class=\"insight-card\"><div class=\"insight-head\"><span>Tara</span><strong>Nakshatras to avoid</strong></div><div class=\"insight-rows\">{tara}</div></article>");
+            }
+        }
+
+        if (rashi?.GhatChakra is { } ghat)
+        {
+            var moon = string.Equals(ghat.MoonMale, ghat.MoonFemale, StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(ghat.MoonFemale)
+                ? ghat.MoonMale
+                : $"{ghat.MoonMale} · {ghat.MoonFemale}";
+            cards.Add($"<article class=\"insight-card\"><div class=\"insight-head\"><span>Ghat Chakra</span><strong>Avoid</strong></div><div class=\"insight-rows\">{InsightRow("Month", ghat.Month)}{InsightRow("Tithi", $"{ghat.Tithi} {ghat.TithiNumbers}".Trim())}{InsightRow("Weekday", ghat.Weekday)}{InsightRow("Nakshatra", ghat.Nakshatra)}{InsightRow("Yoga", ghat.Yoga)}{InsightRow("Karana", ghat.Karana)}{InsightRow("Moon", moon)}</div></article>");
         }
 
         AppendSection(html, "Rashi & Nakshatra Insights", $"<div class=\"insight-grid\">{string.Join(string.Empty, cards)}</div>");
@@ -386,7 +410,7 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
 
         if (houses?.Count > 0)
         {
-            var houseRows = houses.OrderBy(h => h.HouseNumber).Take(12).Select(h => $"<tr><td>H{h.HouseNumber}</td><td>{Html(ValueOrDash(h.Sign))}</td><td>{Html(FirstNonEmpty(h.HouseOwner, h.HouseSwamy))}</td><td>{Html(JoinCompact(h.Occupants, null, 80))}</td><td>{h.Score}</td></tr>");
+            var houseRows = houses.OrderBy(h => h.HouseNumber).Take(12).Select(h => $"<tr><td>{Html(HouseLabel(h.HouseNumber))}</td><td>{Html(ValueOrDash(h.Sign))}</td><td>{Html(FirstNonEmpty(h.HouseOwner, h.HouseSwamy))}</td><td>{Html(JoinCompact(h.Occupants, null, 80))}</td><td>{h.Score}</td></tr>");
             content.Append($"<div><h3 class=\"table-subtitle\">House Highlights</h3><table class=\"compact-table house-highlight-table\"><thead><tr><th>House</th><th>Sign</th><th>Owner</th><th>Occupants</th><th>Score</th></tr></thead><tbody>{string.Join(string.Empty, houseRows)}</tbody></table></div>");
         }
 
@@ -409,53 +433,341 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         AppendSection(html, "House Highlights", $"<table class=\"compact-table\"><thead><tr><th>House</th><th>Sign</th><th>Owner</th><th>Occupants</th><th>Score</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
     }
 
-    private static void AppendYogasDoshas(StringBuilder html, GenerateKundaliResponse report)
+    private static void AppendYogasDoshas(StringBuilder html, GenerateKundaliResponse report, bool namesOnly)
     {
-        var yogaItems = BuildObjectBullets(report.Yogas, "Name", "YogaName", "Description", "Reason", "Result", "Summary").Take(6).ToList();
-        var doshaItems = BuildObjectBullets(report.Doshas, "Name", "DoshaName", "Description", "Reason", "Result", "Summary").Take(6).ToList();
+        var yogas = report.Yogas ?? new List<YogaDto>();
+        var doshas = report.Doshas ?? new List<DoshaDto>();
+        if (namesOnly)
+        {
+            var yogaNames = yogas.Where(yoga => !string.IsNullOrWhiteSpace(yoga.Name)).Select(yoga => $"<article class=\"bullet-item\"><strong>{Html(yoga.Name)}</strong></article>");
+            var doshaNames = doshas.Where(dosha => !string.IsNullOrWhiteSpace(dosha.Name)).Select(dosha => $"<article class=\"bullet-item\"><strong>{Html(dosha.Name)}</strong></article>");
+            if (!yogaNames.Any() && !doshaNames.Any())
+            {
+                return;
+            }
+
+            AppendSection(html, "Yogas & Doshas", $"<div class=\"two-col-report\"><div class=\"bullet-list\">{string.Join(string.Empty, yogaNames)}</div><div class=\"bullet-list\">{string.Join(string.Empty, doshaNames)}</div></div>");
+            return;
+        }
+
+        var yogaItems = yogas.Select(BuildYogaCard).Where(item => item.Length > 0).ToList();
+        var doshaItems = doshas.Select(BuildDoshaCard).Where(item => item.Length > 0).ToList();
         if (yogaItems.Count == 0 && doshaItems.Count == 0) return;
-        AppendSection(html, "Yogas & Doshas", $"<div class=\"two-col-report\"><div class=\"bullet-list\">{string.Join(string.Empty, yogaItems)}</div><div class=\"bullet-list\">{string.Join(string.Empty, doshaItems)}</div></div>");
+        var focus = BuildPremiumFormationFocus(report);
+        AppendSection(html, "Yogas & Doshas", $"{focus}<div class=\"two-col-report\"><div class=\"bullet-list\">{string.Join(string.Empty, yogaItems)}</div><div class=\"bullet-list\">{string.Join(string.Empty, doshaItems)}</div></div>");
     }
 
-    private static void AppendDasha(StringBuilder html, CurrentDashaDto? current, List<MahadashaPeriodDto>? periods)
+    private static void AppendDasha(
+        StringBuilder html,
+        CurrentDashaDto? current,
+        List<MahadashaPeriodDto>? periods,
+        AdvancedStrengthTableDto? tables,
+        List<PlanetDto>? planets)
     {
         if (current is null && (periods is null || periods.Count == 0)) return;
+        var scores = BuildDashaPlanetScores(tables, planets);
         var content = new StringBuilder();
         if (current is not null)
         {
-            content.Append($"<div class=\"grid-2\">{Fact("Mahadasha", $"{ValueOrDash(current.Mahadasha)} ({FormatDate(current.StartDate)} - {FormatDate(current.EndDate)})")}{Fact("Antardasha", $"{ValueOrDash(current.Antardasha)} ({FormatDate(current.AntardashaStartDate)} - {FormatDate(current.AntardashaEndDate)})")}</div>");
+            var pratyantar = FindCurrentPratyantardasha(periods);
+            var pratyantarFact = pratyantar is null
+                ? string.Empty
+                : Fact("Pratyantardasha", $"{ValueOrDash(pratyantar.InnerPlanet)} ({FormatDate(pratyantar.StartDate)} - {FormatDate(pratyantar.EndDate)})");
+            content.Append($"<div class=\"grid-2\">{Fact("Mahadasha", $"{ValueOrDash(current.Mahadasha)} ({FormatDate(current.StartDate)} - {FormatDate(current.EndDate)})")}{Fact("Antardasha", $"{ValueOrDash(current.Antardasha)} ({FormatDate(current.AntardashaStartDate)} - {FormatDate(current.AntardashaEndDate)})")}{pratyantarFact}</div>");
             if (!string.IsNullOrWhiteSpace(current.Summary)) content.Append($"<p class=\"report-text\">{Html(Trim(current.Summary, 550))}</p>");
         }
         if (periods?.Count > 0)
         {
             content.Append("<div class=\"dasha-grid\">");
-            foreach (var period in periods.Take(6))
+            foreach (var period in periods)
             {
-                var antarRows = period.Antardashas.Select(a => $"<tr><td>{Html(a.SubPlanet)}</td><td>{FormatDate(a.StartDate)}</td><td>{FormatDate(a.EndDate)}</td></tr>");
-                content.Append($"<article class=\"dasha-card\"><div class=\"dasha-head\"><strong>{Html(period.Planet)} Mahadasha</strong><span>{FormatDate(period.Start)} - {FormatDate(period.End)}</span></div><table class=\"compact-table dasha-table\"><thead><tr><th>Antardasha</th><th>Start</th><th>End</th></tr></thead><tbody>{string.Join(string.Empty, antarRows)}</tbody></table></article>");
+                var antarRows = period.Antardashas.Select(a =>
+                {
+                    var best = IsBestDashaPeriod(a.SubPlanet, period.Planet, scores);
+                    var style = best
+                        ? "background:#b7e8c6;font-weight:700;"
+                        : DashaToneStyle(a.SubPlanet, period.Planet, scores);
+                    var label = best ? $"{Html(a.SubPlanet)} · Highly favourable" : Html(a.SubPlanet);
+                    return $"<tr><td style=\"{style}\">{label}</td><td style=\"{style}\">{FormatDate(a.StartDate)}</td><td style=\"{style}\">{FormatDate(a.EndDate)}</td></tr>";
+                });
+                content.Append($"<article class=\"dasha-card\"><div class=\"dasha-head\" style=\"{DashaToneStyle(period.Planet, null, scores)}\"><strong>{Html(period.Planet)} Mahadasha</strong><span>{FormatDate(period.Start)} - {FormatDate(period.End)}</span></div><table class=\"compact-table dasha-table\"><thead><tr><th>Antardasha</th><th>Start</th><th>End</th></tr></thead><tbody>{string.Join(string.Empty, antarRows)}</tbody></table></article>");
             }
             content.Append("</div>");
         }
         AppendSection(html, "Mahadasha & Antardasha", content.ToString());
     }
 
+    private static Dictionary<string, int> BuildDashaPlanetScores(AdvancedStrengthTableDto? tables, List<PlanetDto>? planets)
+    {
+        var totals = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        var shadbala = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var row in tables?.PlanetaryStrengths ?? new List<PlanetaryStrengthRowDto>())
+        {
+            if (!string.IsNullOrWhiteSpace(row.Planet))
+            {
+                totals[row.Planet.Trim()] = Math.Clamp(row.TotalScore, 0, 100);
+            }
+        }
+
+        foreach (var row in tables?.Shadbala ?? new List<ShadbalaRowDto>())
+        {
+            if (!string.IsNullOrWhiteSpace(row.Planet))
+            {
+                shadbala[row.Planet.Trim()] = Math.Clamp(row.Percent, 0, 100);
+            }
+        }
+
+        var scores = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        foreach (var planet in totals.Keys.Concat(shadbala.Keys).Distinct(StringComparer.OrdinalIgnoreCase))
+        {
+            var parts = new List<int>();
+            if (totals.TryGetValue(planet, out var total)) parts.Add(total);
+            if (shadbala.TryGetValue(planet, out var percent)) parts.Add(percent);
+            scores[planet] = (int)Math.Round(parts.Average());
+        }
+
+        foreach (var planet in planets ?? new List<PlanetDto>())
+        {
+            if (string.IsNullOrWhiteSpace(planet.Planet) || scores.ContainsKey(planet.Planet))
+            {
+                continue;
+            }
+
+            var fallback = FallbackPlanetScore(planet);
+            if (fallback.HasValue)
+            {
+                scores[planet.Planet.Trim()] = fallback.Value;
+            }
+        }
+
+        return scores;
+    }
+
+    private static int? FallbackPlanetScore(PlanetDto planet)
+    {
+        var score = 50;
+        var used = false;
+        var dignity = planet.DetailedStrength ?? string.Empty;
+
+        if (dignity.Contains("Exalted", StringComparison.OrdinalIgnoreCase) && dignity.Contains("Strong", StringComparison.OrdinalIgnoreCase))
+        {
+            score += 25;
+            used = true;
+        }
+        else if (dignity.Contains("Exalted", StringComparison.OrdinalIgnoreCase))
+        {
+            score += 15;
+            used = true;
+        }
+        else if (dignity.Contains("Moola", StringComparison.OrdinalIgnoreCase))
+        {
+            score += 20;
+            used = true;
+        }
+        else if (dignity.Contains("Own", StringComparison.OrdinalIgnoreCase))
+        {
+            score += 18;
+            used = true;
+        }
+        else if (dignity.Contains("Friend", StringComparison.OrdinalIgnoreCase))
+        {
+            score += 10;
+            used = true;
+        }
+        else if (dignity.Contains("Debil", StringComparison.OrdinalIgnoreCase))
+        {
+            score -= 25;
+            used = true;
+        }
+        else if (dignity.Contains("Enemy", StringComparison.OrdinalIgnoreCase))
+        {
+            score -= 10;
+            used = true;
+        }
+        else if (dignity.Contains("Neutral", StringComparison.OrdinalIgnoreCase) || dignity.Contains("NotApplicable", StringComparison.OrdinalIgnoreCase))
+        {
+            used = true;
+        }
+
+        if (planet.House is 1 or 4 or 5 or 7 or 9 or 10)
+        {
+            score += 10;
+            used = true;
+        }
+        else if (planet.House is 6 or 8 or 12)
+        {
+            score -= 10;
+            used = true;
+        }
+
+        if (planet.IsCombust)
+        {
+            score -= 15;
+            used = true;
+        }
+
+        if (planet.HasBeneficAspect && !planet.HasMaleficAspect)
+        {
+            score += 8;
+            used = true;
+        }
+        else if (planet.HasMaleficAspect && !planet.HasBeneficAspect)
+        {
+            score -= 8;
+            used = true;
+        }
+        else if (planet.HasBeneficAspect && planet.HasMaleficAspect)
+        {
+            used = true;
+        }
+
+        return used ? Math.Clamp(score, 0, 100) : null;
+    }
+
+    private static bool IsBestDashaPeriod(string? planet, string? companion, IReadOnlyDictionary<string, int> scores)
+    {
+        var primary = LookupDashaScore(planet, scores);
+        var other = LookupDashaScore(companion, scores);
+        return primary >= 65 && other >= 65;
+    }
+
+    private static string DashaToneStyle(string? planet, string? companion, IReadOnlyDictionary<string, int> scores)
+    {
+        var score = BlendDashaScores(LookupDashaScore(planet, scores), LookupDashaScore(companion, scores));
+        if (score == null)
+        {
+            return string.Empty;
+        }
+
+        if (score >= 65)
+        {
+            return "background:#e7f6ec;";
+        }
+
+        return score < 50 ? "background:#fff1d6;" : string.Empty;
+    }
+
+    private static int? LookupDashaScore(string? planet, IReadOnlyDictionary<string, int> scores)
+    {
+        if (string.IsNullOrWhiteSpace(planet))
+        {
+            return null;
+        }
+
+        return scores.TryGetValue(planet.Trim(), out var score) ? score : null;
+    }
+
+    private static int? BlendDashaScores(int? primary, int? companion)
+    {
+        if (primary == null && companion == null)
+        {
+            return null;
+        }
+
+        if (primary == null)
+        {
+            return companion;
+        }
+
+        if (companion == null)
+        {
+            return primary;
+        }
+
+        return (int)Math.Round((primary.Value + companion.Value) / 2d);
+    }
+
     private static void AppendSudarshan(StringBuilder html, GenerateKundaliResponse report)
     {
         var sudarshan = report.SudarshanChakra;
         if (sudarshan is null) return;
-        var rows = sudarshan.HouseEmphasis.OrderByDescending(h => h.TotalPlanetCount).Take(6).Select(h => $"<tr><td>H{h.HouseNumber}</td><td>{Html(h.Theme)}</td><td>{h.TotalPlanetCount}</td><td>{Html(Trim(h.Prediction, 120))}</td></tr>");
-        AppendSection(html, "Sudarshan Chakra", $"<div class=\"sudarshan-large-wrap\">{SudarshanChakraSvg(report.Planets, report.Summary?.Ascendant)}</div><div style=\"height:10px\"></div><div class=\"grid-2\">{Fact("Overall Score", sudarshan.OverallScore.ToString(CultureInfo.InvariantCulture))}{Fact("Purpose", FirstNonEmpty(sudarshan.Purpose, sudarshan.Usage))}</div><p class=\"report-text\">{Html(Trim(FirstNonEmpty(sudarshan.OverallPrediction, sudarshan.CalculationMethod), 600))}</p><div style=\"height:8px\"></div><table class=\"compact-table\"><thead><tr><th>House</th><th>Theme</th><th>Total</th><th>Prediction</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        var rows = sudarshan.HouseEmphasis.OrderByDescending(h => h.TotalPlanetCount).Select(h => $"<tr><td>H{h.HouseNumber}</td><td>{Html(h.Theme)}</td><td>{h.TotalPlanetCount}</td><td>{Html(Trim(h.Prediction, 160))}</td></tr>");
+        var interpretations = sudarshan.Interpretations
+            .Select(item => $"<article class=\"insight-card\"><div class=\"insight-head\"><span>{Html(item.Area)}</span><strong>{item.Score}/100</strong></div><p class=\"report-text\">{Html(ValueOrDash(item.Tone))}</p><p class=\"report-text\">{Html(Trim(item.Prediction, 220))}</p></article>");
+        var interpretationGrid = sudarshan.Interpretations.Count == 0
+            ? string.Empty
+            : $"<div class=\"insight-grid\">{string.Join(string.Empty, interpretations)}</div><div style=\"height:8px\"></div>";
+        AppendSection(html, "Sudarshan Chakra", $"<div class=\"sudarshan-large-wrap\">{SudarshanChakraSvg(report.Planets, report.Summary?.Ascendant)}</div><div style=\"height:10px\"></div><div class=\"grid-2\">{Fact("Overall Score", sudarshan.OverallScore.ToString(CultureInfo.InvariantCulture))}{Fact("Purpose", FirstNonEmpty(sudarshan.Purpose, sudarshan.Usage))}</div><p class=\"report-text\">{Html(Trim(FirstNonEmpty(sudarshan.OverallPrediction, sudarshan.CalculationMethod), 600))}</p>{interpretationGrid}<table class=\"compact-table\"><thead><tr><th>House</th><th>Theme</th><th>Total</th><th>Prediction</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
     }
 
     private static void AppendRemedies(StringBuilder html, RemediesRecommendationDto? remedies)
     {
         if (remedies is null) return;
+        var content = new StringBuilder();
         var primary = remedies.Primary;
         var alt = remedies.Alternative;
-        var content = new StringBuilder();
-        content.Append($"<div class=\"grid-2\">{Fact("Primary", primary is null ? "-" : $"{FirstNonEmpty(primary.Name, primary.EnglishName, primary.RemedyType)} for {ValueOrDash(primary.Planet)}")}{Fact("Alternative", alt is null ? "-" : $"{FirstNonEmpty(alt.Name, alt.EnglishName, alt.RemedyType)} for {ValueOrDash(alt.Planet)}")}</div>");
+        content.Append("<div class=\"grid-3\">");
+        content.Append(Fact("Primary", primary is null ? "-" : $"{FirstNonEmpty(primary.Name, primary.EnglishName, primary.RemedyType)} for {ValueOrDash(primary.Planet)}"));
+        content.Append(Fact("Suitability score", primary is null ? "-" : $"{primary.Confidence}/100"));
+        content.Append(Fact("Suitability", primary is null ? "-" : ValueOrDash(primary.Suitability)));
+        content.Append("</div>");
+        if (alt is not null)
+        {
+            content.Append($"<div style=\"height:8px\"></div><div class=\"grid-3\">{Fact("Alternative", $"{FirstNonEmpty(alt.Name, alt.EnglishName, alt.RemedyType)} for {ValueOrDash(alt.Planet)}")}{Fact("Alternative score", $"{alt.Confidence}/100")}{Fact("Strength", ValueOrDash(FirstNonEmpty(primary?.StrengthLevel, alt.StrengthLevel)))}</div>");
+        }
+
+        if (!string.IsNullOrWhiteSpace(primary?.Reason))
+        {
+            content.Append($"<p class=\"report-text\">{Html(Trim(primary.Reason, 500))}</p>");
+        }
+
+        content.Append(BuildRemedyCatalog(primary));
+
+        if (remedies.Categories.Count > 0)
+        {
+            var rows = remedies.Categories.Select(category => $"<tr><td>{Html(category.Category)}</td><td>{Html(ValueOrDash(category.RecommendedRemedy))}</td><td>{Html(ValueOrDash(category.Planet))}</td><td>{category.Score}/100</td><td>{Html(ValueOrDash(category.Suitability))}</td></tr>");
+            content.Append($"<h3 class=\"table-subtitle\">Remedy scores</h3><table class=\"compact-table\"><thead><tr><th>Area</th><th>Remedy</th><th>Planet</th><th>Score</th><th>Suitability</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        }
+
+        if (remedies.Avoid.Count > 0)
+        {
+            var rows = remedies.Avoid.Select(item => $"<tr><td>{Html(ValueOrDash(item.RemedyName))}</td><td>{Html(ValueOrDash(item.Planet))}</td><td>{Html(Trim(item.Reason, 180))}</td></tr>");
+            content.Append($"<h3 class=\"table-subtitle\">Cautions</h3><table class=\"compact-table\"><thead><tr><th>Remedy</th><th>Planet</th><th>Reason</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        }
+
         if (!string.IsNullOrWhiteSpace(remedies.Summary)) content.Append($"<p class=\"report-text\">{Html(Trim(remedies.Summary, 650))}</p>");
-        AppendSection(html, "Remedies Recommendation", content.ToString());
+        if (!string.IsNullOrWhiteSpace(remedies.Disclaimer)) content.Append($"<p class=\"report-text\">{Html(Trim(remedies.Disclaimer, 300))}</p>");
+        AppendSection(html, "Remedies", content.ToString());
+    }
+
+    private static string BuildRemedyCatalog(RemedySelectionDto? selection)
+    {
+        var catalog = selection?.Remedies;
+        if (catalog is null)
+        {
+            return string.Empty;
+        }
+
+        var parts = new List<string>();
+        var gem = catalog.Gemstone;
+        if (!string.IsNullOrWhiteSpace(gem?.Primary?.Name) || !string.IsNullOrWhiteSpace(gem?.WearingRules?.Finger))
+        {
+            var rules = gem?.WearingRules;
+            parts.Add($"<div class=\"grid-4\">{Fact("Gemstone", ValueOrDash(gem?.Primary?.Name))}{Fact("Finger", ValueOrDash(rules?.Finger))}{Fact("Day", ValueOrDash(rules?.DayToWear))}{Fact("Metal", JoinCompact(rules?.Metal, null, 40))}</div>");
+            if (gem?.Alternatives is { Count: > 0 })
+            {
+                parts.Add($"<p class=\"report-text\">Substitutes: {Html(string.Join(", ", gem.Alternatives.Select(stone => stone.Name).Where(name => !string.IsNullOrWhiteSpace(name))))}</p>");
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(catalog.Yantra?.Name))
+        {
+            parts.Add($"<p class=\"report-text\"><strong>Yantra.</strong> {Html(catalog.Yantra.Name)}. {Html(Trim(catalog.Yantra.Purpose, 180))}</p>");
+        }
+
+        if (!string.IsNullOrWhiteSpace(catalog.Japa?.Mantra) || catalog.Daan.Count > 0)
+        {
+            var daan = catalog.Daan.Count == 0 ? string.Empty : " Daan: " + string.Join(", ", catalog.Daan);
+            parts.Add($"<p class=\"report-text\"><strong>Japa.</strong> {Html(ValueOrDash(catalog.Japa?.Mantra))}{Html(daan)}</p>");
+        }
+
+        if (!string.IsNullOrWhiteSpace(gem?.Caution))
+        {
+            parts.Add($"<p class=\"report-text\">{Html(Trim(gem.Caution, 240))}</p>");
+        }
+
+        return string.Join(string.Empty, parts);
     }
 
     private static void AppendTransit(StringBuilder html, TransitInsightDto? transit)
@@ -463,6 +775,25 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         if (transit is null) return;
         var rows = transit.Activations.Take(10).Select(a => $"<tr><td>{Html(a.Planet)}</td><td>{Html(a.Sign)}</td><td>H{a.NatalHouse}</td><td>{Html(a.FocusArea)}</td><td>{Html(Trim(a.InterpretationHint, 120))}</td></tr>");
         AppendSection(html, "Transit Insight", $"<div class=\"grid-2\">{Fact("Place", ValueOrDash(transit.Place))}{Fact("Natal Ascendant", ValueOrDash(transit.NatalAscendant))}</div><div style=\"height:8px\"></div><table class=\"compact-table\"><thead><tr><th>Planet</th><th>Sign</th><th>House</th><th>Focus</th><th>Hint</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+    }
+
+    private string GaneshaMark()
+    {
+        if (_ganeshaMarkup is not null)
+        {
+            return _ganeshaMarkup;
+        }
+
+        var path = Path.Combine(_environment.ContentRootPath, "Templates", "Reports", "images", "ganesh-light-clean.png");
+        if (!File.Exists(path))
+        {
+            _ganeshaMarkup = string.Empty;
+            return _ganeshaMarkup;
+        }
+
+        var image = "data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(path));
+        _ganeshaMarkup = $"<div class=\"report-header-deity\"><img class=\"ganesha-icon\" src=\"{image}\" alt=\"\" /></div>";
+        return _ganeshaMarkup;
     }
 
     private static string DevotionalDivider()
@@ -483,8 +814,11 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
         string astrologerName,
         string astrologerDesignation,
         string astrologerAddress,
-        string astrologerContact)
+        string astrologerContact,
+        JsonElement birthProfile,
+        string ganeshaMark)
     {
+        var familyLine = BuildFamilyHeaderLine(birthProfile);
         return $"<header class=\"{Html(headerClass)} report-header premium-header\">" +
             "<div class=\"header-top-section\">" +
             $"<div class=\"brand-section report-brand-lockup\">{BrandLockup(reportTitle, reportTagline)}</div>" +
@@ -492,8 +826,10 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
             "</div>" +
             "<div class=\"header-bottom-section\"><div class=\"person-details-block\">" +
             $"<p class=\"person-detail-value\"><span class=\"intro-muted\">Prepared for</span><strong class=\"intro-name\">{Html(name)}</strong><span class=\"intro-break\"></span><span class=\"intro-muted\">Born on</span><strong class=\"intro-date\">{Html(birthDate)}</strong><span class=\"intro-muted\">at</span><strong class=\"intro-time\">{Html(birthTime)}</strong><span class=\"intro-muted\">in</span><strong class=\"intro-place\">{Html(birthPlace)}</strong></p>" +
+            familyLine +
             $"<p class=\"report-meta\">Generated {Html(generatedOn)}</p>" +
             "</div></div>" +
+            ganeshaMark +
             DevotionalDivider() +
             "</header>";
     }
@@ -774,6 +1110,414 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
     }
 
     private static int GetHouseFromReference(int planetSign, int referenceSign) => ((planetSign - referenceSign + 12) % 12) + 1;
+    private static readonly string[] TaraStars =
+    [
+        "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha",
+        "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+        "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+    ];
+
+    private static string FormatNakshatra(string? name, PanchangDto? panchang)
+    {
+        var label = ValueOrDash(name);
+        if (panchang is null)
+        {
+            return label;
+        }
+
+        var pada = panchang.Pada > 0 ? $" Pada {panchang.Pada}" : string.Empty;
+        var letter = string.IsNullOrWhiteSpace(panchang.Akshara) ? string.Empty : $" {panchang.Akshara}";
+        return $"{label}{pada}{letter}".Trim();
+    }
+
+    private static string BuildTaraRows(string? name)
+    {
+        var index = FindNakshatraIndex(name);
+        if (index < 0)
+        {
+            return string.Empty;
+        }
+
+        string Stars(int offset) => string.Join(", ", new[] { 0, 9, 18 }.Select(step => TaraStars[(index + offset + step) % 27]));
+        return InsightRow("Vipat", Stars(2)) + InsightRow("Pratyari", Stars(4)) + InsightRow("Vadha", Stars(6));
+    }
+
+    private static int FindNakshatraIndex(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return -1;
+        }
+
+        var key = new string(name.Where(char.IsLetter).ToArray()).ToLowerInvariant();
+        key = key.Replace("moola", "mula", StringComparison.Ordinal)
+            .Replace("ashada", "ashadha", StringComparison.Ordinal)
+            .Replace("phalguni", "phalguni", StringComparison.Ordinal);
+        for (var i = 0; i < TaraStars.Length; i++)
+        {
+            var star = new string(TaraStars[i].Where(char.IsLetter).ToArray()).ToLowerInvariant();
+            if (key == star || key.Contains(star, StringComparison.Ordinal) || star.Contains(key, StringComparison.Ordinal))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private static string BuildPremiumFormationFocus(GenerateKundaliResponse report)
+    {
+        var hasTiming = (report.Doshas ?? new List<DoshaDto>()).Any(item => item.ActivationPeriods is not null)
+            || (report.Yogas ?? new List<YogaDto>()).Any(item => item.ActivationPeriods is not null);
+        if (!hasTiming)
+        {
+            return string.Empty;
+        }
+
+        var doshas = RankDoshaAttention(report.Doshas ?? new List<DoshaDto>());
+        var yogas = RankYogaInfluence(report.Yogas ?? new List<YogaDto>());
+        if (doshas.Count == 0 && yogas.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        var cards = new StringBuilder("<div class=\"formation-focus\">");
+        if (doshas.Count > 0)
+        {
+            var focus = doshas[0];
+            var also = string.Join(", ", doshas.Skip(1).Take(2).Select(item => item.Name));
+            var remedies = focus.Remedies.Count == 0
+                ? string.Empty
+                : $"<p class=\"report-text\">Start remedies with: {Html(string.Join("; ", focus.Remedies.Take(3)))}</p>";
+            var alsoLine = string.IsNullOrWhiteSpace(also) ? string.Empty : $"<p class=\"report-text\">Also watch: {Html(also)}</p>";
+            cards.Append($"<article class=\"insight-card\"><div class=\"insight-head\"><span>Needs attention</span><strong>{Html(focus.Name)}</strong></div><p class=\"report-text\">{Html(focus.Analysis)}</p>{remedies}{alsoLine}</article>");
+        }
+
+        if (yogas.Count > 0)
+        {
+            var focus = yogas[0];
+            var also = string.Join(", ", yogas.Skip(1).Take(2).Select(item => item.Name));
+            var alsoLine = string.IsNullOrWhiteSpace(also) ? string.Empty : $"<p class=\"report-text\">Also supportive now: {Html(also)}</p>";
+            cards.Append($"<article class=\"insight-card\"><div class=\"insight-head\"><span>Most influential yoga</span><strong>{Html(focus.Name)}</strong></div><p class=\"report-text\">{Html(focus.Analysis)}</p>{alsoLine}</article>");
+        }
+
+        cards.Append("</div>");
+        return cards.ToString();
+    }
+
+    private static List<FormationFocus> RankDoshaAttention(List<DoshaDto> doshas)
+    {
+        return doshas
+            .Select(ScoreDosha)
+            .Where(item => item is not null && item.Kind != "quiet")
+            .Select(item => item!)
+            .OrderByDescending(item => item.Score)
+            .ThenBy(item => item.Name, StringComparer.Ordinal)
+            .ToList();
+    }
+
+    private static List<FormationFocus> RankYogaInfluence(List<YogaDto> yogas)
+    {
+        return yogas
+            .Select(ScoreYoga)
+            .Where(item => item is not null && item.Kind != "quiet")
+            .Select(item => item!)
+            .OrderByDescending(item => item.Score)
+            .ThenBy(item => item.Name, StringComparer.Ordinal)
+            .ToList();
+    }
+
+    private static FormationFocus? ScoreDosha(DoshaDto dosha)
+    {
+        if (string.IsNullOrWhiteSpace(dosha.Name))
+        {
+            return null;
+        }
+
+        var severity = ReadBand(dosha.Severity, "high", "medium");
+        var current = dosha.ActivationPeriods?.CurrentlyActive?.FirstOrDefault();
+        var upcoming = dosha.ActivationPeriods?.Upcoming?.FirstOrDefault();
+        var currentLevel = ReadLevel(current);
+        var score = severity == "high" ? 36 : severity == "medium" ? 18 : 6;
+        var kind = "quiet";
+        var lines = new List<string>();
+
+        if (severity == "high")
+        {
+            lines.Add("The birth chart carries this dosha at high strength, so it can affect life beyond a single dasha.");
+        }
+        else if (severity == "medium" && (currentLevel == "strong" || currentLevel == "active"))
+        {
+            lines.Add("It is also present in the birth chart at moderate strength.");
+        }
+
+        if (currentLevel == "strong")
+        {
+            score += 48;
+            kind = "strong";
+            lines.Insert(0, $"Both {current!.MahadashaPlanet} Mahadasha and {current.AntardashaPlanet} Antardasha belong to this dosha, so it is strongest from {FormatDate(current.StartDate)} to {FormatDate(current.EndDate)}.");
+        }
+        else if (currentLevel == "active")
+        {
+            score += 28;
+            kind = "period";
+            lines.Insert(0, $"{current!.MahadashaPlanet} Mahadasha belongs to this dosha, so it is pressing from {FormatDate(current.StartDate)} to {FormatDate(current.EndDate)}. The antardasha planet is outside this dosha.");
+        }
+        else if (currentLevel == "mild" && severity == "high")
+        {
+            score += 10;
+            kind = "period";
+            lines.Insert(0, $"Only {current!.AntardashaPlanet} Antardasha is involved now, so the current push is lighter than a full activation.");
+        }
+        else if (severity == "high")
+        {
+            kind = "lifetime";
+            var upcomingLevel = ReadLevel(upcoming);
+            if (upcoming is not null && (upcomingLevel == "strong" || upcomingLevel == "active"))
+            {
+                lines.Add($"A stronger window returns {FormatDate(upcoming.StartDate)} to {FormatDate(upcoming.EndDate)}.");
+            }
+        }
+
+        if (kind == "quiet")
+        {
+            return new FormationFocus(dosha.Name, kind, score, string.Empty, new List<string>());
+        }
+
+        return new FormationFocus(dosha.Name, kind, score, string.Join(" ", lines), (dosha.Remedies ?? new List<string>()).Where(item => !string.IsNullOrWhiteSpace(item)).Take(3).ToList());
+    }
+
+    private static FormationFocus? ScoreYoga(YogaDto yoga)
+    {
+        if (string.IsNullOrWhiteSpace(yoga.Name))
+        {
+            return null;
+        }
+
+        var strength = ReadBand(yoga.Strength, "strong", "medium");
+        if (strength == "low" && (yoga.Strength ?? string.Empty).Contains("neutral", StringComparison.OrdinalIgnoreCase))
+        {
+            strength = "medium";
+        }
+
+        var current = yoga.ActivationPeriods?.CurrentlyActive?.FirstOrDefault();
+        var currentLevel = ReadLevel(current);
+        var score = strength == "high" ? 36 : strength == "medium" ? 18 : 6;
+        var kind = "quiet";
+        var lines = new List<string>();
+        var impact = Trim(FirstNonEmpty(yoga.Impact, yoga.Description, yoga.Reason), 280);
+        if (!string.IsNullOrWhiteSpace(impact))
+        {
+            lines.Add(impact);
+        }
+
+        if (currentLevel == "strong")
+        {
+            score += 48;
+            kind = "strong";
+            lines.Insert(0, $"Both {current!.MahadashaPlanet} Mahadasha and {current.AntardashaPlanet} Antardasha belong to this yoga, so its influence is strongest from {FormatDate(current.StartDate)} to {FormatDate(current.EndDate)}.");
+        }
+        else if (currentLevel == "active")
+        {
+            score += 28;
+            kind = "period";
+            lines.Insert(0, $"{current!.MahadashaPlanet} Mahadasha belongs to this yoga, so it is active from {FormatDate(current.StartDate)} to {FormatDate(current.EndDate)}.");
+        }
+        else if (strength == "high")
+        {
+            kind = "lifetime";
+            lines.Insert(0, "This yoga is strong in the birth chart, so it shapes life even when the current dasha is not triggering it.");
+        }
+
+        if (kind == "quiet")
+        {
+            return new FormationFocus(yoga.Name, kind, score, string.Empty, new List<string>());
+        }
+
+        return new FormationFocus(yoga.Name, kind, score, string.Join(" ", lines), new List<string>());
+    }
+
+    private static string ReadBand(string? value, string highWord, string mediumWord)
+    {
+        var text = value ?? string.Empty;
+        if (text.Contains(highWord, StringComparison.OrdinalIgnoreCase) || text.Contains("high", StringComparison.OrdinalIgnoreCase))
+        {
+            return "high";
+        }
+
+        if (text.Contains(mediumWord, StringComparison.OrdinalIgnoreCase) || text.Contains("moderate", StringComparison.OrdinalIgnoreCase))
+        {
+            return "medium";
+        }
+
+        return "low";
+    }
+
+    private static string ReadLevel(YogaDoshaActivationDto? activation)
+    {
+        var level = activation?.ActivationLevel ?? string.Empty;
+        if (level.Equals("strong", StringComparison.OrdinalIgnoreCase)
+            || level.Equals("active", StringComparison.OrdinalIgnoreCase)
+            || level.Equals("mild", StringComparison.OrdinalIgnoreCase))
+        {
+            return level.ToLowerInvariant();
+        }
+
+        return string.Empty;
+    }
+
+    private static PratyantardashaPeriodDto? FindCurrentPratyantardasha(List<MahadashaPeriodDto>? periods)
+    {
+        if (periods is null)
+        {
+            return null;
+        }
+
+        var now = DateTime.UtcNow;
+        foreach (var mahadasha in periods)
+        {
+            if (now < mahadasha.Start || now >= mahadasha.End)
+            {
+                continue;
+            }
+
+            foreach (var antardasha in mahadasha.Antardashas ?? new List<AntardashaPeriodDto>())
+            {
+                if (now < antardasha.StartDate || now >= antardasha.EndDate)
+                {
+                    continue;
+                }
+
+                return antardasha.Pratyantardashas?.FirstOrDefault(period => now >= period.StartDate && now < period.EndDate);
+            }
+        }
+
+        return null;
+    }
+
+    private sealed record FormationFocus(string Name, string Kind, int Score, string Analysis, List<string> Remedies);
+
+    private static string BuildYogaCard(YogaDto yoga)
+    {
+        if (string.IsNullOrWhiteSpace(yoga.Name))
+        {
+            return string.Empty;
+        }
+
+        var meta = string.Join(" · ", new[]
+        {
+            yoga.Category,
+            yoga.InvolvedPlanets?.Count > 0 ? string.Join(", ", yoga.InvolvedPlanets) : string.Empty,
+            yoga.InvolvedHouses?.Count > 0 ? "Houses " + string.Join(", ", yoga.InvolvedHouses) : string.Empty,
+            yoga.Strength
+        }.Where(value => !string.IsNullOrWhiteSpace(value)));
+        var text = FirstNonEmpty(yoga.Description, yoga.Reason, yoga.Impact);
+        return $"<article class=\"insight-card\"><div class=\"insight-head\"><span>Yoga</span><strong>{Html(yoga.Name)}</strong></div><p class=\"report-text\">{Html(meta)}</p><p class=\"report-text\">{Html(Trim(text, 500))}</p>{ActivationLines(yoga.ActivationPeriods)}{ImpactLines(yoga.Impact, yoga.ImpactAreas)}</article>";
+    }
+
+    private static string BuildDoshaCard(DoshaDto dosha)
+    {
+        if (string.IsNullOrWhiteSpace(dosha.Name))
+        {
+            return string.Empty;
+        }
+
+        var meta = string.Join(" · ", new[]
+        {
+            dosha.Category,
+            dosha.Severity,
+            dosha.InvolvedPlanets?.Count > 0 ? string.Join(", ", dosha.InvolvedPlanets) : string.Empty
+        }.Where(value => !string.IsNullOrWhiteSpace(value)));
+        return $"<article class=\"insight-card\"><div class=\"insight-head\"><span>Dosha</span><strong>{Html(dosha.Name)}</strong></div><p class=\"report-text\">{Html(meta)}</p><p class=\"report-text\">{Html(Trim(FirstNonEmpty(dosha.Description, dosha.Reason), 500))}</p>{ActivationLines(dosha.ActivationPeriods)}{DoshaImpactLines(dosha)}</article>";
+    }
+
+    private static string ActivationLines(FormationActivationPeriodsDto? periods)
+    {
+        if (periods is null)
+        {
+            return string.Empty;
+        }
+
+        var rows = periods.CurrentlyActive.Concat(periods.Upcoming).Take(6).Select(item =>
+        {
+            var strong = string.Equals(item.ActivationLevel, "Strong", StringComparison.OrdinalIgnoreCase) ? "Strong influence" : item.ActivationLevel;
+            return $"<li>{Html(item.IsCurrentlyActive ? "Current" : "Upcoming")} {FormatDate(item.StartDate)} - {FormatDate(item.EndDate)} · {Html(item.MahadashaPlanet)} Mahadasha / {Html(item.AntardashaPlanet)} Antardasha · {Html(strong)}</li>";
+        });
+        var list = string.Join(string.Empty, rows);
+        return string.IsNullOrWhiteSpace(list) ? string.Empty : $"<ul>{list}</ul>";
+    }
+
+    private static string ImpactLines(string? impact, List<YogaImpactAreaDto>? areas)
+    {
+        var parts = new List<string>();
+        if (!string.IsNullOrWhiteSpace(impact))
+        {
+            parts.Add($"<p class=\"report-text\">{Html(Trim(impact, 400))}</p>");
+        }
+
+        if (areas is { Count: > 0 })
+        {
+            parts.Add(string.Join(string.Empty, areas.Take(4).Select(area => $"<p class=\"report-text\"><strong>{Html(area.Category)}.</strong> {Html(Trim(string.Join(" ", area.Statements ?? new List<string>()), 240))}</p>")));
+        }
+
+        return string.Join(string.Empty, parts);
+    }
+
+    private static string DoshaImpactLines(DoshaDto dosha)
+    {
+        if (dosha.ImpactAreas is not { Count: > 0 } && dosha.Remedies is not { Count: > 0 })
+        {
+            return string.Empty;
+        }
+
+        var areas = dosha.ImpactAreas?.Take(4).Select(area => $"<p class=\"report-text\"><strong>{Html(area.Category)}.</strong> {Html(Trim(string.Join(" ", area.Statements ?? new List<string>()), 240))}</p>") ?? Array.Empty<string>();
+        var remedies = dosha.Remedies is { Count: > 0 } ? $"<p class=\"report-text\">Remedies: {Html(string.Join("; ", dosha.Remedies.Take(4)))}</p>" : string.Empty;
+        return string.Join(string.Empty, areas) + remedies;
+    }
+
+    private static void AppendStrength(StringBuilder html, AdvancedStrengthTableDto? tables)
+    {
+        if (tables is null)
+        {
+            return;
+        }
+
+        if (tables.PlanetaryStrengths?.Count > 0)
+        {
+            var rows = tables.PlanetaryStrengths.Select(row => $"<tr><td>{Html(row.Planet)}</td><td>{row.TotalScore}/100</td><td>{Html(row.StrengthLevel)}</td><td>{Html(row.SthanaBala)}</td><td>{Html(row.DigBala)}</td><td>{Html(row.KalaBala)}</td><td>{Html(row.CheshtaBala)}</td><td>{Html(row.NaisargikaBala)}</td><td>{Html(row.DrikBala)}</td><td>{Html(Trim(row.Interpretation, 120))}</td></tr>");
+            AppendSection(html, "Strength Summary", $"<table class=\"compact-table\"><thead><tr><th>Planet</th><th>Total</th><th>Level</th><th>Sthana</th><th>Dig</th><th>Kala</th><th>Cheshta</th><th>Naisargika</th><th>Drik</th><th>Reading</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        }
+
+        if (tables.Shadbala?.Count > 0)
+        {
+            var rows = tables.Shadbala.Select(row => $"<tr><td>{Html(row.Planet)}</td><td>{row.SthanaBala:0.#}</td><td>{row.DigBala:0.#}</td><td>{row.KalaBala:0.#}</td><td>{row.CheshtaBala:0.#}</td><td>{row.NaisargikaBala:0.#}</td><td>{row.DrikBala:0.#}</td><td>{row.Total:0.#}</td><td>{row.Required:0.#}</td><td>{row.Percent}%</td><td>{Html(row.StrengthLevel)}</td></tr>");
+            AppendSection(html, "Shadbala", $"<table class=\"compact-table\"><thead><tr><th>Planet</th><th>Sthana</th><th>Dig</th><th>Kala</th><th>Cheshta</th><th>Naisargika</th><th>Drik</th><th>Total</th><th>Required</th><th>%</th><th>Result</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        }
+
+        if (tables.HouseSupport?.Count > 0)
+        {
+            var rows = tables.HouseSupport.OrderBy(row => row.House).Select(row => $"<tr><td>H{row.House}</td><td>{Html(row.Sign)}</td><td>{row.EstimatedBavPoints}/8</td><td>{row.EstimatedSavPoints}</td><td>{row.Score}/100</td><td>{Html(row.SupportLevel)}</td><td>{Html(Trim(row.LifeAreas, 80))}</td><td>{Html(Trim(row.TransitUsefulness, 80))}</td></tr>");
+            AppendSection(html, "Ashtakavarga Support", $"<table class=\"compact-table\"><thead><tr><th>House</th><th>Sign</th><th>BAV</th><th>SAV</th><th>Score</th><th>Support</th><th>Life areas</th><th>Transit usefulness</th></tr></thead><tbody>{string.Join(string.Empty, rows)}</tbody></table>");
+        }
+    }
+
+    private static void AppendPredictions(StringBuilder html, GenerateKundaliResponse report)
+    {
+        if (report.Predictions is not { Count: > 0 })
+        {
+            return;
+        }
+
+        var cards = report.Predictions.Select(item =>
+        {
+            var tone = ValueOrDash(item.Synthesis?.OverallTone ?? item.Answer?.Outcome);
+            var claims = item.Claims?.Take(4).Select(claim => $"{claim.DashaLevel} {claim.DashaPlanet}".Trim()) ?? Array.Empty<string>();
+            var windows = item.Answer?.TimingWindows?.Take(3).Select(window => $"{FormatDate(window.StartDate.DateTime)} - {FormatDate(window.EndDate.DateTime)} ({window.Strength})") ?? Array.Empty<string>();
+            return $"<article class=\"insight-card\"><div class=\"insight-head\"><span>{Html(ValueOrDash(item.LifeArea))}</span><strong>{Html(tone)}</strong></div><p class=\"report-text\">{Html(string.Join(" · ", claims.Where(value => !string.IsNullOrWhiteSpace(value))))}</p><p class=\"report-text\">{Html(string.Join("; ", windows))}</p></article>";
+        });
+        AppendSection(html, "Life Area Readings", $"<div class=\"insight-grid\">{string.Join(string.Empty, cards)}</div>");
+    }
+
     private static string HouseLegend(string[] houses)
     {
         return "<div class=\"house-legend\">" + string.Join(string.Empty, houses.Take(12).Select((value, index) => $"<div><strong>H{index + 1}</strong> {Html(Trim(value, 26))}</div>")) + "</div>";
@@ -828,6 +1572,85 @@ public sealed class ReportHtmlTemplateService : IReportHtmlTemplateService
     private string ReadCss(string fileName) => File.ReadAllText(Path.Combine(_environment.ContentRootPath, "Templates", "Reports", "css", fileName));
 
     private static string Fact(string label, string value) => $"<div class=\"fact\"><span>{Html(label)}</span><strong>{Html(ValueOrDash(value))}</strong></div>";
+    private static string BuildBirthProfileSection(JsonElement birthProfile, string name, string birthDate, string birthTime, string birthPlace)
+    {
+        var familyHtml = BuildFamilyFacts(birthProfile);
+        return $"<div class=\"grid-3\">{Fact("Name", name)}{Fact("Date", birthDate)}{Fact("Time", birthTime)}</div><div style=\"height:7px\"></div><div class=\"grid-2\">{Fact("Place", birthPlace)}{Fact("Coordinates", BuildCoordinates(birthProfile))}</div>{familyHtml}";
+    }
+
+    private static string BuildFamilyFacts(JsonElement birthProfile)
+    {
+        var facts = new List<string>();
+        void add(string label, params string[] names)
+        {
+            var value = GetString(birthProfile, names);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                facts.Add(Fact(label, value.Trim()));
+            }
+        }
+
+        add("Surname", "surname", "Surname");
+        add("Father", "fatherName", "FatherName");
+        add("Mother", "motherName", "MotherName");
+        add("Gotra", "gotra", "Gotra");
+        if (facts.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        var grid = facts.Count >= 3 ? "grid-3" : "grid-2";
+        return $"<div style=\"height:7px\"></div><div class=\"{grid}\">{string.Join(string.Empty, facts)}</div>";
+    }
+
+    private static string BuildFamilyHeaderLine(JsonElement birthProfile)
+    {
+        var parts = new List<string>();
+        void add(string label, params string[] names)
+        {
+            var value = GetString(birthProfile, names);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                parts.Add($"<span class=\"intro-muted\">{Html(label)}</span><strong>{Html(value.Trim())}</strong>");
+            }
+        }
+
+        add("Father", "fatherName", "FatherName");
+        add("Mother", "motherName", "MotherName");
+        add("Gotra", "gotra", "Gotra");
+        if (parts.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        return $"<p class=\"person-detail-value family-detail-value\">{string.Join(" ", parts)}</p>";
+    }
+
+    private static string? BuildPersonDisplayName(JsonElement birthProfile, string? fallback)
+    {
+        var givenName = GetString(birthProfile, "fullName", "name");
+        if (string.IsNullOrWhiteSpace(givenName))
+        {
+            givenName = fallback;
+        }
+
+        givenName = string.IsNullOrWhiteSpace(givenName) ? null : givenName.Trim();
+        var surname = GetString(birthProfile, "surname", "Surname");
+        surname = string.IsNullOrWhiteSpace(surname) ? null : surname.Trim();
+
+        if (givenName is null)
+        {
+            return surname;
+        }
+
+        if (surname is null || givenName.EndsWith(surname, StringComparison.OrdinalIgnoreCase))
+        {
+            return givenName;
+        }
+
+        return $"{givenName} {surname}";
+    }
+
     private static string ScoreBox(string label, int score) => $"<div class=\"score-box\"><span>{Html(label)}</span><strong>{score}</strong></div>";
     private static string InsightRow(string label, string? value) => $"<div><span>{Html(label)}</span><strong>{Html(ValueOrDash(value))}</strong></div>";
     private static string Html(string? value) => WebUtility.HtmlEncode(value ?? string.Empty);

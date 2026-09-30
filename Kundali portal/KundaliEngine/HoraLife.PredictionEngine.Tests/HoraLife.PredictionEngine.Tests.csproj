@@ -19,8 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\KundaliEngine.KnowledgeBase\Data\**\*.json" Link="Data\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HoraLife.PredictionEngine\HoraLife.PredictionEngine.csproj" />
     <ProjectReference Include="..\KundaliEngine.API\KundaliEngine.API.csproj" />
+    <ProjectReference Include="..\KundaliEngine.Astrology\KundaliEngine.Astrology.csproj" />
   </ItemGroup>
 
 </Project>

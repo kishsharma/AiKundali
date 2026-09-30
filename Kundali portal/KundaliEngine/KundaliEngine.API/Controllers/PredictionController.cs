@@ -1,10 +1,15 @@
-﻿using HoraLife.PredictionEngine.Enums;
+﻿using System.Security.Claims;
+using HoraLife.PredictionEngine.Enums;
 using HoraLife.PredictionEngine.Models;
 using HoraLife.PredictionEngine.Services;
 using KundaliEngine.API.Prediction.DTOs;
 using KundaliEngine.API.Prediction.Mappers;
+using KundaliEngine.API.Services.Admin;
+using KundaliEngine.API.Services.Dhruva;
+using KundaliEngine.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KundaliEngine.API.Controllers;
 
@@ -14,21 +19,32 @@ public class PredictionController : ControllerBase
 {
     private readonly PredictionContextMapper _predictionContextMapper;
     private readonly PredictionEngineService _predictionEngineService;
+    private readonly IDhruvaUsageService _dhruvaUsage;
+    private readonly IUserAnalysisService _userAnalysis;
+    private readonly KundaliDbContext _dbContext;
 
     public PredictionController(
         PredictionContextMapper predictionContextMapper,
-        PredictionEngineService predictionEngineService)
+        PredictionEngineService predictionEngineService,
+        IDhruvaUsageService dhruvaUsage,
+        IUserAnalysisService userAnalysis,
+        KundaliDbContext dbContext)
     {
         _predictionContextMapper = predictionContextMapper;
         _predictionEngineService = predictionEngineService;
+        _dhruvaUsage = dhruvaUsage;
+        _userAnalysis = userAnalysis;
+        _dbContext = dbContext;
     }
 
     [Authorize]
     [HttpPost("question")]
     [ProducesResponseType(typeof(PredictionResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<PredictionResponseDto> AskQuestion(
-        [FromBody] PredictionQuestionRequestDto request)
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<PredictionResponseDto>> AskQuestion(
+        [FromBody] PredictionQuestionRequestDto request,
+        CancellationToken cancellationToken)
     {
         if (request is null)
         {
@@ -47,6 +63,21 @@ public class PredictionController : ControllerBase
             });
         }
 
+        var user = await GetCurrentUserAsync(cancellationToken);
+        if (user is null)
+        {
+            return Unauthorized();
+        }
+
+        if (!await _dhruvaUsage.TryConsumeLifeQuestionAsync(user, cancellationToken))
+        {
+            var allowance = await _dhruvaUsage.GetAllowanceAsync(user, cancellationToken);
+            return StatusCode(StatusCodes.Status403Forbidden, new
+            {
+                message = DhruvaUsageService.LifeQuestionLimitMessage(allowance.LifeQuestionDailyLimit ?? DhruvaUsageService.FreeLifeQuestionsPerDay)
+            });
+        }
+
         var predictionContext = _predictionContextMapper.Map(request.KundaliData!);
         var normalizedFocusKey = request.FocusKey.Trim().ToLowerInvariant();
         var referenceDate = request.ReferenceDate ?? DateTimeOffset.UtcNow;
@@ -57,12 +88,30 @@ public class PredictionController : ControllerBase
             LifeArea = request.LifeArea,
             FocusKey = normalizedFocusKey,
             TimeScope = request.TimeScope,
-            ReferenceDate = referenceDate
+            ReferenceDate = referenceDate,
+            BirthDate = request.BirthDate
         };
 
         var result = _predictionEngineService.Generate(
             predictionRequest,
             predictionContext);
+
+        try
+        {
+            await _userAnalysis.RecordQuestionAsync(
+                user.Id,
+                isAiMode: false,
+                kind: "catalog",
+                question: null,
+                promptTokens: 0,
+                completionTokens: 0,
+                totalTokens: 0,
+                cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine($"Dhruva question log failed: {exception.Message}");
+        }
 
         return Ok(PredictionResponseMapper.Map(
             result,
@@ -88,14 +137,20 @@ public class PredictionController : ControllerBase
 
         var normalizedFocusKey = request.FocusKey.Trim().ToLowerInvariant();
 
-        return (request.LifeArea, normalizedFocusKey) switch
+        return LifeQuestionCatalog.IsSupported(request.LifeArea, normalizedFocusKey)
+            ? null
+            : "That life question is not supported.";
+    }
+
+    private async Task<KundaliEngine.Domain.Entities.User?> GetCurrentUserAsync(CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!Guid.TryParse(userId, out var parsedUserId))
         {
-            (PredictionLifeArea.Relationships, "marriage_possibility") => null,
-            (PredictionLifeArea.Relationships, "marriage_timing") => null,
-            (PredictionLifeArea.Relationships, _) =>
-                "Unsupported FocusKey for Relationships. Supported values: marriage_possibility, marriage_timing.",
-            _ =>
-                "CustomQuestion support is currently available only for Relationships with FocusKey marriage_possibility or marriage_timing."
-        };
+            return null;
+        }
+
+        var user = await _dbContext.Users.FirstOrDefaultAsync(item => item.Id == parsedUserId, cancellationToken);
+        return user == null || !user.IsActive ? null : user;
     }
 }

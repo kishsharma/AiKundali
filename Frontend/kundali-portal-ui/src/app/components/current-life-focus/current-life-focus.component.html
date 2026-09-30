@@ -13,6 +13,8 @@
       </button>
     </div>
 
+    <p class="reuse-note" *ngIf="reusedExistingNote">{{ 'currentLifeFocus.usingSavedKundali' | transloco }}</p>
+
     <div class="state-panel" *ngIf="state === 'loadingTop'" aria-live="polite">
       <span class="soft-loader" aria-hidden="true"></span>
       <strong>{{ 'currentLifeFocus.loadingTop' | transloco }}</strong>

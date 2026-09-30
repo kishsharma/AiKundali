@@ -1,0 +1,166 @@
+:host {
+  display: contents;
+}
+
+.improve-badge {
+  position: fixed;
+  right: 112px;
+  bottom: 36px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 55%, var(--theme-line));
+  border-radius: 999px;
+  padding: 8px 12px 8px 8px;
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  box-shadow: 0 10px 24px var(--theme-shadow);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.improve-badge svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--theme-accent);
+}
+
+.improve-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: end center;
+  padding: 24px 16px 88px;
+  background: color-mix(in srgb, #0c1024 42%, transparent);
+}
+
+.improve-popup {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 420px);
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-card, 10px);
+  padding: 16px;
+  background: var(--theme-surface);
+  color: var(--theme-text);
+}
+
+.improve-popup header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.improve-popup h2,
+.improve-prompt,
+.improve-thanks,
+.improve-error {
+  margin: 0;
+}
+
+.improve-popup h2 {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.improve-close,
+.improve-choices button,
+.improve-topics button,
+.improve-surfaces button,
+.improve-send {
+  border: 1px solid var(--theme-line);
+  border-radius: 999px;
+  background: var(--theme-surface-2);
+  color: var(--theme-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.improve-close {
+  padding: 4px 10px;
+}
+
+.improve-surfaces,
+.improve-choices,
+.improve-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.improve-choices button,
+.improve-topics button,
+.improve-surfaces button,
+.improve-send {
+  padding: 7px 12px;
+}
+
+.improve-choices button.is-on,
+.improve-topics button.is-on,
+.improve-surfaces button.is-on,
+.improve-send {
+  border-color: var(--theme-accent);
+  background: var(--theme-accent);
+  color: #1c1408;
+}
+
+:host-context(body[data-theme='light']) .improve-choices button.is-on,
+:host-context(body[data-theme='light']) .improve-topics button.is-on,
+:host-context(body[data-theme='light']) .improve-surfaces button.is-on,
+:host-context(body[data-theme='light']) .improve-send {
+  color: #fff;
+}
+
+.improve-prompt,
+.improve-thanks {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.improve-thanks {
+  color: var(--theme-success, #24a35a);
+}
+
+.improve-note {
+  display: grid;
+  gap: 6px;
+  color: var(--theme-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.improve-note textarea {
+  width: 100%;
+  border: 1px solid var(--theme-line);
+  border-radius: var(--theme-radius-control, 8px);
+  padding: 8px 10px;
+  background: var(--theme-input-bg);
+  color: var(--theme-text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.improve-error {
+  color: var(--theme-danger, #b42318);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.improve-send:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .improve-badge {
+    right: 88px;
+    bottom: 22px;
+  }
+}

@@ -13,13 +13,18 @@
             [selectedId]="selectedChartId"
             (chartSelected)="onSavedChartSelected($event)">
           </app-saved-chart-selector>
+          <div class="plan-preview" *ngIf="isAdminUser" role="group" aria-label="Dasha plan preview">
+            <button type="button" [class.active]="!previewPremium" (click)="showPlanPreview(false)">Free</button>
+            <button type="button" [class.active]="previewPremium" (click)="showPlanPreview(true)">Premium</button>
+          </div>
           <button
             type="button"
             class="action-button action-button--ghost"
             (click)="openNotes()"
-            aria-label="Open Dasha notes"
-            title="Notes">
+            [attr.title]="previewPremium ? 'Notes' : 'Notes are part of Premium'"
+            [attr.aria-label]="previewPremium ? 'Open Dasha notes' : 'Notes are part of Premium'">
             Notes
+            <svg *ngIf="!previewPremium" class="notes-lock" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="10" width="12" height="10" rx="2"></rect><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path></svg>
           </button>
           <button
             type="button"
@@ -35,6 +40,7 @@
     </div>
 
     <app-portal-notes
+      *ngIf="isPremiumUser"
       [open]="isNotesOpen"
       [allowPageSave]="true"
       (closed)="closeNotes()"
@@ -79,11 +85,17 @@
           <h2>{{ 'dashaPage.currentDasha' | transloco }}</h2>
           <div class="current-row current-row--maha">
             <div class="planet-orb" [style.--planet-color]="analysis.currentMahadasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentMahadasha.planet)" [label]="translatePlanet(analysis.currentMahadasha.planet)" [decorative]="false"></app-astrology-icon></div>
-            <div><strong>{{ translatePlanet(analysis.summary.currentMahadasha) }} {{ 'dashaPage.mahadasha' | transloco }}</strong></div>
+            <div>
+              <strong>{{ translatePlanet(analysis.summary.currentMahadasha) }} {{ 'dashaPage.mahadasha' | transloco }}</strong>
+              <span>{{ formatDetailedPeriod(analysis.currentMahadasha.startDate, analysis.currentMahadasha.endDate) }}</span>
+            </div>
           </div>
           <div class="current-row current-row--antar">
             <div class="planet-orb" [style.--planet-color]="analysis.currentAntardasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentAntardasha.planet)" [label]="translatePlanet(analysis.currentAntardasha.planet)" [decorative]="false"></app-astrology-icon></div>
-            <div><strong>{{ translatePlanet(analysis.summary.currentAntardasha) }} {{ 'dashaPage.antardasha' | transloco }}</strong></div>
+            <div>
+              <strong>{{ translatePlanet(analysis.summary.currentAntardasha) }} {{ 'dashaPage.antardasha' | transloco }}</strong>
+              <span>{{ formatDetailedPeriod(analysis.currentAntardasha.startDate, analysis.currentAntardasha.endDate) }}</span>
+            </div>
           </div>
           <div class="current-row current-row--pratyantar" *ngIf="analysis.currentPratyantardasha.planet">
             <div class="planet-orb" [style.--planet-color]="analysis.currentPratyantardasha.planetColor"><app-astrology-icon [name]="getPlanetIconName(analysis.currentPratyantardasha.planet)" [label]="translatePlanet(analysis.currentPratyantardasha.planet)" [decorative]="false"></app-astrology-icon></div>
@@ -139,24 +151,133 @@
             </div>
             <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentMahadasha(analysis)">{{ isViewingCurrentMahadasha(analysis) ? ('dashaPage.currentMahadasha' | transloco) : ('dashaPage.timelineFocus' | transloco) }}</span>
           </div>
+
+          <div class="timeline-track timeline-track--maha" [attr.aria-label]="'dashaPage.mahadashaTimeline' | transloco">
+            <button type="button" class="nav-dot nav-dot--prev" (click)="previousMahadasha(analysis)" [disabled]="!canPreviousMahadasha()" [attr.aria-label]="'dashaPage.previousPeriod' | transloco: { period: ('dashaPage.mahadasha' | transloco) }"></button>
+            <div class="timeline-steps">
+              <button type="button" class="planet-step" *ngFor="let period of visibleMahadashas(analysis); trackBy: trackMahadasha" [class.is-current]="period.status === 'current'" [class.is-selected]="isSelectedMahadasha(analysis, period)" (click)="selectMahadasha(analysis, period)">
+                <span class="planet-orb planet-orb--small" [attr.data-planet]="period.planet"><app-astrology-icon [name]="getPlanetIconName(period.planet)" [decorative]="true"></app-astrology-icon></span>
+                <strong>{{ translatePlanet(period.planet) }}</strong>
+                <span>{{ formatPeriod(period.start, period.end) }}</span>
+              </button>
+            </div>
+            <button type="button" class="nav-dot nav-dot--next" (click)="nextMahadasha(analysis)" [disabled]="!canNextMahadasha(analysis)" [attr.aria-label]="'dashaPage.nextPeriod' | transloco: { period: ('dashaPage.mahadasha' | transloco) }"></button>
+          </div>
+
+          <div class="timeline-track timeline-track--antar" [attr.aria-label]="'dashaPage.antardashaTimeline' | transloco">
+            <button type="button" class="nav-dot nav-dot--prev" (click)="previousAntardasha(analysis)" [disabled]="!canPreviousAntardasha()" [attr.aria-label]="'dashaPage.previousPeriod' | transloco: { period: ('dashaPage.antardasha' | transloco) }"></button>
+            <div class="timeline-steps">
+              <button type="button" class="antar-step" *ngFor="let period of visibleAntardashas(analysis); trackBy: trackAntardasha" [class.is-current]="period.status === 'current'" [class.is-selected]="isSelectedAntardasha(analysis, period)" (click)="selectAntardasha(analysis, period)">
+                <strong>{{ translatePlanet(period.planet) }}</strong>
+                <span>{{ formatPeriod(period.start, period.end) }}</span>
+              </button>
+            </div>
+            <button type="button" class="nav-dot nav-dot--next" (click)="nextAntardasha(analysis)" [disabled]="!canNextAntardasha(analysis)" [attr.aria-label]="'dashaPage.nextPeriod' | transloco: { period: ('dashaPage.antardasha' | transloco) }"></button>
+          </div>
+
+          <div class="timeline-track timeline-track--pratyantar" *ngIf="visiblePratyantardashas(analysis).length" [attr.aria-label]="'dashaPage.pratyantardashaTimeline' | transloco">
+            <button type="button" class="nav-dot nav-dot--prev" (click)="previousPratyantardasha()" [disabled]="!canPreviousPratyantardasha()" [attr.aria-label]="'dashaPage.previousPeriod' | transloco: { period: ('dashaPage.pratyantardasha' | transloco) }"></button>
+            <div class="timeline-steps">
+              <button type="button" class="pratyantar-step" *ngFor="let period of visiblePratyantardashas(analysis); trackBy: trackPratyantardasha" [class.is-current]="period.status === 'current'" [class.is-selected]="isSelectedPratyantardasha(analysis, period)" (click)="selectPratyantardasha(analysis, period)">
+                <strong>{{ translatePlanet(period.planet) }}</strong>
+                <span>{{ formatDetailedPeriod(period.start, period.end) }}</span>
+              </button>
+            </div>
+            <button type="button" class="nav-dot nav-dot--next" (click)="nextPratyantardasha(analysis)" [disabled]="!canNextPratyantardasha(analysis)" [attr.aria-label]="'dashaPage.nextPeriod' | transloco: { period: ('dashaPage.pratyantardasha' | transloco) }"></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="surface selected-period" [class.is-plan-locked]="!previewPremium" [attr.aria-label]="'dashaPage.selectedPeriod' | transloco">
+        <div class="selected-period__head">
+          <h2>{{ 'dashaPage.selectedPeriod' | transloco }} <em class="plan-chip" *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em></h2>
+          <p>{{ 'dashaPage.selectedPeriodHint' | transloco }}</p>
+        </div>
+        <div class="selected-period-grid plan-blur" [class.is-blurred]="!previewPremium">
+          <article class="selected-period-card" *ngFor="let item of selectedPeriodCards(analysis)">
+            <span>{{ item.levelKey | transloco }}</span>
+            <strong>{{ translatePlanet(item.planet) }}</strong>
+            <em>{{ formatPeriod(item.start, item.end) }}</em>
+            <strong class="selected-period-result" *ngIf="item.strength?.overallResult">{{ item.strength?.overallResult }}</strong>
+            <small *ngIf="item.strength">{{ item.strength.overallStrength }}% · {{ item.strength.planetStrength }} · {{ getLevelStrengthValue(item.strength, 'placement') }}</small>
+            <p *ngIf="item.description">{{ item.description }}</p>
+            <p *ngIf="!item.strength">{{ 'dashaPage.selectedPeriodPending' | transloco }}</p>
+          </article>
         </div>
       </section>
 
       <section class="content-grid content-grid--main">
         <article class="surface">
-          <h2>{{ 'dashaPage.lifeAreasTitle' | transloco }} ({{ 'dashaPage.during' | transloco: { mahadasha: translatePlanet(analysis.summary.currentMahadasha), antardasha: translatePlanet(analysis.summary.currentAntardasha) } }})</h2>
+          <ng-container *ngIf="lifeAreaView(analysis) as lifeAreas">
+          <h2>{{ 'dashaPage.lifeAreasTitle' | transloco }} ({{ 'dashaPage.during' | transloco: { mahadasha: translatePlanet(lifeAreas.mahadasha), antardasha: translatePlanet(lifeAreas.antardasha) } }})</h2>
           <div class="life-grid">
-            <article class="life-card" *ngFor="let area of analysis.lifeAreas; trackBy: trackLifeArea">
+            <article class="life-card" [class.is-open]="isLifeFactOpen(area.name)" *ngFor="let area of lifeAreas.areas; trackBy: trackLifeArea">
               <div class="life-card__top">
                 <span class="area-mark">{{ getAreaMark(area.name) }}</span>
-                <strong>{{ translateLifeArea(area.name) }}</strong>
+                <strong class="life-card__name">{{ translateLifeArea(area.name) }}</strong>
               </div>
-              <div class="stars" [attr.aria-label]="'dashaPage.starsAria' | transloco: { rating: area.rating }">
-                <span *ngFor="let filled of getStars(area.rating)" [class.is-empty]="!filled">&#9733;</span>
+              <div class="life-card__score-row">
+                <div class="life-score" [class.is-favourable]="area.score >= 65" [class.is-mixed]="area.score >= 50 && area.score < 65" [class.is-challenging]="area.score < 50" [attr.aria-label]="'dashaPage.scoreAria' | transloco: { score: area.score }">
+                  <strong>{{ area.score }}</strong>
+                  <span>/100</span>
+                </div>
+                <span class="life-status" [class.is-favourable]="area.score >= 65" [class.is-mixed]="area.score >= 50 && area.score < 65" [class.is-challenging]="area.score < 50">{{ area.status }}</span>
               </div>
-              <p>{{ area.status }}</p>
+              <div class="life-fact-host">
+              <button type="button" class="life-fact-toggle" [class.active]="isLifeFactOpen(area.name)" (click)="toggleLifeFact(area.name, $event)" [attr.aria-expanded]="isLifeFactOpen(area.name)">
+                <span>{{ 'dashaPage.howScore' | transloco }}</span>
+                <em *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em>
+              </button>
+              <div class="life-score-popover" *ngIf="isLifeFactOpen(area.name)" role="dialog" [attr.aria-label]="'dashaPage.howScore' | transloco" (click)="$event.stopPropagation()">
+                <ng-container *ngIf="area.factors?.length; else lifeFactFallback">
+                  <section>
+                    <header>
+                      <span>{{ 'dashaPage.scoreLords' | transloco }}</span>
+                      <strong>50%</strong>
+                    </header>
+                    <div class="life-breakdown__row" *ngFor="let factor of lordFactors(area)">
+                      <p>
+                        <span>{{ formatLifeHouse(factor.house) }} · {{ translatePlanet(factor.planet) }}</span>
+                        <strong>{{ factor.score }}</strong>
+                      </p>
+                      <small>{{ translateDignity(factor.dignity) }}<ng-container *ngIf="factor.placedHouse"> · {{ formatLifeHouse(factor.placedHouse) }}</ng-container></small>
+                    </div>
+                  </section>
+                  <section *ngIf="periodFactor(area, 'mahadasha') as factor">
+                    <header>
+                      <span>{{ 'dashaPage.scoreMahadasha' | transloco }} · {{ translatePlanet(factor.planet) }}</span>
+                      <strong>30%</strong>
+                    </header>
+                    <p>
+                      <span>{{ linkLabel(factor) }}</span>
+                      <strong>{{ factor.base }} {{ factor.change }} = {{ factor.score }}</strong>
+                    </p>
+                    <small>{{ translateDignity(factor.dignity) }}<ng-container *ngIf="factor.placedHouse"> · {{ formatLifeHouse(factor.placedHouse) }}</ng-container></small>
+                  </section>
+                  <section *ngIf="periodFactor(area, 'antardasha') as factor">
+                    <header>
+                      <span>{{ 'dashaPage.scoreAntardasha' | transloco }} · {{ translatePlanet(factor.planet) }}</span>
+                      <strong>20%</strong>
+                    </header>
+                    <p>
+                      <span>{{ linkLabel(factor) }}</span>
+                      <strong>{{ factor.base }} {{ factor.change }} = {{ factor.score }}</strong>
+                    </p>
+                    <small>{{ translateDignity(factor.dignity) }}<ng-container *ngIf="factor.placedHouse"> · {{ formatLifeHouse(factor.placedHouse) }}</ng-container></small>
+                  </section>
+                  <footer>
+                    <span>{{ 'dashaPage.scoreFinal' | transloco }}</span>
+                    <strong>{{ area.formula }}</strong>
+                  </footer>
+                </ng-container>
+                <ng-template #lifeFactFallback>
+                  <p>{{ area.fact || ('dashaPage.scorePending' | transloco) }}</p>
+                </ng-template>
+              </div>
+              </div>
             </article>
           </div>
+          </ng-container>
         </article>
 
         <article class="surface strength-card">
@@ -176,7 +297,7 @@
               <span>{{ translatePlanet(item.planet) }} - {{ item.overallResult }}</span>
             </div>
           </div>
-          <strong class="result-text">{{ analysis.strength.overallResult }} {{ 'dashaPage.mahadasha' | transloco }} {{ 'dashaPage.periodSuffix' | transloco }}</strong>
+          <strong class="result-text">{{ (selectedPeriodCards(analysis)[0]?.strength?.overallResult || analysis.strength.overallResult) }} {{ translatePlanet(selectedMahadasha(analysis).planet) }} {{ 'dashaPage.mahadasha' | transloco }}</strong>
           <div class="strength-detail-grid" role="table" [attr.aria-label]="'dashaPage.strengthDetailsAria' | transloco">
             <div class="strength-detail-row strength-detail-row--head" role="row">
               <span role="columnheader">{{ 'dashaPage.rule' | transloco }}</span>
@@ -198,58 +319,104 @@
         </article>
       </section>
 
-      <section class="content-grid content-grid--three">
-        <article class="surface list-card list-card--positive">
-          <h2>{{ 'dashaPage.positiveInfluences' | transloco }}</h2>
-          <ul><li *ngFor="let item of analysis.positiveInfluences; trackBy: trackText">{{ item }}</li></ul>
+      <section class="content-grid content-grid--three" *ngIf="periodFactView(analysis) as periodFacts">
+        <article class="surface list-card list-card--positive" [class.is-plan-locked]="!previewPremium">
+          <h2>{{ 'dashaPage.positiveInfluences' | transloco }} <em class="plan-chip" *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em></h2>
+          <ul class="plan-blur" [class.is-blurred]="!previewPremium" *ngIf="periodFacts.support.length; else noSupportFacts">
+            <li *ngFor="let item of periodFacts.support; trackBy: trackText">{{ item }}</li>
+          </ul>
+          <ng-template #noSupportFacts><p class="list-empty">{{ 'dashaPage.noSupportFacts' | transloco }}</p></ng-template>
         </article>
-        <article class="surface list-card list-card--warning">
-          <h2>{{ 'dashaPage.potentialChallenges' | transloco }}</h2>
-          <ul><li *ngFor="let item of analysis.challenges; trackBy: trackText">{{ item }}</li></ul>
+        <article class="surface list-card list-card--warning" [class.is-plan-locked]="!previewPremium">
+          <h2>{{ 'dashaPage.potentialChallenges' | transloco }} <em class="plan-chip" *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em></h2>
+          <ul class="plan-blur" [class.is-blurred]="!previewPremium" *ngIf="periodFacts.pressure.length; else noPressureFacts">
+            <li *ngFor="let item of periodFacts.pressure; trackBy: trackText">{{ item }}</li>
+          </ul>
+          <ng-template #noPressureFacts><p class="list-empty">{{ 'dashaPage.noPressureFacts' | transloco }}</p></ng-template>
         </article>
         <article class="surface list-card list-card--info">
           <h2>{{ 'dashaPage.whyThisHappens' | transloco }}</h2>
-          <ul>
-            <li>{{ analysis.currentMahadasha.description }}</li>
-            <li>{{ analysis.currentAntardasha.description }}</li>
-            <li>{{ analysis.currentAntardasha.combinedEffect }}</li>
-            <li>{{ analysis.transitImpact.summary }}</li>
+          <ul *ngIf="periodFacts.why.length; else noPeriodFacts">
+            <li *ngFor="let item of periodFacts.why; trackBy: trackText" class="plan-blur" [class.is-blurred]="!previewPremium && isContactFact(item)">{{ item }}</li>
           </ul>
+          <ng-template #noPeriodFacts><p class="list-empty">{{ 'dashaPage.noPeriodFacts' | transloco }}</p></ng-template>
         </article>
+      </section>
+
+      <section class="surface gochar-board" *ngIf="gocharView(analysis) as gochar">
+        <div class="gochar-sky" aria-hidden="true">
+          <span class="gochar-stars"></span>
+          <span class="gochar-arm gochar-arm--slow"><i class="gochar-body gochar-body--jupiter"></i></span>
+          <span class="gochar-arm gochar-arm--saturn"><i class="gochar-body gochar-body--saturn"></i></span>
+          <span class="gochar-arm gochar-arm--moon"><i class="gochar-body gochar-body--moon"></i></span>
+        </div>
+        <div class="gochar-copy">
+        <h2 *ngIf="gochar.titleKey === 'dashaPage.gocharCurrent'">{{ gochar.titleKey | transloco }} <em class="plan-chip" *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em></h2>
+        <h2 *ngIf="gochar.titleKey !== 'dashaPage.gocharCurrent'">{{ gochar.titleKey | transloco: { planet: translatePlanet(gochar.planet) } }} <em class="plan-chip" *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em></h2>
+        <div class="plan-blur" [class.is-blurred]="!previewPremium">
+        <p class="gochar-impact" *ngIf="gochar.summary">{{ gochar.summary }}</p>
+        <div class="gochar-areas" *ngIf="gochar.areas.length">
+          <article *ngFor="let area of gochar.areas" [class.is-support]="area.tone === 'Support'" [class.is-pressure]="area.tone === 'Pressure'" [class.is-mixed]="area.tone === 'Mixed'">
+            <span>{{ translateLifeArea(area.name) }}</span>
+            <strong>{{ (area.tone === 'Support' ? 'dashaPage.gocharFavourable' : area.tone === 'Pressure' ? 'dashaPage.gocharAttention' : 'dashaPage.gocharMixed') | transloco }}</strong>
+            <p>{{ area.text }}</p>
+          </article>
+        </div>
+        <ul *ngIf="gochar.lines.length; else noGochar">
+          <li *ngFor="let line of gochar.lines; trackBy: trackGochar" [class.is-support]="line.tone === 'Support'" [class.is-pressure]="line.tone === 'Pressure'">{{ line.text }}</li>
+        </ul>
+        <ng-template #noGochar><p class="list-empty">{{ 'dashaPage.gocharUnavailable' | transloco }}</p></ng-template>
+        </div>
+        </div>
       </section>
 
       <section class="surface prediction-card">
         <h2>{{ 'dashaPage.detailedPredictions' | transloco }}</h2>
         <div class="phase-line" aria-hidden="true"><span></span><span></span><span></span></div>
         <div class="phase-grid">
-          <article *ngFor="let key of phaseOrder">
-            <ng-container *ngIf="analysis.prediction.phaseAnalysis[key] as phase">
-              <h3>{{ phase.title }}</h3>
-              <span>{{ phase.period }}</span>
-              <ul><li *ngFor="let point of phase.points; trackBy: trackText">{{ point }}</li></ul>
-            </ng-container>
+          <article *ngFor="let phase of predictionPhases(analysis)">
+            <h3>{{ phase.titleKey | transloco }}</h3>
+            <span>{{ phase.periodLabel || formatPeriod(phase.start, phase.end) }}</span>
+            <ul><li *ngFor="let point of phase.points; trackBy: trackText">{{ point }}</li></ul>
           </article>
         </div>
       </section>
 
-      <section class="content-grid content-grid--split">
+      <section class="surface remedy-board" *ngIf="remedyView(analysis) as remedy">
+        <h2>{{ 'dashaPage.remediesTitle' | transloco: { planet: translatePlanet(remedy.planet) } }} <em class="plan-chip" *ngIf="!previewPremium">{{ 'dashaPage.scorePremium' | transloco }}</em></h2>
+        <div class="plan-blur" [class.is-blurred]="!previewPremium">
+        <p class="remedy-basis">{{ remedy.basis }}</p>
+        <div class="remedy-grid">
+          <article *ngFor="let card of remedy.cards">
+            <span>{{ card.titleKey | transloco }}</span>
+            <strong>{{ card.value }}</strong>
+            <p>{{ card.detail }}</p>
+          </article>
+        </div>
+        </div>
+      </section>
+
+      <section class="content-grid content-grid--split" *ngIf="actionView(analysis) as actions">
         <article class="surface actions-card">
           <h2>{{ 'dashaPage.recommendedActions' | transloco }}</h2>
           <div class="actions-grid">
             <div>
               <h3>{{ 'dashaPage.dos' | transloco }}</h3>
-              <ul><li *ngFor="let item of analysis.recommendedActions.dos; trackBy: trackText">{{ item }}</li></ul>
+              <ul><li *ngFor="let item of actions.dos; trackBy: trackText">{{ item }}</li></ul>
             </div>
             <div>
               <h3>{{ 'dashaPage.donts' | transloco }}</h3>
-              <ul><li *ngFor="let item of analysis.recommendedActions.donts; trackBy: trackText">{{ item }}</li></ul>
+              <ul *ngIf="actions.donts.length; else noActionPressure">
+                <li *ngFor="let item of actions.donts; trackBy: trackText">{{ item }}</li>
+              </ul>
+              <ng-template #noActionPressure><p class="list-empty">{{ 'dashaPage.noPressureFacts' | transloco }}</p></ng-template>
             </div>
           </div>
         </article>
         <article class="surface important-card">
           <h2>{{ 'dashaPage.importantDates' | transloco }}</h2>
-          <div class="date-row" *ngFor="let item of analysis.importantDates; trackBy: trackDate">
-            <span>{{ item.title }}</span>
+          <div class="date-row" *ngFor="let item of selectedDates(analysis)">
+            <span>{{ item.titleKey | transloco }}</span>
             <strong>{{ formatDate(item.date) }}</strong>
           </div>
         </article>

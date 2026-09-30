@@ -57,5 +57,16 @@
       "padas": [ 1, 2 ]
     }
   ],
-  "description": "Vrishabha is the second sign of the zodiac, representing stability, wealth, beauty, and endurance. Ruled by Venus, it signifies patience, material comforts, artistic appreciation, and unwavering determination."
+  "description": "Vrishabha is the second sign of the zodiac, representing stability, wealth, beauty, and endurance. Ruled by Venus, it signifies patience, material comforts, artistic appreciation, and unwavering determination.",
+  "ghatChakra": {
+    "month": "margashirsha",
+    "tithi": "purna",
+    "tithiNumbers": "5, 10, 15",
+    "weekday": "saturday",
+    "nakshatra": "Hasta",
+    "yoga": "shukla",
+    "karana": "shakuni",
+    "moonMale": "Virgo",
+    "moonFemale": "Sagittarius"
+  }
 }

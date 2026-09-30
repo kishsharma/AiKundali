@@ -1,0 +1,44 @@
+<section class="feedback-inbox">
+  <app-page-header
+    title="Feedback"
+    subtitle="Useful and needs-work notes from finished results"
+    [breadcrumbs]="[
+      { label: 'Home', routerLink: '/' },
+      { label: 'Feedback', active: true }
+    ]">
+  </app-page-header>
+
+  <p class="feedback-status" *ngIf="loading">Loading feedback.</p>
+  <p class="feedback-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="feedback-status" *ngIf="!loading && !errorMessage && !rows.length">No feedback yet.</p>
+
+  <div class="feedback-table-wrap" *ngIf="rows.length">
+    <table>
+      <thead>
+        <tr>
+          <th>When</th>
+          <th>Who</th>
+          <th>Screen</th>
+          <th>Choice</th>
+          <th>Topic</th>
+          <th>Note</th>
+          <th>Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows">
+          <td>{{ row.createdAt | date:'medium' }}</td>
+          <td>
+            <strong>{{ row.fullName }}</strong>
+            <small>{{ row.email }}</small>
+          </td>
+          <td>{{ row.surface }}</td>
+          <td>{{ sentimentLabel(row.sentiment) }}</td>
+          <td>{{ row.topic || '—' }}</td>
+          <td>{{ row.note || '—' }}</td>
+          <td>{{ row.planCode }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

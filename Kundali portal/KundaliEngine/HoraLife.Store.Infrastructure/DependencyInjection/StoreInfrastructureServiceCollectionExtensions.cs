@@ -24,6 +24,7 @@ public static class StoreDependencyInjection
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         services.AddScoped<IInventoryReservationRepository,  InventoryReservationRepository>();
+        services.AddScoped<IInventoryAdminRepository, InventoryAdminRepository>();
         services.AddScoped<ICartConversionRepository,CartConversionRepository>();
 
         return services;

@@ -528,6 +528,17 @@ body.report-shell {
   gap: 10px;
 }
 
+.formation-focus {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.formation-focus .insight-head span {
+  color: #9a6200;
+}
+
 .insight-card,
 .bhava-card,
 .dasha-card {
@@ -702,8 +713,8 @@ body.report-shell {
 .section-mahadasha-antardasha,
 .section-sudarshan-chakra,
 .section-remedies-recommendation {
-  break-before: page;
-  page-break-before: always;
+  break-before: auto;
+  page-break-before: auto;
 }
 
 /* UI-matched report header for backend PDF/export modes. */
@@ -1255,18 +1266,44 @@ body.report-shell {
     margin-top: 10px;
   }
 
+  .report-section {
+    overflow: visible;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .section-body,
+  .report-table-stack,
+  .charts-grid,
+  .bullet-list,
+  .bhava-score-grid,
+  .dasha-grid,
+  .insight-grid,
+  .life-chapter-grid,
+  .two-col-report,
+  .compact-table {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
   .report-header.report-hero,
+  .report-header-deity,
   .chart-panel,
   .score-strip,
   .insight-card,
   .bhava-card,
   .dasha-card,
-  .bullet-item {
+  .life-chapter,
+  .bullet-item,
+  .fact,
+  .compact-table tr {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
-  .section-title {
+  .section-title,
+  .table-subtitle,
+  .chart-title {
     break-after: avoid;
     page-break-after: avoid;
   }
@@ -1276,8 +1313,8 @@ body.report-shell {
   .section-mahadasha-antardasha,
   .section-sudarshan-chakra,
   .section-remedies-recommendation {
-    break-before: page;
-    page-break-before: always;
+    break-before: auto;
+    page-break-before: auto;
   }
 }
 

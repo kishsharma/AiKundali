@@ -51,7 +51,6 @@
                 (ngModelChange)="onOtpInput($event)"
                 (keydown)="onOtpKeyDown($event)"
                 autocomplete="one-time-code"
-                [disabled]="isLoading"
                 aria-label="6 digit verification code"
               />
               <div class="otp-boxes" aria-hidden="true">

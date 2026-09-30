@@ -23,7 +23,6 @@ body {
 
 .report-block,
 .chart-panel,
-.compact-table,
 .score-strip {
   break-inside: avoid;
   page-break-inside: avoid;
@@ -174,4 +173,57 @@ td {
 
 .lotus-divider__diamond {
   fill: currentColor;
+}
+
+.cover-line {
+  margin: 8px 0 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.glance-grid,
+.life-chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.life-chapter {
+  border: 1px solid #d7d0c4;
+  border-radius: 8px;
+  padding: 8px 10px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.life-window {
+  margin-top: 4px;
+}
+
+.tone-supported strong { color: #1d6b3a; }
+.tone-mixed strong { color: #8a5a10; }
+.tone-needs-care strong { color: #8a3b2a; }
+
+.report-contents {
+  margin: 0;
+  padding-left: 18px;
+  columns: 2;
+  column-gap: 18px;
+}
+
+.report-contents li {
+  break-inside: avoid;
+  margin: 0 0 3px;
+}
+
+.report-header-deity {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 2px;
+}
+
+.ganesha-icon {
+  display: block;
+  width: 240px;
+  height: auto;
 }

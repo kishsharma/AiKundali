@@ -25,4 +25,6 @@ public sealed record PredictionRequest
     /// promotion, business_growth, or marriage_timing.
     /// </summary>
     public string? FocusKey { get; init; }
+
+    public DateTimeOffset? BirthDate { get; init; }
 }

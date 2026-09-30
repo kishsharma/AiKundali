@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HoraLife Store</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="assets/brand/horalife-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <script>
+      (function () {
+        var theme = 'dark';
+        try {
+          var fromQuery = new URLSearchParams(location.search).get('theme');
+          var cookie = document.cookie.split('; ').find(function (part) { return part.indexOf('kundali-theme=') === 0; });
+          var fromCookie = cookie ? decodeURIComponent(cookie.slice('kundali-theme='.length)) : '';
+          var stored = localStorage.getItem('kundali-theme') || '';
+          var chosen = fromQuery || fromCookie || stored;
+          if (chosen === 'light' || chosen === 'dark') theme = chosen;
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+        document.body.dataset.theme = theme;
+      })();
+    </script>
+    <app-root></app-root>
+  </body>
+</html>

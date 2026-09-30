@@ -57,5 +57,16 @@
       "padas": [ 1, 2, 3 ]
     }
   ],
-  "description": "Tula is the seventh sign of the zodiac, symbolizing balance, justice, beauty, relationships, and cooperation. Ruled by Venus, it represents diplomacy, refinement, artistic appreciation, and the ability to create harmony in both personal and professional life."
+  "description": "Tula is the seventh sign of the zodiac, symbolizing balance, justice, beauty, relationships, and cooperation. Ruled by Venus, it represents diplomacy, refinement, artistic appreciation, and the ability to create harmony in both personal and professional life.",
+  "ghatChakra": {
+    "month": "magha",
+    "tithi": "rikta",
+    "tithiNumbers": "4, 9, 14",
+    "weekday": "thursday",
+    "nakshatra": "Shatabhisha",
+    "yoga": "shukla",
+    "karana": "taitila",
+    "moonMale": "Sagittarius",
+    "moonFemale": "Pisces"
+  }
 }

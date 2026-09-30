@@ -44,7 +44,8 @@
 .mobile-friendly-report .score-strip,
 .mobile-friendly-report .two-col-report,
 .mobile-friendly-report .dasha-grid,
-.mobile-friendly-report .insight-grid {
+.mobile-friendly-report .insight-grid,
+.mobile-friendly-report .formation-focus {
   grid-template-columns: 1fr;
 }
 
@@ -129,4 +130,18 @@
   width: 380px;
   max-width: 96%;
   height: 38px;
+}
+
+.mobile-friendly-report .glance-grid,
+.mobile-friendly-report .life-chapter-grid {
+  grid-template-columns: 1fr;
+}
+
+.mobile-friendly-report .report-contents {
+  columns: 1;
+}
+
+.mobile-friendly-report .life-chapter,
+.mobile-friendly-report .chart-panel {
+  width: 100%;
 }

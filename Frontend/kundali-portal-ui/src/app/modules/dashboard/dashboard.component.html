@@ -91,6 +91,181 @@
     </section>
   </div>
 
+  <app-section-card data-tour-id="dashboard-collection" [interactive]="false">
+    <div class="usage-banner" [attr.data-plan]="planCode">
+      <div class="usage-banner__copy">
+        <span>{{ 'dashboard.planKicker' | transloco }}</span>
+        <strong class="usage-plan-name" [attr.data-plan]="planCode">{{ planLabelKey | transloco }}</strong>
+        <p>{{ planDetailKey | transloco }}</p>
+      </div>
+      <button type="button" class="usage-upgrade" (click)="openPlans()">{{ planActionKey | transloco }}</button>
+    </div>
+    <div class="usage-meters">
+      <a class="usage-meter" routerLink="/app/kundali">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.kundaliSaves' | transloco }}</span>
+          <strong>{{ 'dashboard.leftCount' | transloco: { count: kundaliSavesLeft } }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-tight]="usageShare(collectionStats.savedKundalis, collectionStats.kundaliSaveLimit) >= 80">
+          <span [style.width.%]="usageShare(collectionStats.savedKundalis, collectionStats.kundaliSaveLimit)"></span>
+        </div>
+        <small>{{ 'dashboard.usedOfLimit' | transloco: { used: collectionStats.savedKundalis, limit: collectionStats.kundaliSaveLimit || 0 } }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/compatibility">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.matchSaves' | transloco }}</span>
+          <strong>{{ 'dashboard.leftCount' | transloco: { count: matchSavesLeft } }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-tight]="usageShare(collectionStats.savedMatches, collectionStats.matchSaveLimit) >= 80">
+          <span [style.width.%]="usageShare(collectionStats.savedMatches, collectionStats.matchSaveLimit)"></span>
+        </div>
+        <small>{{ 'dashboard.usedOfLimit' | transloco: { used: collectionStats.savedMatches, limit: collectionStats.matchSaveLimit || 0 } }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/kundali">
+        <ng-container *ngIf="pdfUnlimited; else pdfLimited">
+          <div class="usage-meter__top">
+            <span>{{ 'dashboard.pdfReports' | transloco }}</span>
+            <strong>{{ collectionStats.pdfGenerated || 0 }}</strong>
+          </div>
+          <div class="usage-bar is-open"><span></span></div>
+          <small>{{ 'dashboard.noDailyLimit' | transloco }}</small>
+        </ng-container>
+        <ng-template #pdfLimited>
+          <div class="usage-meter__top">
+            <span>{{ 'dashboard.pdfToday' | transloco }}</span>
+            <strong>{{ 'dashboard.leftCount' | transloco: { count: collectionStats.pdfLeftToday ?? 0 } }}</strong>
+          </div>
+          <div class="usage-bar" [class.is-tight]="usageShare(collectionStats.pdfUsedToday || 0, collectionStats.pdfDailyLimit || 1) >= 80">
+            <span [style.width.%]="usageShare(collectionStats.pdfUsedToday || 0, collectionStats.pdfDailyLimit || 1)"></span>
+          </div>
+          <small>{{ 'dashboard.usedOfLimit' | transloco: { used: collectionStats.pdfUsedToday || 0, limit: collectionStats.pdfDailyLimit || 1 } }}</small>
+        </ng-template>
+      </a>
+      <a class="usage-meter" routerLink="/app/kundali">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.emailDelivery' | transloco }}</span>
+          <strong>{{ collectionStats.emailsSent || 0 }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-open]="collectionStats.emailIncluded" [class.is-locked]="!collectionStats.emailIncluded">
+          <span *ngIf="collectionStats.emailIncluded"></span>
+        </div>
+        <small>{{ (collectionStats.emailIncluded ? 'dashboard.emailOnPlan' : 'dashboard.emailOffPlan') | transloco: { count: collectionStats.emailsSent || 0 } }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/kundali">
+        <ng-container *ngIf="!allowanceReady">
+          <div class="usage-meter__top">
+            <span>{{ 'dashboard.lifeQuestions' | transloco }}</span>
+            <strong>—</strong>
+          </div>
+          <div class="usage-bar"></div>
+          <small>{{ 'dashboard.loadingUsage' | transloco }}</small>
+        </ng-container>
+        <ng-container *ngIf="allowanceReady && !allowance">
+          <div class="usage-meter__top">
+            <span>{{ 'dashboard.lifeQuestions' | transloco }}</span>
+            <strong>—</strong>
+          </div>
+          <div class="usage-bar"></div>
+          <small>{{ 'dashboard.notAvailable' | transloco }}</small>
+        </ng-container>
+        <ng-container *ngIf="allowanceReady && allowance && questionsUnlimited">
+          <div class="usage-meter__top">
+            <span>{{ 'dashboard.lifeQuestions' | transloco }}</span>
+            <strong>{{ 'dashboard.unlimited' | transloco }}</strong>
+          </div>
+          <div class="usage-bar is-open"><span></span></div>
+          <small>{{ 'dashboard.noDailyLimit' | transloco }}</small>
+        </ng-container>
+        <ng-container *ngIf="allowanceReady && allowance && !questionsUnlimited">
+          <div class="usage-meter__top">
+            <span>{{ 'dashboard.lifeQuestions' | transloco }}</span>
+            <strong>{{ 'dashboard.leftCount' | transloco: { count: questionsLeft } }}</strong>
+          </div>
+          <div class="usage-bar" [class.is-tight]="usageShare(questionsUsed, allowance?.lifeQuestionDailyLimit || 1) >= 80">
+            <span [style.width.%]="usageShare(questionsUsed, allowance?.lifeQuestionDailyLimit || 1)"></span>
+          </div>
+          <small>{{ 'dashboard.usedOfLimit' | transloco: { used: questionsUsed, limit: allowance?.lifeQuestionDailyLimit || 0 } }}</small>
+        </ng-container>
+      </a>
+      <a class="usage-meter" routerLink="/app/kundali">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.aiMode' | transloco }}</span>
+          <strong *ngIf="!allowanceReady">—</strong>
+          <strong *ngIf="allowanceReady">{{ (aiIncluded ? 'dashboard.included' : 'dashboard.notIncluded') | transloco }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-open]="aiIncluded" [class.is-locked]="allowanceReady && !aiIncluded">
+          <span *ngIf="aiIncluded"></span>
+        </div>
+        <small *ngIf="!allowanceReady">{{ 'dashboard.loadingUsage' | transloco }}</small>
+        <small *ngIf="allowanceReady">{{ (aiIncluded ? 'dashboard.aiOnPlan' : 'dashboard.aiOffPlan') | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/kundali">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.fullReport' | transloco }}</span>
+          <strong>{{ (paidPlan ? 'dashboard.included' : 'dashboard.notIncluded') | transloco }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-open]="paidPlan" [class.is-locked]="!paidPlan">
+          <span *ngIf="paidPlan"></span>
+        </div>
+        <small>{{ (paidPlan ? 'dashboard.fullReportOn' : 'dashboard.fullReportOff') | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/dasha">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.dashaDetail' | transloco }}</span>
+          <strong>{{ (paidPlan ? 'dashboard.complete' : 'dashboard.limited') | transloco }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-open]="paidPlan" [class.is-locked]="!paidPlan">
+          <span *ngIf="paidPlan"></span>
+        </div>
+        <small>{{ (paidPlan ? 'dashboard.dashaOn' : 'dashboard.dashaOff') | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/compatibility">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.matchDetails' | transloco }}</span>
+          <strong>{{ (paidPlan ? 'dashboard.full' : 'dashboard.scoreOnly') | transloco }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-open]="paidPlan" [class.is-locked]="!paidPlan">
+          <span *ngIf="paidPlan"></span>
+        </div>
+        <small>{{ (paidPlan ? 'dashboard.matchDetailsOn' : 'dashboard.matchDetailsOff') | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/white-label-settings">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.whiteLabel' | transloco }}</span>
+          <strong>{{ (plusPlan ? 'dashboard.included' : 'dashboard.notIncluded') | transloco }}</strong>
+        </div>
+        <div class="usage-bar" [class.is-open]="plusPlan" [class.is-locked]="!plusPlan">
+          <span *ngIf="plusPlan"></span>
+        </div>
+        <small>{{ (plusPlan ? 'dashboard.whiteLabelOn' : 'dashboard.whiteLabelOff') | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/panchang">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.quick.panchang' | transloco }}</span>
+          <strong>{{ 'dashboard.included' | transloco }}</strong>
+        </div>
+        <div class="usage-bar is-open"><span></span></div>
+        <small>{{ 'dashboard.openOnEveryPlan' | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/panchang/muhurtha">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.quick.muhurtha' | transloco }}</span>
+          <strong>{{ 'dashboard.included' | transloco }}</strong>
+        </div>
+        <div class="usage-bar is-open"><span></span></div>
+        <small>{{ 'dashboard.openOnEveryPlan' | transloco }}</small>
+      </a>
+      <a class="usage-meter" routerLink="/app/learning">
+        <div class="usage-meter__top">
+          <span>{{ 'dashboard.quick.jyotishStudy' | transloco }}</span>
+          <strong>{{ 'dashboard.included' | transloco }}</strong>
+        </div>
+        <div class="usage-bar is-open"><span></span></div>
+        <small>{{ 'dashboard.openOnEveryPlan' | transloco }}</small>
+      </a>
+    </div>
+  </app-section-card>
+
   <app-section-card [title]="'dashboard.currentRetrogrades' | transloco" [interactive]="false">
     <div class="retrograde-panel" [attr.aria-busy]="loading.retrogrades">
       <p class="loading-line" *ngIf="loading.retrogrades">{{ 'dashboard.loadingRetrogrades' | transloco }}</p>
@@ -147,15 +322,6 @@
       </article>
 
       <article class="journey-card">
-        <span class="mini-label">{{ 'dashboard.jyotishStudy' | transloco }}</span>
-        <p class="recent-name">{{ learningSummary?.title || ('dashboard.learningCenter' | transloco) }}</p>
-        <p class="card-note" *ngIf="learningSummary">{{ 'dashboard.sessionsHours' | transloco: { sessions: learningSummary.sessionCount, hours: learningSummary.estimatedHours } }}</p>
-        <p class="card-note" *ngIf="!learningSummary">{{ 'dashboard.learningUnavailable' | transloco }}</p>
-        <span class="status-pill" [class.pending]="!learningSummary">{{ learningSummary?.status || ('dashboard.ready' | transloco) }}</span>
-        <a class="text-link" routerLink="/app/learning">{{ 'dashboard.continueLearning' | transloco }}</a>
-      </article>
-
-      <article class="journey-card">
         <span class="mini-label">{{ 'dashboard.recentReport' | transloco }}</span>
         <p class="recent-name">{{ recentReport?.reportType || ('dashboard.kundaliReport' | transloco) }}</p>
         <p class="card-note">{{ reportSummaryText() }}</p>
@@ -175,65 +341,5 @@
     </div>
   </app-section-card>
 
-  <div class="wide-grid">
-    <app-section-card data-tour-id="dashboard-collection" [title]="'dashboard.myCollection' | transloco" [interactive]="false">
-      <div class="collection-grid">
-        <a class="collection-card" routerLink="/app/kundali">
-          <span class="collection-number">{{ collectionStats.savedKundalis }}</span>
-          <span class="collection-label">{{ 'dashboard.savedKundalis' | transloco }}</span>
-          <span class="text-link">{{ 'dashboard.viewAll' | transloco }}</span>
-        </a>
-        <a class="collection-card" routerLink="/app/compatibility">
-          <span class="collection-number">{{ collectionStats.savedMatches }}</span>
-          <span class="collection-label">{{ 'dashboard.savedMatches' | transloco }}</span>
-          <span class="text-link">{{ 'dashboard.startMatch' | transloco }}</span>
-        </a>
-        <a class="collection-card" routerLink="/app/panchang/muhurtha">
-          <span class="collection-number">{{ collectionStats.savedMuhurthas || upcomingMuhurthas.length }}</span>
-          <span class="collection-label">{{ 'dashboard.muhurtas' | transloco }}</span>
-          <span class="text-link">{{ 'dashboard.explore' | transloco }}</span>
-        </a>
-        <a class="collection-card" routerLink="/app/kundali">
-          <span class="collection-number">{{ collectionStats.reports }}</span>
-          <span class="collection-label">{{ 'dashboard.reports' | transloco }}</span>
-          <span class="text-link">{{ 'dashboard.generate' | transloco }}</span>
-        </a>
-        <a class="collection-card" routerLink="/app/learning">
-          <span class="collection-number">{{ collectionStats.studyLevels }}</span>
-          <span class="collection-label">{{ 'dashboard.studyLevels' | transloco }}</span>
-          <span class="text-link">{{ 'dashboard.learn' | transloco }}</span>
-        </a>
-      </div>
-    </app-section-card>
-
-    <app-section-card [title]="'dashboard.learningProgress' | transloco" [interactive]="false">
-      <div class="progress-layout">
-        <div class="progress-ring" [style.--progress]="learningProgress + '%'">
-          <span class="progress-value">{{ learningProgress }}%</span>
-        </div>
-        <div>
-          <h3 class="recent-name">{{ learningSummary?.title || ('dashboard.jyotishStudy' | transloco) }}</h3>
-          <p class="progress-copy" *ngIf="learningSummary">{{ learningSummary.description }}</p>
-          <p class="progress-copy" *ngIf="!learningSummary">{{ 'dashboard.learningProgressEmpty' | transloco }}</p>
-          <a class="text-link" routerLink="/app/learning">{{ 'dashboard.goToLearningCenter' | transloco }}</a>
-        </div>
-      </div>
-    </app-section-card>
-  </div>
-
-  <app-section-card [title]="'dashboard.upcomingMuhurtha' | transloco" [interactive]="false" [headerAction]="true">
-    <a card-action class="section-link" routerLink="/app/panchang/muhurtha">{{ 'dashboard.viewCalendar' | transloco }}</a>
-    <div class="muhurtha-list">
-      <article class="muhurtha-row" *ngFor="let item of upcomingMuhurthas">
-        <div class="date-badge">{{ formatDay(item.date) }} <span>{{ formatMonth(item.date) }}</span></div>
-        <div>
-          <p class="muhurtha-title">{{ item.title }}</p>
-          <p class="muhurtha-time">{{ item.timeWindow }}</p>
-        </div>
-        <span class="quality-pill">{{ item.quality }}</span>
-      </article>
-      <p class="empty-copy" *ngIf="!upcomingMuhurthas.length">{{ 'dashboard.noUpcomingMuhurtha' | transloco }}</p>
-    </div>
-  </app-section-card>
 </div>
 

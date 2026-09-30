@@ -68,6 +68,9 @@ export interface DhruvaKundaliContext {
   strongestHouses: DhruvaKundaliField;
   supportNeededHouses: DhruvaKundaliField;
   planets: DhruvaPlanetContext[];
+  personName: DhruvaKundaliField;
+  birthDate: DhruvaKundaliField;
+  birthPlace: DhruvaKundaliField;
 }
 
 export interface DhruvaKundaliContextSource {
@@ -91,6 +94,11 @@ export interface DhruvaKundaliContextSource {
   nakshatraName?: unknown;
   rashi?: unknown;
   rashiName?: unknown;
+  fullName?: unknown;
+  name?: unknown;
+  dateOfBirth?: unknown;
+  birthDate?: unknown;
+  birthPlace?: unknown;
 }
 
 export function mapDhruvaKundaliContext(source: DhruvaKundaliContextSource | null | undefined): DhruvaKundaliContext {
@@ -126,6 +134,9 @@ export function mapDhruvaKundaliContext(source: DhruvaKundaliContextSource | nul
     strongestHouses: housesSummaryFieldFrom(chart?.['houses'], chart?.['houseScores'], chart?.['bhavaScores'], 'strong'),
     supportNeededHouses: housesSummaryFieldFrom(chart?.['houses'], chart?.['houseScores'], chart?.['bhavaScores'], 'support'),
     planets: planetsFrom(chart?.['planets'], chart?.['planetaryPositions']),
+    personName: fieldFrom(source?.fullName, source?.name, summary?.['name'], summary?.['fullName']),
+    birthDate: fieldFrom(source?.dateOfBirth, source?.birthDate, summary?.['dateOfBirth'], summary?.['birthDate']),
+    birthPlace: fieldFrom(source?.birthPlace, summary?.['birthPlace']),
   };
 }
 

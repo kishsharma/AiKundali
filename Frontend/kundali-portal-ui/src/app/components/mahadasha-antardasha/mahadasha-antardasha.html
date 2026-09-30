@@ -3,6 +3,14 @@
     No Mahadasha data available.
   </div>
 
+  <div class="dasha-tone-legend" *ngIf="mahadashas.length">
+    <span class="tone-chip tone-best">{{ 'mahadasha.toneBest' | transloco }}</span>
+    <span class="tone-chip tone-favourable">{{ 'mahadasha.toneFavourable' | transloco }}</span>
+    <span class="tone-chip tone-unfavourable">{{ 'mahadasha.toneUnfavourable' | transloco }}</span>
+    <span class="tone-chip tone-neutral">{{ 'mahadasha.toneNeutral' | transloco }}</span>
+    <p class="tone-hint">{{ 'mahadasha.toneHint' | transloco }}</p>
+  </div>
+
   <div class="current-dasha-summary" *ngIf="getCurrentDashaSummary() as currentDasha">
     <p *ngIf="currentDasha.antardasha; else onlyMahadasha">
       {{ 'mahadasha.currentlyPrefix' | transloco }}
@@ -27,6 +35,10 @@
 
   <div
     class="mahadasha-card"
+    [class.tone-favourable]="periodTone(maha.planet) === 'favourable'"
+    [class.tone-unfavourable]="periodTone(maha.planet) === 'unfavourable'"
+    [class.tone-neutral]="periodTone(maha.planet) === 'neutral'"
+    [attr.title]="periodTitle(maha.planet)"
     *ngFor="let maha of displayedMahadashas">
 
     <!-- HEADER -->
@@ -70,12 +82,19 @@
       <tbody>
 
         <tr
-          *ngFor="let antar of maha.antardashas"  [class.active-maha]="isCurrentPeriod(getPeriodStart(antar), getPeriodEnd(antar))">
+          *ngFor="let antar of maha.antardashas"
+          [class.tone-favourable]="periodTone(antar.subPlanet, maha.planet) === 'favourable'"
+          [class.tone-best]="isBestPeriod(antar.subPlanet, maha.planet)"
+          [class.tone-unfavourable]="periodTone(antar.subPlanet, maha.planet) === 'unfavourable'"
+          [class.tone-neutral]="periodTone(antar.subPlanet, maha.planet) === 'neutral'"
+          [class.active-maha]="isCurrentPeriod(getPeriodStart(antar), getPeriodEnd(antar))"
+          [attr.title]="periodTitle(antar.subPlanet, maha.planet)">
 
           <td>
            
 
              {{ ('planet.' + antar.subPlanet) | transloco }}
+             <em class="best-mark" *ngIf="isBestPeriod(antar.subPlanet, maha.planet)">{{ 'mahadasha.toneBest' | transloco }}</em>
           </td>
 
           <td>

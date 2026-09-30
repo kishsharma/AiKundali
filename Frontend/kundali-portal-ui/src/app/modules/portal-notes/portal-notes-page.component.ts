@@ -6,6 +6,9 @@ import { PortalNote, PortalNotesService } from '../../core/services/portal-notes
 import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 import { NotificationService } from '../../shared/services/notification.service';
+import { AuthService } from '../../core/auth/auth.service';
+import { isPaidUser } from '../../core/auth/plan.util';
+import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 
 @Component({
   selector: 'app-portal-notes-page',
@@ -20,6 +23,12 @@ export class PortalNotesPageComponent implements OnInit {
   private readonly notesService = inject(PortalNotesService);
   private readonly notifications = inject(NotificationService);
   private readonly transloco = inject(TranslocoService);
+  private readonly authService = inject(AuthService);
+  private readonly subscriptionModal = inject(SubscriptionModalService);
+
+  get isPremiumUser(): boolean {
+    return isPaidUser(this.authService.getCurrentUser());
+  }
 
   notes: PortalNote[] = [];
   loading = false;
@@ -29,7 +38,15 @@ export class PortalNotesPageComponent implements OnInit {
   isEditorOpen = false;
 
   ngOnInit(): void {
+    if (!this.isPremiumUser) {
+      return;
+    }
+
     this.loadNotes();
+  }
+
+  unlockNotes(): void {
+    this.subscriptionModal.open();
   }
 
   loadNotes(): void {

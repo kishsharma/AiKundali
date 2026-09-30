@@ -56,18 +56,18 @@
   --brand-logo-gap: 11px;
   --brand-logo-mark-size: 42px;
   --brand-logo-name-size: 28px;
-  --brand-logo-descriptor-size: 10px;
-  --brand-logo-name-color: var(--brass);
-  --brand-logo-hora-color: var(--brass);
-  --brand-logo-life-color: var(--parchment-dim);
-  --brand-logo-life-border: 1px solid var(--line);
-  --brand-logo-life-padding: 3px 7px;
-  --brand-logo-life-font: 'Cinzel', Georgia, serif;
-  --brand-logo-life-size: 14px;
-  --brand-logo-life-weight: 600;
-  --brand-logo-life-spacing: 0.1em;
-  --brand-logo-life-transform: uppercase;
-  --brand-logo-descriptor-color: var(--brass-soft);
+  --brand-logo-descriptor-size: 9px;
+  --brand-logo-name-color: #fff7e6;
+  --brand-logo-hora-color: #fff7e6;
+  --brand-logo-life-color: #f1b83b;
+  --brand-logo-life-border: 0;
+  --brand-logo-life-padding: 0;
+  --brand-logo-life-font: inherit;
+  --brand-logo-life-size: 1em;
+  --brand-logo-life-weight: 700;
+  --brand-logo-life-spacing: inherit;
+  --brand-logo-life-transform: none;
+  --brand-logo-descriptor-color: rgba(255, 247, 230, 0.72);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -75,9 +75,11 @@
 }
 
 :host-context(body[data-theme='light']) .app-brand {
-  --brand-logo-life-color: var(--theme-text-muted);
-  --brand-logo-life-border: 1px solid color-mix(in srgb, var(--theme-accent) 34%, transparent);
-  --brand-logo-descriptor-color: color-mix(in srgb, var(--theme-accent) 82%, var(--theme-text));
+  --brand-logo-name-color: #263f87;
+  --brand-logo-hora-color: #263f87;
+  --brand-logo-life-color: #e15f3d;
+  --brand-logo-life-border: 0;
+  --brand-logo-descriptor-color: #8e3b23;
 }
 
 .mobile-menu-toggle {
@@ -271,8 +273,33 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: clamp(180px, 18vw, 212px);
+  justify-content: flex-end;
+  gap: 8px;
+  width: auto;
+  max-width: min(380px, 48vw);
   z-index: 2100;
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-surface-soft) 88%, transparent);
+  color: var(--parchment);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  border-color: color-mix(in srgb, var(--brass) 58%, transparent);
+  background: color-mix(in srgb, var(--ink-3) 90%, var(--theme-bg));
+  outline: none;
 }
 
 .user-menu {
@@ -280,7 +307,9 @@
   align-items: center;
   gap: 10px;
   min-width: 0;
-  width: 100%;
+  width: auto;
+  max-width: 280px;
+  flex: 1 1 auto;
   min-height: 48px;
   padding: 5px 8px 5px 6px;
   border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
@@ -327,19 +356,130 @@
 .user-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 3px;
   line-height: 1.1;
   min-width: 0;
 }
 
+.user-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
 .user-name {
-  max-width: 150px;
+  max-width: 120px;
   overflow: hidden;
   color: var(--parchment);
   font-size: 14px;
   font-weight: 800;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.user-name[data-plan='Free'],
+.user-plan-fee[data-plan='Free'],
+.dropdown-account-name[data-plan='Free'] {
+  color: #9bb6ff;
+}
+
+.user-name[data-plan='Premium'],
+.user-plan-fee[data-plan='Premium'],
+.dropdown-account-name[data-plan='Premium'] {
+  color: #e2b23c;
+}
+
+.user-name[data-plan='PremiumPlus'],
+.user-plan-fee[data-plan='PremiumPlus'],
+.dropdown-account-name[data-plan='PremiumPlus'] {
+  color: #e07a58;
+}
+
+.user-plan-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.user-admin-tag {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #c9a24b) 55%, transparent);
+  background: color-mix(in srgb, var(--theme-accent, #c9a24b) 18%, transparent);
+  color: var(--theme-accent, #c9a24b);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+:host-context(body[data-theme='light']) .user-admin-tag {
+  border-color: color-mix(in srgb, var(--theme-accent, #7e3ba8) 45%, transparent);
+  background: color-mix(in srgb, var(--theme-accent, #7e3ba8) 12%, transparent);
+  color: var(--theme-accent, #7e3ba8);
+}
+
+.user-plan-star {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 11px;
+  background: currentColor;
+  clip-path: polygon(50% 0%, 62% 35%, 100% 38%, 70% 59%, 79% 96%, 50% 75%, 21% 96%, 30% 59%, 0 38%, 38% 35%);
+}
+
+.user-plan-mark[data-plan='Premium'] {
+  color: #e2b23c;
+}
+
+.user-plan-mark[data-plan='PremiumPlus'] {
+  color: #e07a58;
+}
+
+:host-context(body[data-theme='light']) .user-plan-mark[data-plan='Premium'] {
+  color: #8a5a10;
+}
+
+:host-context(body[data-theme='light']) .user-plan-mark[data-plan='PremiumPlus'] {
+  color: #8e3b23;
+}
+
+.user-plan-fee {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+:host-context(body[data-theme='light']) .user-name[data-plan='Free'],
+:host-context(body[data-theme='light']) .user-plan-fee[data-plan='Free'],
+:host-context(body[data-theme='light']) .dropdown-account-name[data-plan='Free'] {
+  color: #263f87;
+}
+
+:host-context(body[data-theme='light']) .user-name[data-plan='Premium'],
+:host-context(body[data-theme='light']) .user-plan-fee[data-plan='Premium'],
+:host-context(body[data-theme='light']) .dropdown-account-name[data-plan='Premium'] {
+  color: #8a5a10;
+}
+
+:host-context(body[data-theme='light']) .user-name[data-plan='PremiumPlus'],
+:host-context(body[data-theme='light']) .user-plan-fee[data-plan='PremiumPlus'],
+:host-context(body[data-theme='light']) .dropdown-account-name[data-plan='PremiumPlus'] {
+  color: #8e3b23;
 }
 
 .user-info small {
@@ -359,6 +499,50 @@
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
   overflow: hidden;
+}
+
+.dropdown-account {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 10px 6px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ink-3) 55%, transparent);
+}
+
+.dropdown-account-name,
+.dropdown-account small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-account-name {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.dropdown-account small {
+  color: color-mix(in srgb, var(--parchment-dim) 86%, transparent);
+  font-size: 12px;
+}
+
+.dropdown-plan-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dropdown-plan-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .dropdown-header {
@@ -499,7 +683,7 @@
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
-  width: 100%;
+  width: 280px;
   padding: 10px;
   border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
   border-radius: var(--theme-radius-card);
@@ -607,6 +791,64 @@
   color: color-mix(in srgb, var(--theme-danger) 82%, var(--parchment));
 }
 
+.menu-prefs {
+  display: grid;
+  gap: 6px;
+  padding: 2px 8px 4px;
+}
+
+.menu-pref {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-pref span {
+  flex: 0 0 68px;
+  color: var(--parchment-dim);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.user-dropdown .menu-pref button {
+  width: 28px;
+  min-height: 28px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0;
+  background: transparent;
+  color: var(--parchment);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.user-dropdown .menu-lang {
+  width: auto;
+  min-width: 108px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--brass) 40%, transparent);
+  border-radius: 999px;
+  padding: 0 8px;
+  background: transparent;
+  color: var(--parchment);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.user-dropdown .menu-pref button.is-on,
+.user-dropdown .menu-pref button:hover,
+.user-dropdown .menu-pref button:focus-visible {
+  border-color: color-mix(in srgb, var(--brass) 54%, transparent);
+  background: color-mix(in srgb, var(--brass) 16%, transparent);
+  color: var(--parchment);
+  outline: none;
+}
+
 .user-dropdown .logout:hover,
 .user-dropdown .logout:focus-visible {
   border-color: color-mix(in srgb, var(--theme-danger) 34%, transparent);
@@ -649,7 +891,8 @@
   color: var(--ink);
   background: var(--brass);
 }
-:host-context(body[data-theme='light']) .user-menu {
+:host-context(body[data-theme='light']) .user-menu,
+:host-context(body[data-theme='light']) .theme-toggle {
   background: color-mix(in srgb, var(--theme-surface) 92%, transparent);
 }
 
@@ -681,8 +924,6 @@
     --brand-logo-mark-size: 31px;
     --brand-logo-name-size: 21px;
     --brand-logo-descriptor-size: 7px;
-    --brand-logo-life-padding: 1px 5px;
-    --brand-logo-life-size: 9px;
     justify-content: center;
     overflow: hidden;
   }
@@ -700,7 +941,20 @@
   }
 
   .topbar-right {
+    display: flex;
+    justify-self: end;
+    max-width: none;
+    gap: 0;
+  }
+
+  .user-menu,
+  .user-dropdown {
     display: none;
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
   }
 
   .theme-selector {

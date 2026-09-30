@@ -23,6 +23,7 @@ export const apiEndpoints = {
     sendEmail: 'ReportShare/sendEmail',
     pdf: 'ReportShare/pdf',
   },
+  billing: 'billing',
   gochar: {
     root: 'gochar',
     currentLifeFocus: 'gochar/current-life-focus',

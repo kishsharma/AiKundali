@@ -19,5 +19,11 @@ namespace KundaliEngine.API.DTOs.User
         public DateTimeOffset? PlanExpiresAt { get; set; }
 
         public bool IsPremium { get; set; }
+
+        public bool IsPaid { get; set; }
+
+        public bool IsPlus { get; set; }
+
+        public int MatchSaveLimit { get; set; }
     }
 }

@@ -53,13 +53,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
   border: 1px solid var(--line);
   color: var(--brass);
   background: var(--ink);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .panchang-content {
@@ -68,31 +68,45 @@
   flex-wrap: wrap;
   gap: 0 4px;
   min-width: 0;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-.panchang-content span {
+.panchang-content span:not(.pada-letter) {
   color: var(--brass-soft);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.panchang-content span::after {
+.panchang-content span:not(.pada-letter)::after {
   content: ":";
 }
 
 .panchang-content strong {
   overflow: hidden;
   color: var(--parchment);
-  font-size: 13.5px;
-  font-weight: 650;
-  line-height: 1.25;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nakshatra-item .panchang-content strong {
+  overflow: visible;
+  padding-right: 3px;
+  text-overflow: unset;
+}
+
+.pada-letter {
+  margin-left: 0.22em;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 @media (max-width: 992px) {
@@ -134,10 +148,10 @@
   }
 
   .panchang-icon {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    font-size: 10px;
   }
 
   .panchang-content {
@@ -145,13 +159,13 @@
   }
 
   .panchang-content span {
-    font-size: 9.5px;
+    font-size: 9px;
     line-height: 1.15;
   }
 
   .panchang-content strong {
     max-width: 100%;
-    font-size: 12px;
+    font-size: 11.5px;
     line-height: 1.2;
   }
 }

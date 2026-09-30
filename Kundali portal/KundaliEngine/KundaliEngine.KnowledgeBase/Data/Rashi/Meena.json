@@ -57,5 +57,16 @@
       "padas": [ 1, 2, 3, 4 ]
     }
   ],
-  "description": "Meena is the twelfth and final sign of the zodiac, representing compassion, spirituality, intuition, liberation, and universal consciousness. Ruled by Jupiter, it symbolizes wisdom, selfless service, imagination, inner peace, and the culmination of the soul's journey through the zodiac."
+  "description": "Meena is the twelfth and final sign of the zodiac, representing compassion, spirituality, intuition, liberation, and universal consciousness. Ruled by Jupiter, it symbolizes wisdom, selfless service, imagination, inner peace, and the culmination of the soul's journey through the zodiac.",
+  "ghatChakra": {
+    "month": "phalguna",
+    "tithi": "purna",
+    "tithiNumbers": "5, 10, 15",
+    "weekday": "friday",
+    "nakshatra": "Ashlesha",
+    "yoga": "vajra",
+    "karana": "chatushpada",
+    "moonMale": "Aquarius",
+    "moonFemale": "Aquarius"
+  }
 }

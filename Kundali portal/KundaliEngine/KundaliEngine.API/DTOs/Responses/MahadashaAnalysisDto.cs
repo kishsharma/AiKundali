@@ -21,6 +21,34 @@ namespace KundaliEngine.API.DTOs.Responses
         public TransitImpactDto TransitImpact { get; set; } = new();
         public RemediesDto Remedies { get; set; } = new();
         public UpcomingDashaDto UpcomingDasha { get; set; } = new();
+        public List<DashaPlanetReadingDto> PlanetReadings { get; set; } = new();
+        public List<DashaGocharPlanetDto> Gochar { get; set; } = new();
+    }
+
+    public class DashaGocharPlanetDto
+    {
+        public string Planet { get; set; } = string.Empty;
+        public string Sign { get; set; } = string.Empty;
+        public int HouseFromLagna { get; set; }
+        public int HouseFromMoon { get; set; }
+        public List<int> AspectedHouses { get; set; } = new();
+    }
+
+    public class DashaPlanetReadingDto
+    {
+        public string Planet { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public int House { get; set; }
+        public DashaLevelStrengthDto Strength { get; set; } = new();
+        public List<DashaPeriodFactDto> Facts { get; set; } = new();
+    }
+
+    public class DashaPeriodFactDto
+    {
+        public string Planet { get; set; } = string.Empty;
+        public string Tone { get; set; } = "Neutral";
+        public string Text { get; set; } = string.Empty;
+        public int Score { get; set; }
     }
 
     public class BirthChartSummaryDto
@@ -125,6 +153,7 @@ namespace KundaliEngine.API.DTOs.Responses
         public int Rating { get; set; }
         public string Status { get; set; } = string.Empty;
         public string Icon { get; set; } = string.Empty;
+        public string Fact { get; set; } = string.Empty;
     }
 
     public class DashaStrengthDto

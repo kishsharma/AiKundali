@@ -42,11 +42,11 @@
 .brand-logo__name {
   display: inline-flex;
   align-items: baseline;
-  gap: 7px;
+  gap: 3px;
   color: var(--brand-logo-name-color, var(--theme-text, currentColor));
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: "Cormorant Garamond", Georgia, serif;
   font-size: var(--brand-logo-name-size, 24px);
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: 0.015em;
   white-space: nowrap;
 }
@@ -69,8 +69,9 @@
 
 .brand-logo__copy small {
   color: var(--brand-logo-descriptor-color, var(--theme-text-muted, currentColor));
+  font-family: "IBM Plex Mono", monospace;
   font-size: var(--brand-logo-descriptor-size, 9px);
-  font-weight: 700;
+  font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;

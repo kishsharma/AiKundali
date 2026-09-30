@@ -1,11 +1,13 @@
 using KundaliEngine.API.DTOs.Learning;
 using KundaliEngine.API.DTOs.Responses;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Learning;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Dasha;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Domain.Enums;
+using KundaliEngine.Domain.Subscriptions;
 using KundaliEngine.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,19 +25,22 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
     private readonly PanchangService _panchangService;
     private readonly DashaService _dashaService;
     private readonly ILearningContentService _learningContentService;
+    private readonly IEntitlementService _entitlementService;
 
     public DashboardSummaryService(
         KundaliDbContext dbContext,
         ChartService chartService,
         PanchangService panchangService,
         DashaService dashaService,
-        ILearningContentService learningContentService)
+        ILearningContentService learningContentService,
+        IEntitlementService entitlementService)
     {
         _dbContext = dbContext;
         _chartService = chartService;
         _panchangService = panchangService;
         _dashaService = dashaService;
         _learningContentService = learningContentService;
+        _entitlementService = entitlementService;
     }
 
     public async Task<DashboardSummaryDto?> GetSummaryAsync(Guid userId, CancellationToken cancellationToken)
@@ -68,6 +73,7 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
 
         var learningLevels = await _learningContentService.GetLevelsAsync(cancellationToken);
         var panchang = BuildTodayPanchang(latestKundali);
+        var usage = await BuildUsageStatsAsync(user, kundalis.Count, savedCompatibilityCount, cancellationToken);
 
         return new DashboardSummaryDto
         {
@@ -79,22 +85,68 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
                 Role = user.Role
             },
             TodayPanchang = panchang,
-            CollectionStats = new DashboardCollectionStatsDto
-            {
-                SavedKundalis = kundalis.Count,
-                SavedMatches = savedCompatibilityCount,
-                SavedMuhurthas = 0,
-                Reports = reports.Count,
-                StudyLevels = learningLevels.Count
-            },
+            CollectionStats = usage,
             LatestKundali = latestKundali is null ? null : MapSavedKundali(latestKundali),
             CurrentDasha = latestKundali is null ? null : BuildCurrentDasha(latestKundali),
             LearningSummary = learningLevels.FirstOrDefault(),
             LearningLevels = learningLevels,
             RecentReport = reports.FirstOrDefault() is { } recentReport ? MapRecentReport(recentReport) : null,
-            UpcomingMuhurthas = BuildUpcomingMuhurthas(),
+            UpcomingMuhurthas = Array.Empty<DashboardMuhurthaPreviewDto>(),
             DailyInsights = BuildDailyInsights(panchang, learningLevels.FirstOrDefault())
         };
+    }
+
+    private async Task<DashboardCollectionStatsDto> BuildUsageStatsAsync(
+        User user,
+        int savedKundalis,
+        int savedMatches,
+        CancellationToken cancellationToken)
+    {
+        var planCode = _entitlementService.GetEffectivePlanCode(user);
+        var emailIncluded = PlanCodes.IsPaid(planCode);
+        var kundaliSaveLimit = Math.Max(0, user.KundaliSaveLimit);
+        var matchSaveLimit = Math.Max(0, _entitlementService.GetMatchSaveLimit(user));
+        var dayStartUtc = IndiaDayStartUtc();
+
+        var pdfGenerated = await _dbContext.AuditLogs.CountAsync(log =>
+            log.UserId == user.Id
+            && log.Action == "PdfExported"
+            && log.Status == "Success", cancellationToken);
+        var pdfUsedToday = await _dbContext.AuditLogs.CountAsync(log =>
+            log.UserId == user.Id
+            && log.Action == "PdfExported"
+            && log.Status == "Success"
+            && log.CreatedAt >= dayStartUtc, cancellationToken);
+        var emailsSent = await _dbContext.CommunicationLogs.CountAsync(log =>
+            log.TriggeredByUserId == user.Id
+            && log.Channel == "Email"
+            && log.Status == "Sent", cancellationToken);
+
+        int? pdfDailyLimit = emailIncluded ? null : 1;
+        int? pdfLeftToday = pdfDailyLimit is null ? null : Math.Max(0, pdfDailyLimit.Value - pdfUsedToday);
+
+        return new DashboardCollectionStatsDto
+        {
+            PlanCode = planCode,
+            SavedKundalis = savedKundalis,
+            KundaliSaveLimit = kundaliSaveLimit,
+            KundaliSavesLeft = Math.Max(0, kundaliSaveLimit - savedKundalis),
+            SavedMatches = savedMatches,
+            MatchSaveLimit = matchSaveLimit,
+            MatchSavesLeft = Math.Max(0, matchSaveLimit - savedMatches),
+            PdfGenerated = pdfGenerated,
+            PdfUsedToday = pdfUsedToday,
+            PdfDailyLimit = pdfDailyLimit,
+            PdfLeftToday = pdfLeftToday,
+            EmailsSent = emailsSent,
+            EmailIncluded = emailIncluded
+        };
+    }
+
+    private static DateTime IndiaDayStartUtc()
+    {
+        var indiaNow = DateTime.UtcNow.AddHours(5.5);
+        return DateTime.SpecifyKind(indiaNow.Date.AddHours(-5.5), DateTimeKind.Utc);
     }
 
     private DashboardPanchangDto BuildTodayPanchang(Kundali? latestKundali)
@@ -187,17 +239,6 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
             ReportStatus = report.ReportStatus,
             KundaliName = report.Kundali?.FullName ?? string.Empty,
             CreatedAt = report.CreatedAt
-        };
-    }
-
-    private static IReadOnlyList<DashboardMuhurthaPreviewDto> BuildUpcomingMuhurthas()
-    {
-        var today = DateTime.Today;
-        return new List<DashboardMuhurthaPreviewDto>
-        {
-            new() { Date = today.AddDays(6), Title = "Griha Pravesh", TimeWindow = "Morning window", Quality = "Excellent" },
-            new() { Date = today.AddDays(13), Title = "Vehicle Purchase", TimeWindow = "Late morning", Quality = "Good" },
-            new() { Date = today.AddDays(17), Title = "Annaprashan", TimeWindow = "Before noon", Quality = "Good" }
         };
     }
 

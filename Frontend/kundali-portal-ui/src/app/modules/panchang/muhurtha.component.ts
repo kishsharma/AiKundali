@@ -8,10 +8,15 @@ import { SectionCardComponent } from '../../shared/components/section-card.compo
 import { FindMuhurthaRequest, MuhurthaApiService, MuhurthaRecommendation, MuhurthaResponse, MuhurthaRuleResult } from '../../core/services/muhurtha-api.service';
 import { LocationService } from '../../core/services/location.service';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
+import { AuthService } from '../../core/auth/auth.service';
+import { isPaidUser } from '../../core/auth/plan.util';
+import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 import { PortalWheelPickerComponent } from '../../shared/components/portal-wheel-picker.component';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { RouterLink } from '@angular/router';
 
 interface Option {
-  label: string;
+  labelKey: string;
   value: number;
 }
 
@@ -34,82 +39,85 @@ interface PanchangDayGroup {
 @Component({
   selector: 'app-muhurtha',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent, PortalWheelPickerComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent, PortalWheelPickerComponent, TranslocoPipe, RouterLink],
   template: `
     <app-page-header
-      title="Muhurtha"
-      subtitle="Auspicious timing finder"
+      [title]="'muhurtha.title' | transloco"
+      [subtitle]="'muhurtha.subtitle' | transloco"
       [showActions]="true">
-      <button page-actions type="button" class="notes-page-action" (click)="openNotes()" aria-label="Open Muhurtha notes" title="Notes">
+      <button page-actions type="button" class="notes-page-action" (click)="openNotes()" [attr.title]="isPremiumUser ? ('reportAction.notes' | transloco) : ('reportAction.notesPremium' | transloco)" [attr.aria-label]="isPremiumUser ? ('reportAction.openMuhurthaNotes' | transloco) : ('reportAction.notesPremium' | transloco)">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>
-        <span>Notes</span>
+        <span>{{ 'reportAction.notes' | transloco }}</span>
+        <svg *ngIf="!isPremiumUser" class="notes-lock" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="10" width="12" height="10" rx="2"></rect><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path></svg>
       </button>
     </app-page-header>
 
     <app-portal-notes
+      *ngIf="isPremiumUser"
       [open]="isNotesOpen"
       [allowPageSave]="true"
       (closed)="closeNotes()"
       contextType="Muhurtha"
-      title="Muhurtha Notes"
-      subtitle="Private notes saved for the Muhurtha page.">
+      [title]="'muhurtha.notesTitle' | transloco"
+      [subtitle]="'muhurtha.notesSubtitle' | transloco">
     </app-portal-notes>
 
     <div class="muhurtha-shell">
-      <app-section-card title="Search Criteria" [interactive]="false">
+      <app-section-card [title]="'muhurtha.searchCriteria' | transloco" [interactive]="false">
         <form class="muhurtha-form" [formGroup]="form" (ngSubmit)="findMuhurtha()">
           <div class="input-strip">
-            <label><span>Event</span><select formControlName="eventType"><option *ngFor="let event of eventTypes" [ngValue]="event.value">{{ event.label }}</option></select></label>
-            <label><span>Regional Profile</span><select formControlName="regionalProfile"><option *ngFor="let profile of regionalProfiles" [ngValue]="profile.value">{{ profile.label }}</option></select></label>
-            <label><span>From Date</span><app-portal-wheel-picker mode="date" label="From Date" placeholder="Select start date" formControlName="requestedStart"></app-portal-wheel-picker></label>
-            <label><span>To Date</span><app-portal-wheel-picker mode="date" label="To Date" placeholder="Select end date" formControlName="requestedEnd"></app-portal-wheel-picker></label>
-            <label><span>Daily Start</span><app-portal-wheel-picker mode="time" label="Daily Start" placeholder="Select daily start" formControlName="dailyStartTime"></app-portal-wheel-picker></label>
-            <label><span>Daily End</span><app-portal-wheel-picker mode="time" label="Daily End" placeholder="Select daily end" formControlName="dailyEndTime"></app-portal-wheel-picker></label>
-            <label class="location-field"><span>Place</span><input type="text" formControlName="locationName" autocomplete="off" />
+            <label><span>{{ 'muhurtha.event' | transloco }}</span><select formControlName="eventType"><option *ngFor="let event of eventTypes" [ngValue]="event.value">{{ event.labelKey | transloco }}</option></select></label>
+            <a *ngIf="form.controls.eventType.value === 2" class="graha-pravesha-link" routerLink="/app/panchang/muhurtha/graha-pravesha">{{ 'muhurtha.grahaPravesha.link' | transloco }}</a>
+            <label><span>{{ 'muhurtha.regionalProfile' | transloco }}</span><select formControlName="regionalProfile"><option *ngFor="let profile of regionalProfiles" [ngValue]="profile.value">{{ profile.labelKey | transloco }}</option></select></label>
+            <label><span>{{ 'muhurtha.fromDate' | transloco }}</span><app-portal-wheel-picker mode="date" [label]="'muhurtha.fromDate' | transloco" [placeholder]="'muhurtha.selectStartDate' | transloco" formControlName="requestedStart"></app-portal-wheel-picker></label>
+            <label><span>{{ 'muhurtha.toDate' | transloco }}</span><app-portal-wheel-picker mode="date" [label]="'muhurtha.toDate' | transloco" [placeholder]="'muhurtha.selectEndDate' | transloco" formControlName="requestedEnd"></app-portal-wheel-picker></label>
+            <label><span>{{ 'muhurtha.dailyStart' | transloco }}</span><app-portal-wheel-picker mode="time" [label]="'muhurtha.dailyStart' | transloco" [placeholder]="'muhurtha.selectDailyStart' | transloco" formControlName="dailyStartTime"></app-portal-wheel-picker></label>
+            <label><span>{{ 'muhurtha.dailyEnd' | transloco }}</span><app-portal-wheel-picker mode="time" [label]="'muhurtha.dailyEnd' | transloco" [placeholder]="'muhurtha.selectDailyEnd' | transloco" formControlName="dailyEndTime"></app-portal-wheel-picker></label>
+            <label class="location-field"><span>{{ 'muhurtha.place' | transloco }}</span><input type="text" formControlName="locationName" autocomplete="off" />
               <div class="location-dropdown" *ngIf="locationResults.length">
                 <button type="button" class="location-item" *ngFor="let place of locationResults" (click)="selectLocation(place)">{{ place.displayName }}</button>
               </div>
             </label>
-            <label class="location-field"><span>Timezone</span><input type="text" formControlName="timezone" autocomplete="off" (focus)="showTimezoneOptions(false)" />
+            <label class="location-field"><span>{{ 'muhurtha.timezone' | transloco }}</span><input type="text" formControlName="timezone" autocomplete="off" (focus)="showTimezoneOptions(false)" />
               <div class="location-dropdown compact" *ngIf="timezoneResults.length">
                 <button type="button" class="location-item" *ngFor="let timezone of timezoneResults" (click)="selectTimezone(timezone)">{{ timezone }}</button>
               </div>
             </label>
-            <label><span>Latitude</span><input type="number" step="0.000001" formControlName="latitude" /></label>
-            <label><span>Longitude</span><input type="number" step="0.000001" formControlName="longitude" /></label>
+            <label><span>{{ 'muhurtha.latitude' | transloco }}</span><input type="number" step="0.000001" formControlName="latitude" /></label>
+            <label><span>{{ 'muhurtha.longitude' | transloco }}</span><input type="number" step="0.000001" formControlName="longitude" /></label>
           </div>
 
           <div class="criteria-toolbar">
             <div class="toolbar-filters">
-              <label class="check-row"><input type="checkbox" formControlName="avoidRahuKalam" /><span>Avoid Rahu Kalam</span></label>
-              <label class="check-row"><input type="checkbox" formControlName="avoidBhadra" /><span>Avoid Bhadra</span></label>
-              <label class="check-row"><input type="checkbox" formControlName="preferGoodChoghadiya" /><span>Good Choghadiya</span></label>
-              <label class="check-row"><input type="checkbox" formControlName="checkMuhurthaLagna" /><span>Lagna</span></label>
-              <label class="check-row strong"><input type="checkbox" formControlName="checkPersonalHoroscope" /><span>Personalized</span></label>
+              <label class="check-row"><input type="checkbox" formControlName="avoidRahuKalam" /><span>{{ 'muhurtha.avoidRahu' | transloco }}</span></label>
+              <label class="check-row"><input type="checkbox" formControlName="avoidBhadra" /><span>{{ 'muhurtha.avoidBhadra' | transloco }}</span></label>
+              <label class="check-row"><input type="checkbox" formControlName="preferGoodChoghadiya" /><span>{{ 'muhurtha.goodChoghadiya' | transloco }}</span></label>
+              <label class="check-row"><input type="checkbox" formControlName="checkMuhurthaLagna" /><span>{{ 'muhurtha.lagna' | transloco }}</span></label>
+              <label class="check-row strong"><input type="checkbox" formControlName="checkPersonalHoroscope" /><span>{{ 'muhurtha.personalized' | transloco }}</span></label>
             </div>
             <div class="range-buttons">
-              <button type="button" (click)="setQuickRange(8)">Next 8 days</button>
-              <button type="button" (click)="setQuickRange(15)">15 days</button>
-              <button type="button" (click)="setQuickRange(30)">30 days</button>
+              <button type="button" (click)="setQuickRange(8)">{{ 'muhurtha.next8' | transloco }}</button>
+              <button type="button" (click)="setQuickRange(15)">{{ 'muhurtha.days15' | transloco }}</button>
+              <button type="button" (click)="setQuickRange(30)">{{ 'muhurtha.days30' | transloco }}</button>
             </div>
             <div class="actions">
-              <button type="submit" [disabled]="loading() || form.invalid">{{ loading() ? 'Finding...' : 'Find Muhurtha' }}</button>
-              <span class="hint" *ngIf="form.invalid">Complete required fields.</span>
+              <button type="submit" [disabled]="loading() || form.invalid">{{ loading() ? ('muhurtha.finding' | transloco) : ('muhurtha.find' | transloco) }}</button>
+              <span class="hint" *ngIf="form.invalid">{{ 'muhurtha.completeFields' | transloco }}</span>
             </div>
           </div>
 
           <div class="personal-fields" *ngIf="isPersonalized()">
-            <label><span>Name</span><input type="text" formControlName="personName" /></label>
-            <label><span>Birth Date</span><app-portal-wheel-picker mode="date" label="Birth Date" placeholder="Select birth date" formControlName="birthDate"></app-portal-wheel-picker></label>
-            <label><span>Birth Time</span><app-portal-wheel-picker mode="time" label="Birth Time" placeholder="Select birth time" formControlName="birthTime"></app-portal-wheel-picker></label>
-            <label class="location-field"><span>Birth Place</span><input type="text" formControlName="birthPlace" autocomplete="off" />
+            <label><span>{{ 'muhurtha.name' | transloco }}</span><input type="text" formControlName="personName" /></label>
+            <label><span>{{ 'muhurtha.birthDate' | transloco }}</span><app-portal-wheel-picker mode="date" [label]="'muhurtha.birthDate' | transloco" [placeholder]="'muhurtha.selectBirthDate' | transloco" formControlName="birthDate"></app-portal-wheel-picker></label>
+            <label><span>{{ 'muhurtha.birthTime' | transloco }}</span><app-portal-wheel-picker mode="time" [label]="'muhurtha.birthTime' | transloco" [placeholder]="'muhurtha.selectBirthTime' | transloco" formControlName="birthTime"></app-portal-wheel-picker></label>
+            <label class="location-field"><span>{{ 'muhurtha.birthPlace' | transloco }}</span><input type="text" formControlName="birthPlace" autocomplete="off" />
               <div class="location-dropdown" *ngIf="birthLocationResults.length">
                 <button type="button" class="location-item" *ngFor="let place of birthLocationResults" (click)="selectBirthLocation(place)">{{ place.displayName }}</button>
               </div>
             </label>
-            <label><span>Birth Latitude</span><input type="number" step="0.000001" formControlName="birthLatitude" /></label>
-            <label><span>Birth Longitude</span><input type="number" step="0.000001" formControlName="birthLongitude" /></label>
-            <label class="location-field"><span>Birth Timezone</span><input type="text" formControlName="birthTimezone" autocomplete="off" (focus)="showTimezoneOptions(true)" />
+            <label><span>{{ 'muhurtha.birthLatitude' | transloco }}</span><input type="number" step="0.000001" formControlName="birthLatitude" /></label>
+            <label><span>{{ 'muhurtha.birthLongitude' | transloco }}</span><input type="number" step="0.000001" formControlName="birthLongitude" /></label>
+            <label class="location-field"><span>{{ 'muhurtha.birthTimezone' | transloco }}</span><input type="text" formControlName="birthTimezone" autocomplete="off" (focus)="showTimezoneOptions(true)" />
               <div class="location-dropdown compact" *ngIf="birthTimezoneResults.length">
                 <button type="button" class="location-item" *ngFor="let timezone of birthTimezoneResults" (click)="selectBirthTimezone(timezone)">{{ timezone }}</button>
               </div>
@@ -118,36 +126,36 @@ interface PanchangDayGroup {
         </form>
       </app-section-card>
 
-      <app-section-card title="Recommendations" [interactive]="false">
+      <app-section-card [title]="'muhurtha.recommendations' | transloco" [interactive]="false">
         <div class="state error" *ngIf="errorMessage()">{{ errorMessage() }}</div>
-        <div class="state" *ngIf="!loading() && !errorMessage() && !response()">Select event, dates, and location to find Muhurtha windows.</div>
-        <div class="state" *ngIf="loading()">Calculating Panchanga and Muhurtha rules...</div>
+        <div class="state" *ngIf="!loading() && !errorMessage() && !response()">{{ 'muhurtha.emptyPrompt' | transloco }}</div>
+        <div class="state" *ngIf="loading()">{{ 'muhurtha.calculating' | transloco }}</div>
 
         <ng-container *ngIf="response() as result">
           <div class="response-toolbar" [formGroup]="form">
             <div class="response-summary">
-              <span>{{ visibleSlots().length }} visible of {{ result.recommendedSlots.length }} slots</span>
-              <span *ngIf="result.usedPersonalHoroscope">Personalized checks applied</span>
-              <span *ngIf="!result.usedPersonalHoroscope">Generic Muhurtha mode</span>
+              <span>{{ 'muhurtha.visibleSlots' | transloco: { visible: visibleSlots().length, total: result.recommendedSlots.length } }}</span>
+              <span *ngIf="result.usedPersonalHoroscope">{{ 'muhurtha.personalizedApplied' | transloco }}</span>
+              <span *ngIf="!result.usedPersonalHoroscope">{{ 'muhurtha.genericMode' | transloco }}</span>
               <span class="year-context" *ngIf="hinduYearLabel() as yearLabel">{{ yearLabel }}</span>
             </div>
             <div class="result-controls" *ngIf="hasResultSlots()">
               <div class="view-toggle">
-                <button type="button" [class.active]="isCardView()" (click)="setResultView('card')">Card</button>
-                <button type="button" [class.active]="isTableView()" (click)="setResultView('table')">Table</button>
-                <button type="button" [class.active]="isPanchangView()" (click)="setResultView('panchang')">Panchang</button>
+                <button type="button" [class.active]="isCardView()" (click)="setResultView('card')">{{ 'muhurtha.card' | transloco }}</button>
+                <button type="button" [class.active]="isTableView()" (click)="setResultView('table')">{{ 'muhurtha.table' | transloco }}</button>
+                <button type="button" [class.active]="isPanchangView()" (click)="setResultView('panchang')">{{ 'muhurtha.panchang' | transloco }}</button>
               </div>
               <div class="quality-filter">
-                <button type="button" class="quality-pill all" [class.active]="isQualityFilter('all')" (click)="setQualityFilter('all')"><i></i>All</button>
-                <button type="button" class="quality-pill favourable" [class.active]="isQualityFilter('favourable')" (click)="setQualityFilter('favourable')"><i></i>Favourable</button>
-                <button type="button" class="quality-pill acceptable" [class.active]="isQualityFilter('acceptable')" (click)="setQualityFilter('acceptable')"><i></i>Acceptable</button>
-                <button type="button" class="quality-pill weak" [class.active]="isQualityFilter('weak')" (click)="setQualityFilter('weak')"><i></i>Weak</button>
+                <button type="button" class="quality-pill all" [class.active]="isQualityFilter('all')" (click)="setQualityFilter('all')"><i></i>{{ 'muhurtha.all' | transloco }}</button>
+                <button type="button" class="quality-pill favourable" [class.active]="isQualityFilter('favourable')" (click)="setQualityFilter('favourable')"><i></i>{{ 'muhurtha.favourable' | transloco }}</button>
+                <button type="button" class="quality-pill acceptable" [class.active]="isQualityFilter('acceptable')" (click)="setQualityFilter('acceptable')"><i></i>{{ 'muhurtha.acceptable' | transloco }}</button>
+                <button type="button" class="quality-pill weak" [class.active]="isQualityFilter('weak')" (click)="setQualityFilter('weak')"><i></i>{{ 'muhurtha.weak' | transloco }}</button>
               </div>
-              <label class="sort-field"><span>Sort</span><select formControlName="resultSort"><option value="score">Score based</option><option value="time">Time based</option></select></label>
+              <label class="sort-field"><span>{{ 'muhurtha.sort' | transloco }}</span><select formControlName="resultSort"><option value="score">{{ 'muhurtha.sortScore' | transloco }}</option><option value="time">{{ 'muhurtha.sortTime' | transloco }}</option></select></label>
             </div>
           </div>
 
-          <div class="unsupported" *ngIf="result.unsupportedCalculations.length"><strong>Not yet included:</strong> {{ result.unsupportedCalculations.join(', ') }}</div>
+          <div class="unsupported" *ngIf="result.unsupportedCalculations.length"><strong>{{ 'muhurtha.notIncluded' | transloco }}</strong> {{ result.unsupportedCalculations.join(', ') }}</div>
 
           <ng-container *ngIf="visibleSlots().length; else emptyResults">
             <div class="panchang-view" *ngIf="isPanchangView(); else standardResults">
@@ -163,8 +171,8 @@ interface PanchangDayGroup {
                     <span>{{ group.hinduLabel }}</span>
                   </div>
                   <div class="panchang-day-meta">
-                    <span>{{ group.slots.length }} slots</span>
-                    <span>Best {{ group.bestScore }}</span>
+                    <span>{{ 'muhurtha.slots' | transloco: { count: group.slots.length } }}</span>
+                    <span>{{ 'muhurtha.best' | transloco: { score: group.bestScore } }}</span>
                   </div>
                 </header>
 
@@ -184,14 +192,14 @@ interface PanchangDayGroup {
                     </div>
                     <div class="panchang-slot-main">
                       <span>{{ muhurthaCategory(slot) }}</span>
-                      <small><b>Lagna:</b> {{ timingName(slot, 'lagna') }} <b>Chandra:</b> {{ timingName(slot, 'chandraRashi') }}</small>
+                      <small><b>{{ 'muhurtha.lagna' | transloco }}:</b> {{ timingName(slot, 'lagna') }} <b>{{ 'muhurtha.chandraRashi' | transloco }}:</b> {{ timingName(slot, 'chandraRashi') }}</small>
                     </div>
                     <div class="slot-rule-actions">
                       <span class="panchang-slot-score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }} {{ verdictLabel(slot.verdict) }}</span>
                       <div class="rule-info-wrap">
-                        <button type="button" class="rule-info-btn" title="Rules used" (click)="toggleRuleInfo(slot)">i</button>
+                        <button type="button" class="rule-info-btn" [title]="'muhurtha.rulesUsed' | transloco" (click)="toggleRuleInfo(slot)">i</button>
                         <div class="rule-info-popover" *ngIf="isRuleInfoOpen(slot)">
-                          <strong>Rules used</strong>
+                          <strong>{{ 'muhurtha.rulesUsed' | transloco }}</strong>
                           <ul><li *ngFor="let item of ruleInfoItems(slot)">{{ item }}</li></ul>
                         </div>
                       </div>
@@ -211,17 +219,17 @@ interface PanchangDayGroup {
                   <table>
                     <thead>
                       <tr>
-                        <th>Time</th>
-                        <th>Tithi</th>
-                        <th>Var</th>
-                        <th>Nakshatra</th>
-                        <th>Karana</th>
-                        <th>Yoga</th>
-                        <th>Chandra Rashi</th>
-                        <th>Lagna</th>
-                        <th>Category</th>
-                        <th>Score</th>
-                        <th>Rules</th>
+                        <th>{{ 'muhurtha.time' | transloco }}</th>
+                        <th>{{ 'muhurtha.tithi' | transloco }}</th>
+                        <th>{{ 'muhurtha.var' | transloco }}</th>
+                        <th>{{ 'muhurtha.nakshatra' | transloco }}</th>
+                        <th>{{ 'muhurtha.karana' | transloco }}</th>
+                        <th>{{ 'muhurtha.yoga' | transloco }}</th>
+                        <th>{{ 'muhurtha.chandraRashi' | transloco }}</th>
+                        <th>{{ 'muhurtha.lagna' | transloco }}</th>
+                        <th>{{ 'muhurtha.category' | transloco }}</th>
+                        <th>{{ 'muhurtha.score' | transloco }}</th>
+                        <th>{{ 'muhurtha.rules' | transloco }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -238,9 +246,9 @@ interface PanchangDayGroup {
                         <td><span class="table-score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }}</span></td>
                         <td>
                           <div class="rule-info-wrap table-rule-info">
-                            <button type="button" class="rule-info-btn" title="Rules used" (click)="toggleRuleInfo(slot)">i</button>
+                            <button type="button" class="rule-info-btn" [title]="'muhurtha.rulesUsed' | transloco" (click)="toggleRuleInfo(slot)">i</button>
                             <div class="rule-info-popover" *ngIf="isRuleInfoOpen(slot)">
-                              <strong>Rules used</strong>
+                              <strong>{{ 'muhurtha.rulesUsed' | transloco }}</strong>
                               <ul><li *ngFor="let item of ruleInfoItems(slot)">{{ item }}</li></ul>
                             </div>
                           </div>
@@ -259,9 +267,9 @@ interface PanchangDayGroup {
                       <div class="card-actions">
                         <div class="score" [ngClass]="scoreClass(slot)" [title]="scoreTooltip(slot)">{{ slot.score }}<small>{{ verdictLabel(slot.verdict) }}</small></div>
                         <div class="rule-info-wrap">
-                          <button type="button" class="rule-info-btn" title="Rules used" (click)="toggleRuleInfo(slot)">i</button>
+                          <button type="button" class="rule-info-btn" [title]="'muhurtha.rulesUsed' | transloco" (click)="toggleRuleInfo(slot)">i</button>
                           <div class="rule-info-popover" *ngIf="isRuleInfoOpen(slot)">
-                            <strong>Rules used</strong>
+                            <strong>{{ 'muhurtha.rulesUsed' | transloco }}</strong>
                             <ul><li *ngFor="let item of ruleInfoItems(slot)">{{ item }}</li></ul>
                           </div>
                         </div>
@@ -269,15 +277,15 @@ interface PanchangDayGroup {
                     </div>
 
                     <div class="notes" *ngIf="slot.strengths.length || slot.warnings.length">
-                      <div *ngIf="slot.strengths.length"><b>Strengths</b><p [class.tithi-note-highlight]="isHighlightedTithi(slot)">{{ slot.strengths.slice(0, 3).join('; ') }}</p></div>
-                      <div *ngIf="slot.warnings.length"><b>Warnings</b><p>{{ slot.warnings.slice(0, 3).join('; ') }}</p></div>
+                      <div *ngIf="slot.strengths.length"><b>{{ 'muhurtha.strengths' | transloco }}</b><p [class.tithi-note-highlight]="isHighlightedTithi(slot)">{{ slot.strengths.slice(0, 3).join('; ') }}</p></div>
+                      <div *ngIf="slot.warnings.length"><b>{{ 'muhurtha.warnings' | transloco }}</b><p>{{ slot.warnings.slice(0, 3).join('; ') }}</p></div>
                     </div>
                   </article>
                 </div>
               </ng-template>
             </ng-template>
           </ng-container>
-          <ng-template #emptyResults><div class="state">No slots match the current UI filters.</div></ng-template>
+          <ng-template #emptyResults><div class="state">{{ 'muhurtha.noFilterMatch' | transloco }}</div></ng-template>
         </ng-container>
       </app-section-card>
     </div>
@@ -285,6 +293,8 @@ interface PanchangDayGroup {
   styles: [`
     .notes-page-action { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--theme-line); border-radius: var(--theme-radius-control); background: var(--theme-surface); color: var(--theme-text); font: inherit; font-size: 0.82rem; font-weight: 850; cursor: pointer; }
     .notes-page-action svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .notes-page-action .notes-lock { width: 0.85rem; height: 0.85rem; }
+    .graha-pravesha-link { align-self: end; color: var(--theme-accent, #8a5a12); font-weight: 700; text-decoration: none; }
     .muhurtha-shell { display: grid; gap: 1rem; align-items: start; }
     .muhurtha-form { display: grid; gap: 0.8rem; }
     .input-strip, .personal-fields { display: grid; grid-template-columns: repeat(5, minmax(135px, 1fr)); gap: 0.75rem; align-items: end; }
@@ -448,13 +458,27 @@ interface PanchangDayGroup {
 export class MuhurthaComponent implements OnInit {
   isNotesOpen = false;
 
-  openNotes(): void { this.isNotesOpen = true; }
-  closeNotes(): void { this.isNotesOpen = false; }
-
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private subscriptionModal = inject(SubscriptionModalService);
+
+  get isPremiumUser(): boolean {
+    return isPaidUser(this.authService.getCurrentUser());
+  }
+
+  openNotes(): void {
+    if (!this.isPremiumUser) {
+      this.subscriptionModal.open();
+      return;
+    }
+
+    this.isNotesOpen = true;
+  }
+  closeNotes(): void { this.isNotesOpen = false; }
   private muhurthaApi = inject(MuhurthaApiService);
   private locationService = inject(LocationService);
   private cdr = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
 
   loading = signal(false);
   errorMessage = signal('');
@@ -467,15 +491,15 @@ export class MuhurthaComponent implements OnInit {
   readonly timezoneOptions = this.buildTimezoneOptions();
 
   readonly eventTypes: Option[] = [
-    { label: 'Marriage', value: 0 }, { label: 'Engagement', value: 1 }, { label: 'Gruha Pravesha', value: 2 },
-    { label: 'Bhoomi Puja', value: 3 }, { label: 'Property Purchase', value: 4 }, { label: 'Business Opening', value: 5 },
-    { label: 'Job Joining', value: 6 }, { label: 'Vehicle Purchase', value: 7 }, { label: 'Travel', value: 8 },
-    { label: 'Education Start', value: 9 }, { label: 'Medical Procedure', value: 10 }, { label: 'Naming Ceremony', value: 11 },
-    { label: 'Annaprashana', value: 12 }, { label: 'Upanayana', value: 13 }, { label: 'General Auspicious Work', value: 14 },
+    { labelKey: 'muhurtha.event.marriage', value: 0 }, { labelKey: 'muhurtha.event.engagement', value: 1 }, { labelKey: 'muhurtha.event.gruhaPravesha', value: 2 },
+    { labelKey: 'muhurtha.event.bhoomiPuja', value: 3 }, { labelKey: 'muhurtha.event.propertyPurchase', value: 4 }, { labelKey: 'muhurtha.event.businessOpening', value: 5 },
+    { labelKey: 'muhurtha.event.jobJoining', value: 6 }, { labelKey: 'muhurtha.event.vehiclePurchase', value: 7 }, { labelKey: 'muhurtha.event.travel', value: 8 },
+    { labelKey: 'muhurtha.event.educationStart', value: 9 }, { labelKey: 'muhurtha.event.medical', value: 10 }, { labelKey: 'muhurtha.event.naming', value: 11 },
+    { labelKey: 'muhurtha.event.annaprashana', value: 12 }, { labelKey: 'muhurtha.event.upanayana', value: 13 }, { labelKey: 'muhurtha.event.general', value: 14 },
   ];
 
   readonly regionalProfiles: Option[] = [
-    { label: 'General', value: 0 }, { label: 'North India', value: 1 }, { label: 'South India', value: 2 },
+    { labelKey: 'muhurtha.profile.general', value: 0 }, { labelKey: 'muhurtha.profile.north', value: 1 }, { labelKey: 'muhurtha.profile.south', value: 2 },
   ];
 
   readonly form = this.fb.group({
@@ -557,13 +581,13 @@ export class MuhurthaComponent implements OnInit {
   findMuhurtha(): void {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     if (this.isPersonalized() && !this.hasCompletePersonalDetails()) {
-      this.errorMessage.set('Personalized recommendation needs birth date, birth time, birth place, latitude, and longitude.');
+      this.errorMessage.set(this.transloco.translate('muhurtha.personalRequired'));
       return;
     }
     this.loading.set(true); this.errorMessage.set(''); this.response.set(null);
     this.muhurthaApi.find(this.buildRequest()).subscribe({
       next: (response) => { this.response.set(response); this.loading.set(false); },
-      error: (error) => { this.errorMessage.set(error?.message || 'Unable to find Muhurtha recommendations.'); this.loading.set(false); },
+      error: (error) => { this.errorMessage.set(error?.message || this.transloco.translate('muhurtha.findFailed')); this.loading.set(false); },
     });
   }
 
@@ -964,7 +988,14 @@ export class MuhurthaComponent implements OnInit {
       return verdict.replace(/([a-z])([A-Z])/g, '$1 $2');
     }
 
-    return ['Excellent', 'Highly Favourable', 'Acceptable', 'Weak', 'Not Recommended', 'Blocked'][verdict] || 'Unknown';
+    return [
+      this.transloco.translate('muhurtha.verdict.excellent'),
+      this.transloco.translate('muhurtha.verdict.highlyFavourable'),
+      this.transloco.translate('muhurtha.verdict.acceptable'),
+      this.transloco.translate('muhurtha.verdict.weak'),
+      this.transloco.translate('muhurtha.verdict.notRecommended'),
+      this.transloco.translate('muhurtha.verdict.blocked')
+    ][verdict] || this.transloco.translate('muhurtha.verdict.unknown');
   }
   hasCompletePersonalDetails(): boolean {
     const value = this.form.getRawValue();

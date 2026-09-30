@@ -65,11 +65,45 @@
       </div>
     </div>
 
+    <div class="dhruva-chart-bar">
+      <button type="button" class="dhruva-chart-chip" (click)="toggleChartPicker()" [attr.aria-expanded]="chartPickerOpen">
+        <span class="dhruva-chart-chip-copy">
+          <span class="dhruva-chart-kicker">{{ (activePersonName ? 'dhruva.chart.reading' : 'dhruva.chart.choose') | transloco }}</span>
+          <strong>{{ activePersonName || ('dhruva.chart.none' | transloco) }}</strong>
+          <span class="dhruva-chart-meta" *ngIf="activeChartMeta">{{ activeChartMeta }}</span>
+        </span>
+        <span class="dhruva-chart-change">{{ (chartPickerOpen ? 'dhruva.chart.close' : 'dhruva.chart.change') | transloco }}</span>
+      </button>
+
+      <div class="dhruva-chart-picker" *ngIf="chartPickerOpen">
+        <p class="dhruva-chart-status" *ngIf="savedChartsLoading">{{ 'dhruva.chart.loading' | transloco }}</p>
+        <p class="dhruva-chart-status" *ngIf="savedChartsError">{{ savedChartsError }}</p>
+        <p class="dhruva-chart-status" *ngIf="!savedChartsLoading && !savedChartsError && !savedCharts.length">{{ 'dhruva.chart.empty' | transloco }}</p>
+        <button
+          type="button"
+          class="dhruva-chart-card"
+          *ngFor="let chart of savedCharts"
+          [class.active]="chart.id === activeChartId"
+          [disabled]="selectingChartId === chart.id"
+          (click)="selectSavedChart(chart)"
+        >
+          <strong>{{ chart.name }}</strong>
+          <span>{{ chart.dateLabel }}<ng-container *ngIf="chart.place"> · {{ chart.place }}</ng-container></span>
+        </button>
+      </div>
+    </div>
+
     <div class="dhruva-panel-content">
       <div class="dhruva-scroll-content">
         <div class="dhruva-chat-stack">
           <p class="dhruva-chat-message bot">{{ welcomeMessage }}</p>
           <p class="dhruva-chat-message user" *ngIf="latestQuestionText">{{ latestQuestionText }}</p>
+
+          <section class="dhruva-upgrade-block" *ngIf="upgradeBlock as block" role="status">
+            <p class="dhruva-upgrade-title">{{ block.title }}</p>
+            <p class="dhruva-upgrade-copy">{{ block.message }}</p>
+            <button type="button" class="dhruva-upgrade-action" (click)="openUpgrade()">Upgrade</button>
+          </section>
 
           <ng-container *ngIf="displayedAnswer as answer">
             <section
@@ -90,7 +124,7 @@
               </ng-container>
               <ng-template #janmaStoryContent>
                 <div class="dhruva-story-header">
-                  <span class="dhruva-story-kicker">Janma Story</span>
+                  <span class="dhruva-story-kicker">{{ chartReplyLead || 'Janma Story' }}</span>
                   <strong>{{ answer.title || 'Your Janma Story' }}</strong>
                 </div>
                 <div class="dhruva-story-lines">
@@ -104,6 +138,41 @@
             </section>
 
             <ng-template #standardDhruvaAnswer>
+              <ng-container *ngIf="answer.kind === 'narration'; else customOrTranslated">
+                <section
+                  class="dhruva-chat-message bot dhruva-custom-answer dhruva-narration"
+                  data-dhruva-response
+                  role="status"
+                  aria-live="polite"
+                  [attr.aria-busy]="answer.narration?.state === 'loading' || isTypingResponse"
+                >
+                  <div class="dhruva-custom-answer-head" *ngIf="narrationOutcomeLabel() as tone">
+                    <span class="dhruva-custom-kicker">Dhruva</span>
+                    <span class="dhruva-outcome-pill" [ngClass]="getOutcomeToneClass(tone)">{{ tone }}</span>
+                  </div>
+                  <div class="dhruva-custom-loading" *ngIf="answer.narration?.state === 'loading' || isTypingResponse">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <p class="dhruva-narration-error" *ngIf="answer.narration?.state === 'error'">
+                    {{ answer.narration?.errorMessage || 'Chart narration is unavailable right now.' }}
+                  </p>
+                  <p class="dhruva-narration-text dhruva-custom-summary" *ngIf="answer.narration?.state === 'ready' && !isTypingResponse">
+                    <ng-container *ngFor="let glyph of visibleNarrationGlyphs(); trackBy: trackNarrationGlyph">
+                      <br *ngIf="glyph === '\n'" />
+                      <span *ngIf="glyph !== '\n'" class="dhruva-type-glyph">{{ glyph }}</span>
+                    </ng-container><span class="dhruva-type-caret" *ngIf="narrationStillTyping()" aria-hidden="true"></span>
+                  </p>
+                  <app-result-feedback
+                    *ngIf="answer.narration?.state === 'ready' && !isTypingResponse && !narrationStillTyping()"
+                    surface="dhruva"
+                    [contextKey]="activeChartId || 'dhruva'"
+                    prompt="Was this reply useful?">
+                  </app-result-feedback>
+                </section>
+              </ng-container>
+              <ng-template #customOrTranslated>
               <ng-container *ngIf="answer.kind === 'custom-question'; else translatedDhruvaAnswer">
                 <section
                   class="dhruva-chat-message bot dhruva-custom-answer"
@@ -116,7 +185,7 @@
                     <div class="dhruva-custom-answer-head">
                       <div>
                         <span class="dhruva-custom-kicker">{{ customQuestion.title }}</span>
-                        <p class="dhruva-custom-summary" *ngIf="customQuestion.summary">{{ animatedResponseText(customQuestion.summary) }}</p>
+                        <p class="dhruva-custom-summary" *ngIf="customQuestion.summary"><ng-container *ngIf="showChartReplyLead">{{ chartReplyLead }} </ng-container>{{ animatedResponseText(customQuestion.summary) }}</p>
                       </div>
                       <span class="dhruva-outcome-pill" [ngClass]="getOutcomeToneClass(customQuestion.outcome)">
                         {{ customQuestion.outcome || 'Loading' }}
@@ -129,7 +198,7 @@
                         <span></span>
                         <span></span>
                       </span>
-                      <p>Dhruva is reading the chart.</p>
+                      <p>Dhruva is reading {{ activePersonName ? activePersonName + "'s kundali." : 'the chart.' }}</p>
                     </div>
 
                     <div class="dhruva-custom-loading" *ngIf="shouldShowCustomQuestionTyping(customQuestion)">
@@ -251,8 +320,9 @@
                     <span></span>
                     <span></span>
                   </span>
-                  <span *ngIf="!isTypingResponse" aria-hidden="true">{{ animatedResponseText(answerText) }}</span>
+                  <span *ngIf="!isTypingResponse" aria-hidden="true"><ng-container *ngIf="showChartReplyLead">{{ chartReplyLead }} </ng-container>{{ animatedResponseText(answerText) }}</span>
                 </p>
+              </ng-template>
               </ng-template>
             </ng-template>
           </ng-container>
@@ -274,7 +344,7 @@
         </div>
 
         <div class="dhruva-custom-guide" *ngIf="hasCustomQuestionSource">
-          <h3>Relationship questions</h3>
+          <h3>Life questions</h3>
           <div class="dhruva-question-list" role="list">
             <button
               type="button"
@@ -291,29 +361,38 @@
           </div>
         </div>
 
-        <div class="dhruva-personal-guide" *ngIf="hasKundaliContext">
-          <h3>{{ 'dhruva.personal.heading' | transloco }}</h3>
-          <div class="dhruva-question-list" role="list">
-            <button
-              type="button"
-              class="dhruva-question"
-              role="listitem"
-              *ngFor="let question of personalQuestions"
-              [class.active]="question.id === selectedPersonalQuestionId"
-              [attr.aria-pressed]="question.id === selectedPersonalQuestionId"
-              (click)="selectPersonalQuestion(question.id)"
-            >
-              {{ question.questionKey | transloco }}
-            </button>
-          </div>
-        </div>
-
         </div>
 
       <div class="dhruva-panel-footer">
         <form class="dhruva-ask-form" (ngSubmit)="submitTypedQuestion()">
           <label class="dhruva-input-label" for="dhruva-ask-input">{{ (hasKundaliContext ? 'dhruva.personal.inputLabel' : 'dhruva.general.heading') | transloco }}</label>
           <div class="dhruva-ask-row">
+            <div class="dhruva-narration-toggle" [class.is-locked]="!dhruvaAiEnabled">
+              <label class="dhruva-ai-main">
+                <span class="dhruva-ai-mark" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2.4 13.8 8.2 19.6 10 13.8 11.8 12 17.6 10.2 11.8 4.4 10 10.2 8.2 12 2.4z"/>
+                    <path d="M18.2 13.4 19.05 16.15 21.8 17 19.05 17.85 18.2 20.6 17.35 17.85 14.6 17 17.35 16.15 18.2 13.4z"/>
+                  </svg>
+                </span>
+                <span class="dhruva-ai-copy">
+                  <strong>Enable AI mode</strong>
+                  <span *ngIf="dhruvaAiEnabled">A story from your chart, in plain words</span>
+                  <span *ngIf="!dhruvaAiEnabled">Only for premium users</span>
+                </span>
+                <input type="checkbox" name="dhruvaNarration" [(ngModel)]="ollamaNarration" [disabled]="!dhruvaAiEnabled" />
+                <span class="dhruva-ai-switch" aria-hidden="true"></span>
+              </label>
+              <button type="button" class="dhruva-ai-upgrade" *ngIf="!dhruvaAiEnabled" (click)="openUpgrade()">Upgrade</button>
+              <span class="dhruva-tone" *ngIf="ollamaNarration && dhruvaAiEnabled">
+                <span>Tone</span>
+                <select name="dhruvaTone" [(ngModel)]="replyTone" aria-label="Tone">
+                  <option value="corporate">Corporate</option>
+                  <option value="friendly">Friendly</option>
+                  <option value="astrologer">Astrology</option>
+                </select>
+              </span>
+            </div>
             <input
               id="dhruva-ask-input"
               name="dhruvaAskInput"

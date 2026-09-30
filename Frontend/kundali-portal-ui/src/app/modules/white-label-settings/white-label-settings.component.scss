@@ -312,6 +312,17 @@
   background: color-mix(in srgb, var(--theme-danger, #b91c1c) 12%, var(--theme-surface, #ffffff));
 }
 
+.status-banner .text-link {
+  margin-left: 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 900;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .status-banner.success {
   color: var(--theme-success, #087f3d);
   background: color-mix(in srgb, var(--theme-success, #087f3d) 12%, var(--theme-surface, #ffffff));

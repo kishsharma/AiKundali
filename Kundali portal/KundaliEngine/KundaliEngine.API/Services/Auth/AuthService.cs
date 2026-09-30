@@ -1,5 +1,6 @@
 using KundaliEngine.API.DTOs.Auth;
 using KundaliEngine.API.Security;
+using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +11,16 @@ namespace KundaliEngine.API.Services.Auth
     {
         private readonly KundaliDbContext _dbContext;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IEntitlementService _entitlementService;
 
         public AuthService(
             KundaliDbContext dbContext,
-            IJwtTokenGenerator jwtTokenGenerator)
+            IJwtTokenGenerator jwtTokenGenerator,
+            IEntitlementService entitlementService)
         {
             _dbContext = dbContext;
             _jwtTokenGenerator = jwtTokenGenerator;
+            _entitlementService = entitlementService;
         }
 
         public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
@@ -48,18 +52,7 @@ namespace KundaliEngine.API.Services.Auth
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
 
-            var token = _jwtTokenGenerator.GenerateToken(user);
-
-            return new AuthResponse
-            {
-                UserId = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                PreferredLanguage = user.PreferredLanguage,
-                Role = user.Role,
-                Token = token
-            };
+            return AuthResponseFactory.Create(user, _jwtTokenGenerator.GenerateToken(user), _entitlementService);
         }
 
         public async Task<AuthResponse> LoginAsync(LoginRequest request)
@@ -97,18 +90,7 @@ namespace KundaliEngine.API.Services.Auth
             user.LastLoginAt = DateTime.UtcNow;
             await _dbContext.SaveChangesAsync();
 
-            var token = _jwtTokenGenerator.GenerateToken(user);
-
-            return new AuthResponse
-            {
-                UserId = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                PreferredLanguage = user.PreferredLanguage,
-                Role = user.Role,
-                Token = token
-            };
+            return AuthResponseFactory.Create(user, _jwtTokenGenerator.GenerateToken(user), _entitlementService);
         }
 
         public async Task ChangePasswordAsync(Guid userId, ChangePasswordRequest request)
