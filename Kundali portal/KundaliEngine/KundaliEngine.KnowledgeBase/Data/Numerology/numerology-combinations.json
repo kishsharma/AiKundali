@@ -1,0 +1,797 @@
+{
+  "version": "1.0",
+  "system": "IndianNumerology",
+  "description": "HoraLife Mulank and Bhagyank combination metadata.",
+  "combinations": [
+    {
+      "mulank": 1,
+      "bhagyank": 1,
+      "type": "Reinforcing",
+      "summary": "Strong emphasis on independence, initiative and self-direction.",
+      "strengths": [
+        "leadership",
+        "confidence",
+        "self-reliance"
+      ],
+      "challenges": [
+        "ego",
+        "stubbornness",
+        "difficulty accepting guidance"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 2,
+      "type": "Complementary",
+      "summary": "Independent initiative is balanced by sensitivity, cooperation and diplomacy.",
+      "strengths": [
+        "leadership with empathy",
+        "balanced decision-making",
+        "relationship awareness"
+      ],
+      "challenges": [
+        "conflict between independence and emotional dependence",
+        "sensitivity to criticism"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 3,
+      "type": "Reinforcing",
+      "summary": "Ambition and initiative combine with knowledge, expression and growth.",
+      "strengths": [
+        "leadership",
+        "communication",
+        "planning"
+      ],
+      "challenges": [
+        "overconfidence",
+        "strong opinions"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 4,
+      "type": "Mixed",
+      "summary": "Strong individuality combines with an unconventional and questioning life path.",
+      "strengths": [
+        "original thinking",
+        "initiative",
+        "persistence"
+      ],
+      "challenges": [
+        "rebelliousness",
+        "conflict with authority",
+        "rigidity"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Leadership is supported by adaptability, communication and quick thinking.",
+      "strengths": [
+        "communication",
+        "initiative",
+        "adaptability"
+      ],
+      "challenges": [
+        "impatience",
+        "restlessness",
+        "changing direction too quickly"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 6,
+      "type": "Complementary",
+      "summary": "Individual ambition combines with responsibility, relationships and creative expression.",
+      "strengths": [
+        "social leadership",
+        "creativity",
+        "responsibility"
+      ],
+      "challenges": [
+        "conflict between personal goals and relationship obligations",
+        "need for recognition"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 7,
+      "type": "Mixed",
+      "summary": "Outer confidence and initiative combine with an introspective and analytical life path.",
+      "strengths": [
+        "independent thinking",
+        "research",
+        "self-development"
+      ],
+      "challenges": [
+        "periods of isolation",
+        "conflict between action and reflection"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "Strong ambition combines with discipline, patience and long-term responsibility.",
+      "strengths": [
+        "determination",
+        "organisation",
+        "long-term leadership"
+      ],
+      "challenges": [
+        "frustration with delays",
+        "control issues",
+        "excessive seriousness"
+      ]
+    },
+    {
+      "mulank": 1,
+      "bhagyank": 9,
+      "type": "Reinforcing",
+      "summary": "Leadership and ambition are reinforced by courage, energy and decisive action.",
+      "strengths": [
+        "courage",
+        "initiative",
+        "leadership under pressure"
+      ],
+      "challenges": [
+        "impatience",
+        "anger",
+        "dominance"
+      ]
+    },
+
+    {
+      "mulank": 2,
+      "bhagyank": 1,
+      "type": "Complementary",
+      "summary": "Sensitivity and cooperation are supported by a life path requiring independence and initiative.",
+      "strengths": [
+        "empathetic leadership",
+        "diplomacy",
+        "balanced judgement"
+      ],
+      "challenges": [
+        "hesitation followed by strong reactions",
+        "dependence versus independence"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 2,
+      "type": "Reinforcing",
+      "summary": "Emotional sensitivity, intuition and cooperation become central themes.",
+      "strengths": [
+        "empathy",
+        "intuition",
+        "relationship-building"
+      ],
+      "challenges": [
+        "over-sensitivity",
+        "indecisiveness",
+        "emotional dependence"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 3,
+      "type": "Complementary",
+      "summary": "Sensitivity and intuition combine with expression, learning and optimism.",
+      "strengths": [
+        "creative communication",
+        "empathy",
+        "learning"
+      ],
+      "challenges": [
+        "emotional reactions",
+        "difficulty maintaining discipline"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 4,
+      "type": "Mixed",
+      "summary": "A sensitive nature combines with an unconventional and practical life direction.",
+      "strengths": [
+        "intuition",
+        "problem-solving",
+        "adaptability"
+      ],
+      "challenges": [
+        "emotional instability",
+        "feeling misunderstood"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Intuition and diplomacy combine with adaptability and communication.",
+      "strengths": [
+        "networking",
+        "communication",
+        "social awareness"
+      ],
+      "challenges": [
+        "restlessness",
+        "changing emotions",
+        "difficulty maintaining focus"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 6,
+      "type": "Reinforcing",
+      "summary": "Relationships, care, harmony and emotional connection receive strong emphasis.",
+      "strengths": [
+        "empathy",
+        "relationship-building",
+        "care for others"
+      ],
+      "challenges": [
+        "over-attachment",
+        "difficulty setting boundaries"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 7,
+      "type": "Reinforcing",
+      "summary": "Intuition and emotional sensitivity combine with introspection and deeper observation.",
+      "strengths": [
+        "intuition",
+        "observation",
+        "spiritual reflection"
+      ],
+      "challenges": [
+        "withdrawal",
+        "overthinking",
+        "emotional isolation"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "A sensitive personality meets a demanding life path centred on discipline and responsibility.",
+      "strengths": [
+        "patience",
+        "responsibility",
+        "emotional endurance"
+      ],
+      "challenges": [
+        "emotional pressure",
+        "self-doubt",
+        "difficulty expressing needs"
+      ]
+    },
+    {
+      "mulank": 2,
+      "bhagyank": 9,
+      "type": "Complementary",
+      "summary": "Sensitivity and empathy combine with courage, passion and decisive action.",
+      "strengths": [
+        "compassionate action",
+        "courage",
+        "protectiveness"
+      ],
+      "challenges": [
+        "emotional reactions",
+        "conflict avoidance followed by sudden confrontation"
+      ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 1,
+      "type": "Reinforcing",
+      "summary": "Knowledge, expression and optimism combine with independence, ambition and initiative.",
+      "strengths": [ "leadership", "communication", "planning" ],
+      "challenges": [ "overconfidence", "strong opinions", "need for recognition" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 2,
+      "type": "Complementary",
+      "summary": "Expression and intellectual growth are balanced by sensitivity, intuition and cooperation.",
+      "strengths": [ "creative communication", "empathy", "diplomacy" ],
+      "challenges": [ "emotional sensitivity", "indecisiveness", "difficulty balancing logic and emotion" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 3,
+      "type": "Reinforcing",
+      "summary": "Learning, expression, optimism and growth become especially prominent themes.",
+      "strengths": [ "communication", "learning", "guidance" ],
+      "challenges": [ "overconfidence", "excessive expectations", "scattered ambitions" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 4,
+      "type": "Mixed",
+      "summary": "Structured growth and knowledge combine with an unconventional and questioning life direction.",
+      "strengths": [ "planning", "original thinking", "problem-solving" ],
+      "challenges": [ "rigidity", "conflict with convention", "frustration with restrictions" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Knowledge and expression combine naturally with communication, adaptability and versatility.",
+      "strengths": [ "learning", "communication", "adaptability" ],
+      "challenges": [ "restlessness", "lack of consistency", "too many simultaneous interests" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 6,
+      "type": "Reinforcing",
+      "summary": "Growth and expression combine with creativity, relationships and responsibility.",
+      "strengths": [ "creativity", "guidance", "social intelligence" ],
+      "challenges": [ "high expectations", "over-involvement", "difficulty maintaining boundaries" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 7,
+      "type": "Complementary",
+      "summary": "An expressive and knowledge-oriented nature combines with introspection, research and deeper inquiry.",
+      "strengths": [ "learning", "research", "insight" ],
+      "challenges": [ "over-analysis", "periods of withdrawal", "conflict between expression and solitude" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "Optimism and intellectual growth meet a disciplined life path requiring patience and sustained effort.",
+      "strengths": [ "planning", "organisation", "long-term growth" ],
+      "challenges": [ "frustration with delays", "excessive seriousness", "pressure from responsibilities" ]
+    },
+    {
+      "mulank": 3,
+      "bhagyank": 9,
+      "type": "Reinforcing",
+      "summary": "Knowledge, expression and optimism combine with courage, passion and decisive action.",
+      "strengths": [ "leadership", "communication", "courage" ],
+      "challenges": [ "impatience", "strong opinions", "acting before reflecting" ]
+    },
+
+    {
+      "mulank": 4,
+      "bhagyank": 1,
+      "type": "Mixed",
+      "summary": "An unconventional and independent-minded nature combines with a life direction centred on leadership and self-direction.",
+      "strengths": [ "original thinking", "initiative", "independence" ],
+      "challenges": [ "rebelliousness", "authority conflicts", "stubbornness" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 2,
+      "type": "Mixed",
+      "summary": "Practical and unconventional thinking combines with sensitivity, intuition and cooperation.",
+      "strengths": [ "problem-solving", "intuition", "adaptability" ],
+      "challenges": [ "emotional uncertainty", "feeling misunderstood", "inconsistent reactions" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 3,
+      "type": "Complementary",
+      "summary": "Original thinking and persistence gain support from knowledge, optimism and expression.",
+      "strengths": [ "innovation", "planning", "communication" ],
+      "challenges": [ "resistance to advice", "strong opinions", "difficulty following convention" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 4,
+      "type": "Reinforcing",
+      "summary": "Independence, unconventional thinking and persistence become dominant themes.",
+      "strengths": [ "originality", "persistence", "problem-solving" ],
+      "challenges": [ "stubbornness", "rebelliousness", "tendency toward extremes" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Practical originality combines with adaptability, communication and quick thinking.",
+      "strengths": [ "innovation", "adaptability", "networking" ],
+      "challenges": [ "restlessness", "frequent changes", "difficulty maintaining structure" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 6,
+      "type": "Complementary",
+      "summary": "An unconventional nature is balanced by responsibility, relationships and a sense of harmony.",
+      "strengths": [ "creative problem-solving", "responsibility", "social adaptability" ],
+      "challenges": [ "conflict between freedom and obligations", "stubbornness", "relationship tension" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 7,
+      "type": "Reinforcing",
+      "summary": "Original thinking combines with introspection, research and a tendency to look beneath the surface.",
+      "strengths": [ "research", "analysis", "independent thinking" ],
+      "challenges": [ "isolation", "over-analysis", "difficulty trusting others" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "Unconventional thinking meets a demanding path of discipline, patience and responsibility.",
+      "strengths": [ "persistence", "organisation", "resilience" ],
+      "challenges": [ "rigidity", "frustration", "feeling restricted" ]
+    },
+    {
+      "mulank": 4,
+      "bhagyank": 9,
+      "type": "Mixed",
+      "summary": "Independent and unconventional thinking combines with strong action, passion and courage.",
+      "strengths": [ "bold problem-solving", "courage", "initiative" ],
+      "challenges": [ "impulsiveness", "conflict", "rebellious reactions" ]
+    },
+
+    {
+      "mulank": 5,
+      "bhagyank": 1,
+      "type": "Complementary",
+      "summary": "Adaptability and communication combine with leadership, ambition and self-direction.",
+      "strengths": [ "communication", "initiative", "quick decision-making" ],
+      "challenges": [ "impatience", "restlessness", "frequent changes of direction" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 2,
+      "type": "Complementary",
+      "summary": "Communication and versatility are balanced by intuition, sensitivity and cooperation.",
+      "strengths": [ "social intelligence", "adaptability", "diplomacy" ],
+      "challenges": [ "changing moods", "indecision", "difficulty maintaining focus" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 3,
+      "type": "Reinforcing",
+      "summary": "Curiosity, communication and adaptability combine strongly with learning and expression.",
+      "strengths": [ "communication", "learning", "networking" ],
+      "challenges": [ "scattered focus", "overcommitment", "restlessness" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 4,
+      "type": "Complementary",
+      "summary": "Versatility and communication combine with practical, unconventional and persistent thinking.",
+      "strengths": [ "adaptability", "problem-solving", "innovation" ],
+      "challenges": [ "instability", "resistance to routine", "frequent changes" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 5,
+      "type": "Reinforcing",
+      "summary": "Communication, curiosity, movement and adaptability become central themes.",
+      "strengths": [ "communication", "adaptability", "quick thinking" ],
+      "challenges": [ "restlessness", "inconsistency", "difficulty maintaining routine" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 6,
+      "type": "Complementary",
+      "summary": "Freedom and versatility are balanced by relationships, responsibility and creative expression.",
+      "strengths": [ "social skills", "creativity", "adaptability" ],
+      "challenges": [ "conflict between freedom and commitment", "indulgence", "inconsistent priorities" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 7,
+      "type": "Complementary",
+      "summary": "Quick thinking and communication combine with analysis, introspection and deeper inquiry.",
+      "strengths": [ "research", "communication", "analytical thinking" ],
+      "challenges": [ "mental restlessness", "overthinking", "difficulty slowing down" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "A flexible and fast-moving nature meets a disciplined life path requiring patience and consistency.",
+      "strengths": [ "adaptability", "business sense", "organisation" ],
+      "challenges": [ "frustration with restrictions", "inconsistency", "difficulty sustaining routines" ]
+    },
+    {
+      "mulank": 5,
+      "bhagyank": 9,
+      "type": "Complementary",
+      "summary": "Communication and versatility combine with courage, energy and decisive action.",
+      "strengths": [ "persuasion", "initiative", "adaptability" ],
+      "challenges": [ "impulsiveness", "impatience", "acting too quickly" ]
+    },
+
+    {
+      "mulank": 6,
+      "bhagyank": 1,
+      "type": "Complementary",
+      "summary": "A relationship-oriented and creative nature combines with independence, leadership and ambition.",
+      "strengths": [ "social leadership", "creativity", "responsibility" ],
+      "challenges": [ "need for appreciation", "control in relationships", "conflict between self and others" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 2,
+      "type": "Reinforcing",
+      "summary": "Care, harmony and relationships combine strongly with sensitivity, cooperation and intuition.",
+      "strengths": [ "empathy", "relationship-building", "diplomacy" ],
+      "challenges": [ "over-attachment", "emotional dependence", "difficulty setting boundaries" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 3,
+      "type": "Reinforcing",
+      "summary": "Creativity, responsibility and relationships combine with expression, growth and knowledge.",
+      "strengths": [ "creativity", "communication", "guidance" ],
+      "challenges": [ "high expectations", "over-involvement", "desire for recognition" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 4,
+      "type": "Complementary",
+      "summary": "Harmony and responsibility combine with unconventional thinking, persistence and practical problem-solving.",
+      "strengths": [ "creative problem-solving", "responsibility", "persistence" ],
+      "challenges": [ "relationship tension", "stubbornness", "conflict between comfort and change" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Responsibility and relationships are balanced by communication, movement and adaptability.",
+      "strengths": [ "social intelligence", "communication", "creativity" ],
+      "challenges": [ "conflict between stability and freedom", "indulgence", "changing priorities" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 6,
+      "type": "Reinforcing",
+      "summary": "Relationships, harmony, creativity, comfort and responsibility receive especially strong emphasis.",
+      "strengths": [ "creativity", "relationship-building", "care for others" ],
+      "challenges": [ "over-attachment", "possessiveness", "difficulty setting boundaries" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 7,
+      "type": "Mixed",
+      "summary": "A social and relationship-oriented nature combines with an introspective and independent life direction.",
+      "strengths": [ "creative insight", "intuition", "thoughtful relationships" ],
+      "challenges": [ "conflict between closeness and solitude", "emotional distance", "over-analysis" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 8,
+      "type": "Complementary",
+      "summary": "Harmony and responsibility combine with discipline, endurance and long-term achievement.",
+      "strengths": [ "responsibility", "organisation", "long-term commitment" ],
+      "challenges": [ "overwork", "material pressure", "difficulty relaxing" ]
+    },
+    {
+      "mulank": 6,
+      "bhagyank": 9,
+      "type": "Complementary",
+      "summary": "Care and creative expression combine with courage, passion and an action-oriented life direction.",
+      "strengths": [ "protectiveness", "creativity", "decisive support for others" ],
+      "challenges": [ "emotional intensity", "possessiveness", "conflict in close relationships" ]
+    },
+
+    {
+      "mulank": 7,
+      "bhagyank": 1,
+      "type": "Mixed",
+      "summary": "An introspective and analytical nature combines with a life direction requiring confidence, leadership and outward initiative.",
+      "strengths": [ "independent thinking", "analysis", "self-directed growth" ],
+      "challenges": [ "conflict between solitude and visibility", "self-doubt", "difficulty expressing authority" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 2,
+      "type": "Reinforcing",
+      "summary": "Introspection and intuition combine strongly with sensitivity, emotional awareness and cooperation.",
+      "strengths": [ "intuition", "observation", "empathy" ],
+      "challenges": [ "overthinking", "withdrawal", "emotional sensitivity" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 3,
+      "type": "Complementary",
+      "summary": "Deep observation and analysis combine with expression, knowledge and intellectual growth.",
+      "strengths": [ "research", "learning", "thoughtful communication" ],
+      "challenges": [ "over-analysis", "difficulty expressing feelings", "periodic withdrawal" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 4,
+      "type": "Reinforcing",
+      "summary": "An analytical and inward-looking nature combines with unconventional thinking and independence.",
+      "strengths": [ "research", "original thinking", "problem-solving" ],
+      "challenges": [ "isolation", "skepticism", "difficulty accepting outside perspectives" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Depth and analysis combine with communication, flexibility and curiosity.",
+      "strengths": [ "research", "learning", "adaptability" ],
+      "challenges": [ "mental restlessness", "overthinking", "difficulty maintaining emotional consistency" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 6,
+      "type": "Mixed",
+      "summary": "A private and introspective nature meets a life direction centred on relationships, harmony and responsibility.",
+      "strengths": [ "thoughtfulness", "creative insight", "loyalty" ],
+      "challenges": [ "difficulty expressing affection", "need for personal space", "relationship misunderstandings" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 7,
+      "type": "Reinforcing",
+      "summary": "Introspection, analysis, intuition and the search for deeper meaning become dominant themes.",
+      "strengths": [ "research", "intuition", "deep thinking" ],
+      "challenges": [ "isolation", "over-analysis", "detachment" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "An introspective nature combines with a demanding path of discipline, responsibility and material organisation.",
+      "strengths": [ "analysis", "patience", "long-term thinking" ],
+      "challenges": [ "emotional reserve", "pressure", "difficulty balancing inner and outer demands" ]
+    },
+    {
+      "mulank": 7,
+      "bhagyank": 9,
+      "type": "Mixed",
+      "summary": "Reflection and analysis combine with courage, passion and a strong drive toward action.",
+      "strengths": [ "strategic action", "intuition", "determination" ],
+      "challenges": [ "conflict between reflection and impulsiveness", "emotional distance", "sudden reactions" ]
+    },
+
+    {
+      "mulank": 8,
+      "bhagyank": 1,
+      "type": "Complementary",
+      "summary": "Discipline, persistence and responsibility combine with independence, leadership and ambition.",
+      "strengths": [ "long-term leadership", "organisation", "determination" ],
+      "challenges": [ "control issues", "rigidity", "excessive seriousness" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 2,
+      "type": "Mixed",
+      "summary": "A serious and disciplined nature combines with a sensitive, cooperative and emotionally aware life direction.",
+      "strengths": [ "patience", "responsibility", "emotional endurance" ],
+      "challenges": [ "difficulty expressing emotions", "self-doubt", "emotional pressure" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 3,
+      "type": "Complementary",
+      "summary": "Persistence and discipline gain support from knowledge, expression and optimism.",
+      "strengths": [ "planning", "organisation", "structured growth" ],
+      "challenges": [ "rigidity", "high expectations", "difficulty adapting quickly" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 4,
+      "type": "Mixed",
+      "summary": "Discipline and responsibility combine with unconventional thinking, persistence and resistance to convention.",
+      "strengths": [ "endurance", "problem-solving", "determination" ],
+      "challenges": [ "stubbornness", "frustration", "resistance to change" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Discipline and long-term thinking are balanced by adaptability, communication and versatility.",
+      "strengths": [ "business sense", "adaptability", "organisation" ],
+      "challenges": [ "conflict between structure and freedom", "work pressure", "inconsistent pace" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 6,
+      "type": "Complementary",
+      "summary": "Responsibility and endurance combine with relationships, creativity and a desire for harmony.",
+      "strengths": [ "commitment", "organisation", "responsibility toward others" ],
+      "challenges": [ "overwork", "material pressure", "difficulty balancing duty and comfort" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 7,
+      "type": "Mixed",
+      "summary": "A disciplined and practical nature combines with introspection, analysis and inner exploration.",
+      "strengths": [ "research", "patience", "strategic thinking" ],
+      "challenges": [ "isolation", "pessimism", "excessive seriousness" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 8,
+      "type": "Reinforcing",
+      "summary": "Discipline, responsibility, endurance and long-term achievement become especially strong themes.",
+      "strengths": [ "persistence", "organisation", "resilience" ],
+      "challenges": [ "rigidity", "workaholism", "frustration with slow progress" ]
+    },
+    {
+      "mulank": 8,
+      "bhagyank": 9,
+      "type": "Mixed",
+      "summary": "Patience and discipline combine with passion, courage and a strong desire for action.",
+      "strengths": [ "determination", "courage", "execution" ],
+      "challenges": [ "frustration", "anger under pressure", "conflict between patience and urgency" ]
+    },
+
+    {
+      "mulank": 9,
+      "bhagyank": 1,
+      "type": "Reinforcing",
+      "summary": "Courage, passion and action combine strongly with independence, ambition and leadership.",
+      "strengths": [ "leadership", "initiative", "courage" ],
+      "challenges": [ "impatience", "dominance", "anger" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 2,
+      "type": "Complementary",
+      "summary": "An energetic and action-oriented nature is balanced by sensitivity, intuition and diplomacy.",
+      "strengths": [ "protectiveness", "empathy", "courage" ],
+      "challenges": [ "emotional reactions", "impatience", "difficulty handling vulnerability" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 3,
+      "type": "Reinforcing",
+      "summary": "Courage and decisive action combine with knowledge, optimism and expressive ability.",
+      "strengths": [ "leadership", "communication", "motivation" ],
+      "challenges": [ "overconfidence", "impatience", "strong opinions" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 4,
+      "type": "Mixed",
+      "summary": "A bold and action-oriented nature combines with unconventional thinking and resistance to established patterns.",
+      "strengths": [ "courage", "innovation", "problem-solving" ],
+      "challenges": [ "rebelliousness", "conflict", "impulsive decisions" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 5,
+      "type": "Complementary",
+      "summary": "Energy and courage combine with adaptability, communication and quick thinking.",
+      "strengths": [ "initiative", "communication", "adaptability" ],
+      "challenges": [ "impulsiveness", "restlessness", "difficulty slowing down" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 6,
+      "type": "Complementary",
+      "summary": "Passion and courage combine with relationships, responsibility and creative expression.",
+      "strengths": [ "protectiveness", "creativity", "commitment" ],
+      "challenges": [ "possessiveness", "emotional intensity", "relationship conflicts" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 7,
+      "type": "Mixed",
+      "summary": "Strong action and passion combine with introspection, research and deeper reflection.",
+      "strengths": [ "strategic action", "research", "determination" ],
+      "challenges": [ "conflict between action and reflection", "impatience", "withdrawal after conflict" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 8,
+      "type": "Mixed",
+      "summary": "Energy and decisive action meet a disciplined path requiring patience, persistence and responsibility.",
+      "strengths": [ "execution", "resilience", "determination" ],
+      "challenges": [ "anger under pressure", "frustration with delays", "control struggles" ]
+    },
+    {
+      "mulank": 9,
+      "bhagyank": 9,
+      "type": "Reinforcing",
+      "summary": "Courage, energy, passion and decisive action become especially dominant themes.",
+      "strengths": [ "courage", "initiative", "determination" ],
+      "challenges": [ "anger", "impatience", "aggression" ]
+    }
+  ]
+}

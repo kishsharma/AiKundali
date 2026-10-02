@@ -229,6 +229,19 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item">
+              <a routerLink="/app/numerology" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round">
+                    <path d="M9 3 7 21"></path>
+                    <path d="m17 3-2 18"></path>
+                    <path d="M4 9h16"></path>
+                    <path d="M3 15h16"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.numerology' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a routerLink="/app/learning" routerLinkActive="active" data-dhruva-tour="learning" data-tour-id="portal-learning" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
