@@ -1,0 +1,171 @@
+<main class="numerology-page">
+  <section class="numerology-hero" aria-labelledby="numerologyTitle">
+    <div class="hero-pattern" aria-hidden="true"><span>1</span><span>3</span><span>6</span><span>9</span></div>
+    <div class="hero-copy">
+      <p class="eyebrow">Numbers that shape your path</p>
+      <h1 id="numerologyTitle">Numerology</h1>
+      <p>Your Mulank reflects your natural character; your Bhagyank reveals the broader direction of your life path.</p>
+    </div>
+
+    <form class="calculator-panel" (ngSubmit)="calculate()" novalidate>
+      <div class="date-field">
+        <label for="numerologyDob">Date of birth</label>
+        <app-portal-wheel-picker
+          id="numerologyDob"
+          name="dateOfBirth"
+          mode="date"
+          label="Date of birth"
+          placeholder="Select date of birth"
+          [maxYear]="currentYear"
+          [(ngModel)]="dateOfBirth"
+        ></app-portal-wheel-picker>
+      </div>
+      <button class="calculate-button" type="submit" [disabled]="!dateOfBirth || dateOfBirth > maxDate || isLoading">
+        {{ isLoading ? 'Revealing...' : 'Reveal Insights' }}
+      </button>
+    </form>
+  </section>
+
+  <p *ngIf="errorMessage" class="status-message error" role="alert">{{ errorMessage }}</p>
+
+  <section *ngIf="isLoading" class="numerology-loader" aria-live="polite" aria-label="Revealing your numerology">
+    <p>Revealing your numerology…</p>
+    <div class="reveal-stage" [class.is-shuffling]="revealStage === 'shuffle'">
+      <span *ngIf="revealStage === 'dob'" class="reveal-dob">{{ formattedDateOfBirth }}</span>
+      <div *ngIf="revealStage === 'digits' || revealStage === 'shuffle'" class="reveal-digits" aria-hidden="true">
+        <span *ngFor="let digit of birthDigits; let index = index" [style.--digit-index]="index">{{ digit }}</span>
+      </div>
+      <div *ngIf="revealStage === 'resolved' && revealResult as resolved" class="reveal-numbers">
+        <span>Mulank <strong>{{ resolved.mulank }}</strong></span>
+        <i aria-hidden="true"></i>
+        <span>Bhagyank <strong>{{ resolved.bhagyank }}</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <div *ngIf="result as numerology" class="results" aria-live="polite">
+    <section class="result-section" aria-labelledby="yourNumerologyTitle">
+      <div class="section-heading section-heading--inline">
+        <h2 id="yourNumerologyTitle"><span>Core numbers</span> Your Numerology</h2>
+      </div>
+
+      <div class="number-grid">
+        <article class="number-card number-card--mulank">
+          <header>
+            <h3>Mulank <span>· Birth Number</span></h3>
+            <span class="number-mark" aria-hidden="true">M</span>
+          </header>
+          <div class="number-main">
+            <div class="number-value">{{ numerology.mulank }}</div>
+            <p class="planet">Ruled by <strong>{{ numerology.mulankPlanet }}</strong></p>
+          </div>
+          <p *ngIf="numerology.mulankDetails?.summary" class="number-summary">{{ numerology.mulankDetails?.summary }}</p>
+          <div *ngIf="numerology.mulankDetails?.traits?.length" class="chip-list" aria-label="Mulank traits">
+            <span *ngFor="let trait of numerology.mulankDetails?.traits | slice:0:4" class="trait-chip">{{ trait }}</span>
+          </div>
+        </article>
+
+        <article class="number-card number-card--bhagyank">
+          <header>
+            <h3>Bhagyank <span>· Life Path</span></h3>
+            <span class="number-mark" aria-hidden="true">B</span>
+          </header>
+          <div class="number-main">
+            <div class="number-value">{{ numerology.bhagyank }}</div>
+            <p class="planet">Ruled by <strong>{{ numerology.bhagyankPlanet }}</strong></p>
+          </div>
+          <p *ngIf="numerology.bhagyankDetails?.summary" class="number-summary">{{ numerology.bhagyankDetails?.summary }}</p>
+          <div *ngIf="numerology.bhagyankDetails?.traits?.length" class="chip-list" aria-label="Bhagyank traits">
+            <span *ngFor="let trait of numerology.bhagyankDetails?.traits | slice:0:4" class="trait-chip">{{ trait }}</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="result-section combination-card" aria-labelledby="combinationTitle">
+      <div class="combination-topline">
+        <div>
+          <p class="eyebrow">Mulank × Bhagyank</p>
+          <div class="combination-identity">
+            <h2 id="combinationTitle">{{ numerology.mulank }} <span>+</span> {{ numerology.bhagyank }}</h2>
+            <span class="combination-badge">{{ numerology.combinationType }}</span>
+          </div>
+        </div>
+        <div class="combination-orbit" aria-hidden="true"><span>{{ numerology.mulank }}</span><span>{{ numerology.bhagyank }}</span></div>
+      </div>
+      <p class="combination-summary">{{ numerology.combinationSummary }}</p>
+
+      <div class="factor-grid">
+        <section class="factor factor--strengths">
+          <h3><app-astrology-icon name="yogas" class="factor-icon"></app-astrology-icon> Strengths</h3>
+          <ul><li *ngFor="let strength of numerology.combinationStrengths">{{ strength }}</li></ul>
+        </section>
+        <section class="factor factor--challenges">
+          <h3><app-astrology-icon name="info" class="factor-icon"></app-astrology-icon> Challenges</h3>
+          <ul><li *ngFor="let challenge of numerology.combinationChallenges">{{ challenge }}</li></ul>
+        </section>
+      </div>
+    </section>
+
+    <section *ngIf="numerology.mulankDetails || numerology.bhagyankDetails" class="result-section influences" aria-labelledby="influencesTitle">
+      <div class="section-heading section-heading--inline influence-heading">
+        <h2 id="influencesTitle"><span>Supportive patterns</span> Favourable Influences</h2>
+        <div class="influence-guidance"><span>How to use</span><p>{{ numerology.mulank === numerology.bhagyank ? 'Both numbers are ' + numerology.mulank + ', placing extra emphasis on ' + numerology.mulankPlanet + '. Use Mulank for daily choices and Bhagyank for long-term direction.' : 'Use Mulank for daily choices and Bhagyank for long-term direction. Influences appearing in both carry extra emphasis.' }}</p></div>
+      </div>
+
+      <div class="influence-grid">
+        <article *ngIf="numerology.mulankDetails as details" class="influence-column">
+          <div class="influence-title"><h3>Mulank {{ numerology.mulank }}</h3><span>Everyday choices</span></div>
+          <div class="influence-primary">
+            <div class="influence-row">
+              <span class="influence-label">Numbers</span>
+              <div class="chip-list"><span *ngFor="let number of details.favourableNumbers" class="number-chip">{{ number }}</span></div>
+            </div>
+            <div class="influence-row">
+              <span class="influence-label">Days</span>
+              <div class="chip-list"><span *ngFor="let day of details.favourableDays" class="meta-chip">{{ day }}</span></div>
+            </div>
+          </div>
+          <div class="influence-row">
+            <span class="influence-label">Colours</span>
+            <div class="chip-list">
+              <span *ngFor="let colour of details.favourableColours" class="colour-chip">
+                <i *ngIf="colourSwatch(colour) as swatch" [style.backgroundColor]="swatch" aria-hidden="true"></i>{{ colour }}
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article *ngIf="numerology.bhagyankDetails as details" class="influence-column">
+          <div class="influence-title"><h3>Bhagyank {{ numerology.bhagyank }}</h3><span>Major plans</span></div>
+          <div class="influence-primary">
+            <div class="influence-row">
+              <span class="influence-label">Numbers</span>
+              <div class="chip-list"><span *ngFor="let number of details.favourableNumbers" class="number-chip">{{ number }}</span></div>
+            </div>
+            <div class="influence-row">
+              <span class="influence-label">Days</span>
+              <div class="chip-list"><span *ngFor="let day of details.favourableDays" class="meta-chip">{{ day }}</span></div>
+            </div>
+          </div>
+          <div class="influence-row">
+            <span class="influence-label">Colours</span>
+            <div class="chip-list">
+              <span *ngFor="let colour of details.favourableColours" class="colour-chip">
+                <i *ngIf="colourSwatch(colour) as swatch" [style.backgroundColor]="swatch" aria-hidden="true"></i>{{ colour }}
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <details class="calculation-details">
+      <summary><span>How it was calculated</span><small>View the number reduction</small></summary>
+      <div class="calculation-grid">
+        <div><span>Mulank / Birth Number</span><p>{{ numerology.mulankCalculation }}</p></div>
+        <div><span>Bhagyank / Life Path</span><p>{{ numerology.bhagyankCalculation }}</p></div>
+      </div>
+    </details>
+  </div>
+</main>

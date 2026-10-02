@@ -2,6 +2,7 @@ using HoraLife.PredictionEngine;
 using HoraLife.PredictionEngine.Services;
 using HoraLife.Store.Application.DependencyInjection;
 using HoraLife.Store.Infrastructure.DependencyInjection;
+using KundaliEngine.API.DTOs.Responses.Numerology;
 using KundaliEngine.API.Prediction.Mappers;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.Admin;
@@ -37,6 +38,7 @@ using KundaliEngine.Astrology.Services.KundaliYoga;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Astrology.Services.Scoring;
 using KundaliEngine.KnowledgeBase.Services;
+using KundaliEngine.KnowledgeBase.Services.Numerology;
 using KundaliEngine.Astrology.Services.SudarshanChakra;
 using KundaliEngine.Infrastructure;
 using KundaliEngine.Infrastructure.Data;
@@ -292,7 +294,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<PredictionContextMapper>();
 
 builder.Services.AddSingleton(_ => PredictionEngineFactory.CreateDefault());
-
+builder.Services.AddScoped<NumerologyCalculator>();
+builder.Services.AddSingleton<NumerologyMetadataService>();
 
 builder.Services.AddStoreApplication();
 builder.Services.AddStoreInfrastructure(builder.Configuration);
