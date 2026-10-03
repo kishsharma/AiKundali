@@ -6,6 +6,13 @@
     <h1>Create your HoraLife account</h1>
     <p>Create your account with email verification or password.</p>
 
+    <app-google-sign-in-button
+      context="signup"
+      [disabled]="isLoading"
+      (credential)="loginWithGoogle($event)"
+      (failed)="onGoogleSignInFailed($event)">
+    </app-google-sign-in-button>
+
     <ng-container *ngIf="registrationMode === 'otp'; else passwordRegistration">
       <ng-container [ngSwitch]="step">
         <ng-container *ngSwitchCase="'contact'">

@@ -24,6 +24,8 @@ namespace KundaliEngine.Domain.Entities
 
         public string AuthProvider { get; set; } = "Local";
 
+        public string? GoogleSubject { get; set; }
+
         public string Role { get; set; } = "User";
 
         public string PlanCode { get; set; } = "Free";

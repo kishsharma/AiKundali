@@ -330,6 +330,21 @@ builder.Services.AddRateLimiter(options =>
 
         return ValueTask.CompletedTask;
     };
+    options.AddPolicy("GoogleAuth", httpContext =>
+    {
+        var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var forwardedFor = httpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        var partitionKey = string.IsNullOrWhiteSpace(forwardedFor) ? $"ip:{remoteIp}" : $"ip:{forwardedFor}";
+
+        return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(5),
+            QueueLimit = 0,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    });
     options.AddPolicy("AuthOtp", httpContext =>
     {
         var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
@@ -466,6 +481,7 @@ await EnsureKundaliFamilyColumnsAsync(app);
 await EnsureDhruvaDailyUsageTableAsync(app);
 await EnsureDhruvaQuestionLogTableAsync(app);
 await EnsureUserPracticeProfileColumnAsync(app);
+await EnsureUserGoogleSubjectColumnAsync(app);
 await EnsureProductFeedbackTableAsync(app);
 await EnsureBillingPlanDhruvaColumnsAsync(app);
 
@@ -568,6 +584,18 @@ static async Task EnsureUserPracticeProfileColumnAsync(WebApplication app)
     var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
     await db.Database.ExecuteSqlRawAsync("""
         ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "PracticeProfile" text;
+        """);
+}
+
+static async Task EnsureUserGoogleSubjectColumnAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "GoogleSubject" character varying(128);
+        CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_GoogleSubject"
+            ON public."Users" ("GoogleSubject")
+            WHERE "GoogleSubject" IS NOT NULL;
         """);
 }
 

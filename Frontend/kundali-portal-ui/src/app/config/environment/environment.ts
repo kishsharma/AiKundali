@@ -8,9 +8,10 @@ let apiVmBaseUrl = 'https://api.horalife.in/api'
 export const environment = {
   production: false,
   assetVersion: '0.8.0-dev',
-  // Checkout is local-only until billing is deployed. Production API (api.horalife.in) returns 404 for /billing.
+  // Google sign-in exists on the local API. api.horalife.in does not have this route until that build is deployed.
   apiBaseUrl: localApiBaseUrl,
   storeBaseUrl: 'http://localhost:4300',
+  googleClientId: '560889779781-ap5tq1rl8p50aoe9qee4mbcgkr0i3v0i.apps.googleusercontent.com',
     
   apiTimeout: 30000, // milliseconds
   apiEndpoints: {

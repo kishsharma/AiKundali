@@ -13,6 +13,13 @@
     <h1>Login</h1>
     <p>Access your saved kundalis, reports and insights.</p>
 
+    <app-google-sign-in-button
+      context="signin"
+      [disabled]="isLoading"
+      (credential)="loginWithGoogle($event)"
+      (failed)="onGoogleSignInFailed($event)">
+    </app-google-sign-in-button>
+
     <ng-container *ngIf="loginMode === 'otp'; else passwordLogin">
       <ng-container *ngIf="otpStep === 'contact'; else otpCodeStep">
         <div class="form-group">

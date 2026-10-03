@@ -42,6 +42,13 @@ export class AuthService {
 
   }
 
+  loginWithGoogle(idToken: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/google`, { idToken })
+      .pipe(
+        tap(response => this.saveSession(response))
+      );
+  }
+
   register(request: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request)
       .pipe(

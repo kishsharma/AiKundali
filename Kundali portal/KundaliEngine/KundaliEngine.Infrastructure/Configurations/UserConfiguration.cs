@@ -41,6 +41,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50)
             .HasDefaultValue("Local");
 
+        entity.Property(x => x.GoogleSubject)
+            .HasMaxLength(128);
+
+        entity.HasIndex(x => x.GoogleSubject)
+            .IsUnique()
+            .HasFilter("\"GoogleSubject\" IS NOT NULL");
+
         entity.Property(x => x.Role)
             .HasMaxLength(50)
             .HasDefaultValue("User");

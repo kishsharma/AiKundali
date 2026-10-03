@@ -105,6 +105,65 @@ namespace KundaliEngine.API.Controllers
             }
         }
 
+        [EnableRateLimiting("GoogleAuth")]
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleLogin(GoogleLoginRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await _authService.LoginWithGoogleAsync(request.IdToken, cancellationToken);
+                await _auditLogService.LogAsync(new AuditLogEntry
+                {
+                    Action = "GoogleLoginSuccess",
+                    Category = "Authentication",
+                    UserId = response.UserId,
+                    UserName = response.FullName,
+                    EntityType = "User",
+                    EntityId = response.UserId.ToString(),
+                    Description = $"User signed in with Google for email {response.Email}.",
+                    Status = "Success"
+                });
+
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                await _auditLogService.LogAsync(new AuditLogEntry
+                {
+                    Action = "GoogleLoginFailed",
+                    Category = "Authentication",
+                    Description = "Google sign-in failed.",
+                    Status = "Failed",
+                    FailureReason = ex.Message
+                });
+
+                return Unauthorized(new
+                {
+                    message = ex.Message
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                await _auditLogService.LogAsync(new AuditLogEntry
+                {
+                    Action = "GoogleLoginFailed",
+                    Category = "Authentication",
+                    Description = "Google sign-in failed.",
+                    Status = "Failed",
+                    FailureReason = ex.Message
+                });
+
+                var statusCode = ex.Message == "Google sign-in is not configured."
+                    ? StatusCodes.Status500InternalServerError
+                    : StatusCodes.Status400BadRequest;
+
+                return StatusCode(statusCode, new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+
 
         [EnableRateLimiting("AuthOtp")]
         [HttpPost("otp/start-login")]
