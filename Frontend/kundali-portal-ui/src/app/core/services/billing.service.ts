@@ -70,6 +70,13 @@ export class BillingService {
     });
   }
 
+  activatePlan(planCode: string, billingCycle: 'monthly' | 'yearly'): Observable<BillingStatus> {
+    return this.http.post<BillingStatus>(`${this.apiUrl}/activate`, {
+      planCode,
+      billingCycle
+    });
+  }
+
   previewCoupon(code: string, planCode: string, billingCycle: 'monthly' | 'yearly'): Observable<CouponPreview> {
     return this.http.post<CouponPreview>(`${this.apiUrl}/coupons/preview`, { code, planCode, billingCycle });
   }
