@@ -1,8 +1,10 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { apiEndpoints } from '../../config/api-endpoints';
 import { environment } from '../../config/environment/environment';
+import { LatestKundaliStorageService } from '../services/latest-kundali-storage.service';
+import { DhruvaKundaliContextService } from '../../shared/components/dhruva-assistant/dhruva-kundali-context.service';
 import {
   AuthResponse,
   ChangePasswordRequest,
@@ -31,6 +33,9 @@ export class AuthService {
 
   private readonly tokenKey = 'kundali_token';
   private readonly userKey = 'kundali_user';
+
+  private readonly dhruvaContext = inject(DhruvaKundaliContextService);
+  private readonly latestKundali = inject(LatestKundaliStorageService);
 
   constructor(private http: HttpClient) {}
 
@@ -96,8 +101,12 @@ export class AuthService {
   }
 
   private saveSession(response: AuthResponse): void {
+    const previousUserId = this.getCurrentUser()?.userId ?? null;
     localStorage.setItem(this.tokenKey, response.token);
     localStorage.setItem(this.userKey, JSON.stringify(response));
+    if (previousUserId !== (response.userId ?? null)) {
+      this.clearSelectedChart();
+    }
   }
 
   getToken(): string | null {
@@ -120,6 +129,12 @@ export class AuthService {
   clearSession(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    this.clearSelectedChart();
+  }
+
+  private clearSelectedChart(): void {
+    this.dhruvaContext.clearContext();
+    this.latestKundali.clear();
   }
 
   updatePhone(request: UpdatePhoneNumberRequest): Observable<UpdatePhoneNumberResponse> {

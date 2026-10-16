@@ -5,6 +5,7 @@ import { apiEndpoints } from '../../config/api-endpoints';
 import { environment } from '../../config/environment/environment';
 import { AuthResponse, UserProfileResponse } from './auth.models';
 import { AuthService } from './auth.service';
+import { DhruvaKundaliContextService } from '../../shared/components/dhruva-assistant/dhruva-kundali-context.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -28,6 +29,31 @@ describe('AuthService', () => {
   afterEach(() => {
     httpMock.verify();
     localStorage.clear();
+  });
+
+  it('drops another user chart when the session ends or a different user signs in', () => {
+    const dhruva = TestBed.inject(DhruvaKundaliContextService);
+    dhruva.setContext({ personName: { value: 'Aditi', status: 'available' } } as never);
+    localStorage.setItem('kundali.latestBirthPayload', JSON.stringify({ name: 'Aditi' }));
+    localStorage.setItem('kundali_user', JSON.stringify({ userId: 'user-a', token: 'old' }));
+
+    service.clearSession();
+
+    expect(dhruva.context()).toBeNull();
+    expect(dhruva.source()).toBeNull();
+    expect(localStorage.getItem('kundali.latestBirthPayload')).toBeNull();
+
+    dhruva.setContext({ personName: { value: 'Aditi', status: 'available' } } as never);
+    localStorage.setItem('kundali_user', JSON.stringify({ userId: 'user-a', token: 'old' }));
+    service.login({ email: 'b@example.com', password: 'secret' }).subscribe();
+    httpMock.expectOne(`${environment.apiBaseUrl}/${apiEndpoints.auth}/login`).flush({
+      userId: 'user-b',
+      fullName: 'User B',
+      role: 'User',
+      token: 'token-b',
+    });
+
+    expect(dhruva.context()).toBeNull();
   });
 
   it('updates cached user preferred language after PATCH', () => {

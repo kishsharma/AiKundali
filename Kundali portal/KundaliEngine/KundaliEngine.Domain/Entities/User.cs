@@ -26,6 +26,8 @@ namespace KundaliEngine.Domain.Entities
 
         public string? GoogleSubject { get; set; }
 
+        public string? ProfileImageUrl { get; set; }
+
         public string Role { get; set; } = "User";
 
         public string PlanCode { get; set; } = "Free";
@@ -41,6 +43,8 @@ namespace KundaliEngine.Domain.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public DateTime? LastLoginAt { get; set; }
+
+        public DateTime? LastSeenAt { get; set; }
 
         public DateTime? EmailVerifiedAt { get; set; }
 

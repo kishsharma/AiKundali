@@ -235,6 +235,8 @@ namespace KundaliEngine.API.Services.Auth
                 user.UpdatedAt = now;
             }
 
+            ApplyGooglePicture(user, payload);
+
             try
             {
                 await _dbContext.SaveChangesAsync(cancellationToken);
@@ -245,6 +247,36 @@ namespace KundaliEngine.API.Services.Auth
             }
 
             return AuthResponseFactory.Create(user, _jwtTokenGenerator.GenerateToken(user), _entitlementService);
+        }
+
+        private static void ApplyGooglePicture(User user, GoogleJsonWebSignature.Payload payload)
+        {
+            var picture = NormalizeGooglePicture(payload.Picture);
+            if (picture != null)
+            {
+                user.ProfileImageUrl = picture;
+            }
+        }
+
+        private static string? NormalizeGooglePicture(string? picture)
+        {
+            if (string.IsNullOrWhiteSpace(picture))
+            {
+                return null;
+            }
+
+            var value = picture.Trim();
+            if (value.Length > 1000
+                || !Uri.TryCreate(value, UriKind.Absolute, out var uri)
+                || !string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            var host = uri.IdnHost;
+            var allowedHost = host.Equals("googleusercontent.com", StringComparison.OrdinalIgnoreCase)
+                || host.EndsWith(".googleusercontent.com", StringComparison.OrdinalIgnoreCase);
+            return allowedHost ? value : null;
         }
 
         private static string ResolveGoogleName(GoogleJsonWebSignature.Payload payload, string email)

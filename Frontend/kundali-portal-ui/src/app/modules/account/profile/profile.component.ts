@@ -89,6 +89,12 @@ export class ProfileComponent implements OnInit {
     return 'Free';
   }
 
+  profileImageFailedUrl = '';
+
+  profileImageUrl(): string {
+    return this.account?.profileImageUrl?.trim() || '';
+  }
+
   initials(): string {
     const parts = (this.account?.fullName ?? '')
       .trim()
