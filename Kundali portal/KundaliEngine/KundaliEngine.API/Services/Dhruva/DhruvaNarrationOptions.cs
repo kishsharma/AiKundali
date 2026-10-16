@@ -13,4 +13,6 @@ public sealed class DhruvaNarrationOptions
     public double Temperature { get; set; } = 0.4;
 
     public int TimeoutSeconds { get; set; } = 45;
+
+    public string ReasoningEffort { get; set; } = "low";
 }

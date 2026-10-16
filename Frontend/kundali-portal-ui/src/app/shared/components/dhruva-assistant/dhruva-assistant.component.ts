@@ -249,6 +249,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   isOpen = false;
   isClosing = false;
   isExpanded = false;
+  isFullScreen = false;
   isTourOpen = false;
   isGeneralQuestionsOpen = false;
   chartPickerOpen = false;
@@ -259,6 +260,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   private savedChartsSubscription: Subscription | null = null;
   private chartDetailSubscription: Subscription | null = null;
   private narrationSubscription: Subscription | null = null;
+  private lastSavedChatSignature = '';
   private addressedPerson: string | null = null;
   currentTourIndex = 0;
   activeTourKind: DhruvaTourKind = 'portal';
@@ -288,7 +290,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   private responseTypingInterval: ReturnType<typeof setInterval> | null = null;
   private customQuestionRevealTimer: ReturnType<typeof setTimeout> | null = null;
   private hadKundaliContext = false;
-  private panelStateBeforeTour: { isOpen: boolean; isExpanded: boolean } | null = null;
+  private panelStateBeforeTour: { isOpen: boolean; isExpanded: boolean; isFullScreen: boolean } | null = null;
   private closeTransitionTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly generalQuestions: DhruvaGeneralQuestion[] = [
@@ -613,11 +615,15 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
       this.typedAnswer = null;
       this.latestQuestionText = '';
       this.selectedPersonalQuestionId = null;
+      this.selectedStoryActive = false;
+      this.savedCharts = [];
+      this.chartPickerOpen = false;
     }
     this.addressedPerson = person;
   }
 
   ngOnDestroy(): void {
+    this.setFullScreenScrollLock(false);
     this.savedChartsSubscription?.unsubscribe();
     this.chartDetailSubscription?.unsubscribe();
     this.narrationSubscription?.unsubscribe();
@@ -635,6 +641,11 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   @HostBinding('class.dhruva-expanded')
   get isExpandedHost(): boolean {
     return this.isExpanded;
+  }
+
+  @HostBinding('class.dhruva-full')
+  get isFullScreenHost(): boolean {
+    return this.isFullScreen;
   }
 
   get kundaliContext(): DhruvaKundaliContext | null {
@@ -795,11 +806,15 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     if (!this.isOpen) {
       this.isClosing = false;
       this.isExpanded = false;
+      this.isFullScreen = false;
+      this.setFullScreenScrollLock(false);
       return;
     }
 
     this.isOpen = false;
     this.isExpanded = false;
+    this.isFullScreen = false;
+    this.setFullScreenScrollLock(false);
     this.isClosing = true;
     this.clearCloseTransitionTimer();
     this.closeTransitionTimer = setTimeout(() => {
@@ -902,6 +917,89 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     return month ? `${Number(match[3])} ${month} ${match[1]}` : text.slice(0, 10);
   }
 
+  private persistLocalChat(): void {
+    const answer = this.latestAnswer;
+    if (!answer || answer.kind === 'narration') {
+      return;
+    }
+
+    if (answer.kind === 'custom-question' && answer.customQuestion?.state !== 'ready') {
+      return;
+    }
+
+    const question = this.chatQuestionText();
+    const response = this.chatResponseText(answer);
+    const kundaliId = this.activeChartId;
+    if (!question || !response || !kundaliId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(kundaliId)) {
+      return;
+    }
+
+    const signature = `${kundaliId}|${question}|${response}`;
+    if (signature === this.lastSavedChatSignature) {
+      return;
+    }
+
+    this.lastSavedChatSignature = signature;
+    try {
+      this.dhruvaNarration.saveChat({ kundaliId, question, response }).subscribe({
+        error: () => undefined,
+      });
+    } catch {
+      this.lastSavedChatSignature = '';
+    }
+  }
+
+  private chatQuestionText(): string {
+    const typed = this.latestQuestionText?.trim();
+    if (typed) {
+      return typed;
+    }
+
+    if (this.selectedStoryActive) {
+      return 'Janma Story';
+    }
+
+    const personal = this.personalQuestions.find((item) => item.id === this.selectedPersonalQuestionId);
+    if (personal) {
+      return this.translateOr(personal.questionKey, {}, personal.id);
+    }
+
+    const general = this.generalQuestions.find((item) => item.id === this.selectedGeneralQuestionId);
+    if (general) {
+      return this.translateOr(general.questionKey, {}, general.id);
+    }
+
+    return '';
+  }
+
+  private chatResponseText(answer: DhruvaAnswer): string {
+    if (this.skippedChatAnswer(answer)) {
+      return '';
+    }
+
+    if (answer.kind === 'custom-question') {
+      return answer.customQuestion?.summary?.trim() || '';
+    }
+
+    if (answer.kind === 'story') {
+      return [answer.title, ...(answer.lines ?? [])].filter((line) => !!line?.trim()).join('\n\n');
+    }
+
+    if (answer.key) {
+      return this.translateOr(answer.key, answer.params ?? {}, '').trim();
+    }
+
+    return '';
+  }
+
+  private skippedChatAnswer(answer: DhruvaAnswer): boolean {
+    const key = answer.key ?? '';
+    return key === 'dhruva.personal.emptyQuestionAnswer'
+      || key === 'dhruva.personal.noKundaliAnswer'
+      || key === 'dhruva.personal.unsupportedAnswer'
+      || key === 'dhruva.personal.ambiguousHouseAnswer';
+  }
+
   private translateOr(key: string, params: Record<string, string>, fallback: string): string {
     try {
       const translated = this.translocoService.translate(key, params);
@@ -921,15 +1019,35 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   }
 
   expand(): void {
-    if (!this.isOpen) {
+    if (!this.isOpen || this.isFullScreen) {
       return;
     }
 
-    this.isExpanded = true;
+    if (!this.isExpanded) {
+      this.isExpanded = true;
+      return;
+    }
+
+    this.isFullScreen = true;
+    this.setFullScreenScrollLock(true);
   }
 
   restoreCompact(): void {
+    if (this.isFullScreen) {
+      this.isFullScreen = false;
+      this.setFullScreenScrollLock(false);
+      return;
+    }
+
     this.isExpanded = false;
+  }
+
+  private setFullScreenScrollLock(locked: boolean): void {
+    if (typeof document === 'undefined' || !document.body?.classList) {
+      return;
+    }
+
+    document.body.classList.toggle('dhruva-full-open', locked);
   }
   toggleGeneralQuestions(): void {
     this.isGeneralQuestionsOpen = !this.isGeneralQuestionsOpen;
@@ -1142,6 +1260,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
       question,
       locale: this.translocoService.getActiveLang(),
       tone: this.replyTone,
+      kundaliId: this.activeChartId,
       chart,
     }).subscribe({
       next: (response) => {
@@ -1829,7 +1948,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     this.activeTourKind = 'portal';
     this.activePortalTourSteps = visibleSteps;
     this.activeReportTourSteps = [];
-    this.panelStateBeforeTour = { isOpen: this.isOpen, isExpanded: this.isExpanded };
+    this.rememberPanelForTour();
     this.isOpen = false;
     this.isTourOpen = true;
     this.currentTourIndex = 0;
@@ -1898,6 +2017,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
   }
 
   private beginResponseReveal(revealLength = 600, step = 4, intervalMs = 18): void {
+    this.persistLocalChat();
     this.upgradeBlock = null;
     this.clearResponseTypingTimers();
 
@@ -1965,6 +2085,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
     if (this.isReducedMotionPreferred()) {
       this.latestAnswer = answer;
+      this.persistLocalChat();
       this.isCustomQuestionLoading = false;
       this.isTypingResponse = false;
       this.responseVisibleLength = Number.MAX_SAFE_INTEGER;
@@ -2388,6 +2509,8 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
     this.isOpen = true;
     this.isExpanded = panelState.isExpanded;
+    this.isFullScreen = panelState.isFullScreen;
+    this.setFullScreenScrollLock(panelState.isFullScreen);
   }
 
   private updateTourPosition(scrollTarget = false): void {
@@ -2450,11 +2573,16 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
 
     this.activeTourKind = 'kundali-report';
     this.activeReportTourSteps = visibleSteps;
-    this.panelStateBeforeTour = { isOpen: this.isOpen, isExpanded: this.isExpanded };
+    this.rememberPanelForTour();
     this.isOpen = false;
     this.isTourOpen = true;
     this.currentTourIndex = 0;
     this.updateTourPosition(true);
+  }
+
+  private rememberPanelForTour(): void {
+    this.panelStateBeforeTour = { isOpen: this.isOpen, isExpanded: this.isExpanded, isFullScreen: this.isFullScreen };
+    this.setFullScreenScrollLock(false);
   }
 
   private visibleTourSteps(steps: DhruvaTourStep[]): DhruvaTourStep[] {

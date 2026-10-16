@@ -23,6 +23,14 @@ public static class DhruvaChartFactBuilder
     {
         var facts = new JsonObject();
         var native = ReadNative(chart);
+        var normalizedMode = (mode ?? "qa").Trim().ToLowerInvariant();
+        if (normalizedMode != "janma_story")
+        {
+            native.Remove("birthDate");
+            native.Remove("birthTime");
+            native.Remove("birthPlace");
+        }
+
         if (native.Count > 0)
         {
             facts["native"] = native;
@@ -37,7 +45,6 @@ public static class DhruvaChartFactBuilder
             facts["currentDasha"] = currentDasha;
         }
 
-        var normalizedMode = (mode ?? "qa").Trim().ToLowerInvariant();
         if (normalizedMode == "janma_story")
         {
             Set(facts, "planets", ReadPlanets(chart, null));

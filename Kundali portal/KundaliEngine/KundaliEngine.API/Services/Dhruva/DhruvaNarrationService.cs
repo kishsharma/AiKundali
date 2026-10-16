@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using KundaliEngine.API.Services.Auth;
 using Microsoft.Extensions.Options;
 
@@ -14,7 +15,7 @@ public interface IDhruvaNarrationService
 public sealed class DhruvaNarrationService : IDhruvaNarrationService
 {
     public const string Disclaimer = "For educational and spiritual guidance only. Not medical, legal, or financial advice. Outcomes are not guaranteed.";
-    public const string PromptVersion = "dhruva-tone-v3";
+    public const string PromptVersion = "dhruva-tone-v4";
 
     private static readonly HashSet<string> Modes = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -60,16 +61,21 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
                 profile.EvidenceLimit),
             today);
         var locale = ResolveResponseLanguage(null, request.Locale);
-        var userMessage = BuildUserMessage(mode, locale, request.Question, profile, facts);
-        var payload = new
+        var feeling = profile.Tone == "corporate"
+            ? null
+            : DhruvaQuestionFeeling.Classify(request.Question);
+        var userMessage = BuildUserMessage(mode, locale, request.Question, profile, facts, feeling);
+        var payload = new ChatCompletionRequest
         {
-            model = _options.Model,
-            temperature = _options.Temperature,
-            messages = new object[]
-            {
+            Model = _options.Model,
+            Temperature = _options.Temperature,
+            MaxCompletionTokens = profile.MaxCompletionTokens,
+            ReasoningEffort = UsesReasoningEffort ? _options.ReasoningEffort.Trim() : null,
+            Messages =
+            [
                 new { role = "system", content = ComposeSystemPrompt(profile) },
                 new { role = "user", content = userMessage },
-            },
+            ],
         };
 
         try
@@ -223,36 +229,30 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
             : DhruvaToneProfile.Template;
     }
 
+    private bool UsesReasoningEffort =>
+        _options.Model.Contains("gpt-oss", StringComparison.OrdinalIgnoreCase)
+        && !string.IsNullOrWhiteSpace(_options.ReasoningEffort);
+
     private string ComposeSystemPrompt(DhruvaToneProfile profile)
     {
         var template = LoadSystemPrompt();
-        var profileJson = profile.ToProfileJson();
         if (template.Contains("{{TONE_PROFILE}}", StringComparison.Ordinal))
         {
             return template
-                .Replace("{{TONE_PROFILE}}", profileJson, StringComparison.Ordinal)
-                .Replace("{{AUDIENCE}}", profile.Audience, StringComparison.Ordinal)
-                .Replace("{{RESPONSE_STYLE}}", profile.ResponseStyle, StringComparison.Ordinal);
+                .Replace("{{TONE_PROFILE}}", profile.PromptLine, StringComparison.Ordinal)
+                .Replace("{{AUDIENCE}}", string.Empty, StringComparison.Ordinal)
+                .Replace("{{RESPONSE_STYLE}}", string.Empty, StringComparison.Ordinal);
         }
 
         return $"""
             {template.TrimEnd()}
 
-            SELECTED TONE PROFILE:
-
-            {profileJson}
-
-            AUDIENCE:
-
-            {profile.Audience}
-
-            RESPONSE STYLE:
-
-            {profile.ResponseStyle}
+            TONE:
+            {profile.PromptLine}
             """;
     }
 
-    private static string BuildUserMessage(string mode, string? locale, string? question, DhruvaToneProfile profile, string evidence)
+    private static string BuildUserMessage(string mode, string? locale, string? question, DhruvaToneProfile profile, string evidence, string? feeling)
     {
         var instruction = ModeInstructions.TryGetValue(mode, out var text)
             ? text
@@ -261,17 +261,34 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
         var questionLine = string.IsNullOrWhiteSpace(question)
             ? "Question: Narrate the supplied evidence."
             : $"Question: {question.Trim()}";
+        var feelLine = string.IsNullOrWhiteSpace(feeling) ? string.Empty : $"feel:{feeling}\n";
         return $"""
             Response language: {LanguageName(language)}
             {LanguageInstruction(language)}
             Mode: {mode}
             Selected tone: {profile.Tone}
             {questionLine}
-            Instructions: {instruction} Follow the selected tone profile's structure in order. Use at most {profile.EvidenceLimit} evidence points. Write plain sentences with no markdown, asterisks, headings, or HTML. If a date is mentioned, it must be today or later. Never mention a past date. When only an end date is present, say by that date. Do not repeat the conclusion. Write every sentence in {LanguageName(language)}.
+            {feelLine}{instruction}
 
             EVIDENCE:
             {evidence}
             """;
+    }
+
+    private sealed class ChatCompletionRequest
+    {
+        public string Model { get; init; } = string.Empty;
+
+        public double Temperature { get; init; }
+
+        [JsonPropertyName("max_completion_tokens")]
+        public int MaxCompletionTokens { get; init; }
+
+        [JsonPropertyName("reasoning_effort")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? ReasoningEffort { get; init; }
+
+        public object[] Messages { get; init; } = [];
     }
 
     private static (int PromptTokens, int CompletionTokens, int TotalTokens) ReadTokenUsage(JsonElement root)
@@ -310,8 +327,8 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
 
     private static string LanguageInstruction(string language) => language switch
     {
-        "hi" => "Write the entire answer in Hindi using Devanagari script. The question may be in any language. Do not answer in the question's language and do not mix languages.",
-        "kn" => "Write the entire answer in Kannada using Kannada script. The question may be in any language. Do not answer in the question's language and do not mix languages.",
-        _ => "Write the entire answer in English. The question may be in any language. Do not answer in the question's language and do not mix languages.",
+        "hi" => "Write the entire answer in Hindi using Devanagari. Do not answer in the question's language.",
+        "kn" => "Write the entire answer in Kannada using Kannada script. Do not answer in the question's language.",
+        _ => "Write the entire answer in English. Do not answer in the question's language.",
     };
 }

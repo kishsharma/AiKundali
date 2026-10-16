@@ -1,0 +1,58 @@
+<section class="dhruva-chats-page">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Dhruva</p>
+      <h1>Chat history</h1>
+      <p>Questions and answers saved for each chart, in the order they were asked.</p>
+    </div>
+  </header>
+
+  <p class="status" *ngIf="loadingCharts">Loading charts...</p>
+  <p class="status error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="history-layout" *ngIf="!loadingCharts">
+    <aside class="chart-list" aria-label="Charts with Dhruva chats">
+      <h2>Charts</h2>
+      <p class="empty" *ngIf="charts.length === 0">No Dhruva chats yet. Ask Dhruva about a saved kundali and it will appear here.</p>
+      <button
+        type="button"
+        class="chart-card"
+        *ngFor="let chart of charts"
+        [class.active]="chart.kundaliId === selectedId"
+        (click)="selectChart(chart)">
+        <strong>{{ chart.fullName }}</strong>
+        <span>{{ chartMeta(chart) }}</span>
+        <small>{{ chart.messageCount }} {{ chart.messageCount === 1 ? 'exchange' : 'exchanges' }} · {{ formatTime(chart.lastAskedAt) }}</small>
+      </button>
+    </aside>
+
+    <section class="conversation" aria-live="polite">
+      <p class="empty" *ngIf="!selectedId">Select a chart to read its conversation.</p>
+      <ng-container *ngIf="selectedChart() as chart">
+        <header class="conversation-head">
+          <h2>{{ chart.fullName }}</h2>
+          <p>{{ chartMeta(chart) }}</p>
+        </header>
+        <p class="status" *ngIf="loadingMessages">Loading conversation...</p>
+        <ol class="turns" *ngIf="!loadingMessages">
+          <li *ngFor="let message of messages">
+            <article class="turn question">
+              <div class="turn-meta">
+                <span>Question</span>
+                <time>{{ formatTime(message.askedAt) }}</time>
+              </div>
+              <p>{{ message.question }}</p>
+            </article>
+            <article class="turn answer">
+              <div class="turn-meta">
+                <span>Dhruva</span>
+                <time>{{ formatTime(message.askedAt) }}</time>
+              </div>
+              <p>{{ message.response }}</p>
+            </article>
+          </li>
+        </ol>
+      </ng-container>
+    </section>
+  </div>
+</section>

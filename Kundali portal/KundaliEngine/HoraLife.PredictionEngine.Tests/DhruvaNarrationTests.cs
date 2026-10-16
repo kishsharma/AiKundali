@@ -184,11 +184,14 @@ public class DhruvaNarrationTests
             var systemMessage = sent.RootElement.GetProperty("messages")[0].GetProperty("content").GetString() ?? string.Empty;
             var userMessage = sent.RootElement.GetProperty("messages")[1].GetProperty("content").GetString() ?? string.Empty;
             Assert.Equal("dhruva", sent.RootElement.GetProperty("model").GetString());
+            Assert.Equal(400, sent.RootElement.GetProperty("max_completion_tokens").GetInt32());
+            Assert.False(sent.RootElement.TryGetProperty("reasoning_effort", out _));
             Assert.Contains("Response language: English", userMessage);
             Assert.Contains("Write the entire answer in English.", userMessage);
             Assert.Contains("When is marriage likely?", userMessage);
             Assert.Contains("EVIDENCE:", userMessage);
             Assert.Contains("Selected tone: friendly", userMessage);
+            Assert.DoesNotContain("feel:", userMessage);
             Assert.Contains("\"house\":7", userMessage);
             Assert.Contains("warm and approachable guide", systemMessage);
             Assert.Contains("direct_answer", systemMessage);
@@ -248,6 +251,107 @@ public class DhruvaNarrationTests
             Assert.Contains("How is my career?", userMessage);
             Assert.DoesNotContain("{{AUDIENCE}}", systemMessage);
             Assert.DoesNotContain("{{RESPONSE_STYLE}}", systemMessage);
+        }
+        finally
+        {
+            File.Delete(promptPath);
+        }
+    }
+
+    [Theory]
+    [InlineData("When is marriage likely?", null)]
+    [InlineData("I am scared my marriage will fail", DhruvaQuestionFeeling.Anxious)]
+    [InlineData("मुझे शादी को लेकर डर लग रहा है", DhruvaQuestionFeeling.Anxious)]
+    [InlineData("I hope this new job works out", DhruvaQuestionFeeling.Hopeful)]
+    [InlineData("He passed away and I feel lonely", DhruvaQuestionFeeling.Grieving)]
+    [InlineData("Please answer immediately", DhruvaQuestionFeeling.Urgent)]
+    [InlineData("I am fearless about this career", null)]
+    public void QuestionFeeling_ReadsEmotionWithoutAnExtraModelCall(string question, string? feeling)
+    {
+        Assert.Equal(feeling, DhruvaQuestionFeeling.Classify(question));
+    }
+
+    [Fact]
+    public async Task Narration_FoldsAWorriedQuestionIntoOneFeelCue()
+    {
+        var handler = new CaptureHandler("Asha, the nearer period still supports marriage.");
+        var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
+        await File.WriteAllTextAsync(promptPath, DhruvaToneProfile.Template);
+        try
+        {
+            var service = new DhruvaNarrationService(
+                new HttpClient(handler),
+                Options.Create(new DhruvaNarrationOptions
+                {
+                    BaseUrl = "http://127.0.0.1:11434/v1",
+                    Model = "openai/gpt-oss-120b",
+                    SystemPromptPath = promptPath,
+                    Temperature = 0.4,
+                    TimeoutSeconds = 180,
+                    ReasoningEffort = "low",
+                }),
+                new TestHostEnvironment());
+
+            using var document = JsonDocument.Parse(SampleChart);
+            await service.NarrateAsync(new DhruvaNarrateRequestDto
+            {
+                Mode = "qa",
+                Question = "I am scared my marriage will fail",
+                Locale = "en",
+                Tone = "friendly",
+                Chart = document.RootElement.Clone(),
+            }, CancellationToken.None);
+
+            using var sent = JsonDocument.Parse(handler.Body);
+            var systemMessage = sent.RootElement.GetProperty("messages")[0].GetProperty("content").GetString() ?? string.Empty;
+            var userMessage = sent.RootElement.GetProperty("messages")[1].GetProperty("content").GetString() ?? string.Empty;
+            Assert.Contains("feel:anxious", userMessage);
+            Assert.Contains("fold that feeling into the first sentence", systemMessage);
+            Assert.DoesNotContain("birthPlace", userMessage);
+            Assert.Equal("low", sent.RootElement.GetProperty("reasoning_effort").GetString());
+            Assert.Equal(400, sent.RootElement.GetProperty("max_completion_tokens").GetInt32());
+        }
+        finally
+        {
+            File.Delete(promptPath);
+        }
+    }
+
+    [Fact]
+    public async Task Narration_KeepsCorporateAnswersFactual()
+    {
+        var handler = new CaptureHandler("The career indicators are mixed.");
+        var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
+        await File.WriteAllTextAsync(promptPath, "Narrate the chart.");
+        try
+        {
+            var service = new DhruvaNarrationService(
+                new HttpClient(handler),
+                Options.Create(new DhruvaNarrationOptions
+                {
+                    BaseUrl = "http://127.0.0.1:11434/v1",
+                    Model = "dhruva",
+                    SystemPromptPath = promptPath,
+                    Temperature = 0.4,
+                    TimeoutSeconds = 180,
+                }),
+                new TestHostEnvironment());
+
+            using var document = JsonDocument.Parse(SampleChart);
+            await service.NarrateAsync(new DhruvaNarrateRequestDto
+            {
+                Mode = "qa",
+                Question = "I am scared about my career",
+                Locale = "en",
+                Tone = "corporate",
+                Chart = document.RootElement.Clone(),
+            }, CancellationToken.None);
+
+            using var sent = JsonDocument.Parse(handler.Body);
+            var userMessage = sent.RootElement.GetProperty("messages")[1].GetProperty("content").GetString() ?? string.Empty;
+            Assert.Contains("Selected tone: corporate", userMessage);
+            Assert.DoesNotContain("feel:", userMessage);
+            Assert.Equal(400, sent.RootElement.GetProperty("max_completion_tokens").GetInt32());
         }
         finally
         {

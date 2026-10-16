@@ -1,14 +1,15 @@
-<div class="dhruva-assistant" [class.open]="isOpen" [class.expanded]="isExpanded">
+<div class="dhruva-assistant" [class.open]="isOpen" [class.expanded]="isExpanded" [class.full]="isFullScreen">
   <button
     type="button"
     class="dhruva-expanded-backdrop"
-    *ngIf="isOpen && isExpanded"
+    *ngIf="isOpen && isExpanded && !isFullScreen"
     (click)="restoreCompact()"
     aria-label="Return Dhruva to compact mode"
   ></button>
   <section
     class="dhruva-panel"
     [class.expanded]="isExpanded"
+    [class.full]="isFullScreen"
     *ngIf="isOpen"
     aria-labelledby="dhruva-title"
   >
@@ -19,6 +20,11 @@
           <span class="dhruva-nebula-layer layer-two"></span>
           <span class="dhruva-nebula-layer layer-three"></span>
           <span class="dhruva-nebula-core"></span>
+          <span class="dhruva-north-star dhruva-north-star--mini" aria-hidden="true">
+            <span class="dhruva-north-star-core"></span>
+            <span class="dhruva-north-star-ray ray-vertical"></span>
+            <span class="dhruva-north-star-ray ray-horizontal"></span>
+          </span>
         </span>
         <div class="dhruva-title-copy">
           <div class="dhruva-title-row">
@@ -35,24 +41,26 @@
         <button
           type="button"
           class="dhruva-mode-action"
-          *ngIf="!isExpanded; else restoreDhruvaMode"
+          *ngIf="!isFullScreen"
           (click)="expand()"
-          [attr.aria-label]="'dhruva.expand' | transloco"
-          [title]="'dhruva.expand' | transloco"
+          [attr.aria-label]="(isExpanded ? 'dhruva.fullScreen' : 'dhruva.expand') | transloco"
+          [title]="(isExpanded ? 'dhruva.fullScreen' : 'dhruva.expand') | transloco"
         >
-          <span aria-hidden="true">&#10530;</span>
+          <span *ngIf="!isExpanded" aria-hidden="true">&#10530;</span>
+          <svg *ngIf="isExpanded" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
-        <ng-template #restoreDhruvaMode>
-          <button
-            type="button"
-            class="dhruva-mode-action"
-            (click)="restoreCompact()"
-            [attr.aria-label]="'dhruva.restore' | transloco"
-            [title]="'dhruva.restore' | transloco"
-          >
-            <span aria-hidden="true">&#10529;</span>
-          </button>
-        </ng-template>
+        <button
+          type="button"
+          class="dhruva-mode-action"
+          *ngIf="isExpanded"
+          (click)="restoreCompact()"
+          [attr.aria-label]="(isFullScreen ? 'dhruva.exitFullScreen' : 'dhruva.restore') | transloco"
+          [title]="(isFullScreen ? 'dhruva.exitFullScreen' : 'dhruva.restore') | transloco"
+        >
+          <span aria-hidden="true">&#10529;</span>
+        </button>
         <button
           type="button"
           class="dhruva-close"
@@ -448,6 +456,11 @@
       <span class="dhruva-orb-particle particle-four"></span>
       <span class="dhruva-orb-particle particle-five"></span>
       <span class="dhruva-orb-particle particle-six"></span>
+    </span>
+    <span class="dhruva-north-star" aria-hidden="true" title="Dhruva">
+      <span class="dhruva-north-star-core"></span>
+      <span class="dhruva-north-star-ray ray-vertical"></span>
+      <span class="dhruva-north-star-ray ray-horizontal"></span>
     </span>
     <span class="dhruva-launcher-badge" aria-hidden="true"></span>
   </button>
