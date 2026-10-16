@@ -71,6 +71,7 @@ namespace KundaliEngine.API.Controllers
                 userId = user.Id,
                 fullName = user.FullName,
                 email = user.Email,
+                profileImageUrl = user.ProfileImageUrl,
                 phoneNumber = user.PhoneNumber,
                 preferredLanguage = user.PreferredLanguage,
                 role = user.Role,
@@ -327,7 +328,9 @@ namespace KundaliEngine.API.Controllers
                 IsPremium = snapshot.IsPremium,
                 IsPaid = snapshot.IsPaid,
                 IsPlus = snapshot.IsPlus,
-                MatchSaveLimit = snapshot.MatchSaveLimit
+                MatchSaveLimit = snapshot.MatchSaveLimit,
+                LastSeenAt = user.LastSeenAt,
+                IsOnline = user.LastSeenAt.HasValue && user.LastSeenAt.Value >= DateTime.UtcNow.AddMinutes(-10)
             };
         }
 

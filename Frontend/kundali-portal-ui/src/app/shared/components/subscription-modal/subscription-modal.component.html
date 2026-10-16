@@ -77,7 +77,7 @@
           class="plan-cta"
           [disabled]="isCtaDisabled(plan)"
           (click)="choosePlan(plan)">
-          {{ checkoutPlanCode === plan.code ? 'Opening checkout...' : ctaLabel(plan) }}
+          {{ checkoutPlanCode === plan.code ? (plan.canCheckout ? 'Opening checkout...' : 'Updating plan...') : ctaLabel(plan) }}
         </button>
       </article>
     </div>

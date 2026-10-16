@@ -8,17 +8,56 @@
     </div>
 
     <form class="calculator-panel" (ngSubmit)="calculate()" novalidate>
-      <div class="date-field">
-        <label for="numerologyDob">Date of birth</label>
-        <app-portal-wheel-picker
-          id="numerologyDob"
-          name="dateOfBirth"
-          mode="date"
-          label="Date of birth"
-          placeholder="Select date of birth"
-          [maxYear]="currentYear"
-          [(ngModel)]="dateOfBirth"
-        ></app-portal-wheel-picker>
+      <div class="calculator-fields">
+        <div class="date-field">
+          <label for="numerologyDob">Date of birth</label>
+          <app-portal-wheel-picker
+            id="numerologyDob"
+            name="dateOfBirth"
+            mode="date"
+            label="Date of birth"
+            placeholder="Select date of birth"
+            [maxYear]="currentYear"
+            [(ngModel)]="dateOfBirth"
+          ></app-portal-wheel-picker>
+        </div>
+        <div class="date-field">
+          <label for="numerologyName">Name</label>
+          <input
+            id="numerologyName"
+            class="name-input"
+            name="fullName"
+            type="text"
+            autocomplete="name"
+            placeholder="Optional English name"
+            [(ngModel)]="fullName"
+          />
+        </div>
+        <div class="date-field">
+          <label for="numerologyMobile">Mobile number</label>
+          <input
+            id="numerologyMobile"
+            class="name-input"
+            name="mobileNumber"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="Optional mobile number"
+            [(ngModel)]="mobileNumber"
+          />
+        </div>
+        <div class="date-field">
+          <label for="numerologyBusiness">Business name</label>
+          <input
+            id="numerologyBusiness"
+            class="name-input"
+            name="businessName"
+            type="text"
+            autocomplete="organization"
+            placeholder="Optional English business name"
+            [(ngModel)]="businessName"
+          />
+        </div>
       </div>
       <button class="calculate-button" type="submit" [disabled]="!dateOfBirth || dateOfBirth > maxDate || isLoading">
         {{ isLoading ? 'Revealing...' : 'Reveal Insights' }}
@@ -43,11 +82,70 @@
     </div>
   </section>
 
-  <div *ngIf="result as numerology" class="results" aria-live="polite">
+  <div *ngIf="result as numerology" id="numerology-report" class="results" aria-live="polite">
+    <div class="results-actions" aria-label="Reading tools">
+      <button type="button" class="report-tool" (click)="saveReading()" [disabled]="isSaving" title="Save reading on this device">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 3h12l2 2v16H5z"></path><path d="M8 3v6h8V3"></path><path d="M8 17h8"></path></svg>
+        <span>{{ isSaving ? 'Saving…' : 'Save' }}</span>
+      </button>
+      <button type="button" class="report-tool" (click)="downloadReading()" [disabled]="isDownloading" title="Download PDF">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+        <span>{{ isDownloading ? 'Preparing…' : 'Download' }}</span>
+      </button>
+      <button type="button" class="report-tool" (click)="printReading()" title="Print reading">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v7H6z"></path></svg>
+        <span>Print</span>
+      </button>
+    </div>
+
+    <!-- HoraLife brand for print/PDF only. Prepared-by stays off for now. -->
+    <header class="report-branding report-branding--export" aria-label="HoraLife report branding">
+      <div class="report-brand-lockup">
+        <img src="assets/brand/horalife/horalife-icon-color.svg" class="report-brand-logo" alt="HoraLife logo" />
+        <div class="report-brand-copy">
+          <strong><span>Hora</span><span>Life</span></strong>
+          <small>Precision Vedic Astrology</small>
+        </div>
+      </div>
+      <p class="report-subject">
+        <span>Numerology reading for</span>
+        <strong>{{ reportSubjectLabel }}</strong>
+      </p>
+    </header>
+
+    <!-- Full prepared-by branding kept for later. -->
+    <header *ngIf="showReportBrandingHeader" class="report-branding" aria-label="Report branding">
+      <div class="report-brand-lockup">
+        <img [src]="reportBrandLogoSrc" class="report-brand-logo report-brand-logo--screen" alt="HoraLife logo" />
+        <img src="assets/brand/horalife/horalife-icon-color.svg" class="report-brand-logo report-brand-logo--print" alt="" aria-hidden="true" />
+        <div class="report-brand-copy">
+          <strong><span>Hora</span><span>Life</span></strong>
+          <small>Precision Vedic Astrology</small>
+        </div>
+      </div>
+      <div class="report-prepared-by" [class.has-logo]="!!activeReportBranding?.logoUrl">
+        <img
+          *ngIf="activeReportBranding?.logoUrl"
+          class="report-prepared-logo"
+          [src]="activeReportBranding?.logoUrl || ''"
+          alt=""
+        />
+        <span class="report-kicker">Prepared by</span>
+        <h3>{{ reportAstrologerName }}</h3>
+        <span *ngIf="reportAstrologerDesignation">{{ reportAstrologerDesignation }}</span>
+        <p *ngIf="reportAstrologerContact">{{ reportAstrologerContact }}</p>
+      </div>
+      <p class="report-subject">
+        <span>Numerology reading for</span>
+        <strong>{{ reportSubjectLabel }}</strong>
+      </p>
+    </header>
+
     <section class="result-section" aria-labelledby="yourNumerologyTitle">
       <div class="section-heading section-heading--inline">
         <h2 id="yourNumerologyTitle"><span>Core numbers</span> Your Numerology</h2>
       </div>
+      <p class="section-gloss">Birth number = daily nature. Life path = longer direction.</p>
 
       <div class="number-grid">
         <article class="number-card number-card--mulank">
@@ -61,7 +159,17 @@
           </div>
           <p *ngIf="numerology.mulankDetails?.summary" class="number-summary">{{ numerology.mulankDetails?.summary }}</p>
           <div *ngIf="numerology.mulankDetails?.traits?.length" class="chip-list" aria-label="Mulank traits">
-            <span *ngFor="let trait of numerology.mulankDetails?.traits | slice:0:4" class="trait-chip">{{ trait }}</span>
+            <span *ngFor="let trait of numerology.mulankDetails?.traits" class="trait-chip">{{ trait }}</span>
+          </div>
+          <div class="number-factors" *ngIf="numerology.mulankDetails as details">
+            <div *ngIf="details.strengths?.length">
+              <span>Strengths</span>
+              <ul><li *ngFor="let item of details.strengths">{{ item }}</li></ul>
+            </div>
+            <div *ngIf="details.challenges?.length">
+              <span>Challenges</span>
+              <ul><li *ngFor="let item of details.challenges">{{ item }}</li></ul>
+            </div>
           </div>
         </article>
 
@@ -76,7 +184,17 @@
           </div>
           <p *ngIf="numerology.bhagyankDetails?.summary" class="number-summary">{{ numerology.bhagyankDetails?.summary }}</p>
           <div *ngIf="numerology.bhagyankDetails?.traits?.length" class="chip-list" aria-label="Bhagyank traits">
-            <span *ngFor="let trait of numerology.bhagyankDetails?.traits | slice:0:4" class="trait-chip">{{ trait }}</span>
+            <span *ngFor="let trait of numerology.bhagyankDetails?.traits" class="trait-chip">{{ trait }}</span>
+          </div>
+          <div class="number-factors" *ngIf="numerology.bhagyankDetails as details">
+            <div *ngIf="details.strengths?.length">
+              <span>Strengths</span>
+              <ul><li *ngFor="let item of details.strengths">{{ item }}</li></ul>
+            </div>
+            <div *ngIf="details.challenges?.length">
+              <span>Challenges</span>
+              <ul><li *ngFor="let item of details.challenges">{{ item }}</li></ul>
+            </div>
           </div>
         </article>
       </div>
@@ -88,7 +206,7 @@
           <p class="eyebrow">Mulank × Bhagyank</p>
           <div class="combination-identity">
             <h2 id="combinationTitle">{{ numerology.mulank }} <span>+</span> {{ numerology.bhagyank }}</h2>
-            <span class="combination-badge">{{ numerology.combinationType }}</span>
+            <span class="combination-badge">{{ numerology.combinationType }} · {{ combinationPlainLabel(numerology.combinationType) }}</span>
           </div>
         </div>
         <div class="combination-orbit" aria-hidden="true"><span>{{ numerology.mulank }}</span><span>{{ numerology.bhagyank }}</span></div>
@@ -107,10 +225,69 @@
       </div>
     </section>
 
+    <section *ngIf="numerology.loShu as grid" class="result-section pattern-section" aria-labelledby="gridTitle">
+      <div class="section-heading section-heading--inline">
+        <h2 id="gridTitle"><span>Date pattern</span> Lo Shu grid</h2>
+      </div>
+      <p class="section-gloss">This grid counts digits from your date of birth.</p>
+      <div class="pattern-layout">
+        <div class="loshu" aria-label="Lo Shu grid">
+          <div
+            class="loshu-cell"
+            *ngFor="let cell of grid.cells"
+            [class.is-missing]="cell.count === 0"
+            [class.is-repeated]="cell.count > 1">
+            <strong>{{ cell.number }}</strong>
+            <span>{{ cell.count === 0 ? '—' : cell.count }}</span>
+          </div>
+        </div>
+
+        <div class="pattern-facts">
+          <p class="pattern-line"><span>Missing</span> {{ grid.missing?.length ? grid.missing.join(', ') : 'None' }}</p>
+          <p class="pattern-line"><span>Repeated</span> {{ repeatedLabel(grid) }}</p>
+          <p class="pattern-gloss">Missing = qualities to build with care. Repeated = qualities that show up strongly.</p>
+        </div>
+
+        <div class="year-stack" *ngIf="numerology.personalYear as year">
+          <p class="year-meaning">Personal year shows the tone of the calendar year from your birth day and month. {{ year.year }} is {{ yearTone(year.number) }}{{ numerology.nextPersonalYear ? '; ' + numerology.nextPersonalYear.year + ' is ' + yearTone(numerology.nextPersonalYear.number) : '' }}.</p>
+          <article>
+            <span>{{ year.year }}</span>
+            <strong>{{ year.number }}</strong>
+            <small>{{ year.planet }} · {{ year.calculation }}</small>
+          </article>
+          <article *ngIf="numerology.nextPersonalYear as nextYear">
+            <span>{{ nextYear.year }}</span>
+            <strong>{{ nextYear.number }}</strong>
+            <small>{{ nextYear.planet }} · {{ nextYear.calculation }}</small>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section *ngIf="numerology.mulankDetails || numerology.bhagyankDetails" class="result-section influences" aria-labelledby="influencesTitle">
       <div class="section-heading section-heading--inline influence-heading">
         <h2 id="influencesTitle"><span>Supportive patterns</span> Favourable Influences</h2>
-        <div class="influence-guidance"><span>How to use</span><p>{{ numerology.mulank === numerology.bhagyank ? 'Both numbers are ' + numerology.mulank + ', placing extra emphasis on ' + numerology.mulankPlanet + '. Use Mulank for daily choices and Bhagyank for long-term direction.' : 'Use Mulank for daily choices and Bhagyank for long-term direction. Influences appearing in both carry extra emphasis.' }}</p></div>
+        <div class="influence-guidance"><span>How to use</span><p>{{ numerology.mulank === numerology.bhagyank ? 'Both numbers are ' + numerology.mulank + ', placing extra emphasis on ' + numerology.mulankPlanet + '. Use these days, colours, and numbers when you pick dates, wear colours, or choose numbers. Everyday choices follow the birth number; longer plans follow the life path.' : 'Use these days, colours, and numbers when you pick dates, wear colours, or choose numbers. Everyday choices follow the birth number; longer plans follow the life path. Items shared by both carry extra emphasis.' }}</p></div>
+      </div>
+
+      <div class="shared-influences" *ngIf="sharedInfluences(numerology) as shared">
+        <span>Shared by both</span>
+        <div class="influence-row" *ngIf="shared.numbers.length">
+          <span class="influence-label">Numbers</span>
+          <div class="chip-list"><span *ngFor="let number of shared.numbers" class="number-chip">{{ number }}</span></div>
+        </div>
+        <div class="influence-row" *ngIf="shared.days.length">
+          <span class="influence-label">Days</span>
+          <div class="chip-list"><span *ngFor="let day of shared.days" class="meta-chip">{{ day }}</span></div>
+        </div>
+        <div class="influence-row" *ngIf="shared.colours.length">
+          <span class="influence-label">Colours</span>
+          <div class="chip-list">
+            <span *ngFor="let colour of shared.colours" class="colour-chip">
+              <i *ngIf="colourSwatch(colour) as swatch" [style.backgroundColor]="swatch" aria-hidden="true"></i>{{ colour }}
+            </span>
+          </div>
+        </div>
       </div>
 
       <div class="influence-grid">
@@ -158,6 +335,88 @@
           </div>
         </article>
       </div>
+    </section>
+
+    <section
+      *ngIf="numerology.nameNumber || numerology.mobile || numerology.business"
+      class="result-section"
+      aria-labelledby="checksTitle">
+      <div class="section-heading section-heading--inline">
+        <h2 id="checksTitle"><span>Name &amp; numbers</span> Compatibility checks</h2>
+      </div>
+
+      <article class="number-card name-card" *ngIf="numerology.nameNumber as nameNumber">
+        <header>
+          <h3>Name number <span>· {{ numerology.name }}</span></h3>
+          <span class="number-mark" aria-hidden="true">N</span>
+        </header>
+        <div class="number-main">
+          <div class="number-value">{{ nameNumber }}</div>
+          <p class="planet">Compound <strong>{{ numerology.nameCompound }}</strong> · Ruled by <strong>{{ numerology.namePlanet }}</strong></p>
+        </div>
+        <p class="name-calculation">{{ numerology.nameCalculation }}</p>
+        <div class="name-matches">
+          <span>Birth number <em [attr.data-match]="numerology.nameMulankMatch">{{ numerology.nameMulankMatch }}</em></span>
+          <span>Life path <em [attr.data-match]="numerology.nameBhagyankMatch">{{ numerology.nameBhagyankMatch }}</em></span>
+        </div>
+      </article>
+
+      <article class="number-card name-card" *ngIf="numerology.mobile as mobile">
+        <header>
+          <h3>Mobile number <span>· {{ mobile.label }}</span></h3>
+          <span class="number-mark" aria-hidden="true">#</span>
+        </header>
+        <div class="number-main">
+          <div class="number-value">{{ mobile.number }}</div>
+          <p class="planet">Compound <strong>{{ mobile.compound }}</strong> · Ruled by <strong>{{ mobile.planet }}</strong></p>
+        </div>
+        <p class="name-calculation">{{ mobile.calculation }}</p>
+        <div class="name-matches">
+          <span>Birth number <em [attr.data-match]="mobile.mulankMatch">{{ mobile.mulankMatch }}</em></span>
+          <span>Life path <em [attr.data-match]="mobile.bhagyankMatch">{{ mobile.bhagyankMatch }}</em></span>
+        </div>
+        <div class="check-suggestions" *ngIf="mobile.suggestions?.length">
+          <span>Correction ideas</span>
+          <ul>
+            <li *ngFor="let tip of mobile.suggestions">{{ tip }}</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="number-card name-card" *ngIf="numerology.business as business">
+        <header>
+          <h3>Business name <span>· {{ business.label }}</span></h3>
+          <span class="number-mark" aria-hidden="true">Co</span>
+        </header>
+        <div class="number-main">
+          <div class="number-value">{{ business.number }}</div>
+          <p class="planet">Compound <strong>{{ business.compound }}</strong> · Ruled by <strong>{{ business.planet }}</strong></p>
+        </div>
+        <p class="name-calculation">{{ business.calculation }}</p>
+        <div class="name-matches">
+          <span>Birth number <em [attr.data-match]="business.mulankMatch">{{ business.mulankMatch }}</em></span>
+          <span>Life path <em [attr.data-match]="business.bhagyankMatch">{{ business.bhagyankMatch }}</em></span>
+        </div>
+        <div class="check-suggestions" *ngIf="business.suggestions?.length">
+          <span>Correction ideas</span>
+          <ul>
+            <li *ngFor="let tip of business.suggestions">{{ tip }}</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="result-section meaning-section" aria-labelledby="answersTitle">
+      <div class="section-heading section-heading--inline">
+        <h2 id="answersTitle"><span>In simple words</span> What this means</h2>
+      </div>
+      <p class="simple-lead">Use this closing summary if the terms above feel heavy. It says the same reading in everyday language.</p>
+      <ul class="simple-list">
+        <li *ngFor="let item of simpleReading(numerology)">
+          <strong>{{ item.title }}</strong>
+          <span>{{ item.body }}</span>
+        </li>
+      </ul>
     </section>
 
     <details class="calculation-details">

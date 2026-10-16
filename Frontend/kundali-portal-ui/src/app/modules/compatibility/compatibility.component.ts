@@ -21,6 +21,7 @@ import { SavedChartMapperService, SavedKundaliDetail } from '../../shared/servic
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 import { ResultFeedbackComponent } from '../../shared/components/result-feedback/result-feedback.component';
 import { AuthService } from '../../core/auth/auth.service';
+import { AstrologerBrandingSetting, AstrologerBrandingSettingsService } from '../../core/services/astrologer-branding-settings.service';
 import { isPaidUser } from '../../core/auth/plan.util';
 import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 
@@ -74,11 +75,38 @@ export class CompatibilityComponent {
   private readonly savedChartMapper = inject(SavedChartMapperService);
   private readonly authService = inject(AuthService);
   private readonly subscriptionModal = inject(SubscriptionModalService);
+  private readonly brandingSettingsService = inject(AstrologerBrandingSettingsService);
+  private brandingSettings: AstrologerBrandingSetting | null = null;
 
   get reportBrandLogoSrc(): string {
     return this.themeService.mode() === 'dark'
       ? 'assets/brand/horalife/horalife-icon-white.svg'
       : 'assets/brand/horalife/horalife-icon-color.svg';
+  }
+
+  get activeCompatibilityBranding(): AstrologerBrandingSetting | null {
+    const settings = this.brandingSettings;
+    return settings?.isActive && settings.showOnCompatibilityPage ? settings : null;
+  }
+
+  get compatibilityAstrologerName(): string {
+    return this.activeCompatibilityBranding?.astrologerName
+      || this.transloco.translate('kundali.reportAuthorName');
+  }
+
+  get compatibilityAstrologerDesignation(): string {
+    return this.activeCompatibilityBranding
+      ? this.activeCompatibilityBranding.designation || ''
+      : this.transloco.translate('kundali.reportAuthorRole');
+  }
+
+  get compatibilityAstrologerContact(): string {
+    const branding = this.activeCompatibilityBranding;
+    if (!branding) {
+      return this.transloco.translate('kundali.reportAuthorContact');
+    }
+
+    return [branding.contactNumber, branding.email, branding.address].filter(Boolean).join(' | ');
   }
   loading = false;
   exportingPdf = false;
@@ -148,6 +176,16 @@ export class CompatibilityComponent {
   }
 
   ngOnInit(): void {
+    this.brandingSettingsService.getMine().subscribe({
+      next: (settings) => {
+        this.brandingSettings = settings;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.brandingSettings = null;
+      }
+    });
+
     this.form.controls.boyBirthPlace.valueChanges
       .pipe(
         debounceTime(500),

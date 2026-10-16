@@ -17,18 +17,66 @@ public class DhruvaController : ControllerBase
     private readonly IDhruvaNarrationService _narrationService;
     private readonly IDhruvaUsageService _dhruvaUsage;
     private readonly IUserAnalysisService _userAnalysis;
+    private readonly IDhruvaChatHistoryService _chatHistory;
     private readonly KundaliDbContext _dbContext;
 
     public DhruvaController(
         IDhruvaNarrationService narrationService,
         IDhruvaUsageService dhruvaUsage,
         IUserAnalysisService userAnalysis,
+        IDhruvaChatHistoryService chatHistory,
         KundaliDbContext dbContext)
     {
         _narrationService = narrationService;
         _dhruvaUsage = dhruvaUsage;
         _userAnalysis = userAnalysis;
+        _chatHistory = chatHistory;
         _dbContext = dbContext;
+    }
+
+    [HttpGet("chats")]
+    public async Task<ActionResult<IReadOnlyList<DhruvaChatChartDto>>> ListChatCharts(CancellationToken cancellationToken)
+    {
+        var user = await GetCurrentUserAsync(cancellationToken);
+        if (user is null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(await _chatHistory.ListChartsAsync(user.Id, cancellationToken));
+    }
+
+    [HttpGet("chats/{kundaliId:guid}")]
+    public async Task<ActionResult<IReadOnlyList<DhruvaChatMessageDto>>> ListChatMessages(Guid kundaliId, CancellationToken cancellationToken)
+    {
+        var user = await GetCurrentUserAsync(cancellationToken);
+        if (user is null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(await _chatHistory.ListMessagesAsync(user.Id, kundaliId, cancellationToken));
+    }
+
+    [HttpPost("chats")]
+    public async Task<IActionResult> SaveChat([FromBody] SaveDhruvaChatRequest request, CancellationToken cancellationToken)
+    {
+        var user = await GetCurrentUserAsync(cancellationToken);
+        if (user is null)
+        {
+            return Unauthorized();
+        }
+
+        try
+        {
+            await _chatHistory.SaveAsync(user.Id, request.KundaliId, request.Question, request.Response, cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine($"Dhruva chat save failed: {exception.Message}");
+        }
+
+        return Ok();
     }
 
     [HttpGet("allowance")]
@@ -94,11 +142,29 @@ public class DhruvaController : ControllerBase
         {
             var narration = await _narrationService.NarrateAsync(request, cancellationToken);
             await RecordQuestionAsync(user.Id, true, request.Mode, request.Question, narration.PromptTokens, narration.CompletionTokens, narration.TotalTokens, cancellationToken);
+            await SaveChatAsync(user.Id, request.KundaliId, request.Question, narration.Narration, cancellationToken);
             return Ok(narration);
         }
         catch (DhruvaNarrationUnavailableException)
         {
             return StatusCode(StatusCodes.Status502BadGateway, new { message = "Chart narration is unavailable right now." });
+        }
+    }
+
+    private async Task SaveChatAsync(
+        Guid userId,
+        string? kundaliId,
+        string? question,
+        string? response,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _chatHistory.SaveAsync(userId, kundaliId, question, response, cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine($"Dhruva chat save failed: {exception.Message}");
         }
     }
 

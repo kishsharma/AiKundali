@@ -1,9 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { KundaliService } from '../kundali/kundali.service';
 import {
   LifeAreaAnalysisService,
@@ -20,7 +19,7 @@ interface SavedChartOption {
 @Component({
   selector: 'app-life-area-analysis',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, TranslocoPipe, PageHeaderComponent],
+  imports: [CommonModule, FormsModule, RouterLink, TranslocoPipe],
   templateUrl: './life-area-analysis.component.html',
   styleUrl: './life-area-analysis.component.scss'
 })
@@ -28,6 +27,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
   private readonly analysisApi = inject(LifeAreaAnalysisService);
   private readonly kundaliApi = inject(KundaliService);
   private readonly transloco = inject(TranslocoService);
+  private readonly changeDetector = inject(ChangeDetectorRef);
 
   charts: SavedChartOption[] = [];
   areas: LifeAreaCatalogItem[] = [];
@@ -52,10 +52,12 @@ export class LifeAreaAnalysisComponent implements OnInit {
         })).filter(chart => chart.id);
         this.selectedChartId = this.charts[0]?.id ?? '';
         this.loadingCharts = false;
+        this.changeDetector.markForCheck();
       },
       error: () => {
         this.loadingCharts = false;
         this.errorMessage = this.transloco.translate('lifeArea.loadFailed');
+        this.changeDetector.markForCheck();
       }
     });
     this.analysisApi.getAreas(locale).subscribe({
@@ -64,10 +66,12 @@ export class LifeAreaAnalysisComponent implements OnInit {
           .map(area => this.normalizeArea(area))
           .filter(area => area.key && area.key !== 'vehicles');
         this.loadingAreas = false;
+        this.changeDetector.markForCheck();
       },
       error: () => {
         this.loadingAreas = false;
         this.errorMessage = this.transloco.translate('lifeArea.loadFailed');
+        this.changeDetector.markForCheck();
       }
     });
   }
@@ -84,6 +88,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
     this.insightState = 'idle';
     this.errorMessage = '';
     this.loadingReport = true;
+    this.changeDetector.markForCheck();
     this.analysisApi.getReport(this.selectedChartId, key, this.transloco.getActiveLang()).subscribe({
       next: (report) => {
         if (request !== this.insightRequest) {
@@ -91,6 +96,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
         }
         this.report = report;
         this.loadingReport = false;
+        this.changeDetector.markForCheck();
       },
       error: () => {
         if (request !== this.insightRequest) {
@@ -98,6 +104,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
         }
         this.loadingReport = false;
         this.errorMessage = this.transloco.translate('lifeArea.reportFailed');
+        this.changeDetector.markForCheck();
       }
     });
   }
@@ -110,6 +117,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
     this.insightState = 'idle';
     this.selectedArea = '';
     this.errorMessage = '';
+    this.changeDetector.markForCheck();
   }
 
   writeInsight(): void {
@@ -140,6 +148,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
 
   private loadInsight(request: number, area: string): void {
     this.insightState = 'loading';
+    this.changeDetector.markForCheck();
     this.analysisApi.getInsight(this.selectedChartId, area, this.transloco.getActiveLang()).subscribe({
       next: (response) => {
         if (request !== this.insightRequest) {
@@ -147,6 +156,7 @@ export class LifeAreaAnalysisComponent implements OnInit {
         }
         this.insight = response.insight ?? '';
         this.insightState = this.insight ? 'ready' : 'unavailable';
+        this.changeDetector.markForCheck();
       },
       error: (error: { status?: number }) => {
         if (request !== this.insightRequest) {
@@ -154,12 +164,52 @@ export class LifeAreaAnalysisComponent implements OnInit {
         }
         this.insight = '';
         this.insightState = error?.status === 403 ? 'locked' : 'unavailable';
+        this.changeDetector.markForCheck();
       }
     });
   }
 
   chartLabel(chart: SavedChartOption): string {
     return chart.displayName || chart.fullName;
+  }
+
+  crossFacts(): Array<{ planet: string; relation: string; natalPlace: string; specialistPlace: string }> {
+    const checks = this.report?.crossChecks ?? [];
+    if (checks.length > 0) {
+      return checks.map(check => ({
+        planet: check.planet,
+        relation: check.relation,
+        natalPlace: this.place('D1', check.natalHouse, check.natalSign, check.natalDegree, check.natalDignity, check.natalRetrograde),
+        specialistPlace: check.specialistChart && check.specialistChart !== 'D1'
+          ? this.place(check.specialistChart, check.specialistHouse, check.specialistSign, check.specialistDegree, check.specialistDignity, false)
+          : ''
+      }));
+    }
+
+    return (this.report?.factors ?? []).map(factor => ({
+      planet: factor.subject,
+      relation: '',
+      natalPlace: `D1 · ${factor.natalSign} · ${factor.natalDignity}`,
+      specialistPlace: factor.specialistChart && factor.specialistChart !== 'D1'
+        ? `${factor.specialistChart} · ${factor.specialistSign} · ${factor.specialistDignity}`
+        : ''
+    }));
+  }
+
+  private place(chart: string, house: number, sign: string, degree: number, dignity: string, retrograde: boolean): string {
+    const housePart = house >= 1 && house <= 12 ? ` H${house}` : '';
+    const retro = retrograde ? ' R' : '';
+    return `${chart}${housePart} · ${sign} ${degree}°${retro} · ${dignity}`;
+  }
+
+  toneKey(tone: string): string {
+    if (tone === 'care') {
+      return 'pressure';
+    }
+
+    return tone === 'support' || tone === 'pressure' || tone === 'mixed' || tone === 'influence'
+      ? tone
+      : 'mixed';
   }
 
   areaMark(key: string): string {

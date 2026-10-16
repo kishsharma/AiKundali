@@ -18,6 +18,8 @@ public interface IBillingService
 
     Task<CheckoutSessionDto> CreateCheckoutAsync(User user, CreateCheckoutRequest request, CancellationToken cancellationToken);
 
+    Task<BillingStatusDto> ActivateWithoutPaymentAsync(User user, CreateCheckoutRequest request, CancellationToken cancellationToken);
+
     Task<CouponPreviewDto> PreviewCouponAsync(CouponPreviewRequest request, CancellationToken cancellationToken);
 
     Task<BillingStatusDto> GetStatusAsync(User user, CancellationToken cancellationToken);
@@ -71,18 +73,12 @@ public sealed class BillingService : IBillingService
     {
         var plans = await _planCatalog.GetPlansAsync(cancellationToken);
         return plans
-            .Where(plan => plan.Code == PlanCodes.Free || plan.CheckoutOpen)
             .Select(ToPublicPlan)
             .ToList();
     }
 
     public async Task<CheckoutSessionDto> CreateCheckoutAsync(User user, CreateCheckoutRequest request, CancellationToken cancellationToken)
     {
-        if (!_razorpayClient.IsConfigured)
-        {
-            throw new InvalidOperationException("Checkout is not configured yet.");
-        }
-
         if (!PlanCodes.TryParse(request.PlanCode, out var planCode) || !PlanCodes.IsPaid(planCode))
         {
             throw new ArgumentException("Choose Premium or Premium Plus.");
@@ -93,7 +89,12 @@ public sealed class BillingService : IBillingService
             ?? throw new ArgumentException("That plan is not available.");
         if (!catalog.CheckoutOpen)
         {
-            throw new ArgumentException("That plan is not open for checkout.");
+            throw new ArgumentException("That plan does not use the payment gateway.");
+        }
+
+        if (!_razorpayClient.IsConfigured)
+        {
+            throw new InvalidOperationException("Checkout is not configured yet.");
         }
 
         var amount = cycle == "yearly" ? catalog.YearlyAmountPaise : catalog.MonthlyAmountPaise;
@@ -169,6 +170,40 @@ public sealed class BillingService : IBillingService
                 ? $"{catalog.Name} {cycle} plan"
                 : $"{catalog.Name} {cycle} plan · {quote.PercentOff}% off"
         };
+    }
+
+    public async Task<BillingStatusDto> ActivateWithoutPaymentAsync(User user, CreateCheckoutRequest request, CancellationToken cancellationToken)
+    {
+        if (!PlanCodes.TryParse(request.PlanCode, out var planCode) || !PlanCodes.IsPaid(planCode))
+        {
+            throw new ArgumentException("Choose Premium or Premium Plus.");
+        }
+
+        var cycle = NormalizeCycle(request.BillingCycle);
+        var catalog = await _planCatalog.FindAsync(planCode, cancellationToken)
+            ?? throw new ArgumentException("That plan is not available.");
+        if (catalog.CheckoutOpen && _razorpayClient.IsConfigured)
+        {
+            throw new ArgumentException("That plan uses the payment gateway.");
+        }
+
+        var expiresAt = DateTimeOffset.UtcNow.AddMonths(cycle == "yearly" ? 12 : 1);
+        var subscription = new UserSubscription
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            PlanCode = planCode,
+            BillingCycle = cycle,
+            Status = "active",
+            CurrentPeriodEnd = expiresAt,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        _dbContext.UserSubscriptions.Add(subscription);
+        await SupersedeOtherSubscriptionsAsync(user, subscription, cancellationToken);
+        _entitlementService.ApplyPlan(user, planCode, expiresAt);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return await GetStatusAsync(user, cancellationToken);
     }
 
     public async Task<CouponPreviewDto> PreviewCouponAsync(CouponPreviewRequest request, CancellationToken cancellationToken)

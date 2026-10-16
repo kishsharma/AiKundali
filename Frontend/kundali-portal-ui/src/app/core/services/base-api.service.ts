@@ -102,6 +102,9 @@ export class BaseApiService {
         case 403:
           errorMessage = 'Forbidden - Access denied';
           break;
+        case 402:
+          errorMessage = error.error?.message || 'This feature is not included in the current plan.';
+          break;
         case 404:
           errorMessage = 'Resource not found';
           break;

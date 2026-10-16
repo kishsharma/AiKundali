@@ -20,6 +20,8 @@ import { PlanOffersComponent } from './modules/plan-offers/plan-offers.component
 import { UserAnalysisComponent } from './modules/user-analysis/user-analysis.component';
 import { PortalNotesPageComponent } from './modules/portal-notes/portal-notes-page.component';
 import { LifeAreaAnalysisComponent } from './modules/life-area-analysis/life-area-analysis.component';
+import { HoroscopeComponent } from './modules/horoscope/horoscope.component';
+import { DhruvaChatsComponent } from './modules/dhruva-chats/dhruva-chats.component';
 import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 
 export const routes: Routes = [
@@ -114,6 +116,11 @@ export const routes: Routes = [
         data: { title: 'Panchang' },
       },
       {
+        path: 'horoscope',
+        component: HoroscopeComponent,
+        data: { title: 'Horoscope' },
+      },
+      {
         path: 'panchang/muhurtha',
         component: MuhurthaComponent,
         data: { title: 'Muhurtha Finder' },
@@ -153,6 +160,18 @@ export const routes: Routes = [
         path: 'life-area-analysis',
         component: LifeAreaAnalysisComponent,
         data: { title: 'Life area analysis' },
+      },
+      {
+        path: 'consultation',
+        loadComponent: () =>
+          import('./modules/consultation/consultation.component')
+            .then(m => m.ConsultationComponent),
+        data: { title: 'Consultation' },
+      },
+      {
+        path: 'dhruva-chats',
+        component: DhruvaChatsComponent,
+        data: { title: 'Dhruva chats' },
       },
       {
         path: 'notes',
@@ -253,6 +272,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'horoscope',
+    redirectTo: 'app/horoscope',
+    pathMatch: 'full',
+  },
+  {
     path: 'muhurtha',
     redirectTo: 'app/panchang/muhurtha',
     pathMatch: 'full',
@@ -303,6 +327,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'settings',
+    redirectTo: 'app/white-label-settings',
+    pathMatch: 'full',
+  },
+  {
     path: 'change-password',
     redirectTo: 'app/change-password',
     pathMatch: 'full',
@@ -335,6 +364,11 @@ export const routes: Routes = [
   {
     path: 'life-area-analysis',
     redirectTo: 'app/life-area-analysis',
+    pathMatch: 'full',
+  },
+  {
+    path: 'consultation',
+    redirectTo: 'app/consultation',
     pathMatch: 'full',
   },
   {

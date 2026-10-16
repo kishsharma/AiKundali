@@ -12,6 +12,8 @@ public sealed class DhruvaNarrateRequestDto
 
     public string? Tone { get; set; }
 
+    public string? KundaliId { get; set; }
+
     public JsonElement Chart { get; set; }
 }
 

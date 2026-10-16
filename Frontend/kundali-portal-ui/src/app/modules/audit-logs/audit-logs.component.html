@@ -84,15 +84,15 @@
 
     <div class="logs-table audit-table" *ngIf="activeTab === 'audit' && auditLogs.length > 0">
       <div class="table-head">
-        <span>Time</span>
-        <span>Action</span>
         <span>User</span>
+        <span>Time</span>
+        <span>Description</span>
         <span>Status</span>
       </div>
       <div class="table-row" *ngFor="let log of auditLogs; trackBy: trackById">
-        <span class="muted">{{ formatDate(log.createdAt) }}</span>
-        <strong>{{ log.action }}</strong>
         <span class="muted">{{ log.userName || log.userId || '-' }}</span>
+        <span class="muted">{{ formatDate(log.createdAt) }}</span>
+        <span class="muted wrap">{{ auditDescription(log) }}</span>
         <span class="status-pill" [class.failed]="log.status === 'Failed'">{{ log.status }}</span>
       </div>
     </div>
@@ -122,12 +122,5 @@
       <button type="button" class="secondary-btn" (click)="nextPage()" [disabled]="!canGoNext">Next</button>
     </div>
 
-    <section class="action-guide" *ngIf="activeTab === 'audit'" aria-label="What each action means">
-      <h2>What each action means</h2>
-      <div class="action-guide-row" *ngFor="let item of actionGuide">
-        <strong>{{ item.action }}</strong>
-        <span>{{ item.description }}</span>
-      </div>
-    </section>
   </section>
 </section>

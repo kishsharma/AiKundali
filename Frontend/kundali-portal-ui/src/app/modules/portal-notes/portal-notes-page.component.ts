@@ -9,6 +9,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { AuthService } from '../../core/auth/auth.service';
 import { isPaidUser } from '../../core/auth/plan.util';
 import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
+import { ConfirmDialogService } from '../../shared/components/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'app-portal-notes-page',
@@ -25,6 +26,7 @@ export class PortalNotesPageComponent implements OnInit {
   private readonly transloco = inject(TranslocoService);
   private readonly authService = inject(AuthService);
   private readonly subscriptionModal = inject(SubscriptionModalService);
+  private readonly confirmDialog = inject(ConfirmDialogService);
 
   get isPremiumUser(): boolean {
     return isPaidUser(this.authService.getCurrentUser());
@@ -74,9 +76,20 @@ export class PortalNotesPageComponent implements OnInit {
     this.loadNotes();
   }
 
-  deleteNote(note: PortalNote): void {
+  async deleteNote(note: PortalNote): Promise<void> {
     const key = this.contextKey(note);
-    if (this.deletingContextKey || !window.confirm(this.t('portalNotes.confirmDelete'))) {
+    if (this.deletingContextKey) {
+      return;
+    }
+
+    const confirmed = await this.confirmDialog.confirm({
+      title: this.t('confirm.deleteNoteTitle'),
+      message: this.t('portalNotes.confirmDelete'),
+      confirmLabel: this.t('confirm.delete'),
+      cancelLabel: this.t('confirm.cancel'),
+      tone: 'danger',
+    });
+    if (!confirmed) {
       return;
     }
 

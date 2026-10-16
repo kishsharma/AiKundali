@@ -7,7 +7,15 @@
   <div class="profile-stack" *ngIf="!loading && account">
     <section class="profile-card">
       <div class="identity">
-        <div class="avatar" aria-hidden="true">{{ initials() }}</div>
+        <div class="avatar" [class.has-photo]="!!profileImageUrl() && profileImageFailedUrl !== profileImageUrl()" aria-hidden="true">
+          <img
+            *ngIf="profileImageUrl() && profileImageFailedUrl !== profileImageUrl()"
+            [src]="profileImageUrl()"
+            alt=""
+            referrerpolicy="no-referrer"
+            (error)="profileImageFailedUrl = profileImageUrl()" />
+          <span *ngIf="!profileImageUrl() || profileImageFailedUrl === profileImageUrl()">{{ initials() }}</span>
+        </div>
         <div class="identity-copy">
           <h2>{{ account.fullName }}</h2>
           <p>{{ account.email || ('profile.emailMissing' | transloco) }}</p>

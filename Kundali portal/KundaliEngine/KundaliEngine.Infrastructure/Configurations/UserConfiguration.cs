@@ -41,6 +41,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50)
             .HasDefaultValue("Local");
 
+        entity.Property(x => x.GoogleSubject)
+            .HasMaxLength(128);
+
+        entity.HasIndex(x => x.GoogleSubject)
+            .IsUnique()
+            .HasFilter("\"GoogleSubject\" IS NOT NULL");
+
+        entity.Property(x => x.ProfileImageUrl)
+            .HasMaxLength(1000);
+
         entity.Property(x => x.Role)
             .HasMaxLength(50)
             .HasDefaultValue("User");
@@ -64,6 +74,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         entity.Property(x => x.EmailVerifiedAt);
 
         entity.Property(x => x.PhoneVerifiedAt);
+
+        entity.Property(x => x.LastSeenAt);
     }
 }
 

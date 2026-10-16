@@ -11,6 +11,7 @@ using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.Auth;
 using KundaliEngine.API.Services.Billing;
 using KundaliEngine.API.Services.CurrentLifeFocus;
+using KundaliEngine.API.Services.Horoscope;
 using KundaliEngine.API.Services.Dashboard;
 using KundaliEngine.API.Services.Email;
 using KundaliEngine.API.Services.Entitlements;
@@ -209,6 +210,10 @@ builder.Services.AddSingleton<ICurrentLifeFocusAnalysisStore, CurrentLifeFocusAn
 builder.Services.AddScoped<ICurrentLifeFocusService, CurrentLifeFocusService>();
 builder.Services.AddSingleton<IFocusedLifeAreaNarrativeBuilder, FocusedLifeAreaNarrativeBuilder>();
 builder.Services.AddScoped<IFocusedLifeAreaAnalysisService, FocusedLifeAreaAnalysisService>();
+builder.Services.AddScoped<HoroscopeNatalScorer>();
+builder.Services.AddScoped<HoroscopeHorizonExtrasBuilder>();
+builder.Services.AddScoped<IHoroscopePeriodService, HoroscopePeriodService>();
+builder.Services.AddSingleton<IHoroscopeRashifalService, HoroscopeRashifalService>();
 builder.Services.AddScoped<IRetrogradeTransitService, RetrogradeTransitService>();
 builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSection("ReportShare:Smtp"));
 builder.Services.Configure<SmsOtpOptions>(builder.Configuration.GetSection("TwoFactorSms"));
@@ -287,6 +292,7 @@ builder.Services.AddScoped<ICouponOfferService, CouponOfferService>();
 builder.Services.AddScoped<IBillingService, BillingService>();
 builder.Services.AddScoped<IEntitlementService, EntitlementService>();
 builder.Services.AddScoped<IDhruvaUsageService, DhruvaUsageService>();
+builder.Services.AddScoped<IDhruvaChatHistoryService, DhruvaChatHistoryService>();
 builder.Services.AddScoped<IUserAnalysisService, UserAnalysisService>();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -330,6 +336,21 @@ builder.Services.AddRateLimiter(options =>
 
         return ValueTask.CompletedTask;
     };
+    options.AddPolicy("GoogleAuth", httpContext =>
+    {
+        var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var forwardedFor = httpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        var partitionKey = string.IsNullOrWhiteSpace(forwardedFor) ? $"ip:{remoteIp}" : $"ip:{forwardedFor}";
+
+        return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(5),
+            QueueLimit = 0,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    });
     options.AddPolicy("AuthOtp", httpContext =>
     {
         var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
@@ -455,6 +476,7 @@ app.UseHttpsRedirection();
 app.UseCors("HoraLifeFrontend");
 
 app.UseAuthentication();
+app.UseMiddleware<LastSeenMiddleware>();
 app.UseAuthorization();
 app.UseRateLimiter();
 app.UseRequestTimeouts();
@@ -465,7 +487,11 @@ await EnsureUserSubscriptionsTableAsync(app);
 await EnsureKundaliFamilyColumnsAsync(app);
 await EnsureDhruvaDailyUsageTableAsync(app);
 await EnsureDhruvaQuestionLogTableAsync(app);
+await EnsureDhruvaChatMessagesTableAsync(app);
 await EnsureUserPracticeProfileColumnAsync(app);
+await EnsureUserGoogleSubjectColumnAsync(app);
+await EnsureUserProfileImageColumnAsync(app);
+await EnsureUserLastSeenColumnAsync(app);
 await EnsureProductFeedbackTableAsync(app);
 await EnsureBillingPlanDhruvaColumnsAsync(app);
 
@@ -536,6 +562,25 @@ static async Task EnsureDhruvaQuestionLogTableAsync(WebApplication app)
         """);
 }
 
+static async Task EnsureDhruvaChatMessagesTableAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        CREATE TABLE IF NOT EXISTS public."DhruvaChatMessages" (
+            "Id" uuid NOT NULL,
+            "UserId" uuid NOT NULL,
+            "KundaliId" uuid NOT NULL,
+            "Question" character varying(2000) NOT NULL,
+            "Response" text NOT NULL,
+            "AskedAt" timestamp with time zone NOT NULL,
+            CONSTRAINT "PK_DhruvaChatMessages" PRIMARY KEY ("Id")
+        );
+        CREATE INDEX IF NOT EXISTS "IX_DhruvaChatMessages_UserId_KundaliId_AskedAt"
+            ON public."DhruvaChatMessages" ("UserId", "KundaliId", "AskedAt");
+        """);
+}
+
 static async Task EnsureProductFeedbackTableAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
@@ -568,6 +613,36 @@ static async Task EnsureUserPracticeProfileColumnAsync(WebApplication app)
     var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
     await db.Database.ExecuteSqlRawAsync("""
         ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "PracticeProfile" text;
+        """);
+}
+
+static async Task EnsureUserLastSeenColumnAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "LastSeenAt" timestamp with time zone;
+        """);
+}
+
+static async Task EnsureUserProfileImageColumnAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "ProfileImageUrl" character varying(1000);
+        """);
+}
+
+static async Task EnsureUserGoogleSubjectColumnAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        ALTER TABLE public."Users" ADD COLUMN IF NOT EXISTS "GoogleSubject" character varying(128);
+        CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_GoogleSubject"
+            ON public."Users" ("GoogleSubject")
+            WHERE "GoogleSubject" IS NOT NULL;
         """);
 }
 

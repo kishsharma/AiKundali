@@ -1,5 +1,5 @@
 <!-- Application Root -->
-<div class="root-shell" [class.public-shell]="isPublicLanding">
+<div class="root-shell" [class.public-shell]="isPublicLanding" [class.auth-shell]="isAuthPage">
   <header class="app-topbar" [class.hidden]="!showAppTopbar">
     <button
       type="button"
@@ -11,7 +11,7 @@
       <span></span>
     </button>
     <div class="app-brand" aria-label="HoraLife">
-      <app-brand-logo variant="iconText" tone="auto"></app-brand-logo>
+      <app-brand-logo variant="iconText" [tone]="isAuthPage ? 'white' : 'auto'"></app-brand-logo>
     </div>
 
     <div class="topbar-right" *ngIf="showUserMenu" [class.menu-open]="isUserMenuOpen">
@@ -35,8 +35,14 @@
         aria-haspopup="menu"
         aria-controls="account-menu"
         aria-label="Open user menu">
-        <div class="user-avatar" aria-hidden="true">
-          {{ userInitial }}
+        <div class="user-avatar" [class.has-photo]="!!profileImageUrl && profileImageFailedUrl !== profileImageUrl" aria-hidden="true">
+          <img
+            *ngIf="profileImageUrl && profileImageFailedUrl !== profileImageUrl"
+            [src]="profileImageUrl"
+            alt=""
+            referrerpolicy="no-referrer"
+            (error)="profileImageFailedUrl = profileImageUrl" />
+          <span *ngIf="!profileImageUrl || profileImageFailedUrl === profileImageUrl">{{ userInitial }}</span>
         </div>
 
         <div class="user-info">
@@ -135,7 +141,7 @@
   <button
     type="button"
     role="menuitem"
-    routerLink="/settings"
+    routerLink="/app/white-label-settings"
     (click)="closeUserMenu()"
   >
     <svg
@@ -254,6 +260,7 @@
   </main>
   <app-notification-toast></app-notification-toast>
   <app-subscription-modal></app-subscription-modal>
+  <app-confirm-dialog></app-confirm-dialog>
 </div>
 
 

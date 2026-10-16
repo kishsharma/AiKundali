@@ -1,20 +1,19 @@
 <section class="white-label-page">
-  <app-page-header
-    title="White-label Settings"
-    subtitle="Manage astrologer branding shown on chart pages, compatibility pages, and PDF reports"
-    [breadcrumbs]="[
-      { label: 'Home', routerLink: '/' },
-      { label: 'White-label Settings', active: true }
-    ]">
-  </app-page-header>
+  <header class="page-intro">
+    <h1>White-label branding</h1>
+    <p>Your name, contact, and logo replace the default astrologer on the chart, the compatibility report, and printed PDF reports including Numerology.</p>
+  </header>
 
   <div class="status-banner error" *ngIf="!canEditBranding">
     White-label branding is included with Premium Plus.
     <button type="button" class="text-link" (click)="openPlans()">Upgrade to Premium Plus</button>
   </div>
 
+  <div class="status-banner error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
   <div class="settings-layout">
-    <form class="settings-panel" [formGroup]="settingsForm" (ngSubmit)="saveSettings()" [attr.aria-disabled]="!canEditBranding">
+    <form class="settings-panel" [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+      <fieldset [disabled]="!canEditBranding">
       <div class="panel-header">
         <div>
           <h2>Astrologer Branding</h2>
@@ -75,7 +74,7 @@
         </label>
         <label class="toggle-row">
           <input type="checkbox" formControlName="showOnPdfReport" />
-          <span>Show on PDF report</span>
+          <span>Show on PDF / printed reports</span>
         </label>
         <label class="toggle-row">
           <input type="checkbox" formControlName="isActive" />
@@ -85,10 +84,11 @@
 
       <div class="actions">
         <button type="button" class="secondary-btn" (click)="resetForm()">Reset</button>
-        <button type="submit" class="primary-btn" [disabled]="saving || loading">
+        <button type="submit" class="primary-btn" [disabled]="saving || loading || !canEditBranding">
           {{ saving ? 'Saving...' : 'Save Settings' }}
         </button>
       </div>
+      </fieldset>
     </form>
 
     <aside class="preview-panel">
@@ -121,7 +121,7 @@
       <div class="placement-list">
         <span [class.enabled]="settings.showOnChartPage">Chart page</span>
         <span [class.enabled]="settings.showOnCompatibilityPage">Compatibility page</span>
-        <span [class.enabled]="settings.showOnPdfReport">PDF report</span>
+        <span [class.enabled]="settings.showOnPdfReport">PDF / print</span>
       </div>
     </aside>
   </div>

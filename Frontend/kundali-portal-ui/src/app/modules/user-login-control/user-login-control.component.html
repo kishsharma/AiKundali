@@ -18,88 +18,117 @@
         <span>Search users</span>
         <input type="search" [(ngModel)]="searchTerm" placeholder="Name, email, or mobile" />
       </label>
-      <button type="button" class="secondary-btn" (click)="loadUsers()" [disabled]="loading">
-        {{ loading ? 'Refreshing...' : 'Refresh' }}
-      </button>
+      <div class="toolbar-actions">
+        <button
+          type="button"
+          class="online-filter"
+          [class.active]="onlineOnly"
+          (click)="onlineOnly = !onlineOnly">
+          {{ onlineOnly ? 'Showing online' : 'Online only' }} · {{ onlineCount }}
+        </button>
+        <button type="button" class="secondary-btn" (click)="loadUsers()" [disabled]="loading">
+          {{ loading ? 'Refreshing...' : 'Refresh' }}
+        </button>
+      </div>
     </div>
 
     <div class="empty-state" *ngIf="!loading && filteredUsers.length === 0">
-      No users found.
+      {{ onlineOnly ? 'No online users.' : 'No users found.' }}
     </div>
 
     <div class="users-table" *ngIf="filteredUsers.length > 0">
       <div class="table-head">
         <span>User</span>
-        <span>Email</span>
-        <span>Mobile</span>
         <span>Status</span>
-        <span>Plan</span>
-        <span>Plan Access</span>
-        <span>Kundali Limit</span>
-        <span>Login Access</span>
+        <span>Access</span>
       </div>
 
-      <div class="table-row" *ngFor="let user of filteredUsers; trackBy: trackByUserId">
+      <article class="table-row" *ngFor="let user of filteredUsers; trackBy: trackByUserId">
         <div class="user-cell">
           <span class="avatar">{{ (user.fullName || user.email).charAt(0).toUpperCase() }}</span>
-          <strong>{{ user.fullName || 'Unnamed user' }}</strong>
+          <div class="user-copy">
+            <strong>{{ user.fullName || 'Unnamed user' }}</strong>
+            <span class="muted">{{ user.email }}</span>
+            <span class="muted">{{ user.phoneNumber || 'No mobile' }}</span>
+          </div>
         </div>
-        <span class="muted">{{ user.email }}</span>
-        <span class="muted">{{ user.phoneNumber || '-' }}</span>
-        <span class="status-pill" [class.inactive]="!user.isActive">
-          {{ user.isActive ? 'Active' : 'Inactive' }}
-        </span>
-        <span class="status-pill plan-pill" [class.inactive]="!user.isPaid && !user.isPremium">
-          {{ getPlanLabel(user) }}
-        </span>
-        <div class="premium-control" [class.busy]="isSavingPlan(user.id)">
-          <select
-            [ngModel]="user.planCode"
-            [disabled]="isSavingPlan(user.id)"
-            (ngModelChange)="onPlanChange(user, $event)">
-            <option value="Free">Free</option>
-            <option value="Premium">Premium</option>
-            <option value="PremiumPlus">Premium Plus</option>
-          </select>
-          <input
-            type="date"
-            [(ngModel)]="planExpiryInputs[user.id]"
-            [disabled]="user.planCode === 'Free' || isSavingPlan(user.id)"
-            aria-label="Plan expiry date" />
-          <button
-            type="button"
-            class="limit-save-btn"
-            (click)="updatePremiumPlan(user)"
-            [disabled]="isSavingPlan(user.id)">
-            {{ isSavingPlan(user.id) ? 'Saving' : 'Apply' }}
-          </button>
+
+        <div class="status-stack">
+          <div class="live-cell">
+            <span class="status-pill" [class.inactive]="!user.isOnline">
+              {{ user.isOnline ? 'Online' : 'Offline' }}
+            </span>
+            <small>{{ lastSeenLabel(user) }}</small>
+          </div>
+          <span class="status-pill" [class.inactive]="!user.isActive">
+            {{ user.isActive ? 'Active' : 'Inactive' }}
+          </span>
+          <span class="status-pill plan-pill" [class.inactive]="!user.isPaid && !user.isPremium">
+            {{ getPlanLabel(user) }}
+          </span>
         </div>
-        <div class="limit-control" [class.busy]="isSavingLimit(user.id)">
-          <input
-            type="number"
-            min="0"
-            max="1000"
-            step="1"
-            [(ngModel)]="user.kundaliSaveLimit"
-            [disabled]="isSavingLimit(user.id)" />
-          <button
-            type="button"
-            class="limit-save-btn"
-            (click)="updateKundaliSaveLimit(user)"
-            [disabled]="isSavingLimit(user.id)">
-            {{ isSavingLimit(user.id) ? 'Saving' : 'Save' }}
-          </button>
+
+        <div class="access-stack">
+          <div class="field-label">
+            <span>Plan access</span>
+            <div class="premium-control" [class.busy]="isSavingPlan(user.id)">
+              <select
+                [ngModel]="user.planCode"
+                [disabled]="isSavingPlan(user.id)"
+                (ngModelChange)="onPlanChange(user, $event)">
+                <option value="Free">Free</option>
+                <option value="Premium">Premium</option>
+                <option value="PremiumPlus">Premium Plus</option>
+              </select>
+              <input
+                type="date"
+                [(ngModel)]="planExpiryInputs[user.id]"
+                [disabled]="user.planCode === 'Free' || isSavingPlan(user.id)"
+                aria-label="Plan expiry date" />
+              <button
+                type="button"
+                class="limit-save-btn"
+                (click)="updatePremiumPlan(user)"
+                [disabled]="isSavingPlan(user.id)">
+                {{ isSavingPlan(user.id) ? 'Saving' : 'Apply' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="field-label">
+            <span>Kundali limit</span>
+            <div class="limit-control" [class.busy]="isSavingLimit(user.id)">
+              <input
+                type="number"
+                min="0"
+                max="1000"
+                step="1"
+                [(ngModel)]="user.kundaliSaveLimit"
+                [disabled]="isSavingLimit(user.id)" />
+              <button
+                type="button"
+                class="limit-save-btn"
+                (click)="updateKundaliSaveLimit(user)"
+                [disabled]="isSavingLimit(user.id)">
+                {{ isSavingLimit(user.id) ? 'Saving' : 'Save' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="field-label login-field">
+            <span>Login</span>
+            <label class="switch" [class.busy]="isSaving(user.id)">
+              <input
+                type="checkbox"
+                [checked]="user.isActive"
+                [disabled]="isSaving(user.id)"
+                (change)="toggleLoginAccess(user)" />
+              <span class="slider"></span>
+              <span class="switch-text">{{ isSaving(user.id) ? 'Saving' : (user.isActive ? 'Enabled' : 'Disabled') }}</span>
+            </label>
+          </div>
         </div>
-        <label class="switch" [class.busy]="isSaving(user.id)">
-          <input
-            type="checkbox"
-            [checked]="user.isActive"
-            [disabled]="isSaving(user.id)"
-            (change)="toggleLoginAccess(user)" />
-          <span class="slider"></span>
-          <span class="switch-text">{{ isSaving(user.id) ? 'Saving' : (user.isActive ? 'Enabled' : 'Disabled') }}</span>
-        </label>
-      </div>
+      </article>
     </div>
 
     <div class="mobile-list" *ngIf="filteredUsers.length > 0">
@@ -110,8 +139,12 @@
             <p>{{ user.email }}</p>
             <p>{{ user.phoneNumber || '-' }}</p>
           </div>
+          <small class="live-note">{{ user.isOnline ? 'Online' : 'Offline' }} · {{ lastSeenLabel(user) }}</small>
         </div>
         <div class="card-actions">
+          <span class="status-pill" [class.inactive]="!user.isOnline">
+            {{ user.isOnline ? 'Online' : 'Offline' }}
+          </span>
           <span class="status-pill" [class.inactive]="!user.isActive">
             {{ user.isActive ? 'Active' : 'Inactive' }}
           </span>

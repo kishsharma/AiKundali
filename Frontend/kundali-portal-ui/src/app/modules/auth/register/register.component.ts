@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoService } from '@jsverse/transloco';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { GoogleSignInButtonComponent } from '../google-sign-in/google-sign-in-button.component';
 import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
 
@@ -13,7 +14,7 @@ type RegistrationStep = 'contact' | 'code' | 'profile';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, GoogleSignInButtonComponent],
   templateUrl: './register.component.html',
   styleUrl: '../login/login.component.scss'
 })
@@ -47,6 +48,7 @@ export class RegisterComponent implements OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private translocoService: TranslocoService,
     private notifications: NotificationService,
     private cdr: ChangeDetectorRef
@@ -169,6 +171,39 @@ export class RegisterComponent implements OnDestroy {
     });
   }
 
+  loginWithGoogle(idToken: string): void {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.errorMessage = '';
+    this.isLoading = true;
+    this.authService.loginWithGoogle(idToken).subscribe({
+      next: () => this.finishGoogleSignIn(),
+      error: (error) => {
+        this.isLoading = false;
+        this.notifications.error(this.googleSignInError(error));
+      }
+    });
+  }
+
+  onGoogleSignInFailed(message: string): void {
+    this.notifications.error(message);
+  }
+
+  private googleSignInError(error: { error?: { message?: string; title?: string } | string }): string {
+    const body = error?.error;
+    if (typeof body === 'string' && body.trim()) {
+      return body;
+    }
+
+    if (body && typeof body === 'object') {
+      return body.message || body.title || 'Google sign-in failed. Please try again.';
+    }
+
+    return 'Google sign-in failed. Please try again.';
+  }
+
   registerWithPassword(): void {
     this.errorMessage = '';
     if (!this.fullName.trim() || !this.email.trim() || !this.password) {
@@ -256,6 +291,37 @@ export class RegisterComponent implements OnDestroy {
   focusOtpInput(): void {
     this.otpInput?.nativeElement.focus();
   }
+  private finishGoogleSignIn(): void {
+    this.authService.getMe().subscribe({
+      next: (user) => {
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/app/dashboard';
+        this.isExiting = true;
+        this.cdr.detectChanges();
+
+        this.navigationTimer = setTimeout(() => {
+          this.isLoading = false;
+          if (user.preferredLanguage) {
+            this.translocoService.setActiveLang(user.preferredLanguage as PreferredLanguage);
+            this.router.navigateByUrl(returnUrl);
+            return;
+          }
+
+          this.router.navigate(['/select-language'], {
+            queryParams: {
+              returnUrl
+            }
+          });
+        }, 260);
+      },
+      error: () => {
+        this.isLoading = false;
+        this.isExiting = false;
+        this.notifications.error('Sign-in successful, but user profile failed.');
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   private finishRegistration(): void {
     this.authService.getMe().subscribe({
       next: (user) => {

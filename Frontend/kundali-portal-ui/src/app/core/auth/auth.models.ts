@@ -55,6 +55,7 @@ export interface AuthResponse {
   userId: string;
   fullName: string;
   email?: string | null;
+  profileImageUrl?: string | null;
   phoneNumber?: string | null;
   preferredLanguage?: PreferredLanguage | null;
   role: string;
@@ -72,6 +73,7 @@ export interface UserProfileResponse {
   userId: string;
   fullName: string;
   email?: string | null;
+  profileImageUrl?: string | null;
   phoneNumber?: string | null;
   preferredLanguage?: PreferredLanguage | null;
   role: string;

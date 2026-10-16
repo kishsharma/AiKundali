@@ -99,6 +99,10 @@ export interface DhruvaKundaliContextSource {
   dateOfBirth?: unknown;
   birthDate?: unknown;
   birthPlace?: unknown;
+  planets?: unknown;
+  yogas?: unknown;
+  doshas?: unknown;
+  [key: string]: unknown;
 }
 
 export function mapDhruvaKundaliContext(source: DhruvaKundaliContextSource | null | undefined): DhruvaKundaliContext {

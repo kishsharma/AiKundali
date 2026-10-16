@@ -1,0 +1,243 @@
+<section class="horoscope-page">
+  <header class="sticky-toolbar">
+    <div class="toolbar-brand">
+      <h1>{{ 'horoscope.title' | transloco }}</h1>
+      <div class="mode-tabs" role="tablist" [attr.aria-label]="'horoscope.mode' | transloco">
+        <button type="button" role="tab" [class.active]="mode === 'personal'" [attr.aria-selected]="mode === 'personal'" (click)="setMode('personal')">
+          {{ 'horoscope.personal' | transloco }}
+        </button>
+        <button type="button" role="tab" [class.active]="mode === 'general'" [attr.aria-selected]="mode === 'general'" (click)="setMode('general')">
+          {{ 'horoscope.general' | transloco }}
+        </button>
+      </div>
+    </div>
+
+    <div class="toolbar-controls" *ngIf="mode === 'general' || (!loadingCharts && charts.length > 0)">
+      <label class="chart-picker" *ngIf="mode === 'personal'">
+        <span>{{ 'horoscope.chart' | transloco }}</span>
+        <select [(ngModel)]="selectedChartId" (ngModelChange)="onControlsChange()">
+          <option *ngFor="let chart of charts" [value]="chart.id">{{ chartLabel(chart) }}</option>
+        </select>
+      </label>
+
+      <div class="location-override" *ngIf="mode === 'personal'">
+        <label>
+          <span>{{ 'horoscope.locationOverride' | transloco }}</span>
+          <input
+            type="text"
+            [ngModel]="locationQuery"
+            (ngModelChange)="onLocationQueryChange($event)"
+            [placeholder]="'horoscope.locationPlaceholder' | transloco"
+            autocomplete="off" />
+        </label>
+        <button type="button" class="clear-btn" *ngIf="overrideLatitude != null" (click)="clearLocationOverride()">
+          {{ 'horoscope.clearLocation' | transloco }}
+        </button>
+        <div class="location-results" *ngIf="locationResults.length">
+          <button type="button" *ngFor="let place of locationResults" (click)="selectLocation(place)">
+            {{ place.displayName }}
+          </button>
+        </div>
+      </div>
+
+      <label class="date-picker">
+        <span>{{ 'horoscope.anchorDate' | transloco }}</span>
+        <input type="date" [(ngModel)]="anchorDate" (ngModelChange)="onControlsChange()" />
+      </label>
+
+      <div class="horizon-tabs" role="tablist" [attr.aria-label]="'horoscope.horizon' | transloco">
+        <button type="button" role="tab" [class.active]="horizon === 'Daily'" [attr.aria-selected]="horizon === 'Daily'" (click)="setHorizon('Daily')">
+          {{ 'horoscope.daily' | transloco }}
+        </button>
+        <button type="button" role="tab" [class.active]="horizon === 'Weekly'" [attr.aria-selected]="horizon === 'Weekly'" (click)="setHorizon('Weekly')">
+          {{ 'horoscope.weekly' | transloco }}
+        </button>
+        <button type="button" role="tab" [class.active]="horizon === 'Monthly'" [attr.aria-selected]="horizon === 'Monthly'" (click)="setHorizon('Monthly')">
+          {{ 'horoscope.monthly' | transloco }}
+        </button>
+      </div>
+<div class="period-pill" *ngIf="mode === 'general' && rashifal && !loading">
+        <span>{{ horizonLabel(rashifal.horizon) }}</span>
+        <strong>{{ formatRashifalDate(rashifal.from) }}<ng-container *ngIf="rashifal.to !== rashifal.from"> — {{ formatRashifalDate(rashifal.to) }}</ng-container></strong>
+      </div>
+    </div>
+
+    <p class="toolbar-hint" *ngIf="mode === 'general' || charts.length > 0">{{ dateHint }}</p>
+  </header>
+
+  <p class="status" *ngIf="loadingCharts && mode === 'personal'">{{ 'horoscope.loadingCharts' | transloco }}</p>
+  <p class="status error" *ngIf="errorMessage && !loading">{{ errorMessage }}</p>
+
+  <div class="empty-card" *ngIf="mode === 'personal' && !loadingCharts && charts.length === 0">
+    <p>{{ 'horoscope.noChart' | transloco }}</p>
+    <a routerLink="/app/kundali">{{ 'horoscope.createChart' | transloco }}</a>
+  </div>
+
+  <p class="status" *ngIf="loading">{{ 'horoscope.reading' | transloco }}</p>
+
+  <article class="result" *ngIf="mode === 'personal' && response && !loading">
+    <div class="context-row">
+      <section class="context-cell" *ngIf="response.panchanga">
+        <span class="context-label">{{ 'horoscope.panchanga' | transloco }}</span>
+        <p class="context-value">
+          {{ response.panchanga.paksha }} {{ response.panchanga.tithi }}
+          · {{ response.panchanga.nakshatra }} ({{ response.panchanga.taraName }})
+          · {{ response.panchanga.yoga }}
+          · {{ response.panchanga.karana }}
+          · {{ response.panchanga.vaar }}
+        </p>
+      </section>
+
+      <section class="context-cell" *ngIf="response.dashaContext">
+        <span class="context-label">{{ 'horoscope.dasha' | transloco }}</span>
+        <p class="context-value">
+          {{ response.dashaContext.mahadasha }}–{{ response.dashaContext.antardasha }}
+          <ng-container *ngIf="response.dashaContext.pratyantardasha"> · PD {{ response.dashaContext.pratyantardasha }}</ng-container>
+        </p>
+      </section>
+
+      <section class="context-cell" *ngIf="response.horizonExtras?.facts?.length">
+        <span class="context-label">{{ 'horoscope.horizonExtras' | transloco }}</span>
+        <p class="context-value">{{ response.horizonExtras?.facts?.join(' · ') }}</p>
+      </section>
+    </div>
+
+    <header class="tone-banner" [ngClass]="toneClass(response.overallTone)">
+      <div>
+        <span class="kicker">{{ horizonLabel(response.horizon) }} · {{ response.from }}<ng-container *ngIf="response.to !== response.from"> → {{ response.to }}</ng-container></span>
+        <strong>{{ response.overallTone }} · {{ response.overallScore }}</strong>
+      </div>
+      <div class="fact-chips">
+        <span class="chip" *ngFor="let fact of response.summaryFacts">{{ fact }}</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="main-col">
+        <section class="area-panels">
+          <h2>{{ 'horoscope.areas' | transloco }}</h2>
+          <article class="area-panel" *ngFor="let area of response.areas" [ngClass]="toneClass(area.tone)">
+            <strong class="area-title">{{ area.title }}</strong>
+            <p class="area-detail" [title]="areaPrediction(area)">{{ areaPrediction(area) }}</p>
+            <div class="area-actions">
+              <em class="area-meta">{{ area.tone }}</em>
+              <div class="rule-info-wrap" *ngIf="area.facts?.length">
+                <button
+                  type="button"
+                  class="rule-info-btn"
+                  [title]="'horoscope.whyThis' | transloco"
+                  [attr.aria-label]="'horoscope.whyThis' | transloco"
+                  [attr.aria-expanded]="isAreaInfoOpen(area)"
+                  (click)="toggleAreaInfo(area); $event.stopPropagation()"
+                >i</button>
+                <div class="rule-info-popover" *ngIf="isAreaInfoOpen(area)">
+                  <strong>{{ 'horoscope.whyThis' | transloco }}</strong>
+                  <ul>
+                    <li *ngFor="let fact of area.facts">{{ fact }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="evidence" *ngIf="response.gocharaHits?.length" [class.open]="gocharaOpen">
+          <button type="button" class="evidence-toggle" (click)="toggleGocharaSection()" [attr.aria-expanded]="gocharaOpen">
+            <h2>{{ 'horoscope.gochara' | transloco }}</h2>
+            <span class="evidence-count">{{ response.gocharaHits.length }}</span>
+            <span class="evidence-chevron" aria-hidden="true">{{ gocharaOpen ? '▾' : '▸' }}</span>
+          </button>
+          <div class="gochara-rail" role="list">
+            <button
+              type="button"
+              class="gochara-chip"
+              role="listitem"
+              *ngFor="let hit of response.gocharaHits; let i = index"
+              [ngClass]="toneClass(hit.tone)"
+              [class.active]="gocharaOpen && selectedGocharaIndex === i"
+              (click)="toggleGocharaDetail(i)"
+              [attr.title]="hit.fact">
+              <strong>{{ hit.planet }}</strong>
+              <span>H{{ hit.house }}</span>
+            </button>
+          </div>
+          <p class="gochara-detail" *ngIf="gocharaOpen && selectedGocharaHit as hit">
+            <strong>{{ hit.planet }}</strong>
+            <span>{{ hit.reference }} · H{{ hit.house }} · {{ hit.sign }}</span>
+            {{ hit.fact }}
+          </p>
+        </section>
+
+        <section class="formations" *ngIf="response.activeFormations?.length">
+          <h2>{{ 'horoscope.activeFormations' | transloco }}</h2>
+          <ul>
+            <li *ngFor="let item of response.activeFormations" [ngClass]="toneClass(item.tone)">
+              <strong>{{ item.type }} · {{ item.name }}</strong>
+              <p>{{ item.fact }}</p>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <p class="disclaimer">{{ response.disclaimer || ('horoscope.disclaimer' | transloco) }}</p>
+
+    <footer class="limits-strip" *ngIf="response.limitations?.length">
+      <strong>{{ 'horoscope.limitations' | transloco }}</strong>
+      <span *ngFor="let item of response.limitations; let last = last">{{ item }}<ng-container *ngIf="!last"> · </ng-container></span>
+      <em *ngIf="response.tithiPravesha?.message">{{ response.tithiPravesha.message }}</em>
+    </footer>
+  </article>
+
+  <article class="rashifal" *ngIf="mode === 'general' && rashifal && !loading">
+<div class="rashifal-columns">
+      <section class="rashi-picker-section rashifal-rashi-column">
+        <div class="section-heading">
+          <div><span class="eyebrow">EXPLORE THE ZODIAC</span><h3>All 12 Rashis</h3></div>
+          
+        </div>
+        <div class="rashi-grid">
+          <button type="button" class="rashi-card rashi-select-card" *ngFor="let item of rashifal.items" [ngClass]="toneClass(item.tone)" [class.highlighted]="selectedRashiName === item.englishName" [attr.aria-pressed]="selectedRashiName === item.englishName" (click)="selectRashi(item)">
+            <span class="mini-zodiac" aria-hidden="true"><img [src]="rashiIconPath(item)" alt="" /></span>
+            <span class="rashi-select-copy"><strong>{{ indianRashiName(item) }}</strong><small>{{ item.englishName }} · {{ item.tone }}</small></span>
+            <span class="mini-score">{{ item.score }}</span>
+            <span class="mini-score-track"><i [style.width.%]="item.score"></i></span>
+          </button>
+        </div>
+      </section>
+
+      <div class="rashifal-reading-column">
+        <ng-container *ngIf="selectedRashi as item">
+          <app-rashifal-share-card [item]="item" [horizon]="horizon" [from]="rashifal.from" [to]="rashifal.to"></app-rashifal-share-card>
+        </ng-container>
+      </div>
+
+      <div class="rashifal-life-column">
+        <ng-container *ngIf="selectedRashi as item">
+          <section class="insights-section">
+            <div class="section-heading"><div><span class="eyebrow">YOUR COSMIC OUTLOOK</span><h3>Life areas</h3></div><span class="section-date">{{ formatRashifalDate(rashifal.from) }}<ng-container *ngIf="rashifal.to !== rashifal.from"> — {{ formatRashifalDate(rashifal.to) }}</ng-container></span></div>
+            <div class="insight-grid">
+              <article class="insight-card" *ngFor="let area of item.areas" [ngClass]="toneClass(area.tone)">
+                <span class="insight-mark">✧</span><div><span class="insight-name">{{ area.key }}</span><p>{{ area.line }}</p></div>
+              </article>
+            </div>
+          </section>
+        </ng-container>
+      </div>
+    </div>
+    <p class="disclaimer">{{ rashifal.disclaimer }}</p>
+  </article>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+

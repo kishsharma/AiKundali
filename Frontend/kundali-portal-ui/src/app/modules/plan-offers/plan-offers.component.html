@@ -19,7 +19,7 @@
         <span>Match saves</span>
         <span>AI chat</span>
         <span>Life questions / day</span>
-        <span>Open for checkout</span>
+        <span>Payment gateway</span>
       </div>
 
       <article
@@ -51,7 +51,7 @@
           [disabled]="plan.code === 'Free'"
           (click)="toggleCheckout(plan)"
           [attr.aria-pressed]="plan.checkoutOpen"
-          [attr.aria-label]="planTitle(plan) + ' checkout'">
+          [attr.aria-label]="planTitle(plan) + ' payment gateway'">
           <i></i>
         </button>
       </article>

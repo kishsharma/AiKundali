@@ -17,6 +17,8 @@ export interface UserLoginControlUser {
   isPremium: boolean;
   isPaid?: boolean;
   isPlus?: boolean;
+  lastSeenAt?: string | null;
+  isOnline?: boolean;
 }
 
 @Injectable({

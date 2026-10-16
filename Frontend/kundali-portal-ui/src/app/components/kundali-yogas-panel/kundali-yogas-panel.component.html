@@ -1,0 +1,253 @@
+<div class="yogas-list" *ngIf="items.length; else noYogas">
+  <p class="birth-chart-inline-note" *ngIf="natalItems.length">Yoga present in your chart. Unlock to know more.</p>
+
+  <section class="dosha-attention yoga-attention" *ngIf="attention.focus as focus; else noYogaFocus">
+    <div class="dosha-attention-line">
+      <span class="dosha-attention-kicker">{{ 'kundali.yogaAttention.title' | transloco }}</span>
+      <strong>{{ focus.name }}</strong>
+      <span class="dosha-attention-tags">
+        <ng-container *ngFor="let tag of focus.tags">
+          <span *ngIf="isPremiumUser || tag === 'lifetime'" [class]="'tag-' + tag">{{ ('kundali.yogaAttention.tag.' + tag) | transloco }}</span>
+        </ng-container>
+      </span>
+      <button type="button" class="dosha-attention-open" (click)="openFocus(focus.index)">{{ 'kundali.yogaAttention.open' | transloco }}</button>
+    </div>
+    <p class="dosha-attention-detail" *ngIf="isPremiumUser && focus.lines[0] as line">
+      <span>{{ line.key | transloco: line.params }}</span>
+    </p>
+  </section>
+  <ng-template #noYogaFocus>
+    <p class="dosha-attention-quiet" *ngIf="attention.quiet.length">{{ 'kundali.yogaAttention.none' | transloco }}</p>
+  </ng-template>
+  <p class="dosha-attention-meta" *ngIf="attention.also.length || (attention.focus && attention.quiet.length)">
+    <span *ngIf="attention.also.length">
+      <strong>{{ 'kundali.yogaAttention.also' | transloco }}</strong>
+      <ng-container *ngFor="let entry of attention.also; let last = last">{{ entry.name }}<em *ngIf="entry.tags[0] && (isPremiumUser || entry.tags[0] === 'lifetime')">{{ ('kundali.yogaAttention.tag.' + entry.tags[0]) | transloco }}</em>{{ last ? '' : ', ' }}</ng-container>
+    </span>
+    <span *ngIf="attention.focus && attention.quiet.length">
+      <strong>{{ 'kundali.yogaAttention.quiet' | transloco }}</strong>
+      {{ quietNames }}
+    </span>
+  </p>
+
+  <ng-container *ngFor="let group of currentActivationGroups">
+    <div class="activation-period-group activation-period-group--yoga is-current">
+      <div class="activation-period-header">
+        <p class="activation-period-story">
+          <strong class="activation-story-status">{{ group.title }}</strong>
+          <span class="activation-story-period">{{ group.period }}</span>
+          <span class="activation-story-context" *ngIf="group.dasha"><small>{{ 'kundali.meta.during' | transloco }}</small>{{ group.dasha }}</span>
+          <span class="activation-story-context" *ngIf="group.trigger"><small>{{ 'kundali.meta.triggeredBy' | transloco }}</small>{{ group.trigger }}</span>
+        </p>
+      </div>
+      <div class="activation-card-list">
+        <div class="yoga-item" *ngFor="let entry of group.items" [class.needs-attention]="isPriority(entry.index)">
+          <div class="yoga-header">
+            <div class="yoga-title">
+              <div class="yoga-dosha-title-line">
+                <h4>{{ entry.item.name }}</h4>
+                <span class="dosha-focus-pill yoga-focus-pill" *ngIf="isPriority(entry.index)">{{ 'kundali.yogaAttention.title' | transloco }}</span>
+              </div>
+              <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.strength">
+                <span class="meta-item" *ngIf="entry.item.category">{{ 'kundali.meta.category' | transloco }} {{ entry.item.category }}</span>
+                <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">{{ 'kundali.meta.planets' | transloco }} {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">{{ 'kundali.meta.houses' | transloco }} {{ entry.item.involvedHouses.join(', ') }}</span>
+                <span class="yoga-strength natal-inline-value" *ngIf="entry.item.strength" [ngClass]="getYogaStrengthClass(entry.item.strength)">{{ 'kundali.meta.natal' | transloco }} {{ translateControlledValue('strength', entry.item.strength) }}</span>
+              </div>
+            </div>
+            <div class="item-actions">
+              <span class="activation-level-chip" [ngClass]="getActivationLevelClass(entry.activation)">{{ getActivationLevel(entry.activation) }}</span>
+              <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                  <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                </svg>
+              </span>
+              <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleDetailsAction(entry.index)">i</button>
+            </div>
+          </div>
+          <p class="yoga-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.description || entry.item.reason }}</p>
+          <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+            <div class="premium-activation-head">
+              <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+            </div>
+            <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+              <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent" [class.is-strong]="isStrongActivation(row.activation)">
+                <strong>{{ row.labelKey | transloco }}</strong>
+                <span class="activation-period">{{ formatActivationPeriod(row.activation) }}</span>
+                <small class="activation-level" *ngIf="isStrongActivation(row.activation)">{{ 'kundali.activation.strongInfluence' | transloco }}</small>
+                <small class="activation-level is-quiet" *ngIf="!isStrongActivation(row.activation) && getActivationLevel(row.activation)">{{ getActivationLevel(row.activation) }}</small>
+                <span class="activation-dasha-side">
+                  <span class="activation-planet" *ngIf="getActivationPlanetRaw(row.activation, 'mahadashaPlanet') as planet" [attr.data-planet]="planet">{{ translatePlanetName(planet) }} <em>{{ 'kundali.activation.mahadasha' | transloco }}</em></span>
+                  <span class="activation-planet" *ngIf="getActivationPlanetRaw(row.activation, 'antardashaPlanet') as planet" [attr.data-planet]="planet">{{ translatePlanetName(planet) }} <em>{{ 'kundali.activation.antardasha' | transloco }}</em></span>
+                </span>
+              </div>
+            </ng-container>
+            <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+          </div>
+          <div class="impact-panel" *ngIf="isPremiumUser && isDetailsOpen(entry.index)">
+            <div class="impact-panel-header"><strong>{{ 'kundali.meta.impactAreas' | transloco }}</strong><span>{{ 'kundali.meta.categories' | transloco: { count: entry.item.impactAreas?.length || 0 } }}</span></div>
+            <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
+              <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
+                <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
+                <p *ngFor="let statement of area.statements">{{ statement }}</p>
+              </div>
+            </div>
+            <p class="impact-summary" *ngIf="entry.item.impact">{{ entry.item.impact }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngFor="let group of upcomingActivationGroups">
+    <div class="activation-period-group activation-period-group--yoga">
+      <div class="activation-period-header">
+        <p class="activation-period-story">
+          <strong class="activation-story-status">{{ group.title }}</strong>
+          <span class="activation-story-period">{{ group.period }}</span>
+          <span class="activation-story-context" *ngIf="group.dasha"><small>{{ 'kundali.meta.during' | transloco }}</small>{{ group.dasha }}</span>
+          <span class="activation-story-context" *ngIf="group.trigger"><small>{{ 'kundali.meta.triggeredBy' | transloco }}</small>{{ group.trigger }}</span>
+        </p>
+      </div>
+      <div class="activation-card-list">
+        <div class="yoga-item" *ngFor="let entry of group.items" [class.needs-attention]="isPriority(entry.index)">
+          <div class="yoga-header">
+            <div class="yoga-title">
+              <div class="yoga-dosha-title-line">
+                <h4>{{ entry.item.name }}</h4>
+                <span class="dosha-focus-pill yoga-focus-pill" *ngIf="isPriority(entry.index)">{{ 'kundali.yogaAttention.title' | transloco }}</span>
+              </div>
+              <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.strength">
+                <span class="meta-item" *ngIf="entry.item.category">{{ 'kundali.meta.category' | transloco }} {{ entry.item.category }}</span>
+                <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">{{ 'kundali.meta.planets' | transloco }} {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+                <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">{{ 'kundali.meta.houses' | transloco }} {{ entry.item.involvedHouses.join(', ') }}</span>
+                <span class="yoga-strength natal-inline-value" *ngIf="entry.item.strength" [ngClass]="getYogaStrengthClass(entry.item.strength)">{{ 'kundali.meta.natal' | transloco }} {{ translateControlledValue('strength', entry.item.strength) }}</span>
+              </div>
+            </div>
+            <div class="item-actions">
+              <span class="activation-level-chip" [ngClass]="getActivationLevelClass(entry.activation)">{{ getActivationLevel(entry.activation) }}</span>
+              <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+                <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+                <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+                <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                  <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                </svg>
+              </span>
+              <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleDetailsAction(entry.index)">i</button>
+            </div>
+          </div>
+          <p class="yoga-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.description || entry.item.reason }}</p>
+          <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+            <div class="premium-activation-head">
+              <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+            </div>
+            <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+              <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent" [class.is-strong]="isStrongActivation(row.activation)">
+                <strong>{{ row.labelKey | transloco }}</strong>
+                <span class="activation-period">{{ formatActivationPeriod(row.activation) }}</span>
+                <small class="activation-level" *ngIf="isStrongActivation(row.activation)">{{ 'kundali.activation.strongInfluence' | transloco }}</small>
+                <small class="activation-level is-quiet" *ngIf="!isStrongActivation(row.activation) && getActivationLevel(row.activation)">{{ getActivationLevel(row.activation) }}</small>
+                <span class="activation-dasha-side">
+                  <span class="activation-planet" *ngIf="getActivationPlanetRaw(row.activation, 'mahadashaPlanet') as planet" [attr.data-planet]="planet">{{ translatePlanetName(planet) }} <em>{{ 'kundali.activation.mahadasha' | transloco }}</em></span>
+                  <span class="activation-planet" *ngIf="getActivationPlanetRaw(row.activation, 'antardashaPlanet') as planet" [attr.data-planet]="planet">{{ translatePlanetName(planet) }} <em>{{ 'kundali.activation.antardasha' | transloco }}</em></span>
+                </span>
+              </div>
+            </ng-container>
+            <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+          </div>
+          <div class="impact-panel" *ngIf="isPremiumUser && isDetailsOpen(entry.index)">
+            <div class="impact-panel-header"><strong>{{ 'kundali.meta.impactAreas' | transloco }}</strong><span>{{ 'kundali.meta.categories' | transloco: { count: entry.item.impactAreas?.length || 0 } }}</span></div>
+            <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
+              <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
+                <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
+                <p *ngFor="let statement of area.statements">{{ statement }}</p>
+              </div>
+            </div>
+            <p class="impact-summary" *ngIf="entry.item.impact">{{ entry.item.impact }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="activation-period-group activation-period-group--natal" *ngIf="natalItems.length">
+    <div class="activation-card-list">
+      <div class="yoga-item" *ngFor="let entry of natalItems" [class.needs-attention]="isPriority(entry.index)">
+        <div class="yoga-header">
+          <div class="yoga-title">
+            <div class="yoga-dosha-title-line">
+              <h4>{{ entry.item.name }}</h4>
+              <span class="dosha-focus-pill yoga-focus-pill" *ngIf="isPriority(entry.index)">{{ 'kundali.yogaAttention.title' | transloco }}</span>
+            </div>
+            <div class="yoga-dosha-inline-meta" *ngIf="entry.item.category || entry.item.involvedPlanets?.length || entry.item.involvedHouses?.length || entry.item.strength">
+              <span class="meta-item" *ngIf="entry.item.category">{{ 'kundali.meta.category' | transloco }} {{ entry.item.category }}</span>
+              <span class="meta-item" *ngIf="entry.item.involvedPlanets?.length">{{ 'kundali.meta.planets' | transloco }} {{ translatePlanetList(entry.item.involvedPlanets) }}</span>
+              <span class="meta-item" *ngIf="entry.item.involvedHouses?.length">{{ 'kundali.meta.houses' | transloco }} {{ entry.item.involvedHouses.join(', ') }}</span>
+              <span class="yoga-strength natal-inline-value" *ngIf="entry.item.strength" [ngClass]="getYogaStrengthClass(entry.item.strength)">{{ 'kundali.meta.natal' | transloco }} {{ translateControlledValue('strength', entry.item.strength) }}</span>
+            </div>
+          </div>
+          <div class="item-actions">
+            <span class="premium-activation-mini-lock" *ngIf="!hasActivationAccess(entry.item)">
+              <span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>
+              <strong>{{ 'kundali.activation.title' | transloco }} &bull; PREMIUM</strong>
+              <svg class="activation-mini-lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+              </svg>
+            </span>
+            <button type="button" class="info-toggle" *ngIf="isPremiumUser ? hasImpactDetails(entry.item) : true" [class.active]="isPremiumUser && isDetailsOpen(entry.index)" [attr.aria-expanded]="isPremiumUser && isDetailsOpen(entry.index)" [attr.aria-label]="'View impact details for ' + entry.item.name" (click)="handleDetailsAction(entry.index)">i</button>
+          </div>
+        </div>
+        <p class="yoga-description" *ngIf="entry.item.reason || entry.item.description">{{ entry.item.description || entry.item.reason }}</p>
+        <div class="premium-activation-card" *ngIf="hasActivationAccess(entry.item)">
+          <div class="premium-activation-head">
+            <span><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.title' | transloco }}</span>
+          </div>
+          <ng-container *ngIf="getActivationDisplayRows(entry.item).length">
+            <div class="premium-activation-row" *ngFor="let row of getActivationDisplayRows(entry.item)" [class.is-current]="row.isCurrent" [class.is-strong]="isStrongActivation(row.activation)">
+              <strong>{{ row.labelKey | transloco }}</strong>
+              <span class="activation-period">{{ formatActivationPeriod(row.activation) }}</span>
+              <small class="activation-level" *ngIf="isStrongActivation(row.activation)">{{ 'kundali.activation.strongInfluence' | transloco }}</small>
+              <small class="activation-level is-quiet" *ngIf="!isStrongActivation(row.activation) && getActivationLevel(row.activation)">{{ getActivationLevel(row.activation) }}</small>
+              <span class="activation-dasha-side">
+                <span class="activation-planet" *ngIf="getActivationPlanetRaw(row.activation, 'mahadashaPlanet') as planet" [attr.data-planet]="planet">{{ translatePlanetName(planet) }} <em>{{ 'kundali.activation.mahadasha' | transloco }}</em></span>
+                <span class="activation-planet" *ngIf="getActivationPlanetRaw(row.activation, 'antardashaPlanet') as planet" [attr.data-planet]="planet">{{ translatePlanetName(planet) }} <em>{{ 'kundali.activation.antardasha' | transloco }}</em></span>
+              </span>
+            </div>
+          </ng-container>
+          <p *ngIf="!getActivationDisplayRows(entry.item).length">{{ 'kundali.activation.noneAvailable' | transloco }}</p>
+        </div>
+        <div class="impact-panel" *ngIf="isPremiumUser && isDetailsOpen(entry.index)">
+          <div class="impact-panel-header"><strong>{{ 'kundali.meta.impactAreas' | transloco }}</strong><span>{{ 'kundali.meta.categories' | transloco: { count: entry.item.impactAreas?.length || 0 } }}</span></div>
+          <div class="impact-grid" *ngIf="entry.item.impactAreas?.length">
+            <div class="impact-area" *ngFor="let area of entry.item.impactAreas">
+              <div class="impact-area-title"><span class="impact-icon" [ngClass]="getImpactTone(area.category)">{{ getImpactIcon(area.category) }}</span><h5>{{ area.category }}</h5></div>
+              <p *ngFor="let statement of area.statements">{{ statement }}</p>
+            </div>
+          </div>
+          <p class="impact-summary" *ngIf="entry.item.impact">{{ entry.item.impact }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="premium-activation-locked premium-activation-section-cta" *ngIf="!hasAnyActivationAccess(items)">
+    <strong><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.activation.lockedTitle' | transloco }}</strong>
+    <span>{{ 'kundali.activation.yogaLockedCopy' | transloco }}</span>
+    <button type="button" class="prediction-unlock-button compact" (click)="onUnlockPremium()">
+      {{ 'kundali.activation.unlockYogaCta' | transloco }}
+      <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+        <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
+        <path d="M14.6 5.15 17 3"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+<ng-template #noYogas>
+  <p class="yoga-placeholder">{{ 'kundali.noYogas' | transloco }}</p>
+</ng-template>

@@ -169,6 +169,15 @@ export class AuditLogsComponent implements OnInit {
     });
   }
 
+  auditDescription(log: AuditLogItem): string {
+    const stored = log.description?.trim();
+    if (stored) {
+      return stored;
+    }
+
+    return this.actionGuide.find((item) => item.action === log.action)?.description || log.action || '-';
+  }
+
   formatDate(value: string): string {
     if (!value) {
       return '-';

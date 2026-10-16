@@ -39,16 +39,27 @@ describe('DhruvaAssistantComponent', () => {
     expect(component.showChartReplyLead).toBe(true);
   });
 
-  it('moves between floating, compact, and expanded panel states', () => {
+  it('moves between floating, compact, expanded, and full screen', () => {
     expect(component.isOpen).toBe(false);
     expect(component.isExpanded).toBe(false);
+    expect(component.isFullScreen).toBe(false);
 
     component.open();
     expect(component.isOpen).toBe(true);
     expect(component.isExpanded).toBe(false);
+    expect(component.isFullScreen).toBe(false);
 
     component.expand();
     expect(component.isOpen).toBe(true);
+    expect(component.isExpanded).toBe(true);
+    expect(component.isFullScreen).toBe(false);
+
+    component.expand();
+    expect(component.isFullScreen).toBe(true);
+    expect(component.isExpanded).toBe(true);
+
+    component.restoreCompact();
+    expect(component.isFullScreen).toBe(false);
     expect(component.isExpanded).toBe(true);
 
     component.restoreCompact();
@@ -56,13 +67,16 @@ describe('DhruvaAssistantComponent', () => {
     expect(component.isExpanded).toBe(false);
 
     component.expand();
+    component.expand();
     component.close();
     expect(component.isOpen).toBe(false);
     expect(component.isExpanded).toBe(false);
+    expect(component.isFullScreen).toBe(false);
 
     component.toggle();
     expect(component.isOpen).toBe(true);
     expect(component.isExpanded).toBe(false);
+    expect(component.isFullScreen).toBe(false);
   });
 
   it('preserves Dhruva question and response state when switching panel modes', () => {

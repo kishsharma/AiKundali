@@ -477,3 +477,76 @@ body:not(.pdf-mode) textarea::placeholder {
   color: color-mix(in srgb, var(--theme-text-muted) 62%, transparent);
 }
 
+body.dhruva-full-open {
+  overflow: hidden;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  .app-topbar,
+  .mobile-menu-toggle,
+  .topbar-right,
+  .user-menu,
+  app-sidebar,
+  .sidebar,
+  app-dhruva-assistant,
+  app-feedback-badge,
+  app-notification-toast,
+  app-subscription-modal,
+  app-confirm-dialog,
+  body.numerology-print-mode .app-topbar,
+  body.numerology-print-mode app-sidebar,
+  body.numerology-print-mode app-dhruva-assistant,
+  body.numerology-print-mode app-feedback-badge,
+  body.numerology-print-mode .results-actions {
+    display: none !important;
+  }
+
+  body.numerology-print-mode .report-branding--export {
+    display: grid !important;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  app-root,
+  .root-shell,
+  .page-content,
+  .app-shell,
+  .app-container,
+  .content,
+  .content-wrapper {
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #111 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .page-content,
+  .content,
+  .content-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  .app-topbar {
+    position: static !important;
+  }
+}
+

@@ -283,6 +283,37 @@ export class SubscriptionModalComponent implements OnDestroy {
     }
 
     this.checkoutPlanCode = plan.code;
+    if (!plan.canCheckout) {
+      this.billingService.activatePlan(plan.code, this.billingCycle).subscribe({
+        next: (status) => {
+          this.authService.getMe().subscribe({
+            next: (profile) => {
+              this.currentPlanCode = profile.planCode || status.planCode || plan.code;
+              this.status = status;
+              this.notifications.success(`${plan.name} is now active.`);
+              this.checkoutPlanCode = '';
+              this.close();
+              this.paint();
+            },
+            error: () => {
+              this.currentPlanCode = status.planCode || plan.code;
+              this.status = status;
+              this.notifications.success(`${plan.name} is now active.`);
+              this.checkoutPlanCode = '';
+              this.close();
+              this.paint();
+            }
+          });
+        },
+        error: (error) => {
+          this.checkoutPlanCode = '';
+          this.paint();
+          this.notifications.error(error?.error?.message || 'Unable to update the plan.');
+        }
+      });
+      return;
+    }
+
     const quote = this.couponQuotes.find((item) => item.planCode.toLowerCase() === plan.code.toLowerCase());
     this.billingService.createCheckout(plan.code, this.billingCycle, quote?.code).subscribe({
       next: async (session) => {

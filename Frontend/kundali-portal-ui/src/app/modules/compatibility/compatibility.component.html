@@ -189,11 +189,16 @@
           <img class="compatibility-ganesh compatibility-ganesh-light" src="assets/brand/horalife/ganesh-compatibility-light-clean.png" alt="">
           <img class="compatibility-ganesh compatibility-ganesh-dark" src="assets/brand/horalife/ganesh-compatibility-dark-clean.png" alt="">
         </div>
-        <div class="report-pandit-block">
+        <div class="report-pandit-block" [class.has-logo]="!!activeCompatibilityBranding?.logoUrl">
+          <img
+            *ngIf="activeCompatibilityBranding?.logoUrl"
+            class="report-pandit-logo"
+            [src]="activeCompatibilityBranding?.logoUrl || ''"
+            alt="">
           <span class="report-kicker">Prepared by</span>
-          <h3>{{ 'kundali.reportAuthorName' | transloco }}</h3>
-          <span>{{ 'kundali.reportAuthorRole' | transloco }}</span>
-          <p>{{ 'kundali.reportAuthorContact' | transloco }}</p>
+          <h3>{{ compatibilityAstrologerName }}</h3>
+          <span *ngIf="compatibilityAstrologerDesignation">{{ compatibilityAstrologerDesignation }}</span>
+          <p *ngIf="compatibilityAstrologerContact">{{ compatibilityAstrologerContact }}</p>
         </div>
       </div>
 

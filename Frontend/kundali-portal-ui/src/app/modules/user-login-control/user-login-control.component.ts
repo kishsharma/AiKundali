@@ -20,6 +20,7 @@ export class UserLoginControlComponent implements OnInit {
 
   users: UserLoginControlUser[] = [];
   searchTerm = '';
+  onlineOnly = false;
   loading = false;
   errorMessage = '';
   successMessage = '';
@@ -34,18 +35,26 @@ export class UserLoginControlComponent implements OnInit {
     this.loadUsers();
   }
 
+  get onlineCount(): number {
+    return this.users.filter(user => user.isOnline).length;
+  }
+
   get filteredUsers(): UserLoginControlUser[] {
     const term = this.searchTerm.trim().toLowerCase();
 
-    if (!term) {
-      return this.users;
-    }
+    return this.users.filter(user => {
+      if (this.onlineOnly && !user.isOnline) {
+        return false;
+      }
 
-    return this.users.filter(user =>
-      (user.fullName ?? '').toLowerCase().includes(term)
-      || (user.email ?? '').toLowerCase().includes(term)
-      || (user.phoneNumber ?? '').toLowerCase().includes(term)
-    );
+      if (!term) {
+        return true;
+      }
+
+      return (user.fullName ?? '').toLowerCase().includes(term)
+        || (user.email ?? '').toLowerCase().includes(term)
+        || (user.phoneNumber ?? '').toLowerCase().includes(term);
+    });
   }
 
   loadUsers(): void {
@@ -172,6 +181,24 @@ export class UserLoginControlComponent implements OnInit {
         this.savingPlanUserIds.delete(user.id);
         this.loadUsers();
       }
+    });
+  }
+
+  lastSeenLabel(user: UserLoginControlUser): string {
+    if (!user.lastSeenAt) {
+      return 'Not seen yet';
+    }
+
+    const seenAt = new Date(user.lastSeenAt);
+    if (Number.isNaN(seenAt.getTime())) {
+      return 'Not seen yet';
+    }
+
+    return seenAt.toLocaleString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
     });
   }
 

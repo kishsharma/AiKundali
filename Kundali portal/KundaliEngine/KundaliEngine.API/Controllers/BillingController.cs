@@ -118,6 +118,28 @@ public class BillingController : ControllerBase
     }
 
     [Authorize]
+    [HttpPost("activate")]
+    public async Task<ActionResult<BillingStatusDto>> Activate(
+        [FromBody] CreateCheckoutRequest request,
+        CancellationToken cancellationToken)
+    {
+        var user = await GetCurrentUserAsync(cancellationToken);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        try
+        {
+            return Ok(await _billingService.ActivateWithoutPaymentAsync(user, request, cancellationToken));
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    [Authorize]
     [HttpPost("cancel")]
     public async Task<IActionResult> Cancel(CancellationToken cancellationToken)
     {

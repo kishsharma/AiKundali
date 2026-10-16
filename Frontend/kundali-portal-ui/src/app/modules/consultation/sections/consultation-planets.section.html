@@ -1,0 +1,194 @@
+<div class="strength-section" *ngIf="planets.length; else empty">
+  <div class="advanced-strength-grid">
+    <section class="advanced-strength-block" *ngIf="activeStrengthView === 'positions'">
+      <div class="planet-table-wrapper">
+        <table class="planet-table">
+          <thead>
+            <tr>
+              <th>{{ 'table.planet' | transloco }}</th>
+              <th>{{ 'table.sign' | transloco }}</th>
+              <th>{{ 'table.house' | transloco }}</th>
+              <th>{{ 'table.degree' | transloco }}</th>
+              <th>{{ 'table.status' | transloco }}</th>
+              <th>{{ 'table.aspects' | transloco }}</th>
+              <th>{{ 'table.strength' | transloco }}</th>
+              <th>{{ 'table.nakshatra' | transloco }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let planet of planets">
+              <td class="planet-cell">
+                <span class="planet-icon" [ngClass]="getPlanetSupportClass(planet)" [attr.data-planet]="planet.planet">
+                  {{ getPlanetGlyph(planet.planet) }}
+                </span>
+                <span class="planet-name">{{ translatePlanetName(planet.planet) }}</span>
+              </td>
+              <td>{{ translateSignName(planet.sign) }}</td>
+              <td>{{ planet.house }}</td>
+              <td>{{ planet.degree }}&deg; {{ planet.minute }}'</td>
+              <td>
+                <span class="badge retro" *ngIf="planet.isRetrograde">R</span>
+                <span class="badge combust" *ngIf="planet.isCombust">C</span>
+              </td>
+              <td>
+                <span class="aspect-pill" [class.empty]="!hasPlanetAspects(planet)" [attr.title]="getAspectedByText(planet)">
+                  {{ getAspectedByText(planet) }}
+                </span>
+              </td>
+              <td>
+                <span class="strength-pill" [ngClass]="getStrengthClass(planet.detailedStrength)">
+                  {{ getStrengthLabel(planet.detailedStrength) }}
+                </span>
+              </td>
+              <td>{{ translateNakshatraName(planet.nakshatra) }} ({{ planet.pada }})</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <ng-container *ngIf="strengthTables as tables">
+      <section class="advanced-strength-block" *ngIf="activeStrengthView === 'summary' && tables.planetaryStrengths.length">
+        <div class="planet-table-wrapper">
+          <table class="planet-table">
+            <thead>
+              <tr>
+                <th>Planet</th>
+                <th>Total</th>
+                <th>Level</th>
+                <th>Sthana</th>
+                <th>Dig</th>
+                <th>Kala</th>
+                <th>Cheshta</th>
+                <th>Naisargika</th>
+                <th>Drik</th>
+                <th>Reading</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tables.planetaryStrengths">
+                <td class="planet-cell">
+                  <span class="planet-icon" [attr.data-planet]="row.planet">{{ getPlanetGlyph(row.planet) }}</span>
+                  <span class="planet-name">{{ translatePlanetName(row.planet) }}</span>
+                </td>
+                <td><strong>{{ row.totalScore }}/100</strong></td>
+                <td>
+                  <span class="strength-text" [ngClass]="getStrengthClass(row.strengthLevel)" [style.color]="getStrengthToneColor(row.strengthLevel)">
+                    {{ translateControlledValue('strength', row.strengthLevel) }}
+                  </span>
+                </td>
+                <td>{{ row.sthanaBala }}</td>
+                <td>{{ row.digBala }}</td>
+                <td>{{ row.kalaBala }}</td>
+                <td>{{ row.cheshtaBala }}</td>
+                <td>{{ row.naisargikaBala }}</td>
+                <td>{{ row.drikBala }}</td>
+                <td class="advanced-reading">{{ row.interpretation }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="advanced-strength-block" *ngIf="activeStrengthView === 'shadbala' && !tables.shadbala.length">
+        <p class="empty-note">Six-fold Shadbala numbers are not in this report. Generate the Kundali again after the API on the server is updated.</p>
+      </section>
+
+      <section class="advanced-strength-block" *ngIf="activeStrengthView === 'shadbala' && tables.shadbala.length">
+        <div class="planet-table-wrapper">
+          <table class="planet-table">
+            <thead>
+              <tr>
+                <th>Planet</th>
+                <th>Sthana</th>
+                <th>Dig</th>
+                <th>Kala</th>
+                <th>Cheshta</th>
+                <th>Naisargika</th>
+                <th>Drik</th>
+                <th>Total</th>
+                <th>Required</th>
+                <th>%</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tables.shadbala">
+                <td class="planet-cell">
+                  <span class="planet-icon" [attr.data-planet]="row.planet">{{ getPlanetGlyph(row.planet) }}</span>
+                  <span class="planet-name">{{ translatePlanetName(row.planet) }}</span>
+                </td>
+                <td>{{ formatBalaCell(row.sthanaBala ?? row.SthanaBala) }}</td>
+                <td>{{ formatBalaCell(row.digBala ?? row.DigBala) }}</td>
+                <td>{{ formatBalaCell(row.kalaBala ?? row.KalaBala) }}</td>
+                <td>{{ formatBalaCell(row.cheshtaBala ?? row.CheshtaBala) }}</td>
+                <td>{{ formatBalaCell(row.naisargikaBala ?? row.NaisargikaBala) }}</td>
+                <td>{{ formatBalaCell(row.drikBala ?? row.DrikBala) }}</td>
+                <td><strong>{{ formatBalaCell(row.total ?? row.Total ?? row.totalScore ?? row.TotalScore) }}</strong></td>
+                <td>{{ formatBalaCell(row.required ?? row.Required) }}</td>
+                <td>{{ formatShadbalaPercent(row) }}</td>
+                <td>
+                  <span class="strength-text" [ngClass]="getStrengthClass(row.strengthLevel)" [style.color]="getStrengthToneColor(row.strengthLevel)">
+                    {{ translateControlledValue('strength', row.strengthLevel) }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="advanced-strength-block" *ngIf="activeStrengthView === 'ashtakavarga' && tables.houseSupport.length">
+        <div class="planet-table-wrapper">
+          <table class="planet-table">
+            <thead>
+              <tr>
+                <th>House</th>
+                <th>Sign</th>
+                <th>BAV</th>
+                <th>SAV</th>
+                <th>Score</th>
+                <th>Support</th>
+                <th>Life Areas</th>
+                <th>Transit Usefulness</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tables.houseSupport">
+                <td class="house-support-primary">
+                  <strong>{{ row.house }}</strong>
+                  <span>{{ translateHouseName(row.house, row.houseName) }}</span>
+                </td>
+                <td>{{ translateSignName(row.sign) }}</td>
+                <td>{{ row.estimatedBavPoints }}/8</td>
+                <td>{{ row.estimatedSavPoints }}</td>
+                <td>{{ row.score }}/100</td>
+                <td>
+                  <span class="strength-text" [ngClass]="getStrengthClass(row.supportLevel)" [style.color]="getStrengthToneColor(row.supportLevel)">
+                    {{ translateControlledValue('strength', row.supportLevel) }}
+                  </span>
+                </td>
+                <td class="advanced-reading">{{ row.lifeAreas || '-' }}</td>
+                <td class="advanced-reading">{{ row.transitUsefulness }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section
+        class="advanced-strength-block"
+        *ngIf="(activeStrengthView === 'summary' && !tables.planetaryStrengths.length) || (activeStrengthView === 'ashtakavarga' && !tables.houseSupport.length)">
+        <p class="empty-note">{{ 'consultation.sectionEmpty' | transloco }}</p>
+      </section>
+    </ng-container>
+
+    <section class="advanced-strength-block" *ngIf="!strengthTables && activeStrengthView !== 'positions'">
+      <p class="empty-note">{{ 'consultation.sectionEmpty' | transloco }}</p>
+    </section>
+  </div>
+</div>
+
+<ng-template #empty>
+  <p class="empty-note">{{ 'consultation.sectionEmpty' | transloco }}</p>
+</ng-template>

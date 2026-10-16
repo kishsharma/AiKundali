@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { AuthService } from '../../../core/auth/auth.service';
+import { GoogleSignInButtonComponent } from '../google-sign-in/google-sign-in-button.component';
 import { ThemeService } from '../../../core/services/theme.service';
 import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -14,7 +15,7 @@ type OtpStep = 'contact' | 'code';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, GoogleSignInButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -150,6 +151,39 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.notifications.error(error?.error?.message || 'Verification failed. Please try again.');
       }
     });
+  }
+
+  loginWithGoogle(idToken: string): void {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.errorMessage = '';
+    this.isLoading = true;
+    this.authService.loginWithGoogle(idToken).subscribe({
+      next: () => this.finishLogin(),
+      error: (error) => {
+        this.isLoading = false;
+        this.notifications.error(this.googleSignInError(error));
+      }
+    });
+  }
+
+  onGoogleSignInFailed(message: string): void {
+    this.notifications.error(message);
+  }
+
+  private googleSignInError(error: { error?: { message?: string; title?: string } | string }): string {
+    const body = error?.error;
+    if (typeof body === 'string' && body.trim()) {
+      return body;
+    }
+
+    if (body && typeof body === 'object') {
+      return body.message || body.title || 'Google sign-in failed. Please try again.';
+    }
+
+    return 'Google sign-in failed. Please try again.';
   }
 
   login(): void {

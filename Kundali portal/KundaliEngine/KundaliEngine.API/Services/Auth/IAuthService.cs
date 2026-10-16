@@ -8,6 +8,8 @@ namespace KundaliEngine.API.Services.Auth
 
         Task<AuthResponse> LoginAsync(LoginRequest request);
 
+        Task<AuthResponse> LoginWithGoogleAsync(string idToken, CancellationToken cancellationToken);
+
         Task ChangePasswordAsync(Guid userId, ChangePasswordRequest request);
     }
 }

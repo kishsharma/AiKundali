@@ -83,6 +83,7 @@ public sealed class LifeAreaAnalysisService
         charts.TryGetValue(specialistCode, out var specialist);
         var subjects = ResolveSubjects(area.RequiredPlanets, natal);
         var factors = new List<LifeAreaFactorDto>();
+        var crossChecks = new List<LifeAreaCrossCheckDto>();
         var planetTones = new Dictionary<Planet, string>();
         var agree = 0;
         var differ = 0;
@@ -101,7 +102,8 @@ public sealed class LifeAreaAnalysisService
             var natalTone = Tone(Score(natalPlanet));
             var specialistTone = Tone(Score(specialistPlanet));
             var factorTone = Combine(natalTone, specialistTone);
-            if (specialistCode == "D1" || natalTone == specialistTone)
+            var agrees = specialistCode == "D1" || natalTone == specialistTone;
+            if (agrees)
             {
                 agree++;
             }
@@ -111,9 +113,10 @@ public sealed class LifeAreaAnalysisService
             }
 
             var planetLabel = LifeAreaCopy.PlanetName(subject.Planet, language);
+            var subjectLabel = string.IsNullOrWhiteSpace(subject.Role) ? planetLabel : $"{planetLabel} ({subject.Role})";
             factors.Add(new LifeAreaFactorDto
             {
-                Subject = string.IsNullOrWhiteSpace(subject.Role) ? planetLabel : $"{planetLabel} ({subject.Role})",
+                Subject = subjectLabel,
                 NatalSign = LifeAreaCopy.SignName(natalPlanet.Sign, language),
                 NatalDignity = LifeAreaCopy.Dignity(natalDignity, language),
                 SpecialistChart = specialistCode,
@@ -129,6 +132,21 @@ public sealed class LifeAreaAnalysisService
                     LifeAreaCopy.Dignity(specialistDignity, language),
                     natalPlanet.IsRetrograde,
                     language)
+            });
+            crossChecks.Add(new LifeAreaCrossCheckDto
+            {
+                Planet = subjectLabel,
+                NatalSign = LifeAreaCopy.SignName(natalPlanet.Sign, language),
+                NatalDignity = LifeAreaCopy.Dignity(natalDignity, language),
+                NatalHouse = (int)natalPlanet.House,
+                NatalDegree = natalPlanet.Degree,
+                NatalRetrograde = natalPlanet.IsRetrograde,
+                SpecialistChart = specialistCode,
+                SpecialistSign = LifeAreaCopy.SignName(specialistPlanet.Sign, language),
+                SpecialistDignity = LifeAreaCopy.Dignity(specialistDignity, language),
+                SpecialistHouse = (int)specialistPlanet.House,
+                SpecialistDegree = specialistPlanet.Degree,
+                Relation = specialistCode == "D1" ? string.Empty : agrees ? "agree" : "differ"
             });
             planetTones[subject.Planet] = factorTone;
         }
@@ -153,7 +171,12 @@ public sealed class LifeAreaAnalysisService
             ChartsConsulted = consulted,
             SpecialistChart = specialistCode,
             Factors = factors,
-            CrossValidation = LifeAreaCopy.CrossValidation(agree, differ, specialistCode, language),
+            CrossValidation = LifeAreaCopy.CrossValidation(
+                crossChecks.Where(item => item.Relation == "agree").Select(item => item.Planet).ToList(),
+                crossChecks.Where(item => item.Relation == "differ").Select(item => item.Planet).ToList(),
+                specialistCode,
+                language),
+            CrossChecks = crossChecks,
             Timing = LifeAreaCopy.Timing(
                 LocalPlanet(timing?.Mahadasha, language),
                 LocalPlanet(timing?.Antardasha, language),

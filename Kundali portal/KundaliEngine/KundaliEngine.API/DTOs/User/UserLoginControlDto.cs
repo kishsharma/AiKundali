@@ -25,5 +25,9 @@ namespace KundaliEngine.API.DTOs.User
         public bool IsPlus { get; set; }
 
         public int MatchSaveLimit { get; set; }
+
+        public DateTime? LastSeenAt { get; set; }
+
+        public bool IsOnline { get; set; }
     }
 }

@@ -14,6 +14,7 @@ public static class AuthResponseFactory
             UserId = user.Id,
             FullName = user.FullName,
             Email = user.Email,
+            ProfileImageUrl = user.ProfileImageUrl,
             PhoneNumber = user.PhoneNumber,
             PreferredLanguage = user.PreferredLanguage,
             Role = user.Role,

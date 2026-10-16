@@ -30,6 +30,8 @@ public class KundaliDbContext : DbContext
 
     public DbSet<DhruvaQuestionLog> DhruvaQuestionLogs => Set<DhruvaQuestionLog>();
 
+    public DbSet<DhruvaChatMessage> DhruvaChatMessages => Set<DhruvaChatMessage>();
+
     public DbSet<ProductFeedback> ProductFeedback => Set<ProductFeedback>();
 
     public DbSet<BillingPlanConfig> BillingPlanConfigs => Set<BillingPlanConfig>();
