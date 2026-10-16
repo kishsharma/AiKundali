@@ -23,6 +23,21 @@ export interface LifeAreaFactor {
   reading: string;
 }
 
+export interface LifeAreaCrossCheck {
+  planet: string;
+  natalSign: string;
+  natalDignity: string;
+  natalHouse: number;
+  natalDegree: number;
+  natalRetrograde: boolean;
+  specialistChart: string;
+  specialistSign: string;
+  specialistDignity: string;
+  specialistHouse: number;
+  specialistDegree: number;
+  relation: string;
+}
+
 export interface LifeAreaPeriod {
   label: string;
   planet: string;
@@ -39,6 +54,7 @@ export interface LifeAreaReport {
   specialistChart: string;
   factors: LifeAreaFactor[];
   crossValidation: string;
+  crossChecks?: LifeAreaCrossCheck[];
   timing: string;
   periods: LifeAreaPeriod[];
   note?: string | null;

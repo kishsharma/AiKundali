@@ -52,6 +52,8 @@ public sealed class LifeAreaReportDto
 
     public string CrossValidation { get; set; } = string.Empty;
 
+    public IReadOnlyList<LifeAreaCrossCheckDto> CrossChecks { get; set; } = Array.Empty<LifeAreaCrossCheckDto>();
+
     public string Timing { get; set; } = string.Empty;
 
     public IReadOnlyList<LifeAreaPeriodDto> Periods { get; set; } = Array.Empty<LifeAreaPeriodDto>();
@@ -64,6 +66,33 @@ public sealed class LifeAreaReportDto
 public sealed class LifeAreaInsightDto
 {
     public string Insight { get; set; } = string.Empty;
+}
+
+public sealed class LifeAreaCrossCheckDto
+{
+    public string Planet { get; set; } = string.Empty;
+
+    public string NatalSign { get; set; } = string.Empty;
+
+    public string NatalDignity { get; set; } = string.Empty;
+
+    public int NatalHouse { get; set; }
+
+    public int NatalDegree { get; set; }
+
+    public bool NatalRetrograde { get; set; }
+
+    public string SpecialistChart { get; set; } = string.Empty;
+
+    public string SpecialistSign { get; set; } = string.Empty;
+
+    public string SpecialistDignity { get; set; } = string.Empty;
+
+    public int SpecialistHouse { get; set; }
+
+    public int SpecialistDegree { get; set; }
+
+    public string Relation { get; set; } = string.Empty;
 }
 
 public sealed class LifeAreaPeriodDto

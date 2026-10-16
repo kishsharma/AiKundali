@@ -239,6 +239,29 @@
   text-align: right;
 }
 
+.report-pandit-block.has-logo {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  column-gap: 10px;
+  justify-items: end;
+}
+
+.report-pandit-logo {
+  grid-column: 1;
+  grid-row: 1 / span 4;
+  width: 38px;
+  height: 38px;
+  justify-self: center;
+  align-self: center;
+  object-fit: contain;
+  border: 1px solid rgba(142, 59, 35, 0.2);
+  background: #fff;
+}
+
+.report-pandit-block.has-logo > :not(.report-pandit-logo) {
+  grid-column: 2;
+}
+
 .report-kicker {
   display: block;
   margin-bottom: 0;

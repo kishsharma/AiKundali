@@ -1,12 +1,8 @@
 <section class="life-area-page">
-  <app-page-header
-    [title]="'lifeArea.title' | transloco"
-    [subtitle]="'lifeArea.subtitle' | transloco"
-    [breadcrumbs]="[
-      { label: ('lifeArea.home' | transloco), routerLink: '/app/dashboard' },
-      { label: ('lifeArea.title' | transloco), active: true }
-    ]">
-  </app-page-header>
+  <header class="page-intro">
+    <h1>{{ 'lifeArea.title' | transloco }}</h1>
+    <p>{{ 'lifeArea.subtitle' | transloco }}</p>
+  </header>
 
   <p class="status" *ngIf="loadingCharts || loadingAreas">{{ 'lifeArea.loading' | transloco }}</p>
   <p class="status error" *ngIf="errorMessage && !loadingReport">{{ errorMessage }}</p>
@@ -45,47 +41,63 @@
     <p class="status" *ngIf="loadingReport">{{ 'lifeArea.reading' | transloco }}</p>
 
     <article class="report" *ngIf="report && !loadingReport">
-      <header class="verdict" [attr.data-verdict]="report.verdict">
-        <span>{{ 'lifeArea.verdict' | transloco }}</span>
-        <h2>{{ report.areaName }}</h2>
-        <p>{{ report.verdictText }}</p>
-      </header>
+      <ol class="story">
+        <li class="story-step" [attr.data-verdict]="report.verdict">
+          <div class="lead-head">
+            <span class="step-kicker">{{ 'lifeArea.verdict' | transloco }}</span>
+            <strong class="step-title">{{ report.areaName }}</strong>
+            <p class="step-body">{{ report.verdictText }}</p>
+            <span class="chart-group">
+              <span class="step-kicker">{{ 'lifeArea.chartsConsulted' | transloco }}</span>
+              <span class="chart-badge" *ngFor="let code of report.chartsConsulted">{{ code }}</span>
+            </span>
+          </div>
+        </li>
 
-      <section>
-        <h3>{{ 'lifeArea.chartsConsulted' | transloco }}</h3>
-        <p>{{ report.chartsConsulted.join(', ') }}</p>
-      </section>
-
-      <section>
-        <h3>{{ 'lifeArea.factors' | transloco }}</h3>
-        <div class="factor" *ngFor="let factor of report.factors" [attr.data-tone]="factor.tone">
-          <div class="factor-top">
+        <li class="story-step" *ngFor="let factor of report.factors" [attr.data-tone]="factor.tone">
+          <div class="step-row">
+            <span class="step-kicker">{{ 'lifeArea.factors' | transloco }}</span>
+            <em>{{ ('lifeArea.tone.' + toneKey(factor.tone)) | transloco }}</em>
             <strong>{{ factor.subject }}</strong>
-            <em>{{ ('lifeArea.tone.' + factor.tone) | transloco }}</em>
+            <span class="step-meta">{{ factor.natalSign }} · {{ factor.natalDignity }} · {{ factor.specialistChart }} {{ factor.specialistSign }} · {{ factor.specialistDignity }}</span>
           </div>
-          <p class="factor-places">{{ factor.natalSign }} · {{ factor.natalDignity }} · {{ factor.specialistChart }} {{ factor.specialistSign }} · {{ factor.specialistDignity }}</p>
-          <p>{{ factor.reading }}</p>
-        </div>
-      </section>
+          <p class="step-body">{{ factor.reading }}</p>
+        </li>
 
-      <section>
-        <h3>{{ 'lifeArea.crossCheck' | transloco }}</h3>
-        <p>{{ report.crossValidation }}</p>
-      </section>
+        <li class="story-step" *ngIf="report.crossValidation">
+          <div class="step-row">
+            <span class="step-kicker">{{ 'lifeArea.crossCheck' | transloco }}</span>
+          </div>
+          <p class="step-body">{{ report.crossValidation }}</p>
+        </li>
 
-      <section>
-        <h3>{{ 'lifeArea.timing' | transloco }}</h3>
-        <p>{{ report.timing }}</p>
-        <div class="period" *ngFor="let period of report.periods ?? []" [attr.data-tone]="period.tone">
-          <div class="factor-top">
+        <li class="story-step" *ngFor="let fact of crossFacts()" [attr.data-tone]="fact.relation === 'differ' ? 'pressure' : fact.relation === 'agree' ? 'support' : null">
+          <div class="step-row">
+            <span class="step-kicker">{{ 'lifeArea.crossCheck' | transloco }}</span>
+            <em *ngIf="fact.relation">{{ ('lifeArea.cross.' + fact.relation) | transloco }}</em>
+            <strong>{{ fact.planet }}</strong>
+            <span class="step-meta">{{ fact.natalPlace }}</span>
+            <span class="step-meta" *ngIf="fact.specialistPlace">{{ fact.specialistPlace }}</span>
+          </div>
+        </li>
+
+        <li class="story-step">
+          <div class="step-row">
+            <span class="step-kicker">{{ 'lifeArea.timing' | transloco }}</span>
+          </div>
+          <p class="step-body">{{ report.timing }}</p>
+        </li>
+
+        <li class="story-step" *ngFor="let period of report.periods ?? []" [attr.data-tone]="period.tone">
+          <div class="step-row">
+            <span class="step-kicker">{{ 'lifeArea.period' | transloco }}</span>
+            <em>{{ ('lifeArea.tone.' + toneKey(period.tone)) | transloco }}</em>
             <strong>{{ period.label }}</strong>
-            <em>{{ ('lifeArea.tone.' + (period.tone === 'support' ? 'support' : 'pressure')) | transloco }}</em>
+            <span class="step-meta">{{ period.planet }}</span>
           </div>
-          <p>{{ period.planet }} · {{ period.reading }}</p>
-        </div>
-      </section>
-
-      <p class="note" *ngIf="report.note">{{ report.note }}</p>
+          <p class="step-body">{{ period.reading }}</p>
+        </li>
+      </ol>
 
       <section class="plain-meaning" *ngIf="report.plainMeaning">
         <h3>{{ 'lifeArea.plainMeaning' | transloco }}</h3>
@@ -93,27 +105,22 @@
       </section>
 
       <section class="ai-insight" [attr.data-state]="insightState">
-        <header>
+        <div class="step-row">
           <span class="ai-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 3.2 13.4 8l4.8 1.4L13.4 10.8 12 15.6 10.6 10.8 5.8 9.4 10.6 8z" />
-              <path d="M18 14.2 18.7 16.4 19.9 17.1 18.7 17.8 18 20l-.7-2.2L15.1 17.1l2.2-.7z" />
-              <path d="M6.2 13.4 6.7 15l1.6.5-1.6.5-.5 1.6-.5-1.6-1.6-.5 1.6-.5z" />
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2.4 13.7 8.1 19.6 9.8 13.7 11.5 12 17.2 10.3 11.5 4.4 9.8 10.3 8.1zM18.4 14.8l.8 2.3 2.3.8-2.3.8-.8 2.3-.8-2.3-2.3-.8 2.3-.8z"/></svg>
           </span>
-          <div>
-            <h3>{{ 'lifeArea.aiInsights' | transloco }}</h3>
-            <p class="ai-kicker">{{ 'lifeArea.aiKicker' | transloco }}</p>
-          </div>
-        </header>
-        <button type="button" class="ai-action" *ngIf="insightState === 'idle' || insightState === 'unavailable'" (click)="writeInsight()">
-          {{ 'lifeArea.aiAction' | transloco }}
-        </button>
-        <p *ngIf="insightState === 'loading'">{{ 'lifeArea.aiLoading' | transloco }}</p>
-        <p class="insight-text" *ngIf="insightState === 'ready'">{{ insight }}</p>
-        <p *ngIf="insightState === 'locked'">{{ 'lifeArea.aiLocked' | transloco }}</p>
-        <p *ngIf="insightState === 'unavailable'">{{ 'lifeArea.aiUnavailable' | transloco }}</p>
+          <span class="step-kicker">{{ 'lifeArea.aiInsights' | transloco }}</span>
+          <span class="step-meta">{{ 'lifeArea.aiKicker' | transloco }}</span>
+          <button type="button" class="ai-action" *ngIf="insightState === 'idle' || insightState === 'unavailable'" (click)="writeInsight()">
+            {{ 'lifeArea.aiAction' | transloco }}
+          </button>
+        </div>
+        <p class="step-body" *ngIf="insightState === 'loading'">{{ 'lifeArea.aiLoading' | transloco }}</p>
+        <p class="step-body insight-text" *ngIf="insightState === 'ready'">{{ insight }}</p>
+        <p class="step-body" *ngIf="insightState === 'locked'">{{ 'lifeArea.aiLocked' | transloco }}</p>
+        <p class="step-body" *ngIf="insightState === 'unavailable'">{{ 'lifeArea.aiUnavailable' | transloco }}</p>
       </section>
+      <p class="reading-note">{{ report.note || ('lifeArea.medicalNote' | transloco) }}</p>
     </article>
   </ng-container>
 </section>

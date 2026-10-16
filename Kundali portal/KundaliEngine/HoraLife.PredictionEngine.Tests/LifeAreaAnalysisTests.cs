@@ -35,6 +35,13 @@ public class LifeAreaAnalysisTests
         Assert.Contains("D10", report.ChartsConsulted);
         Assert.Contains(report.Verdict, new[] { "supported", "mixed", "needsCare" });
         Assert.NotEmpty(report.Factors);
+        Assert.NotEmpty(report.CrossChecks);
+        Assert.All(report.CrossChecks, check =>
+        {
+            Assert.False(string.IsNullOrWhiteSpace(check.Planet));
+            Assert.False(string.IsNullOrWhiteSpace(check.NatalSign));
+            Assert.InRange(check.NatalHouse, 1, 12);
+        });
         Assert.False(string.IsNullOrWhiteSpace(report.VerdictText));
         Assert.Contains("work you do", report.PlainMeaning);
         Assert.False(string.IsNullOrWhiteSpace(report.PlainMeaning));

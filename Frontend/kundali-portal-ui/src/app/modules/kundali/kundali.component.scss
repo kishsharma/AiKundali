@@ -3899,6 +3899,20 @@
   column-gap: 10px;
 }
 
+.astrologer-section.has-logo {
+  grid-template-columns: 38px minmax(0, 1fr);
+}
+
+.astrologer-section.has-logo .report-astrologer-logo {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+  align-self: center;
+}
+
+.astrologer-section.has-logo > :not(.report-astrologer-logo) {
+  grid-column: 2;
+}
+
 .report-astrologer-logo {
   grid-row: span 4;
 }

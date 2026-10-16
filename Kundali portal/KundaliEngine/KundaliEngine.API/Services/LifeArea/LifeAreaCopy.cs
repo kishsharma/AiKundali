@@ -146,9 +146,9 @@ internal static class LifeAreaCopy
         };
     }
 
-    public static string CrossValidation(int agree, int differ, string specialist, string locale)
+    public static string CrossValidation(IReadOnlyList<string> agree, IReadOnlyList<string> differ, string specialist, string locale)
     {
-        if (specialist == "D1")
+        if (specialist == "D1" || (agree.Count == 0 && differ.Count == 0))
         {
             return locale switch
             {
@@ -158,12 +158,63 @@ internal static class LifeAreaCopy
             };
         }
 
-        return locale switch
+        var agreeNames = JoinNames(agree, locale);
+        var differNames = JoinNames(differ, locale);
+        var agreeLine = agree.Count switch
         {
-            "hi" => $"D1 और {specialist} में {agree} ग्रह सहमत हैं और {differ} ग्रह भिन्न हैं।",
-            "kn" => $"D1 ಮತ್ತು {specialist} ನಲ್ಲಿ {agree} ಗ್ರಹಗಳು ಒಪ್ಪುತ್ತವೆ ಮತ್ತು {differ} ಗ್ರಹಗಳು ಭಿನ್ನವಾಗಿವೆ.",
-            _ => $"{agree} placements agree between D1 and {specialist}. {differ} placements differ."
+            0 => null,
+            1 => locale switch
+            {
+                "hi" => $"{agreeNames} D1 और {specialist} में सहमत है।",
+                "kn" => $"{agreeNames} D1 ಮತ್ತು {specialist} ನಲ್ಲಿ ಒಪ್ಪುತ್ತದೆ.",
+                _ => $"{agreeNames} agrees between D1 and {specialist}."
+            },
+            _ => locale switch
+            {
+                "hi" => $"{agreeNames} D1 और {specialist} में सहमत हैं।",
+                "kn" => $"{agreeNames} D1 ಮತ್ತು {specialist} ನಲ್ಲಿ ಒಪ್ಪುತ್ತವೆ.",
+                _ => $"{agreeNames} agree between D1 and {specialist}."
+            }
         };
+        var differLine = differ.Count switch
+        {
+            0 => null,
+            1 => locale switch
+            {
+                "hi" => $"{differNames} D1 और {specialist} में भिन्न है।",
+                "kn" => $"{differNames} D1 ಮತ್ತು {specialist} ನಲ್ಲಿ ಭಿನ್ನವಾಗಿದೆ.",
+                _ => $"{differNames} differs between D1 and {specialist}."
+            },
+            _ => locale switch
+            {
+                "hi" => $"{differNames} D1 और {specialist} में भिन्न हैं।",
+                "kn" => $"{differNames} D1 ಮತ್ತು {specialist} ನಲ್ಲಿ ಭಿನ್ನವಾಗಿವೆ.",
+                _ => $"{differNames} differ between D1 and {specialist}."
+            }
+        };
+
+        return string.Join(" ", new[] { agreeLine, differLine }.Where(line => line is not null));
+    }
+
+    private static string JoinNames(IReadOnlyList<string> names, string locale)
+    {
+        var conjunction = locale switch
+        {
+            "hi" => "और",
+            "kn" => "ಮತ್ತು",
+            _ => "and"
+        };
+        if (names.Count <= 1)
+        {
+            return names.Count == 0 ? string.Empty : names[0];
+        }
+
+        if (names.Count == 2)
+        {
+            return $"{names[0]} {conjunction} {names[1]}";
+        }
+
+        return string.Join(", ", names.Take(names.Count - 1)) + $" {conjunction} {names[^1]}";
     }
 
     public static string Timing(string? mahadasha, string? antardasha, bool connected, string locale)
@@ -237,7 +288,7 @@ internal static class LifeAreaCopy
             {
                 "hi" => "यह पारंपरिक ज्योतिषीय व्याख्या है, चिकित्सकीय निदान नहीं।",
                 "kn" => "ಇದು ಸಾಂಪ್ರದಾಯಿಕ ಜ್ಯೋತಿಷ್ಯ ವ್ಯಾಖ್ಯಾನ, ವೈದ್ಯಕೀಯ ರೋಗನಿರ್ಣಯವಲ್ಲ.",
-                _ => "Use as traditional astrological interpretation, not medical diagnosis."
+                _ => "This is a traditional astrological interpretation, not a medical diagnosis."
             };
         }
 

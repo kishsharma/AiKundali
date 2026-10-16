@@ -188,12 +188,21 @@ public class ReportPdfService : IReportPdfService
         var summary = report.Summary;
         var familyCells = BuildFamilyProfileCells(birthProfile);
 
+        var branding = GetObject(birthProfile, "branding", "whiteLabel", "astrologerBranding");
+        var hasBranding = branding.ValueKind == JsonValueKind.Object;
+        var preparedBy = hasBranding
+            ? FirstNonEmpty(GetString(branding, "astrologerName", "name"), "Pandit Vasudev Sharma")
+            : "Pandit Vasudev Sharma";
+        var preparedDetail = hasBranding
+            ? FirstNonEmpty(GetString(branding, "address"), GetString(branding, "contactNumber", "phone", "mobile"), GetString(branding, "email"))
+            : "HoraLife";
+
         var lines = new List<PdfLine>
         {
             PdfLine.CoverTitle("HoraLife Kundali Report"),
             PdfLine.CoverSubTitle($"Prepared for {name}"),
             PdfLine.Meta($"Generated {DateTime.Now:dd MMM yyyy, hh:mm tt}"),
-            PdfLine.Grid("Prepared By", "Vasudev Sharna", "Location", "Ram Mandir"),
+            PdfLine.Grid("Prepared By", preparedBy, hasBranding ? "Contact" : "Studio", preparedDetail),
             PdfLine.Space(8),
             PdfLine.Section("Birth Profile"),
             PdfLine.Grid("Name", name, "Date", birthDate),
@@ -734,6 +743,24 @@ public class ReportPdfService : IReportPdfService
         add("Mother", "motherName", "MotherName");
         add("Gotra", "gotra", "Gotra");
         return cells.ToArray();
+    }
+
+    private static JsonElement GetObject(JsonElement element, params string[] names)
+    {
+        if (element.ValueKind != JsonValueKind.Object)
+        {
+            return default;
+        }
+
+        foreach (var name in names)
+        {
+            if (element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.Object)
+            {
+                return value;
+            }
+        }
+
+        return default;
     }
 
     private static string? GetString(JsonElement element, params string[] names)

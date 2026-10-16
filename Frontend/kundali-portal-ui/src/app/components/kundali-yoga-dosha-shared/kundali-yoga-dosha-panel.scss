@@ -1,0 +1,953 @@
+﻿/* Shared Kundali yoga/dosha panel styles */
+/* from kundali.component.scss L2877-2958 */
+.badge,
+.strength-pill,
+.yoga-strength,
+.dosha-severity,
+.aspect-pill,
+.meta-chip,
+.yoga-meta span,
+.dosha-meta span,
+.dosha-remedies span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 4px 8px;
+  color: var(--theme-info);
+  background: color-mix(in srgb, var(--theme-info) 8%, transparent);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.strength-pill.neutral,
+.yoga-strength {
+  color: var(--theme-info);
+  border-color: color-mix(in srgb, var(--theme-info) 28%, transparent);
+  background: color-mix(in srgb, var(--theme-info) 7%, transparent);
+}
+
+
+.yoga-strength.strong {
+  color: var(--theme-success);
+  border-color: color-mix(in srgb, var(--theme-success) 32%, transparent);
+  background: color-mix(in srgb, var(--theme-success) 9%, transparent);
+}
+
+.yoga-strength.medium {
+  color: var(--theme-warning);
+  border-color: color-mix(in srgb, var(--theme-warning) 32%, transparent);
+  background: color-mix(in srgb, var(--theme-warning) 9%, transparent);
+}
+
+.yoga-strength.weak {
+  color: var(--theme-danger);
+  border-color: color-mix(in srgb, var(--theme-danger) 34%, transparent);
+  background: color-mix(in srgb, var(--theme-danger) 10%, transparent);
+}
+
+.retro {
+  color: var(--theme-warning);
+  border-color: color-mix(in srgb, var(--theme-warning) 32%, transparent);
+  background: color-mix(in srgb, var(--theme-warning) 9%, transparent);
+}
+
+.combust,
+.strength-pill.weak,
+.dosha-severity.high {
+  color: var(--theme-danger);
+  border-color: color-mix(in srgb, var(--theme-danger) 34%, transparent);
+  background: color-mix(in srgb, var(--theme-danger) 10%, transparent);
+}
+
+.strength-pill.strong,
+.dosha-severity.low {
+  color: var(--theme-success);
+  border-color: color-mix(in srgb, var(--theme-success) 32%, transparent);
+  background: color-mix(in srgb, var(--theme-success) 9%, transparent);
+}
+
+.dosha-severity.medium {
+  color: var(--theme-warning);
+  border-color: color-mix(in srgb, var(--theme-warning) 32%, transparent);
+  background: color-mix(in srgb, var(--theme-warning) 9%, transparent);
+}
+
+.aspect-pill {
+  max-width: 170px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* from kundali.component.scss L2965-3433 */
+.yogas-list,
+.doshas-list {
+  display: grid;
+  gap: 14px;
+}
+
+.yoga-item,
+.dosha-item {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+}
+
+.yoga-header,
+.dosha-header,
+.impact-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.yoga-title,
+.dosha-title,
+.item-actions,
+.yoga-meta,
+.dosha-meta,
+.dosha-remedies {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.yoga-title,
+.dosha-title {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.yoga-dosha-title-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.yoga-dosha-inline-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  color: color-mix(in srgb, var(--parchment) 76%, transparent);
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+.yoga-dosha-inline-meta .natal-inline-value {
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+}
+
+.yoga-title .meta-chip,
+.dosha-title .meta-chip,
+.item-actions .yoga-strength,
+.item-actions .dosha-severity {
+  padding: 3px 7px;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.yoga-header h4,
+.dosha-title h4 {
+  margin: 0;
+  color: var(--parchment);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.yoga-description,
+.dosha-description,
+.impact-summary {
+  margin: 0;
+  color: var(--parchment-dim);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.info-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--brass);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.info-toggle.active,
+.info-toggle:hover {
+  color: var(--ink);
+  background: var(--brass);
+}
+
+
+.activation-period-group {
+  --activation-accent: var(--theme-info);
+  display: grid;
+  gap: 8px;
+  padding: 0 0 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.activation-period-group--yoga {
+  --activation-accent: var(--theme-success);
+}
+
+.activation-period-group--dosha {
+  --activation-accent: var(--theme-warning);
+}
+
+.dosha-attention {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--theme-warning) 55%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--theme-warning) 12%, transparent);
+  color: var(--theme-text, #1c1408);
+}
+
+.dosha-attention-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.dosha-attention-line strong {
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.dosha-attention-kicker,
+.dosha-focus-pill {
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--theme-warning);
+  color: #1c1408;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.dosha-attention p,
+.dosha-attention-meta,
+.dosha-attention-quiet {
+  margin: 0;
+}
+
+.dosha-attention-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.dosha-attention-tags span,
+.dosha-attention-meta em {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-warning) 28%, var(--theme-surface, #fff));
+  color: var(--theme-text, #1c1408);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.4;
+}
+
+.dosha-attention-open {
+  margin-left: auto;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #263f87;
+  color: #fff7e6;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dosha-attention-detail,
+.dosha-attention-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.dosha-attention-meta {
+  margin: 0 0 8px;
+}
+
+.dosha-attention-quiet {
+  margin: 0 0 8px;
+  font-size: 13px;
+  opacity: 0.82;
+}
+
+.dosha-item.needs-attention {
+  border-radius: 10px;
+  box-shadow: inset 3px 0 0 var(--theme-warning);
+}
+
+.yoga-attention {
+  border-color: color-mix(in srgb, var(--theme-success) 55%, transparent);
+  background: color-mix(in srgb, var(--theme-success) 12%, transparent);
+}
+
+.yoga-attention .dosha-attention-kicker,
+.yoga-focus-pill {
+  background: var(--theme-success);
+  color: #102117;
+}
+
+.yoga-item.needs-attention {
+  border-radius: 10px;
+  box-shadow: inset 3px 0 0 var(--theme-success);
+}
+
+@media (max-width: 720px) {
+  .dosha-attention-line {
+    flex-wrap: wrap;
+  }
+
+  .dosha-attention-open {
+    margin-left: 0;
+  }
+}
+
+.activation-period-group--natal {
+  --activation-accent: var(--theme-info);
+}
+
+.activation-period-group.is-current {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.activation-period-group.is-current .activation-period-header {
+  position: relative;
+  padding-left: 18px;
+}
+
+.activation-period-group.is-current .activation-period-header::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--activation-accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--activation-accent) 52%, transparent), 0 0 18px color-mix(in srgb, var(--activation-accent) 18%, transparent);
+  animation: activationPulse 1.45s ease-in-out infinite;
+}
+
+.activation-period-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 2px 9px;
+  border-bottom: 1px solid color-mix(in srgb, var(--activation-accent) 24%, var(--line-soft));
+}
+
+
+.activation-period-story {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px 14px;
+  margin: 0;
+  color: var(--theme-text-muted);
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.activation-story-status {
+  color: var(--activation-accent);
+  font-size: 9.5px;
+  font-weight: 750;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.activation-story-period {
+  color: var(--theme-text);
+  font-size: 12.5px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.activation-story-context {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  color: var(--theme-text-muted);
+  font-weight: 500;
+}
+
+.activation-story-context::before {
+  content: "";
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--activation-accent) 65%, var(--theme-text-muted));
+  transform: translateY(-2px);
+}
+
+.activation-story-context small {
+  color: color-mix(in srgb, var(--theme-text-muted) 78%, transparent);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .activation-period-story {
+    gap: 4px 10px;
+  }
+
+  .activation-story-status {
+    flex-basis: 100%;
+  }
+}
+
+
+.birth-chart-inline-note {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 20px;
+  border: 1px solid color-mix(in srgb, #7c3aed 16%, #d9b86c 14%);
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: color-mix(in srgb, var(--parchment) 68%, #4c1d95 12%);
+  background: color-mix(in srgb, #7c3aed 5%, var(--theme-surface));
+  font-size: 10.5px;
+  font-weight: 650;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+:host ::ng-deep #yogaSection .card-action,
+:host ::ng-deep #doshaSection .card-action {
+  min-width: 0;
+}
+
+.activation-group-kicker {
+  color: var(--activation-accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.activation-period-header h3 {
+  margin: 3px 0 0;
+  color: var(--parchment);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.activation-group-meta {
+  display: inline-flex;
+  gap: 6px;
+  max-width: none;
+  color: var(--parchment-dim);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.activation-card-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 0;
+}
+
+.activation-card-list .yoga-item,
+.activation-card-list .dosha-item {
+  min-width: 0;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.activation-card-list .yoga-item:has(.premium-activation-card),
+.activation-card-list .dosha-item:has(.premium-activation-card) {
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.9fr);
+  column-gap: 16px;
+  row-gap: 6px;
+  align-items: start;
+}
+
+.activation-card-list .premium-activation-card {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin-top: 0;
+}
+
+.activation-card-list .impact-panel {
+  grid-column: 1 / -1;
+}
+
+.activation-level-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid color-mix(in srgb, var(--activation-accent) 36%, var(--line));
+  padding: 3px 7px;
+  color: var(--activation-accent);
+  background: color-mix(in srgb, var(--activation-accent) 10%, transparent);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.activation-level-chip.strong {
+  color: var(--brass);
+  border-color: color-mix(in srgb, var(--brass) 34%, transparent);
+  background: color-mix(in srgb, var(--brass) 9%, transparent);
+}
+
+.activation-level-chip.active {
+  color: var(--theme-success);
+  border-color: color-mix(in srgb, var(--theme-success) 34%, transparent);
+  background: color-mix(in srgb, var(--theme-success) 9%, transparent);
+}
+
+.activation-level-chip.mild {
+  color: var(--theme-info);
+  border-color: color-mix(in srgb, var(--theme-info) 34%, transparent);
+  background: color-mix(in srgb, var(--theme-info) 9%, transparent);
+}
+/* from kundali.component.scss L3495-3576 */
+@keyframes activationPulse {
+  0%, 100% {
+    opacity: 0.42;
+    transform: scale(0.72);
+    box-shadow: 0 0 5px var(--activation-accent-glow), 0 0 10px var(--activation-accent-soft);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.22);
+    box-shadow: 0 0 15px var(--activation-accent-glow), 0 0 30px var(--activation-accent-soft);
+  }
+}
+
+.impact-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--theme-input-bg) 66%, transparent);
+}
+
+.impact-panel-header {
+  color: var(--parchment);
+  font-size: 12px;
+}
+
+.impact-panel-header span {
+  color: var(--brass);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.impact-area {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--line-soft);
+  background: color-mix(in srgb, var(--theme-surface) 68%, transparent);
+}
+
+.impact-area-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.impact-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border: 1px solid var(--line);
+  color: var(--brass);
+  background: var(--ink);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.impact-area h5,
+.impact-area p {
+  margin: 0;
+}
+
+.impact-area h5 {
+  color: var(--parchment);
+  font-size: 12px;
+}
+
+.impact-area p {
+  color: var(--parchment-dim);
+  font-size: 11px;
+  line-height: 1.45;
+}
+/* from kundali.component.scss L5847-6090 */
+
+.premium-activation-card,
+.premium-activation-locked {
+  margin-top: 6px;
+  border: 1px solid color-mix(in srgb, #7c3aed 24%, var(--line));
+  border-radius: var(--theme-radius-control);
+  padding: 6px 8px;
+  background: color-mix(in srgb, #7c3aed 6%, var(--theme-surface));
+}
+
+.premium-activation-head,
+.premium-activation-locked strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: color-mix(in srgb, var(--theme-text) 92%, #7c3aed 8%);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.premium-activation-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 22px;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, #7c3aed 18%, var(--line-soft));
+  color: var(--parchment-dim);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.activation-dasha-side {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.activation-planet {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.activation-planet em {
+  margin-left: 3px;
+  color: var(--theme-text-muted);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.premium-activation-row .activation-period {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.premium-activation-row .activation-level {
+  white-space: nowrap;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.premium-activation-row .activation-level.is-quiet {
+  padding: 0;
+  color: var(--theme-text-muted);
+  font-weight: 500;
+}
+
+.premium-activation-row.is-strong {
+  margin-right: -4px;
+  margin-left: -4px;
+  padding-right: 4px;
+  padding-left: 4px;
+  border-radius: 6px;
+  background: color-mix(in srgb, #d97706 12%, transparent);
+}
+
+.premium-activation-row.is-strong .activation-level {
+  border: 1px solid color-mix(in srgb, #d97706 42%, transparent);
+  color: #92400e;
+  background: color-mix(in srgb, #d97706 20%, white);
+}
+
+.premium-activation-row .activation-planet[data-planet='Sun'] { color: #ef4444; }
+.premium-activation-row .activation-planet[data-planet='Moon'] { color: #64748b; }
+.premium-activation-row .activation-planet[data-planet='Mars'] { color: #dc2626; }
+.premium-activation-row .activation-planet[data-planet='Mercury'] { color: #059669; }
+.premium-activation-row .activation-planet[data-planet='Jupiter'] { color: #d97706; }
+.premium-activation-row .activation-planet[data-planet='Venus'] { color: #db2777; }
+.premium-activation-row .activation-planet[data-planet='Saturn'] { color: #4338ca; }
+.premium-activation-row .activation-planet[data-planet='Rahu'] { color: #4f46e5; }
+.premium-activation-row .activation-planet[data-planet='Ketu'] { color: #7c3aed; }
+
+.premium-activation-row strong {
+  color: #d9b86c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.premium-activation-row.is-current strong {
+  color: var(--theme-success);
+}
+
+.premium-activation-row span,
+.premium-activation-row small {
+  min-width: 0;
+  color: var(--theme-text);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.premium-activation-card p,
+.premium-activation-locked span {
+  margin: 6px 0 0;
+  color: var(--theme-text-muted);
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+
+
+.premium-activation-mini-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  min-height: 20px;
+  padding: 2px 6px;
+  border: 1px solid color-mix(in srgb, #7c3aed 20%, #d9b86c 18%);
+  border-radius: 999px;
+  background: color-mix(in srgb, #7c3aed 6%, white 94%);
+  color: #4c1d95;
+  box-shadow: none;
+  font-size: 9.5px;
+  line-height: 1.1;
+  vertical-align: middle;
+}
+
+.premium-activation-mini-lock .prediction-badge-icon {
+  color: #b9944f;
+  font-size: 9px;
+}
+
+.premium-activation-mini-lock strong {
+  color: #4c1d95;
+  font-size: inherit;
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.activation-mini-lock-icon {
+  width: 10px;
+  height: 10px;
+  fill: none;
+  stroke: #b9944f;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.premium-activation-locked {
+  display: grid;
+  gap: 7px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #7c3aed 12%, transparent), transparent 62%),
+    color-mix(in srgb, var(--theme-surface) 88%, var(--theme-bg));
+}
+
+.premium-activation-section-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "title action"
+    "copy action";
+  align-items: center;
+  gap: 4px 14px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-color: color-mix(in srgb, #7c3aed 18%, var(--line));
+}
+
+.premium-activation-section-cta strong {
+  grid-area: title;
+  color: #4c1d95;
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.premium-activation-section-cta strong .prediction-badge-icon {
+  color: #b9944f;
+}
+
+.premium-activation-section-cta > span {
+  grid-area: copy;
+  margin-top: 0;
+  color: color-mix(in srgb, var(--parchment) 82%, #4c1d95 12%);
+}
+
+.premium-activation-section-cta .prediction-unlock-button.compact {
+  grid-area: action;
+  justify-self: end;
+  margin-top: 0;
+}
+
+.prediction-unlock-button.compact {
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 10.5px;
+}
+
+@media (max-width: 900px) {
+  .activation-card-list .yoga-item:has(.premium-activation-card),
+  .activation-card-list .dosha-item:has(.premium-activation-card) {
+    grid-template-columns: 1fr;
+  }
+
+  .activation-card-list .premium-activation-card {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .premium-activation-row {
+    flex-wrap: wrap;
+  }
+
+  .activation-dasha-side {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .activation-card-list .yoga-item:has(.premium-activation-card),
+  .activation-card-list .dosha-item:has(.premium-activation-card) {
+    grid-template-columns: 1fr;
+  }
+
+  .activation-card-list .premium-activation-card {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .premium-activation-row {
+    flex-wrap: wrap;
+  }
+
+  .activation-dasha-side {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .premium-activation-section-cta {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "copy"
+      "action";
+    gap: 5px;
+  }
+
+  .premium-activation-section-cta .prediction-unlock-button.compact {
+    justify-self: start;
+  }
+}
+
+.prediction-badge-icon { font-size: 11px; }
+
+.prediction-unlock-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, #7c3aed 28%, var(--line, #d9deee));
+  border-radius: 999px;
+  background: color-mix(in srgb, #7c3aed 10%, var(--theme-surface, #fff));
+  color: #4c1d95;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.prediction-cta-icon {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.yoga-item,
+.dosha-item {
+  border: 1px solid var(--line, #e0e0e0);
+  border-radius: var(--theme-radius-structural, 12px);
+  background: color-mix(in srgb, var(--theme-input-bg, #fff) 68%, transparent);
+}
+
+.yoga-placeholder,
+.dosha-placeholder {
+  margin: 0;
+  color: var(--parchment-dim, #5d6689);
+}

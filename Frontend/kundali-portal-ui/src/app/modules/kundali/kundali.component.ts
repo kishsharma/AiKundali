@@ -45,6 +45,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { isPaidUser } from '../../core/auth/plan.util';
+import { extractDoshas as extractDoshasFromResponse, extractYogas as extractYogasFromResponse } from '../../shared/utils/kundali-yoga-dosha.util';
 import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 import { ResultFeedbackComponent } from '../../shared/components/result-feedback/result-feedback.component';
@@ -591,13 +592,13 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   get reportAstrologerName(): string {
-    return this.showReportBranding
+    return this.showChartBranding
       ? this.activeBranding?.astrologerName || this.translocoService.translate('kundali.reportAuthorName')
       : this.translocoService.translate('kundali.reportAuthorName');
   }
 
   get reportAstrologerDesignation(): string {
-    return this.showReportBranding
+    return this.showChartBranding
       ? this.activeBranding?.designation || this.translocoService.translate('kundali.reportAuthorRole')
       : this.translocoService.translate('kundali.reportAuthorRole');
   }
@@ -609,7 +610,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       : 'assets/brand/horalife/horalife-icon-color.svg';
   }
   get reportAstrologerContact(): string {
-    if (!this.showReportBranding || !this.activeBranding) {
+    if (!this.showChartBranding || !this.activeBranding) {
       return this.translocoService.translate('kundali.reportAuthorContact');
     }
 
@@ -3405,136 +3406,11 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
   }
 
   extractYogas(response: any): any[] {
-    const rawYogas = response?.yogas ?? response?.summary?.yogas ?? response?.summary?.yoga ?? response?.yoga;
-
-    if (Array.isArray(rawYogas)) {
-      return rawYogas
-        .map((item: any) => {
-          if (!item) {
-            return null;
-          }
-
-          if (typeof item === 'string') {
-            const trimmed = item.trim();
-            return trimmed ? { name: trimmed } : null;
-          }
-
-          const name = item.name || item.title || item.label || item.yogaName;
-
-          if (!name) {
-            return null;
-          }
-
-          return {
-            name: String(name),
-            category: item.category,
-            strength: item.strength,
-            reason: item.reason,
-            sanskritName: item.sanskritName,
-            description: item.description,
-            impact: item.impact,
-            involvedPlanets: item.involvedPlanets ?? item.planets ?? [],
-            involvedHouses: item.involvedHouses ?? item.houses ?? [],
-            impactAreas: this.normalizeImpactAreas(item.impactAreas ?? item.ImpactAreas ?? item.effects ?? item.Effects ?? []),
-            activationPeriods: this.normalizeActivationPeriods(item.activationPeriods ?? item.ActivationPeriods)
-          };
-        })
-        .filter(Boolean);
-    }
-
-    if (typeof rawYogas === 'string') {
-      return rawYogas
-        .split(',')
-        .map((item: string) => item.trim())
-        .filter(Boolean)
-        .map((name: string) => ({ name }));
-    }
-
-    return [];
+    return extractYogasFromResponse(response);
   }
 
   extractDoshas(response: any): any[] {
-    const rawDoshas = response?.doshas ?? response?.summary?.doshas ?? response?.summary?.dosha ?? response?.dosha;
-
-    if (Array.isArray(rawDoshas)) {
-      return rawDoshas
-        .map((item: any) => {
-          if (!item) {
-            return null;
-          }
-
-          if (typeof item === 'string') {
-            const trimmed = item.trim();
-            return trimmed ? { name: trimmed } : null;
-          }
-
-          const name = item.name || item.Name || item.title || item.label || item.doshaName || item.DoshaName;
-
-          if (!name) {
-            return null;
-          }
-
-          return {
-            name: String(name),
-            category: item.category ?? item.Category,
-            severity: item.severity ?? item.Severity ?? item.strength ?? item.Strength ?? item.status ?? item.Status,
-            reason: item.reason ?? item.Reason,
-            description: item.description ?? item.Description,
-            involvedPlanets: item.involvedPlanets ?? item.InvolvedPlanets ?? item.planets ?? item.Planets ?? [],
-            involvedHouses: item.involvedHouses ?? item.InvolvedHouses ?? item.houses ?? item.Houses ?? [],
-            impactAreas: this.normalizeImpactAreas(item.impactAreas ?? item.ImpactAreas ?? item.effects ?? item.Effects ?? []),
-            remedies: item.remedies ?? item.Remedies ?? [],
-            activationPeriods: this.normalizeActivationPeriods(item.activationPeriods ?? item.ActivationPeriods)
-          };
-        })
-        .filter(Boolean);
-    }
-
-    if (typeof rawDoshas === 'string') {
-      return rawDoshas
-        .split(',')
-        .map((item: string) => item.trim())
-        .filter(Boolean)
-        .map((name: string) => ({ name }));
-    }
-
-    return [];
-  }
-
-  private normalizeImpactAreas(rawImpactAreas: any): any[] {
-    if (!Array.isArray(rawImpactAreas)) {
-      return [];
-    }
-
-    return rawImpactAreas
-      .map((area: any) => {
-        const category = area?.category ?? area?.Category;
-        const statements = area?.statements ?? area?.Statements ?? [];
-
-        if (!category || !Array.isArray(statements) || !statements.length) {
-          return null;
-        }
-
-        return {
-          category,
-          statements
-        };
-      })
-      .filter(Boolean);
-  }
-
-  private normalizeActivationPeriods(rawActivationPeriods: any): any {
-    if (!rawActivationPeriods) {
-      return null;
-    }
-
-    const source = rawActivationPeriods;
-
-    return {
-      currentlyActive: this.normalizeActivationList(source.currentlyActive ?? source.CurrentlyActive),
-      upcoming: this.normalizeActivationList(source.upcoming ?? source.Upcoming),
-      past: this.normalizeActivationList(source.past ?? source.Past)
-    };
+    return extractDoshasFromResponse(response);
   }
 
   private normalizeActivationList(rawList: any): any[] {

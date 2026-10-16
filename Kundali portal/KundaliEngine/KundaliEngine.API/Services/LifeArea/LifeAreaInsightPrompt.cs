@@ -52,11 +52,24 @@ public static class LifeAreaInsightPrompt
             Factors:
             {factors}
             Cross-check: {report.CrossValidation}
+            Cross-check facts:
+            {CrossCheckFacts(report)}
             Timing: {report.Timing}
             Periods:
             {periods}
             Note: {note}
             """;
+    }
+
+    private static string CrossCheckFacts(LifeAreaReportDto report)
+    {
+        if (report.CrossChecks.Count == 0)
+        {
+            return "None supplied.";
+        }
+
+        return string.Join("\n", report.CrossChecks.Select(check =>
+            $"- {check.Planet} | D1 house {check.NatalHouse}, {check.NatalSign} {check.NatalDegree}°, {check.NatalDignity}{(check.NatalRetrograde ? ", retrograde" : "")} | {check.SpecialistChart} house {check.SpecialistHouse}, {check.SpecialistSign} {check.SpecialistDegree}°, {check.SpecialistDignity} | {(string.IsNullOrWhiteSpace(check.Relation) ? "birth chart only" : check.Relation)}"));
     }
 
     private static string LanguageName(string language) => language switch

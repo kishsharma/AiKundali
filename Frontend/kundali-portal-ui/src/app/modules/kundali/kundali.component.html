@@ -385,12 +385,15 @@
             <img class="report-ganesh report-ganesh-light" src="assets/brand/horalife/ganesh-compatibility-light-clean.png" alt="">
             <img class="report-ganesh report-ganesh-dark" src="assets/brand/horalife/ganesh-compatibility-dark-clean.png" alt="">
           </div>
-          <div class="astrologer-section report-prepared-by">
+          <div class="astrologer-section report-prepared-by" [class.has-logo]="!!(showChartBranding && activeBranding?.logoUrl)">
+            <div class="report-astrologer-logo" *ngIf="showChartBranding && activeBranding?.logoUrl">
+              <img [src]="activeBranding?.logoUrl || ''" alt="">
+            </div>
             <span class="astrologer-kicker">Prepared by</span>
             <h2 class="astrologer-name">{{ reportAstrologerName }}</h2>
             <span class="astrologer-title">{{ reportAstrologerDesignation }}</span>
             <p class="astrologer-contact" *ngIf="reportAstrologerContact">{{ reportAstrologerContact }}</p>
-            <p class="astrologer-contact" *ngIf="showReportBranding && activeBranding?.address">
+            <p class="astrologer-contact" *ngIf="showChartBranding && activeBranding?.address">
               {{ activeBranding?.address }}
             </p>
           </div>
