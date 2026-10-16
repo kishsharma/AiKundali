@@ -1,5 +1,5 @@
 // Left Sidebar Component
-import { ChangeDetectorRef, Component, HostListener, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Input, Output, EventEmitter, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -16,6 +16,7 @@ import { APP_VERSION } from '../config/app-version';
 import { PlanChipComponent } from '../shared/components/plan-chip/plan-chip.component';
 import { isPaidUser } from '../core/auth/plan.util';
 import { SubscriptionModalService } from '../core/services/subscription-modal.service';
+import { ConfirmDialogService } from '../shared/components/confirm-dialog/confirm-dialog.service';
 
 export interface NavItem {
   label: string;
@@ -51,7 +52,7 @@ export interface NavItem {
         </button>
       </div>
 
-      <nav class="sidebar-nav">
+      <nav class="sidebar-nav" (scroll)="closeAboutPopover()">
         <div class="nav-section">
           
           <h3 class="nav-section-title">{{ 'sidebar.main' | transloco }}</h3>
@@ -154,6 +155,30 @@ export interface NavItem {
                 <span class="nav-label">{{ 'sidebar.lifeArea' | transloco }}</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a routerLink="/app/consultation" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19 14 9"></path>
+                    <path d="m12 7 5 5"></path>
+                    <path d="M15.5 4.5 19.5 8.5"></path>
+                    <path d="M4 19h4"></path>
+                    <path d="M14 5l1.2-2.4a1 1 0 0 1 1.3-.4L19 3.5"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.consultation' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/app/dhruva-chats" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 6.5A3.5 3.5 0 0 1 8.5 3h7A3.5 3.5 0 0 1 19 6.5v6A3.5 3.5 0 0 1 15.5 16H10l-4.2 3.2c-.7.5-1.8 0-1.8-.9V6.5z"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.dhruvaChats' | transloco }}</span>
+              </a>
+            </li>
 
             <li class="nav-item nav-parent">
               <div class="nav-parent-row" data-dhruva-tour="compatibility" data-tour-id="portal-compatibility">
@@ -211,6 +236,22 @@ export interface NavItem {
               <a routerLink="/app/panchang" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" data-dhruva-tour="panchang" data-tour-id="portal-panchang" (click)="onClose.emit()">
                 <app-astrology-icon name="panchang" class="nav-icon icon-md"></app-astrology-icon>
                 <span class="nav-label">{{ 'sidebar.panchang' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/app/horoscope" routerLinkActive="active" data-dhruva-tour="horoscope" data-tour-id="portal-horoscope" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8.5"></circle>
+                    <path d="M12 3.5v3"></path>
+                    <path d="M12 17.5v3"></path>
+                    <path d="m7.2 7.2 2.1 2.1"></path>
+                    <path d="m14.7 14.7 2.1 2.1"></path>
+                    <path d="M4.5 12h3"></path>
+                    <path d="M16.5 12h3"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.horoscope' | transloco }}</span>
               </a>
             </li>
             <li class="nav-item">
@@ -323,6 +364,19 @@ export interface NavItem {
               </a>
             </li>
             <li class="nav-item">
+              <a routerLink="/app/white-label-settings" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7.5h10.5"></path>
+                    <path d="M14.5 7.5 20 12l-5.5 4.5"></path>
+                    <path d="M4 12h16"></path>
+                    <path d="M4 16.5h10.5"></path>
+                  </svg>
+                </span>
+                <span class="nav-label">{{ 'sidebar.whiteLabel' | transloco }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
               <a routerLink="/app/profile" routerLinkActive="active" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
@@ -351,6 +405,7 @@ export interface NavItem {
                 *ngIf="aboutPopoverOpen"
                 role="dialog"
                 [attr.aria-label]="'sidebar.aboutHoraLife' | transloco"
+                [ngStyle]="aboutPopoverStyle"
                 (click)="$event.stopPropagation()"
               >
                 <div class="about-popover-header">
@@ -423,7 +478,15 @@ export interface NavItem {
             [attr.aria-expanded]="mobileAccountMenuOpen"
           >
             <div class="mobile-account-header">
-              <div class="user-avatar" aria-hidden="true">{{ userInitial }}</div>
+              <div class="user-avatar" [class.has-photo]="!!profileImageUrl && profileImageFailedUrl !== profileImageUrl" aria-hidden="true">
+                <img
+                  *ngIf="profileImageUrl && profileImageFailedUrl !== profileImageUrl"
+                  [src]="profileImageUrl"
+                  alt=""
+                  referrerpolicy="no-referrer"
+                  (error)="profileImageFailedUrl = profileImageUrl" />
+                <span *ngIf="!profileImageUrl || profileImageFailedUrl === profileImageUrl">{{ userInitial }}</span>
+              </div>
               <div class="mobile-account-meta">
                 <strong>{{ userName }}</strong>
                 <small>{{ userEmail }}</small>
@@ -481,7 +544,7 @@ export interface NavItem {
       display: flex;
       flex-direction: column;
       z-index: 110;
-      overflow: visible;
+      overflow: hidden;
       transition: width 260ms ease, box-shadow 260ms ease, transform 260ms ease;
 
       &.compact {
@@ -499,6 +562,7 @@ export interface NavItem {
 
     .sidebar-header {
       display: flex;
+      flex: 0 0 auto;
       align-items: center;
       justify-content: flex-end;
       gap: 0.5rem;
@@ -552,9 +616,22 @@ export interface NavItem {
       margin-bottom: 0;
     }
     .sidebar-nav {
-      flex: 1;
-      overflow: visible;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding: 0.35rem 0 0.75rem;
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--theme-accent, #7E3BA8) 42%, transparent) transparent;
+    }
+
+    .sidebar-nav::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--theme-accent, #7E3BA8) 42%, transparent);
+      border-radius: 999px;
     }
 
     .nav-section {
@@ -1052,6 +1129,7 @@ export interface NavItem {
     }
 
     .mobile-account-panel {
+      flex: 0 0 auto;
       padding: 0 1rem 0.75rem;
     }
 
@@ -1082,6 +1160,32 @@ export interface NavItem {
       display: flex;
       align-items: center;
       gap: 0.7rem;
+    }
+
+    .user-avatar {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      overflow: hidden;
+      border: 1px solid var(--theme-line);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--theme-accent) 16%, var(--theme-surface));
+      color: var(--theme-accent);
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .user-avatar.has-photo {
+      background: var(--theme-surface);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .mobile-account-meta {
@@ -1227,10 +1331,12 @@ export interface NavItem {
     }
     .sidebar-footer {
       display: grid;
+      flex: 0 0 auto;
       gap: 0.65rem;
       margin-top: auto;
       padding: 0.75rem 1rem;
       border-top: 1px solid #E0E0E0;
+      background: var(--theme-surface, #FFFFFF);
     }
 
     .sidebar.compact .sidebar-footer {
@@ -1440,8 +1546,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   deleteStatusMessage = '';
   compatibilityDeleteStatusMessage = '';
   aboutPopoverOpen = false;
+  aboutPopoverStyle: Record<string, string> | null = null;
   mobileAccountMenuOpen = false;
   private savedKundaliRefreshSub?: Subscription;
+  private readonly confirmDialog = inject(ConfirmDialogService);
 
   constructor(
     private kundaliService: KundaliService,
@@ -1501,6 +1609,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     return this.userName.charAt(0).toUpperCase();
   }
 
+  profileImageFailedUrl = '';
+
+  get profileImageUrl(): string {
+    return this.currentUser?.profileImageUrl?.trim() || '';
+  }
+
   get activeLanguage(): string {
     return this.translocoService.getActiveLang();
   }
@@ -1557,10 +1671,32 @@ export class SidebarComponent implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     this.aboutPopoverOpen = !this.aboutPopoverOpen;
+    this.aboutPopoverStyle = this.aboutPopoverOpen
+      ? this.aboutPopoverPosition(event.currentTarget as HTMLElement)
+      : null;
   }
 
   closeAboutPopover(): void {
     this.aboutPopoverOpen = false;
+    this.aboutPopoverStyle = null;
+  }
+
+  private aboutPopoverPosition(trigger: HTMLElement): Record<string, string> {
+    const sidebar = trigger.closest('.sidebar') as HTMLElement | null;
+    const anchor = sidebar?.getBoundingClientRect() ?? trigger.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const height = Math.min(window.innerHeight * 0.52, 300);
+    const minTop = 84;
+    const maxTop = Math.max(minTop, window.innerHeight - height - 8);
+    const top = Math.min(Math.max(triggerRect.bottom - height, minTop), maxTop);
+
+    return {
+      position: 'fixed',
+      left: `${anchor.right + 8}px`,
+      top: `${top}px`,
+      bottom: 'auto',
+      zIndex: '430'
+    };
   }
 
   private formatDisplayName(name: string): string {
@@ -1609,7 +1745,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     const label = item?.displayName || item?.fullName || 'this Kundali';
-    if (!window.confirm(this.t('sidebar.confirmDeleteKundali', { name: label }))) {
+    void this.confirmDeleteKundali(id, label);
+  }
+
+  private async confirmDeleteKundali(id: string, label: string): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: this.t('confirm.deleteKundaliTitle'),
+      message: this.t('sidebar.confirmDeleteKundali', { name: label }),
+      confirmLabel: this.t('confirm.delete'),
+      cancelLabel: this.t('confirm.cancel'),
+      tone: 'danger',
+    });
+    if (!confirmed || this.deletingKundaliIds.has(id)) {
       return;
     }
 
@@ -1663,7 +1810,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     const label = item.displayName || `${item.personAName} & ${item.personBName}`;
-    if (!window.confirm(this.t('sidebar.confirmDeleteMatch', { name: label }))) {
+    void this.confirmDeleteMatch(id, label);
+  }
+
+  private async confirmDeleteMatch(id: string, label: string): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: this.t('confirm.deleteMatchTitle'),
+      message: this.t('sidebar.confirmDeleteMatch', { name: label }),
+      confirmLabel: this.t('confirm.delete'),
+      cancelLabel: this.t('confirm.cancel'),
+      tone: 'danger',
+    });
+    if (!confirmed || this.deletingCompatibilityIds.has(id)) {
       return;
     }
 
@@ -1712,8 +1870,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.onToggleCompact.emit();
   }
 
-  logout(): void {
-    if (!window.confirm(this.t('sidebar.confirmLogout'))) {
+  async logout(): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: this.t('confirm.logoutTitle'),
+      message: this.t('sidebar.confirmLogout'),
+      confirmLabel: this.t('confirm.logout'),
+      cancelLabel: this.t('confirm.cancel'),
+    });
+    if (!confirmed) {
       return;
     }
 

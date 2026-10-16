@@ -13,6 +13,7 @@ import { PlanChipComponent } from './shared/components/plan-chip/plan-chip.compo
 import { NotificationService } from './shared/services/notification.service';
 import { NotificationToastComponent } from './shared/components/notification-toast/notification-toast.component';
 import { SubscriptionModalComponent } from './shared/components/subscription-modal/subscription-modal.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { SubscriptionModalService } from './core/services/subscription-modal.service';
 
 @Component({
@@ -22,7 +23,8 @@ import { SubscriptionModalService } from './core/services/subscription-modal.ser
   BrandLogoComponent,
   PlanChipComponent,
   NotificationToastComponent,
-  SubscriptionModalComponent],
+  SubscriptionModalComponent,
+  ConfirmDialogComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -107,6 +109,12 @@ get userInitial(): string {
   return this.userName.charAt(0).toUpperCase();
 }
 
+profileImageFailedUrl = '';
+
+get profileImageUrl(): string {
+  return this.currentUser?.profileImageUrl?.trim() || '';
+}
+
 get showAppTopbar(): boolean {
   return !this.isPublicLanding;
 }
@@ -120,11 +128,11 @@ get showThemeSelector(): boolean {
 }
 
 get showAppMenuToggle(): boolean {
-  return this.showAppTopbar && this.authService.isLoggedIn();
+  return this.showAppTopbar && !this.isAuthPage && this.authService.isLoggedIn();
 }
 
 get showUserMenu(): boolean {
-  return this.showAppTopbar && this.authService.isLoggedIn() && !!this.currentUser;
+  return this.showAppTopbar && !this.isAuthPage && this.authService.isLoggedIn() && !!this.currentUser;
 }
 
 get isPlusUser(): boolean {

@@ -1,4 +1,7 @@
+import { inject } from '@angular/core';
 import { CanDeactivateFn } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
+import { ConfirmDialogService } from '../../shared/components/confirm-dialog/confirm-dialog.service';
 
 export interface UnsavedChangesAware {
   hasUnsavedChanges(): boolean;
@@ -10,9 +13,13 @@ export const unsavedChangesGuard: CanDeactivateFn<UnsavedChangesAware> = (compon
     return true;
   }
 
-  return window.confirm(
-    component.unsavedChangesMessage
-      || 'You have an unsaved report. Leave this page without saving?'
-  );
+  const confirmDialog = inject(ConfirmDialogService);
+  const transloco = inject(TranslocoService);
+  return confirmDialog.confirm({
+    title: transloco.translate('confirm.leaveTitle'),
+    message: component.unsavedChangesMessage || transloco.translate('confirm.leaveMessage'),
+    confirmLabel: transloco.translate('confirm.leave'),
+    cancelLabel: transloco.translate('confirm.cancel'),
+  });
 };
 

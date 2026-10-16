@@ -12,30 +12,60 @@ import { CatalogService } from '../../core/services/catalog.service';
   imports: [FormsModule, RouterLink],
   template: `
     <main class="page catalog-page">
-      <div class="page-head">
-        <div>
-          <h1>Catalogue</h1>
-          <p class="muted">Gemstones, yantras, rudraksha and puja items from the HoraLife store.</p>
+      <section class="catalog-hero" aria-labelledby="catalogHeroTitle">
+        <div class="catalog-hero-copy">
+          <p class="catalog-hero-kicker">HoraLife Store</p>
+          <h1 id="catalogHeroTitle">Remedies and ritual items for your chart</h1>
+          <p>Browse gemstones, yantras, rudraksha, and puja items chosen to support Vedic practice.</p>
         </div>
-      </div>
+        <div class="catalog-hero-visual" aria-hidden="true">
+          <img class="hero-shot hero-shot--main" src="assets/store/products/five-mukhi-rudraksha.webp" alt="">
+          <img class="hero-shot hero-shot--mid" src="assets/store/products/shree-yantra.webp" alt="">
+          <img class="hero-shot hero-shot--side" src="assets/store/products/yellow-sapphire-pukhraj.png" alt="">
+        </div>
+      </section>
+
+      <ul class="trust-strip" aria-label="Store promises">
+        <li>
+          <span class="trust-mark" aria-hidden="true"></span>
+          <div>
+            <strong>Chart-aware suggestions</strong>
+            <span>Gemstone matches can come from your Kundali reading.</span>
+          </div>
+        </li>
+        <li>
+          <span class="trust-mark" aria-hidden="true"></span>
+          <div>
+            <strong>Authentic store items</strong>
+            <span>Rudraksha, yantras, and gemstones from the HoraLife catalogue.</span>
+          </div>
+        </li>
+        <li>
+          <span class="trust-mark" aria-hidden="true"></span>
+          <div>
+            <strong>Secure cart checkout</strong>
+            <span>Sign in to save your cart and complete an order.</span>
+          </div>
+        </li>
+      </ul>
 
       <div class="catalog-layout">
-        <section class="filters filters-side">
-          <div class="chip-row">
-            <button type="button" class="chip" [class.active]="!category" (click)="setCategory('')">All</button>
-            @for (item of categories; track item.id) {
-              <button type="button" class="chip" [class.active]="category === item.slug" (click)="setCategory(item.slug)">
-                {{ item.name }} ({{ item.productCount }})
-              </button>
-            }
+        <section class="filters filters-side" aria-label="Catalogue filters">
+          <div class="filter-block">
+            <h2 class="filter-heading">Categories</h2>
+            <div class="chip-row">
+              <button type="button" class="chip" [class.active]="!category" (click)="setCategory('')">All</button>
+              @for (item of categories; track item.id) {
+                <button type="button" class="chip" [class.active]="category === item.slug" (click)="setCategory(item.slug)">
+                  {{ item.name }} ({{ item.productCount }})
+                </button>
+              }
+            </div>
           </div>
-          <div class="toolbar">
+          <div class="filter-block">
+            <h2 class="filter-heading">Type</h2>
             <label class="field">
-              <span>Search</span>
-              <input [ngModel]="search" (ngModelChange)="onSearch($event)" placeholder="Name or description">
-            </label>
-            <label class="field">
-              <span>Type</span>
+              <span class="sr-only">Product type</span>
               <select [ngModel]="productType" (ngModelChange)="setType($event)">
                 <option value="">Any</option>
                 @for (type of productTypes; track type.value) {
@@ -43,8 +73,11 @@ import { CatalogService } from '../../core/services/catalog.service';
                 }
               </select>
             </label>
+          </div>
+          <div class="filter-block">
+            <h2 class="filter-heading">Sort</h2>
             <label class="field">
-              <span>Sort</span>
+              <span class="sr-only">Sort products</span>
               <select [ngModel]="sortBy" (ngModelChange)="setSort($event)">
                 <option value="display_order">Featured order</option>
                 <option value="name">Name</option>
@@ -52,13 +85,18 @@ import { CatalogService } from '../../core/services/catalog.service';
                 <option value="newest">Newest</option>
               </select>
             </label>
-            <label class="chip">
-              <input type="checkbox" [ngModel]="featuredOnly" (ngModelChange)="setFeatured($event)"> Featured
+            <label class="chip featured-chip">
+              <input type="checkbox" [ngModel]="featuredOnly" (ngModelChange)="setFeatured($event)"> Featured only
             </label>
           </div>
         </section>
 
         <div class="catalog-main">
+          <label class="catalog-search field">
+            <span>Search</span>
+            <input [ngModel]="search" (ngModelChange)="onSearch($event)" placeholder="Search rudraksha, gemstones, yantra...">
+          </label>
+
           @if (kundaliMatchScore !== null && matchedProduct) {
             <a class="match-card match-stone" [routerLink]="['/products', matchedProduct.slug]" [queryParams]="matchQuery">
               <div class="thumb">
@@ -102,21 +140,25 @@ import { CatalogService } from '../../core/services/catalog.service';
                   } @else {
                     <span class="placeholder">{{ typeLabel(product.productType).charAt(0) }}</span>
                   }
+                  <div class="card-badges">
+                    <span class="badge">{{ typeLabel(product.productType) }}</span>
+                    @if (product.isFeatured) { <span class="badge badge-accent">Featured</span> }
+                    @if (product.requiresConsultation) { <span class="badge">Consultation</span> }
+                  </div>
                 </div>
-                <div>
-                  <span class="badge">{{ typeLabel(product.productType) }}</span>
-                  @if (product.isFeatured) { <span class="badge">Featured</span> }
-                  @if (product.requiresConsultation) { <span class="badge">Consultation</span> }
-                </div>
-                <strong>{{ product.name }}</strong>
-                <p class="muted">{{ product.shortDescription }}</p>
-                <div>
-                  <span class="price">{{ money(product.displayPrice, product.currency) }}</span>
-                  @if (product.compareAtPrice) {
-                    <span class="compare">{{ money(product.compareAtPrice, product.currency) }}</span>
+                <div class="card-body">
+                  <strong class="card-title">{{ product.name }}</strong>
+                  @if (product.shortDescription) {
+                    <p class="card-copy muted">{{ product.shortDescription }}</p>
                   }
+                  <div class="card-price-row">
+                    <span class="price">{{ money(product.displayPrice, product.currency) }}</span>
+                    @if (product.compareAtPrice) {
+                      <span class="compare">{{ money(product.compareAtPrice, product.currency) }}</span>
+                    }
+                  </div>
+                  <span class="card-stock muted">{{ product.inStock ? product.availableQuantity + ' available' : 'Out of stock' }}</span>
                 </div>
-                <span class="muted">{{ product.inStock ? product.availableQuantity + ' available' : 'Out of stock' }}</span>
               </a>
             }
           </section>

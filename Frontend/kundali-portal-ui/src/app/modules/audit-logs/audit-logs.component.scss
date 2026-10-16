@@ -139,8 +139,8 @@
 
 .audit-table .table-head,
 .audit-table .table-row {
-  grid-template-columns: minmax(132px, 0.9fr) minmax(168px, 1.1fr) minmax(140px, 1.2fr) 72px;
-  min-width: 560px;
+  grid-template-columns: minmax(140px, 1fr) minmax(132px, 0.8fr) minmax(240px, 2fr) 72px;
+  min-width: 640px;
 }
 
 .communication-table .table-head,
@@ -239,40 +239,6 @@ small {
   margin-bottom: 14px;
 }
 
-.action-guide {
-  display: grid;
-  gap: 4px;
-  border-top: 1px solid var(--theme-line, #edf0f8);
-  padding-top: 12px;
-}
-
-.action-guide h2 {
-  margin: 0 0 4px;
-  color: var(--theme-text, #10143d);
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.action-guide-row {
-  display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  gap: 8px 16px;
-  align-items: baseline;
-  padding: 3px 0;
-}
-
-.action-guide-row strong {
-  color: var(--theme-text, #10143d);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.action-guide-row span {
-  color: var(--theme-text-muted, #5d6689);
-  font-size: 12px;
-  line-height: 1.35;
-}
-
 .status-banner.loading {
   color: var(--theme-info, #1d4ed8);
   background: color-mix(in srgb, var(--theme-info, #1d4ed8) 12%, var(--theme-surface, #ffffff));
@@ -364,20 +330,14 @@ small {
 
   .audit-table .table-head,
   .audit-table .table-row {
-    grid-template-columns: minmax(108px, 0.9fr) minmax(120px, 1fr) minmax(100px, 1fr) 64px;
-    min-width: 440px;
+    grid-template-columns: minmax(100px, 1fr) minmax(108px, 0.8fr) minmax(160px, 1.6fr) 64px;
+    min-width: 480px;
   }
 
   .communication-table .table-head,
   .communication-table .table-row {
     grid-template-columns: minmax(108px, 0.9fr) minmax(72px, 0.6fr) minmax(110px, 1fr) minmax(90px, 0.8fr) 64px minmax(130px, 1.1fr);
     min-width: 620px;
-  }
-
-  .action-guide-row {
-    grid-template-columns: 1fr;
-    gap: 1px;
-    padding: 6px 0;
   }
 
   .table-head {

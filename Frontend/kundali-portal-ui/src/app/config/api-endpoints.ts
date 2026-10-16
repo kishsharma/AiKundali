@@ -28,6 +28,14 @@ export const apiEndpoints = {
     root: 'gochar',
     currentLifeFocus: 'gochar/current-life-focus',
   },
+  horoscope: {
+    root: 'horoscope',
+    daily: 'horoscope/daily',
+    weekly: 'horoscope/weekly',
+    monthly: 'horoscope/monthly',
+    period: 'horoscope/period',
+    rashifal: 'horoscope/rashifal',
+  },
   prediction: {
     question: 'Prediction/question',
   },

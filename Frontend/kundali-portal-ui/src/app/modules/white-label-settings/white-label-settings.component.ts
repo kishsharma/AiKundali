@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PageHeaderComponent } from '../../shared/components/page-header.component';
 import { NotificationService } from '../../shared/services/notification.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { isPlusUser } from '../../core/auth/plan.util';
@@ -14,7 +13,7 @@ import {
 @Component({
   selector: 'app-white-label-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './white-label-settings.component.html',
   styleUrl: './white-label-settings.component.scss'
 })

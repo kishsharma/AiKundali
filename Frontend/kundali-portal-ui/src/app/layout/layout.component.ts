@@ -14,7 +14,7 @@ import { FeedbackBadgeComponent } from '../shared/components/feedback-badge/feed
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent, DhruvaAssistantComponent, FeedbackBadgeComponent],
   template: `
-    <div class="app-shell">
+    <div class="app-shell" [class.app-shell--fixed]="fixedViewport()">
       <!-- Top Navbar -->
       <!-- <app-navbar (onToggleSidebar)="toggleSidebar.set(!toggleSidebar())" [userInitials]="userInitials"></app-navbar> -->
 
@@ -30,8 +30,14 @@ import { FeedbackBadgeComponent } from '../shared/components/feedback-badge/feed
         ></app-sidebar>
 
         <!-- Content Area -->
-        <main class="content" [class.sidebar-open]="toggleSidebar() && isMobileView()">
-          <div class="content-wrapper" [class.content-wrapper--wide]="wideContent()">
+        <main
+          class="content"
+          [class.sidebar-open]="toggleSidebar() && isMobileView()"
+          [class.content--fixed]="fixedViewport()">
+          <div
+            class="content-wrapper"
+            [class.content-wrapper--wide]="wideContent()"
+            [class.content-wrapper--fixed]="fixedViewport()">
             <router-outlet></router-outlet>
           </div>
         </main>
@@ -108,6 +114,56 @@ import { FeedbackBadgeComponent } from '../shared/components/feedback-badge/feed
       color: var(--theme-text);
     }
 
+    /* Consultation: lock page scroll; only the board workspace scrolls. */
+    .app-shell.app-shell--fixed {
+      height: 100dvh;
+      min-height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+    }
+
+    .app-shell.app-shell--fixed .app-container {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .content.content--fixed {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .content-wrapper.content-wrapper--fixed {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: 1680px;
+      min-height: 0;
+      height: 100%;
+      overflow: hidden;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .content-wrapper.content-wrapper--fixed > *:not(router-outlet) {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .content-wrapper.content-wrapper--fixed {
+        padding: 0.75rem 1rem;
+      }
+    }
+
     .app-container,
     .content,
     .content-wrapper {
@@ -135,6 +191,35 @@ import { FeedbackBadgeComponent } from '../shared/components/feedback-badge/feed
         background: color-mix(in srgb, var(--theme-accent) 62%, transparent);
       }
     }
+
+    @media print {
+      :host,
+      .app-shell,
+      .app-container,
+      .content,
+      .content-wrapper {
+        position: static !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        background: #fff !important;
+        transform: none !important;
+      }
+
+      app-sidebar {
+        display: none !important;
+      }
+
+      .content {
+        margin-left: 0 !important;
+      }
+
+      .content-wrapper {
+        max-width: none !important;
+        padding: 0 !important;
+      }
+    }
   `],
 })
 export class LayoutComponent {
@@ -149,6 +234,13 @@ export class LayoutComponent {
       map((event) => this.isWideContentUrl(event.urlAfterRedirects))
     ),
     { initialValue: this.isWideContentUrl(this.router.url) }
+  );
+  readonly fixedViewport = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => this.isFixedViewportUrl(event.urlAfterRedirects))
+    ),
+    { initialValue: this.isFixedViewportUrl(this.router.url) }
   );
 
   constructor() {
@@ -174,7 +266,11 @@ export class LayoutComponent {
   }
 
   private isWideContentUrl(url: string): boolean {
-    return url.includes('/app/kundali');
+    return url.includes('/app/kundali') || url.includes('/app/user-login-control');
+  }
+
+  private isFixedViewportUrl(url: string): boolean {
+    return url.includes('/app/consultation');
   }
 
   @HostListener('window:app-menu-toggle')
