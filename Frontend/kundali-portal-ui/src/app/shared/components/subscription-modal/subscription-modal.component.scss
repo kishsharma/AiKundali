@@ -285,6 +285,64 @@
   text-decoration: line-through;
 }
 
+.festive-celebrate {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.45rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(241, 184, 59, 0.35), transparent 28%),
+    radial-gradient(circle at 80% 22%, rgba(225, 95, 61, 0.32), transparent 26%),
+    radial-gradient(circle at 50% 80%, rgba(126, 59, 168, 0.22), transparent 30%),
+    var(--theme-surface, #fff);
+}
+
+.festive-celebrate h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.festive-celebrate p {
+  max-width: 22rem;
+  margin: 0 0 0.6rem;
+}
+
+.cracker {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: cracker-pop 1.15s ease-out infinite;
+}
+
+.cracker::before,
+.cracker::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0.7;
+}
+
+.cracker-a { top: 18%; left: 16%; color: #e15f3d; animation-delay: 0s; }
+.cracker-b { top: 14%; right: 18%; color: #f1b83b; animation-delay: 0.25s; }
+.cracker-c { bottom: 22%; left: 22%; color: #7e3ba8; animation-delay: 0.45s; }
+.cracker-d { bottom: 18%; right: 16%; color: #24a35a; animation-delay: 0.7s; }
+
+@keyframes cracker-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  30% { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
 .coupon-box {
   display: grid;
   justify-items: center;

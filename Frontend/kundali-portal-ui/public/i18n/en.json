@@ -864,6 +864,8 @@
   "dashboard.notAvailable": "Not available",
   "dashboard.sunrise": "Sunrise",
   "dashboard.sunset": "Sunset",
+  "dashboard.goodChoghadiya": "Good Choghadiya",
+  "dashboard.rahukal": "Rahukal to avoid",
   "dashboard.loadingPanchang": "Loading today's panchang...",
   "dashboard.quickActions": "Quick actions",
   "dashboard.createChart": "Create chart",

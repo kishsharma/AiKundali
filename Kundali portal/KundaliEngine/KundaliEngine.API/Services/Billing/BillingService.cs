@@ -179,15 +179,28 @@ public sealed class BillingService : IBillingService
             throw new ArgumentException("Choose Premium or Premium Plus.");
         }
 
-        var cycle = NormalizeCycle(request.BillingCycle);
+        var navaratri = IsNavaratriCoupon(request.CouponCode);
+        if (navaratri && !string.Equals(planCode, PlanCodes.Premium, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ArgumentException("Navaratri upgrades a free account to Premium.");
+        }
+
+        if (navaratri && _entitlementService.GetSnapshot(user).IsPaid)
+        {
+            throw new ArgumentException("Navaratri is for free accounts. Your paid plan stays as it is.");
+        }
+
+        var cycle = navaratri ? "yearly" : NormalizeCycle(request.BillingCycle);
         var catalog = await _planCatalog.FindAsync(planCode, cancellationToken)
             ?? throw new ArgumentException("That plan is not available.");
-        if (catalog.CheckoutOpen && _razorpayClient.IsConfigured)
+        if (!navaratri && catalog.CheckoutOpen && _razorpayClient.IsConfigured)
         {
             throw new ArgumentException("That plan uses the payment gateway.");
         }
 
-        var expiresAt = DateTimeOffset.UtcNow.AddMonths(cycle == "yearly" ? 12 : 1);
+        var expiresAt = navaratri
+            ? DateTimeOffset.UtcNow.AddYears(1)
+            : DateTimeOffset.UtcNow.AddMonths(cycle == "yearly" ? 12 : 1);
         var subscription = new UserSubscription
         {
             Id = Guid.NewGuid(),
@@ -195,6 +208,7 @@ public sealed class BillingService : IBillingService
             PlanCode = planCode,
             BillingCycle = cycle,
             Status = "active",
+            CouponCode = navaratri ? "Navaratri" : null,
             CurrentPeriodEnd = expiresAt,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -211,6 +225,28 @@ public sealed class BillingService : IBillingService
         if (!PlanCodes.TryParse(request.PlanCode, out var planCode) || !PlanCodes.IsPaid(planCode))
         {
             throw new ArgumentException("Choose Premium or Premium Plus.");
+        }
+
+        if (IsNavaratriCoupon(request.Code))
+        {
+            if (!string.Equals(planCode, PlanCodes.Premium, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException("Navaratri upgrades a free account to Premium.");
+            }
+
+            var premium = await _planCatalog.FindAsync(PlanCodes.Premium, cancellationToken)
+                ?? throw new ArgumentException("That plan is not available.");
+            return new CouponPreviewDto
+            {
+                Code = "Navaratri",
+                Name = "Navaratri gift",
+                PercentOff = 100,
+                PlanCode = PlanCodes.Premium,
+                BillingCycle = "yearly",
+                OriginalAmountPaise = premium.YearlyAmountPaise,
+                AmountPaise = 0,
+                Complimentary = true
+            };
         }
 
         var cycle = NormalizeCycle(request.BillingCycle);
@@ -700,6 +736,11 @@ public sealed class BillingService : IBillingService
     private static string NormalizeCycle(string? cycle)
     {
         return string.Equals(cycle, "yearly", StringComparison.OrdinalIgnoreCase) ? "yearly" : "monthly";
+    }
+
+    private static bool IsNavaratriCoupon(string? code)
+    {
+        return string.Equals(code?.Trim(), "Navaratri", StringComparison.OrdinalIgnoreCase);
     }
 
     private static Dictionary<string, string> ReadNotes(JsonElement entity)

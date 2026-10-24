@@ -48,19 +48,7 @@
   box-shadow: 0 1px 0 rgba(17, 24, 39, 0.06), 0 10px 28px rgba(15, 23, 42, 0.04);
 }
 
-.auth-shell {
-  background: #0d1738;
-}
-
 .auth-shell .app-topbar {
-  background: #0d1738;
-  border-bottom-color: rgba(215, 170, 61, 0.18);
-  color: #fff8e8;
-  box-shadow: none;
-}
-
-:host-context(body[data-theme='light']) .auth-shell .app-topbar {
-  background: #0d1738;
   box-shadow: none;
 }
 
@@ -96,13 +84,6 @@
   --brand-logo-life-color: #e15f3d;
   --brand-logo-life-border: 0;
   --brand-logo-descriptor-color: #8e3b23;
-}
-
-:host-context(body[data-theme='light']) .auth-shell .app-brand {
-  --brand-logo-name-color: #fff7e6;
-  --brand-logo-hora-color: #fff7e6;
-  --brand-logo-life-color: #f1b83b;
-  --brand-logo-descriptor-color: rgba(255, 247, 230, 0.72);
 }
 
 .mobile-menu-toggle {
@@ -283,10 +264,6 @@
     linear-gradient(180deg, var(--theme-grid-line-2) 1px, transparent 1px),
     var(--theme-bg);
   background-size: 56px 56px;
-}
-
-.auth-shell .page-content:not(.public-page-content) {
-  background: #0d1738;
 }
 
 .page-content.public-page-content {

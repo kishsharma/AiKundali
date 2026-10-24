@@ -2,11 +2,13 @@ using KundaliEngine.API.DTOs.Learning;
 using KundaliEngine.API.DTOs.Responses;
 using KundaliEngine.API.Services.Entitlements;
 using KundaliEngine.API.Services.Learning;
+using KundaliEngine.API.Services.Muhurtha;
 using KundaliEngine.Astrology.Services.Astrology;
 using KundaliEngine.Astrology.Services.Dasha;
 using KundaliEngine.Astrology.Services.Panchang;
 using KundaliEngine.Domain.Entities;
 using KundaliEngine.Domain.Enums;
+using KundaliEngine.Domain.Models.Muhurtha;
 using KundaliEngine.Domain.Subscriptions;
 using KundaliEngine.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,23 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
     private readonly DashaService _dashaService;
     private readonly ILearningContentService _learningContentService;
     private readonly IEntitlementService _entitlementService;
+    private readonly IMuhurthaSunriseSunsetService _sunriseSunsetService;
+
+    private static readonly Dictionary<DayOfWeek, int> RahuSegments = new()
+    {
+        [DayOfWeek.Sunday] = 8,
+        [DayOfWeek.Monday] = 2,
+        [DayOfWeek.Tuesday] = 7,
+        [DayOfWeek.Wednesday] = 5,
+        [DayOfWeek.Thursday] = 6,
+        [DayOfWeek.Friday] = 4,
+        [DayOfWeek.Saturday] = 3
+    };
+
+    private static readonly HashSet<string> GoodChoghadiya = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Amrit", "Shubh", "Labh", "Char"
+    };
 
     public DashboardSummaryService(
         KundaliDbContext dbContext,
@@ -33,7 +52,8 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
         PanchangService panchangService,
         DashaService dashaService,
         ILearningContentService learningContentService,
-        IEntitlementService entitlementService)
+        IEntitlementService entitlementService,
+        IMuhurthaSunriseSunsetService sunriseSunsetService)
     {
         _dbContext = dbContext;
         _chartService = chartService;
@@ -41,6 +61,7 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
         _dashaService = dashaService;
         _learningContentService = learningContentService;
         _entitlementService = entitlementService;
+        _sunriseSunsetService = sunriseSunsetService;
     }
 
     public async Task<DashboardSummaryDto?> GetSummaryAsync(Guid userId, CancellationToken cancellationToken)
@@ -164,6 +185,16 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
         var sun = planets.First(item => item.Planet == Planet.Sun);
         var moon = planets.First(item => item.Planet == Planet.Moon);
         var details = _panchangService.Calculate(calculationUtc, sun.Longitude, moon.Longitude);
+        var date = DateOnly.FromDateTime(nowIndia);
+        var offset = IndiaTimeZone.GetUtcOffset(calculationLocal);
+        var solar = _sunriseSunsetService.Calculate(date, new MuhurthaLocation
+        {
+            Name = locationName,
+            Latitude = latitude,
+            Longitude = longitude,
+            Timezone = IndiaTimeZone.Id
+        }, offset);
+        var dayTiming = BuildDayTiming(solar.Sunrise, solar.Sunset);
 
         return new DashboardPanchangDto
         {
@@ -176,7 +207,64 @@ public sealed class DashboardSummaryService : IDashboardSummaryService
             Karana = details.Karana,
             Vaar = details.Vaar,
             Maas = details.Maas,
+            SunRiseTime = solar.Sunrise.ToString("HH:mm"),
+            SunSetTime = solar.Sunset.ToString("HH:mm"),
+            GoodChoghadiya = dayTiming.GoodChoghadiya,
+            RahuKal = dayTiming.RahuKal,
             LocationName = locationName
+        };
+    }
+
+    private static (List<DashboardDaySlotDto> GoodChoghadiya, DashboardDaySlotDto RahuKal) BuildDayTiming(DateTimeOffset sunrise, DateTimeOffset sunset)
+    {
+        var dayLength = sunset - sunrise;
+        if (dayLength <= TimeSpan.Zero)
+        {
+            return (new List<DashboardDaySlotDto>(), new DashboardDaySlotDto());
+        }
+
+        var segment = TimeSpan.FromTicks(dayLength.Ticks / 8);
+        var weekday = sunrise.DayOfWeek;
+        var rahuIndex = RahuSegments[weekday] - 1;
+        var rahuStart = sunrise + TimeSpan.FromTicks(segment.Ticks * rahuIndex);
+        var names = DayChoghadiya(weekday);
+        var good = new List<DashboardDaySlotDto>();
+        for (var i = 0; i < names.Length; i++)
+        {
+            if (i == rahuIndex || !GoodChoghadiya.Contains(names[i]))
+            {
+                continue;
+            }
+
+            var start = sunrise + TimeSpan.FromTicks(segment.Ticks * i);
+            good.Add(ToSlot(names[i], start, start + segment));
+        }
+
+        return (good, ToSlot("Rahu", rahuStart, rahuStart + segment));
+    }
+
+    private static DashboardDaySlotDto ToSlot(string name, DateTimeOffset start, DateTimeOffset end)
+    {
+        return new DashboardDaySlotDto
+        {
+            Name = name,
+            Start = start.ToString("HH:mm"),
+            End = end.ToString("HH:mm")
+        };
+    }
+
+    private static string[] DayChoghadiya(DayOfWeek dayOfWeek)
+    {
+        return dayOfWeek switch
+        {
+            DayOfWeek.Sunday => ["Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg"],
+            DayOfWeek.Monday => ["Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit"],
+            DayOfWeek.Tuesday => ["Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog"],
+            DayOfWeek.Wednesday => ["Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh"],
+            DayOfWeek.Thursday => ["Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal", "Shubh"],
+            DayOfWeek.Friday => ["Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char"],
+            DayOfWeek.Saturday => ["Kaal", "Shubh", "Rog", "Udveg", "Char", "Labh", "Amrit", "Kaal"],
+            _ => ["Char", "Labh", "Amrit", "Kaal", "Shubh", "Rog", "Udveg", "Char"]
         };
     }
 

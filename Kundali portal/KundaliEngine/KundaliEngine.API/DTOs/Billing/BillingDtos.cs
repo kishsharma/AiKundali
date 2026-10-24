@@ -54,6 +54,8 @@ public sealed class CouponPreviewDto
     public int OriginalAmountPaise { get; set; }
 
     public int AmountPaise { get; set; }
+
+    public bool Complimentary { get; set; }
 }
 
 public sealed class CheckoutSessionDto

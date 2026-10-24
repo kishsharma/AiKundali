@@ -118,6 +118,11 @@ public sealed class AuthOtpService : IAuthOtpService
     public async Task<OtpChallengeResponse> StartOtpRegistrationAsync(StartEmailOtpRequest request, CancellationToken cancellationToken)
     {
         var target = ResolveOtpTarget(request);
+        if (target.Channel == EmailChannel && !RegistrationEmailRules.IsAllowed(target.Destination))
+        {
+            throw new InvalidOperationException("Enter a valid email address.");
+        }
+
         var existingUser = await UserExistsForTargetAsync(target, cancellationToken);
         if (existingUser)
         {
@@ -208,6 +213,10 @@ public sealed class AuthOtpService : IAuthOtpService
         var email = challenge.Channel == EmailChannel
             ? challenge.DestinationNormalized
             : NormalizeOptionalEmail(request.Email);
+        if (!string.IsNullOrWhiteSpace(email) && !RegistrationEmailRules.IsAllowed(email))
+        {
+            throw new InvalidOperationException("Enter a valid email address.");
+        }
         var phoneNumber = challenge.Channel == PhoneChannel
             ? challenge.DestinationNormalized
             : NormalizeOptionalPhoneNumber(request.PhoneNumber);
@@ -305,15 +314,13 @@ public sealed class AuthOtpService : IAuthOtpService
 
     private static DateTime NormalizeOtpTimestamp(DateTime timestamp, DateTime nowUtc)
     {
-        if (timestamp > nowUtc.AddMinutes(1))
+        // AuthOtpChallenges stores timestamp without time zone. Older rows were written
+        // as India local time, about 5.5 hours ahead of UTC. A live OTP expiry is only
+        // minutes ahead, so do not subtract 5.5 hours from that or the code looks expired.
+        var ahead = timestamp - nowUtc;
+        if (ahead >= TimeSpan.FromHours(4) && ahead <= TimeSpan.FromHours(7))
         {
-            var indiaOffsetTimestamp = timestamp.AddHours(-5.5);
-            if (indiaOffsetTimestamp <= nowUtc.AddMinutes(1))
-            {
-                return indiaOffsetTimestamp;
-            }
-
-            return nowUtc.AddSeconds(-ResendCooldownSeconds);
+            return timestamp.AddHours(-5.5);
         }
 
         return timestamp;

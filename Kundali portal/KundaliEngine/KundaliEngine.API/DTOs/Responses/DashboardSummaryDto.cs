@@ -62,7 +62,20 @@ public class DashboardPanchangDto
 
     public string? SunSetTime { get; set; }
 
+    public List<DashboardDaySlotDto> GoodChoghadiya { get; set; } = new();
+
+    public DashboardDaySlotDto? RahuKal { get; set; }
+
     public string LocationName { get; set; } = string.Empty;
+}
+
+public class DashboardDaySlotDto
+{
+    public string Name { get; set; } = string.Empty;
+
+    public string Start { get; set; } = string.Empty;
+
+    public string End { get; set; } = string.Empty;
 }
 
 public class DashboardCollectionStatsDto

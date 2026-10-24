@@ -53,6 +53,7 @@ export class SubscriptionModalComponent implements OnDestroy {
   couponBusy = false;
   couponMessage = '';
   couponError = false;
+  celebrating = false;
   private couponQuotes: CouponPreview[] = [];
   status: BillingStatus | null = null;
   currentPlanCode = 'Free';
@@ -113,8 +114,20 @@ export class SubscriptionModalComponent implements OnDestroy {
 
   applyCoupon(): void {
     const code = this.couponCode.trim();
+    if (!code) {
+      return;
+    }
+
+    if (code.toLowerCase() === 'navaratri') {
+      this.acceptNavaratri();
+      return;
+    }
+
     const targets = this.plans.filter((plan) => !this.isFree(plan));
-    if (!code || !targets.length) {
+    if (!targets.length) {
+      this.couponError = true;
+      this.couponMessage = 'Plans are still loading. Try the code again.';
+      this.paint();
       return;
     }
 
@@ -133,7 +146,9 @@ export class SubscriptionModalComponent implements OnDestroy {
       }
 
       this.couponError = false;
-      this.couponMessage = `${this.couponQuotes[0].code} takes ${this.couponQuotes[0].percentOff}% off.`;
+      this.couponMessage = this.couponQuotes[0].complimentary
+        ? 'Navaratri upgrades Free to Premium for one year. No payment.'
+        : `${this.couponQuotes[0].code} takes ${this.couponQuotes[0].percentOff}% off.`;
       this.paint();
     });
   }
@@ -142,6 +157,10 @@ export class SubscriptionModalComponent implements OnDestroy {
     const quote = this.couponQuotes.find((item) => item.planCode.toLowerCase() === (plan.code || '').toLowerCase());
     if (!quote) {
       return null;
+    }
+
+    if (quote.complimentary || quote.amountPaise === 0) {
+      return 'Free';
     }
 
     return `₹${(quote.amountPaise / 100).toLocaleString('en-IN')}`;
@@ -239,7 +258,41 @@ export class SubscriptionModalComponent implements OnDestroy {
       return this.billingCycle === 'yearly' ? 'Switch to yearly' : 'Switch to monthly';
     }
 
+    if (this.complimentaryQuote(plan)) {
+      return 'Claim Premium';
+    }
+
     return this.isLoggedIn ? 'Choose plan' : 'Login to upgrade';
+  }
+
+  complimentaryQuote(plan: BillingPlan): CouponPreview | null {
+    const quote = this.couponQuotes.find((item) => item.planCode.toLowerCase() === (plan.code || '').toLowerCase());
+    return quote?.complimentary || quote?.amountPaise === 0 ? quote ?? null : null;
+  }
+
+  private acceptNavaratri(): void {
+    const premium = this.plans.find((plan) => (plan.code || '').toLowerCase() === 'premium');
+    this.billingCycle = 'yearly';
+    this.couponCode = 'Navaratri';
+    this.couponBusy = false;
+    this.couponError = false;
+    this.couponQuotes = [{
+      code: 'Navaratri',
+      name: 'Navaratri gift',
+      percentOff: 100,
+      planCode: premium?.code || 'Premium',
+      billingCycle: 'yearly',
+      originalAmountPaise: premium?.yearlyAmountPaise ?? 0,
+      amountPaise: 0,
+      complimentary: true
+    }];
+    this.couponMessage = 'Navaratri upgrades Free to Premium for one year. Choose Claim Premium. No payment.';
+    this.paint();
+  }
+
+  dismissCelebration(): void {
+    this.celebrating = false;
+    this.close();
   }
 
   featureFor(plan: BillingPlan, row: { label: string; free: string; premium: string; plus: string }): string {
@@ -283,24 +336,36 @@ export class SubscriptionModalComponent implements OnDestroy {
     }
 
     this.checkoutPlanCode = plan.code;
-    if (!plan.canCheckout) {
-      this.billingService.activatePlan(plan.code, this.billingCycle).subscribe({
+    if (this.couponCode.trim().toLowerCase() === 'navaratri' && (plan.code || '').toLowerCase() === 'premium') {
+      this.acceptNavaratri();
+    }
+    const gift = this.complimentaryQuote(plan);
+    if (!plan.canCheckout || gift) {
+      this.billingService.activatePlan(plan.code, gift ? 'yearly' : this.billingCycle, gift?.code).subscribe({
         next: (status) => {
           this.authService.getMe().subscribe({
             next: (profile) => {
               this.currentPlanCode = profile.planCode || status.planCode || plan.code;
               this.status = status;
-              this.notifications.success(`${plan.name} is now active.`);
               this.checkoutPlanCode = '';
-              this.close();
+              if (gift) {
+                this.celebrating = true;
+              } else {
+                this.notifications.success(`${plan.name} is now active.`);
+                this.close();
+              }
               this.paint();
             },
             error: () => {
               this.currentPlanCode = status.planCode || plan.code;
               this.status = status;
-              this.notifications.success(`${plan.name} is now active.`);
               this.checkoutPlanCode = '';
-              this.close();
+              if (gift) {
+                this.celebrating = true;
+              } else {
+                this.notifications.success(`${plan.name} is now active.`);
+                this.close();
+              }
               this.paint();
             }
           });

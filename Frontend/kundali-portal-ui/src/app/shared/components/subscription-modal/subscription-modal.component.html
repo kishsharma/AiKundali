@@ -9,7 +9,18 @@
     aria-modal="true"
     aria-labelledby="subscription-title"
     (click)="$event.stopPropagation()">
-    <button type="button" class="close-btn" (click)="close()" aria-label="Close plans">×</button>
+    <button type="button" class="close-btn" (click)="celebrating ? dismissCelebration() : close()" aria-label="Close plans">×</button>
+
+    <div class="festive-celebrate" *ngIf="celebrating" role="status">
+      <span class="cracker cracker-a" aria-hidden="true"></span>
+      <span class="cracker cracker-b" aria-hidden="true"></span>
+      <span class="cracker cracker-c" aria-hidden="true"></span>
+      <span class="cracker cracker-d" aria-hidden="true"></span>
+      <p class="eyebrow">Navaratri</p>
+      <h2>Congratulations</h2>
+      <p>You are on Premium for one year. No payment was taken.</p>
+      <button type="button" class="plan-cta" (click)="dismissCelebration()">Continue</button>
+    </div>
 
     <header class="pricing-hero">
       <p class="eyebrow">HoraLife membership</p>
@@ -77,7 +88,7 @@
           class="plan-cta"
           [disabled]="isCtaDisabled(plan)"
           (click)="choosePlan(plan)">
-          {{ checkoutPlanCode === plan.code ? (plan.canCheckout ? 'Opening checkout...' : 'Updating plan...') : ctaLabel(plan) }}
+          {{ checkoutPlanCode === plan.code ? (complimentaryQuote(plan) || !plan.canCheckout ? 'Updating plan...' : 'Opening checkout...') : ctaLabel(plan) }}
         </button>
       </article>
     </div>

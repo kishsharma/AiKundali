@@ -35,6 +35,7 @@ export interface CouponPreview {
   billingCycle: string;
   originalAmountPaise: number;
   amountPaise: number;
+  complimentary?: boolean;
 }
 
 export interface BillingStatus {
@@ -70,10 +71,11 @@ export class BillingService {
     });
   }
 
-  activatePlan(planCode: string, billingCycle: 'monthly' | 'yearly'): Observable<BillingStatus> {
+  activatePlan(planCode: string, billingCycle: 'monthly' | 'yearly', couponCode?: string): Observable<BillingStatus> {
     return this.http.post<BillingStatus>(`${this.apiUrl}/activate`, {
       planCode,
-      billingCycle
+      billingCycle,
+      couponCode: couponCode || null
     });
   }
 

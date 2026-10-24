@@ -10,6 +10,12 @@ export interface DashboardUser {
   role: string;
 }
 
+export interface DashboardDaySlot {
+  name: string;
+  start: string;
+  end: string;
+}
+
 export interface DashboardPanchang {
   date: string;
   tithi: string;
@@ -22,6 +28,8 @@ export interface DashboardPanchang {
   maas: string;
   sunRiseTime?: string | null;
   sunSetTime?: string | null;
+  goodChoghadiya?: DashboardDaySlot[] | null;
+  rahuKal?: DashboardDaySlot | null;
   locationName: string;
 }
 

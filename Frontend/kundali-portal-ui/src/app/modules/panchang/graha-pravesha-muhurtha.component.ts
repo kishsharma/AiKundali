@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -20,6 +20,7 @@ import { LocationService } from '../../core/services/location.service';
   imports: [CommonModule, ReactiveFormsModule, RouterLink, PageHeaderComponent, SectionCardComponent, TranslocoPipe],
   template: `
     <app-page-header
+      *ngIf="!embedded"
       [title]="'grahaPravesha.title' | transloco"
       [subtitle]="'grahaPravesha.subtitle' | transloco">
     </app-page-header>
@@ -51,7 +52,7 @@ import { LocationService } from '../../core/services/location.service';
           <button type="submit" [disabled]="loading()">{{ (loading() ? 'grahaPravesha.finding' : 'grahaPravesha.find') | transloco }}</button>
         </form>
         <p class="gp-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
-        <a routerLink="/app/panchang/muhurtha">{{ 'grahaPravesha.back' | transloco }}</a>
+        <a *ngIf="!embedded" routerLink="/app/panchang/muhurtha">{{ 'grahaPravesha.back' | transloco }}</a>
       </app-section-card>
 
       <app-section-card [title]="'grahaPravesha.results' | transloco" [interactive]="false">
@@ -138,6 +139,8 @@ import { LocationService } from '../../core/services/location.service';
   `],
 })
 export class GrahaPraveshaMuhurthaComponent implements OnInit {
+  @Input() embedded = false;
+
   private fb = inject(FormBuilder);
   private api = inject(MuhurthaApiService);
   private locations = inject(LocationService);
