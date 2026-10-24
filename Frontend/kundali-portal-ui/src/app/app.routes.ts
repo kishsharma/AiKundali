@@ -5,7 +5,6 @@ import { KundaliComponent } from './modules/kundali/kundali.component';
 import { CompatibilityComponent } from './modules/compatibility/compatibility.component';
 import { PanchangComponent } from './modules/panchang/panchang.component';
 import { MuhurthaComponent } from './modules/panchang/muhurtha.component';
-import { GrahaPraveshaMuhurthaComponent } from './modules/panchang/graha-pravesha-muhurtha.component';
 import { MahadashaPageComponent } from './features/mahadasha/pages/mahadasha-page/mahadasha-page.component';
 import { KundaliLandingComponent } from './modules/home/kundali-landing/kundali-landing.component';
 import { adminGuard, authGuard } from './core/auth/auth.guard';
@@ -127,8 +126,8 @@ export const routes: Routes = [
       },
       {
         path: 'panchang/muhurtha/graha-pravesha',
-        component: GrahaPraveshaMuhurthaComponent,
-        data: { title: 'Graha Pravesha Muhurtha' },
+        component: MuhurthaComponent,
+        data: { title: 'Muhurtha Finder', eventType: 2 },
       },
       {
         path: 'learning',

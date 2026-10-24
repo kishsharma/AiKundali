@@ -7,6 +7,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { GoogleSignInButtonComponent } from '../google-sign-in/google-sign-in-button.component';
 import { OtpChannel, PreferredLanguage } from '../../../core/auth/auth.models';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { isAllowedRegistrationEmail } from '../../../shared/utils/common.utils';
 
 type RegistrationMode = 'otp' | 'password';
 type RegistrationStep = 'contact' | 'code' | 'profile';
@@ -155,6 +156,12 @@ export class RegisterComponent implements OnDestroy {
       return;
     }
 
+    const optionalEmail = this.email.trim();
+    if (optionalEmail && !isAllowedRegistrationEmail(optionalEmail)) {
+      this.errorMessage = 'Enter a valid email address.';
+      return;
+    }
+
     this.isLoading = true;
     this.authService.completeOtpRegistration({
       registrationToken: this.registrationToken,
@@ -208,6 +215,11 @@ export class RegisterComponent implements OnDestroy {
     this.errorMessage = '';
     if (!this.fullName.trim() || !this.email.trim() || !this.password) {
       this.errorMessage = 'Please enter full name, email and password.';
+      return;
+    }
+
+    if (!isAllowedRegistrationEmail(this.email)) {
+      this.errorMessage = 'Enter a valid email address.';
       return;
     }
 
@@ -272,6 +284,11 @@ export class RegisterComponent implements OnDestroy {
     const email = this.email.trim();
     if (!email) {
       this.errorMessage = 'Please enter your email.';
+      return null;
+    }
+
+    if (!isAllowedRegistrationEmail(email)) {
+      this.errorMessage = 'Enter a valid email address.';
       return null;
     }
 

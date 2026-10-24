@@ -86,7 +86,15 @@
   object-fit: contain;
 }
 
-.auth-brand-name {
+.auth-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.05;
+}
+
+.auth-card p.auth-brand-name {
   display: flex;
   align-items: baseline;
   gap: 3px;
@@ -593,6 +601,43 @@
 }
 
 
+
+:host-context(body[data-theme='light']) .auth-page {
+  --auth-text: #111827;
+  --auth-muted: #5f6673;
+  --auth-line: rgba(17, 24, 39, 0.12);
+  --auth-paper-muted: #f8fafc;
+  --auth-shadow: rgba(15, 23, 42, 0.08);
+  color: var(--auth-text);
+  background:
+    radial-gradient(circle at 16% 22%, rgba(126, 59, 168, 0.08), transparent 28%),
+    linear-gradient(145deg, #f8fafc 0%, #ffffff 100%);
+}
+
+:host-context(body[data-theme='light']) .auth-page .auth-card {
+  background: #ffffff;
+  border-color: var(--auth-line);
+}
+
+:host-context(body[data-theme='light']) .auth-page .auth-option-tabs,
+:host-context(body[data-theme='light']) .auth-page .form-group input,
+:host-context(body[data-theme='light']) .auth-page .form-group select,
+:host-context(body[data-theme='light']) .auth-page .otp-box {
+  background-color: #f8fafc;
+  color: #111827;
+  border-color: rgba(17, 24, 39, 0.12);
+}
+
+:host-context(body[data-theme='light']) .auth-page .form-group input:focus,
+:host-context(body[data-theme='light']) .auth-page .form-group select:focus,
+:host-context(body[data-theme='light']) .auth-page .otp-entry:focus-within .otp-box {
+  background-color: #ffffff;
+}
+
+:host-context(body[data-theme='light']) .auth-page .auth-card .secondary-button {
+  background: #f3f6fb;
+  color: #111827;
+}
 
 /* A calmer, touch-friendly rhythm for public authentication forms. */
 .auth-page {

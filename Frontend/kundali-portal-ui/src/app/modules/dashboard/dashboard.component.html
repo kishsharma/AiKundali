@@ -41,6 +41,25 @@
           <span>{{ 'dashboard.sunset' | transloco }}</span>
           <strong>{{ panchang?.sunSetTime || ('dashboard.notAvailable' | transloco) }}</strong>
         </div>
+        <div class="panchang-item timing good">
+          <span>{{ 'dashboard.goodChoghadiya' | transloco }}</span>
+          <ul class="timing-list" *ngIf="panchang?.goodChoghadiya?.length; else noGoodChoghadiya">
+            <li *ngFor="let slot of panchang?.goodChoghadiya">
+              <em>{{ slot.name }}</em>
+              <b>{{ slot.start }}–{{ slot.end }}</b>
+            </li>
+          </ul>
+          <ng-template #noGoodChoghadiya>
+            <strong>{{ 'dashboard.notAvailable' | transloco }}</strong>
+          </ng-template>
+        </div>
+        <div class="panchang-item timing avoid">
+          <span>{{ 'dashboard.rahukal' | transloco }}</span>
+          <strong *ngIf="panchang?.rahuKal?.start; else noRahuKal">{{ panchang?.rahuKal?.start }}–{{ panchang?.rahuKal?.end }}</strong>
+          <ng-template #noRahuKal>
+            <strong>{{ 'dashboard.notAvailable' | transloco }}</strong>
+          </ng-template>
+        </div>
       </div>
 
       <ng-template #panchangLoading>

@@ -152,6 +152,46 @@ interface QuickAction {
       margin-top: 1.2rem;
     }
 
+    .panchang-item.timing.good {
+      grid-column: span 3;
+    }
+
+    .panchang-item.timing.avoid {
+      grid-column: span 2;
+    }
+
+    .panchang-item.good {
+      border-color: color-mix(in srgb, var(--theme-success, #24a35a) 45%, var(--theme-line-soft));
+    }
+
+    .panchang-item.avoid {
+      border-color: color-mix(in srgb, var(--theme-danger, #b8412f) 50%, var(--theme-line-soft));
+    }
+
+    .timing-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.9rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timing-list li {
+      display: flex;
+      gap: 0.4rem;
+      align-items: baseline;
+      color: var(--theme-text);
+      font-size: 0.92rem;
+      line-height: 1.3;
+    }
+
+    .timing-list em,
+    .timing-list b {
+      font-style: normal;
+      font-weight: 700;
+    }
+
     .panchang-item {
       min-height: 5.4rem;
       padding: 0.75rem;
@@ -845,6 +885,11 @@ interface QuickAction {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .panchang-item.timing.good,
+      .panchang-item.timing.avoid {
+        grid-column: span 2;
+      }
+
       .usage-banner,
       .usage-banner__copy {
         align-items: flex-start;
@@ -873,6 +918,11 @@ interface QuickAction {
       .today-grid,
       .progress-layout {
         grid-template-columns: 1fr;
+      }
+
+      .panchang-item.timing.good,
+      .panchang-item.timing.avoid {
+        grid-column: span 1;
       }
 
       .retrograde-row,

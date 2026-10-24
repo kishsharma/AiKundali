@@ -13,7 +13,8 @@ import { isPaidUser } from '../../core/auth/plan.util';
 import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
 import { PortalWheelPickerComponent } from '../../shared/components/portal-wheel-picker.component';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { GrahaPraveshaMuhurthaComponent } from './graha-pravesha-muhurtha.component';
 
 interface Option {
   labelKey: string;
@@ -39,7 +40,7 @@ interface PanchangDayGroup {
 @Component({
   selector: 'app-muhurtha',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent, PortalWheelPickerComponent, TranslocoPipe, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, SectionCardComponent, PortalNotesComponent, PortalWheelPickerComponent, TranslocoPipe, GrahaPraveshaMuhurthaComponent],
   template: `
     <app-page-header
       [title]="'muhurtha.title' | transloco"
@@ -67,7 +68,7 @@ interface PanchangDayGroup {
         <form class="muhurtha-form" [formGroup]="form" (ngSubmit)="findMuhurtha()">
           <div class="input-strip">
             <label><span>{{ 'muhurtha.event' | transloco }}</span><select formControlName="eventType"><option *ngFor="let event of eventTypes" [ngValue]="event.value">{{ event.labelKey | transloco }}</option></select></label>
-            <a *ngIf="form.controls.eventType.value === 2" class="graha-pravesha-link" routerLink="/app/panchang/muhurtha/graha-pravesha">{{ 'muhurtha.grahaPravesha.link' | transloco }}</a>
+            <ng-container *ngIf="!isGrahaPraveshaEvent()">
             <label><span>{{ 'muhurtha.regionalProfile' | transloco }}</span><select formControlName="regionalProfile"><option *ngFor="let profile of regionalProfiles" [ngValue]="profile.value">{{ profile.labelKey | transloco }}</option></select></label>
             <label><span>{{ 'muhurtha.fromDate' | transloco }}</span><app-portal-wheel-picker mode="date" [label]="'muhurtha.fromDate' | transloco" [placeholder]="'muhurtha.selectStartDate' | transloco" formControlName="requestedStart"></app-portal-wheel-picker></label>
             <label><span>{{ 'muhurtha.toDate' | transloco }}</span><app-portal-wheel-picker mode="date" [label]="'muhurtha.toDate' | transloco" [placeholder]="'muhurtha.selectEndDate' | transloco" formControlName="requestedEnd"></app-portal-wheel-picker></label>
@@ -85,9 +86,10 @@ interface PanchangDayGroup {
             </label>
             <label><span>{{ 'muhurtha.latitude' | transloco }}</span><input type="number" step="0.000001" formControlName="latitude" /></label>
             <label><span>{{ 'muhurtha.longitude' | transloco }}</span><input type="number" step="0.000001" formControlName="longitude" /></label>
+            </ng-container>
           </div>
 
-          <div class="criteria-toolbar">
+          <div class="criteria-toolbar" *ngIf="!isGrahaPraveshaEvent()">
             <div class="toolbar-filters">
               <label class="check-row"><input type="checkbox" formControlName="avoidRahuKalam" /><span>{{ 'muhurtha.avoidRahu' | transloco }}</span></label>
               <label class="check-row"><input type="checkbox" formControlName="avoidBhadra" /><span>{{ 'muhurtha.avoidBhadra' | transloco }}</span></label>
@@ -106,7 +108,7 @@ interface PanchangDayGroup {
             </div>
           </div>
 
-          <div class="personal-fields" *ngIf="isPersonalized()">
+          <div class="personal-fields" *ngIf="isPersonalized() && !isGrahaPraveshaEvent()">
             <label><span>{{ 'muhurtha.name' | transloco }}</span><input type="text" formControlName="personName" /></label>
             <label><span>{{ 'muhurtha.birthDate' | transloco }}</span><app-portal-wheel-picker mode="date" [label]="'muhurtha.birthDate' | transloco" [placeholder]="'muhurtha.selectBirthDate' | transloco" formControlName="birthDate"></app-portal-wheel-picker></label>
             <label><span>{{ 'muhurtha.birthTime' | transloco }}</span><app-portal-wheel-picker mode="time" [label]="'muhurtha.birthTime' | transloco" [placeholder]="'muhurtha.selectBirthTime' | transloco" formControlName="birthTime"></app-portal-wheel-picker></label>
@@ -126,7 +128,9 @@ interface PanchangDayGroup {
         </form>
       </app-section-card>
 
-      <app-section-card [title]="'muhurtha.recommendations' | transloco" [interactive]="false">
+      <app-graha-pravesha-muhurtha *ngIf="isGrahaPraveshaEvent()" [embedded]="true"></app-graha-pravesha-muhurtha>
+
+      <app-section-card *ngIf="!isGrahaPraveshaEvent()" [title]="'muhurtha.recommendations' | transloco" [interactive]="false">
         <div class="state error" *ngIf="errorMessage()">{{ errorMessage() }}</div>
         <div class="state" *ngIf="!loading() && !errorMessage() && !response()">{{ 'muhurtha.emptyPrompt' | transloco }}</div>
         <div class="state" *ngIf="loading()">{{ 'muhurtha.calculating' | transloco }}</div>
@@ -294,7 +298,6 @@ interface PanchangDayGroup {
     .notes-page-action { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--theme-line); border-radius: var(--theme-radius-control); background: var(--theme-surface); color: var(--theme-text); font: inherit; font-size: 0.82rem; font-weight: 850; cursor: pointer; }
     .notes-page-action svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .notes-page-action .notes-lock { width: 0.85rem; height: 0.85rem; }
-    .graha-pravesha-link { align-self: end; color: var(--theme-accent, #8a5a12); font-weight: 700; text-decoration: none; }
     .muhurtha-shell { display: grid; gap: 1rem; align-items: start; }
     .muhurtha-form { display: grid; gap: 0.8rem; }
     .input-strip, .personal-fields { display: grid; grid-template-columns: repeat(5, minmax(135px, 1fr)); gap: 0.75rem; align-items: end; }
@@ -479,6 +482,8 @@ export class MuhurthaComponent implements OnInit {
   private locationService = inject(LocationService);
   private cdr = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
+  private route = inject(ActivatedRoute);
+  private readonly gruhaPraveshaEventType = 2;
 
   loading = signal(false);
   errorMessage = signal('');
@@ -515,6 +520,11 @@ export class MuhurthaComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    const eventType = this.route.snapshot.data['eventType'];
+    if (typeof eventType === 'number') {
+      this.form.patchValue({ eventType });
+    }
+
     this.form.controls.locationName.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -577,8 +587,10 @@ export class MuhurthaComponent implements OnInit {
     this.birthLocationResults = [];
   }
   isPersonalized(): boolean { return !!this.form.controls.checkPersonalHoroscope.value; }
+  isGrahaPraveshaEvent(): boolean { return Number(this.form.controls.eventType.value) === this.gruhaPraveshaEventType; }
 
   findMuhurtha(): void {
+    if (this.isGrahaPraveshaEvent()) { return; }
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     if (this.isPersonalized() && !this.hasCompletePersonalDetails()) {
       this.errorMessage.set(this.transloco.translate('muhurtha.personalRequired'));

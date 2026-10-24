@@ -30,6 +30,10 @@ namespace KundaliEngine.API.Services.Auth
         public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
         {
             var email = request.Email.Trim().ToLower();
+            if (!RegistrationEmailRules.IsAllowed(email))
+            {
+                throw new InvalidOperationException("Enter a valid email address.");
+            }
 
             var existingUser = await _dbContext.Users
                 .AnyAsync(x => x.Email != null && x.Email.ToLower() == email);

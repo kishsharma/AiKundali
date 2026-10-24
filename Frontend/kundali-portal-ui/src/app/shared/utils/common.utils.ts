@@ -93,8 +93,16 @@ export function formatCurrency(amount: number, currency: string = 'INR'): string
  * Check if email is valid
  */
 export function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  const emailRegex = /^[a-z0-9](?:[a-z0-9._%+-]{0,62}[a-z0-9])?@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i;
+  return emailRegex.test(email.trim());
+}
+
+/** Astrologer demo account kept usable on sign-up. */
+const ASTROLOGER_DEMO_EMAIL = 'sharma@admin.com';
+
+export function isAllowedRegistrationEmail(email: string): boolean {
+  const normalized = email.trim().toLowerCase();
+  return normalized === ASTROLOGER_DEMO_EMAIL || isValidEmail(normalized);
 }
 
 /**
