@@ -334,6 +334,30 @@ export class MahadashaPageComponent {
     return this.windowAround(analysis.timeline.mahadasha, this.selectedMahadashaIndex, this.mahadashaWindowSize);
   }
 
+  mahadashaTimelineThroughAge(analysis: MahadashaAnalysis): number | null {
+    const birthValue = analysis.birthChart?.birthDateTime;
+    const periods = analysis.timeline?.mahadasha ?? [];
+    const lastPeriod = periods[periods.length - 1];
+    const birthTime = this.parseDate(birthValue);
+    const endTime = this.parseDate(lastPeriod?.end ?? (lastPeriod as any)?.endDate);
+
+    if (birthTime == null || endTime == null || endTime < birthTime) {
+      return null;
+    }
+
+    const birth = new Date(birthTime);
+    const end = new Date(endTime);
+    let age = end.getUTCFullYear() - birth.getUTCFullYear();
+    const birthdayNotReached = end.getUTCMonth() < birth.getUTCMonth()
+      || (end.getUTCMonth() === birth.getUTCMonth() && end.getUTCDate() < birth.getUTCDate());
+
+    if (birthdayNotReached) {
+      age--;
+    }
+
+    return age >= 0 ? age : null;
+  }
+
   visibleAntardashas(analysis: MahadashaAnalysis): AntardashaPeriod[] {
     return this.windowAround(this.selectedAntardashas(analysis), this.selectedAntardashaIndex, this.antardashaWindowSize);
   }

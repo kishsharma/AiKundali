@@ -21,10 +21,10 @@ export class HoroscopeService {
     return this.http.post<HoroscopePeriodResponse>(`${this.baseUrl}/${path}`, request);
   }
 
-  getRashifal(horizon: HoroscopeHorizon, anchorDate: string): Observable<HoroscopeRashifalResponse> {
+  getRashifal(horizon: HoroscopeHorizon, anchorDate: string, locale = 'en'): Observable<HoroscopeRashifalResponse> {
     const path = this.normalizeHorizon(horizon).toLowerCase();
     return this.http.get<HoroscopeRashifalResponse>(`${this.baseUrl}/rashifal/${path}`, {
-      params: new HttpParams().set('anchorDate', anchorDate)
+      params: new HttpParams().set('anchorDate', anchorDate).set('locale', locale)
     });
   }
 

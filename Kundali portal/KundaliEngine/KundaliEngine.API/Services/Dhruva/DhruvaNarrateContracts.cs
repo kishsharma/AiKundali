@@ -36,8 +36,11 @@ public sealed class DhruvaNarrateResponseDto
 
 public sealed class DhruvaNarrationUnavailableException : Exception
 {
-    public DhruvaNarrationUnavailableException(string message, Exception? innerException = null)
+    public DhruvaNarrationUnavailableException(string message, Exception? innerException = null, int? upstreamStatusCode = null)
         : base(message, innerException)
     {
+        UpstreamStatusCode = upstreamStatusCode;
     }
+
+    public int? UpstreamStatusCode { get; }
 }

@@ -40,6 +40,19 @@ public class AdminLogsController : ControllerBase
             logsQuery = logsQuery.Where(x => x.UserId == query.UserId.Value);
         }
 
+        if (!string.IsNullOrWhiteSpace(query.SessionId))
+        {
+            if (!Guid.TryParse(query.SessionId, out var sessionId))
+            {
+                return BadRequest(new { message = "Session id must be a valid identifier." });
+            }
+
+            var sessionToken = sessionId.ToString();
+            logsQuery = logsQuery.Where(x => x.Category == "UsageAnalytics"
+                && x.Description != null
+                && EF.Functions.Like(x.Description, $"%{sessionToken}%"));
+        }
+
         if (!string.IsNullOrWhiteSpace(query.Action))
         {
             logsQuery = logsQuery.Where(x => x.Action == query.Action.Trim());
@@ -125,6 +138,7 @@ public sealed class AuditLogQuery
     public DateTime? DateFrom { get; set; }
     public DateTime? DateTo { get; set; }
     public Guid? UserId { get; set; }
+    public string? SessionId { get; set; }
     public string? Action { get; set; }
     public string? Category { get; set; }
     public string? EntityType { get; set; }

@@ -1,0 +1,262 @@
+<main class="gyan-kosha-page">
+  <header class="page-header">
+    <p class="eyebrow">Gyan Kosha</p>
+    <h1>{{ 'gyanKosha.title' | transloco }}</h1>
+    <p>{{ 'gyanKosha.subtitle' | transloco }}</p>
+  </header>
+
+  <section class="reference-library" aria-labelledby="reference-title">
+    <div class="library-heading">
+      <div>
+        <h2 id="reference-title">{{ 'gyanKosha.referenceTitle' | transloco }}</h2>
+        <p>{{ 'gyanKosha.referenceHelp' | transloco }}</p>
+      </div>
+      <label class="table-search">
+        <span class="sr-only">{{ 'gyanKosha.searchLabel' | transloco }}</span>
+        <input
+          type="search"
+          [(ngModel)]="searchTerm"
+          [placeholder]="('gyanKosha.searchPlaceholder' | transloco)"
+          [attr.aria-label]="'gyanKosha.searchLabel' | transloco" />
+      </label>
+    </div>
+
+    <nav class="section-tabs" [attr.aria-label]="'gyanKosha.sectionLabel' | transloco">
+      <button
+        type="button"
+        *ngFor="let section of sections"
+        [class.active]="activeSection === section"
+        [attr.aria-pressed]="activeSection === section"
+        (click)="setSection(section)">
+        {{ ('gyanKosha.sections.' + section) | transloco }}
+      </button>
+    </nav>
+
+    <nav class="group-filters" *ngIf="activeSection === 'tables'" [attr.aria-label]="'gyanKosha.filterLabel' | transloco">
+      <button
+        type="button"
+        *ngFor="let group of groups"
+        [class.active]="activeGroup === group"
+        [attr.aria-pressed]="activeGroup === group"
+        (click)="setGroup(group)">
+        {{ groupLabel(group) | transloco }}
+      </button>
+    </nav>
+
+    <p class="library-count" *ngIf="!loading && !errorMessage && activeSection === 'tables'">
+      {{ 'gyanKosha.tableCount' | transloco: { count: filteredTables.length } }}
+    </p>
+    <p class="library-count" *ngIf="!loading && activeSection === 'rashis'">{{ filteredRashis.length }} Rashis · 9 Charans each</p>
+    <p class="library-count" *ngIf="!loading && activeSection === 'nakshatras'">{{ filteredNakshatras.length }} Nakshatras · 4 Padas each</p>
+    <p class="library-count" *ngIf="!loading && activeSection === 'grahas'">{{ filteredGrahas.length }} Grahas · {{ referenceDetails?.vimshottariTotalYears }} year Vimshottari cycle</p>
+    <p class="library-count" *ngIf="!loading && activeSection === 'yogas'">{{ 'gyanKosha.yogaCount' | transloco: { count: filteredYogas.length } }}</p>
+    <p class="library-count" *ngIf="!loading && activeSection === 'doshas'">{{ 'gyanKosha.doshaCount' | transloco: { count: filteredDoshas.length } }}</p>
+    <p class="library-count" *ngIf="!loading && activeSection === 'vargas'">{{ 'gyanKosha.chartCount' | transloco: { count: filteredDivisionalCharts.length } }}</p>
+
+    <div class="state" *ngIf="loading" role="status">{{ 'gyanKosha.loading' | transloco }}</div>
+    <div class="state error" *ngIf="!loading && errorMessage && activeSection === 'tables'" role="alert">{{ errorMessage | transloco }}</div>
+
+    <div class="table-list" *ngIf="!loading && !errorMessage && activeSection === 'tables'">
+      <article class="reference-table-card" *ngFor="let table of filteredTables">
+        <header class="table-card-heading">
+          <div>
+            <p class="table-group">{{ groupLabel(table.group) | transloco }}</p>
+            <h3>{{ table.caption }}</h3>
+          </div>
+          <button type="button" class="lesson-link" (click)="openLesson(table.sessionId)">
+            {{ 'gyanKosha.openLesson' | transloco }}
+            <span aria-hidden="true">↗</span>
+          </button>
+        </header>
+
+        <div class="table-scroll" tabindex="0" [attr.aria-label]="table.caption">
+          <table>
+            <thead>
+              <tr><th *ngFor="let column of table.columns" scope="col">{{ column }}</th></tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of table.rows">
+                <td *ngFor="let cell of row">{{ cellText(cell) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="table-note" *ngIf="table.note">{{ table.note }}</p>
+        <p class="lesson-source">{{ 'gyanKosha.lessonSource' | transloco: { number: table.sessionNumber, title: table.sessionTitle } }}</p>
+      </article>
+
+      <p class="state empty-state" *ngIf="filteredTables.length === 0">{{ 'gyanKosha.noMatchingTables' | transloco }}</p>
+    </div>
+
+    <div class="reference-data" *ngIf="!loading && activeSection === 'rashis'">
+      <aside class="guidance-note">Each Rashi spans nine Nakshatra Charans (Padas). Charan syllables are commonly used as naming sounds; the Pada column also shows its Nakshatra and Navamsa.</aside>
+      <div class="table-scroll" tabindex="0" aria-label="Rashi and Charan reference">
+        <table>
+          <thead><tr><th>Rashi</th><th>Ruler</th><th>Element · Mode</th><th>Nine Charans</th><th>Properties</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let rashi of filteredRashis">
+              <td><strong>{{ rashi.symbol }} {{ rashi.englishName }}</strong><br><span>{{ rashi.name }}</span></td>
+              <td>{{ rashi.ruler }}</td>
+              <td>{{ rashi.element }} · {{ rashi.modality }}<br>{{ rashi.gender }} · {{ rashi.nature }}</td>
+              <td><div class="pada-chips"><span class="pada-chip" *ngFor="let pada of rashi.charans"><b>{{ pada.akshara }}</b><small>{{ pada.nakshatra }} {{ pada.number }}</small></span></div></td>
+              <td>
+                <details class="properties-detail"><summary>View properties</summary>
+                  <dl class="property-grid">
+                    <dt>Quality</dt><dd>{{ rashi.quality }}</dd><dt>Direction</dt><dd>{{ rashi.direction }}</dd>
+                    <dt>Body part</dt><dd>{{ rashi.bodyPart }}</dd><dt>Personality</dt><dd>{{ rashi.personality }}</dd>
+                    <dt>Strengths</dt><dd>{{ rashi.strengths.join(', ') }}</dd><dt>Challenges</dt><dd>{{ rashi.weaknesses.join(', ') }}</dd>
+                    <dt>Career</dt><dd>{{ rashi.career.join(', ') }}</dd><dt>Favorable</dt><dd>{{ rashi.favorableDay }}, {{ rashi.favorableDirection }}</dd>
+                    <dt>Relationships</dt><dd>{{ rashi.relationships }}</dd><dt>Health</dt><dd>{{ rashi.health }}</dd>
+                    <dt>Color · Gem · Metal</dt><dd>{{ rashi.color }} · {{ rashi.gemstone }} · {{ rashi.metal }}</dd>
+                    <dt>Lucky numbers</dt><dd>{{ rashi.luckyNumbers }}</dd>
+                  </dl>
+                </details>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="state empty-state" *ngIf="filteredRashis.length === 0">No matching Rashis.</p>
+    </div>
+
+    <div class="reference-data" *ngIf="!loading && activeSection === 'nakshatras'">
+      <aside class="guidance-note">Each Nakshatra has four Padas. The starting syllable, Rashi, and Navamsa change by Pada.</aside>
+      <div class="table-scroll" tabindex="0" aria-label="Nakshatra Pada reference">
+        <table>
+          <thead><tr><th>Nakshatra</th><th>Lord</th><th>Tatva · Guna</th><th>Four Charans</th><th>Properties</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let nakshatra of filteredNakshatras">
+              <td><strong>{{ nakshatra.name }}</strong><br><span>{{ nakshatra.sanskritName }}</span></td>
+              <td>{{ nakshatra.lord }}</td><td>{{ nakshatra.tatva }} · {{ nakshatra.guna }}</td>
+              <td><div class="pada-chips"><span class="pada-chip" *ngFor="let pada of nakshatra.padas"><b>{{ pada.number }} · {{ pada.akshara }}</b><small>{{ pada.syllable }} · {{ pada.navamsa }}</small></span></div></td>
+              <td>
+                <details class="properties-detail"><summary>View properties</summary>
+                  <dl class="property-grid">
+                    <dt>Rashi span</dt><dd>{{ nakshatra.rashi }}</dd><dt>Deity</dt><dd>{{ nakshatra.deity }}</dd>
+                    <dt>Symbol</dt><dd>{{ nakshatra.symbol }}</dd><dt>Nature · Motivation</dt><dd>{{ nakshatra.nature }} · {{ nakshatra.motivation }}</dd>
+                    <dt>Gana · Yoni</dt><dd>{{ nakshatra.gana }} · {{ nakshatra.yoni }}</dd><dt>Nadi · Varna</dt><dd>{{ nakshatra.nadi }} · {{ nakshatra.varna }}</dd>
+                    <dt>Vashya · Gender</dt><dd>{{ nakshatra.vashya }} · {{ nakshatra.gender }}</dd>
+                    <dt>Animal · Direction</dt><dd>{{ nakshatra.animalSymbol }} · {{ nakshatra.direction }}</dd>
+                    <dt>Body parts</dt><dd>{{ nakshatra.bodyParts.join(', ') }}</dd><dt>Fasting day</dt><dd>{{ nakshatra.fastingDay }}</dd>
+                    <dt>Dosha</dt><dd *ngIf="nakshatra.dosha">Vata {{ nakshatra.dosha.vata }} · Pitta {{ nakshatra.dosha.pitta }} · Kapha {{ nakshatra.dosha.kapha }}</dd>
+                    <dt>Strengths</dt><dd>{{ nakshatra.strengths.join(', ') }}</dd><dt>Challenges</dt><dd>{{ nakshatra.weaknesses.join(', ') }}</dd>
+                    <dt>Traits</dt><dd>{{ nakshatra.positiveTraits.join(', ') }}<span *ngIf="nakshatra.negativeTraits.length"> · {{ nakshatra.negativeTraits.join(', ') }}</span></dd>
+                  </dl>
+                  <div class="pada-ranges"><span *ngFor="let pada of nakshatra.padas">Pada {{ pada.number }}: {{ pada.startDegree }}–{{ pada.endDegree }} {{ rashiName(pada.rashiId) }}</span></div>
+                </details>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="state empty-state" *ngIf="filteredNakshatras.length === 0">No matching Nakshatras.</p>
+    </div>
+
+    <div class="varga-list" *ngIf="!loading && activeSection === 'grahas'">
+      <h3 class="matrix-title">Graha properties</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Graha</th><th>Tattva · Guna</th><th>Nature</th><th>Own sign(s)</th><th>Exalted / Debilitated</th><th>Friends · Enemies</th><th>Karakatva</th></tr></thead>
+        <tbody><tr *ngFor="let graha of filteredGrahas">
+          <td><strong>{{ graha.name }}</strong><br>{{ graha.sanskritName }}</td><td>{{ graha.tattva }} · {{ graha.guna }}</td>
+          <td>{{ graha.nature }}<br><small>{{ graha.classification }} · {{ graha.gender }}</small></td><td>{{ graha.ownSigns.join(', ') }}</td>
+          <td>{{ graha.exaltation }} / {{ graha.debilitation }}<br><small>Moolatrikona: {{ graha.moolatrikona }}</small></td>
+          <td>Friends: {{ graha.friends.join(', ') }}<br>Enemies: {{ graha.enemies.join(', ') }}<br>Neutral: {{ graha.neutral.join(', ') }}</td>
+          <td>{{ graha.karakatva.join(', ') }}</td>
+        </tr></tbody>
+      </table></div>
+      <h3 class="matrix-title">Vimshottari Mahadasha order</h3>
+      <aside class="guidance-note">The cycle totals {{ referenceDetails?.vimshottariTotalYears }} years. The starting Mahadasha and remaining balance at birth depend on the Moon’s Nakshatra and position within its Pada.</aside>
+      <div class="dasha-order"><span class="dasha-chip" *ngFor="let period of filteredVimshottari"><b>{{ period.order }}. {{ period.planet }}</b><small>{{ period.years }} years</small></span></div>
+      <p class="state empty-state" *ngIf="filteredGrahas.length === 0">No matching Grahas.</p>
+    </div>
+
+    <div class="detail-list" *ngIf="!loading && activeSection === 'yogas'">
+      <aside class="guidance-note">{{ 'gyanKosha.yogaGuidance' | transloco }}</aside>
+      <article class="detail-card" *ngFor="let yoga of filteredYogas">
+        <div class="detail-card-heading">
+          <div class="detail-card-title">
+            <span class="entry-icons" aria-label="{{ 'gyanKosha.yogaIconMeaning' | transloco }}">
+              <app-astrology-icon
+                *ngFor="let icon of entryIcons(yoga.description, 'yoga')"
+                class="entry-icon"
+                [name]="icon"
+                [label]="iconLabel(icon)"
+                [decorative]="false"></app-astrology-icon>
+            </span>
+            <div><p class="detail-category">{{ yoga.category }}</p><h3>{{ yoga.name }}</h3></div>
+          </div>
+          <span class="nature-pill">{{ yoga.nature }}</span>
+        </div>
+        <p class="formation"><strong>{{ 'gyanKosha.formation' | transloco }}:</strong> {{ yoga.description }}</p>
+        <p class="detail-impact" *ngIf="yoga.impact">{{ yoga.impact }}</p>
+        <p class="source-line" *ngIf="yoga.references?.length"><strong>{{ 'gyanKosha.sources' | transloco }}:</strong> {{ yoga.references.join(', ') }}</p>
+      </article>
+      <p class="state empty-state" *ngIf="filteredYogas.length === 0">{{ 'gyanKosha.noYogas' | transloco }}</p>
+    </div>
+
+    <div class="detail-list" *ngIf="!loading && activeSection === 'doshas'">
+      <aside class="guidance-note">{{ 'gyanKosha.doshaGuidance' | transloco }}</aside>
+      <article class="detail-card" *ngFor="let dosha of filteredDoshas">
+        <div class="detail-card-heading">
+          <div class="detail-card-title">
+            <span class="entry-icons" aria-label="{{ 'gyanKosha.doshaIconMeaning' | transloco }}">
+              <app-astrology-icon
+                *ngFor="let icon of entryIcons(dosha.description, 'dosha')"
+                class="entry-icon"
+                [name]="icon"
+                [label]="iconLabel(icon)"
+                [decorative]="false"></app-astrology-icon>
+            </span>
+            <div><p class="detail-category">{{ dosha.category }}</p><h3>{{ dosha.name }}</h3></div>
+          </div>
+          <span class="nature-pill">{{ dosha.nature }}</span>
+        </div>
+        <p class="formation"><strong>{{ 'gyanKosha.consideredWhen' | transloco }}:</strong> {{ dosha.description }}</p>
+        <p class="source-line" *ngIf="dosha.references?.length"><strong>{{ 'gyanKosha.sources' | transloco }}:</strong> {{ dosha.references.join(', ') }}</p>
+      </article>
+      <p class="state empty-state" *ngIf="filteredDoshas.length === 0">{{ 'gyanKosha.noDoshas' | transloco }}</p>
+    </div>
+
+    <div class="varga-list" *ngIf="!loading && activeSection === 'vargas'">
+      <aside class="guidance-note">{{ 'gyanKosha.vargaGuidance' | transloco }}</aside>
+      <div class="table-scroll">
+        <table>
+          <thead><tr>
+            <th scope="col">{{ 'gyanKosha.chart' | transloco }}</th>
+            <th scope="col">{{ 'gyanKosha.predictionArea' | transloco }}</th>
+            <th scope="col">{{ 'gyanKosha.crossCheck' | transloco }}</th>
+            <th scope="col">{{ 'gyanKosha.birthTimeSensitivity' | transloco }}</th>
+          </tr></thead>
+          <tbody>
+            <tr *ngFor="let chart of filteredDivisionalCharts">
+              <td><strong>{{ chart.code }}</strong> {{ chart.name }}</td>
+              <td>{{ chart.primaryDomains.join(', ') }}</td>
+              <td>{{ chart.crossValidation.join(', ') }}</td>
+              <td>{{ birthTimeLabel(chart.birthTimeRequirement) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="matrix-title">{{ 'gyanKosha.predictionLookup' | transloco }}</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr>
+            <th scope="col">{{ 'gyanKosha.topic' | transloco }}</th>
+            <th scope="col">{{ 'gyanKosha.primaryCharts' | transloco }}</th>
+            <th scope="col">{{ 'gyanKosha.supportingCharts' | transloco }}</th>
+          </tr></thead>
+          <tbody>
+            <tr *ngFor="let item of predictionAreas">
+              <td>{{ topicLabel(item.key) }}</td>
+              <td>{{ item.area.primaryCharts.join(', ') }}</td>
+              <td>{{ item.area.supportingCharts.length ? item.area.supportingCharts.join(', ') : '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="state empty-state" *ngIf="filteredDivisionalCharts.length === 0">{{ 'gyanKosha.noCharts' | transloco }}</p>
+    </div>
+  </section>
+</main>

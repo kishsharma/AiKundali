@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { APP_VERSION } from '../config/app-version';
 import { PlanChipComponent } from '../shared/components/plan-chip/plan-chip.component';
-import { isPaidUser } from '../core/auth/plan.util';
+import { isPaidUser, isPlusUser as hasPlusPlan } from '../core/auth/plan.util';
 import { SubscriptionModalService } from '../core/services/subscription-modal.service';
 import { ConfirmDialogService } from '../shared/components/confirm-dialog/confirm-dialog.service';
 
@@ -57,6 +57,14 @@ export interface NavItem {
           
           <h3 class="nav-section-title">{{ 'sidebar.main' | transloco }}</h3>
           <ul class="nav-list">
+            <li class="nav-item" *ngIf="isPlusUser">
+              <a routerLink="/app/clients" routerLinkActive="active" (click)="onClose.emit()">
+                <span class="nav-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.5a4.5 4.5 0 0 0-4.5-4.5h-4A4.5 4.5 0 0 0 3 18.5V20"></path><circle cx="9.5" cy="7" r="4"></circle><path d="M17 11a4 4 0 1 0-1.2-7.8M21 20v-1.5a4.5 4.5 0 0 0-3-4.2"></path></svg>
+                </span>
+                <span class="nav-label">CRM</span>
+              </a>
+            </li>
             <li class="nav-item">
               <a routerLink="/app/dashboard" routerLinkActive="active" data-dhruva-tour="dashboard" data-tour-id="portal-dashboard" (click)="onClose.emit()">
                 <span class="nav-icon" aria-hidden="true">
@@ -282,18 +290,27 @@ export interface NavItem {
                 <span class="nav-label">{{ 'sidebar.numerology' | transloco }}</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a routerLink="/app/learning" routerLinkActive="active" data-dhruva-tour="learning" data-tour-id="portal-learning" (click)="onClose.emit()">
-                <span class="nav-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                    <path d="M8 6h8"></path>
-                    <path d="M8 10h6"></path>
-                  </svg>
-                </span>
-                <span class="nav-label">{{ 'sidebar.jyotishStudy' | transloco }}</span>
-              </a>
+            <li class="nav-item nav-parent gyan-kosha-menu">
+              <button
+                type="button"
+                class="gyan-kosha-trigger"
+                [class.active]="isGyanKoshaRouteActive"
+                [attr.aria-expanded]="gyanKoshaOpen"
+                aria-controls="gyan-kosha-submenu"
+                (click)="toggleGyanKosha()">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="5" cy="6" r="2"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="12" cy="18" r="2"></circle>
+                  <path d="m7 7 4 9M17 6l-4 10M7 6h10"></path>
+                </svg>
+                <span class="nav-label">{{ 'sidebar.gyanKosha' | transloco }}</span>
+                <svg class="gyan-kosha-chevron" [class.open]="gyanKoshaOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </button>
+              <ul id="gyan-kosha-submenu" class="nav-sublist gyan-kosha-sublist" *ngIf="gyanKoshaOpen && (!compact || mobileView)">
+                <li><a routerLink="/app/learning" routerLinkActive="active" data-dhruva-tour="learning" data-tour-id="portal-learning" (click)="onClose.emit()">{{ 'sidebar.jyotishStudy' | transloco }}</a></li>
+                <li><a routerLink="/app/gyan-kosha" routerLinkActive="active" (click)="onClose.emit()">{{ 'sidebar.jyotishKnowledgeMap' | transloco }}</a></li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -687,6 +704,65 @@ export interface NavItem {
           border-left-color: #7E3BA8;
         }
       }
+    }
+
+    .gyan-kosha-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      min-height: 42px;
+      padding: 0.62rem 1.5rem;
+      border: 0;
+      border-left: 3px solid transparent;
+      background: transparent;
+      color: #424242;
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: all 300ms ease;
+    }
+
+    .gyan-kosha-trigger:hover,
+    .gyan-kosha-trigger.active {
+      background: linear-gradient(90deg, rgba(126, 59, 168, 0.1), transparent);
+      color: #7E3BA8;
+      border-left-color: #7E3BA8;
+    }
+
+    .gyan-kosha-trigger .nav-icon {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .gyan-kosha-chevron {
+      width: 16px;
+      height: 16px;
+      margin-left: auto;
+      transition: transform 180ms ease;
+    }
+
+    .gyan-kosha-chevron.open {
+      transform: rotate(180deg);
+    }
+
+    .sidebar.compact .gyan-kosha-trigger {
+      justify-content: center;
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+    }
+
+    .sidebar.compact .gyan-kosha-trigger .nav-label,
+    .sidebar.compact .gyan-kosha-chevron {
+      display: none;
+    }
+
+    .gyan-kosha-sublist a.active {
+      color: #7E3BA8;
+      font-weight: 700;
     }
     .nav-parent-row {
       display: grid;
@@ -1538,6 +1614,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   savedKundalisOpen = false;
   savedMatchesOpen = false;
+  gyanKoshaOpen = true;
   navItems: NavItem[] = [];
   savedKundalis: any[] = [];
   savedMatches: SavedCompatibilityListItem[] = [];
@@ -1563,6 +1640,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public themeService: ThemeService
   ) {}
 
+  get isGyanKoshaRouteActive(): boolean {
+    return this.router.url.startsWith('/app/learning') || this.router.url.startsWith('/app/gyan-kosha');
+  }
+
+  toggleGyanKosha(): void {
+    this.gyanKoshaOpen = !this.gyanKoshaOpen;
+  }
+
   ngOnInit(): void {
     this.loadSavedKundalis();
     this.loadSavedCompatibilities();
@@ -1577,6 +1662,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   get isPremiumUser(): boolean {
     return isPaidUser(this.currentUser);
+  }
+
+  get isPlusUser(): boolean {
+    return hasPlusPlan(this.currentUser);
   }
 
   get isAdminUser(): boolean {

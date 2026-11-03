@@ -94,7 +94,23 @@ export class RemediesRecommendationComponent {
   }
 
   get hasRecommendation(): boolean {
-    return !!(this.primary || this.alternative || this.categories.length || this.avoid.length);
+    return !!(this.primary || this.alternative || this.categories.length || this.avoid.length || this.candidateEvidence.length || this.recommendation?.summary || this.recommendation?.Summary);
+  }
+
+  get candidateEvidence(): any[] {
+    return this.recommendation?.candidateEvidence ?? this.recommendation?.CandidateEvidence ?? [];
+  }
+
+  get noGemstoneReason(): string {
+    return this.recommendation?.noGemstoneReason ?? this.recommendation?.NoGemstoneReason ?? '';
+  }
+
+  get nonGemstoneOptions(): string[] {
+    return this.recommendation?.nonGemstoneOptions ?? this.recommendation?.NonGemstoneOptions ?? [];
+  }
+
+  get summary(): string {
+    return this.recommendation?.summary ?? this.recommendation?.Summary ?? '';
   }
 
   get certifiedGemstoneUrl(): string | null {

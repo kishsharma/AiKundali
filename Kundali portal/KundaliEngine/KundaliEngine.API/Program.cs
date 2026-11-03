@@ -6,6 +6,7 @@ using KundaliEngine.API.DTOs.Responses.Numerology;
 using KundaliEngine.API.Prediction.Mappers;
 using KundaliEngine.API.Security;
 using KundaliEngine.API.Services.Admin;
+using KundaliEngine.API.Services;
 using KundaliEngine.API.Services.AdvancedStrength;
 using KundaliEngine.API.Services.Audit;
 using KundaliEngine.API.Services.Auth;
@@ -43,6 +44,7 @@ using KundaliEngine.KnowledgeBase.Services.Numerology;
 using KundaliEngine.Astrology.Services.SudarshanChakra;
 using KundaliEngine.Infrastructure;
 using KundaliEngine.Infrastructure.Data;
+using KundaliEngine.Infrastructure.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Timeouts;
@@ -158,7 +160,7 @@ builder.Services.AddSingleton(_ =>
 });
 builder.Services.AddSingleton(_ =>
 {
-    var doshaMetadataPath = Path.Combine(AppContext.BaseDirectory, "Data", "KundaliDosha", "Doshas.json");
+    var doshaMetadataPath = Path.Combine(AppContext.BaseDirectory, "Data", "KundaliDosha", "dosha-metadata-with-parashara-shlokas.json");
     return new DoshaMetadataService(doshaMetadataPath);
 });
 builder.Services.AddSingleton(_ =>
@@ -219,6 +221,7 @@ builder.Services.Configure<ReportShareSmtpOptions>(builder.Configuration.GetSect
 builder.Services.Configure<SmsOtpOptions>(builder.Configuration.GetSection("TwoFactorSms"));
 builder.Services.AddSingleton<IReportHtmlTemplateService, ReportHtmlTemplateService>();
 builder.Services.AddSingleton<ReportLifeChapterBuilder>();
+builder.Services.AddSingleton<ReportAdditionsBuilder>();
 builder.Services.AddSingleton<IHtmlReportPdfRenderer, ChromeHtmlReportPdfRenderer>();
 builder.Services.AddScoped<IReportPdfService, ReportPdfService>();
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
@@ -237,6 +240,7 @@ builder.Services.AddScoped<IDashboardSummaryService, DashboardSummaryService>();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthOtpService, AuthOtpService>();
+builder.Services.AddScoped<IAuthSessionService, AuthSessionService>();
 builder.Services.AddScoped<IStoreHandoffService, StoreHandoffService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.Configure<SubscriptionOptions>(builder.Configuration.GetSection("Subscriptions"));
@@ -308,6 +312,7 @@ builder.Services.AddStoreInfrastructure(builder.Configuration);
 builder.Services.Configure<HoraLife.Store.Application.Options.StoreInventoryOptions>(
     builder.Configuration.GetSection(HoraLife.Store.Application.Options.StoreInventoryOptions.SectionName));
 builder.Services.AddHostedService<KundaliEngine.Api.Services.Store.StoreInventoryReservationExpiryHostedService>();
+builder.Services.AddHostedService<PractitionerAppointmentReminderService>();
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -383,31 +388,43 @@ builder.Services.AddRateLimiter(options =>
             AutoReplenishment = true
         });
     });
+    options.AddPolicy("UsageAnalytics", httpContext =>
+    {
+        var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var partitionKey = string.IsNullOrWhiteSpace(userId)
+            ? $"ip:{httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown"}"
+            : $"user:{userId}";
+
+        return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 120,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    });
 });
 builder.Services.AddCors(options =>
 {
+    var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+        ?? Array.Empty<string>();
+    if (builder.Environment.IsDevelopment())
+    {
+        allowedOrigins = allowedOrigins.Concat(new[]
+        {
+            "http://localhost:4200",
+            "http://127.0.0.1:4200"
+        }).ToArray();
+    }
+
     options.AddPolicy("HoraLifeFrontend", policy =>
     {
         policy
-            .SetIsOriginAllowed(origin =>
-            {
-                if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
-                    return false;
-
-                var isLocalhost =
-                    uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase) ||
-                    uri.Host.Equals("127.0.0.1");
-
-                var isHoraLife =
-                    origin.Equals("https://horalife.in", StringComparison.OrdinalIgnoreCase) ||
-                    origin.Equals("https://www.horalife.in", StringComparison.OrdinalIgnoreCase) ||
-                    origin.Equals("http://horalife.in", StringComparison.OrdinalIgnoreCase) ||
-                    origin.Equals("http://www.horalife.in", StringComparison.OrdinalIgnoreCase);
-
-                return isLocalhost || isHoraLife;
-            })
+            .WithOrigins(allowedOrigins)
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -429,7 +446,8 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(jwtKey)
-        )
+        ),
+        ClockSkew = TimeSpan.FromSeconds(30)
     };
 });
 builder.Services.AddSwaggerGen(options =>
@@ -494,8 +512,38 @@ await EnsureUserProfileImageColumnAsync(app);
 await EnsureUserLastSeenColumnAsync(app);
 await EnsureProductFeedbackTableAsync(app);
 await EnsureBillingPlanDhruvaColumnsAsync(app);
+await EnsurePractitionerCrmSchemaAsync(app);
+await EnsureAuthRefreshSessionsTableAsync(app);
 
 app.Run();
+
+static async Task EnsureAuthRefreshSessionsTableAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await db.Database.ExecuteSqlRawAsync("""
+        CREATE TABLE IF NOT EXISTS public."AuthRefreshSessions" (
+            "Id" uuid NOT NULL,
+            "FamilyId" uuid NOT NULL,
+            "UserId" uuid NOT NULL,
+            "TokenHash" character varying(64) NOT NULL,
+            "ReplacedByTokenHash" character varying(64) NULL,
+            "RememberMe" boolean NOT NULL,
+            "CreatedAtUtc" timestamp with time zone NOT NULL,
+            "ExpiresAtUtc" timestamp with time zone NOT NULL,
+            "RevokedAtUtc" timestamp with time zone NULL,
+            CONSTRAINT "PK_AuthRefreshSessions" PRIMARY KEY ("Id"),
+            CONSTRAINT "FK_AuthRefreshSessions_Users_UserId" FOREIGN KEY ("UserId")
+                REFERENCES public."Users" ("Id") ON DELETE CASCADE
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS "IX_AuthRefreshSessions_TokenHash"
+            ON public."AuthRefreshSessions" ("TokenHash");
+        CREATE INDEX IF NOT EXISTS "IX_AuthRefreshSessions_FamilyId_RevokedAtUtc"
+            ON public."AuthRefreshSessions" ("FamilyId", "RevokedAtUtc");
+        CREATE INDEX IF NOT EXISTS "IX_AuthRefreshSessions_UserId_RevokedAtUtc"
+            ON public."AuthRefreshSessions" ("UserId", "RevokedAtUtc");
+        """);
+}
 
 static async Task EnsureUserSubscriptionsTableAsync(WebApplication app)
 {
@@ -521,6 +569,16 @@ static async Task EnsureUserSubscriptionsTableAsync(WebApplication app)
         CREATE INDEX IF NOT EXISTS "IX_UserSubscriptions_RazorpaySubscriptionId" ON public."UserSubscriptions" ("RazorpaySubscriptionId");
         CREATE INDEX IF NOT EXISTS "IX_UserSubscriptions_RazorpayOrderId" ON public."UserSubscriptions" ("RazorpayOrderId");
         """);
+}
+
+static async Task EnsurePractitionerCrmSchemaAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<KundaliDbContext>();
+    await using var transaction = await db.Database.BeginTransactionAsync();
+    await db.Database.ExecuteSqlRawAsync(PractitionerCrmSchemaSql.Initial);
+    await db.Database.ExecuteSqlRawAsync(PractitionerCrmSchemaSql.Expansion);
+    await transaction.CommitAsync();
 }
 
 static async Task EnsureDhruvaDailyUsageTableAsync(WebApplication app)

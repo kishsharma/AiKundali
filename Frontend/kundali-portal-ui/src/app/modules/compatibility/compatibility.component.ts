@@ -9,7 +9,7 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
 import { AstrologyIconComponent } from '../../shared/components/astrology-icon.component';
 import { ScoreDetailsModalComponent } from '../../components/score-details-modal/score-details-modal';
 import { CompatibilityApiService, CompatibilityRequest, MatchRequestPerson, SavedCompatibilityDetail } from '../../core/services/compatibility-api.service';
-import { BirthChart, CompatibilityDoshaItem, CompatibilityResponse, CompatibilityScoreComponent } from '../../shared/models/compatibility.model';
+import { BirthChart, CompatibilityDoshaItem, CompatibilityRelationshipHouseAnalysis, CompatibilityResponse, CompatibilityScoreComponent } from '../../shared/models/compatibility.model';
 import { LocationService } from '../../core/services/location.service';
 import { firstValueFrom, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -24,6 +24,8 @@ import { AuthService } from '../../core/auth/auth.service';
 import { AstrologerBrandingSetting, AstrologerBrandingSettingsService } from '../../core/services/astrologer-branding-settings.service';
 import { isPaidUser } from '../../core/auth/plan.util';
 import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
+import { DhruvaNarrationService } from '../../core/services/dhruva-narration.service';
+import { UserActivityTrackingService } from '../../core/services/user-activity-tracking.service';
 
 interface PersonSummary {
   role: 'Boy' | 'Girl';
@@ -75,6 +77,8 @@ export class CompatibilityComponent {
   private readonly savedChartMapper = inject(SavedChartMapperService);
   private readonly authService = inject(AuthService);
   private readonly subscriptionModal = inject(SubscriptionModalService);
+  private readonly dhruvaNarration = inject(DhruvaNarrationService);
+  private readonly userActivityTracking = inject(UserActivityTrackingService);
   private readonly brandingSettingsService = inject(AstrologerBrandingSettingsService);
   private brandingSettings: AstrologerBrandingSetting | null = null;
 
@@ -146,6 +150,12 @@ export class CompatibilityComponent {
   isCompatibilityScoreModalOpen = false;
   selectedDosha: CompatibilityDoshaCard | null = null;
   isDoshaModalOpen = false;
+  isDetailedRemediesOpen = false;
+  openRemedyEvidenceName: string | null = null;
+  openHouseEvidenceNumber: number | null = null;
+  isHouseSummaryAiLoading = false;
+  houseSummaryAiText = '';
+  houseSummaryAiError = '';
   //result: any | null = null;
   readonly form = this.fb.group({
     boyName: ['Kishor Sharma', Validators.required],
@@ -264,15 +274,6 @@ export class CompatibilityComponent {
   }
   readonly kutaTones = ['orange', 'blue', 'purple', 'pink', 'green', 'orange', 'blue', 'purple'];
 
-  get marriagePeriods() {
-    return [
-      { period: this.t('compatibility.periodMayAug2025'), grade: this.t('compatibility.veryAuspicious'), tone: 'green' },
-      { period: this.t('compatibility.periodJanApr2026'), grade: this.t('compatibility.auspicious'), tone: 'blue' },
-      { period: this.t('compatibility.periodSepDec2026'), grade: this.t('compatibility.good'), tone: 'purple' },
-      { period: this.t('compatibility.periodMarJun2027'), grade: this.t('compatibility.auspicious'), tone: 'pink' },
-    ];
-  }
-
   get boy(): PersonSummary {
     return {
       role: 'Boy',
@@ -377,35 +378,131 @@ export class CompatibilityComponent {
     }));
   }
 
+  get activeDoshaItems(): CompatibilityDoshaCard[] {
+    return this.doshas.filter(dosha => dosha.isDetected);
+  }
+
+  get progenyHouseAnalysis() {
+    return this.result?.relationshipHouseAnalysis?.find(item => item.houseNumber === 5) ?? null;
+  }
+
+  get houseAnalysisSummary() {
+    const houses = this.result?.relationshipHouseAnalysis ?? [];
+    return {
+      supportive: houses.filter(item => item.concernLevel === 'Low'),
+      discuss: houses.filter(item => item.concernLevel === 'Moderate' || item.concernLevel === 'High'),
+      unavailable: houses.filter(item => !item.personA.isAvailable || !item.personB.isAvailable || item.combinedScore === null),
+    };
+  }
+
+  private buildRelationshipEvidenceSummary(): string {
+    if (!this.result?.relationshipHouseAnalysis?.length) return '';
+
+    const formatPartner = (name: string, evidence: CompatibilityRelationshipHouseAnalysis['personA']): string => {
+      if (!evidence.isAvailable) return `${name}: evidence unavailable`;
+      const details = [
+        `${evidence.concernLevel.toLowerCase()} concern`,
+        evidence.supportScore === null ? '' : `support ${evidence.supportScore}/100`,
+        evidence.houseLord ? `lord ${evidence.houseLord}${evidence.houseLordStrength === null ? '' : ` (${evidence.houseLordStrength}/100)`}` : '',
+        evidence.occupants.length ? `occupants ${evidence.occupants.join(', ')}` : '',
+        evidence.beneficInfluences.length ? `supportive influences ${evidence.beneficInfluences.join(', ')}` : '',
+        evidence.maleficInfluences.length ? `challenging influences ${evidence.maleficInfluences.join(', ')}` : '',
+        evidence.mitigatingFactors.length ? `mitigating factors ${evidence.mitigatingFactors.join(', ')}` : '',
+        evidence.factors.length ? `chart factors ${evidence.factors.join('; ')}` : '',
+      ].filter(Boolean);
+      return `${name}: ${details.join('; ')}`;
+    };
+
+    return this.result.relationshipHouseAnalysis.map(item =>
+      `House ${item.houseNumber} (${this.t(item.themeKey)}; combined concern ${item.concernLevel}; ${item.combinedScore === null ? 'combined support unavailable' : `combined support ${item.combinedScore}/100`}). ${formatPartner(this.result!.personAName, item.personA)}. ${formatPartner(this.result!.personBName, item.personB)}.`
+    ).join('\n');
+  }
+
+  expandHouseSummaryWithAi(): void {
+    if (!this.result?.relationshipHouseAnalysis?.length || this.isHouseSummaryAiLoading) return;
+    if (!this.isPremiumUser) {
+      this.subscriptionModal.open();
+      return;
+    }
+
+    this.isHouseSummaryAiLoading = true;
+    this.houseSummaryAiError = '';
+    const relationshipHouseAnalysis = this.result.relationshipHouseAnalysis.map(item => ({
+      ...item,
+      theme: this.t(item.themeKey),
+    }));
+    this.dhruvaNarration.narrate({
+      mode: 'compatibility',
+      tone: 'friendly',
+      locale: this.transloco.getActiveLang(),
+      question: 'Write a specific, plain-language interpretation of the supplied relationship house evidence in 4 to 6 short sentences. Refer to actual house numbers and themes, and use the named partners\' evidence and concern levels where available. Identify the clearest supportive themes and one or two areas the partners may want to discuss. Mention unavailable information only for houses marked unavailable. Do not say that evidence is missing when house entries or partner details are present. Do not infer marriage outcomes, fertility, or child outcomes, and do not treat support scores as a verdict.',
+      chart: {
+        personAName: this.result.personAName,
+        personBName: this.result.personBName,
+        relationshipHouseAnalysis,
+        relationshipEvidenceSummary: this.buildRelationshipEvidenceSummary(),
+      },
+    }).subscribe({
+      next: response => {
+        this.houseSummaryAiText = response.narration || '';
+        this.isHouseSummaryAiLoading = false;
+        if (!this.houseSummaryAiText) this.houseSummaryAiError = this.t('compatibility.houseSummaryAiUnavailable');
+        this.cdr.markForCheck();
+      },
+      error: error => {
+        this.isHouseSummaryAiLoading = false;
+        const serverMessage = typeof error?.error?.message === 'string' ? error.error.message : '';
+        if (error?.status === 403) {
+          this.houseSummaryAiError = serverMessage || this.t('compatibility.houseSummaryAiAccess');
+        } else if (error?.status === 401) {
+          this.houseSummaryAiError = this.t('compatibility.houseSummaryAiUnauthorized');
+        } else if (error?.status === 0) {
+          this.houseSummaryAiError = this.t('compatibility.houseSummaryAiConnection');
+        } else if (error?.status === 502) {
+          const providerStatus = error?.error?.providerStatusCode;
+          this.houseSummaryAiError = providerStatus === 401 || providerStatus === 403
+            ? this.t('compatibility.houseSummaryAiProviderAuth')
+            : providerStatus === 429
+              ? this.t('compatibility.houseSummaryAiRateLimited')
+              : providerStatus === 400
+                ? this.t('compatibility.houseSummaryAiProviderRequest')
+                : this.t('compatibility.houseSummaryAiProviderUnavailable');
+        } else {
+          this.houseSummaryAiError = serverMessage || this.t('compatibility.houseSummaryAiRequestFailed', { status: error?.status ?? '—' });
+        }
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
   getOverallDoshaAssessmentLabel(score: number | null | undefined): string {
     const value = Number(score ?? 0);
-    if (value <= 20) return 'Low concern';
-    if (value <= 50) return 'Moderate concern';
-    if (value <= 75) return 'Needs careful review';
-    return 'High concern';
+    if (value <= 20) return this.t('compatibility.doshaConcern.low');
+    if (value <= 50) return this.t('compatibility.doshaConcern.moderate');
+    if (value <= 75) return this.t('compatibility.doshaConcern.review');
+    return this.t('compatibility.doshaConcern.high');
   }
 
   getDoshaStatusLabel(dosha: CompatibilityDoshaCard): string {
     if (!dosha.isDetected) {
-      return 'Status: Not detected';
+      return this.t('compatibility.doshaStatusNone');
     }
 
-    const presence = dosha.personA?.isPresent && dosha.personB?.isPresent
-      ? 'Present in both charts'
-      : 'Present in one chart';
-    return `Status: ${presence}`;
+    return this.t(dosha.personA?.isPresent && dosha.personB?.isPresent
+      ? 'compatibility.doshaStatusBoth'
+      : 'compatibility.doshaStatusOne');
   }
 
   getDoshaImpactLabel(dosha: CompatibilityDoshaCard): string {
     return dosha.isDetected
-      ? `Compatibility impact: ${dosha.severity}`
-      : `Compatibility impact: ${this.t('compatibility.none')}`;
+      ? this.t('compatibility.doshaImpact', { severity: dosha.severity })
+      : this.t('compatibility.doshaImpact', { severity: this.t('compatibility.none') });
   }
 
   getDoshaAffectedPersonLabel(dosha: CompatibilityDoshaCard): string {
     return dosha.isDetected
-      ? `Affected person: ${dosha.whoHas}`
-      : `Affected person: ${this.t('compatibility.none')}`;
+      ? this.t('compatibility.doshaAffected', { name: dosha.whoHas })
+      : this.t('compatibility.doshaAffected', { name: this.t('compatibility.none') });
   }
 
   get doshaRemedies(): string[] {
@@ -449,18 +546,21 @@ export class CompatibilityComponent {
     this.loading = true;
     this.errorMessage = '';
     this.cdr.detectChanges();
+    const activityOperationId = this.userActivityTracking.startOperation('CompatibilityMatch');
 
     this.compatibilityApi.match({
       personA: this.toPersonRequest('boy'),
       personB: this.toPersonRequest('girl'),
     }).subscribe({
       next: (result) => {
+        this.userActivityTracking.finishOperation(activityOperationId, true);
         this.savedCompatibilityId = null;
         this.applyCompatibilityResult(result);
         this.loading = false;
         this.cdr.detectChanges();
       },
       error: (error) => {
+        this.userActivityTracking.finishOperation(activityOperationId, false);
         this.errorMessage = error.message || this.t('compatibility.calculateError');
         this.notifications.error(this.errorMessage);
         this.loading = false;
@@ -497,6 +597,9 @@ export class CompatibilityComponent {
     }).subscribe({
       next: (saved) => {
         this.savedCompatibilityId = saved?.id ?? this.savedCompatibilityId;
+        if (this.savedCompatibilityId) {
+          this.userActivityTracking.markReportSaved('CompatibilityMatch');
+        }
         this.savingCompatibility = false;
         this.notifications.success('Compatibility saved.');
         window.dispatchEvent(new CustomEvent('compatibility-saved'));
@@ -557,6 +660,37 @@ export class CompatibilityComponent {
     setTimeout(() => {
       this.selectedDosha = null;
     }, 300);
+  }
+
+  openDetailedRemedies(): void {
+    if (!this.isPremiumUser) {
+      this.subscriptionModal.open();
+      return;
+    }
+    this.isDetailedRemediesOpen = true;
+    this.openRemedyEvidenceName = null;
+  }
+
+  toggleRemedyEvidence(name: string): void {
+    this.openRemedyEvidenceName = this.openRemedyEvidenceName === name ? null : name;
+  }
+
+  toggleHouseEvidence(houseNumber: number): void {
+    this.openHouseEvidenceNumber = this.openHouseEvidenceNumber === houseNumber ? null : houseNumber;
+  }
+
+  openPremiumHouseAnalysis(): void {
+    this.subscriptionModal.open();
+  }
+
+  closeDetailedRemedies(): void {
+    this.isDetailedRemediesOpen = false;
+    this.openRemedyEvidenceName = null;
+  }
+
+  @HostListener('document:keydown.escape')
+  closeDetailedRemediesOnEscape(): void {
+    this.closeDetailedRemedies();
   }
 
 
@@ -1167,6 +1301,9 @@ export class CompatibilityComponent {
 
   private applyCompatibilityResult(result: CompatibilityResponse | null): void {
     this.result = result;
+    this.houseSummaryAiText = '';
+    this.houseSummaryAiError = '';
+    this.isHouseSummaryAiLoading = false;
     this.selectedCompatibilityAspect = null;
     this.isCompatibilityScoreModalOpen = false;
     this.selectedDosha = null;
@@ -1323,6 +1460,23 @@ export class CompatibilityComponent {
       month: 'short',
       year: 'numeric',
     });
+  }
+
+  getAge(value: string | null | undefined): number | null {
+    if (!value) return null;
+
+    const [year, month, day] = value.split('-').map(Number);
+    if (!year || !month || !day) return null;
+
+    const birthDate = new Date(year, month - 1, day);
+    if (birthDate.getFullYear() !== year || birthDate.getMonth() !== month - 1 || birthDate.getDate() !== day) return null;
+
+    const today = new Date();
+    if (birthDate > today) return null;
+
+    let age = today.getFullYear() - year;
+    if (today.getMonth() < month - 1 || (today.getMonth() === month - 1 && today.getDate() < day)) age--;
+    return age;
   }
 
   private formatSign(value: number | string | null | undefined): string {

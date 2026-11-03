@@ -43,6 +43,7 @@ export interface LogQuery {
   dateFrom?: string;
   dateTo?: string;
   userId?: string;
+  sessionId?: string;
   action?: string;
   category?: string;
   entityType?: string;

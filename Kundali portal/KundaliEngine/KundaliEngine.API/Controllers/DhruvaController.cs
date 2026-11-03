@@ -145,9 +145,13 @@ public class DhruvaController : ControllerBase
             await SaveChatAsync(user.Id, request.KundaliId, request.Question, narration.Narration, cancellationToken);
             return Ok(narration);
         }
-        catch (DhruvaNarrationUnavailableException)
+        catch (DhruvaNarrationUnavailableException exception)
         {
-            return StatusCode(StatusCodes.Status502BadGateway, new { message = "Chart narration is unavailable right now." });
+            return StatusCode(StatusCodes.Status502BadGateway, new
+            {
+                message = "Chart narration is unavailable right now.",
+                providerStatusCode = exception.UpstreamStatusCode
+            });
         }
     }
 

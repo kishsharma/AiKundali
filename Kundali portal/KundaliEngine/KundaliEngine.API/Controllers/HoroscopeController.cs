@@ -29,13 +29,14 @@ public sealed class HoroscopeController : ControllerBase
     [HttpGet("rashifal/{horizon}")]
     public ActionResult<HoroscopeRashifalResponse> Rashifal(
         string horizon,
-        [FromQuery] DateOnly? anchorDate = null)
+        [FromQuery] DateOnly? anchorDate = null,
+        [FromQuery] string locale = "en")
     {
         try
         {
             var parsed = ParseHorizon(horizon);
             var date = anchorDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
-            return Ok(_horoscopeRashifalService.Generate(parsed, date));
+            return Ok(_horoscopeRashifalService.Generate(parsed, date, locale));
         }
         catch (ArgumentException ex)
         {

@@ -1,5 +1,5 @@
 <div class="remedies-recommendation" *ngIf="hasRecommendation; else noRemedies">
-  <div class="remedy-hero" *ngIf="primary as item">
+  <div class="remedy-hero" *ngIf="primary as item; else noEligibleGemstone">
     <div class="hero-main">
       <span class="eyebrow">Primary Remedy</span>
       <h3>{{ item.name }}</h3>
@@ -7,7 +7,7 @@
     </div>
 
     <div class="score-box">
-      <span>Remedy Suitability</span>
+      <span>Rule-based suitability</span>
       <strong>{{ item.confidence || 0 }}/100</strong>
       <div class="confidence-track">
         <span [ngStyle]="getConfidenceStyle(item.confidence)"></span>
@@ -36,7 +36,7 @@
 
   <div class="panel-actions">
     <button type="button" [class.active]="isPanelOpen('analysis')" (click)="togglePanel('analysis')">
-      Category Analysis
+      Eligibility & Analysis
     </button>
     <button type="button" [class.active]="isPanelOpen('remedies')" (click)="togglePanel('remedies')">
       Remedy Details
@@ -47,6 +47,25 @@
   </div>
 
   <section class="compact-panel" *ngIf="isPanelOpen('analysis')">
+    <div class="evidence-list" *ngIf="candidateEvidence.length">
+      <h4>Gemstone checks</h4>
+      <article class="evidence-item" *ngFor="let candidate of candidateEvidence">
+        <strong>{{ candidate.gemstone || candidate.Gemstone || candidate.planet || candidate.Planet }}</strong>
+        <span [class.evidence-pass]="candidate.eligible ?? candidate.Eligible">{{ (candidate.eligible ?? candidate.Eligible) ? 'Passed safety checks' : 'Not recommended from available evidence' }}</span>
+        <small *ngIf="(candidate.evidence || candidate.Evidence) as evidence">
+          {{ evidence.dignity || evidence.Dignity }} · Planetary Strength {{ evidence.planetaryStrengthScore ?? evidence.PlanetaryStrengthScore }}/100
+          <ng-container *ngIf="evidence.shadbalaPercent != null || evidence.ShadbalaPercent != null"> · Shadbala {{ evidence.shadbalaPercent ?? evidence.ShadbalaPercent }}% of required</ng-container>
+          · House Support is estimated context
+        </small>
+        <small *ngFor="let house of ((candidate.evidence || candidate.Evidence)?.houseSupport || (candidate.evidence || candidate.Evidence)?.HouseSupport)">
+          House {{ house.house ?? house.House }} support: {{ house.supportLevel || house.SupportLevel }} ({{ house.score ?? house.Score }}/100, estimated)
+        </small>
+        <small *ngFor="let risk of ((candidate.evidence || candidate.Evidence)?.riskFactors || (candidate.evidence || candidate.Evidence)?.RiskFactors)">Review flag: {{ risk }}</small>
+        <ul *ngIf="!(candidate.eligible ?? candidate.Eligible)">
+          <li *ngFor="let reason of (candidate.reasons || candidate.Reasons) | slice:0:3">{{ reason }}</li>
+        </ul>
+      </article>
+    </div>
     <div class="category-grid" *ngIf="categories.length">
       <article class="category-card" *ngFor="let category of categories">
         <div class="category-top">
@@ -121,7 +140,17 @@
   </section>
 
   <p class="disclaimer" *ngIf="recommendation?.disclaimer">{{ recommendation.disclaimer }}</p>
+  <div class="no-gemstone-note" *ngIf="noGemstoneReason">
+    <strong>No gemstone recommended</strong>
+    <p>{{ noGemstoneReason }}</p>
+    <p>Consider non-gem practices or review the chart with a qualified astrologer before wearing a gemstone.</p>
+    <ul *ngIf="nonGemstoneOptions.length"><li *ngFor="let option of nonGemstoneOptions">{{ option }}</li></ul>
+  </div>
 </div>
+
+<ng-template #noEligibleGemstone>
+  <div class="no-gemstone-heading"><strong>No gemstone passed the available suitability and safety checks.</strong></div>
+</ng-template>
 
 <ng-template #noRemedies>
   <div class="remedies-empty">

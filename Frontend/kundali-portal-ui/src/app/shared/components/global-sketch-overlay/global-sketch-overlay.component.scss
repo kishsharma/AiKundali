@@ -1,0 +1,150 @@
+:host {
+  position: fixed;
+  inset: 76px 0 0;
+  z-index: 1900;
+  display: block;
+  pointer-events: none;
+}
+
+.sketch-overlay,
+.sketch-surface {
+  position: absolute;
+  inset: 0;
+}
+
+.sketch-surface {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sketch-surface.drawing-active {
+  pointer-events: auto;
+}
+
+.sketch-surface ng-whiteboard,
+.sketch-surface ::ng-deep .whiteboard-wrapper,
+.sketch-surface ::ng-deep svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.sketch-surface ::ng-deep .whiteboard-wrapper {
+  background: transparent !important;
+}
+
+.sketch-toolbar {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  max-height: calc(100% - 24px);
+  padding: 7px;
+  overflow-y: auto;
+  border: 1px solid color-mix(in srgb, var(--theme-line) 78%, transparent);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--theme-surface) 94%, transparent);
+  box-shadow: 0 12px 34px color-mix(in srgb, var(--theme-shadow) 50%, transparent);
+  backdrop-filter: blur(12px);
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.tool-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 0;
+}
+
+.tool-group + .tool-group {
+  border-top: 1px solid var(--theme-line);
+  padding-top: 5px;
+}
+
+.tool-button,
+.color-swatch {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--theme-text);
+  cursor: pointer;
+}
+
+.tool-button:hover,
+.tool-button.active,
+.tool-button:focus-visible {
+  border-color: color-mix(in srgb, var(--theme-accent) 52%, transparent);
+  background: color-mix(in srgb, var(--theme-accent) 14%, var(--theme-surface));
+  outline: none;
+}
+
+.tool-button:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.tool-button.danger:not(:disabled):hover {
+  color: var(--theme-danger);
+}
+
+.tool-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.tool-button svg.filled {
+  fill: currentColor;
+  stroke-width: 1.2;
+}
+
+.color-swatch {
+  width: 18px;
+  height: 18px;
+  background: var(--swatch);
+  border: 2px solid color-mix(in srgb, var(--theme-line) 80%, transparent);
+}
+
+.color-swatch.active {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 2px;
+}
+
+.width-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding-top: 3px;
+  color: var(--theme-text-muted);
+  font-size: 10px;
+}
+
+.width-control input {
+  width: 48px;
+  accent-color: var(--theme-accent);
+  transform: rotate(-90deg);
+  margin: 12px 0;
+}
+
+@media (max-width: 720px) {
+  :host { inset-block-start: 60px; }
+  .sketch-toolbar { right: 6px; padding: 5px; gap: 3px; }
+  .tool-button { width: 25px; height: 25px; }
+  .tool-button svg { width: 14px; height: 14px; }
+  .color-swatch { width: 16px; height: 16px; }
+  .width-control input { width: 42px; margin-block: 10px; }
+}

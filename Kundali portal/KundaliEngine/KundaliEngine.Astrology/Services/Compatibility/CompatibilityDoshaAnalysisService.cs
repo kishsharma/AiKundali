@@ -18,6 +18,8 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             string personBName,
             IReadOnlyCollection<DoshaRuleMatch> personADoshas,
             IReadOnlyCollection<DoshaRuleMatch> personBDoshas,
+            KundaliChart personAChart,
+            KundaliChart personBChart,
             DoshaMetadataService metadataService)
         {
             var personAByKey = ToLookup(personADoshas);
@@ -36,6 +38,8 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                     personBName,
                     personAByKey.GetValueOrDefault(key),
                     personBByKey.GetValueOrDefault(key),
+                    personAChart,
+                    personBChart,
                     metadataService.GetDosha(key)))
                 .ToList();
 
@@ -87,10 +91,12 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             string personBName,
             DoshaRuleMatch? personAMatch,
             DoshaRuleMatch? personBMatch,
+            KundaliChart personAChart,
+            KundaliChart personBChart,
             DoshaMeta? meta)
         {
-            var personA = BuildPersonSummary(personAMatch);
-            var personB = BuildPersonSummary(personBMatch);
+            var personA = BuildPersonSummary(personAMatch, personAChart, key);
+            var personB = BuildPersonSummary(personBMatch, personBChart, key);
             var personASeverity = SeverityValue(personA.Severity);
             var personBSeverity = SeverityValue(personB.Severity);
 
@@ -99,6 +105,9 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             var compatibilityScore = 100 - riskScore;
 
             var itemName = meta?.Name ?? ToTitle(key);
+            var applicableRemedies = comparison.Status is "No Dosha" or "Balanced Dosha"
+                ? new List<string>()
+                : meta?.Remedies ?? new List<string>();
             var factors = new List<string>
             {
                 $"Person A intensity: {personA.Severity} ({personASeverity}/100 risk value).",
@@ -130,8 +139,22 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                 PersonB = personB,
                 Reason = comparison.Reason,
                 Factors = factors,
-                Remedies = meta?.Remedies ?? new(),
+                Remedies = applicableRemedies,
                 References = meta?.References ?? new(),
+                ParasharaReference = meta?.Shloka == null ? null : new DoshaParasharaReference
+                {
+                    SourceText = meta.Shloka.SourceText,
+                    Chapter = meta.Shloka.Chapter,
+                    ChapterTitle = meta.Shloka.ChapterTitle,
+                    Verses = meta.Shloka.Verses,
+                    Sanskrit = meta.Shloka.Sanskrit,
+                    Transliteration = meta.Shloka.Transliteration,
+                    SimpleMeaning = meta.Shloka.SimpleMeaning,
+                    ReferenceType = meta.Shloka.ReferenceType,
+                    VerificationStatus = meta.Shloka.VerificationStatus,
+                    ScopeNote = meta.Shloka.ScopeNote,
+                    EditionNote = meta.Shloka.EditionNote
+                },
                 ScoreBreakdown = new List<ScoreComponent>
                 {
                     new()
@@ -145,7 +168,7 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             };
         }
 
-        private static CompatibilityDoshaPersonSummary BuildPersonSummary(DoshaRuleMatch? match)
+        private static CompatibilityDoshaPersonSummary BuildPersonSummary(DoshaRuleMatch? match, KundaliChart chart, string key)
         {
             if (match == null)
             {
@@ -157,7 +180,7 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                 };
             }
 
-            return new CompatibilityDoshaPersonSummary
+            var summary = new CompatibilityDoshaPersonSummary
             {
                 IsPresent = match.IsPresent,
                 Severity = match.Severity,
@@ -165,6 +188,34 @@ namespace KundaliEngine.Astrology.Services.Compatibility
                 InvolvedPlanets = match.InvolvedPlanets,
                 InvolvedHouses = match.InvolvedHouses
             };
+
+            if (match.IsPresent && key.Equals("manglik", StringComparison.OrdinalIgnoreCase))
+            {
+                var mars = chart.PlanetPositions.FirstOrDefault(position => position.Planet == KundaliEngine.Domain.Enums.Planet.Mars);
+                if (mars != null)
+                {
+                    var beneficConjunctions = chart.PlanetPositions
+                        .Where(position => position.House == mars.House
+                            && position.Planet is KundaliEngine.Domain.Enums.Planet.Jupiter or KundaliEngine.Domain.Enums.Planet.Venus)
+                        .Select(position => position.Planet.ToString());
+                    var beneficAspects = chart.Aspects
+                        .Where(aspect => aspect.ToPlanet == mars.Planet
+                            && aspect.FromPlanet is KundaliEngine.Domain.Enums.Planet.Jupiter or KundaliEngine.Domain.Enums.Planet.Venus)
+                        .Select(aspect => aspect.FromPlanet.ToString());
+                    var contacts = beneficConjunctions.Concat(beneficAspects).Distinct().ToList();
+                    if (contacts.Count > 0)
+                    {
+                        summary.MitigatingFactors.Add($"Benefic contact to Mars from {string.Join(", ", contacts)} is present and should be reviewed; it is not treated here as an automatic cancellation.");
+                    }
+
+                    if (mars.House == KundaliEngine.Domain.Enums.HouseNumber.Seventh)
+                    {
+                        summary.MitigatingFactors.Add("Review the full seventh-house condition, its lord, and benefic influence before drawing a conclusion.");
+                    }
+                }
+            }
+
+            return summary;
         }
 
         private static DoshaComparison Compare(

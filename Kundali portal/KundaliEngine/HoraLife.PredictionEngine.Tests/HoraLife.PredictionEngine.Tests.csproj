@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Content Include="..\KundaliEngine.KnowledgeBase\Data\**\*.json" Link="Data\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\KundaliEngine.API\Prompts\dhruva_prompts.md" Link="Prompts\dhruva_prompts.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

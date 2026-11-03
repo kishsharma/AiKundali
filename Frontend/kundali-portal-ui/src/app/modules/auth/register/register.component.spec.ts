@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RegisterComponent } from './register.component';
@@ -35,6 +35,10 @@ describe('RegisterComponent', () => {
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
         { provide: Router, useValue: routerSpy },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParamMap: convertToParamMap({}) } }
+        },
         { provide: NotificationService, useValue: notificationsSpy },
         { provide: TranslocoService, useValue: translocoServiceSpy }
       ]
@@ -69,7 +73,8 @@ describe('RegisterComponent', () => {
       fullName: 'Test User',
       email: 'test@example.com',
       phoneNumber: '9999999999',
-      preferredLanguage: 'kn'
+      preferredLanguage: 'kn',
+      rememberMe: false
     });
     expect(authServiceSpy.getMe).toHaveBeenCalled();
     expect(translocoServiceSpy.setActiveLang).toHaveBeenCalledWith('kn');
@@ -106,7 +111,8 @@ describe('RegisterComponent', () => {
       email: 'test@example.com',
       phoneNumber: undefined,
       password: 'Passw0rd!',
-      preferredLanguage: 'hi'
+      preferredLanguage: 'hi',
+      rememberMe: false
     });
     expect(authServiceSpy.getMe).toHaveBeenCalled();
     expect(translocoServiceSpy.setActiveLang).toHaveBeenCalledWith('hi');

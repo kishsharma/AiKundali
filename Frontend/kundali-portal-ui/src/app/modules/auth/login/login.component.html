@@ -13,6 +13,11 @@
     <h1>Login</h1>
     <p>Access your saved kundalis, reports and insights.</p>
 
+    <label class="remember-me-option">
+      <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+      <span>Keep me signed in for 30 days</span>
+    </label>
+
     <app-google-sign-in-button
       context="signin"
       [disabled]="isLoading"

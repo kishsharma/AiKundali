@@ -6,6 +6,9 @@ namespace KundaliEngine.API.DTOs.Responses
         public RemedySelectionDto? Alternative { get; set; }
         public List<RemedyCategoryAnalysisDto> Categories { get; set; } = new();
         public List<RemedyAvoidRecommendationDto> Avoid { get; set; } = new();
+        public List<GemstoneEligibilityDto> CandidateEvidence { get; set; } = new();
+        public List<string> NonGemstoneOptions { get; set; } = new();
+        public string NoGemstoneReason { get; set; } = string.Empty;
         public string Summary { get; set; } = string.Empty;
         public string Disclaimer { get; set; } = "Traditional guidance only. Wear high-impact gemstones only after review by a qualified astrologer.";
     }
@@ -25,6 +28,36 @@ namespace KundaliEngine.API.DTOs.Responses
         public string Reason { get; set; } = string.Empty;
         public List<string> Factors { get; set; } = new();
         public RemedyCatalogDto Remedies { get; set; } = new();
+        public GemstoneEvidenceDto Evidence { get; set; } = new();
+    }
+
+    public class GemstoneEligibilityDto
+    {
+        public string Planet { get; set; } = string.Empty;
+        public string Gemstone { get; set; } = string.Empty;
+        public bool Eligible { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public List<string> Reasons { get; set; } = new();
+        public GemstoneEvidenceDto Evidence { get; set; } = new();
+    }
+
+    public class GemstoneEvidenceDto
+    {
+        public string Dignity { get; set; } = string.Empty;
+        public int PlanetaryStrengthScore { get; set; }
+        public double? ShadbalaTotal { get; set; }
+        public double? ShadbalaRequired { get; set; }
+        public int? ShadbalaPercent { get; set; }
+        public List<HouseSupportEvidenceDto> HouseSupport { get; set; } = new();
+        public List<string> RiskFactors { get; set; } = new();
+    }
+
+    public class HouseSupportEvidenceDto
+    {
+        public int House { get; set; }
+        public int Score { get; set; }
+        public string SupportLevel { get; set; } = string.Empty;
+        public bool IsEstimated { get; set; } = true;
     }
 
     public class RemedyCategoryAnalysisDto

@@ -11,4 +11,6 @@ public class VerifyEmailOtpRequest
     public string? PhoneNumber { get; set; }
 
     public string Code { get; set; } = string.Empty;
+
+    public bool RememberMe { get; set; }
 }

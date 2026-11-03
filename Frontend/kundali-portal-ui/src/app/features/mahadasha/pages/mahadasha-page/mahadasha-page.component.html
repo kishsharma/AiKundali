@@ -149,7 +149,10 @@
               <h2>{{ 'dashaPage.mahadashaTimeline' | transloco }}</h2>
               <p>{{ 'dashaPage.viewingMahadasha' | transloco: { planet: translatePlanet(selectedMahadasha(analysis).planet) } }}</p>
             </div>
-            <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentMahadasha(analysis)">{{ isViewingCurrentMahadasha(analysis) ? ('dashaPage.currentMahadasha' | transloco) : ('dashaPage.timelineFocus' | transloco) }}</span>
+            <div class="timeline-heading-badges">
+              <span class="timeline-badge timeline-badge--coverage" *ngIf="mahadashaTimelineThroughAge(analysis) as throughAge">{{ 'dashaPage.timelineThroughAge' | transloco: { age: throughAge } }}</span>
+              <span class="timeline-badge" [class.timeline-badge--current]="isViewingCurrentMahadasha(analysis)">{{ isViewingCurrentMahadasha(analysis) ? ('dashaPage.currentMahadasha' | transloco) : ('dashaPage.timelineFocus' | transloco) }}</span>
+            </div>
           </div>
 
           <div class="timeline-track timeline-track--maha" [attr.aria-label]="'dashaPage.mahadashaTimeline' | transloco">

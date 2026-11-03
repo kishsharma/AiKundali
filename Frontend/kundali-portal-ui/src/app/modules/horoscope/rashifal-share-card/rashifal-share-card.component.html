@@ -1,30 +1,30 @@
 <section class="share-section" aria-labelledby="share-title">
   <div class="section-heading">
-    <div><span class="eyebrow">READY TO SHARE</span><h3 id="share-title">Send a little cosmic guidance</h3></div>
+    <div><span class="eyebrow">{{ 'horoscope.share.ready' | transloco }}</span><h3 id="share-title">{{ 'horoscope.share.sendGuidance' | transloco }}</h3></div>
   </div>
 
   <div #shareCard class="social-card" [class.tone-challenging]="item.tone.toLowerCase().includes('challeng')" [class.tone-supportive]="item.tone.toLowerCase().includes('support')">
     <div class="card-sparkles" aria-hidden="true"><i>✦</i><i>✧</i><i>·</i><i>✦</i></div>
-    <header class="card-brand"><img src="assets/brand/horalife/horalife-share-lockup-white.svg" alt="HoraLife — Precision Vedic Astrology"></header>
+    <header class="card-brand"><img src="assets/brand/horalife/horalife-share-lockup-white.svg" [attr.alt]="'horoscope.share.brandAlt' | transloco"></header>
     <div class="card-rule"><span></span><i>✦</i><span></span></div>
-    <div class="card-period">{{ horizon }} RASHIFAL <span *ngIf="formattedPeriod">· {{ formattedPeriod }}</span></div>
+    <div class="card-period">{{ horizonLabel() | uppercase }} {{ 'horoscope.share.rashifal' | transloco | uppercase }} <span *ngIf="formattedPeriod">· {{ formattedPeriod }}</span></div>
     <div class="card-sign"><img [src]="zodiacIconPath" alt="" /></div>
-    <h4>{{ indianRashiName }}</h4><small class="card-sign-western">{{ item.englishName }}</small>
-    <div class="card-tone"><span>Tone: {{ item.tone }}</span><b></b><strong>Overall score: {{ item.score }} / 100</strong></div>
+    <h4>{{ indianRashiName }}</h4>
+    <div class="card-tone"><span>{{ 'horoscope.share.tone' | transloco }}: {{ toneLabel(item.tone) }}</span><b></b><strong>{{ 'horoscope.share.overallScore' | transloco }}: {{ item.score }} / 100</strong></div>
     <p class="card-summary">{{ item.summary }}</p>
     <div class="card-insights" *ngIf="item.areas.length">
-      <div *ngFor="let area of item.areas | slice:0:3"><span>{{ area.key }}</span><p>{{ area.line }}</p></div>
+      <div *ngFor="let area of item.areas | slice:0:3"><span>{{ areaLabel(area.key) }}</span><p>{{ area.line }}</p></div>
     </div>
     <div class="card-qr">
-      <img src="assets/brand/horalife/rashifal-qr.png" alt="Scan to visit HoraLife">
-      <div><span>More guidance at</span><a href="https://www.horalife.in" target="_blank" rel="noopener noreferrer">www.horalife.in</a></div>
+      <img src="assets/brand/horalife/rashifal-qr.png" [attr.alt]="'horoscope.share.qrAlt' | transloco">
+      <div><span>{{ 'horoscope.share.moreGuidance' | transloco }}</span><a href="https://www.horalife.in" target="_blank" rel="noopener noreferrer">www.horalife.in</a></div>
     </div>
   </div>
 
   <div class="share-actions">
-    <button type="button" class="download-button" [disabled]="busy" (click)="downloadPng()"><span aria-hidden="true">↓</span> {{ busy ? 'Preparing…' : 'Download PNG' }}</button>
-    <button type="button" class="share-button" [disabled]="busy" (click)="share()"><span aria-hidden="true">✦</span> Share card</button>
-    <button type="button" class="whatsapp-button" [disabled]="busy" (click)="shareToWhatsApp()"><span aria-hidden="true">↗</span> WhatsApp text</button>
+    <button type="button" class="download-button" [disabled]="busy" (click)="downloadPng()"><span aria-hidden="true">↓</span> {{ busy ? ('horoscope.share.preparing' | transloco) : ('horoscope.share.downloadPng' | transloco) }}</button>
+    <button type="button" class="share-button" [disabled]="busy" (click)="share()"><span aria-hidden="true">✦</span> {{ 'horoscope.share.shareCard' | transloco }}</button>
+    <button type="button" class="whatsapp-button" [disabled]="busy" (click)="shareToWhatsApp()"><span aria-hidden="true">↗</span> {{ 'horoscope.share.whatsapp' | transloco }}</button>
   </div>
   <p class="share-feedback" aria-live="polite" *ngIf="feedback">{{ feedback }}</p>
 </section>

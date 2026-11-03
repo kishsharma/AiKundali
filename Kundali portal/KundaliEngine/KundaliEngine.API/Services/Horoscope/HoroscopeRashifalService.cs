@@ -8,7 +8,7 @@ namespace KundaliEngine.API.Services.Horoscope;
 
 public interface IHoroscopeRashifalService
 {
-    HoroscopeRashifalResponse Generate(HoroscopeHorizon horizon, DateOnly anchorDate);
+    HoroscopeRashifalResponse Generate(HoroscopeHorizon horizon, DateOnly anchorDate, string locale = "en");
 }
 
 public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
@@ -29,15 +29,16 @@ public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
         _logger = logger;
     }
 
-    public HoroscopeRashifalResponse Generate(HoroscopeHorizon horizon, DateOnly anchorDate)
+    public HoroscopeRashifalResponse Generate(HoroscopeHorizon horizon, DateOnly anchorDate, string locale = "en")
     {
         if (anchorDate == default)
         {
             throw new ArgumentException("anchorDate is required.");
         }
 
+        locale = NormalizeLocale(locale);
         var (from, to) = ResolvePeriod(horizon, anchorDate);
-        var cacheKey = $"{horizon}|{from:yyyy-MM-dd}|{to:yyyy-MM-dd}|IN-DEL";
+        var cacheKey = $"{horizon}|{from:yyyy-MM-dd}|{to:yyyy-MM-dd}|IN-DEL|{locale}";
         if (Cache.TryGetValue(cacheKey, out var cached))
         {
             return Clone(cached);
@@ -91,7 +92,8 @@ public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
 
             var highlights = moonHits
                 .Where(h => h.Tone != "Mixed")
-                .Select(h => HoroscopeRashifalTemplates.LineFor(h.Planet, h.House, h.Tone))
+                .Select(h => HoroscopeRashifalLocalization.LocalizeTransit(
+                    HoroscopeRashifalTemplates.LineFor(h.Planet, h.House, h.Tone), locale))
                 .Distinct()
                 .Take(4)
                 .ToList();
@@ -113,7 +115,8 @@ public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
                 {
                     Key = area.Key,
                     Tone = areaTone,
-                    Line = HoroscopeRashifalTemplates.AreaLine(area.Key, areaTone)
+                    Line = HoroscopeRashifalLocalization.LocalizeArea(
+                        area.Key, areaTone, HoroscopeRashifalTemplates.AreaLine(area.Key, areaTone), locale)
                 };
             }).ToList();
 
@@ -123,7 +126,15 @@ public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
                 EnglishName = english,
                 Tone = tone,
                 Score = score,
-                Summary = HoroscopeRashifalTemplates.BuildSummary(english, tone, highlights),
+                Summary = HoroscopeRashifalLocalization.BuildSummary(
+                    english,
+                    tone,
+                    // BuildSummary localizes the original English catalog lines. Keep these separate from the
+                    // localized display list so it never attempts to translate text twice.
+                    moonHits.Where(h => h.Tone != "Mixed")
+                        .Select(h => HoroscopeRashifalTemplates.LineFor(h.Planet, h.House, h.Tone))
+                        .Distinct().Take(4).ToList(),
+                    locale),
                 Areas = areas,
                 GocharaHighlights = highlights
             });
@@ -134,6 +145,7 @@ public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
             Horizon = horizon,
             From = from,
             To = to,
+            Disclaimer = HoroscopeRashifalLocalization.Disclaimer(locale),
             Items = items.OrderBy(i => Enum.TryParse<ZodiacSign>(i.Rashi, out var s) ? (int)s : 99).ToList()
         };
 
@@ -153,6 +165,13 @@ public sealed class HoroscopeRashifalService : IHoroscopeRashifalService
         "Challenging" => 3,
         "Supportive" => 2,
         _ => 1
+    };
+
+    private static string NormalizeLocale(string? locale) => locale?.Trim().ToLowerInvariant() switch
+    {
+        "hi" or "hi-in" => "hi",
+        "kn" or "kn-in" => "kn",
+        _ => "en"
     };
 
     private static (DateOnly From, DateOnly To) ResolvePeriod(HoroscopeHorizon horizon, DateOnly anchor) =>

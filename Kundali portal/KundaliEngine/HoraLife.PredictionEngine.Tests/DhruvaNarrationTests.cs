@@ -76,6 +76,67 @@ public class DhruvaNarrationTests
     }
 
     [Fact]
+    public void CompatibilityNarration_IncludesHouseScoresAndBothPartnerEvidence()
+    {
+        const string chart = """
+            {
+              "personAName": "Asha",
+              "personBName": "Ravi",
+              "relationshipHouseAnalysis": [
+                {
+                  "houseNumber": 7,
+                  "themeKey": "compatibility.houseTheme.7",
+                  "combinedScore": 72,
+                  "concernLevel": "Low",
+                  "personA": { "isAvailable": true, "supportScore": 80, "concernLevel": "Low", "houseLord": "Venus", "houseLordStrength": 74, "occupants": ["Jupiter"], "beneficInfluences": ["Jupiter (aspect)"], "maleficInfluences": [], "mitigatingFactors": ["Strong house lord"], "factors": ["Jupiter aspects house"] },
+                  "personB": { "isAvailable": true, "supportScore": 64, "concernLevel": "Moderate", "houseLord": "Mars", "houseLordStrength": 55, "occupants": [], "beneficInfluences": [], "maleficInfluences": ["Saturn (aspect)"], "mitigatingFactors": [], "factors": ["Saturn aspects house"] }
+                }
+              ]
+            }
+            """;
+
+        using var document = JsonDocument.Parse(chart);
+        var facts = DhruvaChartFactBuilder.Build(document.RootElement, "compatibility", "Summarize the supplied relationship evidence.");
+
+        Assert.Contains("relationshipHouseAnalysis", facts);
+        Assert.Contains("combinedSupportScore", facts);
+        Assert.Contains("personA", facts);
+        Assert.Contains("personB", facts);
+        Assert.Contains("Jupiter (aspect)", facts);
+        Assert.Contains("Saturn (aspect)", facts);
+        Assert.Contains("Strong house lord", facts);
+        Assert.Contains("\"supportScore\":80", facts);
+        Assert.Contains("\"supportScore\":64", facts);
+    }
+
+    [Fact]
+    public void CompatibilityNarration_PreservesUnavailablePartnerAsUnavailable()
+    {
+        const string chart = """
+            {
+              "relationshipHouseAnalysis": [
+                {
+                  "houseNumber": 5,
+                  "themeKey": "compatibility.houseTheme.5",
+                  "combinedScore": null,
+                  "concernLevel": "Unavailable",
+                  "personA": { "isAvailable": true, "supportScore": 58, "concernLevel": "Moderate", "houseLord": "Jupiter" },
+                  "personB": { "isAvailable": false, "supportScore": null, "concernLevel": "Unavailable" }
+                }
+              ]
+            }
+            """;
+
+        using var document = JsonDocument.Parse(chart);
+        var facts = DhruvaChartFactBuilder.Build(document.RootElement, "compatibility", "Summarize the supplied relationship evidence.");
+
+        Assert.Contains("Unavailable", facts);
+        Assert.Contains("\"available\":false", facts);
+        Assert.Contains("\"supportScore\":58", facts);
+        Assert.DoesNotContain("combinedSupportScore", facts);
+    }
+
+    [Fact]
     public void JobTimingQuestion_IncludesTheNextDatedWindow()
     {
         const string chart = """
@@ -156,7 +217,7 @@ public class DhruvaNarrationTests
     {
         var handler = new CaptureHandler("The chart shows Venus in the 7th house.");
         var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
-        await File.WriteAllTextAsync(promptPath, "Narrate the chart.");
+        await File.WriteAllTextAsync(promptPath, CreatePromptFile("Narrate the chart."));
         try
         {
             var service = new DhruvaNarrationService(
@@ -193,7 +254,9 @@ public class DhruvaNarrationTests
             Assert.Contains("Selected tone: friendly", userMessage);
             Assert.DoesNotContain("feel:", userMessage);
             Assert.Contains("\"house\":7", userMessage);
-            Assert.Contains("warm and approachable guide", systemMessage);
+            Assert.Contains("warm and approachable counseling guide", systemMessage);
+            Assert.Contains("personally relevant", userMessage);
+            Assert.Contains("practical next step", userMessage);
             Assert.Contains("direct_answer", systemMessage);
             Assert.DoesNotContain("{{TONE_PROFILE}}", systemMessage);
             Assert.DoesNotContain("Shadbala", userMessage, StringComparison.OrdinalIgnoreCase);
@@ -207,14 +270,14 @@ public class DhruvaNarrationTests
     }
 
     [Theory]
-    [InlineData("friendly", "warm and approachable guide", "direct_answer", "at most 4 evidence points", "house_analysis")]
+    [InlineData("friendly", "warm and approachable counseling guide", "direct_answer", "at most 4 evidence points", "house_analysis")]
     [InlineData("astrologer", "experienced Vedic astrologer", "house_analysis", "at most 10 evidence points", "executive_summary")]
     [InlineData("corporate", "concise analytical advisor", "executive_summary", "at most 5 evidence points", "house_analysis")]
     public async Task Narration_SendsTheSelectedToneProfile_AndEvidence(string tone, string persona, string structure, string evidenceCap, string otherStructure)
     {
         var handler = new CaptureHandler("A toned explanation.");
         var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
-        await File.WriteAllTextAsync(promptPath, DhruvaToneProfile.Template);
+        await File.WriteAllTextAsync(promptPath, CreatePromptFile());
         try
         {
             var service = new DhruvaNarrationService(
@@ -276,7 +339,7 @@ public class DhruvaNarrationTests
     {
         var handler = new CaptureHandler("Asha, the nearer period still supports marriage.");
         var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
-        await File.WriteAllTextAsync(promptPath, DhruvaToneProfile.Template);
+        await File.WriteAllTextAsync(promptPath, CreatePromptFile());
         try
         {
             var service = new DhruvaNarrationService(
@@ -322,7 +385,7 @@ public class DhruvaNarrationTests
     {
         var handler = new CaptureHandler("The career indicators are mixed.");
         var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
-        await File.WriteAllTextAsync(promptPath, "Narrate the chart.");
+        await File.WriteAllTextAsync(promptPath, CreatePromptFile("Narrate the chart."));
         try
         {
             var service = new DhruvaNarrationService(
@@ -364,7 +427,7 @@ public class DhruvaNarrationTests
     {
         var handler = new CaptureHandler("विवाह का समय आगे की अवधि में दिखता है।");
         var promptPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
-        await File.WriteAllTextAsync(promptPath, "Narrate the chart.");
+        await File.WriteAllTextAsync(promptPath, CreatePromptFile("Narrate the chart."));
         try
         {
             var service = new DhruvaNarrationService(
@@ -417,8 +480,20 @@ public class DhruvaNarrationTests
             }
             """;
 
-        var friendly = DhruvaEvidenceSelector.Trim(facts, DhruvaToneProfile.Resolve("friendly").EvidenceLimit);
-        var astrologer = DhruvaEvidenceSelector.Trim(facts, DhruvaToneProfile.Resolve("astrologer").EvidenceLimit);
+        var catalogPath = Path.Combine(Path.GetTempPath(), $"dhruva-prompt-{Guid.NewGuid():N}.txt");
+        File.WriteAllText(catalogPath, CreatePromptFile());
+        string friendly;
+        string astrologer;
+        try
+        {
+            var catalog = DhruvaPromptCatalog.Load(catalogPath);
+            friendly = DhruvaEvidenceSelector.Trim(facts, catalog.ResolveTone("friendly").EvidenceLimit);
+            astrologer = DhruvaEvidenceSelector.Trim(facts, catalog.ResolveTone("astrologer").EvidenceLimit);
+        }
+        finally
+        {
+            File.Delete(catalogPath);
+        }
 
         Assert.Contains("\"role\":\"nearest\"", friendly);
         Assert.Contains("\"role\":\"stronger\"", friendly);
@@ -506,6 +581,17 @@ public class DhruvaNarrationTests
         }
 
         return count;
+    }
+
+    private static string CreatePromptFile(string? systemPrompt = null)
+    {
+        var productionPromptPath = Path.Combine(AppContext.BaseDirectory, "Prompts", "dhruva_prompts.md");
+        var prompt = File.ReadAllText(productionPromptPath);
+        return string.IsNullOrWhiteSpace(systemPrompt)
+            ? prompt
+            : prompt.Replace(
+                prompt.Split("[/system]", StringSplitOptions.None)[0],
+                $"[system]{Environment.NewLine}{systemPrompt}{Environment.NewLine}");
     }
 
     private sealed class CaptureHandler : HttpMessageHandler

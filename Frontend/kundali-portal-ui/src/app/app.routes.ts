@@ -7,7 +7,7 @@ import { PanchangComponent } from './modules/panchang/panchang.component';
 import { MuhurthaComponent } from './modules/panchang/muhurtha.component';
 import { MahadashaPageComponent } from './features/mahadasha/pages/mahadasha-page/mahadasha-page.component';
 import { KundaliLandingComponent } from './modules/home/kundali-landing/kundali-landing.component';
-import { adminGuard, authGuard } from './core/auth/auth.guard';
+import { adminGuard, authGuard, premiumPlusGuard } from './core/auth/auth.guard';
 import { preferredLanguageGuard } from './core/auth/preferred-language.guard';
 import { WhiteLabelSettingsComponent } from './modules/white-label-settings/white-label-settings.component';
 import { ChangePasswordComponent } from './modules/account/change-password/change-password.component';
@@ -86,6 +86,18 @@ export const routes: Routes = [
         data: { title: 'Dashboard' },
       },
       {
+        path: 'clients',
+        canActivate: [premiumPlusGuard],
+        loadComponent: () => import('./modules/clients/clients.component').then(m => m.ClientsComponent),
+        data: { title: 'CRM' },
+      },
+      {
+        path: 'clients/:id',
+        canActivate: [premiumPlusGuard],
+        loadComponent: () => import('./modules/clients/clients.component').then(m => m.ClientsComponent),
+        data: { title: 'Client details' },
+      },
+      {
         path: 'kundali/saved/:id',
         component: KundaliComponent,
         canDeactivate: [unsavedChangesGuard],
@@ -135,6 +147,13 @@ export const routes: Routes = [
           import('./modules/learning/learning-home.component')
             .then(m => m.LearningHomeComponent),
         data: { title: 'Jyotish Study' },
+      },
+      {
+        path: 'gyan-kosha',
+        loadComponent: () =>
+          import('./modules/learning/gyan-kosha.component')
+            .then(m => m.GyanKoshaComponent),
+        data: { title: 'Jyotish Knowledge Map' },
       },
       {
         path: 'learning/level/:levelCode',

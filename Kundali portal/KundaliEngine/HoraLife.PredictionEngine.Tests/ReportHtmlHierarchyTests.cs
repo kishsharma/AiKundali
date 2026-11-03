@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using KundaliEngine.API.DTOs.Responses;
+using KundaliEngine.API.Services.ReportPdf;
 using KundaliEngine.API.Services.ReportPdf.Html;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
@@ -17,7 +18,8 @@ public class ReportHtmlHierarchyTests
         "Life chapters",
         "Kundali Charts",
         "Planet Positions & House Highlights",
-        "Yogas & Doshas",
+        "Yogas",
+        "Doshas",
         "Mahadasha & Antardasha",
         "Remedies",
         "Panchang",
@@ -28,7 +30,10 @@ public class ReportHtmlHierarchyTests
         "Strength Summary",
         "Shadbala",
         "Ashtakavarga Support",
-        "Sudarshan Chakra"
+        "Sudarshan Chakra",
+        "Personality Profile",
+        "Life Area Readings",
+        "Two-Year Outlook"
     ];
 
     [Fact]
@@ -47,17 +52,28 @@ public class ReportHtmlHierarchyTests
                 Window = "01 Jan 2027 - 01 Jun 2027"
             }
         };
+        var additions = new ReportPdfAdditions
+        {
+            Personality = new ReportPersonalityProfile { CorePersonality = "A reflective and steady approach." },
+            LifeAreaReadings = [new ReportLifeAreaReading { LifeArea = "Career", Tone = "Supportive", Summary = "Career indicators are steady." }],
+            TwoYearForecast = [new ReportTwoYearForecast { LifeArea = "Career", Tone = "Mixed", Summary = "Progress benefits from planning." }]
+        };
 
-        var desktop = SectionTitles(service.BuildDesktopColorHtml(profile, report, true, chapters));
-        var mobile = SectionTitles(service.BuildMobileFriendlyHtml(profile, report, true, chapters));
-        var print = SectionTitles(service.BuildPrintBlackWhiteHtml(profile, report, true, chapters));
-        var corporate = SectionTitles(service.BuildCorporateHtml(profile, report, true, chapters));
+        var desktop = SectionTitles(service.BuildDesktopColorHtml(profile, report, true, chapters, additions));
+        var mobile = SectionTitles(service.BuildMobileFriendlyHtml(profile, report, true, chapters, additions));
+        var print = SectionTitles(service.BuildPrintBlackWhiteHtml(profile, report, true, chapters, additions));
+        var corporate = SectionTitles(service.BuildCorporateHtml(profile, report, true, chapters, additions));
 
         Assert.Equal(PaidSectionTitles, desktop);
         Assert.Equal(desktop, mobile);
         Assert.Equal(desktop, print);
         Assert.Equal(desktop, corporate);
-        Assert.Contains("वक्रतुण्ड महाकाय", service.BuildDesktopColorHtml(profile, report, true, chapters));
+        Assert.Contains("class=\"ganesha-icon\"", service.BuildDesktopColorHtml(profile, report, true, chapters, additions));
+
+        Assert.True(Array.IndexOf(desktop.ToArray(), "Sudarshan Chakra") < Array.IndexOf(desktop.ToArray(), "Personality Profile"));
+        Assert.True(Array.IndexOf(desktop.ToArray(), "Personality Profile") < Array.IndexOf(desktop.ToArray(), "Life Area Readings"));
+        Assert.True(Array.IndexOf(desktop.ToArray(), "Life Area Readings") < Array.IndexOf(desktop.ToArray(), "Two-Year Outlook"));
+        Assert.DoesNotContain("Evidence", service.BuildDesktopColorHtml(profile, report, true, chapters, additions));
     }
 
     [Fact]
@@ -79,11 +95,15 @@ public class ReportHtmlHierarchyTests
             Assert.DoesNotContain("Life chapters", titles);
             Assert.DoesNotContain("Sudarshan Chakra", titles);
             Assert.DoesNotContain("Your life now", titles);
+            Assert.DoesNotContain("Personality Profile", titles);
+            Assert.DoesNotContain("Life Area Readings", titles);
+            Assert.DoesNotContain("Two-Year Outlook", titles);
+            Assert.DoesNotContain("Yogas & Doshas", titles);
             Assert.Contains("Remedies", titles);
             Assert.Contains("Shadbala", titles);
             Assert.Contains("Kundali Scores", titles);
             Assert.Contains("Mahadasha & Antardasha", titles);
-            Assert.Contains("वक्रतुण्ड महाकाय", html);
+            Assert.Contains("class=\"ganesha-icon\"", html);
         }
     }
 

@@ -6,6 +6,7 @@ export interface CompatibilityResponse {
   personBchart: BirthChart;
   ashtakoota: AshtakootaResult;
   doshaAnalysis: CompatibilityDoshaAnalysis;
+  relationshipHouseAnalysis: CompatibilityRelationshipHouseAnalysis[];
 
   overallCompatibilityScore: number;
   dimensions: CompatibilityDimension[];
@@ -189,7 +190,22 @@ export interface CompatibilityDoshaItem {
   factors: string[];
   remedies: string[];
   references: string[];
+  parasharaReference?: CompatibilityParasharaReference | null;
   scoreBreakdown: CompatibilityScoreComponent[];
+}
+
+export interface CompatibilityParasharaReference {
+  sourceText: string;
+  chapter: number;
+  chapterTitle: string;
+  verses: string;
+  sanskrit: string;
+  transliteration: string;
+  simpleMeaning: string;
+  referenceType: string;
+  verificationStatus: string;
+  scopeNote: string;
+  editionNote: string;
 }
 
 export interface CompatibilityDoshaPersonSummary {
@@ -198,6 +214,29 @@ export interface CompatibilityDoshaPersonSummary {
   reason: string;
   involvedPlanets: string[];
   involvedHouses: number[];
+  mitigatingFactors: string[];
+}
+
+export interface CompatibilityRelationshipHouseAnalysis {
+  houseNumber: number;
+  themeKey: string;
+  personA: CompatibilityHouseEvidence;
+  personB: CompatibilityHouseEvidence;
+  combinedScore: number | null;
+  concernLevel: 'Low' | 'Moderate' | 'High' | 'Unavailable';
+}
+
+export interface CompatibilityHouseEvidence {
+  isAvailable: boolean;
+  supportScore: number | null;
+  concernLevel: 'Low' | 'Moderate' | 'High' | 'Unavailable';
+  houseLord: string;
+  houseLordStrength: number | null;
+  occupants: string[];
+  beneficInfluences: string[];
+  maleficInfluences: string[];
+  mitigatingFactors: string[];
+  factors: string[];
 }
 
 export interface AshtakootaResult {

@@ -11,4 +11,6 @@ public sealed class AuditLogEntry
     public string? FailureReason { get; set; }
     public Guid? UserId { get; set; }
     public string? UserName { get; set; }
+    public bool CaptureUserName { get; set; } = true;
+    public bool CaptureRequestContext { get; set; } = true;
 }

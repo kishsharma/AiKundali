@@ -6,6 +6,8 @@ public class SavedKundaliDetailDto
 {
     public Guid Id { get; set; }
 
+    public Guid? ClientId { get; set; }
+
     public string FullName { get; set; } = string.Empty;
 
     public string? Surname { get; set; }

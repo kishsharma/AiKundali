@@ -25,7 +25,8 @@ namespace KundaliEngine.API.Services.Recommendations
             ZodiacSign ascendantSign,
             ZodiacSign moonSign,
             IReadOnlyList<PlanetPosition> planets,
-            CurrentDashaDto currentDasha)
+            CurrentDashaDto currentDasha,
+            AdvancedStrengthTableDto strengthTables)
         {
             var planetScores = _planetScoreService.CalculateMany(planets);
             Planet? lagnaLord = ParsePlanet(HelperData.GetSignOwner(ascendantSign));
@@ -41,16 +42,17 @@ namespace KundaliEngine.API.Services.Recommendations
                     chandraRashiLord,
                     mahadashaLord,
                     antardashaLord,
-                    planetScores.First(score => score.Planet == position.Planet)))
-                .Where(candidate => candidate.Knowledge?.GemstoneRecommendation?.PrimaryGemstone != null)
+                    planetScores.First(score => score.Planet == position.Planet),
+                    strengthTables))
                 .ToList();
 
-            var categories = BuildCategoryAnalyses(candidates, lagnaLord, chandraRashiLord, mahadashaLord, antardashaLord);
-            var suitable = candidates
+            var eligibleCandidates = candidates.Where(candidate => candidate.IsEligible).ToList();
+            var suitable = eligibleCandidates
                 .Where(candidate => candidate.Score >= 45)
                 .OrderByDescending(candidate => candidate.Score)
                 .ThenByDescending(candidate => candidate.PlanetScore.Score)
                 .ToList();
+            var categories = BuildCategoryAnalyses(suitable, lagnaLord, chandraRashiLord, mahadashaLord, antardashaLord);
 
             RemedyCandidate? primary = suitable.FirstOrDefault();
             RemedyCandidate? alternative = suitable
@@ -58,8 +60,8 @@ namespace KundaliEngine.API.Services.Recommendations
                 .FirstOrDefault(candidate => candidate.Planet != primary?.Planet);
 
             var avoid = candidates
-                .Where(candidate => candidate.Score < 35 || candidate.FunctionalInfluence <= -5 || candidate.HasHighRisk)
-                .OrderBy(candidate => candidate.Score)
+                .Where(candidate => !candidate.IsEligible)
+                .OrderByDescending(candidate => candidate.Score)
                 .Take(4)
                 .Select(BuildAvoidRecommendation)
                 .ToList();
@@ -70,6 +72,15 @@ namespace KundaliEngine.API.Services.Recommendations
                 Alternative = alternative == null ? null : BuildSelection(alternative, "Alternative"),
                 Categories = categories,
                 Avoid = avoid,
+                CandidateEvidence = candidates.Select(BuildEligibilityEvidence).ToList(),
+                NonGemstoneOptions = candidates.Where(candidate => !candidate.IsEligible)
+                    .SelectMany(candidate => BuildNonGemstoneOptions(candidate.Knowledge))
+                    .Distinct(StringComparer.OrdinalIgnoreCase).Take(8).ToList(),
+                NoGemstoneReason = primary == null
+                    ? eligibleCandidates.Any()
+                        ? "No candidate met the minimum recommendation score after the safety checks. Consider non-gem practices or ask a qualified astrologer to review the chart."
+                        : "No gemstone passed the suitability and safety checks with the available chart evidence."
+                    : string.Empty,
                 Summary = BuildSummary(primary, alternative)
             };
         }
@@ -81,7 +92,8 @@ namespace KundaliEngine.API.Services.Recommendations
             Planet? chandraRashiLord,
             Planet? mahadashaLord,
             Planet? antardashaLord,
-            PlanetScoreResult planetScore)
+            PlanetScoreResult planetScore,
+            AdvancedStrengthTableDto strengthTables)
         {
             PlanetKnowledge? knowledge = _knowledgeService.GetPlanet(position.Planet.ToString());
             int functionalInfluence = GetFunctionalPlanetInfluence(position.Planet, ascendantSign);
@@ -89,6 +101,7 @@ namespace KundaliEngine.API.Services.Recommendations
             bool isChandraRashiLord = position.Planet == chandraRashiLord;
             bool isMahadashaLord = position.Planet == mahadashaLord;
             bool isAntardashaLord = position.Planet == antardashaLord;
+            var shadbala = strengthTables.Shadbala.FirstOrDefault(row => row.Planet.Equals(position.Planet.ToString(), StringComparison.OrdinalIgnoreCase));
             bool hasHighRisk = IsHighImpactPlanet(position.Planet) && (functionalInfluence < 0 || position.IsCombust || planetScore.Score < 45);
 
             int score = 30;
@@ -133,6 +146,13 @@ namespace KundaliEngine.API.Services.Recommendations
             score += strengthContribution;
             factors.Add(BuildStrengthFactor(position.Planet, planetScore.Score));
 
+            // Shadbala is only a small ranking preference after the safety gate passes.
+            if (shadbala is not null && shadbala.Percent < 100)
+            {
+                score += 3;
+                factors.Add($"Below-required Shadbala ({shadbala.Percent}%); this is a small ranking factor, not gemstone eligibility by itself.");
+            }
+
             if (position.IsCombust)
             {
                 score -= 8;
@@ -153,6 +173,21 @@ namespace KundaliEngine.API.Services.Recommendations
 
             score = ApplyStrengthSafetyCap(score, planetScore.Score, factors);
 
+            var eligibilityReasons = new List<string>();
+            if (functionalInfluence <= 0)
+                eligibilityReasons.Add("Functional suitability is not positive for this ascendant, so strengthening this planet is not recommended by this rule set.");
+            if (position.IsCombust)
+                eligibilityReasons.Add("Combustion requires caution before strengthening this planet.");
+            if (planetScore.Score < 45)
+                eligibilityReasons.Add("Planetary strength score is below the minimum review threshold.");
+            if (shadbala is null)
+                eligibilityReasons.Add("Required Shadbala evidence is unavailable for this planet.");
+            if (hasHighRisk)
+                eligibilityReasons.Add("This high-impact planet has a chart risk flag and needs individual expert review.");
+            if (knowledge?.GemstoneRecommendation.PrimaryGemstone is null || string.IsNullOrWhiteSpace(knowledge.GemstoneRecommendation.PrimaryGemstone.Name))
+                eligibilityReasons.Add("Gemstone catalog data is incomplete.");
+            bool isEligible = eligibilityReasons.Count == 0;
+
             if (factors.Count == 1)
             {
                 factors.Add($"{position.Planet} is included for full chart comparison, but it has no dominant recommendation trigger.");
@@ -170,7 +205,11 @@ namespace KundaliEngine.API.Services.Recommendations
                 isMahadashaLord,
                 isAntardashaLord,
                 hasHighRisk,
-                factors);
+                factors,
+                isEligible,
+                eligibilityReasons,
+                shadbala,
+                BuildEvidence(position, ascendantSign, knowledge, planetScore, shadbala, strengthTables));
         }
 
         private static List<RemedyCategoryAnalysisDto> BuildCategoryAnalyses(
@@ -226,7 +265,8 @@ namespace KundaliEngine.API.Services.Recommendations
                 Suitability = GetSuitability(candidate.Score),
                 Reason = BuildReason(candidate),
                 Factors = candidate.Factors,
-                Remedies = MapRemedyCatalog(candidate.Knowledge.Remedies)
+                Remedies = MapRemedyCatalog(candidate.Knowledge.Remedies),
+                Evidence = candidate.Evidence
             };
         }
 
@@ -236,9 +276,79 @@ namespace KundaliEngine.API.Services.Recommendations
             {
                 Planet = candidate.Planet.ToString(),
                 RemedyName = candidate.Knowledge?.GemstoneRecommendation.PrimaryGemstone.Name ?? string.Empty,
-                Reason = $"{candidate.Planet} is not a safe first recommendation in this chart context.",
-                Factors = candidate.Factors.Take(4).ToList()
+                Reason = string.Join(" ", candidate.EligibilityReasons),
+                Factors = candidate.EligibilityReasons.Take(4).ToList()
             };
+        }
+
+        private static GemstoneEligibilityDto BuildEligibilityEvidence(RemedyCandidate candidate) => new()
+        {
+            Planet = candidate.Planet.ToString(),
+            Gemstone = candidate.Knowledge?.GemstoneRecommendation.PrimaryGemstone.Name ?? string.Empty,
+            Eligible = candidate.IsEligible,
+            Status = candidate.IsEligible ? "Eligible" : "NotRecommendedFromAvailableEvidence",
+            Reasons = candidate.IsEligible
+                ? new List<string> { "Passed the current functional suitability and safety checks." }
+                : candidate.EligibilityReasons,
+            Evidence = candidate.Evidence
+        };
+
+        private GemstoneEvidenceDto BuildEvidence(
+            PlanetPosition position,
+            ZodiacSign ascendantSign,
+            PlanetKnowledge? knowledge,
+            PlanetScoreResult planetScore,
+            ShadbalaRowDto? shadbala,
+            AdvancedStrengthTableDto strengthTables)
+        {
+            var relevantHouses = new HashSet<int> { (int)position.House };
+            foreach (ZodiacSign sign in Enum.GetValues<ZodiacSign>())
+            {
+                if (ParsePlanet(HelperData.GetSignOwner(sign)) == position.Planet)
+                    relevantHouses.Add(((int)sign - (int)ascendantSign + 12) % 12 + 1);
+            }
+
+            string dignity = GetDignity(knowledge, position.Sign);
+
+            var risks = new List<string>();
+            if (position.IsCombust) risks.Add("Combust");
+            if (position.IsRetrograde) risks.Add("Retrograde");
+            if (planetScore.Score < 45) risks.Add("Low Planetary Strength score");
+            return new GemstoneEvidenceDto
+            {
+                Dignity = dignity,
+                PlanetaryStrengthScore = planetScore.Score,
+                ShadbalaTotal = shadbala?.Total,
+                ShadbalaRequired = shadbala?.Required,
+                ShadbalaPercent = shadbala?.Percent,
+                RiskFactors = risks,
+                HouseSupport = strengthTables.HouseSupport.Where(row => relevantHouses.Contains(row.House))
+                    .Select(row => new HouseSupportEvidenceDto { House = row.House, Score = row.Score, SupportLevel = row.SupportLevel, IsEstimated = true }).ToList()
+            };
+        }
+
+        private string GetDignity(PlanetKnowledge? knowledge, ZodiacSign sign)
+        {
+            if (knowledge is null) return "Unavailable";
+            string signName = sign.ToString();
+            if (knowledge.Exaltation.Equals(signName, StringComparison.OrdinalIgnoreCase)) return "Exalted";
+            if (knowledge.Debilitation.Equals(signName, StringComparison.OrdinalIgnoreCase)) return "Debilitated";
+            if (knowledge.Moolatrikona.Equals(signName, StringComparison.OrdinalIgnoreCase)) return "Moolatrikona";
+            if (knowledge.OwnSigns.Contains(signName, StringComparer.OrdinalIgnoreCase)) return "Own Sign";
+
+            var signLord = _knowledgeService.GetPlanets().FirstOrDefault(planet => planet.OwnSigns.Contains(signName, StringComparer.OrdinalIgnoreCase));
+            if (signLord is null) return "Neutral Sign";
+            if (knowledge.Friends.Contains(signLord.Name, StringComparer.OrdinalIgnoreCase)) return "Friendly Sign";
+            if (knowledge.Enemies.Contains(signLord.Name, StringComparer.OrdinalIgnoreCase)) return "Enemy Sign";
+            return "Neutral Sign";
+        }
+
+        private static IEnumerable<string> BuildNonGemstoneOptions(PlanetKnowledge? knowledge)
+        {
+            if (knowledge is null) yield break;
+            if (!string.IsNullOrWhiteSpace(knowledge.Remedies.Yantra.Name)) yield return $"Yantra: {knowledge.Remedies.Yantra.Name}";
+            if (!string.IsNullOrWhiteSpace(knowledge.Remedies.Japa.Mantra)) yield return $"Japa: {knowledge.Remedies.Japa.Mantra}";
+            foreach (var item in knowledge.Remedies.Daan.Where(value => !string.IsNullOrWhiteSpace(value))) yield return $"Daan: {item}";
         }
 
         private static RemedyCatalogDto MapRemedyCatalog(PlanetRemediesKnowledge remedies)
@@ -441,6 +551,10 @@ namespace KundaliEngine.API.Services.Recommendations
             bool IsMahadashaLord,
             bool IsAntardashaLord,
             bool HasHighRisk,
-            List<string> Factors);
+            List<string> Factors,
+            bool IsEligible,
+            List<string> EligibilityReasons,
+            ShadbalaRowDto? Shadbala,
+            GemstoneEvidenceDto Evidence);
     }
 }

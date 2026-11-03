@@ -12,8 +12,22 @@
 .score-wrapper {
   border: 1px solid var(--line);
   border-radius: var(--theme-radius-card);
-  padding: 0.7rem;
+  padding: 0.9rem;
   background: color-mix(in srgb, var(--theme-input-bg) 58%, transparent);
+}
+
+.score-wrapper.compact {
+  padding: 0.5rem;
+  border-color: var(--line-soft);
+  background: transparent;
+}
+
+.score-wrapper.compact .score-row {
+  padding: 0.45rem 0.6rem;
+}
+
+.score-wrapper.compact .score-row strong {
+  font-size: 22px;
 }
 
 .score-body {
@@ -42,7 +56,7 @@
   gap: 12px;
   border: 1px solid var(--line-soft);
   border-radius: var(--theme-radius-control);
-  padding: 0.55rem 0.65rem;
+  padding: 0.7rem 0.8rem;
   background: color-mix(in srgb, var(--theme-surface) 82%, transparent);
 }
 
@@ -60,20 +74,20 @@
 
   span {
     color: var(--theme-text-muted);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
+    font-family: inherit;
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
   }
 }
 
 .score-row strong {
-  color: color-mix(in srgb, var(--theme-info) 78%, var(--theme-text-muted));
+  color: var(--theme-text);
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 500;
-  line-height: 0.95;
+  line-height: 1.1;
 }
 
 .info-icon-btn {
@@ -110,9 +124,9 @@
   background: var(--ink-2);
   box-shadow: 0 12px 28px var(--theme-shadow);
   color: var(--parchment-dim);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.45;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-50%) translateX(-4px);
@@ -155,9 +169,9 @@
   margin: 0;
   color: color-mix(in srgb, var(--theme-text) 78%, var(--theme-text-muted));
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 1.15;
+  line-height: 1.3;
 }
 
 .detail-grid {
@@ -177,9 +191,9 @@
   margin: 0;
   padding-left: 12px;
   color: var(--theme-text-muted);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.5;
 }
 
 .score-details li + li {

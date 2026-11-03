@@ -20,6 +20,20 @@
   padding: 7px 10px;
 }
 
+.dasha-coverage-note {
+  flex: 0 0 auto;
+  margin: 0 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--brass) 38%, #e6e9f4);
+  border-radius: 999px;
+  color: var(--theme-text, #263150);
+  background: color-mix(in srgb, var(--brass) 12%, #f8faff);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
 .current-dasha-summary p {
   margin: 0;
   color: #263150;
@@ -92,6 +106,19 @@
 
   color: #666;
 
+  white-space: nowrap;
+}
+
+.age-range-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid #d9e5f3;
+  border-radius: 999px;
+  color: #30466b;
+  background: #f5f8fc;
+  font-size: 11px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -352,7 +379,8 @@
 .dasha-tone-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  gap: 6px 8px;
   grid-column: 1 / -1;
 }
 
@@ -392,7 +420,8 @@
 }
 
 .tone-hint {
-  width: 100%;
+  flex: 1 1 260px;
+  width: auto;
   margin: 0;
   color: var(--theme-text-muted, #667085);
   font-size: 11px;

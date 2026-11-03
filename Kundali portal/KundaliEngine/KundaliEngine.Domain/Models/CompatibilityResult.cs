@@ -26,6 +26,8 @@ namespace KundaliEngine.Domain.Models
 
         public CompatibilityDoshaAnalysis DoshaAnalysis { get; set; } = new();
 
+        public List<RelationshipHouseAnalysis> RelationshipHouseAnalysis { get; set; } = new();
+
         /// <summary>
         /// Overall compatibility score (0-100).
         /// Aggregate of all compatibility dimensions.

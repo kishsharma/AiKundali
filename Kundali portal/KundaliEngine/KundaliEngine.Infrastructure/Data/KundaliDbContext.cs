@@ -16,9 +16,17 @@ public class KundaliDbContext : DbContext
 
     public DbSet<AuthOtpChallenge> AuthOtpChallenges => Set<AuthOtpChallenge>();
 
+    public DbSet<AuthRefreshSession> AuthRefreshSessions => Set<AuthRefreshSession>();
+
     public DbSet<AstrologerBrandingSetting> AstrologerBrandingSettings => Set<AstrologerBrandingSetting>();
 
     public DbSet<Kundali> Kundalis => Set<Kundali>();
+
+    public DbSet<PractitionerClient> PractitionerClients => Set<PractitionerClient>();
+
+    public DbSet<PractitionerAppointment> PractitionerAppointments => Set<PractitionerAppointment>();
+
+    public DbSet<AppNotification> AppNotifications => Set<AppNotification>();
 
     public DbSet<KundaliReport> KundaliReports => Set<KundaliReport>();
 

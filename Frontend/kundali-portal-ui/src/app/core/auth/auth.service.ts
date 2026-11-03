@@ -1,6 +1,6 @@
 ﻿import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, catchError, finalize, map, of, shareReplay, tap } from 'rxjs';
 import { apiEndpoints } from '../../config/api-endpoints';
 import { environment } from '../../config/environment/environment';
 import { LatestKundaliStorageService } from '../services/latest-kundali-storage.service';
@@ -33,6 +33,8 @@ export class AuthService {
 
   private readonly tokenKey = 'kundali_token';
   private readonly userKey = 'kundali_user';
+  private accessToken: string | null = null;
+  private refreshInFlight: Observable<AuthResponse> | null = null;
 
   private readonly dhruvaContext = inject(DhruvaKundaliContextService);
   private readonly latestKundali = inject(LatestKundaliStorageService);
@@ -40,22 +42,22 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request, { withCredentials: true })
       .pipe(
         tap(response => this.saveSession(response))
       );
 
   }
 
-  loginWithGoogle(idToken: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/google`, { idToken })
+  loginWithGoogle(idToken: string, rememberMe = false): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/google`, { idToken, rememberMe }, { withCredentials: true })
       .pipe(
         tap(response => this.saveSession(response))
       );
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request, { withCredentials: true })
       .pipe(
         tap(response => this.saveSession(response))
       );
@@ -66,7 +68,7 @@ export class AuthService {
   }
 
   verifyOtpLogin(request: VerifyEmailOtpRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/otp/verify-login`, request)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/otp/verify-login`, request, { withCredentials: true })
       .pipe(
         tap(response => this.saveSession(response))
       );
@@ -81,14 +83,14 @@ export class AuthService {
   }
 
   completeOtpRegistration(request: CompleteOtpRegistrationRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/otp/complete-registration`, request)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/otp/complete-registration`, request, { withCredentials: true })
       .pipe(
         tap(response => this.saveSession(response))
       );
   }
 
   changePassword(request: ChangePasswordRequest): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.apiUrl}/change-password`, request);
+    return this.http.post<{ message: string }>(`${this.apiUrl}/change-password`, request, { withCredentials: true });
   }
 
   updatePreferredLanguage(request: UpdatePreferredLanguageRequest): Observable<UpdatePreferredLanguageResponse> {
@@ -102,31 +104,69 @@ export class AuthService {
 
   private saveSession(response: AuthResponse): void {
     const previousUserId = this.getCurrentUser()?.userId ?? null;
-    localStorage.setItem(this.tokenKey, response.token);
-    localStorage.setItem(this.userKey, JSON.stringify(response));
+    this.accessToken = response.token;
+    localStorage.removeItem(this.tokenKey);
+    const { token: _token, ...profile } = response;
+    localStorage.setItem(this.userKey, JSON.stringify(profile));
     if (previousUserId !== (response.userId ?? null)) {
       this.clearSelectedChart();
     }
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return this.accessToken ?? localStorage.getItem(this.tokenKey);
   }
 
   getCurrentUser(): AuthResponse | null {
     const user = localStorage.getItem(this.userKey);
-    return user ? JSON.parse(user) : null;
+    if (!user) {
+      return null;
+    }
+
+    return { ...JSON.parse(user), token: this.getToken() ?? '' } as AuthResponse;
   }
 
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
+  restoreSession(): Observable<boolean> {
+    if (this.getToken()) {
+      return of(true);
+    }
+
+    return this.refreshSession().pipe(
+      map(() => true),
+      catchError(() => {
+        this.clearSession();
+        return of(false);
+      })
+    );
+  }
+
+  refreshSession(): Observable<AuthResponse> {
+    if (this.refreshInFlight) {
+      return this.refreshInFlight;
+    }
+
+    this.refreshInFlight = this.http.post<AuthResponse>(`${this.apiUrl}/refresh`, {}, { withCredentials: true })
+      .pipe(
+        tap(response => this.saveSession(response)),
+        finalize(() => this.refreshInFlight = null),
+        shareReplay({ bufferSize: 1, refCount: false })
+      );
+    return this.refreshInFlight;
+  }
+
   logout(): void {
+    this.http.post<void>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).subscribe({
+      error: () => undefined
+    });
     this.clearSession();
   }
 
   clearSession(): void {
+    this.accessToken = null;
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
     this.clearSelectedChart();
@@ -177,6 +217,7 @@ export class AuthService {
       token: currentUser.token
     };
 
-    localStorage.setItem(this.userKey, JSON.stringify(nextUser));
+    const { token: _token, ...profile } = nextUser;
+    localStorage.setItem(this.userKey, JSON.stringify(profile));
   }
 }

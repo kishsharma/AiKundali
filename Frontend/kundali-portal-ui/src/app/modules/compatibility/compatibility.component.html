@@ -242,6 +242,7 @@
             <div><dt>{{ 'compatibility.ascendant' | transloco }}</dt><dd>{{ getAscendant(personAchart) }}</dd></div>
             <div><dt>{{ 'compatibility.dateOfBirth' | transloco }}</dt><dd>{{ boy.birthDate }}, {{ boy.birthTime }}</dd></div>
             <div><dt>{{ 'compatibility.birthPlace' | transloco }}</dt><dd>{{ boy.birthPlace }}</dd></div>
+            <div><dt>{{ 'compatibility.age' | transloco }}</dt><dd>{{ getAge(form.value.boyBirthDate) ?? '—' }}</dd></div>
           </dl>
         </div>
       </article>
@@ -264,6 +265,7 @@
             <div><dt>{{ 'compatibility.ascendant' | transloco }}</dt><dd>{{ getAscendant(personBchart) }}</dd></div>
             <div><dt>{{ 'compatibility.dateOfBirth' | transloco }}</dt><dd>{{ girl.birthDate }}, {{ girl.birthTime }}</dd></div>
             <div><dt>{{ 'compatibility.birthPlace' | transloco }}</dt><dd>{{ girl.birthPlace }}</dd></div>
+            <div><dt>{{ 'compatibility.age' | transloco }}</dt><dd>{{ getAge(form.value.girlBirthDate) ?? '—' }}</dd></div>
           </dl>
         </div>
       </article>
@@ -289,6 +291,8 @@
 
     <section class="report-section">
       <h2>{{ 'compatibility.aspectsTitle' | transloco }}</h2>
+      <div class="coming-soon-preview" [class.is-coming-soon]="!result?.dimensions?.length">
+      <div class="preview-content" [class.preview-content-blurred]="!result?.dimensions?.length" [attr.aria-hidden]="!result?.dimensions?.length">
       <div class="aspect-grid">
         <article class="aspect-card" *ngFor="let aspect of compatibilityAspects" [class]="'tone-' + aspect.tone">
           <div class="aspect-card-header">
@@ -311,6 +315,9 @@
           <span>{{ aspect.grade }}</span>
         </article>
       </div>
+      </div>
+      <div class="coming-soon-label" *ngIf="!result?.dimensions?.length" role="status">{{ 'compatibility.comingSoon' | transloco }}</div>
+      </div>
       <ng-container *ngIf="selectedCompatibilityAspect as activeAspect">
         <app-score-details-modal
           [isOpen]="isCompatibilityScoreModalOpen"
@@ -327,11 +334,11 @@
     <section class="report-section">
       <h2>{{ 'compatibility.doshaAnalysisTitle' | transloco }}</h2>
       <div class="dosha-summary" *ngIf="result?.doshaAnalysis as doshaSummary">
-        <strong>Overall Dosha Assessment: {{ getOverallDoshaAssessmentLabel(doshaSummary.overallDoshaScore) }}</strong>
+        <strong>{{ 'compatibility.doshaOverallAssessment' | transloco }}: {{ getOverallDoshaAssessmentLabel(doshaSummary.overallDoshaScore) }}</strong>
         <span class="status-pill">{{ translateCompatibilityTerm(doshaSummary.overallDoshaStatus) }}</span>
       </div>
       <div class="dosha-grid" *ngIf="doshas.length; else noCompatibilityDoshas">
-        <article class="dosha-card" *ngFor="let dosha of doshas" [class]="'tone-' + dosha.tone">
+        <article class="dosha-card" *ngFor="let dosha of doshas" [class]="'tone-' + dosha.tone" [class.is-detected]="dosha.isDetected">
           <div>
             <div class="dosha-card-header">
               <h3>{{ dosha.name }}</h3>
@@ -349,12 +356,39 @@
             </div>
             <p>{{ dosha.detail }}</p>
             <div class="dosha-score-row">
-              <span>{{ getDoshaStatusLabel(dosha) }}</span>
+              <span class="dosha-status-chip">{{ getDoshaStatusLabel(dosha) }}</span>
             </div>
             <div class="dosha-meta-row">
               <small>{{ getDoshaImpactLabel(dosha) }}</small>
               <small>{{ getDoshaAffectedPersonLabel(dosha) }}</small>
             </div>
+            <details class="dosha-evidence-toggle" *ngIf="dosha.isDetected && isPremiumUser">
+              <summary>{{ 'compatibility.doshaViewEvidence' | transloco }}</summary>
+            <div class="dosha-person-evidence">
+              <div class="dosha-person-evidence-card">
+                <strong>{{ result?.personAName || ('compatibility.personA' | transloco) }}</strong>
+                <ng-container *ngIf="dosha.personA.isPresent; else personANoDosha">
+                  <span>{{ dosha.personA.reason }}</span>
+                  <small>{{ 'compatibility.severity' | transloco }}: {{ dosha.personA.severity }}</small>
+                  <small *ngIf="dosha.personA.involvedPlanets.length">{{ 'compatibility.planets' | transloco }}: {{ dosha.personA.involvedPlanets.join(', ') }}</small>
+                  <small *ngIf="dosha.personA.involvedHouses.length">{{ 'compatibility.houses' | transloco }}: {{ dosha.personA.involvedHouses.join(', ') }}</small>
+                  <small *ngFor="let factor of dosha.personA.mitigatingFactors">{{ factor }}</small>
+                </ng-container>
+                <ng-template #personANoDosha><small>{{ 'compatibility.noActiveDoshaForPerson' | transloco }}</small></ng-template>
+              </div>
+              <div class="dosha-person-evidence-card">
+                <strong>{{ result?.personBName || ('compatibility.personB' | transloco) }}</strong>
+                <ng-container *ngIf="dosha.personB.isPresent; else personBNoDosha">
+                  <span>{{ dosha.personB.reason }}</span>
+                  <small>{{ 'compatibility.severity' | transloco }}: {{ dosha.personB.severity }}</small>
+                  <small *ngIf="dosha.personB.involvedPlanets.length">{{ 'compatibility.planets' | transloco }}: {{ dosha.personB.involvedPlanets.join(', ') }}</small>
+                  <small *ngIf="dosha.personB.involvedHouses.length">{{ 'compatibility.houses' | transloco }}: {{ dosha.personB.involvedHouses.join(', ') }}</small>
+                  <small *ngFor="let factor of dosha.personB.mitigatingFactors">{{ factor }}</small>
+                </ng-container>
+                <ng-template #personBNoDosha><small>{{ 'compatibility.noActiveDoshaForPerson' | transloco }}</small></ng-template>
+              </div>
+            </div>
+            </details>
           </div>
         </article>
       </div>
@@ -372,6 +406,98 @@
           (close)="closeDoshaFactors()">
         </app-score-details-modal>
       </ng-container>
+    </section>
+
+    <section class="report-section relationship-house-section" *ngIf="isPremiumUser && result?.relationshipHouseAnalysis?.length">
+      <h2 class="house-analysis-title">{{ 'compatibility.houseAnalysisTitle' | transloco }}</h2>
+      <p class="house-analysis-intro">{{ 'compatibility.houseAnalysisIntro' | transloco }}</p>
+      <div class="relationship-house-grid">
+        <article class="relationship-house-card" *ngFor="let item of result?.relationshipHouseAnalysis">
+          <header>
+            <h3>{{ 'compatibility.houseLabel' | transloco }} {{ item.houseNumber }} · {{ item.themeKey | transloco }}</h3>
+            <span class="concern-badge" [ngClass]="'concern-' + item.concernLevel.toLowerCase()">
+              {{ ('compatibility.concern.' + item.concernLevel) | transloco }}
+            </span>
+          </header>
+          <div class="house-score-row">
+            <div><small>{{ result?.personAName }}</small><strong *ngIf="item.personA.supportScore !== null; else personAScoreUnavailable">{{ item.personA.supportScore }} / 100</strong><ng-template #personAScoreUnavailable><strong>{{ 'compatibility.unavailable' | transloco }}</strong></ng-template></div>
+            <div><small>{{ result?.personBName }}</small><strong *ngIf="item.personB.supportScore !== null; else personBScoreUnavailable">{{ item.personB.supportScore }} / 100</strong><ng-template #personBScoreUnavailable><strong>{{ 'compatibility.unavailable' | transloco }}</strong></ng-template></div>
+            <div><small>{{ 'compatibility.combinedHouseScore' | transloco }}</small><strong *ngIf="item.combinedScore !== null; else combinedScoreUnavailable">{{ item.combinedScore }} / 100</strong><ng-template #combinedScoreUnavailable><strong>{{ 'compatibility.unavailable' | transloco }}</strong></ng-template></div>
+          </div>
+          <div class="house-evidence-wrap">
+            <button type="button" class="house-evidence-info-btn" [attr.title]="'compatibility.expandHouseEvidence' | transloco" [attr.aria-label]="'compatibility.expandHouseEvidence' | transloco" [attr.aria-expanded]="openHouseEvidenceNumber === item.houseNumber" (click)="toggleHouseEvidence(item.houseNumber)">
+              <app-astrology-icon name="info" [decorative]="true"></app-astrology-icon>
+            </button>
+            <div class="house-evidence-popover" role="tooltip" *ngIf="openHouseEvidenceNumber === item.houseNumber">
+              <strong class="house-evidence-popover-title">{{ 'compatibility.expandHouseEvidence' | transloco }}</strong>
+              <div class="house-evidence-grid">
+                <div class="house-evidence-person" *ngFor="let evidence of [item.personA, item.personB]; let index = index">
+                  <h4>{{ index === 0 ? result?.personAName : result?.personBName }}</h4>
+                  <ng-container *ngIf="evidence.isAvailable; else houseEvidenceUnavailable">
+                    <p><strong>{{ 'compatibility.houseLord' | transloco }}:</strong> {{ evidence.houseLord || ('compatibility.unavailable' | transloco) }}<span *ngIf="evidence.houseLordStrength !== null"> ({{ evidence.houseLordStrength }}/100)</span></p>
+                    <p *ngIf="evidence.occupants.length"><strong>{{ 'compatibility.occupants' | transloco }}:</strong> {{ evidence.occupants.join(', ') }}</p>
+                    <p *ngIf="evidence.beneficInfluences.length"><strong>{{ 'compatibility.beneficInfluences' | transloco }}:</strong> {{ evidence.beneficInfluences.join(', ') }}</p>
+                    <p *ngIf="evidence.maleficInfluences.length"><strong>{{ 'compatibility.challengingInfluences' | transloco }}:</strong> {{ evidence.maleficInfluences.join(', ') }}</p>
+                    <ul *ngIf="evidence.mitigatingFactors.length" class="house-mitigations"><li *ngFor="let factor of evidence.mitigatingFactors">{{ factor }}</li></ul>
+                    <details *ngIf="evidence.factors.length"><summary>{{ 'compatibility.chartFactors' | transloco }}</summary><ul><li *ngFor="let factor of evidence.factors">{{ factor }}</li></ul></details>
+                  </ng-container>
+                  <ng-template #houseEvidenceUnavailable><p>{{ 'compatibility.houseEvidenceUnavailable' | transloco }}</p></ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <details class="house-rationale-disclosure">
+        <summary>{{ 'compatibility.houseRationaleTitle' | transloco }}</summary>
+        <aside class="house-tradition-note">
+          <p>{{ 'compatibility.houseRationaleIntro' | transloco }}</p>
+          <ul class="house-rationale-list">
+            <li *ngFor="let house of result?.relationshipHouseAnalysis">
+              <strong>{{ 'compatibility.houseLabel' | transloco }} {{ house.houseNumber }} · {{ house.themeKey | transloco }}:</strong>
+              {{ ('compatibility.houseRationale.' + house.houseNumber) | transloco }}
+            </li>
+          </ul>
+          <small>{{ 'compatibility.houseRationaleCaution' | transloco }}
+            <a href="https://enjoylearningsanskrit.com/scriptures/parashara/chapter-7/verse-37/" target="_blank" rel="noopener noreferrer">{{ 'compatibility.houseRationaleReference' | transloco }}</a>
+          </small>
+        </aside>
+      </details>
+      <aside class="progeny-caution">
+        <strong>{{ 'compatibility.progenyCautionTitle' | transloco }}</strong>
+        <p>{{ 'compatibility.progenyCautionText' | transloco }}</p>
+      </aside>
+      <section class="house-analysis-summary" aria-labelledby="house-analysis-summary-title">
+        <div class="house-summary-heading">
+          <div>
+            <h3 id="house-analysis-summary-title">{{ 'compatibility.houseSummaryTitle' | transloco }}</h3>
+            <p>{{ 'compatibility.houseSummaryIntro' | transloco }}</p>
+          </div>
+        </div>
+        <div class="house-summary-grid">
+          <article>
+            <h4>{{ 'compatibility.houseSummarySupportive' | transloco }}</h4>
+            <ul *ngIf="houseAnalysisSummary.supportive.length; else noSupportiveHouses"><li *ngFor="let item of houseAnalysisSummary.supportive">{{ 'compatibility.houseLabel' | transloco }} {{ item.houseNumber }} · {{ item.themeKey | transloco }}</li></ul>
+            <ng-template #noSupportiveHouses><p>{{ 'compatibility.houseSummaryNone' | transloco }}</p></ng-template>
+          </article>
+          <article>
+            <h4>{{ 'compatibility.houseSummaryDiscuss' | transloco }}</h4>
+            <ul *ngIf="houseAnalysisSummary.discuss.length; else noDiscussionHouses"><li *ngFor="let item of houseAnalysisSummary.discuss">{{ 'compatibility.houseLabel' | transloco }} {{ item.houseNumber }} · {{ item.themeKey | transloco }}</li></ul>
+            <ng-template #noDiscussionHouses><p>{{ 'compatibility.houseSummaryNone' | transloco }}</p></ng-template>
+          </article>
+          <article>
+            <h4>{{ 'compatibility.houseSummaryUnavailable' | transloco }}</h4>
+            <ul *ngIf="houseAnalysisSummary.unavailable.length; else noUnavailableHouses"><li *ngFor="let item of houseAnalysisSummary.unavailable">{{ 'compatibility.houseLabel' | transloco }} {{ item.houseNumber }} · {{ item.themeKey | transloco }}</li></ul>
+            <ng-template #noUnavailableHouses><p>{{ 'compatibility.houseSummaryAllAvailable' | transloco }}</p></ng-template>
+          </article>
+        </div>
+        <p class="house-summary-caution">{{ 'compatibility.houseSummaryCaution' | transloco }}</p>
+      </section>
+    </section>
+    <section class="report-section house-analysis-locked" *ngIf="!isPremiumUser">
+      <h2 class="house-analysis-title">{{ 'compatibility.houseAnalysisTitle' | transloco }}</h2>
+      <p>{{ 'compatibility.houseAnalysisPremium' | transloco }}</p>
+      <button type="button" class="outline-btn" (click)="openPremiumHouseAnalysis()">{{ 'compatibility.viewHouseAnalysis' | transloco }}</button>
     </section>
 
     <section class="report-section chart-section">
@@ -403,13 +529,35 @@
       </div>
     </section>
 
-    <section class="report-section">
+    <section class="report-section ai-insights-section" *ngIf="isPremiumUser">
       <h2>{{ 'compatibility.aiInsightsTitle' | transloco }}</h2>
+      <div class="ai-insights-panel">
+        <div class="ai-insights-heading">
+          <p>{{ 'compatibility.aiInsightsIntro' | transloco }}</p>
+          <button type="button" class="outline-btn" (click)="expandHouseSummaryWithAi()" [disabled]="isHouseSummaryAiLoading || !result?.relationshipHouseAnalysis?.length">
+            {{ (isHouseSummaryAiLoading ? 'compatibility.houseSummaryAiLoading' : 'compatibility.houseSummaryAiAction') | transloco }}
+          </button>
+        </div>
+        <p *ngIf="!result?.relationshipHouseAnalysis?.length" class="house-summary-ai-error" role="status">{{ 'compatibility.houseSummaryAiUnavailable' | transloco }}</p>
+        <p *ngIf="houseSummaryAiError" class="house-summary-ai-error" role="status">{{ houseSummaryAiError }}</p>
+        <div *ngIf="houseSummaryAiText" class="house-summary-ai-result" aria-live="polite">
+          <h3>{{ 'compatibility.houseSummaryAiTitle' | transloco }}</h3>
+          <p>{{ houseSummaryAiText }}</p>
+        </div>
+      </div>
+    </section>
+    <section class="report-section" *ngIf="!isPremiumUser">
+      <h2>{{ 'compatibility.aiInsightsTitle' | transloco }}</h2>
+      <div class="coming-soon-preview is-coming-soon">
+      <div class="preview-content preview-content-blurred" aria-hidden="true">
       <div class="insight-grid">
         <article class="insight-card" *ngFor="let insight of insights" [class]="'tone-' + insight.tone">
           <h3>{{ insight.title }}</h3>
           <p>{{ insight.text }}</p>
         </article>
+      </div>
+      </div>
+      <div class="coming-soon-label" role="status">{{ 'compatibility.comingSoon' | transloco }}</div>
       </div>
     </section>
 
@@ -426,22 +574,54 @@
             <p>{{ 'compatibility.noDoshaRemedies' | transloco }}</p>
           </ng-template>
         </div>
-        <button type="button" class="outline-btn">{{ 'compatibility.viewDetailedRemedies' | transloco }}</button>
-      </div>
-    </section>
-
-    <section class="report-section">
-      <h2>{{ 'compatibility.marriagePeriodsTitle' | transloco }}</h2>
-      <div class="period-grid">
-        <article class="period-card" *ngFor="let period of marriagePeriods" [class]="'tone-' + period.tone">
-          <strong>{{ period.period }}</strong>
-          <span>{{ period.grade }}</span>
-        </article>
+        <button type="button" class="outline-btn" (click)="openDetailedRemedies()">{{ 'compatibility.viewDetailedRemedies' | transloco }}</button>
       </div>
     </section>
 
     <p class="report-note">{{ 'compatibility.reportNote' | transloco }}</p>
   </section>
+
+  <div class="remedies-dialog-backdrop" *ngIf="isDetailedRemediesOpen" (click)="closeDetailedRemedies()">
+    <section class="remedies-dialog" role="dialog" aria-modal="true" aria-labelledby="detailed-remedies-title" (click)="$event.stopPropagation()">
+      <header><h2 id="detailed-remedies-title">{{ 'compatibility.detailedRemediesTitle' | transloco }}</h2><button type="button" class="dialog-close" (click)="closeDetailedRemedies()" [attr.aria-label]="'compatibility.closeDetails' | transloco">×</button></header>
+      <p class="remedies-caution">{{ 'compatibility.remediesCaution' | transloco }}</p>
+      <ng-container *ngIf="activeDoshaItems.length; else noActiveRemedies">
+        <article class="detailed-dosha-remedy" *ngFor="let dosha of activeDoshaItems">
+          <h3>{{ dosha.name }} · {{ translateCompatibilityTerm(dosha.status) }}</h3>
+          <p>{{ dosha.reason }}</p>
+          <div *ngIf="dosha.remedies.length"><h4>{{ 'compatibility.traditionalPractices' | transloco }}</h4><ul><li *ngFor="let remedy of dosha.remedies">{{ remedy }}</li></ul></div>
+          <div class="remedy-evidence-wrap">
+            <button type="button" class="remedy-evidence-trigger" [attr.title]="'compatibility.remedyEvidenceToggle' | transloco" [attr.aria-label]="'compatibility.remedyEvidenceToggle' | transloco" [attr.aria-expanded]="openRemedyEvidenceName === dosha.name" (click)="toggleRemedyEvidence(dosha.name)">i</button>
+            <div class="remedy-evidence-popover" role="tooltip" *ngIf="openRemedyEvidenceName === dosha.name">
+              <strong class="remedy-evidence-title">{{ 'compatibility.remedyEvidenceToggle' | transloco }}</strong>
+              <div class="remedy-person-pair">
+                <div><strong>{{ result?.personAName }}</strong><p>{{ dosha.personA.isPresent ? dosha.personA.reason : ('compatibility.noActiveDoshaForPerson' | transloco) }}</p></div>
+                <div><strong>{{ result?.personBName }}</strong><p>{{ dosha.personB.isPresent ? dosha.personB.reason : ('compatibility.noActiveDoshaForPerson' | transloco) }}</p></div>
+              </div>
+              <details class="remedy-reference-details" *ngIf="dosha.personA.mitigatingFactors.length || dosha.personB.mitigatingFactors.length || dosha.references.length || dosha.parasharaReference">
+                <summary>{{ 'compatibility.basisAndReferences' | transloco }}</summary>
+                <div *ngIf="dosha.personA.mitigatingFactors.length || dosha.personB.mitigatingFactors.length">
+                  <h4>{{ 'compatibility.mitigatingFactors' | transloco }}</h4>
+                  <ul><li *ngFor="let factor of dosha.personA.mitigatingFactors">{{ result?.personAName }}: {{ factor }}</li><li *ngFor="let factor of dosha.personB.mitigatingFactors">{{ result?.personBName }}: {{ factor }}</li></ul>
+                </div>
+                <div *ngIf="dosha.references.length"><h4>{{ 'compatibility.basisAndReferences' | transloco }}</h4><ul><li *ngFor="let reference of dosha.references">{{ reference }}</li></ul></div>
+                <div *ngIf="dosha.parasharaReference as source" class="parashara-reference">
+                  <h4>{{ 'compatibility.parasharaSource' | transloco }} · {{ source.sourceText }}, {{ 'compatibility.chapter' | transloco }} {{ source.chapter }}:{{ source.verses }}</h4>
+                  <p><strong>{{ 'compatibility.simpleMeaning' | transloco }}:</strong> {{ source.simpleMeaning }}</p>
+                  <p *ngIf="source.scopeNote"><strong>{{ 'compatibility.scopeNote' | transloco }}:</strong> {{ source.scopeNote }}</p>
+                  <p *ngIf="source.editionNote"><strong>{{ 'compatibility.editionNote' | transloco }}:</strong> {{ source.editionNote }}</p>
+                  <details *ngIf="source.sanskrit || source.transliteration"><summary>{{ 'compatibility.originalVerse' | transloco }}</summary><p *ngIf="source.sanskrit" lang="sa">{{ source.sanskrit }}</p><p *ngIf="source.transliteration"><em>{{ source.transliteration }}</em></p></details>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+      </ng-container>
+      <ng-template #noActiveRemedies><p>{{ 'compatibility.noActiveRemedies' | transloco }}</p></ng-template>
+      <section class="practical-remedy-steps"><h3>{{ 'compatibility.practicalSteps' | transloco }}</h3><ul><li>{{ 'compatibility.practicalStepCommunication' | transloco }}</li><li>{{ 'compatibility.practicalStepExpectations' | transloco }}</li><li>{{ 'compatibility.practicalStepSupport' | transloco }}</li></ul></section>
+      <footer><button type="button" class="outline-btn" (click)="closeDetailedRemedies()">{{ 'compatibility.closeDetails' | transloco }}</button></footer>
+    </section>
+  </div>
 
   <div class="cosmic-export-overlay" *ngIf="exportingPdf" role="status" aria-live="polite" [attr.aria-label]="'compatibility.preparingCompatibilityPdf' | transloco">
     <div class="cosmic-orbit-loader navagraha-loader" aria-hidden="true">

@@ -66,5 +66,10 @@ public class KundaliConfiguration : IEntityTypeConfiguration<Kundali>
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        entity.HasOne(x => x.Client)
+            .WithMany(x => x.Kundalis)
+            .HasForeignKey(x => x.ClientId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

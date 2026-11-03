@@ -25,14 +25,6 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
         "qa",
     };
 
-    private static readonly Dictionary<string, string> ModeInstructions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["janma_story"] = "Narrate the birth chart from the supplied evidence. Skip anything absent.",
-        ["dasha_focus"] = "Explain the current Mahadasha and Antardasha from the supplied evidence, including the period influence words that are present, then the Mahadasha periods that have not ended. Skip anything absent.",
-        ["compatibility"] = "Explain the match from the factors in the supplied evidence. Do not invent a match score. Skip anything absent.",
-        ["qa"] = "Answer only the question. If it asks when, use timingWindows only: name the nearest window with its dates and influence, then the stronger window when it is present. Do not invent a second window. Do not repeat the same dates. Never mention a date before today. When a window has only an end date, say by that date. Use the supplied period influence words when they are present. Skip anything absent.",
-    };
-
     private readonly HttpClient _httpClient;
     private readonly DhruvaNarrationOptions _options;
     private readonly IWebHostEnvironment _environment;
@@ -53,7 +45,8 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
     public async Task<DhruvaNarrateResponseDto> NarrateAsync(DhruvaNarrateRequestDto request, CancellationToken cancellationToken)
     {
         var mode = request.Mode.Trim().ToLowerInvariant();
-        var profile = DhruvaToneProfile.Resolve(request.Tone);
+        var promptCatalog = LoadPromptCatalog();
+        var profile = promptCatalog.ResolveTone(request.Tone);
         var today = DateTime.UtcNow.Date;
         var facts = DhruvaEvidenceSelector.OmitPastDates(
             DhruvaEvidenceSelector.Trim(
@@ -64,7 +57,7 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
         var feeling = profile.Tone == "corporate"
             ? null
             : DhruvaQuestionFeeling.Classify(request.Question);
-        var userMessage = BuildUserMessage(mode, locale, request.Question, profile, facts, feeling);
+        var userMessage = BuildUserMessage(mode, locale, request.Question, profile, facts, feeling, promptCatalog.GetModeInstruction(mode));
         var payload = new ChatCompletionRequest
         {
             Model = _options.Model,
@@ -73,7 +66,7 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
             ReasoningEffort = UsesReasoningEffort ? _options.ReasoningEffort.Trim() : null,
             Messages =
             [
-                new { role = "system", content = ComposeSystemPrompt(profile) },
+                new { role = "system", content = ComposeSystemPrompt(promptCatalog.SystemPrompt, profile) },
                 new { role = "user", content = userMessage },
             ],
         };
@@ -83,7 +76,9 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
             using var response = await _httpClient.PostAsJsonAsync(ChatCompletionsUri(), payload, cancellationToken);
             if (!response.IsSuccessStatusCode)
             {
-                throw new DhruvaNarrationUnavailableException("Chart narration is unavailable right now.");
+                throw new DhruvaNarrationUnavailableException(
+                    "Chart narration is unavailable right now.",
+                    upstreamStatusCode: (int)response.StatusCode);
             }
 
             await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -216,7 +211,7 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
         return new Uri($"{baseUrl}/chat/completions");
     }
 
-    private string LoadSystemPrompt()
+    private DhruvaPromptCatalog LoadPromptCatalog()
     {
         var path = _options.SystemPromptPath;
         if (!Path.IsPathRooted(path))
@@ -224,18 +219,15 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
             path = Path.Combine(_environment.ContentRootPath, path);
         }
 
-        return File.Exists(path)
-            ? File.ReadAllText(path)
-            : DhruvaToneProfile.Template;
+        return DhruvaPromptCatalog.Load(path);
     }
 
     private bool UsesReasoningEffort =>
         _options.Model.Contains("gpt-oss", StringComparison.OrdinalIgnoreCase)
         && !string.IsNullOrWhiteSpace(_options.ReasoningEffort);
 
-    private string ComposeSystemPrompt(DhruvaToneProfile profile)
+    private static string ComposeSystemPrompt(string template, DhruvaToneProfile profile)
     {
-        var template = LoadSystemPrompt();
         if (template.Contains("{{TONE_PROFILE}}", StringComparison.Ordinal))
         {
             return template
@@ -252,11 +244,8 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
             """;
     }
 
-    private static string BuildUserMessage(string mode, string? locale, string? question, DhruvaToneProfile profile, string evidence, string? feeling)
+    private static string BuildUserMessage(string mode, string? locale, string? question, DhruvaToneProfile profile, string evidence, string? feeling, string instruction)
     {
-        var instruction = ModeInstructions.TryGetValue(mode, out var text)
-            ? text
-            : ModeInstructions["qa"];
         var language = ResolveResponseLanguage(null, locale);
         var questionLine = string.IsNullOrWhiteSpace(question)
             ? "Question: Narrate the supplied evidence."

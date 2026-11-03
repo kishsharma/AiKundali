@@ -35,13 +35,15 @@ public class AuditLogService : IAuditLogService
                 Action = entry.Action.Trim(),
                 Category = entry.Category.Trim(),
                 UserId = userId,
-                UserName = FirstNonEmpty(entry.UserName, user?.FindFirstValue(ClaimTypes.Name), user?.FindFirstValue(ClaimTypes.Email)),
+                UserName = entry.CaptureUserName
+                    ? FirstNonEmpty(entry.UserName, user?.FindFirstValue(ClaimTypes.Name), user?.FindFirstValue(ClaimTypes.Email))
+                    : null,
                 EntityType = TrimOrNull(entry.EntityType),
                 EntityId = TrimOrNull(entry.EntityId),
                 Description = TrimOrNull(entry.Description),
-                IpAddress = httpContext?.Connection.RemoteIpAddress?.ToString(),
-                UserAgent = httpContext?.Request.Headers.UserAgent.ToString(),
-                RequestPath = httpContext?.Request.Path.Value,
+                IpAddress = entry.CaptureRequestContext ? httpContext?.Connection.RemoteIpAddress?.ToString() : null,
+                UserAgent = entry.CaptureRequestContext ? httpContext?.Request.Headers.UserAgent.ToString() : null,
+                RequestPath = entry.CaptureRequestContext ? httpContext?.Request.Path.Value : null,
                 Status = string.IsNullOrWhiteSpace(entry.Status) ? "Success" : entry.Status.Trim(),
                 FailureReason = TrimOrNull(entry.FailureReason)
             };

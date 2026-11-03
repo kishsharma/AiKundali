@@ -193,13 +193,13 @@
 <div class="rashifal-columns">
       <section class="rashi-picker-section rashifal-rashi-column">
         <div class="section-heading">
-          <div><span class="eyebrow">EXPLORE THE ZODIAC</span><h3>All 12 Rashis</h3></div>
+          <div><span class="eyebrow">{{ 'horoscope.exploreZodiac' | transloco }}</span><h3>{{ 'horoscope.allRashis' | transloco }}</h3></div>
           
         </div>
         <div class="rashi-grid">
           <button type="button" class="rashi-card rashi-select-card" *ngFor="let item of rashifal.items" [ngClass]="toneClass(item.tone)" [class.highlighted]="selectedRashiName === item.englishName" [attr.aria-pressed]="selectedRashiName === item.englishName" (click)="selectRashi(item)">
             <span class="mini-zodiac" aria-hidden="true"><img [src]="rashiIconPath(item)" alt="" /></span>
-            <span class="rashi-select-copy"><strong>{{ indianRashiName(item) }}</strong><small>{{ item.englishName }} · {{ item.tone }}</small></span>
+            <span class="rashi-select-copy"><strong>{{ indianRashiName(item) }}</strong><small>{{ toneLabel(item.tone) }}</small></span>
             <span class="mini-score">{{ item.score }}</span>
             <span class="mini-score-track"><i [style.width.%]="item.score"></i></span>
           </button>
@@ -215,10 +215,10 @@
       <div class="rashifal-life-column">
         <ng-container *ngIf="selectedRashi as item">
           <section class="insights-section">
-            <div class="section-heading"><div><span class="eyebrow">YOUR COSMIC OUTLOOK</span><h3>Life areas</h3></div><span class="section-date">{{ formatRashifalDate(rashifal.from) }}<ng-container *ngIf="rashifal.to !== rashifal.from"> — {{ formatRashifalDate(rashifal.to) }}</ng-container></span></div>
+            <div class="section-heading"><div><span class="eyebrow">{{ 'horoscope.cosmicOutlook' | transloco }}</span><h3>{{ 'horoscope.areas' | transloco }}</h3></div><span class="section-date">{{ formatRashifalDate(rashifal.from) }}<ng-container *ngIf="rashifal.to !== rashifal.from"> — {{ formatRashifalDate(rashifal.to) }}</ng-container></span></div>
             <div class="insight-grid">
               <article class="insight-card" *ngFor="let area of item.areas" [ngClass]="toneClass(area.tone)">
-                <span class="insight-mark">✧</span><div><span class="insight-name">{{ area.key }}</span><p>{{ area.line }}</p></div>
+                <span class="insight-mark">✧</span><div><span class="insight-name">{{ areaLabel(area.key) }}</span><p>{{ area.line }}</p></div>
               </article>
             </div>
           </section>

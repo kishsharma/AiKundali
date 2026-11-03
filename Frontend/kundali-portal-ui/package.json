@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "check:i18n": "node scripts/check-i18n-keys.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

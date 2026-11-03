@@ -2,9 +2,10 @@
 
 > **Canonical roadmap source of truth**  
 > Repository: `kishsharma/AiKundali`  
-> Branch reviewed: `main`  
-> Last verified: **2026-08-04**  
-> Verified source commit: `3a20cd392915de84af0aee241a2c3d7b56e64440`  
+> Branch reviewed: `GoogleSingleSignIn`
+> Last verified: **2026-11-01**
+> Verified source commit: `8c207064f45113072c8331e9ced1a63b42dec1e6`
+> Working-tree note: 98 tracked paths and 45 untracked paths are changed, plus local build/output artifacts. Findings distinguish checked-in evidence from current worktree implementation; worktree changes are not release-ready until reviewed, committed, and verified.
 > Product owner: **Kishore Sharma**  
 > Status owner: HoraLife development team
 
@@ -68,43 +69,44 @@ Backend-only completion must always be labelled explicitly.
 
 ## 3. Current product snapshot
 
-**Current product version:** `v0.8.0-alpha.1` — Core Platform Baseline
+**Current formal product version:** `v0.8.0-alpha.1` — Core Platform Baseline
+**Release state:** No formal product release tag is present. The repository does not yet prove a go-live-ready V1.0 release.
 
 ### Overall assessment
 
-HoraLife is a substantial working astrology platform with a strong calculation and report foundation. The core Kundali, Compatibility, Dasha, authentication, report sharing, Current Life Focus, and Store backend milestones are implemented.
+HoraLife is a substantial working Vedic astrology platform with core chart generation, saved Kundalis, compatibility, Dasha, reports, and a deterministic prediction engine in the current source tree. The earlier sprint description that calls Prediction Engine V1 a skeleton is stale: the engine now has seven life-area implementations and is called by premium Kundali generation. Its commercial report productization and validation are still incomplete.
 
-The platform is **not yet the final premium prediction product** because the frozen generic Prediction Engine V1 remains at skeleton stage.
+**Go-live assessment: NOT READY.** The approved alpha → beta → RC → stable release path has not been completed. Major outstanding gates include correct birth-time-zone handling in core report flows, reproducible CI/build/test evidence, broad calculation and PDF validation, production security/configuration review, multilingual/content completion, and the finished premium report experience. KP astrology is explicitly deferred to a later product version and is not V1 scope.
 
 ### Readiness summary
 
 | Product layer | Current assessment |
 |---|---|
-| Astrology calculation foundation | **Strong / substantially complete** |
-| Core Kundali report flow | **Release-candidate quality with listed gaps** |
-| Compatibility flow | **Functionally complete; final domain-safety validation required** |
-| Dasha timing flow | **Complete through Pratyantardasha** |
-| Premium deterministic prediction | **Not implemented** |
-| Learning product | **Platform complete; course content and completion workflow incomplete** |
-| Store | **Backend milestone complete; customer product parked** |
-| Production engineering | **Needs CI and broader automated regression coverage** |
+| Vedic calculation and Kundali flow | **Substantial implementation; timezone and regression gates remain** |
+| Compatibility / Dasha | **Core flows exist; domain, boundary, and report-sharing validation remain** |
+| Deterministic Prediction Engine | **Seven areas implemented in source; hardening and premium product integration remain** |
+| Multilingual experience | **English, Hindi, and Kannada JSON key parity passes; route/report copy and locale UX remain to be verified** |
+| Learning / Muhurtha / Panchang | **Partial product scope; unfinished features must be explicitly cut or completed for V1** |
+| Production engineering | **Not release-ready: backend/API and Angular builds pass; production database, security, and deployed evidence remain outstanding** |
+| Worktree / release evidence | **Not clean; 143 changed paths plus local build/output artifacts need review and integration** |
 
 ---
 
 ## 4. Active sprint
 
-# Sprint: Prediction Engine V1 — Career Foundation
+# Active milestone: V1 Go-live readiness
 
-**Sprint status:** ACTIVE  
-**Started:** 2026-08-04  
-**Target end:** To be scheduled  
-**Priority:** P0 — primary product milestone
+**Milestone status:** ACTIVE — product hardening and release definition
+**Reviewed:** 2026-11-01
+**Priority:** P0 — finish and stabilize the agreed V1 product; do not open KP or another major vertical
 
 ### Sprint goal
 
-Implement the smallest valid deterministic Career prediction slice using the frozen Prediction Engine V1 architecture. The output must be based on calculated Kundali facts and explicit evidence, not generic or AI-generated astrology text.
+Complete the agreed commercial V1 using the existing Vedic system and the prediction/report scope already in the repository. Close correctness, quality, security, UX, release, and operational gates before introducing new astrology systems. KP remains next-version work.
 
-### Frozen architecture to implement
+### Prediction architecture status
+
+The architecture below is implemented in the current source tree as an early milestone. The remaining work is validation, hardening, and product integration, not restarting the architecture.
 
 - one common `PredictionContext` mapped once from Kundali Engine data;
 - one generic `PredictionRequest` supporting report mode and custom-question mode;
@@ -116,47 +118,65 @@ Implement the smallest valid deterministic Career prediction slice using the fro
 - evidence and contradiction validation;
 - AI narration only as a later wording/presentation layer.
 
-### Sprint backlog
+### Go-live board
 
-- [ ] Define the final common `PredictionContext` contract.
-- [ ] Implement one mapper from normalized Kundali data to `PredictionContext`.
-- [ ] Define generic `PredictionRequest` and request modes.
-- [ ] Define `PredictionAreaProfile` and Career profile configuration.
-- [ ] Define generic claim, evidence, confidence, timing, and result contracts.
-- [ ] Implement deterministic Career rule evaluation.
-- [ ] Include natal promise before timing.
-- [ ] Include house, house lord, Karaka, strength, Yoga/Dosha activation, MD/AD/PD, and Gochar modifiers.
-- [ ] Add contradiction and unsupported-claim validation.
-- [ ] Expose a real Prediction API endpoint.
-- [ ] Connect the Career result to a minimal UI or verified API consumer.
-- [ ] Add focused automated tests with known Kundali samples.
-- [ ] Validate results against multiple saved charts.
-- [ ] Document what AI narration may and may not change.
+| Workstream | Current evidence/status | V1 exit condition |
+|---|---|---|
+| Vedic Kundali core | **Implemented; current behavior is India/IST.** Kundali, Dasha, and Compatibility convert entered birth times as IST; location search defaults to India. The Kundali request now binds a public `TimeZoneOffset` with a 5.5-hour default, and the UI sends `5.5` (not `5.30`); JSON binding has a regression test. Worldwide birth-time support is not implemented. | Confirm India/IST as the V1 support boundary; validate chart, Panchang, and Dasha fixtures for historical and day-boundary cases. If worldwide birth locations are required, add location time-zone IDs end to end before release. |
+| Duplicate saved Kundalis | **Implemented in current source.** Save endpoint supports ask/create/reuse/update behavior through `KundaliBirthMatcher`. | Review concurrency/ownership behavior and verify API/UI duplicate scenarios; code presence alone does not prove release completion. |
+| Prediction Engine V1 | **Implemented in source for seven areas and included for premium Kundali generation.** The custom-question endpoint rejects DateRange requests. | Freeze supported V1 request modes and validate advertised predictions for deterministic, explainable, conservative results across saved-chart fixtures. |
+| Prediction hardening | **PARTIAL per 2026-08-08 checkpoint.** Dasha weighting, Gochar modifiers in generic synthesis, broader contradiction/confidence validation, and premium integrated report remain follow-up. | Decide which items are required for the V1 promise; finish required work and remove/defer unsupported claims from product surfaces. |
+| Premium report | **PARTIAL.** Kundali PDF/email paths exist, but prediction synthesis/narration and the final premium report contract are not proven complete. | Finalize report content/entitlements, preserve evidence traceability, verify all PDF modes and email delivery end to end. |
+| Multilingual portal | **PARTIAL — infrastructure and dictionary parity pass; screen coverage does not.** English/Hindi/Kannada selection and persisted preference exist; all 2,339 dictionary paths match. Source audit found user-facing English literals in public landing, Kundali/Compatibility report views, account security, audit logs, Dhruva chat history, consultation, company/legal, and CRM screens. Backend validation/error messages and HTML/PDF report headings are also largely English; generated report services have no locale-aware label path. | V1 should define which surfaces are localized. Translate all V1 route/report text, localize API errors, add locale-aware PDF/email output, and add static key-reference coverage checks. |
+| Product UX/mobile | **PARTIAL / unverified.** Alpha.3 polish is still in the version plan; current uncommitted changes need review. | Complete critical first-use, report-open, save/reopen, loading/error, and mobile flows with product-owner acceptance. |
+| Compatibility and Dasha | **Core flows implemented; safety/report completion remains.** Dedicated Compatibility report sharing and Dasha PDF/email are not fully verified. | Validate scoring language and timing boundaries; finish or explicitly exclude dedicated report-sharing promises from V1. |
+| Muhurtha, Panchang, Learning | **Partial product scope.** Muhurtha lists unsupported rules; standalone Panchang and learning progress/content remain incomplete. | Decide which modules are in the V1 promise. Complete included flows or explicitly defer them from V1 navigation and marketing. |
+| CI and regression | **PARTIAL — workflow added in worktree; local checks pass.** `.github/workflows/ci.yml` defines backend build/xUnit tests, Current Life Focus and Learning console checks, Angular production build, locale-key parity, and a PostgreSQL CRM schema/controller-authorization job. Backend solution build succeeds (0 errors); Angular production build succeeds; locale parity passes (2,339 keys in HI and KN); xUnit passes 146/146; Current Life Focus passes 13/13; Learning passes 10/10. The CRM harness compiles but database checks and the workflow have not run remotely. | Run PostgreSQL CI checks, confirm workflow, and add deeper Kundali/timezone/PDF acceptance coverage. |
+| Security and operations | **NOT VERIFIED.** Production secret/config review, deployed PDF/email, migration/recovery, monitoring, and rollback evidence are absent from this repository review. | Complete the production checklist against the target environment: secrets, authorization, migrations/backups, logs/alerts, and rollback. |
+| Source/release hygiene | **NOT READY.** 98 tracked and 45 untracked paths are changed; local build/output artifacts are also untracked, and no release tag is recorded. | Review and commit intended changes, exclude local outputs, resolve migrations/config, cut a clean RC, then tag only after acceptance gates pass. |
 
-### Definition of done
+### V1 scope-control decision
 
-The Career slice is complete only when:
+- Finish the existing Vedic product and agreed prediction/report experience; do not start KP, horary, or another major vertical in V1.
+- Practitioner CRM (clients, appointments, reminders, and in-app notifications) is explicitly included in V1 per product-owner decision. Treat its current worktree implementation as in progress until schema, authorization/ownership, reminder behavior, and end-to-end acceptance are verified.
+- Store customer UI/payments, Android, Vastu, and other parked modules stay out of scope unless explicitly added to the V1 launch promise.
+- For each partial module, decide whether it is part of the public V1 promise. If excluded, defer it cleanly and document the boundary.
+- Keep the approved sequence: multilingual and UX completion → core beta safety → controlled RC/feature freeze → production approval → stable release. Version changes require evidence and product-owner approval.
 
-1. the builder no longer returns an empty result;
-2. a generic engine is used rather than a Career-only architecture;
-3. each conclusion contains traceable evidence;
-4. timing distinguishes Mahadasha, Antardasha, Pratyantardasha, and Gochar roles;
-5. unsupported conclusions are rejected or downgraded;
-6. repeat execution with the same context produces the same factual result;
-7. tests cover positive, mixed, contradictory, and insufficient-evidence cases;
-8. the result is available through an actual API flow;
-9. AI is not required for factual correctness.
+### Current worktree feature inventory and V1 disposition
 
-### Explicitly out of this sprint
+| Worktree change | Current status | Recommended V1 treatment |
+|---|---|---|
+| Kundali report/UI, chart, Yoga/Dosha, remedies and PDF updates | **PARTIAL — implemented in current worktree.** API and Angular production builds pass; PDF/visual and calculation acceptance are not proven. | **Include core report behavior** if this is the V1 promise. Review every changed report section, verify PDF/email modes, and avoid shipping new deterministic narrative until its rules and translations are approved. |
+| Premium report additions (personality, life-area readings, two-year outlook) | **PARTIAL — builder and PDF paths added.** The deterministic personality heuristics and copy do not yet have expert/content validation evidence. | **V1 candidate**, because premium reporting is a stated product goal; keep each section gated or omit it until astrologer/content review, timing validation, and PDF pagination/locale checks pass. |
+| Compatibility relationship-house analysis and UI | **PARTIAL — new chart-derived analysis and presentation are present.** Updated result model and controller mapping need saved/reopen and regression verification. | **Include the existing Compatibility product** in V1; treat the added house-analysis layer as optional until domain validation and marriage-safety review are complete. |
+| Standalone Panchang calendar | **IMPLEMENTED in current source.** API supports calendar, daily/range, and eclipse endpoints; UI has daily/weekly/monthly calendar and location selection. | **Include core Panchang** if advertised, but validate sunrise/day boundaries, location time zones, month transitions, and eclipse visibility before launch. This replaces the old “empty controller / coming soon” status. |
+| Muhurtha | **PARTIAL — established API/UI exist with known unsupported rules.** | **Include only within validated event/rule coverage**; show unsupported conditions clearly and avoid claiming full classical coverage. |
+| Numerology localization and report UI changes | **PARTIAL — current UI uses translation keys for more result copy and Lo Shu interpretation.** Locale completeness and the revised content are unverified. | Include only if Numerology is in the V1 sales/menu promise; otherwise defer the vertical cleanly. If included, audit response copy and translation parity. |
+| Consultation sketch/whiteboard moved to global overlay | **PARTIAL — code was moved from the Consultation page into a shared overlay.** No interaction/export regression evidence yet. | **Keep if the existing practitioner consultation flow is in V1**; verify drawing, chart switching, undo/redo, zoom, and export on desktop/mobile. |
+| Gyan Kosha learning map/reference browser | **PARTIAL — new multilingual map JSON, API reference endpoints, route, and page exist.** Lesson-ID integrity is checked by the content service, but user completion/progress remains absent. | **Defer as an enhancement by default.** Keep Level 1 learning only if it is an explicit V1 commitment; do not let the new reference browser block core astrology go-live. |
+| Practitioner CRM: clients, linked charts, consultations, and dashboard | **PARTIAL — included in V1 by product-owner decision.** New Premium Plus API/UI/models are present; appointment cancellation has active-state handling, idempotent repeat cancellation, a visible action, and 5 validation cases in the Muhurtha test project. The PostgreSQL CRM harness now invokes real controller methods to check cross-account client read/update, appointment cancellation ownership, and Premium Plus denial; solution build succeeds. Local database execution is unavailable, so these and schema checks await CI. Overlap behavior acceptance and full user-flow acceptance remain unverified. | **V1 scope.** Run the PostgreSQL CI harness; verify cancellation/edit/complete and appointment timezone behavior; perform role/plan end-to-end acceptance. |
+| CRM reminders and in-app notifications | **PARTIAL — included in V1 with CRM.** Hosted reminder worker, notification API, and UI are present. Multi-instance delivery, retention, retry/idempotency, and production scheduling remain unverified. | Validate reminder timing and duplicate suppression, notification read/dismiss behavior, retention, and worker operations in a production-like environment. |
+| Anonymous usage activity events | **PARTIAL — rate-limited event endpoint and frontend tracking service exist.** Privacy/retention and consent/product analytics policy are not recorded. | **Do not make a launch feature.** Include only after privacy, retention, and data-access rules are approved; otherwise disable/remove from the V1 release. |
+| Dhruva prompt catalog and chart facts | **PARTIAL — prompt loading, tone rules, and expanded chart-fact selection are in the current tree.** Tests use the production prompt file and `DhruvaPromptCatalog.ResolveTone`; included in the passing 106-test prediction/report suite. | **Keep existing assistant only if promised in V1.** Review provider failure behavior and fact boundaries; defer new AI scope if it is not essential to the launch promise. |
+| Worktree artifacts | **Not product work.** `.build-check*`, `output/`, and `restore-diagnostic.log` are local artifacts. | Exclude from V1 source/release and review ignore/cleanup policy separately. |
 
-- Marriage, finance, health, education, children, and other prediction areas;
-- open-ended AI questions;
-- full premium report narration;
-- Dhruva implementation;
-- Store UI or payments;
-- Android app;
-- Vastu consultation;
-- Learning Level 2.
+### Recommended V1 boundary for planning
+
+- **Core launch:** Vedic Kundali generation and saved reports; validated Compatibility and Dasha; Panchang and supported Muhurtha flows; Practitioner CRM client/appointment/reminder/notification flows; authentication, billing/entitlements, sharing, and the premium report promise actually sold to users.
+- **Conditional V1 commitments:** Numerology, Learning Level 1, Dhruva, and practitioner consultation tools only if these are part of the launch marketing or paid-plan promise. Each needs its own acceptance evidence.
+- **Default post-V1:** KP astrology, CRM expansion beyond the agreed client/appointment/reminder scope, Gyan Kosha, analytics, and prediction/report sections that have not passed content, privacy, and runtime validation.
+- **Release blockers regardless of scope:** hardcoded IST in core birth chart/Compatibility/Dasha entry points unless supported regions are explicitly limited; incompatible backend tests; clean migrations/deployment path; full user-flow/security review; and a clean committed RC.
+
+### V1 release exit criteria
+
+V1 is ready only when included scope is frozen, critical flows pass in a production-like environment, calculations and reports are validated against reference cases, supported locale/time-zone limits are explicit, security/configuration and recovery are reviewed, CI is green, and a clean RC completes controlled user acceptance with no release-blocking defects.
+
+### Explicitly out of V1 scope
+
+- KP astrology and horary/prashna: next-version enhancement.
+- New astrology verticals or expansion beyond the agreed Vedic product scope.
+- Store customer UI/payments, Android, Vastu, and Learning Level 2 unless separately approved as V1 launch commitments.
 
 ---
 
@@ -174,7 +194,7 @@ The Career slice is complete only when:
 | White-label settings | **PARTIAL** | UI route exists. | Verify persistence, branding scope, tenant isolation, and production use case. |
 | Dashboard | **DONE — known gaps** | Authenticated dashboard and summary service exist. | Continue UX refinement as modules mature. |
 | Themes | **DONE** | Light and dark modes with persisted selection exist. | Remove stale references to the retired `hora` theme from documentation. |
-| Multilingual portal | **PARTIAL** | English, Hindi, and Kannada infrastructure/content exist in major areas. | Complete coverage across all screens; Marathi is not uniformly integrated. |
+| Multilingual portal | **PARTIAL** | EN/HI/KN Transloco infrastructure, language preference persistence, API term mappings, and selected localized prediction/Dhruva content exist. Dictionary key parity passes, but visible UI/API/report strings remain hardcoded English across multiple routes. | Complete V1 screen and report localization; localize API validation/errors; verify locale switching/persistence and add missing-reference detection. |
 
 ### 5.2 Kundali engine and report
 
@@ -228,16 +248,15 @@ The Career slice is complete only when:
 
 | Roadmap item | Status | Verified actual state | Remaining work / completion condition |
 |---|---|---|---|
-| Prediction Engine project | **SKELETON** | Dedicated project and Career models exist. | Implement the frozen generic architecture. |
-| Prediction API | **SKELETON** | `PredictionController` exists but has no endpoints. | Implement real request/response flow. |
-| Career prediction | **SKELETON** | Career builder currently returns an empty result. | Active sprint. |
-| Common `PredictionContext` | **PLANNED** | Not present in final frozen form. | Active sprint. |
-| Generic request modes | **PLANNED** | Report/custom-question request model not implemented. | Active sprint. |
-| Deterministic claims and evidence | **PLANNED** | Not implemented in the new engine. | Active sprint. |
-| Contradiction/claim validation | **PLANNED** | Not implemented. | Active sprint. |
-| Past/current/future range handling | **PLANNED** | Dasha calculations exist, but generic prediction-range orchestration is not implemented. | Active sprint. |
-| AI narration layer | **PARKED** | Architectural boundary is approved; implementation intentionally deferred. | Start only after deterministic results are stable. |
-| Premium integrated report | **PLANNED** | Detailed data report exists, but final synthesis/prediction layer is missing. | Complete Prediction Engine and report narration contract. |
+| Prediction Engine project | **PARTIAL — implementation exists** | Generic context, request/result pipeline, and seven life-area rule services exist. | Harden and complete V1 report integration; do not restart architecture. |
+| Prediction API | **PARTIAL** | Authorized custom-question endpoint exists; it rejects DateRange requests. Kundali generation invokes report mode for seven premium areas. | Complete/clarify advertised request modes and validate API behavior. |
+| Seven V1 life areas | **IMPLEMENTED — validation pending** | Career, Finance, Relationships, Education, Family, Property, and Health are generated for premium Kundali reports per August checkpoint and current controller. | Validate results and wording across chart fixtures; keep Health conservative. |
+| Common `PredictionContext` | **IMPLEMENTED** | Mapper is used by Kundali report generation and question API. | Freeze compatibility contract and test missing/legacy fields. |
+| Deterministic claims and evidence | **IMPLEMENTED — hardening pending** | Area services produce claim structures and evidence; checkpoint records traceability. | Confirm evidence completeness and repeatability across fixtures. |
+| Contradiction/confidence validation | **PARTIAL** | Basic mixed-tone consolidation exists; checkpoint identifies generalized validation and advanced confidence/weighting as unfinished. | Complete agreed validation and confidence limits before commercial claims. |
+| Past/current/future range handling | **PARTIAL** | Dasha selector supports date ranges internally, but custom-question API explicitly rejects DateRange. | Decide V1 date-range promise and complete the public flow if included. |
+| AI narration layer | **PARKED / incomplete** | Deterministic synthesis feasibility exists; product narration integration is not verified. | Add only after factual outputs and content boundaries are frozen. |
+| Premium integrated report | **PARTIAL** | Premium Kundali response includes predictions; report service is Vedic-response-specific and final synthesis integration is not verified. | Finalize contract, UI/PDF/email presentation, and entitlement behavior. |
 
 ### 5.6 Current Life Focus and Gochar
 
@@ -252,9 +271,9 @@ The Career slice is complete only when:
 
 | Roadmap item | Status | Verified actual state | Remaining work / completion condition |
 |---|---|---|---|
-| Standalone daily Panchang API | **SKELETON** | `PanchangController` is empty. | Implement date/location request and response. |
-| Standalone daily Panchang UI | **SKELETON** | Page explicitly shows “coming soon.” | Build complete day view. |
-| Monthly Panchang | **PLANNED** | No complete monthly calendar flow exists. | Implement after daily API. |
+| Standalone Panchang API | **IMPLEMENTED — validation pending** | Calendar, daily, range, and eclipse endpoints exist in `PanchangController`. | Validate astronomical/day-boundary results and supported location time zones. |
+| Standalone Panchang UI | **IMPLEMENTED — polish/validation pending** | Page supports location search and daily/weekly/monthly calendar modes. | Complete end-to-end locale and responsive checks. |
+| Monthly Panchang | **IMPLEMENTED — regression pending** | Calendar range requests and month navigation are wired in the UI. | Verify month/year transitions and server range limits. |
 | Rahukal/Choghadiya free tools | **PARTIAL** | Related calculation concepts exist in Muhurtha. | Expose dedicated user tools with validated timings. |
 | Muhurtha API | **DONE — known gaps** | Candidate generation, rule evaluation, scoring and recommendation endpoint exist. | Complete missing classical calculations. |
 | Muhurtha UI | **DONE — known gaps** | Search, location, personalization, filters, card/table/Panchang views and rule evidence exist. | UX validation and remaining rule coverage. |
@@ -268,6 +287,7 @@ The Career slice is complete only when:
 |---|---|---|---|
 | Learning API/platform | **DONE** | Level/session APIs, language resolution, fallback, glossary and schema validation exist. | Add persistence and progress APIs. |
 | Learning UI | **DONE — known gaps** | Level and session routes/components exist. | Progress, locking and completion UX. |
+| Gyan Kosha reference map | **PARTIAL — new worktree feature** | Multilingual knowledge-map data, API endpoints, reference detail loading, and a dedicated route/page exist. | Validate all referenced lesson IDs/content and responsive/language behavior; decide if it is in V1. |
 | Level 1 structure | **DONE** | Fifteen-session manifest exists. | Reconcile manifest status with actual files. |
 | Level 1 content | **PARTIAL** | Substantial EN/HI/KN content exists; manifest still marks the level draft and sessions planned/in-progress. | Complete content review, metadata reconciliation and final validation. |
 | Bonus Bridge | **PARTIAL** | Session 16 content exists; manifest remains in progress. | Final review and mark complete. |
@@ -281,8 +301,9 @@ The Career slice is complete only when:
 | Roadmap item | Status | Verified actual state | Remaining work / completion condition |
 |---|---|---|---|
 | Product contract and roadmap | **DONE** | Detailed Dhruva documentation exists. | Keep aligned with repository changes. |
-| Static Kundali coverage | **PLANNED** | Approved scope exists in documentation. | Implement normalized safe fact coverage. |
-| Compact/expanded/floating UI | **PLANNED** | UX is approved but no verified production component exists. | Implement after current priority milestone. |
+| Static Kundali coverage | **PARTIAL** | Chart-fact builder and UI/API assistant surfaces exist; current work expands the fact set. | Validate facts, omissions, safe wording, and report/user context boundaries. |
+| Prompt catalog and tone profiles | **PARTIAL — current worktree** | Prompt file/catalog refactor exists; tests resolve tone through `DhruvaPromptCatalog` and load the actual prompt file. Covered by the passing 107-test prediction/report suite. | Verify prompt fallback/provider errors, and review supported language/tone behavior. |
+| Compact/expanded/floating UI | **PARTIAL / unverified** | Assistant component exists and has current layout changes. | Verify opening, mobile positioning, language switching, and failure/loading behavior. |
 | Tours | **PLANNED** | Previously validated conceptually, but no final application implementation verified in current repository. | Re-implement/verify when Dhruva resumes. |
 | Janma Story | **PARKED** | Behaviour is designed; implementation not verified. | Resume in a later Dhruva phase. |
 | AI prediction/remedies | **PARKED / out of scope** | Explicitly not part of Dhruva MVP. | Do not implement without a new approved contract. |
@@ -320,7 +341,7 @@ The Career slice is complete only when:
 
 | Item | Status | Required action |
 |---|---|---|
-| GitHub Actions CI | **PLANNED — high priority** | Add backend build/tests and frontend build/tests for pull requests and main. |
+| GitHub Actions CI | **PARTIAL — worktree implementation** | Root `.github/workflows/ci.yml` builds the backend, runs xUnit plus the two console validation harnesses, checks locale-key parity, and builds the frontend on pull requests and pushes to `main` / `GoogleSingleSignIn`. Local checks pass; workflow has not run remotely yet. | Confirm workflow execution and adjust SDK/runtime from CI evidence. |
 | Automated Kundali regression tests | **PARTIAL** | Add fixed birth-chart reference samples for planets, ascendant, houses, Panchang and Dasha. |
 | Compatibility regression tests | **PLANNED** | Add Ashtakoota tables, Dosha comparison and dimension-score edge cases. |
 | Dasha regression tests | **PLANNED** | Add MD/AD/PD boundary and timezone tests. |
@@ -329,10 +350,12 @@ The Career slice is complete only when:
 | Learning tests | **PARTIAL** | Session loading and fallback tests exist; expand to all manifests/content files. |
 | Current Life Focus tests | **PARTIAL** | Dedicated tests/specs exist; keep aligned with metadata/rules. |
 | Global timezone support | **PARTIAL — important** | Remove hardcoded India Standard Time assumptions from Kundali, Compatibility and Dasha request handling. |
-| Duplicate Kundali save prevention | **PLANNED — important** | Add normalized identity/fingerprint rule and return existing record or conflict. |
+| Duplicate Kundali save prevention | **IMPLEMENTED — verification pending** | Current save endpoint uses `KundaliBirthMatcher` and supports ask/create/reuse/update outcomes. Verify concurrent requests, ownership, and UI recovery behavior before beta. |
 | Duplicate DI registration | **PLANNED cleanup** | `AddInfrastructure` is registered twice in `Program.cs`; remove duplication after validation. |
 | Default sample controller | **PLANNED cleanup** | Remove unused `WeatherForecastController`. |
-| API authorization consistency | **PLANNED review** | Decide which calculation endpoints are public vs authenticated and apply consistently. |
+| API authorization consistency | **PLANNED review** | Review existing public/authenticated routes and the new anonymous usage-event endpoint; document data minimization, privacy, and rate-limit policy. |
+| CRM database deployment | **PARTIAL — shared idempotent SQL and CI harness added in worktree.** EF migrations and startup bootstrap now call a common schema SQL definition. The PostgreSQL harness covers fresh creation, upgrade from pre-expansion tables (including legacy Scheduled status), repeated bootstrap, controller ownership, and entitlement gating. Local run skipped because `CRM_SCHEMA_TEST_CONNECTION` and PostgreSQL are unavailable. | Run the PostgreSQL job successfully in CI; then verify migration history/startup behavior against the target deployment database and backup/rollback procedure before CRM launch. |
+| PostgreSQL driver security | **PATCHED IN WORKTREE; audit not fully verified.** Restore surfaced Npgsql 8.0.0 as affected by GHSA-x9vc-6hfv-hg8c. Direct Npgsql references are now 8.0.9 and EF provider/Core packages are aligned at 8.0.10. NuGet vulnerability-feed connectivity remains unavailable in this environment. | Run CI restore/security audit with feed access, confirm the resolved dependency graph contains no affected Npgsql version, and review all other dependency advisories. |
 | Generic report abstraction | **PLANNED** | Support Kundali, Compatibility, Dasha and future premium report contracts cleanly. |
 | Documentation drift | **PARTIAL** | Update stale theme, module and status references as code changes. |
 
@@ -342,12 +365,12 @@ The Career slice is complete only when:
 
 ### Milestone A — Core report beta
 
-**Status:** NEARLY READY
+**Status:** NOT READY — release gates remain unverified
 
 Required before declaring ready:
 
-- [ ] Add duplicate Kundali save prevention.
-- [ ] Fix global timezone handling or explicitly limit beta to IST/India.
+- [ ] Verify duplicate Kundali handling, including concurrent save and client ownership cases.
+- [ ] Fix global timezone handling or explicitly limit beta to IST/India in product, API, and deployment documentation.
 - [ ] Run frontend and backend production builds.
 - [ ] Execute calculation regression samples.
 - [ ] Verify PDF/email in deployed environment.
@@ -356,17 +379,16 @@ Required before declaring ready:
 
 ### Milestone B — Premium deterministic report V1
 
-**Status:** NOT READY
+**Status:** PARTIAL — seven-area engine exists; commercial report remains unfinished
 
 Required:
 
-- [ ] Complete Prediction Engine V1 Career slice.
-- [ ] Add additional approved life-area profiles.
-- [ ] Generate traceable deterministic claims.
-- [ ] Validate contradictions and confidence.
-- [ ] Integrate time ranges and Gochar modifiers.
-- [ ] Create premium report contract.
-- [ ] Add controlled narration/presentation layer only after factual freeze.
+- [x] Implement deterministic prediction paths for seven approved life areas in current source.
+- [x] Include prediction results in premium Kundali response.
+- [ ] Complete confidence/contradiction hardening and reference-chart validation.
+- [ ] Decide and implement V1 date-range and Gochar behavior.
+- [ ] Finalize premium report contract and UI/PDF/email integration.
+- [ ] Add controlled narration/presentation only after factual freeze, if required for the V1 promise.
 
 ### Milestone C — Learning Level 1 release
 
@@ -399,16 +421,13 @@ Required after reopening:
 
 Unless a new explicit decision is recorded, use this order:
 
-1. **Prediction Engine V1 — Career slice**
-2. Production safety fixes for the core report beta
-3. Generic/premium report integration
-4. Compatibility final safety validation
-5. Muhurtha missing-rule completion
-6. Learning Level 1 reconciliation and completion workflow
-7. Standalone daily/monthly Panchang
-8. Dhruva static MVP
-9. Store UI/payments/admin
-10. Vastu, Android and other parked modules
+1. **Freeze the V1 product promise and included modules; keep KP deferred.**
+2. Core calculation correctness, timezone boundaries, duplicate-save, and security fixes.
+3. CI, production builds, reference-chart regression, and PDF/email verification.
+4. Complete required premium prediction/report hardening and integration.
+5. Finish included multilingual and UX/mobile work; explicitly defer excluded modules.
+6. Controlled beta, RC feature freeze, production operations/recovery review, and stable release approval.
+7. Resume KP and other parked modules only after V1 release.
 
 ### Scope-control rule
 
@@ -458,6 +477,44 @@ Use the following structure for every sprint update.
 ---
 
 ## 10. Change log
+
+### 2026-11-01 — V1 go-live readiness board reconciled
+
+- Updated the verified source commit and recorded the extensive uncommitted working tree.
+- Replaced the stale Career-foundation sprint status with a V1 go-live readiness milestone.
+- Reconciled the stale Prediction Engine skeleton claim with the seven-area implementation documented in the August 8 checkpoint and currently wired into premium Kundali generation.
+- Recorded current release blockers and deferred KP astrology to the next product version.
+- Initial source-level review found the tree had not been validated. The current follow-up records actual build/test results below.
+
+### 2026-11-01 — Worktree inventory and verification update
+
+- Audited tracked and untracked worktree changes, including CRM/notifications/activity analytics, Gyan Kosha, Compatibility, report, Dhruva, Panchang, Numerology, and consultation UI work.
+- Updated Panchang from stale skeleton status to implemented API/UI with calculation and location validation still required.
+- Classified new worktree features by current implementation state and proposed V1 inclusion/deferment boundaries.
+- Angular production build succeeded with template and Sass warnings; API build succeeded with warnings.
+- Full backend solution test run is not green: modified Dhruva tests refer to removed `DhruvaToneProfile.Resolve` and VSTest aborts after a 90-second testhost connection timeout.
+
+### 2026-11-01 — V1 hardening started
+
+- Fixed Dhruva tests to use the new prompt catalog and the production prompt file; adjusted PDF hierarchy assertions and fixtures to match current sections and premium additions.
+- Added `.github/workflows/ci.yml` for backend build/xUnit tests, Current Life Focus and Learning console checks, and frontend production builds on pull requests and the `main` / `GoogleSingleSignIn` branches.
+- Made the India/IST offset bindable and consistent: Kundali UI sends `5.5`, request model defaults to `5.5`, and a JSON binding regression test covers explicit/default values.
+- Backend validation passes locally outside the sandbox: 107 Prediction/Report tests, 34 Muhurtha tests, 13 Current Life Focus checks, and 10 Learning checks. Angular production build passes with Angular diagnostic and Sass deprecation warnings.
+- Added the missing English prediction-period label and a CI locale-key check; English, Hindi and Kannada now have 2,339 matching keys each.
+- The testhost stall was sandbox-specific: a focused test passes outside the sandbox. CI has not yet run remotely.
+- Confirmed core birth-time interpretation is India/IST: location search defaults to India, while Kundali, Compatibility, and Dasha controllers convert birth times with IST. The Kundali form now sends a bindable `5.5` offset for saved-chart metadata; global location-specific timezone handling remains unimplemented.
+- Working tree currently contains 95 tracked and 42 untracked paths, including pre-existing in-progress product changes and local artifacts; these remain to be reviewed and intentionally integrated.
+
+### 2026-11-01 — CRM included in V1 and schema hardening
+
+- Recorded the product-owner decision to include Practitioner CRM in V1; KP astrology remains deferred.
+- Added appointment cancellation state handling (including idempotent repeat cancellation), exposed cancellation in the appointment UI, and corrected appointment display to preserve the stored wall time/timezone label.
+- Consolidated CRM schema creation/expansion SQL for EF migrations and startup bootstrap; added a PostgreSQL fresh/upgrade/idempotency harness and a dedicated PostgreSQL CI job. Local schema harness reports SKIP because no PostgreSQL connection is configured; CI database execution remains pending.
+- Latest local checks: backend solution build succeeds (0 errors); Angular production build succeeds; locale parity passes (2,339 Hindi and Kannada keys); full xUnit suite passes (146/146: Prediction/Report 107, Muhurtha/CRM validation 39); Current Life Focus passes 13/13 and Learning 10/10. CRM database checks skip locally because no PostgreSQL connection is configured. NuGet audit-feed connectivity and existing code/compiler warnings remain.
+- CRM source review found controllers require authentication, resolve active users from the identity claim, enforce Premium Plus on CRM data routes, and scope data access by the current user; notification endpoints also filter by owner.
+- Extended the PostgreSQL CRM harness to invoke real controller actions for cross-account client reads/updates, appointment cancellation ownership, and non-Premium Plus denial. The harness compiles; the database-backed checks still require the PostgreSQL CI job.
+- Fixed the Npgsql high-severity advisory surfaced during harness build by upgrading the driver reference to 8.0.9 and aligning Npgsql EF provider/EF Core package versions at 8.0.10. Build succeeds with no package downgrade or assembly-conflict warnings; NuGet audit-feed connectivity still prevents a complete current dependency audit.
+- Current worktree inventory is 98 tracked and 45 untracked paths, including local build/output artifacts; source review, CI, CRM database execution, and release integration remain outstanding.
 
 ### 2026-08-04 — Initial canonical tracker
 

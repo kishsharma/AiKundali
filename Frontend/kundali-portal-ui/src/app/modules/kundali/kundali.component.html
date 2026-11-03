@@ -250,7 +250,14 @@
 
 <div class="kundali-layout">
   <div class="primary-sections">
-    <app-section-card class="birth-details-card" title="Birth Details" *ngIf="showBirthDetailsForm">
+    <app-section-card class="birth-details-card" title="Birth Details" [headerAction]="practitionerClients.length > 0" *ngIf="showBirthDetailsForm">
+      <div card-action class="client-record-picker" *ngIf="practitionerClients.length">
+        <label for="kundali-client-record">Client record</label>
+        <select id="kundali-client-record" [value]="selectedClientId" (change)="selectPractitionerClient($any($event.target).value)">
+          <option value="">Create an unlinked chart</option>
+          <option *ngFor="let client of practitionerClients" [value]="client.id">{{ client.fullName }}{{ client.surname ? ' ' + client.surname : '' }} · {{ client.birthPlace }}</option>
+        </select>
+      </div>
       <form class="kundali-form" [formGroup]="kundaliForm" (ngSubmit)="generateKundali()">
         <div class="form-grid">
           <div class="form-group">
@@ -360,10 +367,10 @@
       </aside>
         <nav class="report-quick-links" aria-label="Kundali report sections">
           <span class="save-status">Sections</span>
-          <a href="" data-section-id="kundali-summary" (click)="scrollToReportSection($event, 'kundali-summary')">Summary</a>
-          <a href="" data-section-id="scoreSection" (click)="scrollToReportSection($event, 'scoreSection')">Scores</a>
-          <a href="" data-section-id="predictionSection" (click)="scrollToReportSection($event, 'predictionSection')">{{ 'kundali.predictions.quickLink' | transloco }}</a>
           <a href="" data-section-id="kundali-chart" (click)="scrollToReportSection($event, 'kundali-chart')">Chart</a>
+          <a href="" data-section-id="scoreSection" (click)="scrollToReportSection($event, 'scoreSection')">Scores</a>
+          <a href="" data-section-id="kundali-summary" (click)="scrollToReportSection($event, 'kundali-summary')">Summary</a>
+          <a href="" data-section-id="predictionSection" (click)="scrollToReportSection($event, 'predictionSection')">{{ 'kundali.predictions.quickLink' | transloco }}</a>
           <a href="" data-section-id="planetPositions" (click)="scrollToReportSection($event, 'planetPositions')">Planets</a>
           <a href="" data-section-id="yogaSection" (click)="scrollToReportSection($event, 'yogaSection')">Yogas</a>
           <a href="" data-section-id="doshaSection" (click)="scrollToReportSection($event, 'doshaSection')">Doshas</a>
@@ -444,132 +451,7 @@
 </div>
 <div class="detail-grid">
 
-        <app-section-card id="kundali-summary" data-tour-id="kundali-report-summary" [title]="'kundali.summary' | transloco"  class="full-row" >
-          <app-kundali-summary [summary]="kundaliResponse?.summary" [kundaliFormValue]="kundaliForm.value">
-          </app-kundali-summary>
-          <app-panchang-card [panchang]="kundaliResponse?.panchang">
-          </app-panchang-card>
-          <app-kundali-metadata-insights
-            [rashiInsight]="kundaliResponse?.rashiInsight"
-            [nakshatraInsight]="kundaliResponse?.nakshatraInsight"
-            [gender]="kundaliForm.value.gender || ''">
-          </app-kundali-metadata-insights>
-        </app-section-card>
-
-        <app-section-card id="scoreSection" class="full-row" [title]="'kundali.scores' | transloco">
-          <app-kundali-score-card [scores]="scores">
-          </app-kundali-score-card>
-        </app-section-card>
-
-      <app-section-card id="predictionSection" class="prediction-section full-row" [title]="(isPremiumUser ? 'kundali.predictions.title' : 'kundali.predictions.teaserTitle') | transloco">
-        <ng-container *ngIf="isPremiumUser; else freePredictionTeaser">
-          <div class="prediction-section-head">
-            <div class="prediction-section-copy-wrap">
-              <span class="prediction-premium-badge premium-unlocked-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumUnlockedBadge' | transloco }}</span>
-              <p class="prediction-section-copy">{{ 'kundali.predictions.premiumCopy' | transloco }}</p>
-            </div>
-          </div>
-          <div class="prediction-outlook-grid" role="tablist" aria-label="Premium prediction life areas">
-            <button
-              type="button"
-              role="tab"
-              class="prediction-outlook-card"
-              *ngFor="let area of premiumPredictionAreaCards"
-              [class]="'prediction-outlook-card tone-' + area.toneClass"
-              [class.active]="isPredictionAreaOpen(area.lifeArea)"
-              [attr.aria-selected]="isPredictionAreaOpen(area.lifeArea)"
-              (click)="selectPredictionArea(area.lifeArea)">
-              <span class="prediction-life-area">{{ getPredictionAreaLabel(area.lifeArea) }}</span>
-              <strong class="prediction-tone-label">{{ area.toneLabel }}</strong>
-            </button>
-          </div>
-
-          <article class="prediction-area-detail selected-panel" *ngIf="selectedPredictionArea as area" [class]="'prediction-area-detail selected-panel tone-' + area.toneClass">
-            <div class="prediction-story">
-              <header class="prediction-reading-bar">
-                <div class="prediction-story-copy">
-                  <p class="prediction-story-about">{{ area.story.about }}</p>
-                  <h3>{{ area.story.headline }}</h3>
-                </div>
-                <strong class="prediction-story-status" [class]="'tone-' + area.toneClass">{{ area.toneLabel }}</strong>
-              </header>
-
-              <p class="prediction-scope" [class.chart]="area.story.scopeKind === 'chart'" *ngIf="area.story.scope">{{ area.story.scope }}</p>
-              <p class="prediction-story-meaning">{{ area.story.meaning }}</p>
-
-              <section class="prediction-fit" *ngIf="area.story.direction || area.story.fields.length">
-                <div class="prediction-fit-head">
-                  <h4>{{ area.story.fitTitle }}</h4>
-                  <span>{{ 'kundali.predictions.careerFit.source' | transloco }}</span>
-                </div>
-                <p class="prediction-fit-direction" *ngIf="area.story.direction">{{ area.story.direction }}</p>
-                <ul class="prediction-fit-chips" *ngIf="area.story.fields.length">
-                  <li *ngFor="let field of area.story.fields">{{ field }}</li>
-                </ul>
-              </section>
-
-              <div class="prediction-points" *ngIf="area.story.helps.length || area.story.watch.length">
-                <section class="prediction-point-card help" *ngIf="area.story.helps.length">
-                  <h4>{{ 'kundali.predictions.plain.helpsTitle' | transloco }}</h4>
-                  <ul>
-                    <li *ngFor="let point of area.story.helps">{{ point }}</li>
-                  </ul>
-                </section>
-                <section class="prediction-point-card watch" *ngIf="area.story.watch.length">
-                  <h4>{{ 'kundali.predictions.plain.watchTitle' | transloco }}</h4>
-                  <ul>
-                    <li *ngFor="let point of area.story.watch">{{ point }}</li>
-                  </ul>
-                </section>
-              </div>
-
-              <section class="prediction-time-story" *ngIf="area.dashaClaims.length">
-                <h4>{{ 'kundali.predictions.plain.timingTitle' | transloco }}</h4>
-                <ol class="prediction-time-flow">
-                  <li *ngFor="let claim of area.dashaClaims">
-                    <span class="prediction-time-chapter">{{ getPredictionChapterLabel(readProp(claim, 'dashaLevel')) }}</span>
-                    <strong>{{ translatePlanetName(readProp(claim, 'dashaPlanet')) || '-' }}</strong>
-                    <small *ngIf="getPredictionClaimPeriod(claim)">{{ getPredictionClaimPeriod(claim) }}</small>
-                  </li>
-                </ol>
-              </section>
-
-              <p class="prediction-chart-note" *ngIf="area.story.chartNote">{{ area.story.chartNote }}</p>
-            </div>
-          </article>
-        </ng-container>
-
-        <ng-template #freePredictionTeaser>
-          <div class="prediction-teaser-panel">
-            <div class="prediction-teaser-copy">
-              <span class="prediction-premium-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumBadge' | transloco }}</span>
-              <p>{{ 'kundali.predictions.teaserCopy' | transloco }}</p>
-              <strong>{{ 'kundali.predictions.includesLine' | transloco }}</strong>
-            </div>
-            <button type="button" class="prediction-unlock-button" (click)="onUnlockPremium()">
-              {{ 'kundali.predictions.unlockCta' | transloco }} <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
-                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
-                <path d="M14.6 5.15 17 3"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="prediction-locked-grid" [attr.aria-label]="'kundali.predictions.teaserTitle' | transloco">
-            <button type="button" class="prediction-locked-card" *ngFor="let lifeArea of predictionLifeAreas" (click)="onUnlockPremium()">
-              <strong>{{ getPredictionAreaLabel(lifeArea) }}</strong>
-              <span class="prediction-lock-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" focusable="false">
-                  <rect x="6" y="10" width="12" height="10" rx="2"></rect>
-                  <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
-                </svg>
-              </span>
-              <span class="prediction-card-hint">{{ 'kundali.predictions.personalizedInsight' | transloco }}</span>
-            </button>
-          </div>
-        </ng-template>
-      </app-section-card>
-</div>
-      <aside class="pinned-chart-reference" *ngIf="isChartPinned" aria-label="Pinned kundali chart reference">
+      <aside class="pinned-chart-reference full-row" *ngIf="isChartPinned" aria-label="Pinned kundali chart reference">
         <div class="pinned-chart-header">
           <span>{{ primaryChartTitle }}</span>
           <button type="button" class="chart-pin-button active compact" aria-label="Unpin chart" title="Unpin chart" (click)="toggleChartPin()">
@@ -584,7 +466,7 @@
           <app-western-chart *ngIf="activeChartType === 'western'" [planets]="primaryChartPlanets" [ascendant]="primaryChartAscendant" [housesData]="primaryChartHouses" [showDegrees]="showLagnaDegrees"></app-western-chart>
         </div>
       </aside>
-      <app-section-card id="kundali-chart" [class.chart-width-expanded]="chartDashaExpanded" [title]="'kundali.chart' | transloco" [headerAction]="true">
+      <app-section-card id="kundali-chart" class="full-row" [class.chart-width-expanded]="chartDashaExpanded" [title]="'kundali.chart' | transloco" [headerAction]="true">
         <div card-action class="chart-layout-actions">
           <button
             type="button"
@@ -812,6 +694,7 @@
               *ngIf="currentMahadashaPeriods.length; else noCurrentDasha"
               [mahadashas]="currentMahadashaPeriods"
               [planetScores]="dashaPlanetScores"
+              [birthDate]="kundaliForm.value.birthDate ?? null"
               [compact]="true">
             </app-mahadasha-antardasha>
             <ng-template #noCurrentDasha>
@@ -834,6 +717,8 @@
                 [ascendant]="d9Chart.ascendant ?? ''" [housesData]="d9Chart.houses ?? []"></app-western-chart>
               </div>
             </app-section-card>
+
+
           </div>
 
           <div class="house-details-row screen-house-details">
@@ -848,6 +733,132 @@
           </div>
         </div>
       </app-section-card>
+
+        <app-section-card id="kundali-summary" data-tour-id="kundali-report-summary" [title]="'kundali.summary' | transloco"  class="full-row" >
+          <app-kundali-summary [summary]="kundaliResponse?.summary" [kundaliFormValue]="kundaliForm.value" [panchang]="kundaliResponse?.panchang">
+          </app-kundali-summary>
+          <section id="scoreSection" class="summary-score-section" aria-labelledby="summary-scores-title">
+            <h3 id="summary-scores-title">{{ 'kundali.scores' | transloco }}</h3>
+            <app-kundali-score-card [scores]="scores" [compact]="true"></app-kundali-score-card>
+          </section>
+          <app-kundali-metadata-insights
+            [rashiInsight]="kundaliResponse?.rashiInsight"
+            [nakshatraInsight]="kundaliResponse?.nakshatraInsight"
+            [gender]="kundaliForm.value.gender || ''">
+          </app-kundali-metadata-insights>
+        </app-section-card>
+
+
+
+      <app-section-card id="predictionSection" class="prediction-section full-row" [title]="(isPremiumUser ? 'kundali.predictions.title' : 'kundali.predictions.teaserTitle') | transloco">
+        <ng-container *ngIf="isPremiumUser; else freePredictionTeaser">
+          <div class="prediction-section-head">
+            <div class="prediction-section-copy-wrap">
+              <span class="prediction-premium-badge premium-unlocked-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumUnlockedBadge' | transloco }}</span>
+              <p class="prediction-section-copy">{{ 'kundali.predictions.premiumCopy' | transloco }}</p>
+            </div>
+          </div>
+          <div class="prediction-outlook-grid" role="tablist" aria-label="Premium prediction life areas">
+            <button
+              type="button"
+              role="tab"
+              class="prediction-outlook-card"
+              *ngFor="let area of premiumPredictionAreaCards"
+              [class]="'prediction-outlook-card tone-' + area.toneClass"
+              [class.active]="isPredictionAreaOpen(area.lifeArea)"
+              [attr.aria-selected]="isPredictionAreaOpen(area.lifeArea)"
+              (click)="selectPredictionArea(area.lifeArea)">
+              <span class="prediction-life-area">{{ getPredictionAreaLabel(area.lifeArea) }}</span>
+              <strong class="prediction-tone-label">{{ area.toneLabel }}</strong>
+            </button>
+          </div>
+
+          <article class="prediction-area-detail selected-panel" *ngIf="selectedPredictionArea as area" [class]="'prediction-area-detail selected-panel tone-' + area.toneClass">
+            <div class="prediction-story">
+              <header class="prediction-reading-bar">
+                <div class="prediction-story-copy">
+                  <p class="prediction-story-about">{{ area.story.about }}</p>
+                  <h3>{{ area.story.headline }}</h3>
+                </div>
+                <strong class="prediction-story-status" [class]="'tone-' + area.toneClass">{{ area.toneLabel }}</strong>
+              </header>
+
+              <p class="prediction-scope" [class.chart]="area.story.scopeKind === 'chart'" *ngIf="area.story.scope">{{ area.story.scope }}</p>
+              <p class="prediction-story-meaning">{{ area.story.meaning }}</p>
+
+              <section class="prediction-fit" *ngIf="area.story.direction || area.story.fields.length">
+                <div class="prediction-fit-head">
+                  <h4>{{ area.story.fitTitle }}</h4>
+                  <span>{{ 'kundali.predictions.careerFit.source' | transloco }}</span>
+                </div>
+                <p class="prediction-fit-direction" *ngIf="area.story.direction">{{ area.story.direction }}</p>
+                <ul class="prediction-fit-chips" *ngIf="area.story.fields.length">
+                  <li *ngFor="let field of area.story.fields">{{ field }}</li>
+                </ul>
+              </section>
+
+              <div class="prediction-points" *ngIf="area.story.helps.length || area.story.watch.length">
+                <section class="prediction-point-card help" *ngIf="area.story.helps.length">
+                  <h4>{{ 'kundali.predictions.plain.helpsTitle' | transloco }}</h4>
+                  <ul>
+                    <li *ngFor="let point of area.story.helps">{{ point }}</li>
+                  </ul>
+                </section>
+                <section class="prediction-point-card watch" *ngIf="area.story.watch.length">
+                  <h4>{{ 'kundali.predictions.plain.watchTitle' | transloco }}</h4>
+                  <ul>
+                    <li *ngFor="let point of area.story.watch">{{ point }}</li>
+                  </ul>
+                </section>
+              </div>
+
+              <section class="prediction-time-story" *ngIf="area.dashaClaims.length">
+                <h4>{{ 'kundali.predictions.plain.timingTitle' | transloco }}</h4>
+                <ol class="prediction-time-flow">
+                  <li *ngFor="let claim of area.dashaClaims">
+                    <span class="prediction-time-chapter">{{ getPredictionChapterLabel(readProp(claim, 'dashaLevel')) }}</span>
+                    <strong>{{ translatePlanetName(readProp(claim, 'dashaPlanet')) || '-' }}</strong>
+                    <small *ngIf="getPredictionClaimPeriod(claim)">{{ getPredictionClaimPeriod(claim) }}</small>
+                  </li>
+                </ol>
+              </section>
+
+              <p class="prediction-chart-note" *ngIf="area.story.chartNote">{{ area.story.chartNote }}</p>
+            </div>
+          </article>
+        </ng-container>
+
+        <ng-template #freePredictionTeaser>
+          <div class="prediction-teaser-panel">
+            <div class="prediction-teaser-copy">
+              <span class="prediction-premium-badge"><span class="prediction-badge-icon" aria-hidden="true">&#10022;</span>{{ 'kundali.predictions.premiumBadge' | transloco }}</span>
+              <p>{{ 'kundali.predictions.teaserCopy' | transloco }}</p>
+              <strong>{{ 'kundali.predictions.includesLine' | transloco }}</strong>
+            </div>
+            <button type="button" class="prediction-unlock-button" (click)="onUnlockPremium()">
+              {{ 'kundali.predictions.unlockCta' | transloco }} <svg class="prediction-cta-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                <path d="M8.5 10V7.5a3.5 3.5 0 0 1 6.1-2.35"></path>
+                <path d="M14.6 5.15 17 3"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="prediction-locked-grid" [attr.aria-label]="'kundali.predictions.teaserTitle' | transloco">
+            <button type="button" class="prediction-locked-card" *ngFor="let lifeArea of predictionLifeAreas" (click)="onUnlockPremium()">
+              <strong>{{ getPredictionAreaLabel(lifeArea) }}</strong>
+              <span class="prediction-lock-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <rect x="6" y="10" width="12" height="10" rx="2"></rect>
+                  <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+                </svg>
+              </span>
+              <span class="prediction-card-hint">{{ 'kundali.predictions.personalizedInsight' | transloco }}</span>
+            </button>
+          </div>
+        </ng-template>
+      </app-section-card>
+</div>
+
 
       <app-section-card
         id="planetPositions"
@@ -1080,7 +1091,32 @@
         </div>
       </app-section-card>
 
-      <app-section-card id="yogaSection" data-tour-id="kundali-report-yogas" [title]="'kundali.yogas' | transloco" [headerAction]="natalYogaItems.length > 0" class="full-row" *ngIf="kundaliResponse">
+      <div class="advanced-strength-tabs yoga-dosha-tabs" role="tablist" aria-label="Yoga and Dosha sections" *ngIf="kundaliResponse && !exportingPdf">
+        <button
+          type="button"
+          class="advanced-strength-tab"
+          id="yogaDoshaYogaTab"
+          role="tab"
+          [class.active]="activeYogaDoshaTab === 'yoga'"
+          [attr.aria-selected]="activeYogaDoshaTab === 'yoga'"
+          aria-controls="yogaSection"
+          (click)="activeYogaDoshaTab = 'yoga'">
+          {{ 'kundali.yogas' | transloco }}
+        </button>
+        <button
+          type="button"
+          class="advanced-strength-tab"
+          id="yogaDoshaDoshaTab"
+          role="tab"
+          [class.active]="activeYogaDoshaTab === 'dosha'"
+          [attr.aria-selected]="activeYogaDoshaTab === 'dosha'"
+          aria-controls="doshaSection"
+          (click)="activeYogaDoshaTab = 'dosha'">
+          {{ 'kundali.doshas' | transloco }}
+        </button>
+      </div>
+
+      <app-section-card id="yogaSection" role="tabpanel" aria-labelledby="yogaDoshaYogaTab" data-tour-id="kundali-report-yogas" [title]="'kundali.yogas' | transloco" [headerAction]="natalYogaItems.length > 0" class="full-row" *ngIf="kundaliResponse && (activeYogaDoshaTab === 'yoga' || exportingPdf)">
         <span card-action class="birth-chart-inline-note" *ngIf="natalYogaItems.length">Yoga present in your chart. Unlock to know more.</span>
         <div class="yogas-list" *ngIf="yogas.length; else noYogas">
           <section class="dosha-attention yoga-attention" *ngIf="yogaAttention.focus as focus; else noYogaFocus">
@@ -1126,6 +1162,7 @@
                   <div class="yoga-header">
                   <div class="yoga-title">
                     <div class="yoga-dosha-title-line">
+                      <app-astrology-icon class="combination-icon combination-icon--yoga" [name]="getCombinationIcon(entry.item, 'yoga')"></app-astrology-icon>
                       <h4>{{ entry.item.name }}</h4>
                       <span class="dosha-focus-pill yoga-focus-pill" *ngIf="isPriorityYoga(entry.index)">{{ 'kundali.yogaAttention.title' | transloco }}</span>
                     </div>
@@ -1198,6 +1235,7 @@
                   <div class="yoga-header">
                   <div class="yoga-title">
                     <div class="yoga-dosha-title-line">
+                      <app-astrology-icon class="combination-icon combination-icon--yoga" [name]="getCombinationIcon(entry.item, 'yoga')"></app-astrology-icon>
                       <h4>{{ entry.item.name }}</h4>
                       <span class="dosha-focus-pill yoga-focus-pill" *ngIf="isPriorityYoga(entry.index)">{{ 'kundali.yogaAttention.title' | transloco }}</span>
                     </div>
@@ -1261,6 +1299,7 @@
                 <div class="yoga-header">
                   <div class="yoga-title">
                     <div class="yoga-dosha-title-line">
+                      <app-astrology-icon class="combination-icon combination-icon--yoga" [name]="getCombinationIcon(entry.item, 'yoga')"></app-astrology-icon>
                       <h4>{{ entry.item.name }}</h4>
                       <span class="dosha-focus-pill yoga-focus-pill" *ngIf="isPriorityYoga(entry.index)">{{ 'kundali.yogaAttention.title' | transloco }}</span>
                     </div>
@@ -1333,7 +1372,7 @@
         </ng-template>
       </app-section-card>
 
-      <app-section-card id="doshaSection" data-tour-id="kundali-report-doshas" [title]="'kundali.doshas' | transloco" [headerAction]="natalDoshaItems.length > 0" class="full-row" *ngIf="kundaliResponse">
+      <app-section-card id="doshaSection" role="tabpanel" aria-labelledby="yogaDoshaDoshaTab" data-tour-id="kundali-report-doshas" [title]="'kundali.doshas' | transloco" [headerAction]="natalDoshaItems.length > 0" class="full-row" *ngIf="kundaliResponse && (activeYogaDoshaTab === 'dosha' || exportingPdf)">
         <span card-action class="birth-chart-inline-note" *ngIf="natalDoshaItems.length">Dosha present in your chart. Unlock to know more.</span>
         <div class="doshas-list" *ngIf="doshas.length; else noDoshas">
           <section class="dosha-attention" *ngIf="doshaAttention.focus as focus; else noDoshaFocus">
@@ -1380,6 +1419,7 @@
                   <div class="dosha-header">
                   <div class="dosha-title">
                     <div class="yoga-dosha-title-line">
+                      <app-astrology-icon class="combination-icon combination-icon--dosha" [name]="getCombinationIcon(entry.item, 'dosha')"></app-astrology-icon>
                       <h4>{{ entry.item.name }}</h4>
                       <span class="dosha-focus-pill" *ngIf="isPriorityDosha(entry.index)">{{ 'kundali.doshaAttention.title' | transloco }}</span>
                     </div>
@@ -1452,6 +1492,7 @@
                   <div class="dosha-header">
                   <div class="dosha-title">
                     <div class="yoga-dosha-title-line">
+                      <app-astrology-icon class="combination-icon combination-icon--dosha" [name]="getCombinationIcon(entry.item, 'dosha')"></app-astrology-icon>
                       <h4>{{ entry.item.name }}</h4>
                       <span class="dosha-focus-pill" *ngIf="isPriorityDosha(entry.index)">{{ 'kundali.doshaAttention.title' | transloco }}</span>
                     </div>
@@ -1515,6 +1556,7 @@
                 <div class="dosha-header">
                   <div class="dosha-title">
                     <div class="yoga-dosha-title-line">
+                      <app-astrology-icon class="combination-icon combination-icon--dosha" [name]="getCombinationIcon(entry.item, 'dosha')"></app-astrology-icon>
                       <h4>{{ entry.item.name }}</h4>
                       <span class="dosha-focus-pill" *ngIf="isPriorityDosha(entry.index)">{{ 'kundali.doshaAttention.title' | transloco }}</span>
                     </div>
@@ -1630,7 +1672,7 @@
           </app-section-card>
 
           <app-section-card id="dashaSection" data-tour-id="kundali-report-dasha" [title]="'kundali.dasha' | transloco" class="full-row">
-            <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods" [planetScores]="dashaPlanetScores">
+            <app-mahadasha-antardasha [mahadashas]="mahadashaPeriods" [planetScores]="dashaPlanetScores" [birthDate]="kundaliForm.value.birthDate ?? null">
             </app-mahadasha-antardasha>
           </app-section-card>
           <app-section-card id="remediesSection" title="Remedies Recommendation" class="full-row" *ngIf="kundaliResponse">

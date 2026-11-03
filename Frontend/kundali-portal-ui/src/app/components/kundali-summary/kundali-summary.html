@@ -1,6 +1,6 @@
 <div
   class="kundali-summary-card" title="Kundali summary"
-  *ngIf="summary"
+  *ngIf="summary || panchang"
 >
 
   <div class="kundali-summary-grid">
@@ -121,6 +121,70 @@
         </small>
       </div>
 
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">🌙</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.maas' | transloco }}</span>
+        <strong>{{ translatePanchang('maas', panchang.maas) }} {{ translatePanchang('paksha', panchang.paksha) }} {{ 'panchang.pakshaLabel' | transloco }}</strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">📅</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.tithi' | transloco }}</span>
+        <strong>{{ translatePanchang('tithi', panchang.tithi) }}</strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">✨</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.nakshatra' | transloco }}</span>
+        <strong>{{ translatePanchang('nakshatra', panchang.nakshatra) }} {{ 'panchang.pada' | transloco }} {{ panchang.pada }}<span *ngIf="padaLetter">{{ padaLetter }}</span></strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">🧘</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.yoga' | transloco }}</span>
+        <strong>{{ translatePanchang('yoga', panchang.yoga) }}</strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">⚖</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.karana' | transloco }}</span>
+        <strong>{{ translatePanchang('karana', panchang.karana) }}</strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">☀</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.vara' | transloco }}</span>
+        <strong>{{ translatePanchang('vaar', panchang.vaar) }}</strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">📖</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.shake' | transloco }}</span>
+        <strong>{{ panchang.shake || '—' }}</strong>
+      </div>
+    </div>
+
+    <div class="kundali-summary-item" *ngIf="panchang">
+      <div class="kundali-summary-icon">🪔</div>
+      <div class="kundali-summary-content">
+        <span class="summary-label">{{ 'panchang.samvat' | transloco }}</span>
+        <strong>{{ panchang.samvat || '—' }}</strong>
+      </div>
     </div>
 
   </div>

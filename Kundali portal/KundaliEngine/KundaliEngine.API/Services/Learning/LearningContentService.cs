@@ -46,6 +46,73 @@ public sealed class LearningContentService : ILearningContentService
         return manifests.FirstOrDefault(level => string.Equals(level.Code, levelCode.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 
+    public async Task<LearningKnowledgeMapResponse?> GetKnowledgeMapAsync(string? language, CancellationToken cancellationToken)
+    {
+        var catalogPath = Path.Combine(_contentRoot, "GyanKosha", "knowledge-map.json");
+        if (!File.Exists(catalogPath))
+        {
+            _logger.LogWarning("Gyan Kosha knowledge map was not found at {CatalogPath}.", catalogPath);
+            return null;
+        }
+
+        await using var stream = File.OpenRead(catalogPath);
+        var catalog = await JsonSerializer.DeserializeAsync<LearningKnowledgeMapCatalog>(stream, _jsonOptions, cancellationToken);
+        if (catalog is null)
+        {
+            throw new InvalidOperationException("Gyan Kosha knowledge map content is empty or invalid.");
+        }
+
+        var nodeIds = catalog.Nodes.Select(node => node.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        if (nodeIds.Count != catalog.Nodes.Count || catalog.Nodes.Any(node => string.IsNullOrWhiteSpace(node.Id) || node.SessionIds.Count == 0))
+        {
+            throw new InvalidOperationException("Gyan Kosha nodes must have unique IDs and at least one linked lesson.");
+        }
+
+        if (catalog.Connections.Any(connection =>
+                !nodeIds.Contains(connection.From) ||
+                !nodeIds.Contains(connection.To) ||
+                string.Equals(connection.From, connection.To, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new InvalidOperationException("Gyan Kosha connections must link two distinct concepts from the map.");
+        }
+
+        var lessonIds = (await LoadManifestsAsync(cancellationToken))
+            .SelectMany(level => level.Sessions)
+            .Select(session => session.Id)
+            .ToHashSet();
+        if (catalog.Nodes.SelectMany(node => node.SessionIds).Any(id => !lessonIds.Contains(id)))
+        {
+            throw new InvalidOperationException("Gyan Kosha references a lesson ID that is missing from the learning manifests.");
+        }
+
+        var resolvedLanguage = ResolveRequestedLanguage(language, "en");
+        return new LearningKnowledgeMapResponse
+        {
+            Language = resolvedLanguage,
+            Nodes = catalog.Nodes
+                .OrderBy(node => node.Order)
+                .Select(node => new LearningKnowledgeMapNode
+                {
+                    Id = node.Id,
+                    Cluster = node.Cluster,
+                    Title = ResolveLocalizedText(node.Title, resolvedLanguage),
+                    Order = node.Order,
+                    X = node.X,
+                    Y = node.Y,
+                    SessionIds = node.SessionIds
+                })
+                .ToList(),
+            Connections = catalog.Connections
+                .Select(connection => new LearningKnowledgeMapConnection
+                {
+                    From = connection.From,
+                    To = connection.To,
+                    Label = ResolveLocalizedText(connection.Label, resolvedLanguage)
+                })
+                .ToList()
+        };
+    }
+
     public async Task<LearningSessionResponse?> GetSessionAsync(Guid sessionGuid, string? language, CancellationToken cancellationToken)
     {
         var manifests = await LoadManifestsAsync(cancellationToken);
@@ -221,6 +288,16 @@ public sealed class LearningContentService : ILearningContentService
     {
         var normalized = string.IsNullOrWhiteSpace(language) ? defaultLanguage : language.Trim().ToLowerInvariant();
         return SupportedLanguages.Contains(normalized, StringComparer.OrdinalIgnoreCase) ? normalized : "en";
+    }
+
+    private static string ResolveLocalizedText(IReadOnlyDictionary<string, string> values, string language)
+    {
+        if (values.TryGetValue(language, out var localized) && !string.IsNullOrWhiteSpace(localized))
+        {
+            return localized;
+        }
+
+        return values.TryGetValue("en", out var fallback) ? fallback : string.Empty;
     }
 
     private static string ToPascalFolder(string levelCode)

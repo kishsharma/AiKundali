@@ -1,10 +1,8 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
-  OnDestroy,
   OnInit,
   ViewChild,
   inject
@@ -13,14 +11,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import html2canvas from 'html2canvas';
-import {
-  NgWhiteboardComponent,
-  NgWhiteboardService,
-  ToolType,
-  WhiteboardConfig,
-  WhiteboardElement
-} from 'ng-whiteboard';
 import { KundaliMetadataInsightsComponent } from '../../components/kundali-metadata-insights/kundali-metadata-insights.component';
 import { KundaliScoreCard } from '../../components/kundali-score-card/kundali-score-card';
 import { KundaliSummary } from '../../components/kundali-summary/kundali-summary';
@@ -69,7 +59,6 @@ export type ConsultationSectionId =
     FormsModule,
     RouterLink,
     TranslocoPipe,
-    NgWhiteboardComponent,
     NorthIndianChartComponent,
     SouthIndianChartComponent,
     WesternChartComponent,
@@ -85,49 +74,18 @@ export type ConsultationSectionId =
     KundaliDoshasPanelComponent,
     ConsultationPredictionsSection
   ],
-  providers: [NgWhiteboardService],
   templateUrl: './consultation.component.html',
   styleUrl: './consultation.component.scss'
 })
-export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ConsultationComponent implements OnInit {
   private readonly kundaliApi = inject(KundaliService);
   private readonly dashaApi = inject(DashaApiService);
   private readonly chartMapper = inject(SavedChartMapperService);
   private readonly auth = inject(AuthService);
-  private readonly whiteboard = inject(NgWhiteboardService);
   private readonly transloco = inject(TranslocoService);
   private readonly changeDetector = inject(ChangeDetectorRef);
 
-  @ViewChild('boardShell', { static: false }) boardShell?: ElementRef<HTMLElement>;
-  @ViewChild('boardWorkspace', { static: false }) boardWorkspace?: ElementRef<HTMLElement>;
   @ViewChild('sectionPinPicker', { static: false }) sectionPinPicker?: ElementRef<HTMLElement>;
-  @ViewChild('drawLayer', { static: false })
-  set drawLayer(ref: ElementRef<HTMLElement> | undefined) {
-    this.unbindDrawLayerWheel();
-    this.drawLayerRef = ref;
-    if (ref) {
-      this.bindDrawLayerWheel();
-    }
-  }
-
-  private drawLayerRef?: ElementRef<HTMLElement>;
-
-  private readonly onDrawLayerWheel = (event: WheelEvent): void => {
-    // Keep marks locked to chart content: scroll the shared workspace and
-    // block the whiteboard from panning on its own.
-    const scroller = this.boardWorkspace?.nativeElement;
-    if (!scroller) {
-      return;
-    }
-    scroller.scrollTop += event.deltaY;
-    scroller.scrollLeft += event.deltaX;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  };
-
-  readonly boardId = 'horalife-consultation-board';
-  readonly toolType = ToolType;
-  readonly colorPresets = ['#C56F50', '#10143d', '#ffffff', '#1b7f4e', '#c62828', '#1565c0'];
   readonly divisionalChartOptions = [
     { id: 'D2', label: 'D2 Hora' },
     { id: 'D3', label: 'D3 Drekkana' },
@@ -184,29 +142,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
   showGocharDegrees = false;
   loadingCharts = true;
   loadingChart = false;
-  downloading = false;
   errorMessage = '';
-  hasStrokes = false;
-  selectedTool: ToolType = ToolType.Pen;
-  strokeColor = '#C56F50';
-  strokeWidth = 3;
-  boardReady = false;
-  readonly zoomMin = 0.5;
-  readonly zoomMax = 1.25;
-  readonly zoomStep = 0.1;
-  boardZoom = 1;
-
-  whiteboardConfig: Partial<WhiteboardConfig> = {
-    backgroundColor: 'transparent',
-    strokeColor: this.strokeColor,
-    strokeWidth: this.strokeWidth,
-    fill: 'transparent',
-    fullScreen: true,
-    center: true,
-    drawingEnabled: true,
-    enableGrid: false,
-    selectAfterDraw: false
-  };
 
   private loadRequest = 0;
 
@@ -224,10 +160,6 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get isChartOnly(): boolean {
     return this.pinnedSections.length === 1 && this.showsChart;
-  }
-
-  get isDrawingActive(): boolean {
-    return this.selectedTool !== ToolType.Select && this.selectedTool !== ToolType.Hand;
   }
 
   get hasAshtakavargaTab(): boolean {
@@ -296,14 +228,6 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     const alreadyPinned = this.isPinned(sectionId);
     if (alreadyPinned && this.pinnedSections.length === 1) {
       return;
-    }
-
-    if (this.hasStrokes) {
-      const ok = window.confirm(this.transloco.translate('consultation.confirmSectionSwitch'));
-      if (!ok) {
-        return;
-      }
-      this.clearBoard(false);
     }
 
     if (alreadyPinned) {
@@ -443,7 +367,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadingCharts = false;
         this.changeDetector.markForCheck();
         if (this.selectedChartId) {
-          this.loadSelectedChart(false);
+          this.loadSelectedChart();
         }
       },
       error: () => {
@@ -454,139 +378,8 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.whiteboard.setActiveBoard(this.boardId);
-  }
-
-  ngOnDestroy(): void {
-    this.unbindDrawLayerWheel();
-    try {
-      this.whiteboard.setActiveBoard(null);
-    } catch {
-      // Board may already be torn down.
-    }
-  }
-
   chartLabel(chart: SavedChartOption): string {
     return chart.displayName || chart.fullName;
-  }
-
-  onBoardReady(): void {
-    this.boardReady = true;
-    this.whiteboard.setActiveBoard(this.boardId);
-    this.bindDrawLayerWheel();
-    this.changeDetector.markForCheck();
-  }
-
-  private bindDrawLayerWheel(): void {
-    const layer = this.drawLayerRef?.nativeElement;
-    if (!layer || (layer as HTMLElement & { __wheelBound?: boolean }).__wheelBound) {
-      return;
-    }
-    layer.addEventListener('wheel', this.onDrawLayerWheel, { capture: true, passive: false });
-    (layer as HTMLElement & { __wheelBound?: boolean }).__wheelBound = true;
-  }
-
-  private unbindDrawLayerWheel(): void {
-    const layer = this.drawLayerRef?.nativeElement;
-    if (!layer) {
-      return;
-    }
-    layer.removeEventListener('wheel', this.onDrawLayerWheel, true);
-    (layer as HTMLElement & { __wheelBound?: boolean }).__wheelBound = false;
-  }
-
-  onDataChange(elements: WhiteboardElement[]): void {
-    this.hasStrokes = Array.isArray(elements) && elements.length > 0;
-    this.changeDetector.markForCheck();
-  }
-
-  setTool(tool: ToolType): void {
-    this.selectedTool = tool;
-    if (this.boardReady) {
-      this.whiteboard.setActiveBoard(this.boardId);
-      this.whiteboard.setActiveTool(tool);
-    }
-    this.changeDetector.markForCheck();
-  }
-
-  setStrokeColor(color: string): void {
-    this.strokeColor = color;
-    this.patchConfig({ strokeColor: color });
-  }
-
-  setStrokeWidth(width: number | string): void {
-    const next = Number(width);
-    if (!Number.isFinite(next) || next <= 0) {
-      return;
-    }
-    this.strokeWidth = next;
-    this.patchConfig({ strokeWidth: next });
-  }
-
-  undo(): void {
-    if (!this.boardReady) {
-      return;
-    }
-    this.whiteboard.setActiveBoard(this.boardId);
-    this.whiteboard.undo();
-  }
-
-  redo(): void {
-    if (!this.boardReady) {
-      return;
-    }
-    this.whiteboard.setActiveBoard(this.boardId);
-    this.whiteboard.redo();
-  }
-
-  clearBoard(confirmFirst = true): void {
-    if (!this.boardReady) {
-      return;
-    }
-    if (confirmFirst && this.hasStrokes) {
-      const ok = window.confirm(this.transloco.translate('consultation.confirmClear'));
-      if (!ok) {
-        return;
-      }
-    }
-    this.whiteboard.setActiveBoard(this.boardId);
-    this.whiteboard.clear();
-    this.hasStrokes = false;
-    this.changeDetector.markForCheck();
-  }
-
-  get zoomPercent(): number {
-    return Math.round(this.boardZoom * 100);
-  }
-
-  get canZoomOut(): boolean {
-    return this.boardZoom > this.zoomMin + 0.001;
-  }
-
-  get canZoomIn(): boolean {
-    return this.boardZoom < this.zoomMax - 0.001;
-  }
-
-  zoomOut(): void {
-    this.setZoom(this.boardZoom - this.zoomStep);
-  }
-
-  zoomIn(): void {
-    this.setZoom(this.boardZoom + this.zoomStep);
-  }
-
-  resetZoom(): void {
-    this.setZoom(1);
-  }
-
-  private setZoom(next: number): void {
-    const clamped = Math.min(this.zoomMax, Math.max(this.zoomMin, Math.round(next * 10) / 10));
-    if (clamped === this.boardZoom) {
-      return;
-    }
-    this.boardZoom = clamped;
-    this.changeDetector.markForCheck();
   }
 
   onChartChange(): void {
@@ -594,57 +387,12 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    if (this.hasStrokes) {
-      const ok = window.confirm(this.transloco.translate('consultation.confirmSwitch'));
-      if (!ok) {
-        this.selectedChartId = this.previousChartId;
-        this.changeDetector.markForCheck();
-        return;
-      }
-      this.clearBoard(false);
-    }
-
     this.previousChartId = this.selectedChartId;
-    this.loadSelectedChart(true);
+    this.loadSelectedChart();
   }
 
 
-  async downloadPng(): Promise<void> {
-    const shell = this.boardShell?.nativeElement;
-    if (!shell || !this.hasLoadedChart || this.downloading) {
-      return;
-    }
-
-    this.downloading = true;
-    this.changeDetector.markForCheck();
-
-    try {
-      await new Promise(resolve => setTimeout(resolve, 80));
-      const canvas = await html2canvas(shell, {
-        scale: 2,
-        backgroundColor: '#ffffff',
-        useCORS: true,
-        logging: false,
-        ignoreElements: element => element.classList.contains('tool-widget')
-      });
-
-      const link = document.createElement('a');
-      const safeName = (this.chartName || 'chart')
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '') || 'chart';
-      link.download = `horalife-consultation-${safeName}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    } catch {
-      this.errorMessage = this.transloco.translate('consultation.exportFailed');
-    } finally {
-      this.downloading = false;
-      this.changeDetector.markForCheck();
-    }
-  }
-
-  private loadSelectedChart(resetBoard: boolean): void {
+  private loadSelectedChart(): void {
     if (!this.selectedChartId) {
       return;
     }
@@ -663,10 +411,6 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
         const chartData = saved?.chartData ?? saved?.ChartData ?? null;
         this.applySavedPayload(saved, chartData);
         this.loadingChart = false;
-
-        if (resetBoard && this.boardReady) {
-          this.clearBoard(false);
-        }
 
         this.ensureMahadasha(saved, request);
         this.changeDetector.markForCheck();
@@ -780,11 +524,4 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeDivisionalChart = 'D9';
   }
 
-  private patchConfig(partial: Partial<WhiteboardConfig>): void {
-    this.whiteboardConfig = {
-      ...this.whiteboardConfig,
-      ...partial
-    };
-    this.changeDetector.markForCheck();
-  }
 }

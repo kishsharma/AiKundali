@@ -11,4 +11,6 @@ public class CompleteOtpRegistrationRequest
     public string? PhoneNumber { get; set; }
 
     public string? PreferredLanguage { get; set; }
+
+    public bool RememberMe { get; set; }
 }
