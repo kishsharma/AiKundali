@@ -98,6 +98,8 @@ namespace KundaliEngine.API.Controllers
                     profileB.Name,
                     personADoshas,
                     personBDoshas,
+                    profileA.Chart,
+                    profileB.Chart,
                     _doshaMetadataService);
 
                 if (!await IsCurrentUserPaidAsync())
@@ -484,8 +486,12 @@ namespace KundaliEngine.API.Controllers
                 CompatibilityScore = item.CompatibilityScore,
                 RiskScore = item.RiskScore,
                 Severity = item.Severity,
-                Tone = item.Tone
+                Tone = item.Tone,
+                PersonA = new CompatibilityDoshaPersonSummary(),
+                PersonB = new CompatibilityDoshaPersonSummary()
             }).ToList();
+
+            result.RelationshipHouseAnalysis = new List<RelationshipHouseAnalysis>();
         }
 
         private static SavedCompatibilityDetailDto MapSavedCompatibilityDetail(SavedCompatibility savedCompatibility)

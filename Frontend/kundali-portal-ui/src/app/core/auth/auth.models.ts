@@ -4,6 +4,7 @@ export type PreferredLanguage = 'en' | 'hi' | 'kn';
 export interface LoginRequest {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export interface RegisterRequest {
@@ -12,6 +13,7 @@ export interface RegisterRequest {
   phoneNumber?: string;
   preferredLanguage?: PreferredLanguage;
   password: string;
+  rememberMe: boolean;
 }
 
 export interface StartEmailOtpRequest {
@@ -26,6 +28,7 @@ export interface VerifyEmailOtpRequest {
   email?: string;
   phoneNumber?: string;
   code: string;
+  rememberMe?: boolean;
 }
 
 export interface CompleteOtpRegistrationRequest {
@@ -34,6 +37,7 @@ export interface CompleteOtpRegistrationRequest {
   email?: string;
   phoneNumber?: string;
   preferredLanguage?: PreferredLanguage;
+  rememberMe: boolean;
 }
 
 export interface OtpChallengeResponse {

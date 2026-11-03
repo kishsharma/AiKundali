@@ -792,6 +792,76 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
       font-weight: 600;
     }
 
+    /* Keep Panchang details readable; the previous compact sizes fell below
+       normal body text, especially for the calendar's Yoga/Karana labels. */
+    .mode-btn,
+    .calendar-btn,
+    .location-input,
+    .location-current,
+    .location-result,
+    .calendar-status {
+      font-size: 0.82rem;
+    }
+
+    .month-title,
+    .detail-date strong {
+      font-size: 1.08rem;
+    }
+
+    .detail-date span,
+    .weekday,
+    .date-number,
+    .day-name,
+    .panchang-line,
+    .panchang-label,
+    .panchang-value,
+    .empty-panchang,
+    .detail-label,
+    .detail-end-time,
+    .calendar-era,
+    .calendar-era small,
+    .pada-card span,
+    .pada-card small,
+    .pada-card strong,
+    .timing-row,
+    .gochar-header small,
+    .gochar-status,
+    .gochar-planet-row,
+    .gochar-planet-sign,
+    .gochar-planet-degree,
+    .transition-row {
+      font-size: 0.78rem;
+    }
+
+    .detail-value,
+    .eclipse-name,
+    .eclipse-header strong {
+      font-size: 0.92rem;
+    }
+
+    .eclipse-header small,
+    .eclipse-status,
+    .eclipse-empty,
+    .eclipse-meta,
+    .eclipse-date {
+      font-size: 0.76rem;
+    }
+
+    .panchang-line {
+      grid-template-columns: 1.25rem minmax(0, 1fr);
+      min-height: 1.1rem;
+      line-height: 1.35;
+    }
+
+    .detail-item {
+      min-height: 2rem;
+      grid-template-columns: minmax(4.2rem, 0.75fr) minmax(0, 1fr) minmax(4.3rem, auto);
+    }
+
+    .detail-label {
+      min-height: 1.5rem;
+    }
+
     @media (max-width: 768px) {
       .panchang-layout {
         grid-template-columns: 1fr;
@@ -817,7 +887,7 @@ import { NorthIndianChartComponent } from '../../components/north-indian-chart/n
 
       .panchang-line {
         grid-template-columns: 1fr;
-        font-size: 0.54rem;
+        font-size: 0.76rem;
       }
 
       .detail-row,

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
@@ -15,6 +15,9 @@ import { NotificationToastComponent } from './shared/components/notification-toa
 import { SubscriptionModalComponent } from './shared/components/subscription-modal/subscription-modal.component';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { SubscriptionModalService } from './core/services/subscription-modal.service';
+import { GlobalSketchOverlayComponent } from './shared/components/global-sketch-overlay/global-sketch-overlay.component';
+import { UserActivityTrackingService } from './core/services/user-activity-tracking.service';
+import { NotificationCenterComponent } from './shared/components/notification-center/notification-center.component';
 
 @Component({
   selector: 'app-root',
@@ -24,12 +27,15 @@ import { SubscriptionModalService } from './core/services/subscription-modal.ser
   PlanChipComponent,
   NotificationToastComponent,
   SubscriptionModalComponent,
-  ConfirmDialogComponent],
+  ConfirmDialogComponent,
+  GlobalSketchOverlayComponent,
+  NotificationCenterComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 
 export class App {
+  private readonly userActivityTracking = inject(UserActivityTrackingService);
   readonly languages: ReadonlyArray<{ code: PreferredLanguage; label: string }> = [
     { code: 'en', label: 'English' },
     { code: 'hi', label: 'Hindi' },
@@ -39,6 +45,7 @@ export class App {
   isPublicLanding = true;
   isAuthPage = false;
  isUserMenuOpen = false;
+  isGlobalSketchOpen = false;
  pageTitle = 'Kundali Portal';
   constructor(
     private translocoService: TranslocoService,
@@ -199,7 +206,15 @@ openPlans(): void {
 @HostListener('document:keydown.escape')
 closeUserMenuOnEscape(): void {
   this.closeUserMenu();
+  this.isGlobalSketchOpen = false;
 }
+
+  toggleGlobalSketch(): void {
+    if (!this.showUserMenu) {
+      return;
+    }
+    this.isGlobalSketchOpen = !this.isGlobalSketchOpen;
+  }
 
 toggleAppMenu(): void {
   window.dispatchEvent(new CustomEvent('app-menu-toggle'));
@@ -295,6 +310,7 @@ logout(): void {
     this.isPublicLanding = path === '' || path === '/' || path === '/select-language';
     this.isAuthPage = path === '/login' || path === '/register';
     this.isUserMenuOpen = false;
+    this.isGlobalSketchOpen = false;
     this.cdr.markForCheck();
   }
   private formatDisplayName(name: string): string {

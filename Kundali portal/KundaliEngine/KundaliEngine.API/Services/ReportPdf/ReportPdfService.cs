@@ -12,6 +12,7 @@ public class ReportPdfService : IReportPdfService
     private readonly IReportHtmlTemplateService _htmlTemplateService;
     private readonly IHtmlReportPdfRenderer _htmlPdfRenderer;
     private readonly ReportLifeChapterBuilder _lifeChapterBuilder;
+    private readonly ReportAdditionsBuilder _additionsBuilder;
     private readonly ILogger<ReportPdfService> _logger;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -23,11 +24,13 @@ public class ReportPdfService : IReportPdfService
         IReportHtmlTemplateService htmlTemplateService,
         IHtmlReportPdfRenderer htmlPdfRenderer,
         ReportLifeChapterBuilder lifeChapterBuilder,
+        ReportAdditionsBuilder additionsBuilder,
         ILogger<ReportPdfService> logger)
     {
         _htmlTemplateService = htmlTemplateService;
         _htmlPdfRenderer = htmlPdfRenderer;
         _lifeChapterBuilder = lifeChapterBuilder;
+        _additionsBuilder = additionsBuilder;
         _logger = logger;
     }
 
@@ -53,6 +56,7 @@ public class ReportPdfService : IReportPdfService
         }
 
         IReadOnlyList<Html.ReportLifeChapter> chapters = Array.Empty<Html.ReportLifeChapter>();
+        var additions = new ReportPdfAdditions();
         if (includePremium)
         {
             try
@@ -63,13 +67,27 @@ public class ReportPdfService : IReportPdfService
             {
                 _logger.LogWarning(ex, "Life chapter reading failed. The report will continue without life chapters.");
             }
+
+            try
+            {
+                additions = new ReportPdfAdditions
+                {
+                    Personality = _additionsBuilder.BuildPersonality(report),
+                    LifeAreaReadings = _additionsBuilder.BuildLifeAreaReadings(report),
+                    TwoYearForecast = _additionsBuilder.BuildTwoYearForecast(request.BirthProfile, report)
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Additional paid report sections failed. The report will continue without them.");
+            }
         }
 
         if (ShouldUseCorporateHtml(request.Mode))
         {
             try
             {
-                var html = _htmlTemplateService.BuildCorporateHtml(request.BirthProfile, report, includePremium, chapters);
+                var html = _htmlTemplateService.BuildCorporateHtml(request.BirthProfile, report, includePremium, chapters, additions);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -82,7 +100,7 @@ public class ReportPdfService : IReportPdfService
         {
             try
             {
-                var html = _htmlTemplateService.BuildPrintBlackWhiteHtml(request.BirthProfile, report, includePremium, chapters);
+                var html = _htmlTemplateService.BuildPrintBlackWhiteHtml(request.BirthProfile, report, includePremium, chapters, additions);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -95,7 +113,7 @@ public class ReportPdfService : IReportPdfService
         {
             try
             {
-                var html = _htmlTemplateService.BuildMobileFriendlyHtml(request.BirthProfile, report, includePremium, chapters);
+                var html = _htmlTemplateService.BuildMobileFriendlyHtml(request.BirthProfile, report, includePremium, chapters, additions);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -108,7 +126,7 @@ public class ReportPdfService : IReportPdfService
         {
             try
             {
-                var html = _htmlTemplateService.BuildDesktopColorHtml(request.BirthProfile, report, includePremium, chapters);
+                var html = _htmlTemplateService.BuildDesktopColorHtml(request.BirthProfile, report, includePremium, chapters, additions);
                 return _htmlPdfRenderer.RenderPdf(html, BuildFileName(request));
             }
             catch (Exception ex)
@@ -117,7 +135,7 @@ public class ReportPdfService : IReportPdfService
             }
         }
 
-        var document = BuildDocument(request.BirthProfile, report);
+        var document = BuildDocument(request.BirthProfile, report, additions);
         return StyledPdfWriter.Write(document);
     }
 
@@ -179,7 +197,7 @@ public class ReportPdfService : IReportPdfService
             || string.Equals(mode, "desktopfriendly-color-theme", StringComparison.OrdinalIgnoreCase);
     }
 
-    private static PdfDocument BuildDocument(JsonElement birthProfile, GenerateKundaliResponse report)
+    private static PdfDocument BuildDocument(JsonElement birthProfile, GenerateKundaliResponse report, ReportPdfAdditions additions)
     {
         var name = ValueOrDash(BuildPersonDisplayName(birthProfile, report.Summary?.Name));
         var birthDate = ValueOrDash(GetString(birthProfile, "birthDate", "dateOfBirth"));
@@ -214,6 +232,8 @@ public class ReportPdfService : IReportPdfService
             lines.Add(PdfLine.Grid(familyCells));
         }
 
+        AddYogasDoshasSections(lines, report);
+
         lines.Add(PdfLine.Space(5));
         lines.Add(PdfLine.Section("Core Identity"));
 
@@ -241,16 +261,16 @@ public class ReportPdfService : IReportPdfService
         {
             lines.Add(PdfLine.Space(7));
             lines.Add(PdfLine.Section("Planet Positions"));
-            lines.Add(PdfLine.TableHeader("Planet", "Sign", "Degree", "House", "Nakshatra", "Tone"));
+            lines.Add(PdfLine.TableHeader("Planet", "Sign", "Degree", "House", "Nakshatra", "Strength"));
             foreach (var planet in report.Planets.Take(18))
             {
                 lines.Add(PdfLine.TableRow(
-                    planet.Planet,
+                    PlanetIcon(planet.Planet) + " " + planet.Planet,
                     planet.Sign,
                     $"{planet.Degree}d {planet.Minute:00}m",
                     $"H{planet.House}",
                     ValueOrDash(planet.Nakshatra),
-                    ValueOrDash(planet.ConditionTone)));
+                    PlanetStrength(planet)));
             }
         }
 
@@ -271,9 +291,24 @@ public class ReportPdfService : IReportPdfService
             }
         }
 
+        AddMahadashaTimelineSection(lines, report.MahadashaPeriods);
+        AddSudarshanSection(lines, report.SudarshanChakra);
+        AddRemediesSection(lines, report.RemediesRecommendation);
+        AddTransitSection(lines, report.TransitInsight);
+        AddAdditionsSections(lines, additions);
+
+        return new PdfDocument(
+            "HoraLife",
+            "Kundali Report",
+            $"{name} | {birthDate} | {birthPlace}",
+            lines);
+    }
+
+    private static void AddYogasDoshasSections(List<PdfLine> lines, GenerateKundaliResponse report)
+    {
         if (report.Yogas?.Count > 0)
         {
-            lines.Add(PdfLine.Space(7));
+            lines.Add(PdfLine.Space(5));
             lines.Add(PdfLine.Section("Yogas"));
             foreach (var yoga in report.Yogas.Take(8))
             {
@@ -283,24 +318,50 @@ public class ReportPdfService : IReportPdfService
 
         if (report.Doshas?.Count > 0)
         {
-            lines.Add(PdfLine.Space(7));
+            lines.Add(PdfLine.Space(5));
             lines.Add(PdfLine.Section("Doshas"));
             foreach (var dosha in report.Doshas.Take(8))
             {
                 lines.Add(PdfLine.Bullet(ValueOrDash(GetProperty(dosha, "Name", "DoshaName", "name", "doshaName")), ValueOrDash(GetProperty(dosha, "Description", "Result", "Summary", "description", "result", "summary"))));
             }
         }
+    }
 
-        AddMahadashaTimelineSection(lines, report.MahadashaPeriods);
-        AddSudarshanSection(lines, report.SudarshanChakra);
-        AddRemediesSection(lines, report.RemediesRecommendation);
-        AddTransitSection(lines, report.TransitInsight);
+    private static void AddAdditionsSections(List<PdfLine> lines, ReportPdfAdditions additions)
+    {
+        if (additions.Personality is not null)
+        {
+            lines.Add(PdfLine.Space(7));
+            lines.Add(PdfLine.Section("Personality Profile"));
+            AddParagraph(lines, additions.Personality.CorePersonality, 500);
+            AddParagraph(lines, additions.Personality.EmotionalPattern, 500);
+            lines.Add(PdfLine.Bullet("Natural strengths", string.Join("; ", additions.Personality.NaturalStrengths)));
+            lines.Add(PdfLine.Bullet("Awareness areas", string.Join("; ", additions.Personality.AwarenessAreas)));
+            AddParagraph(lines, additions.Personality.PressureResponse, 500);
+            AddParagraph(lines, additions.Personality.GrowthGuidance, 500);
+        }
 
-        return new PdfDocument(
-            "HoraLife",
-            "Kundali Report",
-            $"{name} | {birthDate} | {birthPlace}",
-            lines);
+        if (additions.LifeAreaReadings.Count > 0)
+        {
+            lines.Add(PdfLine.Space(7));
+            lines.Add(PdfLine.Section("Life Area Readings"));
+            foreach (var reading in additions.LifeAreaReadings)
+            {
+                lines.Add(PdfLine.Bullet($"{reading.LifeArea} ({reading.Tone})", reading.Summary));
+                if (reading.Windows.Count > 0) lines.Add(PdfLine.Bullet("Timing", string.Join(", ", reading.Windows)));
+            }
+        }
+
+        if (additions.TwoYearForecast.Count > 0)
+        {
+            lines.Add(PdfLine.Space(7));
+            lines.Add(PdfLine.Section("Two-Year Outlook"));
+            foreach (var forecast in additions.TwoYearForecast)
+            {
+                lines.Add(PdfLine.Bullet($"{forecast.LifeArea} ({forecast.Tone})", forecast.Summary));
+                lines.Add(PdfLine.Bullet("Windows", string.Join(", ", forecast.Windows)));
+            }
+        }
     }
 
     private static void AddChartVisualSections(List<PdfLine> lines, GenerateKundaliResponse report)
@@ -798,6 +859,17 @@ public class ReportPdfService : IReportPdfService
     }
 
     private static string ValueOrDash(string? value) => string.IsNullOrWhiteSpace(value) ? "-" : value.Trim();
+    private static string PlanetStrength(PlanetDto planet)
+    {
+        var value = (planet.ConditionTone + " " + planet.DetailedStrength).ToLowerInvariant();
+        if (value.Contains("weak") || value.Contains("debilitat") || value.Contains("afflict")) return "Weak";
+        if (value.Contains("strong") || value.Contains("exalt") || value.Contains("own") || value.Contains("support")) return "Strong";
+        return "Mixed";
+    }
+    private static string PlanetIcon(string? planet) => (planet ?? string.Empty).Trim().ToLowerInvariant() switch
+    {
+        "sun" => "☉", "moon" => "☽", "mars" => "♂", "mercury" => "☿", "jupiter" => "♃", "venus" => "♀", "saturn" => "♄", "rahu" => "☊", "ketu" => "☋", _ => "✦"
+    };
 
     private static string SanitizeFileName(string fileName)
     {

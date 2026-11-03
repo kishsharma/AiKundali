@@ -29,6 +29,7 @@ export const ASTROLOGY_ICON_PATHS = {
   info: 'assets/icons/astrology/info.svg',
   remedies: 'assets/icons/astrology/remedies.svg',
   yogas: 'assets/icons/astrology/yogas.svg',
+  doshas: 'assets/icons/astrology/doshas.svg',
   'bhava-score': 'assets/icons/astrology/bhava-score.svg',
   reports: 'assets/icons/astrology/reports.svg',
   settings: 'assets/icons/astrology/settings.svg'

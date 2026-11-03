@@ -1,4 +1,4 @@
-<div *ngIf="scoreEntries.length" class="score-wrapper">
+<div *ngIf="scoreEntries.length" class="score-wrapper" [class.compact]="compact">
   <div class="score-body">
     <div class="score-list">
       <div class="score-row" *ngFor="let score of scoreEntries">

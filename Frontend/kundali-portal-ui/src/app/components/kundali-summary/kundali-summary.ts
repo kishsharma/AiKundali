@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
+import { getPanchangPadaLetter } from '../panchang-card/panchang-card.component';
 @Component({
   selector: 'app-kundali-summary',
   standalone: true,
@@ -18,6 +19,14 @@ export class KundaliSummary {
 
   translatePlanet(value: unknown): string {
     return this.apiTerms.translatePlanet(value);
+  }
+
+  translatePanchang(field: 'maas' | 'paksha' | 'tithi' | 'nakshatra' | 'yoga' | 'karana' | 'vaar', value: unknown): string {
+    return this.apiTerms.translatePanchangValue(field, value);
+  }
+
+  get padaLetter(): string {
+    return getPanchangPadaLetter(this.panchang);
   }
 
   getLagnaLord(): string {
@@ -62,4 +71,5 @@ export class KundaliSummary {
   }
   @Input() summary: any;
   @Input() kundaliFormValue: any;
+  @Input() panchang: any;
 }

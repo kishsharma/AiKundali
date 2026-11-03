@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    { "id": "celestial-circle", "cluster": "foundations", "order": 1, "x": 130, "y": 110, "title": { "en": "The celestial circle", "hi": "खगोलीय वृत्त", "kn": "ಖಗೋಳ ವೃತ್ತ" }, "sessionIds": ["a3c9eff3-380b-5c4b-9135-6ea4e543d528"] },
+    { "id": "earth-sun-moon-time", "cluster": "foundations", "order": 2, "x": 130, "y": 350, "title": { "en": "Earth, Sun, Moon & time", "hi": "पृथ्वी, सूर्य, चंद्रमा और समय", "kn": "ಭೂಮಿ, ಸೂರ್ಯ, ಚಂದ್ರ ಮತ್ತು ಕಾಲ" }, "sessionIds": ["8ec09818-6eef-59b4-9430-1d148bd7d4a5"] },
+    { "id": "panchanga", "cluster": "panchanga", "order": 3, "x": 130, "y": 590, "title": { "en": "Panchanga", "hi": "पंचांग", "kn": "ಪಂಚಾಂಗ" }, "sessionIds": ["b44c43de-2896-5fce-a9f5-19c13cc8857b", "4ace872a-a9b7-5eea-8e49-9a9e2243a7d1", "6cbe331f-11e9-5bc6-b1b5-21994e92e0ae", "f8a59a37-7c0a-5a4d-a15a-d4a0b37be3b4"] },
+    { "id": "tithi-karana", "cluster": "panchanga", "order": 4, "x": 430, "y": 110, "title": { "en": "Tithi & Karana", "hi": "तिथि और करण", "kn": "ತಿಥಿ ಮತ್ತು ಕರಣ" }, "sessionIds": ["4ace872a-a9b7-5eea-8e49-9a9e2243a7d1"] },
+    { "id": "nakshatra-pada", "cluster": "panchanga", "order": 5, "x": 430, "y": 350, "title": { "en": "Nakshatra & Pada", "hi": "नक्षत्र और पाद", "kn": "ನಕ್ಷತ್ರ ಮತ್ತು ಪಾದ" }, "sessionIds": ["6cbe331f-11e9-5bc6-b1b5-21994e92e0ae"] },
+    { "id": "yoga-vara", "cluster": "panchanga", "order": 6, "x": 430, "y": 590, "title": { "en": "Yoga & Vara", "hi": "योग और वार", "kn": "ಯೋಗ ಮತ್ತು ವಾರ" }, "sessionIds": ["f8a59a37-7c0a-5a4d-a15a-d4a0b37be3b4"] },
+    { "id": "rashis", "cluster": "chart", "order": 7, "x": 730, "y": 110, "title": { "en": "The twelve Rashis", "hi": "बारह राशियाँ", "kn": "ಹನ್ನೆರಡು ರಾಶಿಗಳು" }, "sessionIds": ["2d7a1b78-4d75-5ef8-9f18-4a899f6d7ef2"] },
+    { "id": "grahas", "cluster": "chart", "order": 8, "x": 730, "y": 350, "title": { "en": "The nine Grahas", "hi": "नौ ग्रह", "kn": "ಒಂಬತ್ತು ಗ್ರಹಗಳು" }, "sessionIds": ["a5c972b1-6c56-5cc7-8c91-84d3e449bc1d"] },
+    { "id": "planet-dignity", "cluster": "chart", "order": 9, "x": 730, "y": 590, "title": { "en": "Relationships & dignity", "hi": "ग्रह संबंध और गरिमा", "kn": "ಗ್ರಹ ಸಂಬಂಧಗಳು ಮತ್ತು ಗೌರವಸ್ಥಿತಿ" }, "sessionIds": ["10228a19-9710-5ebf-bcc9-055bc0327e89"] },
+    { "id": "lagna-bhavas", "cluster": "chart", "order": 10, "x": 1030, "y": 110, "title": { "en": "Lagna & Bhavas", "hi": "लग्न और भाव", "kn": "ಲಗ್ನ ಮತ್ತು ಭಾವಗಳು" }, "sessionIds": ["3ca8931a-0fa9-572e-8ea4-1d804c2389ed"] },
+    { "id": "house-lords", "cluster": "chart", "order": 11, "x": 1030, "y": 350, "title": { "en": "House lords & functional nature", "hi": "भावेश और कार्यात्मक स्वभाव", "kn": "ಭಾವಾಧಿಪತಿಗಳು ಮತ್ತು ಕಾರ್ಯಾತ್ಮಕ ಸ್ವಭಾವ" }, "sessionIds": ["69c73568-c557-5031-979f-fd31c3c2e4ed"] },
+    { "id": "chart-layouts", "cluster": "chart", "order": 12, "x": 1030, "y": 590, "title": { "en": "Kundali chart layouts", "hi": "कुंडली की चार्ट शैलियाँ", "kn": "ಕುಂಡಲಿ ಚಾರ್ಟ್ ವಿನ್ಯಾಸಗಳು" }, "sessionIds": ["795ce0f8-5dd5-5658-aa55-44c24b5145ff", "e449ce5a-8a9c-5528-840e-c90cb065fa4c"] },
+    { "id": "aspects-conjunctions", "cluster": "chart", "order": 13, "x": 1330, "y": 110, "title": { "en": "Aspects & conjunctions", "hi": "दृष्टि और युति", "kn": "ದೃಷ್ಟಿ ಮತ್ತು ಯುತಿ" }, "sessionIds": ["1b8cfe56-77ad-5df2-b14f-ecfa9ce75dc2"] },
+    { "id": "foundation-reading", "cluster": "synthesis", "order": 14, "x": 1330, "y": 350, "title": { "en": "Foundation chart reading", "hi": "कुंडली का आधारभूत पठन", "kn": "ಕುಂಡಲಿಯ ಮೂಲಭೂತ ವಾಚನ" }, "sessionIds": ["6bd7f940-0a64-5eb3-b03f-f2b3d5372699"] },
+    { "id": "prediction-flow", "cluster": "synthesis", "order": 15, "x": 1330, "y": 590, "title": { "en": "Complete prediction workflow", "hi": "पूर्ण भविष्यवाणी प्रक्रिया", "kn": "ಸಂಪೂರ್ಣ ಭವಿಷ್ಯವಾಣಿ ಕ್ರಮ" }, "sessionIds": ["835779e8-843f-52fb-a764-25cc5dbcc5d5"] }
+  ],
+  "connections": [
+    { "from": "celestial-circle", "to": "earth-sun-moon-time", "label": { "en": "sets the framework for", "hi": "का आधार बनाता है", "kn": "ಇದಕ್ಕೆ ಆಧಾರ ಒದಗಿಸುತ್ತದೆ" } },
+    { "from": "celestial-circle", "to": "panchanga", "label": { "en": "divides celestial cycles into", "hi": "खगोलीय चक्रों को बाँटता है", "kn": "ಆಕಾಶ ಚಕ್ರಗಳನ್ನು ವಿಭಜಿಸುತ್ತದೆ" } },
+    { "from": "earth-sun-moon-time", "to": "panchanga", "label": { "en": "provides the motions used by", "hi": "की गतियों का आधार देता है", "kn": "ಇದಕ್ಕೆ ಬೇಕಾದ ಚಲನೆಯನ್ನು ಒದಗಿಸುತ್ತದೆ" } },
+    { "from": "panchanga", "to": "tithi-karana", "label": { "en": "includes lunar day and half-day", "hi": "में चंद्र दिवस और अर्ध-दिवस शामिल हैं", "kn": "ಚಂದ್ರ ದಿನ ಮತ್ತು ಅರ್ಧ ದಿನವನ್ನು ಒಳಗೊಂಡಿದೆ" } },
+    { "from": "panchanga", "to": "nakshatra-pada", "label": { "en": "tracks lunar divisions through", "hi": "चंद्र विभाजनों को इससे देखता है", "kn": "ಚಂದ್ರ ವಿಭಾಗಗಳನ್ನು ಇದರಿಂದ ಗುರುತಿಸುತ್ತದೆ" } },
+    { "from": "panchanga", "to": "yoga-vara", "label": { "en": "also records", "hi": "इनका भी लेखा रखता है", "kn": "ಇವನ್ನೂ ದಾಖಲಿಸುತ್ತದೆ" } },
+    { "from": "rashis", "to": "grahas", "label": { "en": "provide signs occupied by", "hi": "ग्रहों की स्थितियाँ बताते हैं", "kn": "ಗ್ರಹಗಳಿರುವ ರಾಶಿಗಳನ್ನು ಸೂಚಿಸುತ್ತವೆ" } },
+    { "from": "rashis", "to": "lagna-bhavas", "label": { "en": "rise as the chart's", "hi": "कुंडली में उदित होकर बनती हैं", "kn": "ಕುಂಡಲಿಯಲ್ಲಿ ಉದಯಿಸಿ ರೂಪಿಸುತ್ತವೆ" } },
+    { "from": "grahas", "to": "planet-dignity", "label": { "en": "are judged by condition and", "hi": "स्थिति और गरिमा से परखे जाते हैं", "kn": "ಸ್ಥಿತಿ ಮತ್ತು ಗೌರವದಿಂದ ನಿರ್ಣಯಿಸಲಾಗುತ್ತದೆ" } },
+    { "from": "grahas", "to": "aspects-conjunctions", "label": { "en": "influence one another through", "hi": "एक-दूसरे को प्रभावित करते हैं", "kn": "ಪರಸ್ಪರ ಪ್ರಭಾವ ಬೀರುತ್ತವೆ" } },
+    { "from": "lagna-bhavas", "to": "house-lords", "label": { "en": "assigns each house a ruler", "hi": "हर भाव का स्वामी तय करता है", "kn": "ಪ್ರತಿ ಭಾವದ ಅಧಿಪತಿಯನ್ನು ನಿರ್ಧರಿಸುತ್ತದೆ" } },
+    { "from": "lagna-bhavas", "to": "chart-layouts", "label": { "en": "is read across chart styles", "hi": "विभिन्न चार्ट शैलियों में पढ़ा जाता है", "kn": "ವಿವಿಧ ಚಾರ್ಟ್ ವಿನ್ಯಾಸಗಳಲ್ಲಿ ಓದಲಾಗುತ್ತದೆ" } },
+    { "from": "planet-dignity", "to": "house-lords", "label": { "en": "qualifies how a ruler can act", "hi": "स्वामी के कार्य को स्पष्ट करती है", "kn": "ಅಧಿಪತಿ ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಾನೆ ಎಂಬುದನ್ನು ತಿಳಿಸುತ್ತದೆ" } },
+    { "from": "house-lords", "to": "foundation-reading", "label": { "en": "helps synthesize house topics", "hi": "भाव विषयों को जोड़ने में मदद करता है", "kn": "ಭಾವ ವಿಷಯಗಳನ್ನು ಒಗ್ಗೂಡಿಸಲು ನೆರವಾಗುತ್ತದೆ" } },
+    { "from": "chart-layouts", "to": "foundation-reading", "label": { "en": "makes placements readable", "hi": "स्थितियों को पढ़ने योग्य बनाती है", "kn": "ಗ್ರಹಸ್ಥಿತಿಗಳನ್ನು ಓದಲು ನೆರವಾಗುತ್ತದೆ" } },
+    { "from": "aspects-conjunctions", "to": "foundation-reading", "label": { "en": "adds planetary connections", "hi": "ग्रहों के संबंध जोड़ती है", "kn": "ಗ್ರಹಗಳ ಸಂಬಂಧಗಳನ್ನು ಸೇರಿಸುತ್ತದೆ" } },
+    { "from": "panchanga", "to": "prediction-flow", "label": { "en": "grounds the birth context", "hi": "जन्म संदर्भ का आधार देता है", "kn": "ಜನನ ಸಂದರ್ಭಕ್ಕೆ ಆಧಾರ ಒದಗಿಸುತ್ತದೆ" } },
+    { "from": "foundation-reading", "to": "prediction-flow", "label": { "en": "prepares the chart promise for timing", "hi": "समय निर्धारण से पहले कुंडली का आधार स्पष्ट करता है", "kn": "ಕಾಲ ನಿರ್ಣಯಕ್ಕೂ ಮುನ್ನ ಕುಂಡಲಿಯ ಭರವಸೆಯನ್ನು ಸ್ಪಷ್ಟಪಡಿಸುತ್ತದೆ" } },
+    { "from": "planet-dignity", "to": "prediction-flow", "label": { "en": "contributes planetary strength", "hi": "ग्रह बल का आधार बनती है", "kn": "ಗ್ರಹ ಬಲವನ್ನು ನಿರ್ಧರಿಸಲು ನೆರವಾಗುತ್ತದೆ" } },
+    { "from": "house-lords", "to": "prediction-flow", "label": { "en": "links outcomes to life topics", "hi": "फल को जीवन विषयों से जोड़ता है", "kn": "ಫಲಿತಾಂಶಗಳನ್ನು ಜೀವನ ವಿಷಯಗಳಿಗೆ ಜೋಡಿಸುತ್ತದೆ" } }
+  ]
+}

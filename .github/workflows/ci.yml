@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - GoogleSingleSignIn
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend build and tests
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Build backend solution
+        working-directory: Kundali portal/KundaliEngine
+        run: dotnet build KundaliEngine.sln --configuration Release --verbosity minimal -m:1
+
+      - name: Run backend unit tests
+        working-directory: Kundali portal/KundaliEngine
+        run: dotnet test KundaliEngine.sln --configuration Release --no-build --verbosity minimal -m:1
+
+      - name: Run Current Life Focus checks
+        working-directory: Kundali portal/KundaliEngine
+        run: dotnet run --project KundaliEngine.CurrentLifeFocus.Tests/KundaliEngine.CurrentLifeFocus.Tests.csproj --configuration Release --no-build --no-restore
+
+      - name: Run Learning checks
+        working-directory: Kundali portal/KundaliEngine
+        run: dotnet run --project KundaliEngine.Learning.Tests/KundaliEngine.Learning.Tests.csproj --configuration Release --no-build --no-restore
+
+  frontend:
+    name: Frontend production build
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: Frontend/kundali-portal-ui
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Frontend/kundali-portal-ui/package-lock.json
+
+      - run: npm ci
+      - run: npm run check:i18n
+      - run: npm run build
+
+  crm-schema:
+    name: CRM fresh and upgrade schema checks
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: horalife_crm_schema_tests
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d horalife_crm_schema_tests"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Verify fresh and upgrade schema paths
+        working-directory: Kundali portal/KundaliEngine
+        run: dotnet run --project KundaliEngine.PractitionerCrm.Tests/KundaliEngine.PractitionerCrm.Tests.csproj --configuration Release
+        env:
+          CRM_SCHEMA_TEST_CONNECTION: Host=localhost;Port=5432;Database=horalife_crm_schema_tests;Username=postgres;Password=postgres

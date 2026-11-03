@@ -7,4 +7,5 @@ public interface ILearningContentService
     Task<IReadOnlyList<LearningLevelSummary>> GetLevelsAsync(CancellationToken cancellationToken);
     Task<LearningLevelManifest?> GetLevelAsync(string levelCode, CancellationToken cancellationToken);
     Task<LearningSessionResponse?> GetSessionAsync(Guid sessionGuid, string? language, CancellationToken cancellationToken);
+    Task<LearningKnowledgeMapResponse?> GetKnowledgeMapAsync(string? language, CancellationToken cancellationToken);
 }

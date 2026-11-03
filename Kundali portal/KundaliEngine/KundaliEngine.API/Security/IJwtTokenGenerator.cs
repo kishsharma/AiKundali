@@ -4,6 +4,6 @@ namespace KundaliEngine.API.Security
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(User user);
+        string GenerateToken(User user, TimeSpan? lifetime = null);
     }
 }

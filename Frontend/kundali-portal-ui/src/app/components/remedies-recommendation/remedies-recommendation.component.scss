@@ -7,7 +7,8 @@
 .alternative-strip,
 .quick-reason,
 .compact-panel,
-.remedies-empty {
+.remedies-empty,
+.no-gemstone-note {
   border: 1px solid var(--theme-line);
   border-radius: var(--theme-radius-card);
   background: color-mix(in srgb, var(--theme-surface) 86%, var(--theme-bg));
@@ -188,6 +189,47 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
+
+.evidence-list {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.evidence-list h4 {
+  margin: 0;
+  color: var(--theme-text);
+  font-size: 12px;
+}
+
+.evidence-item {
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--theme-line-soft);
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-surface-2) 72%, var(--theme-bg));
+  color: var(--theme-text-muted);
+  font-size: 11px;
+}
+
+.evidence-item strong { color: var(--theme-text); }
+.evidence-item span { color: var(--theme-danger); font-weight: 700; }
+.evidence-item span.evidence-pass { color: var(--theme-success); }
+.evidence-item small { line-height: 1.4; }
+.evidence-item ul, .no-gemstone-note ul { margin: 0; padding-left: 16px; }
+
+.no-gemstone-note {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  color: var(--theme-text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.no-gemstone-note strong, .no-gemstone-heading strong { color: var(--theme-text); }
+.no-gemstone-heading { padding: 8px 0; font-size: 12px; }
 
 .category-card,
 .detail-card,

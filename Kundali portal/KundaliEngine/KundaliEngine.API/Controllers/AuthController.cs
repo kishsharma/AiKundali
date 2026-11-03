@@ -16,17 +16,26 @@ namespace KundaliEngine.API.Controllers
         private readonly IAuthOtpService _authOtpService;
         private readonly IAuditLogService _auditLogService;
         private readonly IStoreHandoffService _storeHandoffService;
+        private readonly IAuthSessionService _authSessionService;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
         public AuthController(
             IAuthService authService,
             IAuthOtpService authOtpService,
             IAuditLogService auditLogService,
-            IStoreHandoffService storeHandoffService)
+            IStoreHandoffService storeHandoffService,
+            IAuthSessionService authSessionService,
+            IConfiguration configuration,
+            IWebHostEnvironment environment)
         {
             _authService = authService;
             _authOtpService = authOtpService;
             _auditLogService = auditLogService;
             _storeHandoffService = storeHandoffService;
+            _authSessionService = authSessionService;
+            _configuration = configuration;
+            _environment = environment;
         }
 
         [HttpPost("register")]
@@ -35,6 +44,7 @@ namespace KundaliEngine.API.Controllers
             try
             {
                 var response = await _authService.RegisterAsync(request);
+                await IssueRefreshCookieAsync(response, request.RememberMe, cancellationToken: HttpContext.RequestAborted);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "UserRegistered",
@@ -73,6 +83,7 @@ namespace KundaliEngine.API.Controllers
             try
             {
                 var response = await _authService.LoginAsync(request);
+                await IssueRefreshCookieAsync(response, request.RememberMe, cancellationToken: HttpContext.RequestAborted);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "LoginSuccess",
@@ -112,6 +123,7 @@ namespace KundaliEngine.API.Controllers
             try
             {
                 var response = await _authService.LoginWithGoogleAsync(request.IdToken, cancellationToken);
+                await IssueRefreshCookieAsync(response, request.RememberMe, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "GoogleLoginSuccess",
@@ -204,6 +216,7 @@ namespace KundaliEngine.API.Controllers
             try
             {
                 var response = await _authOtpService.VerifyOtpLoginAsync(request, cancellationToken);
+                await IssueRefreshCookieAsync(response, request.RememberMe, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "OtpLoginSuccess",
@@ -308,6 +321,7 @@ namespace KundaliEngine.API.Controllers
             try
             {
                 var response = await _authOtpService.CompleteRegistrationAsync(request, cancellationToken);
+                await IssueRefreshCookieAsync(response, request.RememberMe, cancellationToken);
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "OtpUserRegistered",
@@ -359,6 +373,43 @@ namespace KundaliEngine.API.Controllers
         }
 
         [AllowAnonymous]
+        [EnableRateLimiting("AuthOtp")]
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
+        {
+            if (!IsTrustedBrowserOrigin())
+            {
+                return Forbid();
+            }
+
+            var grant = await _authSessionService.RotateAsync(
+                Request.Cookies[RefreshCookieName],
+                cancellationToken);
+            if (grant?.AuthResponse == null)
+            {
+                ClearRefreshCookie();
+                return Unauthorized(new { message = "Your session has expired. Please sign in again." });
+            }
+
+            WriteRefreshCookie(grant);
+            return Ok(grant.AuthResponse);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(CancellationToken cancellationToken)
+        {
+            if (!IsTrustedBrowserOrigin())
+            {
+                return Forbid();
+            }
+
+            await _authSessionService.RevokeAsync(Request.Cookies[RefreshCookieName], cancellationToken);
+            ClearRefreshCookie();
+            return NoContent();
+        }
+
+        [AllowAnonymous]
         [HttpPost("store-handoff/redeem")]
         public async Task<IActionResult> RedeemStoreHandoff(StoreHandoffRedeemRequest request, CancellationToken cancellationToken)
         {
@@ -407,6 +458,8 @@ namespace KundaliEngine.API.Controllers
             try
             {
                 await _authService.ChangePasswordAsync(parsedUserId, request);
+                await _authSessionService.RevokeAllAsync(parsedUserId, HttpContext.RequestAborted);
+                ClearRefreshCookie();
                 await _auditLogService.LogAsync(new AuditLogEntry
                 {
                     Action = "PasswordChanged",
@@ -452,6 +505,84 @@ namespace KundaliEngine.API.Controllers
                 Status = "Failed",
                 FailureReason = reason
             });
+        }
+
+        private const string RefreshCookieName = "horalife_refresh";
+
+        private async Task IssueRefreshCookieAsync(
+            AuthResponse response,
+            bool rememberMe,
+            CancellationToken cancellationToken)
+        {
+            var grant = await _authSessionService.StartSessionAsync(
+                response.UserId,
+                rememberMe,
+                Request.Cookies[RefreshCookieName],
+                cancellationToken);
+            WriteRefreshCookie(grant);
+        }
+
+        private void WriteRefreshCookie(RefreshSessionGrant grant)
+        {
+            var cookie = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = RefreshCookieSameSite(),
+                Path = "/api/auth",
+                IsEssential = true
+            };
+
+            if (grant.Persistent)
+            {
+                cookie.Expires = grant.ExpiresAtUtc;
+            }
+
+            Response.Cookies.Append(RefreshCookieName, grant.RefreshToken, cookie);
+        }
+
+        private void ClearRefreshCookie()
+        {
+            Response.Cookies.Delete(RefreshCookieName, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = RefreshCookieSameSite(),
+                Path = "/api/auth",
+                IsEssential = true
+            });
+        }
+
+        private bool IsTrustedBrowserOrigin()
+        {
+            var origin = Request.Headers.Origin.ToString();
+            if (string.IsNullOrWhiteSpace(origin))
+            {
+                return false;
+            }
+
+            var allowedOrigins = _configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+                ?? Array.Empty<string>();
+            if (_environment.IsDevelopment())
+            {
+                allowedOrigins = allowedOrigins.Concat(new[]
+                {
+                    "http://localhost:4200",
+                    "http://127.0.0.1:4200"
+                }).ToArray();
+            }
+
+            return allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase);
+        }
+
+        private SameSiteMode RefreshCookieSameSite()
+        {
+            var origin = Request.Headers.Origin.ToString();
+            var localDevelopmentOrigin = origin.Equals("http://localhost:4200", StringComparison.OrdinalIgnoreCase)
+                || origin.Equals("http://127.0.0.1:4200", StringComparison.OrdinalIgnoreCase);
+            return _environment.IsDevelopment() && localDevelopmentOrigin
+                ? SameSiteMode.None
+                : SameSiteMode.Lax;
         }
     }
 }

@@ -39,6 +39,8 @@ export class AuditLogsComponent implements OnInit {
     dateTo: '',
     action: '',
     category: '',
+    userId: '',
+    sessionId: '',
     channel: '',
     status: '',
     messageType: '',
@@ -73,15 +75,24 @@ export class AuditLogsComponent implements OnInit {
     { action: 'UserPreferredLanguageChanged', description: 'The user\'s language was changed.' },
     { action: 'UserKundaliSaveLimitChanged', description: 'An admin changed how many kundalis the user can save.' },
     { action: 'UserPremiumPlanChanged', description: 'An admin changed the user\'s plan.' },
-    { action: 'UserActiveStatusChanged', description: 'An admin turned the user account on or off.' }
+    { action: 'UserActiveStatusChanged', description: 'An admin turned the user account on or off.' },
+    { action: 'PageViewed', description: 'The user opened a portal page.' },
+    { action: 'PageVisibleTime', description: 'The page was visible in the foreground for this duration.' },
+    { action: 'FormStarted', description: 'The user focused a Kundali or compatibility form field.' },
+    { action: 'FormAbandoned', description: 'The user left a Kundali or compatibility form before generating a result.' },
+    { action: 'OperationStarted', description: 'A user started Kundali generation or compatibility matching.' },
+    { action: 'OperationSucceeded', description: 'Kundali generation or compatibility matching completed; duration includes the user-visible wait.' },
+    { action: 'OperationFailed', description: 'Kundali generation or compatibility matching failed.' },
+    { action: 'OperationAbandoned', description: 'The user left the page while Kundali generation or compatibility matching was in progress.' },
+    { action: 'ReportGeneratedNotSaved', description: 'The user left a generated Kundali or match report without saving it.' }
   ];
 
   readonly auditActions = ['', ...this.actionGuide.map((item) => item.action)];
 
-  readonly auditCategories = ['', 'Authentication', 'Security', 'DataChange', 'Export', 'AdminAction'];
+  readonly auditCategories = ['', 'Authentication', 'Security', 'DataChange', 'Export', 'AdminAction', 'UsageAnalytics'];
   readonly communicationChannels = ['', 'Email', 'WhatsApp', 'SMS'];
   readonly communicationTypes = ['', 'OTP', 'Report', 'Receipt', 'Reminder', 'General'];
-  readonly statuses = ['', 'Success', 'Failed', 'Sent', 'Queued'];
+  readonly statuses = ['', 'Success', 'Started', 'Abandoned', 'Failed', 'Sent', 'Queued'];
   private readonly cdr = inject(ChangeDetectorRef);
   ngOnInit(): void {
     this.loadLogs();
@@ -125,6 +136,8 @@ export class AuditLogsComponent implements OnInit {
       dateTo: '',
       action: '',
       category: '',
+      userId: '',
+      sessionId: '',
       channel: '',
       status: '',
       messageType: '',
@@ -172,10 +185,51 @@ export class AuditLogsComponent implements OnInit {
   auditDescription(log: AuditLogItem): string {
     const stored = log.description?.trim();
     if (stored) {
+      if (log.category === 'UsageAnalytics') {
+        return this.formatActivityDescription(log, stored);
+      }
       return stored;
     }
 
     return this.actionGuide.find((item) => item.action === log.action)?.description || log.action || '-';
+  }
+
+  private formatActivityDescription(log: AuditLogItem, stored: string): string {
+    try {
+      const detail = JSON.parse(stored) as {
+        sessionId?: string;
+        route?: string;
+        flow?: string;
+        durationMs?: number;
+      };
+      const duration = this.formatDuration(detail.durationMs);
+      const context = [detail.route, detail.flow, duration].filter(Boolean).join(' · ');
+      const session = detail.sessionId ? ` · session ${detail.sessionId.slice(0, 8)}` : '';
+      const actionText: Record<string, string> = {
+        PageViewed: 'Visited',
+        PageVisibleTime: 'Visible time',
+        FormStarted: 'Started a form',
+        FormAbandoned: 'Left form incomplete',
+        OperationStarted: 'Started',
+        OperationSucceeded: 'Completed',
+        OperationFailed: 'Failed',
+        OperationAbandoned: 'Left while waiting',
+        ReportGeneratedNotSaved: 'Report left unsaved'
+      };
+      return `${actionText[log.action] || log.action}${context ? ` · ${context}` : ''}${session}`;
+    } catch {
+      return stored;
+    }
+  }
+
+  private formatDuration(durationMs?: number): string {
+    if (!Number.isFinite(durationMs) || durationMs === undefined) {
+      return '';
+    }
+    const seconds = Math.max(0, Math.round(durationMs / 1000));
+    return seconds >= 60
+      ? `${Math.floor(seconds / 60)}m ${seconds % 60}s`
+      : `${seconds}s`;
   }
 
   formatDate(value: string): string {
@@ -224,6 +278,8 @@ export class AuditLogsComponent implements OnInit {
     if (this.activeTab === 'audit') {
       query.action = this.filters.action;
       query.category = this.filters.category;
+      query.userId = this.filters.userId.trim();
+      query.sessionId = this.filters.sessionId.trim();
     } else {
       query.channel = this.filters.channel;
       query.messageType = this.filters.messageType;

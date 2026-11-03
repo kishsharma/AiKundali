@@ -18,7 +18,45 @@ export class MahadashaAntardasha {
 
   @Input() mahadashas: any[] = [];
   @Input() planetScores: Record<string, number> | null = null;
+  @Input() birthDate: string | Date | null = null;
   @Input() compact = false;
+
+  get displayedThroughAge(): number | null {
+    const periods = this.displayedMahadashas;
+    const firstPeriod = periods[0];
+    const lastPeriod = periods[periods.length - 1];
+    const birth = this.toDate(this.birthDate)
+      ?? this.toDate(firstPeriod?.startDate || firstPeriod?.start);
+    const end = this.toDate(lastPeriod?.endDate || lastPeriod?.end);
+
+    if (!birth || !end || end < birth) {
+      return null;
+    }
+
+    let age = end.getUTCFullYear() - birth.getUTCFullYear();
+    if (end.getUTCMonth() < birth.getUTCMonth()
+      || (end.getUTCMonth() === birth.getUTCMonth() && end.getUTCDate() < birth.getUTCDate())) {
+      age--;
+    }
+
+    return age >= 0 ? age : null;
+  }
+
+  getAgeRange(period: any): string | null {
+    const firstPeriod = this.mahadashas?.[0];
+    const birth = this.toDate(this.birthDate)
+      ?? this.toDate(firstPeriod?.startDate || firstPeriod?.start);
+    const start = this.toDate(this.getPeriodStart(period));
+    const end = this.toDate(this.getPeriodEnd(period));
+
+    if (!birth || !start || !end || start < birth || end < start) {
+      return null;
+    }
+
+    const startAge = this.ageOnDate(birth, start);
+    const endAge = this.ageOnDate(birth, end);
+    return startAge === null || endAge === null ? null : `${startAge}–${endAge}`;
+  }
 
   get displayedMahadashas(): any[] {
     if (!this.compact) {
@@ -205,6 +243,20 @@ private toDate(value: string | Date | null): Date | null {
   const date = value instanceof Date ? value : new Date(value);
   return Number.isNaN(date.getTime()) ? null : date;
 }
+
+private ageOnDate(birth: Date, date: Date): number | null {
+  if (date < birth) {
+    return null;
+  }
+
+  let age = date.getUTCFullYear() - birth.getUTCFullYear();
+  if (date.getUTCMonth() < birth.getUTCMonth()
+    || (date.getUTCMonth() === birth.getUTCMonth() && date.getUTCDate() < birth.getUTCDate())) {
+    age--;
+  }
+
+  return age >= 0 ? age : null;
+  }
 
 private startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());

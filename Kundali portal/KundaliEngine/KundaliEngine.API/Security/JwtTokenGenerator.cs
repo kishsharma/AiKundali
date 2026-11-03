@@ -14,7 +14,7 @@ namespace KundaliEngine.API.Security
             _configuration = configuration;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(User user, TimeSpan? lifetime = null)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
 
@@ -56,7 +56,7 @@ namespace KundaliEngine.API.Security
                 issuer: issuer,
                 audience: audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
+                expires: DateTime.UtcNow.Add(lifetime ?? TimeSpan.FromMinutes(expiryMinutes)),
                 signingCredentials: credentials
             );
 

@@ -6,6 +6,8 @@ public class Kundali
 
     public Guid? UserId { get; set; }
 
+    public Guid? ClientId { get; set; }
+
     public string FullName { get; set; } = string.Empty;
 
     public string? Surname { get; set; }
@@ -35,6 +37,8 @@ public class Kundali
     public DateTime CreatedAt { get; set; }
 
     public User? User { get; set; }
+
+    public PractitionerClient? Client { get; set; }
 
     public ICollection<KundaliReport> Reports { get; set; } = new List<KundaliReport>();
 }

@@ -47,6 +47,15 @@ const NAKSHATRA_KEYS: Record<string, string> = {
   uttarabhadrapada: 'UttaraBhadrapada', revati: 'Revati'
 };
 
+export function getPanchangPadaLetter(panchang: any): string {
+  const fromChart = String(panchang?.akshara ?? panchang?.Akshara ?? '').trim();
+  if (fromChart) return fromChart;
+
+  const key = NAKSHATRA_KEYS[String(panchang?.nakshatra ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')];
+  const pada = Number(panchang?.pada);
+  return key && pada >= 1 && pada <= 4 ? PADA_AKSHARA[key]?.[pada - 1] ?? '' : '';
+}
+
 @Component({
   selector: 'app-panchang-card',
   standalone: true,
@@ -64,17 +73,6 @@ export class PanchangCardComponent {
   }
 
   get padaLetter(): string {
-    const fromChart = String(this.panchang?.akshara ?? this.panchang?.Akshara ?? '').trim();
-    if (fromChart) {
-      return fromChart;
-    }
-
-    const key = NAKSHATRA_KEYS[String(this.panchang?.nakshatra ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')];
-    const pada = Number(this.panchang?.pada);
-    if (!key || pada < 1 || pada > 4) {
-      return '';
-    }
-
-    return PADA_AKSHARA[key]?.[pada - 1] ?? '';
+    return getPanchangPadaLetter(this.panchang);
   }
 }

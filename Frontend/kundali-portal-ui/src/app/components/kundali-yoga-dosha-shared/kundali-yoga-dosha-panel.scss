@@ -130,6 +130,19 @@
   gap: 6px;
 }
 
+app-astrology-icon.combination-icon {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  padding: 5px;
+  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.combination-icon--yoga { color: var(--theme-warning); }
+.combination-icon--dosha { color: var(--theme-info); }
+
 .yoga-dosha-inline-meta {
   display: flex;
   flex-wrap: wrap;

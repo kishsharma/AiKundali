@@ -24,6 +24,7 @@ export class RegisterComponent implements OnDestroy {
   email = '';
   phoneNumber = '';
   password = '';
+  rememberMe = false;
   otpCode = '';
   otpDigits = Array(6).fill('');
   challengeId = '';
@@ -168,7 +169,8 @@ export class RegisterComponent implements OnDestroy {
       fullName: this.fullName.trim(),
       email: this.email.trim() || undefined,
       phoneNumber: this.phoneNumber.trim() || undefined,
-      preferredLanguage: this.preferredLanguage
+      preferredLanguage: this.preferredLanguage,
+      rememberMe: this.rememberMe
     }).subscribe({
       next: () => this.finishRegistration(),
       error: (error) => {
@@ -185,7 +187,7 @@ export class RegisterComponent implements OnDestroy {
 
     this.errorMessage = '';
     this.isLoading = true;
-    this.authService.loginWithGoogle(idToken).subscribe({
+    this.authService.loginWithGoogle(idToken, this.rememberMe).subscribe({
       next: () => this.finishGoogleSignIn(),
       error: (error) => {
         this.isLoading = false;
@@ -229,7 +231,8 @@ export class RegisterComponent implements OnDestroy {
       email: this.email.trim(),
       phoneNumber: this.phoneNumber.trim() || undefined,
       password: this.password,
-      preferredLanguage: this.preferredLanguage
+      preferredLanguage: this.preferredLanguage,
+      rememberMe: this.rememberMe
     }).subscribe({
       next: () => this.finishRegistration(),
       error: (error) => {

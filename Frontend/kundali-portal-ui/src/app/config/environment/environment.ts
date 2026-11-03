@@ -4,7 +4,7 @@
 // Environment configuration - Development
 // This file will be replaced during production build
 const localApiBaseUrl = 'https://localhost:7245/api';
-let apiVmBaseUrl = 'https://api.horalife.in/api'
+let vmApiBaseUrl = 'https://api.horalife.in/api'
 let storelocalBaseUrl = 'http://localhost:4300';
 let storeVmBaseUrl = 'https://store.horalife.in';
 export const environment = {

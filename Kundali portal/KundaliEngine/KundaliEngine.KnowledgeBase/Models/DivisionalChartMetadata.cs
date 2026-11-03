@@ -21,6 +21,16 @@ public sealed class DivisionalChartDefinition
 
     public int Division { get; set; }
 
+    public string? Group { get; set; }
+
+    public string? Priority { get; set; }
+
+    public List<string> PrimaryDomains { get; set; } = new();
+
+    public string? PredictionRole { get; set; }
+
+    public List<string> CrossValidation { get; set; } = new();
+
     public string? BirthTimeRequirement { get; set; }
 }
 

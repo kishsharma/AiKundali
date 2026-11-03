@@ -104,6 +104,55 @@ public sealed class LearningSessionResponse
     public IReadOnlyList<LearningGlossaryEntry> Glossary { get; set; } = Array.Empty<LearningGlossaryEntry>();
 }
 
+public sealed class LearningKnowledgeMapCatalog
+{
+    public IReadOnlyList<LearningKnowledgeMapNodeCatalog> Nodes { get; set; } = Array.Empty<LearningKnowledgeMapNodeCatalog>();
+    public IReadOnlyList<LearningKnowledgeMapConnectionCatalog> Connections { get; set; } = Array.Empty<LearningKnowledgeMapConnectionCatalog>();
+}
+
+public sealed class LearningKnowledgeMapNodeCatalog
+{
+    public string Id { get; set; } = string.Empty;
+    public string Cluster { get; set; } = string.Empty;
+    public Dictionary<string, string> Title { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public int Order { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
+    public IReadOnlyList<Guid> SessionIds { get; set; } = Array.Empty<Guid>();
+}
+
+public sealed class LearningKnowledgeMapConnectionCatalog
+{
+    public string From { get; set; } = string.Empty;
+    public string To { get; set; } = string.Empty;
+    public Dictionary<string, string> Label { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+}
+
+public sealed class LearningKnowledgeMapResponse
+{
+    public string Language { get; set; } = "en";
+    public IReadOnlyList<LearningKnowledgeMapNode> Nodes { get; set; } = Array.Empty<LearningKnowledgeMapNode>();
+    public IReadOnlyList<LearningKnowledgeMapConnection> Connections { get; set; } = Array.Empty<LearningKnowledgeMapConnection>();
+}
+
+public sealed class LearningKnowledgeMapNode
+{
+    public string Id { get; set; } = string.Empty;
+    public string Cluster { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public int Order { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
+    public IReadOnlyList<Guid> SessionIds { get; set; } = Array.Empty<Guid>();
+}
+
+public sealed class LearningKnowledgeMapConnection
+{
+    public string From { get; set; } = string.Empty;
+    public string To { get; set; } = string.Empty;
+    public string Label { get; set; } = string.Empty;
+}
+
 public sealed class LearningGlossaryEntry
 {
     public string Key { get; set; } = string.Empty;

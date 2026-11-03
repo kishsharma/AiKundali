@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { Subscription } from 'rxjs';
 import { KundaliService } from '../kundali/kundali.service';
 import { LocationService, LocationSearchResult } from '../../core/services/location.service';
 import { HoroscopeService } from './horoscope.service';
@@ -61,8 +62,15 @@ export class HoroscopeComponent implements OnInit, OnDestroy {
   overrideTimezone: string | null = null;
   private locationSearchTimer: ReturnType<typeof setTimeout> | null = null;
   private requestSeq = 0;
+  private languageSubscription?: Subscription;
 
   ngOnInit(): void {
+    this.languageSubscription = this.transloco.langChanges$.subscribe(() => {
+      if (this.mode === 'general' && !this.loadingCharts) {
+        this.load();
+      }
+    });
+
     this.kundaliApi.getSavedKundalis().subscribe({
       next: (charts: SavedChartOption[]) => {
         this.charts = (Array.isArray(charts) ? charts : [])
@@ -89,6 +97,7 @@ export class HoroscopeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.languageSubscription?.unsubscribe();
     if (this.locationSearchTimer) {
       clearTimeout(this.locationSearchTimer);
     }
@@ -175,7 +184,7 @@ export class HoroscopeComponent implements OnInit, OnDestroy {
     this.changeDetector.markForCheck();
 
     if (this.mode === 'general') {
-      this.horoscopeApi.getRashifal(this.horizon, this.anchorDate).subscribe({
+      this.horoscopeApi.getRashifal(this.horizon, this.anchorDate, this.transloco.getActiveLang()).subscribe({
         next: (response) => {
           if (seq !== this.requestSeq) {
             return;
@@ -295,12 +304,21 @@ export class HoroscopeComponent implements OnInit, OnDestroy {
   }
 
   indianRashiName(item: HoroscopeRashifalItem): string {
-    const indianNames: Record<string, string> = {
-      aries: 'Mesha', taurus: 'Vrishabha', gemini: 'Mithuna', cancer: 'Karka',
-      leo: 'Simha', virgo: 'Kanya', libra: 'Tula', scorpio: 'Vrischika',
-      sagittarius: 'Dhanu', capricorn: 'Makara', aquarius: 'Kumbha', pisces: 'Meena'
-    };
-    return indianNames[item.englishName.toLowerCase()] ?? item.rashi ?? item.englishName;
+    const key = `horoscope.rashi.${item.englishName.toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? item.rashi || item.englishName : localized;
+  }
+
+  toneLabel(tone: string): string {
+    const key = `horoscope.tone.${(tone || 'mixed').toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? tone : localized;
+  }
+
+  areaLabel(areaKey: string): string {
+    const key = `horoscope.area.${(areaKey || '').toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? areaKey : localized;
   }
 
   rashiIconPath(item: HoroscopeRashifalItem): string {
@@ -313,7 +331,9 @@ export class HoroscopeComponent implements OnInit, OnDestroy {
       return value ?? '';
     }
     const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-    return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+    const locale = this.transloco.getActiveLang() === 'hi' ? 'hi-IN'
+      : this.transloco.getActiveLang() === 'kn' ? 'kn-IN' : 'en-GB';
+    return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
   }
 
   toneClass(tone: string | null | undefined): string {

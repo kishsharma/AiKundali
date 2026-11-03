@@ -9,6 +9,9 @@
     <span class="tone-chip tone-unfavourable">{{ 'mahadasha.toneUnfavourable' | transloco }}</span>
     <span class="tone-chip tone-neutral">{{ 'mahadasha.toneNeutral' | transloco }}</span>
     <p class="tone-hint">{{ 'mahadasha.toneHint' | transloco }}</p>
+    <p class="dasha-coverage-note" *ngIf="displayedThroughAge as throughAge">
+      {{ 'mahadasha.timelineThroughAge' | transloco: { age: throughAge } }}
+    </p>
   </div>
 
   <div class="current-dasha-summary" *ngIf="getCurrentDashaSummary() as currentDasha">
@@ -59,6 +62,9 @@
         <span class="duration-chip">
           {{ 'mahadasha.duration' | transloco }}:
           {{ getDurationText(getPeriodStart(maha), getPeriodEnd(maha)) }}
+        </span>
+        <span class="age-range-chip" *ngIf="getAgeRange(maha) as ageRange">
+          {{ 'mahadasha.ageRange' | transloco: { range: ageRange } }}
         </span>
       </div>
 

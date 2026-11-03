@@ -55,7 +55,10 @@ public sealed class StoreHandoffService : IStoreHandoffService
             throw new UnauthorizedAccessException("This store sign-in link has expired. Open the store from HoraLife again.");
         }
 
-        return AuthResponseFactory.Create(user, _jwtTokenGenerator.GenerateToken(user), _entitlementService);
+        return AuthResponseFactory.Create(
+            user,
+            _jwtTokenGenerator.GenerateToken(user, TimeSpan.FromMinutes(2)),
+            _entitlementService);
     }
 
     private static string CacheKey(string code) => $"store-handoff:{code}";

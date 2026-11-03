@@ -4,6 +4,7 @@ namespace KundaliEngine.API.DTOs.Requests;
 
 public class SaveKundaliRequest
 {
+    public Guid? ClientId { get; set; }
     public string Name { get; set; } = string.Empty;
 
     public string? Surname { get; set; }

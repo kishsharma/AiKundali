@@ -1,6 +1,7 @@
 import { Directive, Input, inject } from '@angular/core';
 import { ApiTermTranslationService } from '../../core/services/api-term-translation.service';
 import { SubscriptionModalService } from '../../core/services/subscription-modal.service';
+import { getKundaliCombinationIcon } from '../../shared/utils/kundali-combination-icon.util';
 import {
   DoshaAttentionReport,
   rankDoshaAttention,
@@ -35,6 +36,10 @@ export abstract class KundaliYogaDoshaPanelBase {
   protected abstract currentTitle: string;
   protected abstract upcomingTitle: string;
 
+  getCombinationIcon(item: any) {
+    return getKundaliCombinationIcon(item, this.kind);
+  }
+
   get attention(): DoshaAttentionReport {
     const formatters = {
       formatPeriod: (activation: any) => this.formatActivationPeriod(activation),
@@ -56,9 +61,14 @@ export abstract class KundaliYogaDoshaPanelBase {
   }
 
   get upcomingActivationGroups(): ActivationPeriodGroup[] {
-    return this.isPremiumUser
-      ? this.buildActivationPeriodGroups(this.items, 'upcoming', this.upcomingTitle)
-      : [];
+    if (!this.isPremiumUser) {
+      return [];
+    }
+
+    // Active yoga and dosha cards already include upcoming timing rows. Keep
+    // the separate section for items that have not activated yet.
+    const upcomingItems = this.items.filter(item => !this.getCurrentActivation(item));
+    return this.buildActivationPeriodGroups(upcomingItems, 'upcoming', this.upcomingTitle);
   }
 
   get natalItems(): NatalGroupedItem[] {

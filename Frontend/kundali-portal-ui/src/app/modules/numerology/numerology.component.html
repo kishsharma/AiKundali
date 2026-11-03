@@ -227,25 +227,31 @@
 
     <section *ngIf="numerology.loShu as grid" class="result-section pattern-section" aria-labelledby="gridTitle">
       <div class="section-heading section-heading--inline">
-        <h2 id="gridTitle"><span>Date pattern</span> Lo Shu grid</h2>
+        <h2 id="gridTitle"><span>{{ 'numerology.loShu.kicker' | transloco }}</span> {{ 'numerology.loShu.title' | transloco }}</h2>
       </div>
-      <p class="section-gloss">This grid counts digits from your date of birth.</p>
+      <p class="section-gloss">{{ 'numerology.loShu.intro' | transloco }}</p>
+      <aside class="loshu-how-to-read" aria-labelledby="loShuGuideTitle">
+        <h3 id="loShuGuideTitle">{{ 'numerology.loShu.howToRead' | transloco }}</h3>
+        <p>{{ 'numerology.loShu.calculation' | transloco }}</p>
+        <p>{{ 'numerology.loShu.countGuide' | transloco }}</p>
+      </aside>
       <div class="pattern-layout">
-        <div class="loshu" aria-label="Lo Shu grid">
+        <div class="loshu" role="group" [attr.aria-label]="'numerology.loShu.gridLabel' | transloco">
           <div
             class="loshu-cell"
             *ngFor="let cell of grid.cells"
             [class.is-missing]="cell.count === 0"
-            [class.is-repeated]="cell.count > 1">
+            [class.is-repeated]="cell.count > 1"
+            [attr.aria-label]="'numerology.loShu.cellAria' | transloco: { number: cell.number, count: cell.count }">
             <strong>{{ cell.number }}</strong>
             <span>{{ cell.count === 0 ? '—' : cell.count }}</span>
           </div>
         </div>
 
         <div class="pattern-facts">
-          <p class="pattern-line"><span>Missing</span> {{ grid.missing?.length ? grid.missing.join(', ') : 'None' }}</p>
-          <p class="pattern-line"><span>Repeated</span> {{ repeatedLabel(grid) }}</p>
-          <p class="pattern-gloss">Missing = qualities to build with care. Repeated = qualities that show up strongly.</p>
+          <p class="pattern-line"><span>{{ 'numerology.loShu.missing' | transloco }}</span> {{ grid.missing.length ? grid.missing.join(', ') : ('numerology.loShu.none' | transloco) }}</p>
+          <p class="pattern-line"><span>{{ 'numerology.loShu.repeated' | transloco }}</span> {{ grid.repeated.length ? repeatedLabel(grid) : ('numerology.loShu.none' | transloco) }}</p>
+          <p class="pattern-gloss">{{ 'numerology.loShu.caution' | transloco }}</p>
         </div>
 
         <div class="year-stack" *ngIf="numerology.personalYear as year">
@@ -259,6 +265,37 @@
             <span>{{ nextYear.year }}</span>
             <strong>{{ nextYear.number }}</strong>
             <small>{{ nextYear.planet }} · {{ nextYear.calculation }}</small>
+          </article>
+        </div>
+      </div>
+
+      <div class="loshu-explanations">
+        <div class="loshu-subheading">
+          <h3>{{ 'numerology.loShu.rowsTitle' | transloco }}</h3>
+          <p>{{ 'numerology.loShu.traditionalNote' | transloco }}</p>
+        </div>
+        <div class="loshu-row-grid">
+          <article class="loshu-row-card" *ngFor="let row of loShuRows">
+            <div><span class="loshu-row-numbers">{{ row.numbers.join(' · ') }}</span><span class="loshu-row-count">{{ 'numerology.loShu.rowCount' | transloco: { count: getLoShuRowCount(grid, row.numbers) } }}</span></div>
+            <h4>{{ ('numerology.loShu.row.' + row.key + '.title') | transloco }}</h4>
+            <p>{{ ('numerology.loShu.row.' + row.key + '.description') | transloco }}</p>
+          </article>
+        </div>
+
+        <div class="loshu-subheading loshu-number-heading">
+          <h3>{{ 'numerology.loShu.numberThemesTitle' | transloco }}</h3>
+          <p>{{ 'numerology.loShu.numberThemesIntro' | transloco }}</p>
+        </div>
+        <div class="loshu-number-grid">
+          <article class="loshu-number-card" *ngFor="let cell of grid.cells" [class.is-missing]="cell.count === 0" [class.is-repeated]="cell.count > 1">
+            <div class="loshu-number-card-head">
+              <strong>{{ cell.number }}</strong>
+              <span [class]="'loshu-status loshu-status--' + (cell.count === 0 ? 'missing' : cell.count > 1 ? 'repeated' : 'present')">{{ ('numerology.loShu.status.' + (cell.count === 0 ? 'missing' : cell.count > 1 ? 'repeated' : 'present')) | transloco }}</span>
+            </div>
+            <p class="loshu-number-theme">{{ ('numerology.loShu.number.' + cell.number + '.theme') | transloco }}</p>
+            <p class="loshu-number-prompt">{{ ('numerology.loShu.number.' + cell.number + '.prompt') | transloco }}</p>
+            <small>{{ 'numerology.loShu.countLabel' | transloco }}: {{ cell.count }}</small>
+            <small>{{ 'numerology.loShu.planetLabel' | transloco }}: {{ ('planet.' + getLoShuPlanet(cell.number)) | transloco }}</small>
           </article>
         </div>
       </div>
@@ -408,9 +445,9 @@
 
     <section class="result-section meaning-section" aria-labelledby="answersTitle">
       <div class="section-heading section-heading--inline">
-        <h2 id="answersTitle"><span>In simple words</span> What this means</h2>
+        <h2 id="answersTitle"><span>{{ 'numerology.answers.kicker' | transloco }}</span> {{ 'numerology.answers.title' | transloco }}</h2>
       </div>
-      <p class="simple-lead">Use this closing summary if the terms above feel heavy. It says the same reading in everyday language.</p>
+      <p class="simple-lead">{{ 'numerology.answers.intro' | transloco }}</p>
       <ul class="simple-list">
         <li *ngFor="let item of simpleReading(numerology)">
           <strong>{{ item.title }}</strong>

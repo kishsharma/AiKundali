@@ -20,7 +20,7 @@
 
 .kundali-summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   overflow: hidden;
   border: 1px solid var(--line-soft);
   border-radius: var(--theme-radius-control);
@@ -30,11 +30,11 @@
 .kundali-summary-item {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
   min-width: 0;
   border-right: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
-  padding: 0.42rem 0.55rem;
+  padding: 0.4rem 0.55rem;
   transition: background 0.18s ease;
 }
 
@@ -42,11 +42,11 @@
   background: color-mix(in srgb, var(--brass) 7%, transparent);
 }
 
-.kundali-summary-item:nth-child(4n) {
+.kundali-summary-item:nth-child(8n) {
   border-right: none;
 }
 
-.kundali-summary-item:nth-last-child(-n + 4) {
+.kundali-summary-item:nth-last-child(-n + 8) {
   border-bottom: none;
 }
 
@@ -54,13 +54,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
   border: 1px solid var(--line);
   color: var(--brass);
   background: var(--ink);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .kundali-summary-content {
@@ -74,10 +74,9 @@
 
 .kundali-summary-content .summary-label {
   color: var(--brass-soft);
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.015em;
   text-transform: uppercase;
 }
 
@@ -88,9 +87,9 @@
 .kundali-summary-content strong {
   overflow: hidden;
   color: var(--parchment);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -99,9 +98,9 @@
   display: inline;
   overflow: hidden;
   color: var(--parchment-dim);
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1.2;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -111,26 +110,37 @@
   margin: 0 2px 0 1px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
+  .kundali-summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .kundali-summary-item:nth-child(8n) {
+    border-right: 1px solid var(--line-soft);
+  }
+
+  .kundali-summary-item:nth-child(4n) {
+    border-right: none;
+  }
+
+  .kundali-summary-item:nth-last-child(-n + 8) {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .kundali-summary-item:nth-last-child(-n + 4) {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 768px) {
   .kundali-summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .kundali-summary-item:nth-child(4n) {
-    border-right: 1px solid var(--line-soft);
-  }
-
-  .kundali-summary-item:nth-child(2n) {
-    border-right: none;
-  }
-
-  .kundali-summary-item:nth-last-child(-n + 4) {
-    border-bottom: 1px solid var(--line-soft);
-  }
-
-  .kundali-summary-item:nth-last-child(-n + 2) {
-    border-bottom: none;
-  }
+  .kundali-summary-item:nth-child(4n) { border-right: 1px solid var(--line-soft); }
+  .kundali-summary-item:nth-child(2n) { border-right: none; }
+  .kundali-summary-item:nth-last-child(-n + 4) { border-bottom: 1px solid var(--line-soft); }
+  .kundali-summary-item:nth-last-child(-n + 2) { border-bottom: none; }
 }
 
 @media (max-width: 576px) {
@@ -139,21 +149,21 @@
   }
 
   .kundali-summary-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .kundali-summary-item {
-    gap: 0.45rem;
-    min-height: 34px;
+    gap: 0.4rem;
+    min-height: 38px;
     border-right: none !important;
-    padding: 0.38rem 0.5rem;
+    padding: 0.4rem 0.55rem;
   }
 
   .kundali-summary-icon {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    font-size: 10px;
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    font-size: 11px;
   }
 
   .kundali-summary-content {
@@ -161,20 +171,20 @@
   }
 
   .kundali-summary-content .summary-label {
-    font-size: 9px;
-    line-height: 1.15;
+    font-size: 11.5px;
+    line-height: 1.3;
     white-space: nowrap;
   }
 
   .kundali-summary-content strong {
     max-width: 100%;
-    font-size: 11.5px;
-    line-height: 1.2;
+    font-size: 14px;
+    line-height: 1.35;
   }
 
   .kundali-summary-content .summary-lord {
     max-width: 100%;
-    font-size: 10px;
-    line-height: 1.15;
+    font-size: 12px;
+    line-height: 1.35;
   }
 }

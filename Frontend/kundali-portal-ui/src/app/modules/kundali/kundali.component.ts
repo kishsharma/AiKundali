@@ -50,6 +50,11 @@ import { SubscriptionModalService } from '../../core/services/subscription-modal
 import { PortalNotesComponent } from '../../shared/components/portal-notes/portal-notes.component';
 import { ResultFeedbackComponent } from '../../shared/components/result-feedback/result-feedback.component';
 import { PortalWheelPickerComponent } from '../../shared/components/portal-wheel-picker.component';
+import { AstrologyIconComponent } from '../../shared/components/astrology-icon.component';
+import { getKundaliCombinationIcon } from '../../shared/utils/kundali-combination-icon.util';
+import { UserActivityTrackingService } from '../../core/services/user-activity-tracking.service';
+import { PractitionerClient, PractitionerCrmService } from '../../core/services/practitioner-crm.service';
+import { isPlusUser } from '../../core/auth/plan.util';
 
 type KundaliPdfMode = 'desktop' | 'mobile' | 'print-bw' | 'corporate';
 
@@ -153,12 +158,17 @@ interface PredictionAreaDetailCard extends PredictionOutlookCard {
     RemediesRecommendationComponent,
     PortalNotesComponent,
     PortalWheelPickerComponent,
-    ResultFeedbackComponent
+    ResultFeedbackComponent,
+    AstrologyIconComponent
   ],
   templateUrl: './kundali.component.html',
   styleUrls: ['./kundali.component.scss', './kundali.component.exportpdf.scss']
 })
 export class KundaliComponent {
+
+  getCombinationIcon(item: any, kind: 'yoga' | 'dosha') {
+    return getKundaliCombinationIcon(item, kind);
+  }
 
   @ViewChild(PortalNotesComponent) private portalNotes?: PortalNotesComponent;
 
@@ -174,7 +184,9 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   private readonly notifications = inject(NotificationService);
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
+  private readonly practitionerCrm = inject(PractitionerCrmService);
   private readonly subscriptionModal = inject(SubscriptionModalService);
+  private readonly userActivityTracking = inject(UserActivityTrackingService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   locationResults: any[] = [];
@@ -187,6 +199,8 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   mahadashaPeriods: any[] = [];
   savingKundali = false;
   savedKundaliId: string | null = null;
+  practitionerClients: PractitionerClient[] = [];
+  selectedClientId = '';
   duplicateSavePrompt: {
     existingId: string;
     fullName: string;
@@ -264,6 +278,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   openYogaIndex: number | null = null;
   openDoshaIndex: number | null = null;
   activeReportSection = '';
+  activeYogaDoshaTab: 'yoga' | 'dosha' = 'yoga';
   openPredictionLifeArea = 'Career';
   activeStrengthView: 'positions' | 'summary' | 'shadbala' | 'ashtakavarga' = 'positions';
 
@@ -341,9 +356,14 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   get upcomingYogaActivationGroups(): ActivationPeriodGroup[] {
-    return this.isPremiumUser
-      ? this.buildActivationPeriodGroups(this.yogas, 'upcoming', 'Upcoming Yoga Activation')
-      : [];
+    if (!this.isPremiumUser) {
+      return [];
+    }
+
+    // Current yoga cards already list their upcoming activation dates, so
+    // avoid repeating those same yogas in the separate upcoming section.
+    const upcomingOnlyYogas = this.yogas.filter((item) => !this.getCurrentActivation(item));
+    return this.buildActivationPeriodGroups(upcomingOnlyYogas, 'upcoming', 'Upcoming Yoga Activation');
   }
 
   get natalYogaItems(): NatalGroupedItem[] {
@@ -357,9 +377,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   }
 
   get upcomingDoshaActivationGroups(): ActivationPeriodGroup[] {
-    return this.isPremiumUser
-      ? this.buildActivationPeriodGroups(this.doshas, 'upcoming', 'Upcoming Dosha Activation')
-      : [];
+    if (!this.isPremiumUser) {
+      return [];
+    }
+
+    const upcomingOnlyDoshas = this.doshas.filter((item) => !this.getCurrentActivation(item));
+    return this.buildActivationPeriodGroups(upcomingOnlyDoshas, 'upcoming', 'Upcoming Dosha Activation');
   }
 
   get natalDoshaItems(): NatalGroupedItem[] {
@@ -482,6 +505,9 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
 
   ngOnInit(): void {
     this.loadBrandingSettings();
+    if (isPlusUser(this.authService.getCurrentUser())) {
+      this.practitionerCrm.getClients().subscribe({ next: clients => { this.practitionerClients = clients; this.cdr.markForCheck(); } });
+    }
     this.syncActiveReportSectionFromHash();
 
     this.route.paramMap.subscribe(params => {
@@ -658,7 +684,7 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
       birthPlace: value.birthPlace ?? '',
       latitude: this.toNumber(value.latitude),
       longitude: this.toNumber(value.longitude),
-      timeZoneOffset: 5.30
+      timeZoneOffset: 5.5
     };
   }
 
@@ -2207,13 +2233,14 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.savingKundali = true;
     this.saveMessage = '';
     this.saveFailed = false;
-    const payload = { ...this.buildKundaliPayload(), chartData: this.kundaliResponse, onDuplicate: mode };
+    const payload = { ...this.buildKundaliPayload(), clientId: this.selectedClientId || null, chartData: this.kundaliResponse, onDuplicate: mode };
     this.kundaliService.saveKundali(payload).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? saved?.kundaliId ?? this.savedKundaliId;
         this.rememberOpenBirthKey();
         this.duplicateSavePrompt = null;
         if (this.savedKundaliId) {
+          this.userActivityTracking.markReportSaved('KundaliGeneration');
           this.saveDraftNotesForSavedKundali(this.savedKundaliId);
         }
         this.saveFailed = false;
@@ -2670,6 +2697,17 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
   scrollToReportSection(event: MouseEvent, sectionId: string): void {
     event.preventDefault();
 
+    if (sectionId === 'yogaSection' || sectionId === 'doshaSection') {
+      this.activeYogaDoshaTab = sectionId === 'yogaSection' ? 'yoga' : 'dosha';
+      window.setTimeout(() => this.finishReportSectionScroll(sectionId), 0);
+      return;
+    }
+
+    this.finishReportSectionScroll(sectionId);
+  }
+
+  private finishReportSectionScroll(sectionId: string): void {
+
     const target = document.getElementById(sectionId);
 
     if (!target) {
@@ -3080,10 +3118,12 @@ constructor(private translocoService: TranslocoService,private cdr: ChangeDetect
     this.loaderLeaving = false;
     this.kundaliLoaderStartedAt = Date.now();
     this.loading = true;
+    const activityOperationId = this.userActivityTracking.startOperation('KundaliGeneration');
     const payload = this.buildKundaliPayload();
     this.kundaliService.generateKundali(payload)
       .subscribe({
         next: (response) => {
+          this.userActivityTracking.finishOperation(activityOperationId, true);
           console.log('Generated:', response);
           this.kundaliResponse = response;
           this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext({
@@ -3140,6 +3180,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
           });
         },
         error: (error) => {
+          this.userActivityTracking.finishOperation(activityOperationId, false);
           console.error('Kundali generation error:', error);
           this.resetGeneratedKundaliState();
           this.generationFailed = true;
@@ -3315,6 +3356,7 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
     this.kundaliService.getSavedKundali(id).subscribe({
       next: (saved) => {
         this.savedKundaliId = saved?.id ?? id;
+        this.selectedClientId = saved?.clientId ?? '';
         this.dhruvaKundaliContext.setContext(mapDhruvaKundaliContext(saved), saved?.chartData ?? null);
         this.patchFormFromSavedKundali(saved);
         this.rememberOpenBirthKey();
@@ -3336,6 +3378,29 @@ console.log('scoreslog'  , this.kundaliResponse?.scores);
         this.cdr.detectChanges();
       }
     });
+  }
+
+  selectPractitionerClient(clientId: string): void {
+    this.selectedClientId = clientId;
+    const client = this.practitionerClients.find(item => item.id === clientId);
+    if (!client) return;
+    this.kundaliForm.patchValue({
+      fullName: client.fullName,
+      surname: client.surname ?? '',
+      fatherName: client.fatherName ?? '',
+      motherName: client.motherName ?? '',
+      gotra: client.gotra ?? '',
+      gender: client.gender,
+      birthDate: client.dateOfBirth,
+      birthTime: String(client.timeOfBirth).slice(0, 5),
+      birthPlace: client.birthPlace,
+      latitude: client.latitude == null ? '' : String(client.latitude),
+      longitude: client.longitude == null ? '' : String(client.longitude)
+    });
+    this.selectedCoordinates = client.latitude != null && client.longitude != null
+      ? { latitude: client.latitude, longitude: client.longitude }
+      : null;
+    this.locationResults = [];
   }
 
   private patchFormFromSavedKundali(saved: any): void {

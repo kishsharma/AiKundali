@@ -46,6 +46,7 @@
           <div class="dosha-header">
             <div class="dosha-title">
               <div class="yoga-dosha-title-line">
+                <app-astrology-icon class="combination-icon combination-icon--dosha" [name]="getCombinationIcon(entry.item)"></app-astrology-icon>
                 <h4>{{ entry.item.name }}</h4>
                 <span class="dosha-focus-pill" *ngIf="isPriority(entry.index)">{{ 'kundali.doshaAttention.title' | transloco }}</span>
               </div>
@@ -118,6 +119,7 @@
           <div class="dosha-header">
             <div class="dosha-title">
               <div class="yoga-dosha-title-line">
+                <app-astrology-icon class="combination-icon combination-icon--dosha" [name]="getCombinationIcon(entry.item)"></app-astrology-icon>
                 <h4>{{ entry.item.name }}</h4>
                 <span class="dosha-focus-pill" *ngIf="isPriority(entry.index)">{{ 'kundali.doshaAttention.title' | transloco }}</span>
               </div>
@@ -181,6 +183,7 @@
         <div class="dosha-header">
           <div class="dosha-title">
             <div class="yoga-dosha-title-line">
+              <app-astrology-icon class="combination-icon combination-icon--dosha" [name]="getCombinationIcon(entry.item)"></app-astrology-icon>
               <h4>{{ entry.item.name }}</h4>
               <span class="dosha-focus-pill" *ngIf="isPriority(entry.index)">{{ 'kundali.doshaAttention.title' | transloco }}</span>
             </div>

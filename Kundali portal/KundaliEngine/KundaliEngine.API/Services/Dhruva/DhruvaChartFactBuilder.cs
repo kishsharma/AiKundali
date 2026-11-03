@@ -55,6 +55,21 @@ public static class DhruvaChartFactBuilder
         {
             Set(facts, "mahadasha", ReadOpenMahadashas(chart));
         }
+        else if (normalizedMode == "compatibility"
+            && (Find(chart, "relationshipHouseAnalysis") is not null
+                || !string.IsNullOrWhiteSpace(ReadText(chart, "relationshipEvidenceSummary"))))
+        {
+            var partners = new JsonObject();
+            Set(partners, "personA", ReadText(chart, "personAName"));
+            Set(partners, "personB", ReadText(chart, "personBName"));
+            if (partners.Count > 0)
+            {
+                facts["partners"] = partners;
+            }
+
+            Set(facts, "relationshipHouseAnalysis", ReadRelationshipHouseAnalysis(chart));
+            Set(facts, "relationshipEvidenceSummary", ReadText(chart, "relationshipEvidenceSummary"));
+        }
         else
         {
                 var topic = MatchTopic(question);
@@ -79,6 +94,40 @@ public static class DhruvaChartFactBuilder
 
         AttachDashaInfluence(chart, facts, question);
         return facts.ToJsonString(new JsonSerializerOptions { WriteIndented = false });
+    }
+
+    private static JsonArray ReadRelationshipHouseAnalysis(JsonElement chart)
+    {
+        var houses = new JsonArray();
+        foreach (var source in Enumerate(Find(chart, "relationshipHouseAnalysis")))
+        {
+            var item = new JsonObject();
+            Set(item, "houseNumber", ReadInt(source, "houseNumber"));
+            Set(item, "theme", ReadText(source, "theme", "themeKey"));
+            Set(item, "concern", ReadText(source, "concernLevel"));
+            Set(item, "combinedSupportScore", ReadInt(source, "combinedScore"));
+            item["personA"] = ReadRelationshipHousePerson(Find(source, "personA"));
+            item["personB"] = ReadRelationshipHousePerson(Find(source, "personB"));
+            houses.Add(item);
+        }
+
+        return houses;
+    }
+
+    private static JsonObject ReadRelationshipHousePerson(JsonElement? source)
+    {
+        var person = new JsonObject();
+        Set(person, "available", ReadBool(source, "isAvailable"));
+        Set(person, "supportScore", ReadInt(source, "supportScore"));
+        Set(person, "concern", ReadText(source, "concernLevel"));
+        Set(person, "houseLord", ReadText(source, "houseLord"));
+        Set(person, "houseLordStrength", ReadInt(source, "houseLordStrength"));
+        Set(person, "occupants", source is { } element ? ReadTextOrList(element, "occupants") : null);
+        Set(person, "beneficInfluences", source is { } benefic ? ReadTextOrList(benefic, "beneficInfluences") : null);
+        Set(person, "challengingInfluences", source is { } malefic ? ReadTextOrList(malefic, "maleficInfluences") : null);
+        Set(person, "mitigations", source is { } mitigations ? ReadTextOrList(mitigations, "mitigatingFactors") : null);
+        Set(person, "factors", source is { } factors ? ReadTextOrList(factors, "factors") : null);
+        return person;
     }
 
     private static TopicRule? MatchTopic(string? question)
@@ -852,6 +901,20 @@ public static class DhruvaChartFactBuilder
             JsonValueKind.False => "false",
             _ => found.GetRawText(),
         };
+    }
+
+    private static bool? ReadBool(JsonElement? element, params string[] names)
+    {
+        var value = Find(element, names);
+        return value is { ValueKind: JsonValueKind.True } ? true
+            : value is { ValueKind: JsonValueKind.False } ? false
+            : null;
+    }
+
+    private static int? ReadInt(JsonElement? element, params string[] names)
+    {
+        var value = Find(element, names);
+        return value is { ValueKind: JsonValueKind.Number } number && number.TryGetInt32(out var result) ? result : null;
     }
 
     private static JsonNode? ReadNumberOrText(JsonElement element, params string[] names)

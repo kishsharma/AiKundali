@@ -541,6 +541,19 @@
   gap: 20px;
 }
 
+.summary-score-section {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--theme-line-soft, var(--theme-line));
+}
+
+.summary-score-section h3 {
+  margin: 0 0 0.45rem;
+  color: var(--theme-text);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
 .full-row,
 #kundali-report {
   grid-column: 1 / -1;
@@ -1601,8 +1614,79 @@
 }
 
 :host ::ng-deep app-section-card.birth-details-card .card-header {
+  gap: 14px;
   margin-bottom: 8px;
   padding-bottom: 7px;
+}
+
+:host ::ng-deep app-section-card.birth-details-card .card-action {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.client-record-picker {
+  display: grid;
+  grid-template-columns: minmax(150px, max-content) minmax(220px, 1fr);
+  align-items: center;
+  gap: 8px 12px;
+  width: min(100%, 650px);
+  margin-left: auto;
+}
+
+.client-record-picker label {
+  margin: 0;
+  color: var(--brass);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+}
+
+.client-record-picker .optional-label {
+  display: block;
+  margin: 4px 0 0;
+}
+
+.client-record-picker select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: var(--theme-radius-control);
+  padding: 0 11px;
+  color: var(--parchment);
+  background: var(--theme-input-bg);
+  font-size: 14px;
+  outline: none;
+}
+
+.client-record-picker select:focus {
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.1);
+}
+
+@media (max-width: 760px) {
+  :host ::ng-deep app-section-card.birth-details-card .card-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  :host ::ng-deep app-section-card.birth-details-card .card-action {
+    flex-basis: 100%;
+  }
+
+  .client-record-picker {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .client-record-picker .optional-label {
+    display: inline;
+    margin: 0 0 0 4px;
+  }
 }
 
 .kundali-form,
@@ -3009,6 +3093,19 @@
   gap: 6px;
 }
 
+app-astrology-icon.combination-icon {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  padding: 5px;
+  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.combination-icon--yoga { color: var(--theme-warning); }
+.combination-icon--dosha { color: var(--theme-info); }
+
 .yoga-dosha-inline-meta {
   display: flex;
   flex-wrap: wrap;
@@ -3729,7 +3826,7 @@
   aspect-ratio: 1;
   object-fit: contain;
   opacity: 0.86;
-  filter: drop-shadow(0 8px 12px rgba(225, 95, 61, 0.16));
+  filter: drop-shadow(0 8px 12px rgba(201, 154, 59, 0.18));
 }
 
 .report-ganesh-dark {
@@ -4795,7 +4892,7 @@
 :host-context(body[data-theme='dark']) .report-ganesh-dark {
   display: block;
   opacity: 1;
-  filter: brightness(1.62) contrast(1.38) saturate(1.22) drop-shadow(0 0 7px rgba(241, 184, 59, 0.62)) drop-shadow(0 0 18px rgba(241, 184, 59, 0.34));
+  filter: brightness(1.04) contrast(1.06) saturate(1.08) drop-shadow(0 0 6px rgba(241, 184, 59, 0.28));
 }
 
 .horaverse-doorway {
@@ -5597,6 +5694,50 @@
   color: var(--brass);
   border-color: color-mix(in srgb, var(--brass) 55%, var(--line));
 }
+
+.yoga-dosha-tabs {
+  display: flex;
+  width: 100%;
+  gap: 4px;
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+.yoga-dosha-tabs .advanced-strength-tab,
+.yoga-dosha-tabs .advanced-strength-tab.active {
+  position: relative;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 0;
+  color: var(--theme-text-muted, var(--parchment));
+  background: transparent;
+}
+
+.yoga-dosha-tabs .advanced-strength-tab.active {
+  color: var(--brass);
+}
+
+.yoga-dosha-tabs .advanced-strength-tab.active::after {
+  position: absolute;
+  right: 10px;
+  bottom: -1px;
+  left: 10px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--brass);
+  content: '';
+}
+
+.yoga-dosha-tabs .advanced-strength-tab:hover:not(.active):not(:disabled) {
+  color: var(--brass);
+  border-color: transparent;
+}
+
 
 .advanced-strength-tab:disabled,
 .advanced-strength-tab.is-disabled {

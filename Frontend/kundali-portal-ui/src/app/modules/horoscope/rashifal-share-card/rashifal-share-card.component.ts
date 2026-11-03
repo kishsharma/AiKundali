@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import html2canvas from 'html2canvas';
 import { HoroscopeRashifalItem } from '../horoscope.models';
 
 @Component({
   selector: 'app-rashifal-share-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslocoPipe],
   templateUrl: './rashifal-share-card.component.html',
   styleUrl: './rashifal-share-card.component.scss'
 })
 export class RashifalShareCardComponent {
+  constructor(private readonly transloco: TranslocoService) {}
   @Input({ required: true }) item!: HoroscopeRashifalItem;
   @Input() horizon = 'Daily';
   @Input() from = '';
@@ -21,12 +23,9 @@ export class RashifalShareCardComponent {
   feedback = '';
 
   get indianRashiName(): string {
-    const indianNames: Record<string, string> = {
-      aries: 'Mesha', taurus: 'Vrishabha', gemini: 'Mithuna', cancer: 'Karka',
-      leo: 'Simha', virgo: 'Kanya', libra: 'Tula', scorpio: 'Vrischika',
-      sagittarius: 'Dhanu', capricorn: 'Makara', aquarius: 'Kumbha', pisces: 'Meena'
-    };
-    return indianNames[this.item.englishName.toLowerCase()] ?? this.item.rashi ?? this.item.englishName;
+    const key = `horoscope.rashi.${this.item.englishName.toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? this.item.rashi || this.item.englishName : localized;
   }
 
   get zodiacIconPath(): string {
@@ -39,7 +38,27 @@ export class RashifalShareCardComponent {
       return value ?? '';
     }
     const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-    return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+    const locale = this.transloco.getActiveLang() === 'hi' ? 'hi-IN'
+      : this.transloco.getActiveLang() === 'kn' ? 'kn-IN' : 'en-GB';
+    return new Intl.DateTimeFormat(locale, { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+  }
+
+  toneLabel(tone: string): string {
+    const key = `horoscope.tone.${(tone || 'mixed').toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? tone : localized;
+  }
+
+  areaLabel(areaKey: string): string {
+    const key = `horoscope.area.${(areaKey || '').toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? areaKey : localized;
+  }
+
+  horizonLabel(): string {
+    const key = `horoscope.${this.horizon.toLowerCase()}`;
+    const localized = this.transloco.translate(key);
+    return localized === key ? this.horizon : localized;
   }
 
   get formattedPeriod(): string {
@@ -55,16 +74,16 @@ export class RashifalShareCardComponent {
       link.download = `horalife-${this.item.englishName.toLowerCase()}-${this.horizon.toLowerCase()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
-      this.feedback = 'Your share card is ready to save.';
+      this.feedback = this.transloco.translate('horoscope.share.downloadReady');
     } catch {
-      this.feedback = 'Could not create the image. Please try again.';
+      this.feedback = this.transloco.translate('horoscope.share.downloadFailed');
     }
   }
 
   async share(): Promise<void> {
     const message = this.shareMessage();
     if (typeof navigator.share !== 'function') {
-      this.feedback = 'Image sharing is unavailable in this browser. Download the PNG, or use WhatsApp below.';
+      this.feedback = this.transloco.translate('horoscope.share.unavailable');
       return;
     }
     try {
@@ -74,25 +93,25 @@ export class RashifalShareCardComponent {
           canvas.toBlob(value => value ? resolve(value) : reject(new Error('Image export failed')), 'image/png'));
         const file = new File([blob], `horalife-${this.item.englishName.toLowerCase()}.png`, { type: 'image/png' });
         if (navigator.canShare({ files: [file] })) {
-          await navigator.share({ title: `HoraLife ${this.horizon} Rashifal`, text: message, files: [file] });
-          this.feedback = 'Your Rashifal card has been shared.';
+          await navigator.share({ title: `HoraLife ${this.horizonLabel()} ${this.transloco.translate('horoscope.share.rashifal')}`, text: message, files: [file] });
+          this.feedback = this.transloco.translate('horoscope.share.shared');
           return;
         }
       }
-      await navigator.share({ title: `HoraLife ${this.horizon} Rashifal`, text: message });
-      this.feedback = 'Your Rashifal reading has been shared.';
+      await navigator.share({ title: `HoraLife ${this.horizonLabel()} ${this.transloco.translate('horoscope.share.rashifal')}`, text: message });
+      this.feedback = this.transloco.translate('horoscope.share.shared');
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') {
         return;
       }
-      this.feedback = 'Could not share just now. Download the PNG and try again.';
+      this.feedback = this.transloco.translate('horoscope.share.failed');
     }
   }
 
   shareToWhatsApp(): void {
     const message = this.shareMessage();
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
-    this.feedback = 'WhatsApp opened with your Rashifal message. Attach the downloaded card image to share the artwork.';
+    this.feedback = this.transloco.translate('horoscope.share.whatsappOpened');
   }
 
   private async capture(): Promise<HTMLCanvasElement> {
@@ -112,8 +131,8 @@ export class RashifalShareCardComponent {
   }
 
   private shareMessage(): string {
-    const period = this.to && this.to !== this.from ? `${this.from} – ${this.to}` : this.from;
-    return `${this.item.englishName} ${this.horizon} Rashifal${period ? ` · ${period}` : ''}\n${this.item.tone} · ${this.item.score}/100\n\n${this.item.summary}\n\nRead your stars with HoraLife.`;
+    const period = this.formattedPeriod;
+    return `${this.indianRashiName} ${this.horizonLabel()} ${this.transloco.translate('horoscope.share.rashifal')}${period ? ` · ${period}` : ''}\n${this.toneLabel(this.item.tone)} · ${this.item.score}/100\n\n${this.item.summary}\n\n${this.transloco.translate('horoscope.share.brandLine')}`;
   }
 }
 

@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   email = '';
   phoneNumber = '';
   password = '';
+  rememberMe = false;
   otpCode = '';
   otpDigits = Array(6).fill('');
   challengeId = '';
@@ -143,7 +144,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.verifyOtpLogin({
       ...request,
       challengeId: this.challengeId,
-      code: this.otpCode.trim()
+      code: this.otpCode.trim(),
+      rememberMe: this.rememberMe
     }).subscribe({
       next: () => this.finishLogin(),
       error: (error) => {
@@ -160,7 +162,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.errorMessage = '';
     this.isLoading = true;
-    this.authService.loginWithGoogle(idToken).subscribe({
+    this.authService.loginWithGoogle(idToken, this.rememberMe).subscribe({
       next: () => this.finishLogin(),
       error: (error) => {
         this.isLoading = false;
@@ -198,7 +200,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authService.login({
       email: this.email,
-      password: this.password
+      password: this.password,
+      rememberMe: this.rememberMe
     }).subscribe({
       next: () => this.finishLogin(),
       error: (error) => {

@@ -4,6 +4,8 @@ public class SavedKundaliListItemDto
 {
     public Guid Id { get; set; }
 
+    public Guid? ClientId { get; set; }
+
     public string DisplayName { get; set; } = string.Empty;
 
     public string FullName { get; set; } = string.Empty;

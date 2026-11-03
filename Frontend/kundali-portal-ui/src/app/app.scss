@@ -280,8 +280,47 @@
   justify-content: flex-end;
   gap: 8px;
   width: auto;
-  max-width: min(380px, 48vw);
+  max-width: min(520px, 64vw);
   z-index: 2100;
+}
+
+.topbar-right app-notification-center {
+  flex: 0 0 40px;
+}
+
+.topbar-language {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.topbar-language select {
+  min-width: 96px;
+  min-height: 38px;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: var(--theme-radius-control);
+  padding: 0 26px 0 10px;
+  background: color-mix(in srgb, var(--theme-surface-soft) 88%, transparent);
+  color: var(--parchment);
+  font: 600 12px "Work Sans", "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.topbar-language select:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .theme-toggle {
@@ -297,6 +336,37 @@
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
+}
+
+.sketch-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: var(--theme-radius-control);
+  background: color-mix(in srgb, var(--theme-surface-soft) 88%, transparent);
+  color: var(--parchment);
+  cursor: pointer;
+}
+
+.sketch-toggle svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.sketch-toggle:hover,
+.sketch-toggle:focus-visible,
+.sketch-toggle.active {
+  border-color: color-mix(in srgb, var(--brass) 58%, transparent);
+  background: color-mix(in srgb, var(--brass) 14%, var(--theme-surface));
+  outline: none;
 }
 
 .theme-toggle:hover,
@@ -926,7 +996,7 @@
 @media screen and (max-width: 720px) {
   .app-topbar {
     display: grid;
-    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
     min-height: 60px;
     gap: 8px;
     padding: 8px 12px;
@@ -941,7 +1011,7 @@
     --brand-logo-mark-size: 31px;
     --brand-logo-name-size: 21px;
     --brand-logo-descriptor-size: 7px;
-    justify-content: center;
+    justify-content: flex-start;
     overflow: hidden;
   }
 
@@ -961,7 +1031,14 @@
     display: flex;
     justify-self: end;
     max-width: none;
-    gap: 0;
+    gap: 4px;
+  }
+
+  .topbar-language select {
+    min-width: 64px;
+    min-height: 36px;
+    padding-inline: 5px 18px;
+    font-size: 10px;
   }
 
   .user-menu,
@@ -1058,5 +1135,11 @@
 
   .page-content:not(.public-page-content) {
     padding-top: 60px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sketch-toggle {
+    display: none;
   }
 }

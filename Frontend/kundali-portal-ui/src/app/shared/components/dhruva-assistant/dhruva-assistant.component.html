@@ -101,17 +101,11 @@
       </div>
     </div>
 
-    <div class="dhruva-panel-content">
-      <div class="dhruva-scroll-content">
+    <div class="dhruva-panel-content" [class.dhruva-upgrade-locked]="!!upgradeBlock">
+      <div class="dhruva-scroll-content" [attr.inert]="upgradeBlock ? '' : null">
         <div class="dhruva-chat-stack">
           <p class="dhruva-chat-message bot">{{ welcomeMessage }}</p>
           <p class="dhruva-chat-message user" *ngIf="latestQuestionText">{{ latestQuestionText }}</p>
-
-          <section class="dhruva-upgrade-block" *ngIf="upgradeBlock as block" role="status">
-            <p class="dhruva-upgrade-title">{{ block.title }}</p>
-            <p class="dhruva-upgrade-copy">{{ block.message }}</p>
-            <button type="button" class="dhruva-upgrade-action" (click)="openUpgrade()">Upgrade</button>
-          </section>
 
           <ng-container *ngIf="displayedAnswer as answer">
             <section
@@ -336,21 +330,6 @@
           </ng-container>
         </div>
 
-        <div class="dhruva-chip-tray" aria-label="Dhruva suggestions">
-          <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="tellJanmaStory()">
-            Janma Story
-          </button>
-          <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="selectPersonalQuestion('moon-sign')">
-            {{ 'dhruva.personal.moonSignQuestion' | transloco }}
-          </button>
-          <button type="button" class="dhruva-chip" *ngIf="hasKundaliContext" (click)="selectPersonalQuestion('mahadasha')">
-            {{ 'dhruva.personal.mahadashaQuestion' | transloco }}
-          </button>
-          <button type="button" class="dhruva-chip" (click)="startTour()">
-            Portal Tour
-          </button>
-        </div>
-
         <div class="dhruva-custom-guide" *ngIf="hasCustomQuestionSource">
           <h3>Life questions</h3>
           <div class="dhruva-question-list" role="list">
@@ -371,7 +350,16 @@
 
         </div>
 
-      <div class="dhruva-panel-footer">
+      <section class="dhruva-upgrade-block" *ngIf="upgradeBlock as block" role="status" aria-live="polite">
+        <div class="dhruva-upgrade-content">
+          <p class="dhruva-upgrade-title">{{ block.title }}</p>
+          <p class="dhruva-upgrade-copy">{{ block.message }}</p>
+          <p class="dhruva-upgrade-next-step">Upgrade to unlock more from Dhruva.</p>
+          <button type="button" class="dhruva-upgrade-action" (click)="openUpgrade()">View Premium plans</button>
+        </div>
+      </section>
+
+      <div class="dhruva-panel-footer" [attr.inert]="upgradeBlock ? '' : null">
         <form class="dhruva-ask-form" (ngSubmit)="submitTypedQuestion()">
           <label class="dhruva-input-label" for="dhruva-ask-input">{{ (hasKundaliContext ? 'dhruva.personal.inputLabel' : 'dhruva.general.heading') | transloco }}</label>
           <div class="dhruva-ask-row">
@@ -421,10 +409,6 @@
         </form>
 
         <div class="dhruva-secondary-actions">
-          <button type="button" class="dhruva-tour-again" (click)="startTour()">
-            Portal Tour
-          </button>
-
           <button type="button" class="dhruva-tour-again" *ngIf="hasKundaliContext" (click)="startKundaliReportTour()">
             Report Tour
           </button>

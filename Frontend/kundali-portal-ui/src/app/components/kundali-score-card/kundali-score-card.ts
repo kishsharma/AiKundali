@@ -14,6 +14,7 @@ type ScoreType = 'overall' | 'stability' | 'growth' | 'challenge';
 })
 export class KundaliScoreCard {
   @Input() scores: any = null;
+  @Input() compact = false;
 
   selectedScoreType: ScoreType | null = null;
   isModalOpen = false;

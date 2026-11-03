@@ -28,6 +28,7 @@ namespace KundaliEngine.Domain.Models
         public List<string> Factors { get; set; } = new();
         public List<string> Remedies { get; set; } = new();
         public List<string> References { get; set; } = new();
+        public DoshaParasharaReference? ParasharaReference { get; set; }
         public List<ScoreComponent> ScoreBreakdown { get; set; } = new();
     }
 
@@ -38,5 +39,21 @@ namespace KundaliEngine.Domain.Models
         public string Reason { get; set; } = string.Empty;
         public List<string> InvolvedPlanets { get; set; } = new();
         public List<int> InvolvedHouses { get; set; } = new();
+        public List<string> MitigatingFactors { get; set; } = new();
+    }
+
+    public class DoshaParasharaReference
+    {
+        public string SourceText { get; set; } = string.Empty;
+        public int Chapter { get; set; }
+        public string ChapterTitle { get; set; } = string.Empty;
+        public string Verses { get; set; } = string.Empty;
+        public string Sanskrit { get; set; } = string.Empty;
+        public string Transliteration { get; set; } = string.Empty;
+        public string SimpleMeaning { get; set; } = string.Empty;
+        public string ReferenceType { get; set; } = string.Empty;
+        public string VerificationStatus { get; set; } = string.Empty;
+        public string ScopeNote { get; set; } = string.Empty;
+        public string EditionNote { get; set; } = string.Empty;
     }
 }

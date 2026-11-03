@@ -5,7 +5,7 @@ import { timeout } from 'rxjs/operators';
 
 import { environment } from '../../config/environment/environment';
 
-export type DhruvaNarrationMode = 'janma_story' | 'dasha_focus' | 'qa';
+export type DhruvaNarrationMode = 'janma_story' | 'dasha_focus' | 'compatibility' | 'qa';
 
 export interface DhruvaNarrateRequest {
   mode: DhruvaNarrationMode;

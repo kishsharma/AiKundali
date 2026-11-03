@@ -1,7 +1,7 @@
 <section class="audit-logs-page">
   <app-page-header
     title="Audit Logs"
-    subtitle="Review user activity, admin changes, exports, and communication delivery"
+    subtitle="Review page visits, time spent, report flows, saves, exports, and communications"
     [breadcrumbs]="[
       { label: 'Home', routerLink: '/' },
       { label: 'Audit Logs', active: true }
@@ -44,6 +44,14 @@
           <select name="category" [(ngModel)]="filters.category">
             <option *ngFor="let category of auditCategories" [value]="category">{{ category || 'All' }}</option>
           </select>
+        </label>
+        <label>
+          <span>User ID</span>
+          <input type="search" name="userId" [(ngModel)]="filters.userId" placeholder="User identifier" />
+        </label>
+        <label>
+          <span>Session ID</span>
+          <input type="search" name="sessionId" [(ngModel)]="filters.sessionId" placeholder="Session identifier" />
         </label>
       </ng-container>
 
@@ -90,10 +98,10 @@
         <span>Status</span>
       </div>
       <div class="table-row" *ngFor="let log of auditLogs; trackBy: trackById">
-        <span class="muted">{{ log.userName || log.userId || '-' }}</span>
-        <span class="muted">{{ formatDate(log.createdAt) }}</span>
-        <span class="muted wrap">{{ auditDescription(log) }}</span>
-        <span class="status-pill" [class.failed]="log.status === 'Failed'">{{ log.status }}</span>
+        <span class="muted" data-label="User">{{ log.userName || log.userId || '-' }}</span>
+        <span class="muted" data-label="Time">{{ formatDate(log.createdAt) }}</span>
+        <span class="muted wrap" data-label="Description">{{ auditDescription(log) }}</span>
+        <span class="status-pill" data-label="Status" [class.failed]="log.status === 'Failed'" [class.queued]="log.status === 'Started' || log.status === 'Abandoned'">{{ log.status }}</span>
       </div>
     </div>
 
@@ -107,12 +115,12 @@
         <span>Details</span>
       </div>
       <div class="table-row" *ngFor="let log of communicationLogs; trackBy: trackById">
-        <span class="muted">{{ formatDate(log.createdAt) }}</span>
-        <strong>{{ log.channel }}</strong>
-        <span class="muted">{{ log.recipientEmail || log.recipientMobile || '-' }}</span>
-        <span class="muted">{{ log.messageType }}<small *ngIf="log.templateName">{{ log.templateName }}</small></span>
-        <span class="status-pill" [class.failed]="log.status === 'Failed'" [class.queued]="log.status === 'Queued'">{{ log.status }}</span>
-        <span class="muted wrap">{{ log.failureReason || log.subject || log.providerMessageId || log.provider || '-' }}</span>
+        <span class="muted" data-label="Time">{{ formatDate(log.createdAt) }}</span>
+        <strong data-label="Channel">{{ log.channel }}</strong>
+        <span class="muted" data-label="Recipient">{{ log.recipientEmail || log.recipientMobile || '-' }}</span>
+        <span class="muted" data-label="Type">{{ log.messageType }}<small *ngIf="log.templateName">{{ log.templateName }}</small></span>
+        <span class="status-pill" data-label="Status" [class.failed]="log.status === 'Failed'" [class.queued]="log.status === 'Queued'">{{ log.status }}</span>
+        <span class="muted wrap" data-label="Details">{{ log.failureReason || log.subject || log.providerMessageId || log.provider || '-' }}</span>
       </div>
     </div>
 

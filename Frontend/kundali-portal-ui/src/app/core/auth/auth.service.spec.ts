@@ -45,7 +45,7 @@ describe('AuthService', () => {
 
     dhruva.setContext({ personName: { value: 'Aditi', status: 'available' } } as never);
     localStorage.setItem('kundali_user', JSON.stringify({ userId: 'user-a', token: 'old' }));
-    service.login({ email: 'b@example.com', password: 'secret' }).subscribe();
+    service.login({ email: 'b@example.com', password: 'secret', rememberMe: false }).subscribe();
     httpMock.expectOne(`${environment.apiBaseUrl}/${apiEndpoints.auth}/login`).flush({
       userId: 'user-b',
       fullName: 'User B',
@@ -54,6 +54,8 @@ describe('AuthService', () => {
     });
 
     expect(dhruva.context()).toBeNull();
+    expect(localStorage.getItem('kundali_token')).toBeNull();
+    expect(JSON.parse(localStorage.getItem('kundali_user') ?? '{}').token).toBeUndefined();
   });
 
   it('updates cached user preferred language after PATCH', () => {
@@ -80,6 +82,37 @@ describe('AuthService', () => {
     const updatedUser = service.getCurrentUser();
     expect(updatedUser?.preferredLanguage).toBe('hi');
     expect(updatedUser?.token).toBe('token-123');
+  });
+
+  it('restores a browser session from the HttpOnly refresh cookie without persisting the access token', () => {
+    let restored = false;
+    service.restoreSession().subscribe(value => restored = value);
+
+    const request = httpMock.expectOne(`${environment.apiBaseUrl}/${apiEndpoints.auth}/refresh`);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.withCredentials).toBe(true);
+    request.flush({
+      userId: 'u2',
+      fullName: 'Remembered User',
+      role: 'User',
+      token: 'short-lived-access-token'
+    });
+
+    expect(restored).toBe(true);
+    expect(service.getToken()).toBe('short-lived-access-token');
+    expect(localStorage.getItem('kundali_token')).toBeNull();
+    expect(JSON.parse(localStorage.getItem('kundali_user') ?? '{}').token).toBeUndefined();
+  });
+
+  it('revokes the server session when logging out and clears the local profile immediately', () => {
+    localStorage.setItem('kundali_user', JSON.stringify({ userId: 'u1', fullName: 'Test', role: 'User' }));
+    service.logout();
+
+    const request = httpMock.expectOne(`${environment.apiBaseUrl}/${apiEndpoints.auth}/logout`);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.withCredentials).toBe(true);
+    expect(localStorage.getItem('kundali_user')).toBeNull();
+    request.flush(null);
   });
 
   it('updates cached user details after getMe while preserving token', () => {

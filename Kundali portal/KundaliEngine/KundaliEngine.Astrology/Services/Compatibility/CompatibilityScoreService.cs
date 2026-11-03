@@ -73,6 +73,8 @@ namespace KundaliEngine.Astrology.Services.Compatibility
             result.Summary = GenerateSummary(result);
             result.PersonAchart = personA.Chart;
             result.PersonBchart = personB.Chart;
+            result.RelationshipHouseAnalysis = new CompatibilityHouseAnalysisService(_astrologyKnowledgeService)
+                .Analyze(personA.Chart, personB.Chart);
             result.Ashtakoota = ashtakoota;
             return result;
         }

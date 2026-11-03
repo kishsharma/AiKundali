@@ -40,6 +40,42 @@ table {
   border-collapse: collapse;
 }
 
+.planet-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.strength-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.strength-indicator i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.strength-strong { color: #19764a; }
+.strength-strong i { background: #2da66a; }
+.strength-weak { color: #b34040; }
+.strength-weak i { background: #d65b5b; }
+.strength-mixed { color: #9a6b22; }
+.strength-mixed i { background: #d6a542; }
+
 th,
 td {
   vertical-align: top;

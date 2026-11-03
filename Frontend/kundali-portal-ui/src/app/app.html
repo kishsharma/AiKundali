@@ -15,6 +15,17 @@
     </div>
 
     <div class="topbar-right" *ngIf="showUserMenu" [class.menu-open]="isUserMenuOpen">
+      <app-notification-center></app-notification-center>
+      <button
+        type="button"
+        class="sketch-toggle"
+        [class.active]="isGlobalSketchOpen"
+        [attr.aria-pressed]="isGlobalSketchOpen"
+        [attr.aria-label]="isGlobalSketchOpen ? 'Close sketch tool' : 'Open sketch tool'"
+        [title]="isGlobalSketchOpen ? 'Close sketch tool' : 'Open sketch tool'"
+        (click)="toggleGlobalSketch()">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.2 3.8a1.6 1.6 0 0 1 2.3 0l2.7 2.7a1.6 1.6 0 0 1 0 2.3L10.1 18.9 5 20l1.1-5.1z"></path><path d="m13.8 5.2 5 5"></path></svg>
+      </button>
       <button
         type="button"
         class="theme-toggle"
@@ -23,6 +34,15 @@
         [title]="themeToggleTitle">
         {{ themeToggleIcon }}
       </button>
+      <label class="topbar-language">
+        <span class="sr-only">Language</span>
+        <select
+          [value]="activeLanguage"
+          (change)="changeLanguage($any($event.target).value)"
+          aria-label="Language">
+          <option *ngFor="let language of languages" [value]="language.code">{{ language.label }}</option>
+        </select>
+      </label>
       <div
         class="user-menu"
         role="button"
@@ -213,24 +233,6 @@
 
     <span>White-label Settings</span>
   </button>
-  <div class="dropdown-divider" role="separator"></div>
-
-  <div class="menu-prefs">
-    <label class="menu-pref">
-      <span>Language</span>
-      <select
-        class="menu-lang"
-        [value]="activeLanguage"
-        (change)="changeLanguage($any($event.target).value)"
-        aria-label="Language"
-      >
-        <option *ngFor="let language of languages" [value]="language.code">{{ language.label }}</option>
-      </select>
-      </label>
-  </div>
-
-  <div class="dropdown-divider" role="separator"></div>
-
   <!-- Logout -->
   <button
     type="button"
@@ -254,6 +256,8 @@
       
     </div>
   </header>
+
+  <app-global-sketch-overlay *ngIf="isGlobalSketchOpen"></app-global-sketch-overlay>
 
   <main class="page-content" [class.public-page-content]="isPublicLanding">
     <router-outlet></router-outlet>

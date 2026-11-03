@@ -256,11 +256,13 @@ namespace KundaliEngine.API.Controllers
                 Summary = string.Empty
             };
             var transitInsight = BuildTransitInsight(request, ascendantSign, currentDashaDto, currentUtc, planets, houseDtos);
+            var advancedStrengthTables = _advancedStrengthTableService.Build(planets, houseDtos, aspectResult);
             var remediesRecommendation = _remediesRecommendationService.Recommend(
                 ascendantSign,
                 moonPos.Sign,
                 planets,
-                currentDashaDto);
+                currentDashaDto,
+                advancedStrengthTables);
             var houseDomainDtos = houseDtos.Select(h => new Domain.Models.HouseDto
             {
                 HouseNumber = (HouseNumber)h.HouseNumber,
@@ -445,7 +447,7 @@ namespace KundaliEngine.API.Controllers
                 D9Chart = d9Chart,
                 DivisionalCharts = divisionalCharts,
                 SudarshanChakra = MapSudarshanChakraDto(sudarshanChakra),
-                AdvancedStrengthTables = _advancedStrengthTableService.Build(planets, houseDtos, aspectResult)
+                AdvancedStrengthTables = advancedStrengthTables
             };
             if (isPremiumUser)
             {
@@ -519,6 +521,16 @@ namespace KundaliEngine.API.Controllers
                 return Unauthorized();
             }
 
+            if (request.ClientId.HasValue)
+            {
+                if (!_entitlementService.IsPlus(user))
+                {
+                    return StatusCode(StatusCodes.Status402PaymentRequired, new { code = "PremiumPlusRequired", message = "Client linking is available on Premium Plus." });
+                }
+                var clientExists = await _dbContext.PractitionerClients.AnyAsync(x => x.Id == request.ClientId.Value && x.UserId == userId.Value && !x.IsArchived);
+                if (!clientExists) return BadRequest(new { message = "Select an active client owned by this account." });
+            }
+
             var dateOfBirth = DateOnly.FromDateTime(request.BirthDateTime);
             var timeOfBirth = TimeOnly.FromDateTime(request.BirthDateTime);
             var latitude = Convert.ToDecimal(request.Latitude);
@@ -552,6 +564,16 @@ namespace KundaliEngine.API.Controllers
                     });
 
                 case KundaliSaveOutcome.ReuseExisting when match is not null:
+                    if (request.ClientId.HasValue && match.ClientId != request.ClientId)
+                    {
+                        var existing = await _dbContext.Kundalis.FirstOrDefaultAsync(k => k.Id == match.Id && k.UserId == userId.Value);
+                        if (existing is not null)
+                        {
+                            existing.ClientId = request.ClientId;
+                            await _dbContext.SaveChangesAsync();
+                            match = existing;
+                        }
+                    }
                     var reused = MapSavedKundaliDetail(match);
                     reused.ReusedExisting = true;
                     return Ok(reused);
@@ -631,6 +653,7 @@ namespace KundaliEngine.API.Controllers
                 .Select(k => new SavedKundaliListItemDto
                 {
                     Id = k.Id,
+                    ClientId = k.ClientId,
                     FullName = k.FullName,
                     DateOfBirth = k.DateOfBirth,
                     TimeOfBirth = k.TimeOfBirth,
@@ -808,6 +831,7 @@ namespace KundaliEngine.API.Controllers
         }
         private static void ApplySaveFields(Kundali kundali, SaveKundaliRequest request)
         {
+            kundali.ClientId = request.ClientId;
             kundali.FullName = request.Name.Trim();
             kundali.Surname = NormalizeOptional(request.Surname, 150);
             kundali.FatherName = NormalizeOptional(request.FatherName, 150);
@@ -828,6 +852,7 @@ namespace KundaliEngine.API.Controllers
             return new SavedKundaliDetailDto
             {
                 Id = kundali.Id,
+                ClientId = kundali.ClientId,
                 FullName = kundali.FullName,
                 Surname = kundali.Surname,
                 FatherName = kundali.FatherName,

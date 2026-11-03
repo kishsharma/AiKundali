@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { AstrologerBrandingSetting, AstrologerBrandingSettingsService } from '../../core/services/astrologer-branding-settings.service';
@@ -14,7 +14,7 @@ import { NumerologyLoShu, NumerologyResponse, NumerologyService } from './numero
 @Component({
   selector: 'app-numerology',
   standalone: true,
-  imports: [CommonModule, FormsModule, AstrologyIconComponent, PortalWheelPickerComponent],
+  imports: [CommonModule, FormsModule, TranslocoPipe, AstrologyIconComponent, PortalWheelPickerComponent],
   templateUrl: './numerology.component.html',
   styleUrl: './numerology.component.scss',
 })
@@ -55,6 +55,11 @@ export class NumerologyComponent implements OnInit, OnDestroy {
   businessName = '';
   readonly currentYear = new Date().getFullYear();
   readonly maxDate = new Date().toISOString().slice(0, 10);
+  readonly loShuRows = [
+    { key: 'mental', numbers: [4, 9, 2] },
+    { key: 'emotional', numbers: [3, 5, 7] },
+    { key: 'practical', numbers: [8, 1, 6] },
+  ] as const;
   result: NumerologyResponse | null = null;
   revealResult: NumerologyResponse | null = null;
   revealStage: 'idle' | 'dob' | 'digits' | 'shuffle' | 'resolved' = 'idle';
@@ -321,34 +326,52 @@ export class NumerologyComponent implements OnInit, OnDestroy {
     return grid.repeated.map(item => `${item.number} × ${item.count}`).join(', ');
   }
 
+  getLoShuPlanet(number: number): string {
+    const planets: Record<number, string> = {
+      1: 'Sun', 2: 'Moon', 3: 'Jupiter', 4: 'Rahu', 5: 'Mercury',
+      6: 'Venus', 7: 'Ketu', 8: 'Saturn', 9: 'Mars',
+    };
+    return planets[number] ?? '';
+  }
+
+  getLoShuRowCount(grid: NumerologyLoShu, numbers: readonly number[]): number {
+    return numbers.reduce((count, number) => {
+      const cell = grid.cells.find((item) => item.number === number);
+      return count + (cell && cell.count > 0 ? 1 : 0);
+    }, 0);
+  }
+
   simpleReading(report: NumerologyResponse): Array<{ title: string; body: string }> {
+    const translate = (key: string, params: Record<string, string | number> = {}) =>
+      this.transloco.translate(`numerology.answers.${key}`, params);
+    const planet = (name: string) => this.transloco.translate(`planet.${name}`);
     const items: Array<{ title: string; body: string }> = [
       {
-        title: 'Who you are day to day',
-        body: `Your everyday number is ${report.mulank} (${report.mulankPlanet}). ${report.mulankDetails?.summary || 'This shapes how you act in daily choices.'}`
+        title: translate('day.title'),
+        body: translate('day.body', { number: report.mulank, planet: planet(report.mulankPlanet) })
       },
       {
-        title: 'Your longer path',
-        body: `Your life-path number is ${report.bhagyank} (${report.bhagyankPlanet}). ${report.bhagyankDetails?.summary || 'This points to the longer direction of your life.'}`
+        title: translate('path.title'),
+        body: translate('path.body', { number: report.bhagyank, planet: planet(report.bhagyankPlanet) })
       },
       {
-        title: 'How they work together',
-        body: `${this.combinationLean(report.combinationType)} ${report.combinationSummary}`.trim()
+        title: translate('pair.title'),
+        body: translate(`pair.${this.combinationKey(report.combinationType)}`)
       },
       {
-        title: 'Strengths to use',
-        body: `Lean on ${this.joinList(report.combinationStrengths)}.`
+        title: translate('strengths.title'),
+        body: translate('strengths.body')
       },
       {
-        title: 'Habits that need care',
-        body: `Watch for ${this.joinList(report.combinationChallenges)}.`
+        title: translate('challenges.title'),
+        body: translate('challenges.body')
       }
     ];
 
     if (report.loShu) {
       items.push({
-        title: 'What your date grid shows',
-        body: `${this.gridAnswer(report.loShu)} Missing numbers are qualities to build with care. Repeated numbers show up strongly.`
+        title: translate('grid.title'),
+        body: this.localizedGridAnswer(report.loShu, translate)
       });
     }
 
@@ -356,60 +379,46 @@ export class NumerologyComponent implements OnInit, OnDestroy {
       const year = report.personalYear;
       const next = report.nextPersonalYear;
       items.push({
-        title: 'This year and next',
-        body: [
-          `${year.year} is a ${year.number} year (${year.planet}) — ${this.yearTone(year.number)}.`,
-          next ? `${next.year} is a ${next.number} year (${next.planet}) — ${this.yearTone(next.number)}.` : ''
-        ].filter(Boolean).join(' ')
+        title: translate('year.title'),
+        body: translate(next ? 'year.bodyWithNext' : 'year.body', {
+          year: year.year,
+          number: year.number,
+          planet: planet(year.planet),
+          tone: translate(`year.tone.${year.number}`),
+          nextYear: next?.year ?? '',
+          nextNumber: next?.number ?? '',
+          nextPlanet: next ? planet(next.planet) : '',
+          nextTone: next ? translate(`year.tone.${next.number}`) : ''
+        })
       });
     }
 
     const shared = this.sharedInfluences(report);
     if (shared && (shared.days.length || shared.colours.length || shared.numbers.length)) {
-      const parts = [
-        shared.days.length ? `days like ${this.joinList(shared.days)}` : '',
-        shared.colours.length ? `colours like ${this.joinList(shared.colours)}` : '',
-        shared.numbers.length ? `numbers like ${this.joinList(shared.numbers)}` : ''
-      ].filter(Boolean);
       items.push({
-        title: 'Easy supports',
-        body: `Lean on ${parts.join(', ')} when both birth numbers agree.`
+        title: translate('supports.title'),
+        body: translate('supports.body')
       });
     }
 
     if (report.nameNumber) {
       items.push({
-        title: 'Your name',
-        body: this.simpleCheckLine(
-          'name',
-          report.nameMulankMatch,
-          report.nameBhagyankMatch,
-          null
-        )
+        title: translate('name.title'),
+        body: this.localizedCheckLine(translate, 'name', report.nameMulankMatch, report.nameBhagyankMatch)
       });
     }
 
     if (report.mobile) {
       items.push({
-        title: 'Your mobile',
-        body: this.simpleCheckLine(
-          'mobile number',
-          report.mobile.mulankMatch,
-          report.mobile.bhagyankMatch,
-          report.mobile.suggestions?.[0] ?? null
-        )
+        title: translate('mobile.title'),
+        body: this.localizedCheckLine(translate, 'mobile', report.mobile.mulankMatch, report.mobile.bhagyankMatch)
       });
     }
 
     if (report.business) {
       items.push({
-        title: 'Your business name',
-        body: this.simpleCheckLine(
-          'business name',
-          report.business.mulankMatch,
-          report.business.bhagyankMatch,
-          report.business.suggestions?.[0] ?? null
-        )
+        title: translate('business.title'),
+        body: this.localizedCheckLine(translate, 'business', report.business.mulankMatch, report.business.bhagyankMatch)
       });
     }
 
@@ -417,19 +426,43 @@ export class NumerologyComponent implements OnInit, OnDestroy {
   }
 
   combinationPlainLabel(type: string): string {
-    if (type === 'Reinforcing') {
-      return 'numbers support each other';
-    }
+    return this.transloco.translate(`numerology.answers.pair.${this.combinationKey(type)}`);
+  }
 
-    if (type === 'Complementary') {
-      return 'they pull in different ways and can balance';
-    }
+  combinationKey(type: string): 'reinforcing' | 'complementary' | 'mixed' | 'default' {
+    const normalized = type.trim().toLowerCase();
+    if (normalized === 'reinforcing') return 'reinforcing';
+    if (normalized === 'complementary') return 'complementary';
+    if (normalized === 'mixed') return 'mixed';
+    return 'default';
+  }
 
-    if (type === 'Mixed') {
-      return 'mixed strengths and friction';
-    }
+  private localizedGridAnswer(
+    grid: NumerologyLoShu,
+    translate: (key: string, params?: Record<string, string | number>) => string
+  ): string {
+    const missing = grid.missing?.length
+      ? translate('grid.missing', { numbers: grid.missing.join(', ') })
+      : translate('grid.noMissing');
+    const repeated = grid.repeated?.length
+      ? translate('grid.repeated', { numbers: grid.repeated.map(item => `${item.number} × ${item.count}`).join(', ') })
+      : translate('grid.noRepeated');
+    return `${missing} ${repeated} ${translate('grid.guidance')}`;
+  }
 
-    return type || 'pair reading';
+  private localizedCheckLine(
+    translate: (key: string, params?: Record<string, string | number>) => string,
+    subjectKey: 'name' | 'mobile' | 'business',
+    birthMatch: string | null | undefined,
+    pathMatch: string | null | undefined
+  ): string {
+    const matchKey = (value: string | null | undefined) =>
+      value?.toLowerCase() === 'supports' ? 'supports' : 'differs';
+    return translate('check.body', {
+      subject: translate(`${subjectKey}.subject`),
+      birthMatch: translate(`check.${matchKey(birthMatch)}`),
+      pathMatch: translate(`check.${matchKey(pathMatch)}`)
+    });
   }
 
   yearTone(number: number): string {

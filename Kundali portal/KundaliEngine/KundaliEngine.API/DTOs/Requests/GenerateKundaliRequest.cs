@@ -21,6 +21,6 @@
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
-        public double TimeZoneOffset { get; internal set; }
+        public double TimeZoneOffset { get; set; } = 5.5;
     }
 }

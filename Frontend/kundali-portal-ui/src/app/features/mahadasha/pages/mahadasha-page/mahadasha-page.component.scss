@@ -287,6 +287,20 @@ small {
   line-height: 1;
 }
 
+.timeline-heading-badges {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.timeline-badge--coverage {
+  border-color: color-mix(in srgb, var(--brass) 45%, #bfd0ff);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--brass) 14%, #eef4ff);
+}
+
 .timeline-badge--current {
   border-color: #f6cf78;
   color: #9a6200;
