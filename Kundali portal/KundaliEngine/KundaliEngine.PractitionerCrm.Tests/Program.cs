@@ -52,7 +52,7 @@ await ExecuteAsync(connection, """
 
 await ApplyCrmSchemaExpansionAsync(connection);
 var appointmentState = await ReadAppointmentUpgradeStateAsync(connection, appointmentId);
-if (appointmentState.Status != "Consultation Pending" || !appointmentState.CompletedAtMatchesUpdatedAt)
+if (appointmentState.Status != "Consultation Pending" || !appointmentState.CompletedAtIsNull)
 {
     throw new InvalidOperationException("CRM expansion did not preserve and normalize the pre-expansion appointment.");
 }
@@ -182,9 +182,9 @@ static async Task<string?> ReadClientStatusAsync(NpgsqlConnection connection, Gu
     return (string?)await command.ExecuteScalarAsync();
 }
 
-static async Task<(string Status, bool CompletedAtMatchesUpdatedAt)> ReadAppointmentUpgradeStateAsync(NpgsqlConnection connection, Guid appointmentId)
+static async Task<(string Status, bool CompletedAtIsNull)> ReadAppointmentUpgradeStateAsync(NpgsqlConnection connection, Guid appointmentId)
 {
-    await using var command = new NpgsqlCommand("SELECT \"Status\", \"CompletedAtUtc\" = \"UpdatedAt\" FROM public.\"PractitionerAppointments\" WHERE \"Id\" = @appointmentId;", connection);
+    await using var command = new NpgsqlCommand("SELECT \"Status\", \"CompletedAtUtc\" IS NULL FROM public.\"PractitionerAppointments\" WHERE \"Id\" = @appointmentId;", connection);
     command.Parameters.AddWithValue("appointmentId", appointmentId);
     await using var reader = await command.ExecuteReaderAsync();
     if (!await reader.ReadAsync()) throw new InvalidOperationException("Expected the legacy appointment row to remain after schema upgrade.");
