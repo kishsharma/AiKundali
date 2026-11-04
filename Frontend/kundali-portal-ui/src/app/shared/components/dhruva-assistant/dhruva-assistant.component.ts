@@ -648,6 +648,11 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
     return this.isFullScreen;
   }
 
+  @HostBinding('class.dhruva-docked')
+  get isDockedHost(): boolean {
+    return this.isOpen && !this.isExpanded && !this.isFullScreen;
+  }
+
   get kundaliContext(): DhruvaKundaliContext | null {
     return this.kundaliContextService.context();
   }
