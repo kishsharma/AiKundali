@@ -15,7 +15,6 @@ import {
   DashboardKundali,
   DashboardPanchang,
   DashboardSummary,
-  RetrogradePlanet,
 } from '../../core/services/dashboard-api.service';
 import { LatestKundaliStorageService } from '../../core/services/latest-kundali-storage.service';
 import { DhruvaAllowance, DhruvaNarrationService } from '../../core/services/dhruva-narration.service';
@@ -333,79 +332,6 @@ interface QuickAction {
       color: var(--theme-text-muted);
       font-size: 0.76rem;
       line-height: 1.25;
-    }
-
-    .retrograde-panel {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .retrograde-table {
-      display: grid;
-      gap: 0.35rem;
-    }
-
-    .retrograde-row {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr 0.9fr auto;
-      align-items: center;
-      gap: 0.75rem;
-      min-height: 2.7rem;
-      padding: 0.55rem 0.7rem;
-      border: 1px solid var(--theme-line-soft);
-      border-radius: var(--theme-radius-control);
-      background: color-mix(in srgb, var(--theme-surface-2) 74%, transparent);
-      color: var(--theme-text);
-    }
-
-    .retrograde-row.header {
-      min-height: 2.1rem;
-      background: transparent;
-      color: var(--theme-text-muted);
-      font-size: 0.7rem;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .retrograde-planet {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      min-width: 0;
-      font-weight: 850;
-    }
-
-    .retrograde-mark {
-      display: inline-grid;
-      width: 1.75rem;
-      height: 1.75rem;
-      place-items: center;
-      border-radius: 50%;
-      border: 1px solid color-mix(in srgb, var(--theme-warning) 38%, transparent);
-      background: color-mix(in srgb, var(--theme-warning) 12%, transparent);
-      color: var(--theme-warning);
-      font-size: 0.9rem;
-      font-weight: 900;
-    }
-
-    .retrograde-value,
-    .retrograde-degree {
-      color: var(--theme-text-muted);
-      font-size: 0.82rem;
-      overflow-wrap: anywhere;
-    }
-
-    .retrograde-degree {
-      justify-self: end;
-      white-space: nowrap;
-    }
-
-    .retrograde-note {
-      margin: 0;
-      color: var(--theme-text-muted);
-      font-size: 0.8rem;
-      line-height: 1.45;
     }
 
     .journey-grid {
@@ -925,16 +851,6 @@ interface QuickAction {
         grid-column: span 1;
       }
 
-      .retrograde-row,
-      .retrograde-row.header {
-        grid-template-columns: 1fr;
-        align-items: start;
-      }
-
-      .retrograde-degree {
-        justify-self: start;
-      }
-
       .muhurtha-row {
         grid-template-columns: auto minmax(0, 1fr);
       }
@@ -980,11 +896,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
   insightCards: DashboardInsight[] = [];
   private usingFallbackInsights = false;
-  retrogradePlanets: RetrogradePlanet[] = [];
-  retrogradeError = '';
   loading = {
     dashboard: true,
-    retrogrades: true,
   };
 
   readonly quickActions: QuickAction[] = [
@@ -1002,7 +915,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadDashboard();
     this.loadAllowance();
-    this.loadRetrogrades();
     this.subscriptions.add(this.transloco.langChanges$.subscribe(() => {
       if (!this.loading.dashboard && this.usingFallbackInsights) {
         this.insightCards = this.buildFallbackInsights();
@@ -1158,10 +1070,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return 'en-IN';
   }
 
-  formatRetrogradeDegree(planet: RetrogradePlanet): string {
-    return `${planet.degree} deg ${planet.minute}'`;
-  }
-
   reportSummaryText(): string {
     if (!this.recentReport) {
       return this.t('dashboard.reportsGeneratedFromKundali');
@@ -1175,25 +1083,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private t(key: string, params?: Record<string, unknown>): string {
     return this.transloco.translate(key, params);
-  }
-
-  private loadRetrogrades(): void {
-    const sub = this.dashboardApi.getCurrentRetrogrades().pipe(
-      catchError((error) => {
-        console.error('Dashboard retrogrades load error:', error);
-        this.retrogradeError = this.t('dashboard.retrogradesLoadError');
-        return of(null);
-      }),
-      finalize(() => {
-        this.loading.retrogrades = false;
-        this.cdr.markForCheck();
-      })
-    ).subscribe((response) => {
-      this.retrogradePlanets = response?.planets ?? [];
-      this.cdr.markForCheck();
-    });
-
-    this.subscriptions.add(sub);
   }
 
   private loadAllowance(): void {

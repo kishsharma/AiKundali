@@ -285,36 +285,6 @@
     </div>
   </app-section-card>
 
-  <app-section-card [title]="'dashboard.currentRetrogrades' | transloco" [interactive]="false">
-    <div class="retrograde-panel" [attr.aria-busy]="loading.retrogrades">
-      <p class="loading-line" *ngIf="loading.retrogrades">{{ 'dashboard.loadingRetrogrades' | transloco }}</p>
-      <p class="empty-copy" *ngIf="!loading.retrogrades && retrogradeError">{{ retrogradeError }}</p>
-      <ng-container *ngIf="!loading.retrogrades && !retrogradeError">
-        <div class="retrograde-table" *ngIf="retrogradePlanets.length; else noRetrogrades">
-          <div class="retrograde-row header" aria-hidden="true">
-            <span>{{ 'dashboard.retrogradePlanet' | transloco }}</span>
-            <span>{{ 'dashboard.retrogradeCurrentSign' | transloco }}</span>
-            <span>{{ 'dashboard.retrogradeTowardSign' | transloco }}</span>
-            <span>{{ 'dashboard.retrogradeDegree' | transloco }}</span>
-          </div>
-          <div class="retrograde-row" *ngFor="let planet of retrogradePlanets" [title]="planet.information">
-            <span class="retrograde-planet">
-              <span class="retrograde-mark" aria-hidden="true">R</span>
-              <span>{{ planet.planet }}</span>
-            </span>
-            <span class="retrograde-value">{{ planet.currentSign }}</span>
-            <span class="retrograde-value">{{ planet.retrogradeTowardSign }}</span>
-            <span class="retrograde-degree">{{ formatRetrogradeDegree(planet) }}</span>
-          </div>
-        </div>
-        <ng-template #noRetrogrades>
-          <p class="empty-copy">{{ 'dashboard.noCurrentRetrogrades' | transloco }}</p>
-        </ng-template>
-        <p class="retrograde-note">{{ 'dashboard.retrogradeNodesNote' | transloco }}</p>
-      </ng-container>
-    </div>
-  </app-section-card>
-
   <app-section-card data-tour-id="dashboard-journey" [title]="'dashboard.continueJourney' | transloco" [interactive]="false">
     <div class="journey-grid">
       <article class="journey-card">
