@@ -330,8 +330,9 @@
           </ng-container>
         </div>
 
-        <div class="dhruva-custom-guide" *ngIf="hasCustomQuestionSource">
+        <div class="dhruva-custom-guide">
           <h3>Life questions</h3>
+          <p class="dhruva-custom-guide-hint" *ngIf="!hasCustomQuestionSource">Select a Kundali above to enable these questions.</p>
           <div class="dhruva-question-list" role="list">
             <button
               type="button"
@@ -340,7 +341,7 @@
               *ngFor="let question of customQuestions"
               [class.active]="isCustomQuestionActive(question.id)"
               [attr.aria-pressed]="isCustomQuestionActive(question.id)"
-              [disabled]="isCustomQuestionLoading"
+              [disabled]="!hasCustomQuestionSource || isCustomQuestionLoading"
               (click)="askCustomQuestion(question.id)"
             >
               {{ question.label }}
