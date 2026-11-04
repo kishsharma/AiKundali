@@ -2644,6 +2644,35 @@
   gap: 12px;
 }
 
+.dhruva-ai-response-origin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dhruva-ai-response-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 22px;
+  border: 1px solid rgba(216, 180, 254, 0.72);
+  border-radius: 999px;
+  padding: 0 7px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  box-shadow: 0 3px 10px rgba(109, 40, 217, 0.22);
+}
+
+.dhruva-ai-response-badge svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
 .dhruva-custom-kicker {
   display: inline-block;
   margin-bottom: 4px;
