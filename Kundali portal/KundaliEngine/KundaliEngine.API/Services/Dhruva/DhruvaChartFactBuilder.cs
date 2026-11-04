@@ -19,11 +19,20 @@ public static class DhruvaChartFactBuilder
         new("health", ["health", "vitality"], [1], ["Sun", "Moon"]),
     ];
 
-    public static string Build(JsonElement chart, string mode, string? question)
+    public static string Build(JsonElement chart, string mode, string? question, DateOnly? referenceDate = null)
     {
         var facts = new JsonObject();
         var native = ReadNative(chart);
         var normalizedMode = (mode ?? "qa").Trim().ToLowerInvariant();
+        var asOfDate = referenceDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
+        if (native["birthDate"] is JsonValue birthDateValue
+            && birthDateValue.TryGetValue<string>(out var birthDateText)
+            && DateOnly.TryParse(birthDateText, CultureInfo.InvariantCulture, DateTimeStyles.None, out var birthDate)
+            && birthDate <= asOfDate)
+        {
+            native["ageYears"] = CalculateAge(birthDate, asOfDate);
+        }
+
         if (normalizedMode != "janma_story")
         {
             native.Remove("birthDate");
@@ -94,6 +103,18 @@ public static class DhruvaChartFactBuilder
 
         AttachDashaInfluence(chart, facts, question);
         return facts.ToJsonString(new JsonSerializerOptions { WriteIndented = false });
+    }
+
+    private static int CalculateAge(DateOnly birthDate, DateOnly asOfDate)
+    {
+        var age = asOfDate.Year - birthDate.Year;
+        if (asOfDate.Month < birthDate.Month
+            || (asOfDate.Month == birthDate.Month && asOfDate.Day < birthDate.Day))
+        {
+            age--;
+        }
+
+        return age;
     }
 
     private static JsonArray ReadRelationshipHouseAnalysis(JsonElement chart)

@@ -50,7 +50,7 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
         var today = DateTime.UtcNow.Date;
         var facts = DhruvaEvidenceSelector.OmitPastDates(
             DhruvaEvidenceSelector.Trim(
-                DhruvaChartFactBuilder.Build(request.Chart, mode, request.Question),
+                DhruvaChartFactBuilder.Build(request.Chart, mode, request.Question, DateOnly.FromDateTime(today)),
                 profile.EvidenceLimit),
             today);
         var locale = ResolveResponseLanguage(null, request.Locale);
