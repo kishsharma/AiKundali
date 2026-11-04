@@ -796,7 +796,7 @@
   "dhruva.reportTour.strengthBody": "This section shows advanced strength tables when the report includes them.",
   "dhruva.general.heading": "General Jyotish Questions",
   "dhruva.general.kundaliQuestion": "What is a Kundali?",
-  "dhruva.general.kundaliAnswer": "",
+  "dhruva.general.kundaliAnswer": "A Kundali is a birth chart showing the sky at a specific time and place. HoraLife uses it as the basis for later calculations.",
   "dhruva.general.ascendantQuestion": "What is Ascendant?",
   "dhruva.general.ascendantAnswer": "Ascendant, or Lagna, is the sign rising on the eastern horizon at birth. It is used as the starting point for reading houses.",
   "dhruva.general.nakshatraQuestion": "What is Nakshatra?",
