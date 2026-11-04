@@ -34,6 +34,7 @@ export interface DhruvaChatMessage {
 
 export interface DhruvaNarrateResponse {
   narration: string;
+  isAiGenerated?: boolean;
   model: string;
   promptVersion: string;
   disclaimer: string;

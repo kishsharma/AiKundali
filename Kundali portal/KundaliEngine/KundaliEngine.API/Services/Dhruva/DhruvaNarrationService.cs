@@ -45,15 +45,21 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
     public async Task<DhruvaNarrateResponseDto> NarrateAsync(DhruvaNarrateRequestDto request, CancellationToken cancellationToken)
     {
         var mode = request.Mode.Trim().ToLowerInvariant();
+        var today = DateTime.UtcNow.Date;
+        var referenceDate = DateOnly.FromDateTime(today);
+        var locale = ResolveResponseLanguage(null, request.Locale);
+        if (DhruvaChartFactBuilder.IsMinorMarriageTimingQuestion(request.Chart, request.Question, referenceDate))
+        {
+            return CreateMinorMarriageResponse(locale);
+        }
+
         var promptCatalog = LoadPromptCatalog();
         var profile = promptCatalog.ResolveTone(request.Tone);
-        var today = DateTime.UtcNow.Date;
         var facts = DhruvaEvidenceSelector.OmitPastDates(
             DhruvaEvidenceSelector.Trim(
-                DhruvaChartFactBuilder.Build(request.Chart, mode, request.Question, DateOnly.FromDateTime(today)),
+                DhruvaChartFactBuilder.Build(request.Chart, mode, request.Question, referenceDate),
                 profile.EvidenceLimit),
             today);
-        var locale = ResolveResponseLanguage(null, request.Locale);
         var feeling = profile.Tone == "corporate"
             ? null
             : DhruvaQuestionFeeling.Classify(request.Question);
@@ -116,6 +122,26 @@ public sealed class DhruvaNarrationService : IDhruvaNarrationService
         {
             throw new DhruvaNarrationUnavailableException("Chart narration is unavailable right now.", exception);
         }
+    }
+
+    public static DhruvaNarrateResponseDto CreateMinorMarriageResponse(string? locale)
+    {
+        var normalizedLocale = ResolveResponseLanguage(locale, null);
+        var message = normalizedLocale switch
+        {
+            "hi" => "आपकी वर्तमान उम्र में विवाह के समय की भविष्यवाणी करना उचित नहीं है। इसके बजाय, मैं शिक्षा, मित्रता, परिवार या रुचियों से जुड़े ज्योतिषीय विषय समझने में मदद कर सकता हूँ।",
+            "kn" => "ನಿಮ್ಮ ಈಗಿನ ವಯಸ್ಸಿನಲ್ಲಿ ಮದುವೆಯ ಸಮಯವನ್ನು ಊಹಿಸುವುದು ಸೂಕ್ತವಲ್ಲ. ಬದಲಾಗಿ, ಶಿಕ್ಷಣ, ಸ್ನೇಹ, ಕುಟುಂಬ ಅಥವಾ ಆಸಕ್ತಿಗಳಿಗೆ ಸಂಬಂಧಿಸಿದ ಜ್ಯೋತಿಷ್ಯ ವಿಷಯಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಾನು ಸಹಾಯ ಮಾಡಬಹುದು.",
+            _ => "At your current age, predicting when you will marry is not appropriate. I can help explore chart themes related to learning, friendships, family, or interests instead.",
+        };
+
+        return new DhruvaNarrateResponseDto
+        {
+            Narration = EnsureDisclaimer(message, normalizedLocale),
+            IsAiGenerated = false,
+            Model = string.Empty,
+            PromptVersion = PromptVersion,
+            Disclaimer = DisclaimerFor(normalizedLocale),
+        };
     }
 
     public static string ResolveResponseLanguage(string? preferredLanguage, string? requestLocale) =>

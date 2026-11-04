@@ -128,6 +128,17 @@ public class DhruvaController : ControllerBase
             });
         }
 
+        request.Locale = DhruvaNarrationService.ResolveResponseLanguage(user.PreferredLanguage, request.Locale);
+        if (DhruvaChartFactBuilder.IsMinorMarriageTimingQuestion(
+            request.Chart,
+            request.Question,
+            DateOnly.FromDateTime(DateTime.UtcNow)))
+        {
+            var safeResponse = DhruvaNarrationService.CreateMinorMarriageResponse(request.Locale);
+            await SaveChatAsync(user.Id, request.KundaliId, request.Question, safeResponse.Narration, cancellationToken);
+            return Ok(safeResponse);
+        }
+
         if (!await _dhruvaUsage.TryConsumeLifeQuestionAsync(user, cancellationToken))
         {
             return StatusCode(StatusCodes.Status403Forbidden, new
@@ -135,8 +146,6 @@ public class DhruvaController : ControllerBase
                 message = DhruvaUsageService.LifeQuestionLimitMessage(allowance.LifeQuestionDailyLimit ?? DhruvaUsageService.FreeLifeQuestionsPerDay)
             });
         }
-
-        request.Locale = DhruvaNarrationService.ResolveResponseLanguage(user.PreferredLanguage, request.Locale);
 
         try
         {

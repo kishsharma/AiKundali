@@ -21,6 +21,8 @@ public sealed class DhruvaNarrateResponseDto
 {
     public string Narration { get; set; } = string.Empty;
 
+    public bool IsAiGenerated { get; set; } = true;
+
     public string Model { get; set; } = string.Empty;
 
     public string PromptVersion { get; set; } = DhruvaNarrationService.PromptVersion;

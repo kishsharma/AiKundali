@@ -97,6 +97,7 @@ interface DhruvaCustomQuestionView {
 interface DhruvaNarrationView {
   state: 'loading' | 'ready' | 'error';
   text: string;
+  isAiGenerated?: boolean;
   errorMessage?: string;
 }
 
@@ -1276,7 +1277,7 @@ export class DhruvaAssistantComponent implements AfterViewInit, DoCheck, OnDestr
         }
         this.latestAnswer = {
           kind: 'narration',
-          narration: { state: 'ready', text },
+          narration: { state: 'ready', text, isAiGenerated: response?.isAiGenerated !== false },
         };
         this.beginResponseReveal(Math.max(text.length, 1), 6, 12);
       },

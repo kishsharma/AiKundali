@@ -25,12 +25,9 @@ public static class DhruvaChartFactBuilder
         var native = ReadNative(chart);
         var normalizedMode = (mode ?? "qa").Trim().ToLowerInvariant();
         var asOfDate = referenceDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
-        if (native["birthDate"] is JsonValue birthDateValue
-            && birthDateValue.TryGetValue<string>(out var birthDateText)
-            && DateOnly.TryParse(birthDateText, CultureInfo.InvariantCulture, DateTimeStyles.None, out var birthDate)
-            && birthDate <= asOfDate)
+        if (TryReadAgeYears(chart, asOfDate, out var ageYears))
         {
-            native["ageYears"] = CalculateAge(birthDate, asOfDate);
+            native["ageYears"] = ageYears;
         }
 
         if (normalizedMode != "janma_story")
@@ -103,6 +100,32 @@ public static class DhruvaChartFactBuilder
 
         AttachDashaInfluence(chart, facts, question);
         return facts.ToJsonString(new JsonSerializerOptions { WriteIndented = false });
+    }
+
+    public static bool IsMinorMarriageTimingQuestion(JsonElement chart, string? question, DateOnly referenceDate)
+    {
+        if (!TryReadAgeYears(chart, referenceDate, out var ageYears) || ageYears >= 18 || string.IsNullOrWhiteSpace(question))
+        {
+            return false;
+        }
+
+        var text = question.ToLowerInvariant();
+        return new[] { "marriage", "marry", "marital", "spouse", "wedding", "husband", "wife", "life partner" }
+            .Any(keyword => text.Contains(keyword, StringComparison.Ordinal));
+    }
+
+    private static bool TryReadAgeYears(JsonElement chart, DateOnly asOfDate, out int ageYears)
+    {
+        ageYears = 0;
+        var birthDateText = FirstText(chart, Find(chart, "native"), "birthDate", "dateOfBirth");
+        if (!DateOnly.TryParse(birthDateText, CultureInfo.InvariantCulture, DateTimeStyles.None, out var birthDate)
+            || birthDate > asOfDate)
+        {
+            return false;
+        }
+
+        ageYears = CalculateAge(birthDate, asOfDate);
+        return true;
     }
 
     private static int CalculateAge(DateOnly birthDate, DateOnly asOfDate)
