@@ -1,0 +1,121 @@
+<main class="astrologer-page">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" routerLink="/" aria-label="HoraLife home">
+        <app-brand-logo variant="iconText" [tone]="themeService.mode() === 'dark' ? 'white' : 'color'"></app-brand-logo>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#workflow">How it works</a>
+        <a href="#evidence">Chart evidence</a>
+        <a href="#sample-report">Sample report</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" (click)="toggleTheme()" [attr.aria-label]="themeToggleLabel" [title]="themeToggleLabel">
+          <span aria-hidden="true">{{ themeService.mode() === 'dark' ? '☀' : '☾' }}</span>
+        </button>
+        <a class="login-link" routerLink="/login">Login</a>
+        <a class="button button-primary button-small" routerLink="/register">Get started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Built for Vedic astrologers</p>
+        <h1 id="hero-title">We handle the calculations.<br /><em>You focus on the reading.</em></h1>
+        <p class="hero-lede">HoraLife quickly brings key chart factors and supporting insights into view, so you can spend less time calculating and more time interpreting and guiding your clients.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" routerLink="/register">Create a client chart <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="#sample-report">View sample report <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-trust"><span class="trust-mark" aria-hidden="true">✦</span> A clearer second look at the details that can be easy to overlook.</div>
+      </div>
+
+      <div class="product-preview" aria-label="Preview of a HoraLife client chart and evidence view">
+        <div class="preview-window">
+          <div class="preview-topbar">
+            <app-brand-logo class="preview-brand-logo" variant="iconText" tone="white" [showDescriptor]="false"></app-brand-logo>
+            <span class="preview-menu" aria-hidden="true">•••</span>
+          </div>
+          <div class="preview-body">
+            <aside class="preview-sidebar" aria-label="Chart sections">
+              <span class="side-active"><span aria-hidden="true">◇</span> Chart</span>
+              <span><span aria-hidden="true">☷</span> Evidence</span>
+              <span><span aria-hidden="true">▤</span> Report</span>
+            </aside>
+            <div class="preview-content">
+              <div class="client-heading">
+                <div><span class="preview-kicker">SAMPLE CLIENT</span><strong>Sample Client</strong></div>
+                <span class="chart-tag">Birth chart</span>
+              </div>
+              <div class="chart-and-evidence">
+                <div class="kundali-chart-preview" aria-label="Sample North Indian birth chart">
+                  <app-north-indian-chart [ascendant]="sampleAscendant" [planets]="samplePlanets"></app-north-indian-chart>
+                </div>
+                <article class="evidence-card">
+                  <span class="evidence-label"><span aria-hidden="true">✧</span> CHART EVIDENCE</span>
+                  <h2>Career · 10th house</h2>
+                  <p>Review the factors contributing to this area of the chart.</p>
+                  <ul><li>House strength</li><li>Planetary placement</li><li>Aspects and associations</li></ul>
+                </article>
+              </div>
+              <div class="preview-footer"><span><i></i> Chart details</span><span><i></i> Reasoning</span><span><i></i> Client report</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-caption"><span class="caption-star">✦</span> One connected view from chart to client report</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="workflow-section" id="workflow" aria-labelledby="workflow-title">
+    <div class="section-heading">
+      <p class="eyebrow"><span></span> A practical workflow</p>
+      <h2 id="workflow-title">Spend more time guiding.<br /><em>Less time assembling.</em></h2>
+      <p>Keep the essential steps of a client reading together, from birth details through a report you can review and share.</p>
+    </div>
+    <div class="workflow-grid">
+      <article class="workflow-card">
+        <span class="step-number">01</span><span class="feature-icon" aria-hidden="true">◇</span>
+        <h3>Prepare the kundali</h3><p>Enter the client’s birth details and open their calculated chart in one place.</p>
+        <div class="mini-fields"><span>Birth date</span><span>Time &amp; place</span><span class="field-arrow">→</span><b>Chart</b></div>
+      </article>
+      <article class="workflow-card" id="evidence">
+        <span class="step-number">02</span><span class="feature-icon" aria-hidden="true">✧</span>
+        <h3>Review the factors</h3><p>Explore the placements, strengths, house indicators, and other available chart evidence.</p>
+        <div class="evidence-list"><span>House strength <b>View</b></span><span>Planetary placement <b>View</b></span><span>Aspects &amp; associations <b>View</b></span></div>
+      </article>
+      <article class="workflow-card">
+        <span class="step-number">03</span><span class="feature-icon" aria-hidden="true">▤</span>
+        <h3>Share a clear report</h3><p>Give your client a structured view of the chart and the factors behind your reading.</p>
+        <div class="report-mini"><span class="report-seal">✦</span><div><b>Client report</b><small>Chart · Key factors · Notes</small></div><span class="share-icon" aria-hidden="true">↗</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sample-section" id="sample-report" aria-labelledby="sample-title">
+    <div class="sample-copy">
+      <p class="eyebrow"><span></span> See the working</p>
+      <h2 id="sample-title">A report clients can follow.</h2>
+      <p>Bring chart details and supporting factors into a report that helps make your reading easier to understand.</p>
+      <a class="text-link" routerLink="/register">Explore HoraLife <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="report-preview" aria-label="Illustration of a sample client report">
+      <div class="report-sheet-back"></div>
+      <div class="report-sheet">
+        <div class="report-sheet-header"><app-brand-logo variant="iconText" [tone]="themeService.mode() === 'dark' ? 'white' : 'color'" [showDescriptor]="false"></app-brand-logo><span>CLIENT REPORT</span></div>
+        <div class="report-rule"></div>
+        <strong>Sample Client</strong><small>Birth chart · Sample report</small>
+        <div class="report-content-row"><div class="report-chart-mini"><app-north-indian-chart [ascendant]="sampleAscendant" [planets]="samplePlanets"></app-north-indian-chart></div><div class="report-text-lines"><b>Career indicators</b><i></i><i></i><i></i><b>Supporting factors</b><i></i><i></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing-cta" aria-labelledby="closing-title">
+    <div><p class="eyebrow"><span></span> For your astrology practice</p><h2 id="closing-title">Bring your chart workflow together.</h2><p>Start with a client kundali and explore the tools that support your readings.</p></div>
+    <a class="button button-primary" routerLink="/register">Get started with HoraLife <span aria-hidden="true">→</span></a>
+  </section>
+
+  <app-site-footer tone="landing"></app-site-footer>
+</main>

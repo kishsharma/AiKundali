@@ -307,7 +307,7 @@ logout(): void {
 
   private updateShellMode(url: string): void {
     const path = url.split('?')[0].split('#')[0];
-    this.isPublicLanding = path === '' || path === '/' || path === '/select-language';
+    this.isPublicLanding = path === '' || path === '/' || path === '/select-language' || path === '/for-astrologers';
     this.isAuthPage = path === '/login' || path === '/register';
     this.isUserMenuOpen = false;
     this.isGlobalSketchOpen = false;

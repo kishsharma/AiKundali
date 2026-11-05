@@ -7,6 +7,7 @@ import { PanchangComponent } from './modules/panchang/panchang.component';
 import { MuhurthaComponent } from './modules/panchang/muhurtha.component';
 import { MahadashaPageComponent } from './features/mahadasha/pages/mahadasha-page/mahadasha-page.component';
 import { KundaliLandingComponent } from './modules/home/kundali-landing/kundali-landing.component';
+import { AstrologerLandingComponent } from './modules/home/astrologer-landing/astrologer-landing.component';
 import { adminGuard, authGuard, premiumPlusGuard } from './core/auth/auth.guard';
 import { preferredLanguageGuard } from './core/auth/preferred-language.guard';
 import { WhiteLabelSettingsComponent } from './modules/white-label-settings/white-label-settings.component';
@@ -29,6 +30,11 @@ export const routes: Routes = [
     component: KundaliLandingComponent,
     pathMatch: 'full',
     data: { title: 'KundaliScore' },
+  },
+  {
+    path: 'for-astrologers',
+    component: AstrologerLandingComponent,
+    data: { title: 'HoraLife for Astrologers' },
   },
   {
   path: 'login',

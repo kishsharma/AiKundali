@@ -25,6 +25,7 @@ export class SiteFooterComponent {
     {
       title: 'Services',
       links: [
+        { label: 'For Astrologers', path: '/for-astrologers' },
         { label: 'Astrology Services', path: '/services' },
         { label: 'Pricing', path: '/pricing' },
       ],
